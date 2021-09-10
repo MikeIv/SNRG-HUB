@@ -1,28 +1,36 @@
 <template>
   <div class="container">
     <div>
-      <span>/product</span>
       <h1 class="title">{{ titlePage }}</h1>
     </div>
     <nuxt-link to="/">TO MAIN PAGE</nuxt-link>
+    <ul>
+      <li v-for="{ name, data } in sectionsData" :key="name">
+        <h3>{{ name }}</h3>
+        <pre>{{ data }}</pre>
+      </li>
+    </ul>
+    <!--    <component-->
+    <!--      v-for="section in sectionsData"-->
+    <!--      :key="section.name"-->
+    <!--      :is="section.name"-->
+    <!--      :propsToPass="sectionsData"-->
+    <!--    />-->
   </div>
 </template>
 
 <script>
 export default {
-  // middleware: 'getPageInfo',
+  middleware: 'getPageInfo',
 
   async asyncData({ $axios }) {
-    const response = await $axios.$get('/api/v1/page', {
-      data: {
-        filter: {
-          slug: 'product',
-        },
-        params: {
-          id: 480,
-        },
+    const pageQuery = {
+      filter: {
+        slug: 'product',
       },
-    })
+    }
+
+    const response = await $axios.$post('/api/v1/page', pageQuery)
 
     const titlePage = await response.data.name
     return {
@@ -32,14 +40,26 @@ export default {
 
   data() {
     return {
-      titlePage: 'Default Values',
+      titlePage: '',
+      sectionsData: [],
     }
   },
 
-  // computed: {
-  //   sections() {
-  //     return this.$store.state.pageInfo
-  //   },
-  // },
+  computed: {
+    sections() {
+      return this.$store.state.pageInfo.components
+    },
+  },
+
+  mounted() {
+    this.sections.forEach((section) => {
+      let fetchedData = {}
+
+      section.methods.forEach(async (method) => {
+        fetchedData = await this.$store.dispatch('getSectionData', method)
+        this.sectionsData.push({ name: section.key, data: fetchedData })
+      })
+    })
+  },
 }
 </script>

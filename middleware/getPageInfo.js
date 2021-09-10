@@ -1,15 +1,11 @@
-import { getPageInfo } from '~/api/getPageInfo'
-
 export default async function (context) {
-  // const pageName = context.route.name
-  // const id = 3
-
-  const dataRaw = {
-    filter: {
-      slug: 'product',
-    },
+  const requestData = {
+    filter: {},
   }
 
-  const response = await getPageInfo(dataRaw)
-  context.store.commit('setPageInfo', response.data)
+  context.route.name === 'index'
+    ? (requestData.filter.id = 1)
+    : (requestData.filter.slug = context.route.name)
+
+  await context.store.dispatch('getPageInfo', requestData)
 }

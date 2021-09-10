@@ -1,30 +1,36 @@
 <template>
   <div class="container">
     <div>
-      <span>/</span>
       <h1 class="title">{{ titlePage }}</h1>
     </div>
     <nuxt-link to="/product">TO PRODUCT PAGE</nuxt-link>
+    <ul>
+      <li v-for="{ name, data } in sectionsData" :key="name">
+        <h3>{{ name }}</h3>
+        <pre>{{ data }}</pre>
+      </li>
+    </ul>
+    <!--    <component-->
+    <!--      v-for="section in sectionsData"-->
+    <!--      :key="section.name"-->
+    <!--      :is="section.name"-->
+    <!--      :propsToPass="sectionsData"-->
+    <!--    />-->
   </div>
 </template>
 
 <script>
-// import { getSectionData } from '~/api/getSectionData'
-
 export default {
-  // middleware: 'getPageInfo',
+  middleware: 'getPageInfo',
 
   async asyncData({ $axios }) {
-    const response = await $axios.$get('/api/v1/page', {
-      data: {
-        filter: {
-          slug: 'product',
-        },
-        params: {
-          id: 480,
-        },
+    const pageQuery = {
+      filter: {
+        id: 1,
       },
-    })
+    }
+
+    const response = await $axios.$post('/api/v1/page', pageQuery)
 
     const titlePage = await response.data.name
     return {
@@ -34,72 +40,26 @@ export default {
 
   data() {
     return {
-      titlePage: 'Default Values',
+      titlePage: '',
+      sectionsData: [],
     }
   },
 
-  // mounted() {
-  // this.$axios
-  //   .$get('https://mp.synergy.ru/api/v1/page', {
-  //     filter: {
-  //       slug: 'product',
-  //     },
-  //     params: {
-  //       id: 480,
-  //     },
-  //   })
-  //   .then((res) => {
-  //     console.log(res.data)
-  //   })
+  computed: {
+    sections() {
+      return this.$store.state.pageInfo.components
+    },
+  },
 
-  // const dataItems = {
-  //   filter: {
-  //     slug: 'product',
-  //   },
-  //   params: {
-  //     id: 480,
-  //   },
-  // }
-  //
-  // this.$axios({
-  //   method: 'get',
-  //   url: 'https://mp.synergy.ru/api/v1/page',
-  //   headers: {
-  //     'Content-Type': 'application/json',
-  //     Accept: 'application/vnd.api+json',
-  //   },
-  //   data: JSON.stringify(dataItems),
-  // }).then((res) => {
-  //   console.log(res.data)
-  // })
-  // },
+  mounted() {
+    this.sections.forEach((section) => {
+      let fetchedData = {}
 
-  // data() {
-  //   return {
-  //     sectionsData: [],
-  //   }
-  // },
-  //
-  // computed: {
-  //   sections() {
-  //     return this.$store.state.pageInfo.components
-  //   },
-  // },
-  //
-  // mounted() {
-  //   this.sections.forEach((section) => {
-  //     let fetchedData = {}
-  //
-  //     section.methods.forEach(async (method) => {
-  //       fetchedData = await getSectionData(method)
-  //       // console.log(fetchedData)
-  //       this.sectionsData.push({ name: section.key, data: fetchedData.data })
-  //     })
-  //   })
-  //
-  //   console.log(this.sectionsData)
-  // },
-  //
-  // asyncData() {},
+      section.methods.forEach(async (method) => {
+        fetchedData = await this.$store.dispatch('getSectionData', method)
+        this.sectionsData.push({ name: section.key, data: fetchedData })
+      })
+    })
+  },
 }
 </script>
