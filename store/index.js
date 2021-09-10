@@ -1,6 +1,6 @@
 export const state = () => ({
   pageInfo: {},
-  // sectionData: {},
+  directionsList: [],
 })
 
 export const mutations = {
@@ -8,9 +8,9 @@ export const mutations = {
     state.pageInfo = info
   },
 
-  // setSectionData(state, data) {
-  //   state.sectionData = data
-  // },
+  setDirectionsList(state, payload) {
+    state.directionsList = payload
+  },
 }
 
 export const actions = {
@@ -23,19 +23,24 @@ export const actions = {
     }
   },
 
-  async getSectionData(commit, { url, data }) {
+  async getSectionData(_, { url, data }) {
     try {
       const response = await this.$axios.$post(`${url}`, data)
-      // commit('setSectionData', response.data)
       return response.data
     } catch (e) {
       console.error(e)
     }
   },
-}
 
-// export default actions = {
-//   async nuxtServerInit({ dispatch }) {
-//     await dispatch(
-//   }
-// }
+  async getDirectionsList({ commit }, requestData) {
+    try {
+      const response = await this.$axios.$post(
+        'api/v1/directions/list',
+        requestData
+      )
+      commit('setDirectionsList', response.data)
+    } catch (e) {
+      console.error(e)
+    }
+  },
+}
