@@ -7,5 +7,5 @@ const axios = axiosCreate()
 
 export default async function getPersonsList(requestData) {
     const response = await axios.post('api/v1/persons/list', requestData)
-    return response.data
+    return response.data.data
 }
