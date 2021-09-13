@@ -10,11 +10,7 @@ export const mutations = {
 
 export const actions = {
   async getPageInfo({ commit }, requestData) {
-    try {
-      const response = await this.$axios.$post('/api/v1/page', requestData)
-      commit('setPageInfo', response.data)
-    } catch (e) {
-      console.error(e)
-    }
+    const response = await this.$axios.$post('/api/v1/page', requestData)
+    commit('setPageInfo', response.data)
   },
 }

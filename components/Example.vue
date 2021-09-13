@@ -1,8 +1,9 @@
 <template>
-  <pre v-if="directionsList">
-    {{ directionsList }}
-  </pre>
-  <span v-else>Loading...</span>
+  <span v-if="$fetchState.pending"> Loading... </span>
+  <div v-else-if="$fetchState.error">
+    <p>{{ $fetchState.error.message }}</p>
+  </div>
+  <pre v-else>{{ directionsList }}</pre>
 </template>
 
 <script>
@@ -17,7 +18,11 @@ export default {
     }
   },
 
-  async mounted() {
+  // Хук asyncData доступен только на страницах (pages)
+  // В компонентах мы используем асинхронный хук fetch
+  // Поле "data" должно быть обязательно выше хука fetch
+
+  async fetch() {
     const requestData = {
       filter: {
         published: true,
@@ -28,7 +33,6 @@ export default {
       },
       sort: 'sort',
     }
-
     this.directionsList = await getDirectionsList(requestData)
   },
 }
