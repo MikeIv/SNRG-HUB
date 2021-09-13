@@ -2,7 +2,7 @@ import { axiosCreate } from '~/axios/axios'
 
 const axios = axiosCreate()
 
-// Метод получения направлений по фильтру
+// Метод получения баннеров по фильтру
 // Поля доступные для сотировки: id, name, sort
 
 export default async function getBannersList(requestData) {
