@@ -1,14 +1,23 @@
 <template>
-  <span>
+  <pre v-if="directionsList">
     {{ directionsList }}
-  </span>
+  </pre>
+  <span v-else>Loading...</span>
 </template>
 
 <script>
+import getDirectionsList from '~/api/dicrectionsList'
+
 export default {
   name: 'Example',
 
-  mounted() {
+  data() {
+    return {
+      directionsList: null,
+    }
+  },
+
+  async mounted() {
     const requestData = {
       filter: {
         published: true,
@@ -20,13 +29,7 @@ export default {
       sort: 'sort',
     }
 
-    this.$store.dispatch('getDirectionsList', requestData)
-  },
-
-  computed: {
-    directionsList() {
-      return this.$store.state.directionsList
-    },
+    this.directionsList = await getDirectionsList(requestData)
   },
 }
 </script>

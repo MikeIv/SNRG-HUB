@@ -4,7 +4,11 @@
       <h1 class="title">{{ pageInfo.name }}</h1>
     </div>
     <nuxt-link to="/product">TO PRODUCT PAGE</nuxt-link>
+    <br />
+    <h2>DATA FROM EXAMPLE:</h2>
     <example />
+    <br />
+    <h2>PAGE INFO:</h2>
     <pre>
       {{ pageInfo }}
     </pre>
