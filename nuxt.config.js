@@ -36,7 +36,22 @@ export default {
   ],
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
-  axios: {},
+  publicRuntimeConfig: {
+    axios: {
+      baseURL: 'https://mp.synergy.ru',
+    },
+  },
+
+  axios: {
+    https: true,
+    debug: true,
+    headers: {
+      common: {
+        Accept: 'application/vnd.api+json',
+        'Content-Type': 'application/json',
+      },
+    },
+  },
 
   // PWA module configuration: https://go.nuxtjs.dev/pwa
   pwa: {
