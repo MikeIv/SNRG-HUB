@@ -4,6 +4,6 @@
 
 <script>
 export default {
-  name: 'S-banner',
-}
+  name: 'SBanner',
+};
 </script>

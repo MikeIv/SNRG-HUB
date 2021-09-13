@@ -4,6 +4,6 @@
 
 <script>
 export default {
-  name: 'S-main-banners',
-}
+  name: 'SMainBanners',
+};
 </script>

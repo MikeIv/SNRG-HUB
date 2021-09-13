@@ -4,6 +4,6 @@
 
 <script>
 export default {
-  name: 'S-main-programs',
-}
+  name: 'SMainPrograms',
+};
 </script>

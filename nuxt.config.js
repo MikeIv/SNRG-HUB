@@ -44,10 +44,10 @@ export default {
 
   axios: {
     https: true,
-    debug: true,
+    debug: false,
     headers: {
       common: {
-        Accept: 'application/vnd.api+json',
+        'Accept': 'application/vnd.api+json',
         'Content-Type': 'application/json',
       },
     },
@@ -62,4 +62,4 @@ export default {
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {},
-}
+};

@@ -14,8 +14,8 @@ export default {
 
   computed: {
     pageInfo() {
-      return this.$store.state.pageInfo
+      return this.$store.state.pageInfo;
     },
   },
-}
+};
 </script>

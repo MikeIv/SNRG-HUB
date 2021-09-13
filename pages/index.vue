@@ -9,11 +9,7 @@
     <example />
     <br />
     <h2>PAGE INFO:</h2>
-    <component
-      :is="section"
-      v-for="section in sections"
-      :key="section"
-    ></component>
+    <component :is="section" v-for="section in sections" :key="section"></component>
     <!--    <component-->
     <!--      :is="section.key"-->
     <!--      v-for="section in pageInfo.components"-->
@@ -27,7 +23,7 @@
 </template>
 
 <script>
-import Example from '~/components/Example'
+import Example from '~/components/Example';
 export default {
   components: { Example },
 
@@ -47,17 +43,17 @@ export default {
       's-main-banners',
       's-main-banners-narrow',
       's-banner',
-    ]
+    ];
 
     return {
       sections,
-    }
+    };
   },
 
   computed: {
     pageInfo() {
-      return this.$store.state.pageInfo
+      return this.$store.state.pageInfo;
     },
   },
-}
+};
 </script>
