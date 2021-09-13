@@ -7,5 +7,5 @@ const axios = axiosCreate()
 
 export default async function getProductsDetails(requestData) {
   const response = await axios.post('api/v1/products/detail', requestData)
-  return response.data.data
+  return response.data
 }
