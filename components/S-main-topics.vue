@@ -4,6 +4,6 @@
 
 <script>
 export default {
-  name: 'S-main-topics',
-}
+  name: 'SMainTopics',
+};
 </script>

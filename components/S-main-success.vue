@@ -4,6 +4,6 @@
 
 <script>
 export default {
-  name: 'S-main-success',
-}
+  name: 'SMainSuccess',
+};
 </script>

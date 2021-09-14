@@ -1,11 +1,11 @@
-import { axiosCreate } from '~/axios/axios'
+import { axiosCreate } from '~/axios/axios';
 
-const axios = axiosCreate()
+const axios = axiosCreate();
 
 // Метод получения направлений по фильтру
 // Поля доступные для сортировки: id, name, sort
 
 export default async function getDirectionsList(requestData) {
-  const response = await axios.post('api/v1/directions/list', requestData)
-  return response.data.data
+  const response = await axios.post('api/v1/directions/list', requestData);
+  return response.data.data;
 }

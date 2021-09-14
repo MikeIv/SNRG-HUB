@@ -8,12 +8,12 @@ build:dev:
   tags:
     - shell-linux
   variables:
-    CI_DEBUG_TRACE: "false"
+    CI_DEBUG_TRACE: 'false'
   only:
     refs:
-      - "/^OGM-.*$/"
-      - "/^release-.*$/"
-      - "/^hotfix-.*$/"
+      - '/^OGM-.*$/'
+      - '/^release-.*$/'
+      - '/^hotfix-.*$/'
   except:
     - schedules
     - master
@@ -24,17 +24,17 @@ deploy:dev:
   stage: deploy
   environment:
     name: ${CI_COMMIT_REF_SLUG}
-    url: "https://${CI_COMMIT_REF_SLUG}-${CI_PROJECT_PATH_SLUG}.${DEV_DOMAIN}${PRODUCTION_PATH}"
+    url: 'https://${CI_COMMIT_REF_SLUG}-${CI_PROJECT_PATH_SLUG}.${DEV_DOMAIN}${PRODUCTION_PATH}'
     on_stop: destroy:dev
   variables:
-    CI_DEBUG_TRACE: "false"
+    CI_DEBUG_TRACE: 'false'
   tags:
     - shell-linux
   only:
     refs:
-      - "/^OGM-.*$/"
-      - "/^release-.*$/"
-      - "/^hotfix-.*$/"
+      - '/^OGM-.*$/'
+      - '/^release-.*$/'
+      - '/^hotfix-.*$/'
   except:
     - schedules
     - master
@@ -47,14 +47,14 @@ test:dev:
     name: ${CI_COMMIT_REF_SLUG}
     on_stop: destroy:dev
   variables:
-    CI_DEBUG_TRACE: "false"
+    CI_DEBUG_TRACE: 'false'
   tags:
     - shell-linux
   only:
     refs:
-      - "/^OGM-.*$/"
-      - "/^release-.*$/"
-      - "/^hotfix-.*$/"
+      - '/^OGM-.*$/'
+      - '/^release-.*$/'
+      - '/^hotfix-.*$/'
   except:
     - schedules
     - master
@@ -67,13 +67,13 @@ destroy:dev:
     name: ${CI_COMMIT_REF_SLUG}
     action: stop
   variables:
-    CI_DEBUG_TRACE: "false"
+    CI_DEBUG_TRACE: 'false'
     GIT_STRATEGY: none
   only:
     refs:
-      - "/^OGM-.*$/"
-      - "/^release-.*$/"
-      - "/^hotfix-.*$/"
+      - '/^OGM-.*$/'
+      - '/^release-.*$/'
+      - '/^hotfix-.*$/'
   except:
     - schedules
     - master
@@ -88,13 +88,13 @@ build:prod:
   tags:
     - shell-linux
   variables:
-    CI_DEBUG_TRACE: "false"
+    CI_DEBUG_TRACE: 'false'
   only:
     - master
   except:
     refs:
       - schedules
-    variables: 
+    variables:
       - $API_RUN_VARIABLE
   script:
     - build_image
@@ -102,16 +102,16 @@ build:prod:
 deploy:prod:
   stage: deploy
   environment:
-    name: "production"
-    url: "${PRODUCTION_URL}${PRODUCTION_PATH}"
+    name: 'production'
+    url: '${PRODUCTION_URL}${PRODUCTION_PATH}'
   variables:
-    CI_DEBUG_TRACE: "false"
+    CI_DEBUG_TRACE: 'false'
   only:
     - master
   except:
     refs:
       - schedules
-    variables: 
+    variables:
       - $API_RUN_VARIABLE
   tags:
     - shell-linux
@@ -121,7 +121,7 @@ deploy:prod:
 test:prod:
   stage: test
   environment:
-    name: "production"
+    name: 'production'
   tags:
     - shell-linux
   only:
@@ -129,7 +129,7 @@ test:prod:
   except:
     refs:
       - schedules
-    variables: 
+    variables:
       - $API_RUN_VARIABLE
   script:
     - test_app
@@ -137,7 +137,7 @@ test:prod:
 # ---------------------------------------------------------------------------
 .auto_devops: &auto_devops |
   # Auto DevOps variables and functions
-  
+
   export WERF_RELEASES_HISTORY_MAX=2
   export WERF_ENABLE_PROCESS_EXTERMINATOR=1
 

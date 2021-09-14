@@ -7,7 +7,7 @@
 </template>
 
 <script>
-import getDirectionsList from '~/api/dicrectionsList'
+import getDirectionsList from '~/api/dicrectionsList';
 
 export default {
   name: 'Example',
@@ -15,7 +15,7 @@ export default {
   data() {
     return {
       directionsList: null,
-    }
+    };
   },
 
   // Хук asyncData доступен только на страницах (pages)
@@ -32,8 +32,8 @@ export default {
         show_main: true,
       },
       sort: 'sort',
-    }
-    this.directionsList = await getDirectionsList(requestData)
+    };
+    this.directionsList = await getDirectionsList(requestData);
   },
-}
+};
 </script>
