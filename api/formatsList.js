@@ -2,7 +2,7 @@ import { axiosCreate } from '~/axios/axios'
 
 const axios = axiosCreate()
 
-// Метод получения направлений по фильтру
+// Метод получения форматов обучения по фильтру
 // Поля доступные для сортировки: id, name
 
 export default async function getFormatsList(requestData) {
