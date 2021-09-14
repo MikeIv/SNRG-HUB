@@ -3,18 +3,18 @@
   <div v-else-if="$fetchState.error">
     <p>{{ $fetchState.error.message }}</p>
   </div>
-  <pre v-else>{{ directionsList }}</pre>
+  <pre v-else>{{ productsSectionsDetail }}</pre>
 </template>
 
 <script>
-import getDirectionsList from '~/api/dicrectionsList';
+import getProductsSectionsDetail from '~/api/productsSectionsDetail';
 
 export default {
   name: 'Example',
 
   data() {
     return {
-      directionsList: null,
+      productsSectionsDetail: null,
     };
   },
 
@@ -25,15 +25,11 @@ export default {
   async fetch() {
     const requestData = {
       filter: {
-        published: true,
-        ids: [8, 9, 10],
-        name: 'Госслужба',
-        product_ids: [492],
-        show_main: true,
+        section_id: 10,
+        product_id: 549,
       },
-      sort: 'sort',
     };
-    this.directionsList = await getDirectionsList(requestData);
+    this.productsSectionsDetail = await getProductsSectionsDetail(requestData);
   },
 };
 </script>
