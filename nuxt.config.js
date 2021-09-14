@@ -21,8 +21,6 @@ export default {
 
   // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
   buildModules: [
-    // https://go.nuxtjs.dev/eslint
-    '@nuxtjs/eslint-module',
     // https://go.nuxtjs.dev/stylelint
     '@nuxtjs/stylelint-module',
   ],
@@ -47,7 +45,7 @@ export default {
     debug: false,
     headers: {
       common: {
-        'Accept': 'application/vnd.api+json',
+        Accept: 'application/vnd.api+json',
         'Content-Type': 'application/json',
       },
     },

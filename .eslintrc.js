@@ -7,29 +7,31 @@ module.exports = {
   parserOptions: {
     parser: 'babel-eslint',
   },
-  extends: ['@nuxtjs', 'plugin:prettier/recommended', 'plugin:vue/essential', 'plugin:nuxt/recommended'],
+  extends: [
+    'plugin:vue/essential',
+    '@vue/airbnb',
+  ],
+  plugins: [
+    'html',
+    'import',
+  ],
   rules: {
     'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     'max-len': ['error', { ignorePattern: 'd="([\\s\\S]*?)"', code: 120 }],
+    'no-shadow': ['error', { allow: ['state'] }],
     'import/extensions': [
       'error',
       'ignorePackages',
       {
         vue: 'never',
         js: 'never',
-        jsx: 'never',
-        mjs: 'never',
-        ts: 'never',
-        tsx: 'never',
       },
     ],
   },
   settings: {
     'import/resolver': {
-      node: {
-        extensions: ['.js', '.jsx', '.ts', '.tsx', '.json', '.vue'],
-      },
+      webpack: 'webpack.config.js',
     },
   },
 };
