@@ -1,12 +1,10 @@
 <template>
-  <div class="container test">
+  <div class="container">
     <div>
       <h1 class="title">{{ pageInfo.name }}</h1>
     </div>
     <nuxt-link to="/product">TO PRODUCT PAGE</nuxt-link>
     <br />
-    <a-button label="TEST UI KIT" bgColor="accent" size="xlarge" iconType="si-chevron-down" />
-    <a-select :options="options" />
     <h2>DATA FROM EXAMPLE:</h2>
     <example />
     <br />
@@ -25,12 +23,10 @@
 </template>
 
 <script>
-import '@cwespb/synergyui/lib/synergyui.css';
-import { AButton, ASelect } from '@cwespb/synergyui';
 import Example from '~/components/Example';
 
 export default {
-  components: { Example, AButton, ASelect },
+  components: { Example },
 
   middleware: 'getPageInfo',
 
@@ -84,10 +80,3 @@ export default {
   },
 };
 </script>
-
-<style>
-.test {
-  font-family: 'TT Norms', sans-serif;
-  font-weight: 600;
-}
-</style>
