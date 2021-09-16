@@ -60,4 +60,8 @@ export default {
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {},
+
+  env: {
+    NUXT_ENV_S3BACKET: 'https://sys3.ru/marketplace/',
+  },
 };
