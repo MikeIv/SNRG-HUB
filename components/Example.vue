@@ -1,5 +1,9 @@
 <template>
-  <pre>{{ directionsList }}</pre>
+  <span v-if="$fetchState.pending"> Loading... </span>
+  <div v-else-if="$fetchState.error">
+    <p>{{ $fetchState.error.message }}</p>
+  </div>
+  <pre v-else>{{ directionsList }}</pre>
 </template>
 
 <script>
