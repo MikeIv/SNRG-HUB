@@ -44,6 +44,7 @@ export default {
       's-main-banners',
       's-main-banners-narrow',
       's-banner',
+      's-partners',
     ];
 
     return {

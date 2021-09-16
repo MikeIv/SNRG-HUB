@@ -1,0 +1,23 @@
+.s-partners {
+  &__title {
+    margin-bottom: 32px;
+  }
+
+  &__wrapper {
+    width: 100%;
+    max-width: 1480px;
+    margin: 0 auto;
+  }
+
+  &__items {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    flex-wrap: wrap;
+  }
+
+  &__item {
+    width: calc(100% / 5);
+    margin-bottom: 32px;
+  }
+}
