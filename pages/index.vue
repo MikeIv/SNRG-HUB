@@ -46,24 +46,8 @@ export default {
       's-banner',
     ];
 
-    const options = [
-      {
-        label: 'label',
-        value: 'value',
-      },
-      {
-        label: 'label2',
-        value: 'value2',
-      },
-      {
-        label: 'label3',
-        value: 'value3',
-      },
-    ];
-
     return {
       sections,
-      options,
     };
   },
 
@@ -71,12 +55,6 @@ export default {
     pageInfo() {
       return this.$store.state.pageInfo;
     },
-  },
-
-  mounted() {
-    window.addEventListener('resize', () => {
-      // something
-    });
   },
 };
 </script>
