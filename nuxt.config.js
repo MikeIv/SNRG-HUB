@@ -11,7 +11,7 @@ export default {
   },
 
   // Global CSS: https://go.nuxtjs.dev/config-css
-  css: ['reseter.css', './assets/ui.scss'],
+  css: ['reseter.css', './assets/ui.scss', '@cwespb/synergyui/lib/synergyui.css'],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [],
@@ -60,4 +60,7 @@ export default {
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {},
+  env: {
+    NUXT_ENV_S3BACKET: 'https://sys3.ru/marketplace/',
+  },
 };

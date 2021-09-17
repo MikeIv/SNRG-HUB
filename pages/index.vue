@@ -16,17 +16,18 @@
     <!--      :key="section"-->
     <!--      :section.methods-->
     <!--    ></component>-->
-    <pre>
+    <!-- <pre>
       {{ pageInfo }}
-    </pre>
+    </pre> -->
   </div>
 </template>
 
 <script>
 import Example from '~/components/Example';
+import sMainTopics from '~/components/S_main_topics/S_main_topics';
 
 export default {
-  components: { Example },
+  components: { Example, sMainTopics },
 
   middleware: 'getPageInfo',
 
