@@ -3,24 +3,31 @@
     <div class="catalog-product-list__wrapper">
       <m-card
         class="catalog-product-list__item"
-        v-for="product in products"
+        v-for="product in productList"
         :key="product.id"
         type="program"
-        :description="product.description"
-        :title="product.name"
-        :verticalImgSrc="`https://sys3.ru/marketplace/${product.digital_image}`"
-        :bottomText="product.org_name"
-        :iconSrc="`https://sys3.ru/marketplace/${product.org_icon}`"
+        :description="product.included.levels[0].name"
+        :title="product.included.directions[0].name"
+        :verticalImgSrc="`${baseURL}/${product.included.directions[0].preview_image}`"
+        :bottomText="product.included.organization.abbreviation_name"
+        :iconSrc="`${baseURL}/${product.included.organization.logo}`"
       />
     </div>
-    <m-pagination v-if="productList" :totalItems="22" :perPage="21" />
+    <m-pagination
+      v-if="productList"
+      :currentPage="page"
+      @change-current-page="changeCurrentPage"
+      @next="nextPage"
+      @prev="prevPage"
+      :totalItems="Number(totalProducts.length)"
+      :perPage="productsPerPage"
+    />
   </div>
 </template>
 
 <script>
 import { MCard, MPagination } from '@cwespb/synergyui';
 import getProductsList from '~/api/products_list';
-import getOrganizationsDetail from '~/api/organizations_detail';
 import '@cwespb/synergyui/lib/synergyui.css';
 import './s_catalog_product_list.scss';
 
@@ -37,26 +44,72 @@ export default {
   data() {
     return {
       productList: [],
-      products: [],
+      baseURL: process.env.NUXT_ENV_S3BACKET,
       page: 1,
+      filter: {},
+      totalProducts: 0,
     };
   },
 
-  async mounted() {
-    this.methods.forEach(async (method) => {
-      this.productList = await getProductsList(method.data);
+  computed: {
+    productsPerPage() {
+      return 3;
+    },
 
-      this.productList.forEach(async (product) => {
-        const requestData = {
-          filter: {
-            id: product.organization_id,
-          },
-        };
+    // startIndex() {
+    //   return (this.page - 1) * this.productsPerPage;
+    // },
+    //
+    // endIndex() {
+    //   return this.page * this.productsPerPage;
+    // },
+    //
+    // paginatedProducts() {
+    //   return this.productList.slice(this.startIndex, this.endIndex);
+    // },
+  },
 
-        const response = await getOrganizationsDetail(requestData);
-        this.products.push({ ...product, org_name: response.name, org_icon: response.digital_image });
-      });
-    });
+  methods: {
+    changeCurrentPage() {
+      console.log('!!!!!!!');
+    },
+
+    nextPage() {
+      this.page += 1;
+    },
+
+    prevPage() {
+      this.page -= 1;
+    },
+
+    async fetchProductsList() {
+      const expandedMethod = { ...this.methods[0].data };
+      expandedMethod.include = ['organization', 'levels', 'directions'];
+      this.totalProducts = await getProductsList(expandedMethod);
+      expandedMethod.pagination = { page: this.page, page_size: this.productsPerPage };
+      this.productList = await getProductsList(expandedMethod);
+      console.log(this.productList);
+      console.log(this.totalProducts);
+    },
+  },
+
+  watch: {
+    page() {
+      this.$router.push({ path: this.$route.path, query: { page: this.page } });
+      this.fetchProductsList();
+    },
+  },
+
+  created() {
+    if (this.$route.query.page) {
+      this.page = Number(this.$route.query.page);
+    } else {
+      this.$router.push({ path: this.$route.path, query: { page: 1 } });
+    }
+  },
+
+  mounted() {
+    this.fetchProductsList();
   },
 };
 </script>

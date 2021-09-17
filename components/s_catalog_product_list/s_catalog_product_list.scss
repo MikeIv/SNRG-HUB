@@ -2,12 +2,13 @@
   &__wrapper {
     display: flex;
     flex-wrap: wrap;
-    gap: 2rem;
     justify-content: space-between;
-    width: 100%;
+    gap: 20px;
+    margin-bottom: 48px;
   }
 
   &__item {
-    width: 30%;
+    flex-grow: 1;
+    max-width: calc(33% - 10px);
   }
 }

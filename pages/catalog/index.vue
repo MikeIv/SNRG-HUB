@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="catalog-page__wrapper">
     <h1 class="title">Программы обучения</h1>
     <component
       :is="key"
@@ -22,3 +22,13 @@ export default {
   },
 };
 </script>
+
+<style scoped lang="scss">
+.catalog-page {
+  &__wrapper {
+    max-width: 1480px;
+    margin: 0 auto;
+    padding: 10px;
+  }
+}
+</style>
