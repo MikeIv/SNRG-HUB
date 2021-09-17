@@ -46,8 +46,8 @@ export default {
       productList: [],
       baseURL: process.env.NUXT_ENV_S3BACKET,
       page: 1,
-      filter: {},
       totalProducts: 0,
+      filter: {},
     };
   },
 
@@ -55,18 +55,6 @@ export default {
     productsPerPage() {
       return 3;
     },
-
-    // startIndex() {
-    //   return (this.page - 1) * this.productsPerPage;
-    // },
-    //
-    // endIndex() {
-    //   return this.page * this.productsPerPage;
-    // },
-    //
-    // paginatedProducts() {
-    //   return this.productList.slice(this.startIndex, this.endIndex);
-    // },
   },
 
   methods: {
@@ -88,8 +76,6 @@ export default {
       this.totalProducts = await getProductsList(expandedMethod);
       expandedMethod.pagination = { page: this.page, page_size: this.productsPerPage };
       this.productList = await getProductsList(expandedMethod);
-      console.log(this.productList);
-      console.log(this.totalProducts);
     },
   },
 

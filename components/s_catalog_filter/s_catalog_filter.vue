@@ -1,9 +1,8 @@
 <template>
-  <div>
-    <div class="catalog-product-list__wrapper">
-      <!--      <m-filter />-->
-      <!--      <a-tag />-->
-    </div>
+  <div class="catalog-product-list__wrapper">
+    <h1>catalog filter</h1>
+    <!--      <m-filter />-->
+    <!--      <a-tag />-->
   </div>
 </template>
 
