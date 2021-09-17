@@ -1,19 +1,22 @@
 <template>
   <div class="container">
-    <s-program-start :program="program" :event="event" />
+    <component :is="section" v-for="section in sections" :key="section"></component>
   </div>
 </template>
 
 <script>
 import { SProgramStart } from '@cwespb/synergyui';
+import SProgramTeacherHorizontal from '../../components/s_program_teacher_horizontal/s_program_teacher_horizontal.vue';
+
 import '@cwespb/synergyui/lib/synergyui.css';
 
 export default {
-  components: { SProgramStart },
+  components: {
+    SProgramStart,
+    SProgramTeacherHorizontal,
+  },
 
   middleware: 'getPageInfo',
-
-  asyncData() {},
 
   data() {
     return {
@@ -64,6 +67,19 @@ export default {
           text: 'Скидка 40% на обучение до 10 февраля',
         },
       },
+    };
+  },
+
+  asyncData() {
+    // Массив имен для component :is будет формироваться от бэка
+    // На данный момент там имена неправильные, поэтому хардкод
+    // А так мы их будем брать из pageInfo.components и у объекта ключ "key"
+    const sections = [
+      's-program-teacher-horizontal',
+    ];
+
+    return {
+      sections,
     };
   },
 
