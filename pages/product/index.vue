@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <s-program-start :program="program" :event="event"/>
+    <s-program-start :program="program" :event="event" />
   </div>
 </template>
 
@@ -13,8 +13,7 @@ export default {
 
   middleware: 'getPageInfo',
 
-  asyncData() {
-  },
+  asyncData() {},
 
   data() {
     return {
@@ -27,10 +26,30 @@ export default {
         subtitle: 'Профессия с трудоустройством',
         title: 'PHP-программист',
         social: [
-          { id: 1, name: 'Вконтакте', icon: 'vk', link: '#vk' },
-          { id: 2, name: 'Twitter', icon: 'twitter', link: '#twitter' },
-          { id: 3, name: 'Instagram', icon: 'instagram', link: '#insta' },
-          { id: 4, name: 'Facebook', icon: 'facebook', link: '#facebook' },
+          {
+            id: 1,
+            name: 'Вконтакте',
+            icon: 'vk',
+            link: '#vk',
+          },
+          {
+            id: 2,
+            name: 'Twitter',
+            icon: 'twitter',
+            link: '#twitter',
+          },
+          {
+            id: 3,
+            name: 'Instagram',
+            icon: 'instagram',
+            link: '#insta',
+          },
+          {
+            id: 4,
+            name: 'Facebook',
+            icon: 'facebook',
+            link: '#facebook',
+          },
         ],
         description:
           'Язык PHP отличается практичностью и дает возможность быстро решать задачи, поэтому множество сайтов написаны именно на нем. Язык PHP отличается практичностью и дает возможность быстро решать задачи, поэтому множество сайтов написаны именно на нем.',
