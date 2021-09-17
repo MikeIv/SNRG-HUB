@@ -20,7 +20,6 @@
 
 <script>
 import { Swiper, SwiperSlide } from 'vue-awesome-swiper';
-import 'swiper/swiper-bundle.css';
 
 import { MCardLanding } from '@cwespb/synergyui';
 import './s_program_teacher_vertical.scss';
@@ -38,10 +37,6 @@ export default {
     swiper() {
       return this.$refs.mySwiper.$swiper;
     },
-  },
-
-  mounted() {
-    console.log('Swiper instances:', this.mySwiper);
   },
 
   data() {
