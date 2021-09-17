@@ -41,6 +41,12 @@ export default {
     MPagination,
   },
 
+  productNumberOnDesktop: 8, //24
+  productNumberOnTablet: 4, //16
+  productNumberOnMobile: 2, //8
+  desktopEndpointResolution: 1200,
+  mobileEndpointResolution: 500,
+
   data() {
     return {
       productList: [],
@@ -48,13 +54,9 @@ export default {
       page: 1,
       totalProducts: 0,
       filter: {},
+      windowWidth: null,
+      productsPerPage: this.$options.productNumberOnDesktop,
     };
-  },
-
-  computed: {
-    productsPerPage() {
-      return 3;
-    },
   },
 
   methods: {
@@ -77,12 +79,34 @@ export default {
       expandedMethod.pagination = { page: this.page, page_size: this.productsPerPage };
       this.productList = await getProductsList(expandedMethod);
     },
+
+    handleResize() {
+      this.windowWidth = window.innerWidth;
+    },
   },
 
   watch: {
     page() {
       this.$router.push({ path: this.$route.path, query: { page: this.page } });
       this.fetchProductsList();
+    },
+
+    productsPerPage() {
+      this.fetchProductsList();
+    },
+
+    windowWidth() {
+      if (this.windowWidth > this.$options.desktopEndpointResolution) {
+        this.productsPerPage = this.$options.productNumberOnDesktop;
+      }
+
+      if (this.windowWidth < this.$options.desktopEndpointResolution) {
+        this.productsPerPage = this.$options.productNumberOnTablet;
+      }
+
+      if (this.windowWidth < this.$options.mobileEndpointResolution) {
+        this.productsPerPage = this.$options.productNumberOnMobile;
+      }
     },
   },
 
@@ -96,6 +120,12 @@ export default {
 
   mounted() {
     this.fetchProductsList();
+    this.windowWidth = window.innerWidth;
+    window.addEventListener('resize', this.handleResize);
+  },
+
+  beforeDestroy() {
+    window.removeEventListener('resize', this.handleResize);
   },
 };
 </script>

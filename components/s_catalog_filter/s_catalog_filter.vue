@@ -1,47 +1,52 @@
 <template>
   <div class="catalog-product-list__wrapper">
-    <h1>catalog filter</h1>
-    <!--      <m-filter />-->
-    <!--      <a-tag />-->
+    <!--    <h1>catalog filter</h1>-->
+    <!--    <m-filter-->
+    <!--      v-if="filterData.directions"-->
+    <!--      passedBtnText="Все направления"-->
+    <!--      title="Направления"-->
+    <!--      :items="filterData.directions"-->
+    <!--      @on-control-click="controlClick"-->
+    <!--    />-->
+    <!--    <pre>{{ filterData }}</pre>-->
+    <!--    <a-tag />-->
   </div>
 </template>
 
 <script>
-// import { MFilter, ATag } from '@cwespb/synergyui';
-// import getProductsList from '~/api/products_list';
-// import getOrganizationsDetail from '~/api/organizations_detail';
+import { MFilter, ATag } from '@cwespb/synergyui';
 import '@cwespb/synergyui/lib/synergyui.css';
 import './s_catalog_filter.scss';
+import getFilterData from '~/api/filter_data';
 
 export default {
   name: 'SCatalogFilter',
 
   props: ['methods', 'title'],
 
-  // components: {
-  //   MFilter,
-  //   ATag,
-  // },
-
-  data() {
-    return {};
+  components: {
+    MFilter,
+    // ATag,
   },
 
-  // async mounted() {
-  //   this.methods.forEach(async (method) => {
-  //     this.productList = await getProductsList(method.data);
-  //
-  //     this.productList.forEach(async (product) => {
-  //       const requestData = {
-  //         filter: {
-  //           id: product.organization_id,
-  //         },
-  //       };
-  //
-  //       const response = await getOrganizationsDetail(requestData);
-  //       this.products.push({ ...product, org_name: response.name, org_icon: response.digital_image });
-  //     });
-  //   });
-  // },
+  data() {
+    return {
+      filterData: [],
+    };
+  },
+
+  methods: {
+    async fetchFilterData() {
+      this.filterData = await getFilterData(this.methods[0].data);
+    },
+
+    controlClick(productsList) {
+      console.log(productsList);
+    },
+  },
+
+  mounted() {
+    this.fetchFilterData();
+  },
 };
 </script>
