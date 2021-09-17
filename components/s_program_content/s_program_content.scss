@@ -1,28 +1,28 @@
+@import '@/assets/styles/tools/mixins';
+
 .s-program-content {
-  padding: 48px 0;
-  background: #ffffff;
-  border-radius: 10px;
+  margin-bottom: rem(20);
+  padding: var(--a-padding--x12) 0;
+  background: var(--a-color_bg);
+  border-radius: var(--a-borderRadius--bg);
 
   @media (max-width: 991px) {
-    padding: 40px 0;
+    margin-bottom: rem(12);
+    padding: var(--a-padding--x10) 0;
   }
 
   @media (max-width: 575px) {
-    padding: 24px 0;
-  }
-
-  .s-program-content__wrapper {
-    padding: 0 30px;
+    padding: var(--a-padding--x6) 0;
   }
 
   &__wrapper {
     width: 100%;
-    max-width: 1140px;
+    max-width: rem(1140);
     margin: 0 auto;
-    padding: 0 30px;
+    padding: 0 rem(30);
 
     @media (max-width: 1440px) {
-      max-width: 1250px;
+      max-width: rem(1250);
     }
 
     @media (max-width: 1299px) {
@@ -30,7 +30,15 @@
     }
 
     @media (max-width: 575px) {
-      padding: 0 15px;
+      padding: 0 rem(15);
     }
+  }
+
+  &__head {
+    cursor: pointer;
+  }
+
+  &__body {
+    padding: 0 var(--a-padding--x10) var(--a-padding--x10);
   }
 }

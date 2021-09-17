@@ -73,8 +73,9 @@ export default {
     // На данный момент там имена неправильные, поэтому хардкод
     // А так мы их будем брать из pageInfo.components и у объекта ключ "key"
     const sections = [
-      's-program-teacher-horizontal',
       's-program-content',
+      's-program-teacher-horizontal',
+      's-program-teacher-vertical',
     ];
 
     return {
