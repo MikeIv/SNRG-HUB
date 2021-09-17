@@ -1,0 +1,36 @@
+.s-program-content {
+  padding: 48px 0;
+  background: #ffffff;
+  border-radius: 10px;
+
+  @media (max-width: 991px) {
+    padding: 40px 0;
+  }
+
+  @media (max-width: 575px) {
+    padding: 24px 0;
+  }
+
+  .s-program-content__wrapper {
+    padding: 0 30px;
+  }
+
+  &__wrapper {
+    width: 100%;
+    max-width: 1140px;
+    margin: 0 auto;
+    padding: 0 30px;
+
+    @media (max-width: 1440px) {
+      max-width: 1250px;
+    }
+
+    @media (max-width: 1299px) {
+      max-width: 100%;
+    }
+
+    @media (max-width: 575px) {
+      padding: 0 15px;
+    }
+  }
+}

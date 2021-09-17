@@ -6,14 +6,12 @@
 
 <script>
 import { SProgramStart } from '@cwespb/synergyui';
-import SProgramTeacherHorizontal from '../../components/s_program_teacher_horizontal/s_program_teacher_horizontal.vue';
 
 import '@cwespb/synergyui/lib/synergyui.css';
 
 export default {
   components: {
     SProgramStart,
-    SProgramTeacherHorizontal,
   },
 
   middleware: 'getPageInfo',
@@ -76,6 +74,7 @@ export default {
     // А так мы их будем брать из pageInfo.components и у объекта ключ "key"
     const sections = [
       's-program-teacher-horizontal',
+      's-program-content',
     ];
 
     return {

@@ -1,8 +1,8 @@
 <template>
-  <div class="s-lp-people--single">
-    <div class="s-lp-people--single__wrapper">
-      <h2 class="s-lp-people--single__title a-font_h2" v-html="title"></h2>
-      <div class="s-lp-people--single__items">
+  <section class="s_program_teacher_horizontal">
+    <div class="s_program_teacher_horizontal__wrapper">
+      <h2 class="s_program_teacher_horizontal__title a-font_h2" v-html="title"></h2>
+      <div class="s_program_teacher_horizontal__items">
         <MCardSpeaker
           v-for="item in items"
           :key="item.id"
@@ -13,7 +13,7 @@
           />
       </div>
     </div>
-  </div>
+  </section>
 </template>
 
 <script>
