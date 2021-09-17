@@ -17,7 +17,7 @@ cleanup:
     imagesPerReference:
       last: 2
       operator: And
-  - references:  
+  - references:
       branch: /^(master)$/
     imagesPerReference:
       last: 2
@@ -42,7 +42,7 @@ git:
         - "**/*"
 shell:
   beforeInstall:
-  - apk --update add bash curl 
+  - apk --update add bash curl
   install:
   - cd /app
   - yarn install
@@ -50,4 +50,6 @@ shell:
   - cd /app
   - export NODE_ENV="{{ .EnvName }}"
   - yarn build
+  setup:
+  - yarn start
 ---
