@@ -1,0 +1,37 @@
+.s_main_programs__wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  max-width: 1480px;
+
+  margin: 0 auto;
+}
+
+.s_main_programs_h2 {
+  display: flex;
+  width: 100%;
+}
+
+.s_main_programs__cards {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+  width: 100%;
+}
+
+.m-card-program {
+  flex-grow: 1;
+  max-width: calc(33% - 10px);
+
+  @media screen and (max-width: 991px) {
+    max-width: calc(50% - 10px);
+  }
+  @media screen and (max-width: 767px) {
+    max-width: 100%;
+  }
+}
+
+.s_main_programs__btn {
+  margin: 0 auto;
+}

@@ -16,7 +16,7 @@
 </template>
 
 <script>
-import sMainPrograms from '~/components/s_main_programs';
+import sMainPrograms from '~/components/s_main_programs/s_main_programs';
 
 export default {
   components: { sMainPrograms },
