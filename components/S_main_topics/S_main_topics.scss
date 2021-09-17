@@ -1,28 +1,27 @@
 .s-main-topics {
-    &__title {
-        margin-bottom: 1.5rem;
+  .m-card-vertical {
+    &__box {
+      min-height: 12.875rem;
+      img {
+        min-height: 12.875rem;
+        object-fit: cover;
+      }
     }
-    .m-card-vertical {
-        &__box {
-            min-height: 12.875rem;
-            img {
-                min-height: 12.875rem;
-                object-fit: cover;  
-            }
-        }
+  }
+  .swiper-button-next,
+  .swiper-button-prev {
+    @media screen and (max-width: 991px) {
+      display: none;
     }
-    .swiper-button-next,
-    .swiper-button-prev {
-        &::after {
-            display: none;
-        }
-        @media screen and (max-width: 991px) {
-            display: none;
-        }
+    &::after {
+      display: none;
     }
-    .a-button__icon {
-        font-size: 1.5rem;
-        color: #707C8B;
-    }
+  }
+  .a-button__icon {
+    color: #707c8b;
+    font-size: 1.5rem;
+  }
+  &__title {
+    margin-bottom: 1.5rem;
+  }
 }
-

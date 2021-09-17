@@ -40,7 +40,6 @@
   </section>
 </template>
 <script>
-
 import { MCard, AButton } from '@cwespb/synergyui';
 import { Swiper, SwiperSlide, directive } from 'vue-awesome-swiper';
 import 'swiper/swiper-bundle.css';
@@ -66,17 +65,17 @@ export default {
         breakpoints: {
           767: {
             slidesPerView: 6,
-            spaceBetween: 20
+            spaceBetween: 20,
           },
           1440: {
             slidesPerView: 7,
-            spaceBetween: 20
+            spaceBetween: 20,
           },
           1499: {
             slidesPerView: 8.5,
-            spaceBetween: 20
-          }
-        }
+            spaceBetween: 20,
+          },
+        },
       },
     };
   },
@@ -97,11 +96,11 @@ export default {
   },
   computed: {
     swiper() {
-      return this.$refs.mySwiper.$swiper
-    }
+      return this.$refs.mySwiper.$swiper;
+    },
   },
   mounted() {
-    console.log('Swiper instances:', this.mySwiper)
+    console.log('Swiper instances:', this.mySwiper);
   },
   async fetch() {
     const requestData = {
