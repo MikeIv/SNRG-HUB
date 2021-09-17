@@ -1,0 +1,22 @@
+/* @import '@/assets/styles/tools/mixins'; */
+
+.s-main-topics__title {
+  margin-bottom: 1.5rem;
+}
+
+.s-main-topics__button > .a-button__icon {
+  color: var(--a-color_text--secondary);
+  font-size: 1.5rem;
+}
+
+.swiper-button-next:after,
+.swiper-button-prev:after {
+  display: none;
+}
+
+@media screen and (max-width: 991px) {
+  .swiper-button-next,
+  .swiper-button-prev {
+      display: none;
+  }
+}

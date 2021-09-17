@@ -12,27 +12,28 @@
             :title="product.name"
             type="vertical"
           />
-          <a-button
-            class="swiper-button-prev m-card-vertical__button"
-            size="medium"
-            bg-color="ghost-primary"
-            only-icon="square"
-            iconType="si-chevron-left"
-            slot="button-prev"
-            :disabled="disabled"
-            @click="onClickBtn"
-          ></a-button>
-          <a-button
-            class="swiper-button-next m-card-vertical__button"
-            size="medium"
-            bg-color="ghost-primary"
-            only-icon="square"
-            iconType="si-chevron-right"
-            slot="button-next"
-            :disabled="disabled"
-            @click="onClickBtn"
-          ></a-button>
         </div>
+        <a-button
+          v-if="isVisible"
+          class="swiper-button-prev m-card-vertical__button s-main-topics__button"
+          size="medium"
+          bg-color="ghost-primary"
+          only-icon="square"
+          iconType="si-chevron-left"
+          slot="button-prev"
+          @onClickBtn="onClickBtn"
+          :class="{ active: isActive }"
+          ></a-button>
+        <a-button
+          class="swiper-button-next m-card-vertical__button s-main-topics__button"
+          size="medium"
+          bg-color="ghost-primary"
+          only-icon="square"
+          iconType="si-chevron-right"
+          slot="button-next"
+          @onClickBtn="onClickBtn"
+          :class="{ active: !isActive }"
+        ></a-button>
       </div>
     </div>
     <pre>{{ methods }}</pre>
@@ -43,7 +44,7 @@
 import { MCard, AButton } from '@cwespb/synergyui';
 import { Swiper, SwiperSlide, directive } from 'vue-awesome-swiper';
 import 'swiper/swiper-bundle.css';
-import './s_main_topics.scss';
+import './s_main_topics.css';
 import getDirectionsList from '~/api/dicrectionsList';
 
 export default {
@@ -53,6 +54,8 @@ export default {
       mainTitle: 'Направления обучения',
       directionsList: null,
       baseUrl: process.env.NUXT_ENV_S3BACKET,
+      isVisible: true,
+      isActive: false,
       swiperOption: {
         slideToClickedSlide: true,
         slidesPerView: 3,
@@ -91,7 +94,8 @@ export default {
   props: ['methods', 'title'],
   methods: {
     onClickBtn() {
-      this.$emit('onClickBtn');
+      console.log('test')
+      this.$emit('onClickBtn')
     },
   },
   computed: {

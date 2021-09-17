@@ -11,14 +11,12 @@ export default {
   },
 
   // Global CSS: https://go.nuxtjs.dev/config-css
-<<<<<<< HEAD
-  css: ['reseter.css', './assets/ui.scss', '@cwespb/synergyui/lib/synergyui.css'],
-=======
   css: ['./assets/styles/main.scss', '@cwespb/synergyui/lib/synergyui.css'],
->>>>>>> 856331e69588eb3d552ce59c75ba915f83c7e190
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
-  plugins: [],
+  plugins: [
+    { src: '@/plugins/vue-awesome-swiper', mode: 'client' }
+  ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,
