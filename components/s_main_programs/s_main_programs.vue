@@ -1,6 +1,6 @@
 <template>
   <section class="s_main_programs__wrapper">
-    <h2 class="s_main_programs_h2 a-font_h5">{{ title }} {{ windowWidth }}</h2>
+    <h2 class="s_main_programs_h2 a-font_h5">{{ title }}</h2>
     <div class="s_main_programs__cards">
       <template v-for="(product, index) in productsList">
         <m-card
@@ -16,7 +16,9 @@
       </template>
     </div>
 
-    <a-button class="s_main_programs__btn" label="Показать все" bgColor="accent" />
+    <nuxt-link :to="redirectUrl" class="s_main_programs__btn-link">
+      <a-button class="s_main_programs__btn" label="Показать все" bgColor="accent" />
+    </nuxt-link>
     <!--    <pre>{{ methods }}</pre>-->
     <!--    <pre>{{ productsList }}</pre>-->
   </section>
@@ -42,6 +44,7 @@ export default {
       baseURL: process.env.NUXT_ENV_S3BACKET,
       limitationList: 5,
       windowWidth: 0,
+      redirectUrl: 'google.com',
     };
   },
   props: ['methods', 'title'],
@@ -59,7 +62,7 @@ export default {
     });
     this.$nextTick(function () {
       window.addEventListener('resize', this.getWindowWidth);
-      //Init
+      // Init
       this.getWindowWidth();
     });
   },
