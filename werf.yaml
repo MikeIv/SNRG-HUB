@@ -50,7 +50,4 @@ shell:
   - cd /app
   - export NODE_ENV="{{ .EnvName }}"
   - yarn build
-  setup:
-  - cd /app
-  - yarn start
 ---
