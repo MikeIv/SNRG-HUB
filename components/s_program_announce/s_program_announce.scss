@@ -1,0 +1,29 @@
+@import '@/assets/styles/tools/mixins';
+
+.s-program-announce {
+  margin: rem(20) auto;
+  border-radius: rem(10);
+
+  @media (max-width: 991px) {
+    margin: rem(12) auto;
+    padding: var(--a-padding--x10) 0;
+  }
+
+  @media (max-width: 575px) {
+    padding: var(--a-padding--x8) 0;
+  }
+
+  .m-card-announce {
+    a {
+      text-decoration: none;
+    }
+  }
+
+  &__title {
+    margin-bottom: rem(40);
+
+    @media (max-width: 991px) {
+      margin-bottom: rem(24);
+    }
+  }
+}
