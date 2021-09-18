@@ -36,30 +36,17 @@
   &__items {
     z-index: 1;
     position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    width: 100%;
-    gap: rem(32);
 
     @media screen and (max-width: 1024px) {
-      padding: rem(50) rem(55);
+      padding: rem(50) 0;
     }
 
     @media screen and (max-width: 768px) {
-      justify-content: flex-end;
-      padding: rem(40) rem(32);
-      gap: rem(9);
-      flex-direction: row-reverse;
-      overflow-x: scroll;
-      overflow-y: hidden;
-      white-space: nowrap;
+      padding: rem(40) 0;
     }
 
     @media screen and (max-width: 360px) {
-      width: auto;
-      padding: rem(40) rem(16);
-      gap: rem(32);
+      padding: rem(40) 0;
     }
   }
 
@@ -101,6 +88,10 @@
   .a-factoid-line__wrapper {
     @media screen and (max-width: 768px) {
       max-width: 180px;
+    }
+
+    h3 {
+      white-space: nowrap;
     }
 
     h4 {

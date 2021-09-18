@@ -29,7 +29,6 @@ export default {
 
   components: {
     Swiper,
-    SwiperSlide,
     MCardLanding,
   },
 
