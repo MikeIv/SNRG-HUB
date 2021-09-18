@@ -34,6 +34,7 @@ export default {
       's-program-teacher-horizontal',
       's-program-teacher-vertical',
       's-program-reviews',
+      's-program-price',
       's-program-questions',
     ];
 
