@@ -1,0 +1,33 @@
+body {
+  font-family: 'TT Norms', serif;
+  font-size: 16px;
+}
+
+:root {
+  --layout-width: 85rem; // 1360px
+  --layout-padding: 1.875rem; // 30px
+}
+
+.l-default,
+.l-wide {
+  max-width: var(--layout-width);
+  padding: 0 var(--layout-padding);
+  margin: 0 auto;
+}
+
+.l-default {
+  @media all and (max-width: 767px) {
+    --layout-padding: 1rem; // 16px
+  }
+}
+
+.l-wide {
+  --layout-width: 96.25rem; // 1540px
+
+  @media all and (max-width: 1699px) {
+    --layout-width: 82.125rem; // 1314px (1254 + 60)
+  }
+  @media all and (max-width: 767px) {
+    --layout-padding: 1rem; // 16px
+  }
+}
