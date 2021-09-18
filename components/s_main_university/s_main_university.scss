@@ -1,13 +1,15 @@
+@import '@/assets/styles/tools/mixins';
+
 .s-main-university {
   .container {
-    max-width: 1510px;
+    max-width: rem(1510);
     margin: 0 auto;
   }
   .m-card-program {
     flex-grow: 1;
-    max-width: calc(33% - 11px);
+    max-width: calc(33% - rem(11));
     @media all and (max-width: 991px) {
-      max-width: calc(50% - 11px);
+      max-width: calc(50% - rem(11));
     }
     @media all and (max-width: 767px) {
       max-width: unset;
@@ -17,7 +19,7 @@
     margin: 0 auto;
     @media all and (max-width: 767px) {
       width: 100%;
-      height: 40px;
+      height: rem(40);
     }
 
     &__wrapper {
@@ -25,21 +27,21 @@
     }
   }
   &__title {
-    margin-bottom: 24px;
-    color: #11253d;
+    margin-bottom: rem(24);
+    color: var(--a-color_text);
     @media all and (max-width: 767px) {
-      margin-bottom: 16px;
+      margin-bottom: rem(16);
     }
   }
   &__box {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
-    gap: 20px;
-    margin-bottom: 32px;
+    gap: rem(20);
+    margin-bottom: rem(32);
     @media all and (max-width: 767px) {
-      gap: 16px;
-      margin-bottom: 20px;
+      gap: rem(16);
+      margin-bottom: rem(20);
     }
   }
 }
