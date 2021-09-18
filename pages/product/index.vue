@@ -33,6 +33,7 @@ export default {
       's-program-content',
       's-program-teacher-horizontal',
       's-program-teacher-vertical',
+      's-program-form',
       's-program-reviews',
       's-program-price',
       's-program-questions',

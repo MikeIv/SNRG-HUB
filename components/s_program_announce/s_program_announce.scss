@@ -2,7 +2,7 @@
 
 .s-program-announce {
   margin: rem(20) auto;
-  border-radius: rem(10);
+  border-radius: var(--a-borderRadius--bg);
 
   @media (max-width: 991px) {
     margin: rem(12) auto;

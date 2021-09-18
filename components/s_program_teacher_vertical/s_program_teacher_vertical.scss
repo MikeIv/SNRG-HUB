@@ -4,7 +4,7 @@
   margin-bottom: rem(20);
   padding: rem(48) 0;
   background: var(--a-color_bg);
-  border-radius: rem(10);
+  border-radius: var(--a-borderRadius--bg);
 
   @media (max-width: 991px) {
     margin-bottom: rem(12);
