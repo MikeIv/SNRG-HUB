@@ -1,28 +1,27 @@
 <template>
   <section class="s-main-topics">
+    <div class="l-wide">
     <div class="s-main-topics__wrapper">
       <h5 class="s-main-topics__title a-font_h5">{{ mainTitle }}</h5>
-      <swiper ref="mySwiper" :options="swiperOption">
+      <swiper ref="mySwiper" class="swiper" :options="swiperOption">
         <swiper-slide
-          <m-card
-          class="s-main-topics__slide swiper-slide m-card-vertical"
           v-for="product in directionsList"
           :key="product.id"
+          class="s-main-topics__slide swiper-slide m-card-vertical"
+        >
+          <m-card
           :verticalImgSrc="`${baseUrl}/${product.preview_image}`"
           :title="product.name"
           type="vertical"
-        />
-        >
+          />
+        </swiper-slide>
         <a-button
-          v-if="isVisible"
           class="swiper-button-prev m-card-vertical__button s-main-topics__button"
           size="medium"
           bg-color="ghost-primary"
           only-icon="square"
           iconType="si-chevron-left"
           slot="button-prev"
-          @onClickBtn="onClickBtn"
-          :class="{ active: !isVisible }"
         ></a-button>
         <a-button
           class="swiper-button-next m-card-vertical__button s-main-topics__button"
@@ -31,20 +30,19 @@
           only-icon="square"
           iconType="si-chevron-right"
           slot="button-next"
-          @onClickBtn="onClickBtn"
-          :class="{ active: isVisible }"
         ></a-button>
       </swiper>
     </div>
     <pre>{{ methods }}</pre>
     <pre>{{ directionsList }}</pre>
+    </div>
   </section>
 </template>
 <script>
 import { MCard, AButton } from '@cwespb/synergyui';
 import { Swiper, SwiperSlide, directive } from 'vue-awesome-swiper';
-import 'swiper/swiper-bundle.css';
-import './s_main_topics.css';
+import 'swiper/css/swiper.min.css';
+import './s_main_topics.scss';
 import getDirectionsList from '~/api/dicrectionsList';
 
 export default {
@@ -54,28 +52,22 @@ export default {
       mainTitle: 'Направления обучения',
       directionsList: null,
       baseUrl: process.env.NUXT_ENV_S3BACKET,
-      isVisible: false,
-      isActive: true,
       swiperOption: {
         slideToClickedSlide: true,
-        slidesPerView: 3,
+        slidesPerView: 'auto',
         spaceBetween: 12,
         navigation: {
-          hideOnClick: false,
           nextEl: '.swiper-button-next',
           prevEl: '.swiper-button-prev',
         },
         breakpoints: {
           767: {
-            slidesPerView: 6,
             spaceBetween: 20,
           },
           1440: {
-            slidesPerView: 7,
             spaceBetween: 20,
           },
           1499: {
-            slidesPerView: 8.5,
             spaceBetween: 20,
           },
         },
@@ -93,9 +85,6 @@ export default {
   },
   props: ['methods', 'title'],
   methods: {
-    onClickBtn() {
-      this.isVisible = !this.isVisible;
-    },
   },
   computed: {
     swiper() {
@@ -114,7 +103,6 @@ export default {
       sort: 'sort',
     };
     this.directionsList = await getDirectionsList(requestData);
-    // console.log(this.directionsList);
   },
 };
 </script>

@@ -1,0 +1,33 @@
+@import '@/assets/styles/tools/mixins';
+
+.s-main-topics {
+  .swiper {
+    &-button-disabled {
+      display: none;
+    }
+    &-button-next,
+    &-button-prev {
+      @media screen and (max-width: 991px) {
+        display: none;
+      }
+    }
+    &-button-next::after,
+    &-button-prev::after {
+      content: none;
+    }
+  }
+  &__title {
+    margin-bottom: rem(24);
+  }
+
+  &__slide {
+    width: rem(160);
+  }
+
+  &__button {
+    .a-button__icon {
+      color: var(--a-color_text--secondary);
+      font-size: rem(24);
+    }
+  }
+}
