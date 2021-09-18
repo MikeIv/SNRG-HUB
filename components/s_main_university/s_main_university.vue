@@ -1,6 +1,6 @@
 <template>
   <section class="s-main-university">
-    <div class="container">
+    <div class="l-wide">
       <h2 class="s-main-university__title a-font_h5">{{ title }}</h2>
       <div class="s-main-university__box">
         <template v-for="product in visibleCards">
