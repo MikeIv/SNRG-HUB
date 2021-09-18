@@ -21,7 +21,7 @@ import { MCardSpeaker } from '@cwespb/synergyui';
 import './s_program_teacher_horizontal.scss';
 
 export default {
-  name: 'SProgramTeacherHorizontal',
+  name: 's_program_teacher_horizontal',
 
   components: {
     MCardSpeaker,

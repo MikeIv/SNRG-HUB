@@ -19,13 +19,13 @@
 </template>
 
 <script>
-import { Swiper, SwiperSlide } from 'vue-awesome-swiper';
+import { Swiper } from 'vue-awesome-swiper';
 
 import { MCardLanding } from '@cwespb/synergyui';
 import './s_program_teacher_vertical.scss';
 
 export default {
-  name: 'SProgramTeacherVertical',
+  name: 's_program_vertical',
 
   components: {
     Swiper,

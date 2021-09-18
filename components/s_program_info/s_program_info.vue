@@ -28,7 +28,7 @@ import { AFactoid } from '@cwespb/synergyui';
 import './s_program_info.scss';
 
 export default {
-  name: 'SProgramInfo',
+  name: 's_program_info',
 
   components: {
     Swiper,
