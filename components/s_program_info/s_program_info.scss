@@ -1,18 +1,16 @@
 @import '@/assets/styles/tools/mixins';
 
 .s-program-info {
-  position: relative;
-  overflow: hidden;
   width: 100%;
   max-width: rem(1300);
   margin: 0 auto;
   margin-bottom: rem(20);
-  background-color: var(--a-color_bg);
   border-radius: var(--a-borderRadius--bg);
+  background-color: var(--a-color_bg);
 
   .a-factoid-line__wrapper {
     @media screen and (max-width: 768px) {
-      max-width: 180px;
+      max-width: rem(180);
     }
 
     h3 {
@@ -25,10 +23,12 @@
   }
 
   &__wrap {
+    overflow: hidden;
+    position: relative;
     width: 100%;
     max-width: rem(1140);
     margin: 0 auto;
-    padding: var(--a-padding--x15) rem(30);
+    padding: var(--a-padding--x15) var(--a-padding--x20);
 
     @media (max-width: 1440px) {
       max-width: rem(1250);
@@ -48,8 +48,8 @@
   }
 
   &__items {
-    position: relative;
     z-index: 1;
+    position: relative;
 
     @media screen and (max-width: 1024px) {
       padding: rem(50) 0;
@@ -83,8 +83,8 @@
       height: rem(490);
 
       @media screen and (max-width: 1024px) {
-        width: 219px;
-        height: 445px;
+        width: rem(219);
+        height: rem(445);
       }
 
       @media screen and (max-width: 880px) {

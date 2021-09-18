@@ -1,8 +1,8 @@
 <template>
-  <section class="s-program-for-who">
-    <div class="s-program-for-who__wrapper">
-      <h2 class="s-program-for-who__title a-font_h2" v-html="title"></h2>
-      <div class="s-program-for-who__items">
+  <section class="s-program-people">
+    <div class="s-program-people__wrapper">
+      <h2 class="s-program-people__title a-font_h2" v-html="title"></h2>
+      <div class="s-program-people__items">
         <swiper class="swiper" :options="swiperOption">
           <MCardLanding
             v-for="item in items"
@@ -22,10 +22,10 @@
 import { Swiper } from 'vue-awesome-swiper';
 
 import { MCardLanding } from '@cwespb/synergyui';
-import './s_program_for_who.scss';
+import './s_program_people.scss';
 
 export default {
-  name: 's_program_for_who',
+  name: 's_program_people',
 
   components: {
     Swiper,

@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div>
     <component :is="section" v-for="section in sections" :key="section"></component>
   </div>
 </template>
@@ -24,11 +24,11 @@ export default {
       // 's-program-start',
       's-program-cpa-line',
       's-program-info',
-      's-program-free',
+      's-program-announce',
       's-program-about',
-      's-program-min-points',
-      's-program-for-who',
-      's-program-training',
+      's-program-exam',
+      's-program-people',
+      's-program-timeline',
       's-program-skills',
       's-program-content',
       's-program-teacher-horizontal',

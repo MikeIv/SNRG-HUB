@@ -1,8 +1,8 @@
 <template>
-  <section class="s-program-free">
-    <div class="s-program-free__wrapper">
-      <h2 class="s-program-free__title a-font_h2" v-html="title"></h2>
-      <div class="s-program-free__items">
+  <section class="s-program-announce">
+    <div class="s-program-announce__wrapper">
+      <h2 class="s-program-announce__title a-font_h2" v-html="title"></h2>
+      <div class="s-program-announce__items">
         <swiper class="swiper" :options="swiperOption">
           <MCard
             v-for="item in items"
@@ -25,10 +25,10 @@
 import { Swiper } from 'vue-awesome-swiper';
 
 import { MCard } from '@cwespb/synergyui';
-import './s_program_free.scss';
+import './s_program_announce.scss';
 
 export default {
-  name: 's_program_free',
+  name: 's_program_announce',
 
   components: {
     Swiper,
@@ -46,21 +46,21 @@ export default {
       baseUrl: process.env.NUXT_ENV_S3BACKET,
       swiperOption: {
         grabCursor: true,
-        slidesPerView: 4,
-        spaceBetween: 30,
+        slidesPerView: 3.5,
+        spaceBetween: 16,
         loop: true,
         breakpoints: {
           1024: {
-            slidesPerView: 4,
-            spaceBetween: 30,
+            slidesPerView: 3.5,
+            spaceBetween: 16,
           },
           768: {
-            spaceBetween: 30,
             slidesPerView: 2.5,
+            spaceBetween: 16,
           },
           360: {
-            slidesPerView: 1.5,
-            spaceBetween: 20,
+            slidesPerView: 1.8,
+            spaceBetween: 10,
           },
         },
       },

@@ -1,9 +1,9 @@
 <template>
-  <section class="s-program-min-points">
-    <div class="s-program-min-points__wrapper">
-      <div class="s-program-min-points__header">
-        <h2 class="s-program-min-points__title a-font_h2" v-html="title"></h2>
-        <div class="s-program-min-points__btns">
+  <section class="s-program-exam">
+    <div class="s-program-exam__wrapper">
+      <div class="s-program-exam__header">
+        <h2 class="s-program-exam__title a-font_h2" v-html="title"></h2>
+        <div class="s-program-exam__btns">
           <AButton
             v-for="button in buttons"
             :key="button.id"
@@ -13,12 +13,12 @@
           />
         </div>
       </div>
-      <div class="s-program-min-points__items">
+      <div class="s-program-exam__items">
         <swiper class="swiper" :options="swiperOption">
-          <div class="s-program-min-points__item swiper-slide">
+          <div class="s-program-exam__item swiper-slide">
             <AFactoid v-for="db in disciplineBase" :key="db.id" :type="db.type" :title="db.title" :number="db.number" />
           </div>
-          <div class="s-program-min-points__item swiper-slide">
+          <div class="s-program-exam__item swiper-slide">
             <AFactoid
               v-for="dc in disciplineChoose"
               :key="dc.id"
@@ -37,10 +37,10 @@
 import { Swiper } from 'vue-awesome-swiper';
 
 import { AButton, AFactoid } from '@cwespb/synergyui';
-import './s_program_min_points.scss';
+import './s_program_exam.scss';
 
 export default {
-  name: 's_program_min_points',
+  name: 's_program_exam',
 
   components: {
     Swiper,

@@ -50,11 +50,11 @@ export default {
       swiperOption: {
         grabCursor: true,
         slidesPerView: 3,
-        spaceBetween: 75,
+        spaceBetween: 30,
         breakpoints: {
           1024: {
             slidesPerView: 3,
-            spaceBetween: 50,
+            spaceBetween: 30,
           },
           768: {
             slidesPerView: 3,

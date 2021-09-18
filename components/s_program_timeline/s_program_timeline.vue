@@ -1,9 +1,9 @@
 <template>
-  <section class="s-program-training">
-    <div class="s-program-training__wrapper">
-      <div class="s-program-training__header">
-        <h2 class="s-program-training__title a-font_h2" v-html="title"></h2>
-        <div class="s-program-training__factoids">
+  <section class="s-program-timeline">
+    <div class="s-program-timeline__wrapper">
+      <div class="s-program-timeline__header">
+        <h2 class="s-program-timeline__title a-font_h2" v-html="title"></h2>
+        <div class="s-program-timeline__factoids">
           <AFactoid
             v-for="factoid in factoids"
             :key="factoid.id"
@@ -13,7 +13,7 @@
           />
         </div>
       </div>
-      <div class="s-program-training__items">
+      <div class="s-program-timeline__items">
         <swiper class="swiper" :options="swiperOption">
           <MCardLanding
             v-for="item in items"
@@ -33,10 +33,10 @@
 import { Swiper } from 'vue-awesome-swiper';
 
 import { AFactoid, MCardLanding } from '@cwespb/synergyui';
-import './s_program_training.scss';
+import './s_program_timeline.scss';
 
 export default {
-  name: 's_program_training',
+  name: 's_program_timeline',
 
   components: {
     Swiper,
