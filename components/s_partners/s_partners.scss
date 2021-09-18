@@ -1,36 +1,39 @@
+@import '@/assets/styles/tools/mixins';
+
 .s-partners {
-  padding: 48px 0;
+  padding: rem(48) 0;
+  background: var(--a-color_bg);
 
   @media (max-width: 991px) {
-    padding: 32px 0;
+    padding: var(--a-padding--x8) 0;
   }
 
   @media (max-width: 575px) {
-    padding: 24px 0;
+    padding: var(--a-padding--x6) 0;
   }
 
   &__title {
-    margin-bottom: 32px;
-    color: #11253d;
+    margin-bottom: rem(32);
+    color: var(--a-color_text);
 
     @media (max-width: 991px) {
-      margin-bottom: 24px;
-      font-size: 20px;
+      margin-bottom: rem(24);
+      font-size: rem(20);
     }
 
     @media (max-width: 575px) {
-      margin-bottom: 20px;
+      margin-bottom: rem(20);
     }
   }
 
   &__wrapper {
     width: 100%;
-    max-width: 1480px;
+    max-width: rem(1480);
     margin: 0 auto;
-    padding: 0 30px;
+    padding: 0 rem(30);
 
     @media (max-width: 1440px) {
-      max-width: 1250px;
+      max-width: rem(1250);
     }
 
     @media (max-width: 1299px) {
@@ -38,7 +41,7 @@
     }
 
     @media (max-width: 575px) {
-      padding: 0 15px;
+      padding: 0 rem(15);
     }
   }
 
@@ -46,39 +49,39 @@
     display: flex;
     width: 100%;
     flex-wrap: wrap;
-    gap: 32px;
+    gap: rem(32);
 
     @media (max-width: 991px) {
-      gap: 20px;
+      gap: rem(20);
     }
 
     @media (max-width: 575px) {
-      gap: 8px;
+      gap: rem(8);
     }
   }
 
   &__item {
-    width: calc(100% / 5 - 40px);
+    width: calc(100% / 5 - rem(40));
 
     @media (max-width: 1440px) {
-      width: calc(100% / 4 - 25px);
+      width: calc(100% / 4 - rem(25));
     }
 
     @media (max-width: 991px) {
-      width: calc(100% / 4 - 20px);
+      width: calc(100% / 4 - rem(20));
     }
 
     @media (max-width: 575px) {
-      width: calc(100% / 2 - 5px);
+      width: calc(100% / 2 - rem(5));
     }
 
     .a-logo {
       width: 100%;
       height: 100%;
-      max-height: 76px;
+      max-height: rem(76);
 
       @media (max-width: 991px) {
-        max-height: 56px;
+        max-height: rem(56);
       }
 
       &__wrapper {
