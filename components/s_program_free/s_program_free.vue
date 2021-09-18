@@ -46,21 +46,16 @@ export default {
       baseUrl: process.env.NUXT_ENV_S3BACKET,
       swiperOption: {
         grabCursor: true,
-        slidesPerView: 4,
-        spaceBetween: 30,
+        slidesPerView: 1.5,
+        spaceBetween: 16,
+        centeredSlides: false,
         loop: true,
         breakpoints: {
-          1024: {
-            slidesPerView: 4,
-            spaceBetween: 30,
-          },
           768: {
-            spaceBetween: 30,
-            slidesPerView: 2.5,
+            slidesPerView: 3.5,
           },
-          360: {
+          576: {
             slidesPerView: 1.5,
-            spaceBetween: 20,
           },
         },
       },
