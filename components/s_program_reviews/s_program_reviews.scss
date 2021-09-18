@@ -1,10 +1,10 @@
 @import '@/assets/styles/tools/mixins';
 
-.s-program-teacher-horizontal {
+.s-program-reviews {
   margin-bottom: rem(20);
-  padding: var(--a-padding--x12) 0;
+  padding: rem(48) 0;
   background: var(--a-color_bg);
-  border-radius: var(--a-borderRadius--bg);
+  border-radius: rem(10);
 
   @media (max-width: 991px) {
     margin-bottom: rem(12);
@@ -60,10 +60,6 @@
 
     @media (max-width: 575px) {
       margin-bottom: rem(20);
-    }
-
-    span {
-      color: var(--a-color_link);
     }
   }
 

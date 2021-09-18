@@ -1,0 +1,101 @@
+@import '@/assets/styles/tools/mixins';
+
+.s-program-info {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  max-width: rem(1300);
+  margin: 0 auto;
+  margin-bottom: rem(20);
+  background-color: var(--a-color_bg);
+  border-radius: var(--a-borderRadius--bg);
+
+  .a-factoid-line__wrapper {
+    @media screen and (max-width: 768px) {
+      max-width: 180px;
+    }
+
+    h3 {
+      white-space: nowrap;
+    }
+
+    h4 {
+      color: var(--a-color_text);
+    }
+  }
+
+  &__wrap {
+    width: 100%;
+    max-width: rem(1140);
+    margin: 0 auto;
+    padding: var(--a-padding--x15) rem(30);
+
+    @media (max-width: 1440px) {
+      max-width: rem(1250);
+    }
+
+    @media (max-width: 1299px) {
+      max-width: 100%;
+    }
+
+    @media (max-width: 991px) {
+      margin-bottom: rem(12);
+    }
+
+    @media (max-width: 575px) {
+      padding: 0 rem(15);
+    }
+  }
+
+  &__items {
+    position: relative;
+    z-index: 1;
+
+    @media screen and (max-width: 1024px) {
+      padding: rem(50) 0;
+    }
+
+    @media screen and (max-width: 768px) {
+      padding: rem(40) 0;
+    }
+
+    @media screen and (max-width: 360px) {
+      padding: rem(40) 0;
+    }
+  }
+
+  &__arrow {
+    position: absolute;
+    top: 50%;
+    right: 0;
+    transform: translateY(-50%);
+
+    @media screen and (max-width: 1024px) {
+      right: -3%;
+    }
+
+    @media screen and (max-width: 680px) {
+      display: none;
+    }
+
+    svg {
+      width: rem(264);
+      height: rem(490);
+
+      @media screen and (max-width: 1024px) {
+        width: 219px;
+        height: 445px;
+      }
+
+      @media screen and (max-width: 880px) {
+        width: rem(173);
+        height: rem(322);
+      }
+
+      @media screen and (max-width: 790px) {
+        width: rem(130);
+        height: rem(250);
+      }
+    }
+  }
+}
