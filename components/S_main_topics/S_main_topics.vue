@@ -2,17 +2,17 @@
   <section class="s-main-topics">
     <div class="s-main-topics__wrapper">
       <h5 class="s-main-topics__title a-font_h5">{{ mainTitle }}</h5>
-      <div v-swiper:mySwiper="swiperOption">
-        <div class="swiper-wrapper">
+      <swiper ref="mySwiper" :options="swiperOption">
+        <swiper-slide
           <m-card
-            class="s-main-topics__slide swiper-slide m-card-vertical"
-            v-for="product in directionsList"
-            :key="product.id"
-            :verticalImgSrc="`${baseUrl}/${product.preview_image}`"
-            :title="product.name"
-            type="vertical"
-          />
-        </div>
+          class="s-main-topics__slide swiper-slide m-card-vertical"
+          v-for="product in directionsList"
+          :key="product.id"
+          :verticalImgSrc="`${baseUrl}/${product.preview_image}`"
+          :title="product.name"
+          type="vertical"
+        />
+        >
         <a-button
           v-if="isVisible"
           class="swiper-button-prev m-card-vertical__button s-main-topics__button"
@@ -22,8 +22,8 @@
           iconType="si-chevron-left"
           slot="button-prev"
           @onClickBtn="onClickBtn"
-          :class="{ active: isActive }"
-          ></a-button>
+          :class="{ active: !isVisible }"
+        ></a-button>
         <a-button
           class="swiper-button-next m-card-vertical__button s-main-topics__button"
           size="medium"
@@ -32,9 +32,9 @@
           iconType="si-chevron-right"
           slot="button-next"
           @onClickBtn="onClickBtn"
-          :class="{ active: !isActive }"
+          :class="{ active: isVisible }"
         ></a-button>
-      </div>
+      </swiper>
     </div>
     <pre>{{ methods }}</pre>
     <pre>{{ directionsList }}</pre>
@@ -54,14 +54,14 @@ export default {
       mainTitle: 'Направления обучения',
       directionsList: null,
       baseUrl: process.env.NUXT_ENV_S3BACKET,
-      isVisible: true,
-      isActive: false,
+      isVisible: false,
+      isActive: true,
       swiperOption: {
         slideToClickedSlide: true,
         slidesPerView: 3,
         spaceBetween: 12,
         navigation: {
-          disabledClass: 'swiper-button-disabled',
+          hideOnClick: false,
           nextEl: '.swiper-button-next',
           prevEl: '.swiper-button-prev',
         },
@@ -94,8 +94,7 @@ export default {
   props: ['methods', 'title'],
   methods: {
     onClickBtn() {
-      console.log('test')
-      this.$emit('onClickBtn')
+      this.isVisible = !this.isVisible;
     },
   },
   computed: {
@@ -104,7 +103,7 @@ export default {
     },
   },
   mounted() {
-    console.log('Swiper instances:', this.mySwiper);
+    console.log('Swiper Info:', this.swiper);
   },
   async fetch() {
     const requestData = {

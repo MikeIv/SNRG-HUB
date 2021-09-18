@@ -17,6 +17,6 @@
 @media screen and (max-width: 991px) {
   .swiper-button-next,
   .swiper-button-prev {
-      display: none;
+    display: none;
   }
 }
