@@ -2,8 +2,8 @@
 
 .s-program-price {
   width: 100%;
-  margin: 0 auto rem(20);
   max-width: rem(1300);
+  margin: 0 auto rem(20);
 
   @media (max-width: 991px) {
     margin: 0 auto rem(12);
@@ -15,12 +15,12 @@
   }
 
   .m-form-pay {
-    // Todo: после обновления UI-Kit удалить
-    border-radius: var(--a-borderRadius--bg);
     width: 100%;
     max-width: rem(1300);
     margin: 0 auto;
     padding: var(--a-padding--x12) var(--a-padding--x20) !important;
+    // Todo: после обновления UI-Kit удалить
+    border-radius: var(--a-borderRadius--bg);
 
     @media (max-width: 1440px) {
       max-width: rem(1250);

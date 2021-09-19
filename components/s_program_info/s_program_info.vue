@@ -1,27 +1,25 @@
 <template>
   <section class="s-program-info">
-    <div class="l-default">
-      <div class="s-program-info__wrap">
-        <div class="s-program-info__items">
-          <swiper class="swiper" :options="swiperOption">
-            <AFactoid
-              v-for="item in items"
-              :key="item.id"
-              :type="item.type"
-              :title="item.title"
-              :lineNumber="item.lineNumber"
-              class="swiper-slide"
-            />
-          </swiper>
-        </div>
-        <div class="s-program-info__arrow">
-          <svg viewBox="0 0 259 482" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path
-              d="M259 482L240.794 353.75L180.22 297.382L119.645 241.014L240.794 128.28L259 0L0 240.987L259 482Z"
-              fill="#FF0040"
-            ></path>
-          </svg>
-        </div>
+    <div class="s-program-info__wrap">
+      <div class="s-program-info__items">
+        <swiper class="swiper" :options="swiperOption">
+          <AFactoid
+            v-for="item in items"
+            :key="item.id"
+            :type="item.type"
+            :title="item.title"
+            :lineNumber="item.lineNumber"
+            class="swiper-slide"
+          />
+        </swiper>
+      </div>
+      <div class="s-program-info__arrow">
+        <svg viewBox="0 0 259 482" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path
+            d="M259 482L240.794 353.75L180.22 297.382L119.645 241.014L240.794 128.28L259 0L0 240.987L259 482Z"
+            fill="#FF0040"
+          ></path>
+        </svg>
       </div>
     </div>
   </section>

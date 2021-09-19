@@ -1,33 +1,47 @@
 <template>
   <section class="s-program-exam">
-    <div class="s-program-exam__wrapper">
-      <div class="s-program-exam__header">
-        <h2 class="s-program-exam__title a-font_h2" v-html="title"></h2>
-        <div class="s-program-exam__btns">
-          <AButton
-            v-for="button in buttons"
-            :key="button.id"
-            :label="button.label"
-            :backgroundColor="button.backgroundColor"
-            :size="button.size"
-          />
-        </div>
-      </div>
-      <div class="s-program-exam__items">
-        <swiper class="swiper" :options="swiperOption">
-          <div class="s-program-exam__item swiper-slide">
-            <AFactoid v-for="db in disciplineBase" :key="db.id" :type="db.type" :title="db.title" :number="db.number" />
-          </div>
-          <div class="s-program-exam__item swiper-slide">
-            <AFactoid
-              v-for="dc in disciplineChoose"
-              :key="dc.id"
-              :type="dc.type"
-              :title="dc.title"
-              :number="dc.number"
+    <div class="l-default">
+      <div class="s-program-exam__wrapper">
+        <div class="s-program-exam__header">
+          <h2 class="s-program-exam__title a-font_h2" v-html="title"></h2>
+          <div class="s-program-exam__btns">
+            <AButton
+              v-for="button in buttons"
+              :key="button.id"
+              :label="button.label"
+              :backgroundColor="button.backgroundColor"
+              :size="button.size"
             />
           </div>
-        </swiper>
+        </div>
+        <div class="s-program-exam__items">
+          <swiper class="swiper" :options="swiperOption">
+            <div class="s-program-exam__item swiper-slide">
+              <h5 class="s-program-exam__item-caption a-font_h5">Основные предметы</h5>
+              <div class="s-program-exam__item-factoids">
+                <AFactoid
+                  v-for="db in disciplineBase"
+                  :key="db.id"
+                  :type="db.type"
+                  :title="db.title"
+                  :number="db.number"
+                />
+              </div>
+            </div>
+            <div class="s-program-exam__item swiper-slide">
+              <h5 class="s-program-exam__item-caption a-font_h5">Предметы по выбору</h5>
+              <div class="s-program-exam__item-factoids">
+                <AFactoid
+                  v-for="dc in disciplineChoose"
+                  :key="dc.id"
+                  :type="dc.type"
+                  :title="dc.title"
+                  :number="dc.number"
+                />
+              </div>
+            </div>
+          </swiper>
+        </div>
       </div>
     </div>
   </section>
@@ -58,22 +72,15 @@ export default {
     return {
       baseUrl: process.env.NUXT_ENV_S3BACKET,
       swiperOption: {
-        grabCursor: true,
-        slidesPerView: 4,
-        spaceBetween: 30,
-        loop: true,
+        slidesPerView: 'auto',
+        spaceBetween: 0,
+        loop: false,
         breakpoints: {
-          1024: {
-            slidesPerView: 4,
-            spaceBetween: 30,
-          },
           768: {
-            spaceBetween: 30,
-            slidesPerView: 2.5,
+            slidesPerView: 'auto',
           },
           360: {
-            slidesPerView: 1.5,
-            spaceBetween: 20,
+            slidesPerView: 1.25,
           },
         },
       },
@@ -82,12 +89,12 @@ export default {
       buttons: [
         {
           label: 'Бюджет',
-          backgroundColor: 'accent',
+          bgColor: 'accent',
           size: 'small',
         },
         {
           label: 'Платное',
-          backgroundColor: 'custom',
+          bgColor: 'custom',
           size: 'small',
         },
       ],

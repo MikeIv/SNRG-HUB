@@ -9,7 +9,7 @@
       :typeCtrl="typeCtrl"
       :typeBtn="typeBtn"
       :checked="checked"
-      />
+    />
   </section>
 </template>
 

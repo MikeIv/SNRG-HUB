@@ -48,8 +48,6 @@ export default {
         grabCursor: true,
         slidesPerView: 1.5,
         spaceBetween: 16,
-        centeredSlides: false,
-        loop: true,
         breakpoints: {
           768: {
             slidesPerView: 3.5,
