@@ -3,15 +3,9 @@
     <div class="l-wide">
       <!-- <a class="menu-main__location" href="#"><i class="si-location"></i>Москва</a> -->
       <swiper class="swiper-container menu-main__box" :options="swiperOption">
-        <swiper-slide
-          v-for="item in navLinks"
-          :key="item.id"
-        >
-        <nuxt-link
-          :to="`${item.link}`"
-          class="a-font_m menu-main__link swiper-slide"
-        >{{ item.anchor }}</nuxt-link>
-      </swiper-slide>
+        <swiper-slide v-for="item in navLinks" :key="item.id">
+          <nuxt-link :to="`${item.link}`" class="a-font_m menu-main__link swiper-slide">{{ item.anchor }}</nuxt-link>
+        </swiper-slide>
       </swiper>
     </div>
   </nav>

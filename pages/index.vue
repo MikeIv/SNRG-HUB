@@ -12,12 +12,10 @@
 </template>
 
 <script>
-import Example from '~/components/Example';
 import menuHorizontal from '~/components/menu_horizontal/menu_horizontal';
 
 export default {
   components: {
-    Example,
     menuHorizontal,
   },
 
