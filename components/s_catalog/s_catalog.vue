@@ -139,7 +139,9 @@
 </template>
 
 <script>
-import { ATag, ASelect, AControl, ATitle, AButton } from '@cwespb/synergyui';
+import {
+  ATag, ASelect, AControl, ATitle, AButton,
+} from '@cwespb/synergyui';
 import { Swiper, SwiperSlide, directive } from 'vue-awesome-swiper';
 import SCatalogFilter from '~/components/s_catalog_filter/s_catalog_filter';
 import SCatalogProductList from '~/components/s_catalog_product_list/s_catalog_product_list';
@@ -151,7 +153,17 @@ import 'swiper/css/swiper.min.css';
 
 export default {
   name: 'SCatalog',
-  components: { SCatalogProductList, SCatalogFilter, ATag, ASelect, AControl, ATitle, AButton, Swiper, SwiperSlide },
+  components: {
+    SCatalogProductList,
+    SCatalogFilter,
+    ATag,
+    ASelect,
+    AControl,
+    ATitle,
+    AButton,
+    Swiper,
+    SwiperSlide,
+  },
   props: ['pageInfo'],
 
   productNumberOnDesktop: 9, // 24
@@ -279,27 +291,27 @@ export default {
     async fetchFilterData() {
       this.filterData = await getFilterData(this.pageInfo.components[0].methods[0].data);
       // Todo Убрать после изменения бэка
-      this.filterData.directions.forEach((el) => {
-        el.title = el.name;
-        if (el.id < 5) {
-          el.isChecked = true;
-        }
-      });
-
-      this.filterData.levels.forEach((el) => {
-        el.title = el.name;
-        el.isChecked = false;
-      });
-
-      this.filterData.formats.forEach((el) => {
-        el.title = el.name;
-        el.isChecked = false;
-      });
-
-      this.filterData.subjects.forEach((el) => {
-        el.title = el.name;
-        el.isChecked = false;
-      });
+      // this.filterData.directions.forEach((el) => {
+      //   el.title = el.name;
+      //   if (el.id < 5) {
+      //     el.isChecked = true;
+      //   }
+      // });
+      //
+      // this.filterData.levels.forEach((el) => {
+      //   el.title = el.name;
+      //   el.isChecked = false;
+      // });
+      //
+      // this.filterData.formats.forEach((el) => {
+      //   el.title = el.name;
+      //   el.isChecked = false;
+      // });
+      //
+      // this.filterData.subjects.forEach((el) => {
+      //   el.title = el.name;
+      //   el.isChecked = false;
+      // });
 
       console.log(this.filterData);
       // Todo поменять после смены бэка
