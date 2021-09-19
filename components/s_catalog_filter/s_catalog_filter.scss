@@ -1,3 +1,17 @@
-div {
-  padding: 1px;
+@import '/assets/styles/tools/mixins';
+
+.catalog-filter {
+  &__wrapper {
+    width: 100%;
+    max-width: rem(240);
+    margin-right: rem(40);
+  }
+
+  &__filter {
+    padding-bottom: rem(32);
+  }
+
+  &__filter-tags {
+    display: flex;
+  }
 }

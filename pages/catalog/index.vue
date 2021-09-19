@@ -1,14 +1,5 @@
 <template>
-  <div class="catalog-page__wrapper">
-    <h1 class="title">Программы обучения</h1>
-    <component
-      :is="key"
-      v-for="{ key, methods, id, title } in pageInfo.components"
-      :key="id"
-      :methods="methods"
-      :title="title"
-    ></component>
-  </div>
+  <s-catalog v-if="pageInfo" :pageInfo="pageInfo" />
 </template>
 
 <script>
@@ -22,13 +13,3 @@ export default {
   },
 };
 </script>
-
-<style scoped lang="scss">
-.catalog-page {
-  &__wrapper {
-    max-width: 1480px;
-    margin: 0 auto;
-    padding: 10px;
-  }
-}
-</style>

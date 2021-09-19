@@ -1,26 +1,28 @@
+@import '/assets/styles/tools/mixins';
+
 .catalog-product-list {
   &__wrapper {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
-    gap: 20px;
-    margin-bottom: 48px;
+    gap: rem(20);
+    margin-bottom: rem(48);
   }
 
   &__item {
     flex-grow: 1;
     max-width: calc(33% - 10px);
+    margin-right: auto;
 
-    @media screen and (max-width: 1200px) {
+    @media screen and (max-width: 1350px) {
       max-width: calc(50% - 10px);
     }
 
     @media screen and (max-width: 500px) {
       max-width: calc(100% - 10px);
     }
-
-    &:last-child {
-      margin-right: auto;
-    }
   }
+}
+
+.catalog-filter {
 }
