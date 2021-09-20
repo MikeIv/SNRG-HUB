@@ -1,11 +1,11 @@
 <template>
   <section class="l-wide">
-    <h2 class="s_main_programs_h2 a-font_h5">{{ title }}</h2>
+    <h2 class="s_main_programs__h2 a-font_h5">{{ title }}</h2>
     <div class="s_main_programs__cards">
       <template v-for="(product, index) in productsList">
         <nuxt-link
           to="/#"
-          class="m-card-program__wrapper"
+          class="s_main_programs__wrapper"
           v-if="productsList && productsList.length > 0 && index <= cardsSet"
           :key="product.id"
         >
@@ -33,7 +33,6 @@
 <script>
 import { MCard, AButton } from '@cwespb/synergyui';
 import getProductsList from '~/api/products_list';
-import '@cwespb/synergyui/lib/synergyui.css';
 import './s_main_programs.scss';
 
 export default {
