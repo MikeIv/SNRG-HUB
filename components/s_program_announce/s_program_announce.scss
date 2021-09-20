@@ -1,7 +1,11 @@
 @import '@/assets/styles/tools/mixins';
 
 .s-program-announce {
+  width: 100%;
+  max-width: var(--layout-width);
   margin: rem(20) auto;
+  padding: var(--layout-padding);
+  background-color: var(--a-color_bg);
   border-radius: var(--a-borderRadius--bg);
 
   @media (max-width: 991px) {

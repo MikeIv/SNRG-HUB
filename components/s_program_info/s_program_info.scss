@@ -1,6 +1,8 @@
 @import '@/assets/styles/tools/mixins';
 
 .s-program-info {
+  width: 100%;
+  max-width: var(--layout-width);
   margin: rem(20) auto;
   background-color: var(--a-color_bg);
   border-radius: var(--a-borderRadius--bg);

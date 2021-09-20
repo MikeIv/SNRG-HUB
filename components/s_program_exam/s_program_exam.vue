@@ -1,47 +1,67 @@
 <template>
   <section class="s-program-exam">
-    <div class="l-default">
-      <div class="s-program-exam__wrapper">
-        <div class="s-program-exam__header">
-          <h2 class="s-program-exam__title a-font_h2" v-html="title"></h2>
-          <div class="s-program-exam__btns">
-            <AButton
-              v-for="button in buttons"
-              :key="button.id"
-              :label="button.label"
-              :backgroundColor="button.backgroundColor"
-              :size="button.size"
-            />
+    <div class="s-program-exam__wrapper">
+      <div class="s-program-exam__header">
+        <h2 class="s-program-exam__title a-font_h2" v-html="title"></h2>
+        <div class="s-program-exam__btns">
+          <ATag v-for="button in buttons" :key="button.id" :label="button.label" />
+        </div>
+      </div>
+      <div class="s-program-exam__items" v-show="isActive" :selected="true">
+        <swiper class="swiper" :options="swiperOption">
+          <div class="s-program-exam__item swiper-slide">
+            <h5 class="s-program-exam__item-caption a-font_h5">Основные предметы</h5>
+            <div class="s-program-exam__item-factoids">
+              <AFactoid
+                v-for="db in disciplineBase"
+                :key="db.id"
+                :type="db.type"
+                :title="db.title"
+                :number="db.number"
+              />
+            </div>
           </div>
-        </div>
-        <div class="s-program-exam__items">
-          <swiper class="swiper" :options="swiperOption">
-            <div class="s-program-exam__item swiper-slide">
-              <h5 class="s-program-exam__item-caption a-font_h5">Основные предметы</h5>
-              <div class="s-program-exam__item-factoids">
-                <AFactoid
-                  v-for="db in disciplineBase"
-                  :key="db.id"
-                  :type="db.type"
-                  :title="db.title"
-                  :number="db.number"
-                />
-              </div>
+          <div class="s-program-exam__item swiper-slide">
+            <h5 class="s-program-exam__item-caption a-font_h5">Предметы по выбору</h5>
+            <div class="s-program-exam__item-factoids">
+              <AFactoid
+                v-for="dc in disciplineChoose"
+                :key="dc.id"
+                :type="dc.type"
+                :title="dc.title"
+                :number="dc.number"
+              />
             </div>
-            <div class="s-program-exam__item swiper-slide">
-              <h5 class="s-program-exam__item-caption a-font_h5">Предметы по выбору</h5>
-              <div class="s-program-exam__item-factoids">
-                <AFactoid
-                  v-for="dc in disciplineChoose"
-                  :key="dc.id"
-                  :type="dc.type"
-                  :title="dc.title"
-                  :number="dc.number"
-                />
-              </div>
+          </div>
+        </swiper>
+      </div>
+      <div class="s-program-exam__items" v-show="isActive">
+        <swiper class="swiper" :options="swiperOption">
+          <div class="s-program-exam__item swiper-slide">
+            <h5 class="s-program-exam__item-caption a-font_h5">Предметы по выбору</h5>
+            <div class="s-program-exam__item-factoids">
+              <AFactoid
+                v-for="dc in disciplineChoose"
+                :key="dc.id"
+                :type="dc.type"
+                :title="dc.title"
+                :number="dc.number"
+              />
             </div>
-          </swiper>
-        </div>
+          </div>
+          <div class="s-program-exam__item swiper-slide">
+            <h5 class="s-program-exam__item-caption a-font_h5">Основные предметы</h5>
+            <div class="s-program-exam__item-factoids">
+              <AFactoid
+                v-for="db in disciplineBase"
+                :key="db.id"
+                :type="db.type"
+                :title="db.title"
+                :number="db.number"
+              />
+            </div>
+          </div>
+        </swiper>
       </div>
     </div>
   </section>
@@ -50,7 +70,7 @@
 <script>
 import { Swiper } from 'vue-awesome-swiper';
 
-import { AButton, AFactoid } from '@cwespb/synergyui';
+import { ATag, AFactoid } from '@cwespb/synergyui';
 import './s_program_exam.scss';
 
 export default {
@@ -58,7 +78,7 @@ export default {
 
   components: {
     Swiper,
-    AButton,
+    ATag,
     AFactoid,
   },
 
@@ -89,13 +109,11 @@ export default {
       buttons: [
         {
           label: 'Бюджет',
-          bgColor: 'accent',
-          size: 'small',
+          status: 'default',
         },
         {
           label: 'Платное',
-          bgColor: 'custom',
-          size: 'small',
+          status: 'default',
         },
       ],
       disciplineBase: [
@@ -128,6 +146,12 @@ export default {
         },
       ],
     };
+  },
+
+  methods: {
+    aTagClick(e) {
+      console.log(e);
+    },
   },
 };
 </script>

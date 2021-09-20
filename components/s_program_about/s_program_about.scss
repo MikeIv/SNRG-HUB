@@ -1,9 +1,11 @@
 @import '@/assets/styles/tools/mixins';
 
 .s-program-about {
-  margin-bottom: rem(20);
-  padding: var(--a-padding--x15) 0;
-  background: var(--a-color_bg);
+  width: 100%;
+  max-width: var(--layout-width);
+  margin: rem(20) auto;
+  padding: var(--layout-padding);
+  background-color: var(--a-color_bg);
   border-radius: var(--a-borderRadius--bg);
 
   @media (max-width: 991px) {
