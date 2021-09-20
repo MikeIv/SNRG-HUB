@@ -44,7 +44,7 @@ export default {
       // 's-main-banners',
       // 's-main-banners-narrow',
       // 's-banner',
-      's-menu-main'
+      's-menu-main',
     ];
 
     return {
