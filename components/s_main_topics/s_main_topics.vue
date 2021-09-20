@@ -4,15 +4,15 @@
       <div class="s-main-topics__wrapper">
         <h2 class="s-main-topics__title a-font_h5">{{ title }}</h2>
         <div class="s-main-topics__swiper">
-          <swiper ref="mySwiper" class="swiper" :options="swiperOption">
+          <swiper ref="awesomeSwiperA" :options="swiperOptionA" @set-translate="onSetTranslate">
             <swiper-slide
               v-for="product in directionsList"
               :key="product.id"
-              class="s-main-topics__slide swiper-slide m-card-vertical"
+              class="s-main-topics__slide m-card-vertical"
             >
-              <nuxt-link to="/">
-                <m-card :verticalImgSrc="`${baseUrl}/${product.preview_image}`" :title="product.name" type="vertical" />
-              </nuxt-link>
+            <nuxt-link to="/">
+              <m-card :verticalImgSrc="`${baseUrl}/${product.preview_image}`" :title="product.name" type="vertical" />
+            </nuxt-link>
             </swiper-slide>
           </swiper>
           <a-button
@@ -50,13 +50,12 @@ export default {
     return {
       directionsList: null,
       baseUrl: process.env.NUXT_ENV_S3BACKET,
-      swiperOption: {
-        slideToClickedSlide: true,
+      swiperOptionA: {
         slidesPerView: 'auto',
         spaceBetween: 12,
         navigation: {
           nextEl: '.swiper-button-next',
-          prevEl: '.swiper-button-prev',
+          prevEl: '.swiper-button-prev'
         },
         breakpoints: {
           767: {
@@ -84,8 +83,8 @@ export default {
   props: ['methods', 'title', 'view_type'],
   methods: {},
   computed: {
-    swiper() {
-      return this.$refs.mySwiper.$swiper;
+    swiperA() {
+      return this.$refs.awesomeSwiperA.swiper;
     },
   },
   async mounted() {
