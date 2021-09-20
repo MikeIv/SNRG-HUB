@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <div>
+    <!-- <div>
       <h1 class="title">{{ pageInfo.name }}</h1>
     </div>
     <nuxt-link to="/product">TO PRODUCT PAGE</nuxt-link>
@@ -8,7 +8,7 @@
     <h2>DATA FROM EXAMPLE:</h2>
     <example />
     <br />
-    <h2>PAGE INFO:</h2>
+    <h2>PAGE INFO:</h2> -->
     <component :is="section" v-for="section in sections" :key="section"></component>
     <!--    <component-->
     <!--      :is="section.key"-->
@@ -16,9 +16,9 @@
     <!--      :key="section"-->
     <!--      :section.methods-->
     <!--    ></component>-->
-    <pre>
+    <!-- <pre>
       {{ pageInfo }}
-    </pre>
+    </pre> -->
   </div>
 </template>
 
@@ -35,15 +35,16 @@ export default {
     // На данный момент там имена неправильные, поэтому хардкод
     // А так мы их будем брать из pageInfo.components и у объекта ключ "key"
     const sections = [
-      's-main-topics',
-      's-main-statistics',
-      's-main-programs',
-      's-main-search',
-      's-main-university',
-      's-main-success',
-      's-main-banners',
-      's-main-banners-narrow',
-      's-banner',
+      // 's-main-topics',
+      // 's-main-statistics',
+      // 's-main-programs',
+      // 's-main-search',
+      // 's-main-university',
+      // 's-main-success',
+      // 's-main-banners',
+      // 's-main-banners-narrow',
+      // 's-banner',
+      's-menu-main'
     ];
 
     return {
