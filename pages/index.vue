@@ -11,8 +11,8 @@
 </template>
 
 <script>
-
 import sMainTopics from '~/components/s_main_topics/s_main_topics';
+
 export default {
   components: { sMainTopics },
 
