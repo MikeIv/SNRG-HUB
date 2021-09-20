@@ -2,7 +2,7 @@
   <section class="s-main-topics">
     <div class="l-wide">
       <div class="s-main-topics__wrapper">
-        <h5 class="s-main-topics__title a-font_h5">{{ mainTitle }}</h5>
+        <h5 class="s-main-topics__title a-font_h5">{{ title }}</h5>
         <swiper ref="mySwiper" class="swiper" :options="swiperOption">
           <swiper-slide
             v-for="product in directionsList"
@@ -45,7 +45,7 @@ export default {
   name: 'SMainTopics',
   data() {
     return {
-      mainTitle: 'Направления обучения',
+      title: 'Направления обучения',
       directionsList: null,
       baseUrl: process.env.NUXT_ENV_S3BACKET,
       swiperOption: {
