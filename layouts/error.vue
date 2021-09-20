@@ -1,8 +1,8 @@
 <template>
   <div class="page-404__wrapper">
-    <header/>
+    <!-- <header/> -->
     <page404/>
-    <footer/>
+    <!-- <footer/> -->
   </div>
 </template>
 
