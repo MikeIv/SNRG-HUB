@@ -8,7 +8,6 @@
 
 .s_main_programs_h2 {
   display: flex;
-  width: 100%;
   margin-bottom: 24px;
 }
 
@@ -21,11 +20,13 @@
   margin-bottom: 32px;
 }
 
-.m-card-program {
+.m-card-program__wrapper {
   flex-grow: 1;
   max-width: calc(33% - 10px);
+  text-decoration: none;
+  cursor: pointer;
 
-  @media screen and (max-width: 991px) {
+  @media screen and (max-width: 1000px) {
     max-width: calc(50% - 10px);
   }
   @media screen and (max-width: 767px) {

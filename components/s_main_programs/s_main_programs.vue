@@ -1,18 +1,24 @@
 <template>
-  <section class="s_main_programs__wrapper">
+  <section class="l-wide">
     <h2 class="s_main_programs_h2 a-font_h5">{{ title }}</h2>
     <div class="s_main_programs__cards">
       <template v-for="(product, index) in productsList">
-        <m-card
-          :key="product.id"
-          :title="product.name"
-          :bottomText="product.included.organization.name"
-          :name="product.name"
-          :description="product.included.levels[0].name"
-          :iconSrc="`${baseURL}/${product.included.organization.logo}`"
-          type="program"
+        <nuxt-link
+          to="/#"
+          class="m-card-program__wrapper"
           v-if="productsList && productsList.length > 0 && index <= cardsSet"
-        />
+          :key="product.id"
+        >
+          <m-card
+            :title="product.name"
+            :bottomText="product.included.organization.name"
+            :name="product.name"
+            :description="product.included.levels[0].name"
+            :iconSrc="`${baseURL}/${product.included.organization.logo}`"
+            type="program"
+            @click="$router.push({ name: 'product', params: { id: product.id } })"
+          />
+        </nuxt-link>
       </template>
     </div>
 
@@ -44,7 +50,7 @@ export default {
       baseURL: process.env.NUXT_ENV_S3BACKET,
       limitationList: 5,
       windowWidth: 0,
-      redirectUrl: 'google.com',
+      redirectUrl: '#',
     };
   },
   props: ['methods', 'title', 'view_type'],
