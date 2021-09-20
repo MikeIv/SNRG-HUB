@@ -48,11 +48,8 @@ export default {
         loop: true,
         breakpoints: {
           768: {
-            spaceBetween: 30,
-            slidesPerView: 2.5,
-          },
-          360: {
             spaceBetween: 16,
+            slidesPerView: 3,
           },
         },
       },
