@@ -49,7 +49,7 @@ export default {
   },
   props: ['methods', 'title', 'view_type'],
   methods: {
-    getWindowWidth(event) {
+    getWindowWidth() {
       this.windowWidth = document.documentElement.clientWidth;
     },
   },
