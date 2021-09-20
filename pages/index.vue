@@ -13,7 +13,7 @@
 <script>
 
 export default {
-  components: { sMainTopics },
+  components: { },
 
   middleware: 'getPageInfo',
 
