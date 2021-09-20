@@ -47,7 +47,7 @@ export default {
       redirectUrl: 'google.com',
     };
   },
-  props: ['methods', 'title'],
+  props: ['methods', 'title', 'view_type'],
   methods: {
     getWindowWidth(event) {
       this.windowWidth = document.documentElement.clientWidth;
