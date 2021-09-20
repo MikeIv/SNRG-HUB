@@ -93,7 +93,6 @@ export default {
       const expandedMethod = { ...method.data };
       expandedMethod.include = ['organization', 'levels', 'directions'];
       this.directionsList = await getDirectionsList(expandedMethod);
-      console.log(this.directionsList);
     });
   },
 };
