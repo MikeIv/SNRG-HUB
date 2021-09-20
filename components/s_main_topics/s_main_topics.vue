@@ -4,7 +4,7 @@
       <div class="s-main-topics__wrapper">
         <h2 class="s-main-topics__title a-font_h5">{{ title }}</h2>
         <div class="s-main-topics__swiper">
-          <swiper ref="awesomeSwiperA" :options="swiperOptionA" @set-translate="onSetTranslate">
+          <swiper ref="awesomeSwiper" :options="swiperOptionA">
             <swiper-slide
               v-for="product in directionsList"
               :key="product.id"
@@ -33,14 +33,12 @@
           ></a-button>
         </div>
       </div>
-      <pre>{{ methods }}</pre>
-      <pre>{{ directionsList }}</pre>
     </div>
   </section>
 </template>
 <script>
 import { MCard, AButton } from '@cwespb/synergyui';
-import { Swiper, SwiperSlide, directive } from 'vue-awesome-swiper';
+import { directive } from 'vue-awesome-swiper';
 import './s_main_topics.scss';
 import getDirectionsList from '~/api/dicrectionsList';
 
@@ -48,14 +46,14 @@ export default {
   name: 'SMainTopics',
   data() {
     return {
-      directionsList: null,
+      directionsList: [],
       baseUrl: process.env.NUXT_ENV_S3BACKET,
       swiperOptionA: {
         slidesPerView: 'auto',
         spaceBetween: 12,
         navigation: {
           nextEl: '.swiper-button-next',
-          prevEl: '.swiper-button-prev'
+          prevEl: '.swiper-button-prev',
         },
         breakpoints: {
           767: {
@@ -72,27 +70,22 @@ export default {
     };
   },
   components: {
-    Swiper,
-    SwiperSlide,
     MCard,
     AButton,
   },
   directives: {
     swiper: directive,
   },
-  props: ['methods', 'title', 'view_type'],
+  props: ['methods', 'title'],
   methods: {},
   computed: {
-    swiperA() {
-      return this.$refs.awesomeSwiperA.swiper;
+    swiper() {
+      return this.$refs.awesomeSwiper.swiper;
     },
   },
-  async mounted() {
-    this.methods.forEach(async (method) => {
-      const expandedMethod = { ...method.data };
-      expandedMethod.include = ['organization', 'levels', 'directions'];
-      this.directionsList = await getDirectionsList(expandedMethod);
-    });
+  async fetch() {
+    const expandedMethod = this.methods.data;
+    this.directionsList = await getDirectionsList(expandedMethod);
   },
 };
 </script>
