@@ -124,17 +124,10 @@
 
 <script>
 import { AButton } from '@cwespb/synergyui';
-import '@cwespb/synergyui/lib/synergyui.css';
 import './tnanks.scss';
 
 export default {
-  name: 'Example',
-
-  data() {
-    return {
-      directionsList: null,
-    };
-  },
+  name: 'thankPage',
 
   components: {
     AButton,

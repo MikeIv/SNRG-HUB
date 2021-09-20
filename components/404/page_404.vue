@@ -87,16 +87,10 @@
 
 <script>
 import { AButton } from '@cwespb/synergyui';
-import '@cwespb/synergyui/lib/synergyui.css';
 import './404.scss';
 
 export default {
   name: 'page404',
-  data() {
-    return {
-      directionsList: null,
-    };
-  },
 
   components: {
     AButton,
