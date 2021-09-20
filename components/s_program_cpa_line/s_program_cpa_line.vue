@@ -1,5 +1,7 @@
 <template>
-  <SProgramCpaLine :sale="sale" />
+  <div class="l-default">
+    <SProgramCpaLine :sale="sale" />
+  </div>
 </template>
 
 <script>

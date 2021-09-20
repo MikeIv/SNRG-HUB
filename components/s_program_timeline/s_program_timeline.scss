@@ -1,35 +1,16 @@
 @import '@/assets/styles/tools/mixins';
 
 .s-program-timeline {
-  margin-bottom: rem(20);
-  padding: var(--a-padding--x15) 0;
-  background: var(--a-color_bg);
+  width: 100%;
+  max-width: var(--layout-width);
+  margin: rem(20) auto;
+  padding: var(--layout-padding);
+  background-color: var(--a-color_bg);
   border-radius: var(--a-borderRadius--bg);
 
-  @media (max-width: 991px) {
-    margin-bottom: rem(12);
-    padding: var(--a-padding--x10) 0;
-  }
-
-  @media (max-width: 575px) {
-    padding: var(--a-padding--x8) 0;
-  }
-
-  &__wrapper {
-    margin: 0 auto;
-    padding: 0 rem(30);
-
-    @media (max-width: 1440px) {
-      max-width: rem(1250);
-    }
-
-    @media (max-width: 1299px) {
-      max-width: 100%;
-    }
-
-    @media (max-width: 575px) {
-      padding: 0 rem(15);
-    }
+  .m-card-landing__image {
+    height: rem(192);
+    object-fit: cover;
   }
 
   &__title {

@@ -13,14 +13,14 @@
           />
         </swiper>
       </div>
-      <div class="s-program-info__arrow">
+      <span class="s-program-info__arrow">
         <svg viewBox="0 0 259 482" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path
             d="M259 482L240.794 353.75L180.22 297.382L119.645 241.014L240.794 128.28L259 0L0 240.987L259 482Z"
             fill="#FF0040"
           ></path>
         </svg>
-      </div>
+      </span>
     </div>
   </section>
 </template>
@@ -49,20 +49,15 @@ export default {
       baseUrl: process.env.NUXT_ENV_S3BACKET,
       swiperOption: {
         grabCursor: true,
-        slidesPerView: 3,
+        slidesPerView: 1.5,
         spaceBetween: 30,
         breakpoints: {
-          1024: {
-            slidesPerView: 3,
-            spaceBetween: 30,
-          },
           768: {
+            spaceBetween: 32,
+          },
+          576: {
             slidesPerView: 3,
             spaceBetween: 10,
-          },
-          360: {
-            slidesPerView: 1.5,
-            spaceBetween: 20,
           },
         },
       },
