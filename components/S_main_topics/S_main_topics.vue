@@ -3,15 +3,19 @@
     <div class="l-wide">
       <div class="s-main-topics__wrapper">
         <h2 class="s-main-topics__title a-font_h5">{{ title }}</h2>
+        <div class="s-main-topics__swiper">
         <swiper ref="mySwiper" class="swiper" :options="swiperOption">
           <swiper-slide
             v-for="product in directionsList"
             :key="product.id"
             class="s-main-topics__slide swiper-slide m-card-vertical"
           >
+          <nuxt-link to="/">
             <m-card :verticalImgSrc="`${baseUrl}/${product.preview_image}`" :title="product.name" type="vertical" />
+           </nuxt-link>
           </swiper-slide>
-          <a-button
+        </swiper>
+        <a-button
             class="swiper-button-prev m-card-vertical__button s-main-topics__button"
             size="medium"
             bg-color="ghost-primary"
@@ -27,7 +31,7 @@
             iconType="si-chevron-right"
             slot="button-next"
           ></a-button>
-        </swiper>
+        </div>
       </div>
       <pre>{{ methods }}</pre>
       <pre>{{ directionsList }}</pre>
@@ -37,7 +41,6 @@
 <script>
 import { MCard, AButton } from '@cwespb/synergyui';
 import { Swiper, SwiperSlide, directive } from 'vue-awesome-swiper';
-import 'swiper/css/swiper.min.css';
 import './s_main_topics.scss';
 import getDirectionsList from '~/api/dicrectionsList';
 
@@ -45,7 +48,6 @@ export default {
   name: 'SMainTopics',
   data() {
     return {
-      title: 'Направления обучения',
       directionsList: null,
       baseUrl: process.env.NUXT_ENV_S3BACKET,
       swiperOption: {

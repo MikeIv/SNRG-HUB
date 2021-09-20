@@ -7,9 +7,16 @@
     }
     &-button-next,
     &-button-prev {
+      transform: translateY(-50%);
       @media screen and (max-width: 991px) {
         display: none;
       }
+    }
+    &-button-next {
+      right: rem(-12);
+    }
+    &-button-prev {
+      left: rem(-12);
     }
     &-button-next::after,
     &-button-prev::after {
@@ -18,6 +25,10 @@
   }
   &__title {
     margin-bottom: rem(24);
+  }
+
+  &__swiper {
+    position: relative;
   }
 
   &__slide {
