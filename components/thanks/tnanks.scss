@@ -48,25 +48,12 @@
   }
   &__title {
     margin-bottom: rem(24);
-    font-size: rem(43);
-    font-weight: 600;
-    line-height: rem(47);
-    @media screen and (max-width: 991px) {
-      font-size: rem(26);
-      line-height: rem(32);
-    }
     @media screen and (max-width: 600px) {
       margin-bottom: rem(12);
     }
   }
   &__subtitle {
     margin-bottom: rem(52);
-    font-size: rem(18);
-    line-height: rem(23);
-    @media screen and (max-width: 991px) {
-      font-size: rem(14);
-      line-height: rem(20);
-    }
     @media screen and (max-width: 600px) {
       margin-bottom: rem(32);
     }

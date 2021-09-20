@@ -3,8 +3,8 @@
     <div class="l-wide">
       <div class="page-404__content">
         <div class="page-404__info">
-          <div class="page-404__title">Такой страницы нет</div>
-          <div class="page-404__subtitle">
+          <h1 class="page-404__title a-font_h1">Такой страницы нет</h1>
+          <div class="page-404__subtitle a-font_xl">
             Возможно, она была перемещена,<br />
             или вы просто неверно указали адрес страницы.
           </div>
@@ -92,7 +92,6 @@ import './404.scss';
 
 export default {
   name: 'page404',
-
   data() {
     return {
       directionsList: null,
