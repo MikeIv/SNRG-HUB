@@ -4,18 +4,18 @@
       <div class="s-main-topics__wrapper">
         <h2 class="s-main-topics__title a-font_h5">{{ title }}</h2>
         <div class="s-main-topics__swiper">
-        <swiper ref="mySwiper" class="swiper" :options="swiperOption">
-          <swiper-slide
-            v-for="product in directionsList"
-            :key="product.id"
-            class="s-main-topics__slide swiper-slide m-card-vertical"
-          >
-          <nuxt-link to="/">
-            <m-card :verticalImgSrc="`${baseUrl}/${product.preview_image}`" :title="product.name" type="vertical" />
-           </nuxt-link>
-          </swiper-slide>
-        </swiper>
-        <a-button
+          <swiper ref="mySwiper" class="swiper" :options="swiperOption">
+            <swiper-slide
+              v-for="product in directionsList"
+              :key="product.id"
+              class="s-main-topics__slide swiper-slide m-card-vertical"
+            >
+              <nuxt-link to="/">
+                <m-card :verticalImgSrc="`${baseUrl}/${product.preview_image}`" :title="product.name" type="vertical" />
+              </nuxt-link>
+            </swiper-slide>
+          </swiper>
+          <a-button
             class="swiper-button-prev m-card-vertical__button s-main-topics__button"
             size="medium"
             bg-color="ghost-primary"
@@ -81,23 +81,20 @@ export default {
   directives: {
     swiper: directive,
   },
-  props: ['methods', 'title'],
+  props: ['methods', 'title', 'view_type'],
   methods: {},
   computed: {
     swiper() {
       return this.$refs.mySwiper.$swiper;
     },
   },
-  mounted() {},
-  async fetch() {
-    const requestData = {
-      filter: {
-        published: true,
-        show_main: true,
-      },
-      sort: 'sort',
-    };
-    this.directionsList = await getDirectionsList(requestData);
+  async mounted() {
+    this.methods.forEach(async (method) => {
+      const expandedMethod = { ...method.data };
+      expandedMethod.include = ['organization', 'levels', 'directions'];
+      this.directionsList = await getDirectionsList(expandedMethod);
+      console.log(this.directionsList);
+    });
   },
 };
 </script>
