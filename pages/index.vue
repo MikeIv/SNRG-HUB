@@ -3,6 +3,15 @@
     <div>
       <h1 class="title">{{ pageInfo.name }}</h1>
     </div>
+
+    <m-quiz
+      title="Образовательный маркетплейс"
+      description="Подобрать программу и начать учиться'"
+      textButton="Подобрать программу"
+      :imageFon="require(`~/assets/images/m-banner--quiz.png`)"
+      :image="require(`~/assets/images/quiz-podbor_02.png`)">
+    </m-quiz>
+
     <nuxt-link to="/product">TO PRODUCT PAGE</nuxt-link>
     <br />
     <h2>DATA FROM EXAMPLE:</h2>
@@ -25,8 +34,13 @@
 <script>
 import Example from '~/components/Example';
 
+import MQuiz from '~/components/M-quiz.vue';
+
 export default {
-  components: { Example },
+  components: {
+    Example,
+    MQuiz,
+  },
 
   middleware: 'getPageInfo',
 
