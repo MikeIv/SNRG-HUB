@@ -2,7 +2,7 @@
   <section class="s-main-topics">
     <div class="l-wide">
       <div class="s-main-topics__wrapper">
-        <h5 class="s-main-topics__title a-font_h5">{{ title }}</h5>
+        <h2 class="s-main-topics__title a-font_h5">{{ title }}</h2>
         <swiper ref="mySwiper" class="swiper" :options="swiperOption">
           <swiper-slide
             v-for="product in directionsList"
@@ -86,9 +86,7 @@ export default {
       return this.$refs.mySwiper.$swiper;
     },
   },
-  mounted() {
-    console.log('Swiper Info:', this.swiper);
-  },
+  mounted() {},
   async fetch() {
     const requestData = {
       filter: {

@@ -11,9 +11,8 @@
 </template>
 
 <script>
-
 export default {
-  components: { },
+  components: {},
 
   middleware: 'getPageInfo',
 
