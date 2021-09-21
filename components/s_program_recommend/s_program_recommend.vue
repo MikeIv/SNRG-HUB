@@ -15,7 +15,7 @@
               :bottomText="item.bottomText"
               :iconSrc="item.iconSrc"
               class="swiper-slide"
-              :class="si-heart"
+              :class="si - heart"
               @onLikeClick="onLikeClickHandler"
             />
           </swiper>
@@ -25,7 +25,7 @@
             bg-color="ghost-primary"
             only-icon="square"
             iconType="si-chevron-left"
-            :class="si-chevron-left"
+            :class="si - chevron - left"
             slot="button-prev"
           ></a-button>
           <a-button
@@ -34,7 +34,7 @@
             bg-color="ghost-primary"
             only-icon="square"
             iconType="si-chevron-right"
-            :class="si-chevron-right"
+            :class="si - chevron - right"
             slot="button-next"
           ></a-button>
         </div>
