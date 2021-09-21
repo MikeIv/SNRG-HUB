@@ -18,8 +18,8 @@
       </div>
 
       <nuxt-link :to="redirectUrl" class="a-button__wrapper">
-        <a-button label="Показать все" size="large" bgColor="accent" /> </nuxt-link
-      >ц
+        <a-button label="Показать все" size="large" bgColor="accent" />
+      </nuxt-link>
     </div>
   </section>
 </template>
