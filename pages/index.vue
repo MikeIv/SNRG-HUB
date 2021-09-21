@@ -10,13 +10,13 @@
     <br />
     <h2>PAGE INFO:</h2>
     <!-- <component :is="section" v-for="section in sections" :key="section"></component> -->
-       <component
-        :is="key"
-        v-for="{ key, methods, title, id } in pageInfo.components"
-        :key="id"
-        :methods="methods"
-        :title="title"
-       ></component>
+    <component
+      :is="key"
+      v-for="{ key, methods, title, id } in pageInfo.components"
+      :key="id"
+      :methods="methods"
+      :title="title"
+    ></component>
     <pre>
       {{ pageInfo }}
     </pre>
