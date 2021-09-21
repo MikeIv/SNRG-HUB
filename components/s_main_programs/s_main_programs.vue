@@ -15,7 +15,7 @@
             :name="product.name"
             :description="product.included.levels[0].name"
             :iconSrc="`${baseURL}/${product.included.organization.logo}`"
-            :verticalImgSrc="`${baseURL}/${product.included.organization.digital_image}`"
+            :verticalImgSrc="`${baseURL}/${product.digital_image}`"
             type="program"
             @click="$router.push({ name: 'product', params: { id: product.id } })"
           />
@@ -87,7 +87,7 @@ export default {
       let cardsList = 0;
       if (this.windowWidth > 991) {
         cardsList = 6;
-      } else if (this.windowWidth < 991) {
+      } else if (this.windowWidth < 992) {
         cardsList = 4;
       }
       return cardsList;
