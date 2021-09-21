@@ -5,14 +5,13 @@
         :breadcrumbs="breadcrumbs"
         :program="program"
         :event="event"
-        :description="description"
-        :city="city"
-        :language="language"
-        :duration="duration"
-        :form="form"
-        :photo="photo"
-        :link="link"
-        :sale="sale"
+        :description="program.description"
+        :city="program.city"
+        :language="program.language"
+        :duration="program.duration"
+        :form="program.form"
+        :photo="program.photo"
+        :link="program.link"
         />
     </div>
   </section>
@@ -80,10 +79,6 @@ export default {
         form: 'Очно, заочно',
         photo: 'https://fainaidea.com/wp-content/uploads/2015/02/agh1.jpg',
         link: '#link',
-        sale: {
-          text: 'Скидка 40% на обучение до 10 февраля',
-          link: '#link',
-        },
       },
     };
   },
