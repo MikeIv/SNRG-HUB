@@ -1,7 +1,6 @@
 <template>
   <section class="l-wide">
     <h2 class="s_main_programs__h2 a-font_h5">{{ title }}</h2>
-    <h2 class="s_main_programs__h2 a-font_h5">{{ methods }}</h2>
     <div class="s_main_programs__cards">
       <template v-for="(product, index) in productsList">
         <nuxt-link
@@ -65,15 +64,12 @@ export default {
     let [expandedMethod, expandedBanners] = this.methods;
     if (expandedMethod) {
       expandedMethod = { ...expandedMethod.data };
-      console.log('expandedMethod', expandedMethod);
       expandedMethod.include = ['organization', 'levels', 'directions'];
       this.productsList = await getProductsList(expandedMethod);
-      console.log(this.productsList);
     }
     if (expandedBanners) {
       expandedBanners = { ...expandedBanners.data };
       this.bannersDetail = await getBannersDetail(expandedBanners);
-      console.log('this.bannersDetail ', this.bannersDetail);
     }
   },
   mounted() {
