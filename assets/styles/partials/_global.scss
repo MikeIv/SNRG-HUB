@@ -1,4 +1,5 @@
 body {
+  background-color: var(--a-color_bg--secondary);
   font-family: 'TT Norms', serif;
   font-size: 16px;
 }
@@ -12,10 +13,12 @@ body {
 .l-wide {
   max-width: var(--layout-width);
   margin: 0 auto;
-  padding: 0 var(--layout-padding);
 }
 
 .l-default {
+  @media all and (max-width: 1399px) {
+    padding: 0 var(--layout-padding);
+  }
   @media all and (max-width: 1199px) {
     --layout-padding: 1.875rem; // 30px
   }
@@ -27,6 +30,8 @@ body {
 .l-wide {
   --layout-width: 96.25rem; // 1540px
   --layout-padding: 1.875rem; // 30px
+
+  padding: 0 var(--layout-padding);
 
   @media all and (max-width: 1699px) {
     --layout-width: 82.125rem; // 1314px (1254 + 60)
