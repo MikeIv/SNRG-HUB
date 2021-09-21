@@ -16,6 +16,7 @@
             :name="product.name"
             :description="product.included.levels[0].name"
             :iconSrc="`${baseURL}/${product.included.organization.logo}`"
+            :verticalImgSrc="`${baseURL}/${product.included.organization.digital_image}`"
             type="program"
             @click="$router.push({ name: 'product', params: { id: product.id } })"
           />
@@ -61,40 +62,14 @@ export default {
     },
   },
   async fetch() {
-    // this.methods.forEach(async (method) => {
-    //   // console.log('method', method);
-    //   if (method.url.includes('products/list')) {
-    //     console.log(method.url.includes('products/list'));
-    //     const expandedMethod = { ...method.data };
-    //     expandedMethod.include = ['organization', 'levels', 'directions'];
-    //     // console.log('expandedMethod', expandedMethod);
-    //     this.productsList = await getProductsList(expandedMethod);
-    //   }
-    //
-    //   if (method.url.includes('banners/detail')) {
-    //     const expandedBanners = { ...method.data };
-    //     console.log('expandedBanners', expandedBanners);
-    //     this.bannersDetail = await getBannersDetail(expandedBanners);
-    //     console.log('this.bannersDetail ', this.bannersDetail);
-    //   }
-    // });
-    // const expandedMethod = { ...this.methods[0].data };
-    // expandedMethod.include = ['organization', 'levels', 'directions'];
-    // this.productsList = await getProductsList(expandedMethod);
-    //
-    // const expandedBanners = this.methods[1] ? { ...this.methods[1].data } : '';
-    // this.bannersDetail = this.methods[1] ? await getBannersDetail(expandedBanners) : '';
-    // console.log('this.bannersDetail ', this.bannersDetail);
-
     let [expandedMethod, expandedBanners] = this.methods;
-
     if (expandedMethod) {
       expandedMethod = { ...expandedMethod.data };
       console.log('expandedMethod', expandedMethod);
       expandedMethod.include = ['organization', 'levels', 'directions'];
       this.productsList = await getProductsList(expandedMethod);
+      console.log(this.productsList);
     }
-
     if (expandedBanners) {
       expandedBanners = { ...expandedBanners.data };
       this.bannersDetail = await getBannersDetail(expandedBanners);
