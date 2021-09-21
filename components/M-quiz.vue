@@ -1,13 +1,12 @@
 <template>
-  <div class="m-quiz">
+  <div class="m-quiz" v-if="dataQuiz">
 
     <!-- baner -->
     <div v-if="banerFlag" class="m-quiz__baner" :style="`background-image: url(${imageFon})`">
       <div class="m-quiz__baner-img" :style="`background-image: url(${image})`"></div>
-
-      <h1 class="m-quiz__title a-font_h1">{{title}}</h1>
-      <div class="m-quiz__descript a-font_l-m">{{description}}</div>
-      <a-button bgColor="accent" :label="textButton" @onClickBtn="startQuiz"></a-button>
+      <h1 class="m-quiz__title a-font_h1">{{dataQuiz.title}}</h1>
+      <div class="m-quiz__descript a-font_l-m">{{dataQuiz.text}}</div>
+      <a-button bgColor="accent" :label="dataQuiz.button" @onClickBtn="startQuiz"></a-button>
     </div>
 
     <!-- quiz -->
@@ -51,8 +50,7 @@
           <a-button bgColor="accent" size="large" label="Отправить" @click="sendQuiz"></a-button>
         </div>
         <div class="m-quiz__finish-sogl a-font_l">
-          <a-control typeBtn="checkbox" typeCtrl="checkbox" v-model="soglFlag"></a-control>
-          <span>Нажимая на кнопку, вы соглашаетсь с политикой конфиденциальности и на получение рассылок</span>
+          Нажимая на кнопку, вы соглашаетсь с политикой конфиденциальности и на получение рассылок
         </div>
       </div>
     </div>
@@ -61,98 +59,72 @@
 </template>
 
 <script>
-import { AButton, AInput } from '@cwespb/synergyui';
-import getQuizzesDetail from '~/api/quizzesDetail';
+  import { AButton, AInput, AControl} from '@cwespb/synergyui';
+  import getQuizzesDetail from '~/api/quizzesDetail';
 
-import AControl from '~/components/A-control.vue';
+  import '~/assets/styles/M-quiz.scss';
 
-import '~/assets/styles/M-quiz.scss';
-
-export default {
-  name: 'm-quiz',
-  components: {
-    AControl,
-    AButton,
-    AInput,
-  },
-
-  data: () => ({
-    banerFlag: true,
-
-    count: null,
-    countPosition: 0,
-
-    dataQuestion: [],
-
-    listAnsvers: [],
-    ansver: '',
-
-    control: null,
-
-    send: {
-      name: '',
-      tel: '',
-    },
-    soglFlag: true,
-  }),
-
-  props: {
-    title: String,
-    description: String,
-    textButton: String,
-    imageFon: String,
-    image: String,
-
-    quizName: String,
-  },
-
-  async created() {
-    const response = await getQuizzesDetail({ filter: { id: 1 } });
-    this.dataQuestion = response.questions;
-    this.dataQuestion.length = 2;
-    this.count = this.dataQuestion.length;
-    console.log(this.dataQuestion);
-  },
-
-  methods: {
-
-    prevQuiz() {
-      this.countPosition = this.countPosition - 1;
-      this.ansver = this.listAnsvers[this.countPosition].ansver;
-
-      // this.dataQuestion = this.listQuestion[this.countPosition]
+  export default {
+    name: 'm-quiz',
+    components: {
+      AControl,
+      AButton,
+      AInput,
     },
 
-    async startQuiz() {
-      this.banerFlag = false;
-      // this.count = this.dataQuestion.count;
-      // this.dataQuestion.state = null;
-      // this.dataQuestion.items = this.dataQuestion.items.map(
-      //   (item) => ({ label: item.label, value: item.value, state: false })
-      // );
+    data: () => ({
+      dataQuiz: null,
+      dataQuestion: [],
+
+      banerFlag: true,
+      count: null,
+      countPosition: 0,
+
+      listAnsvers: [],
+      ansver: '',
+
+      send: {
+        name: '',
+        tel: '',
+      },
+      
+    }),
+
+    props: {
+      imageFon: String,
+      image: String,
+      quizId: {},
     },
 
-    sendQuiz() {
+    async created() {
+      const response = await getQuizzesDetail({ filter: { id: this.quizId } });
+      console.log(response);
 
+      this.dataQuiz = response;
+      this.dataQuestion = response.questions.filter(item => item.answers.length > 0);
+      this.count = this.dataQuestion.length;
     },
 
-    changeQuiz(value) {
-      console.log(value);
-      this.listAnsvers[this.countPosition] = { ...value, ansver: this.ansver };
+    methods: {
 
-      // this.listQuestion[this.countPosition] = this.dataQuestion;
+      prevQuiz() {
+        this.countPosition -= 1;
+        this.ansver = this.listAnsvers[this.countPosition].ansver;
+      },
 
-      // let data = { id:this.dataQuestion.id, value}
+      async startQuiz() {
+        this.banerFlag = false;
+      },
 
-      // let response = this.getQuestion(data);
-      // if(response){
-      //   this.dataQuestion = response
-      //   this.dataQuestion.items = response.items.map((item) => ({ label: item.label, value: item.value, state: false }));
-      // }
+      sendQuiz() {
 
-      this.countPosition = this.countPosition + 1;
+      },
+
+      changeQuiz(value) {
+        this.listAnsvers[this.countPosition] = { ...value, ansver: this.ansver };
+        this.countPosition += 1;
+      },
+
     },
-
-  },
-};
+  };
 </script>

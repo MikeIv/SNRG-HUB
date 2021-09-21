@@ -1,3 +1,5 @@
+@import '@/assets/styles/tools/mixins';
+
 $a-color_banner--lightcyan: #dcf3ff;
 $a-color_bg: #fff;
 $a-borderRadius--default: 4px;
@@ -11,57 +13,66 @@ $a-borderRadius--default: 4px;
     background-position: 50% 50%;
     background-size: cover;
     @media screen and (max-width: 992px) {
-      padding: 24px 35px;
+      padding: rem(24) rem(35);
     }
     @media screen and (max-width: 768px) {
-      padding: 34px 15px;
+      padding: rem(34) rem(15);
     }
   }
   &__baner-img {
     position: absolute;
-    right: 100px;
+    right: rem(100);
     bottom: 0;
-    width: 310px;
+    width: rem(310);
     height: 100%;
     background-repeat: no-repeat;
     background-position: 50% 50%;
     background-size: contain;
     @media screen and (max-width: 992px) {
-      right: 25px;
+      right: rem(25);
     }
     @media screen and (max-width: 580px) {
-      right: -100px;
+      right: rem(-100);
     }
   }
   &__title {
-    max-width: 380px;
+    max-width: rem(380);
   }
   &__descript {
-    padding: 16px 0 20px 0;
+    padding: rem(16) 0 rem(20) 0;
   }
 
   // block quiz
   &__quiz {
     display: flex;
     align-items: center;
-    padding: 50px 100px;
+    padding: rem(50) rem(100);
     background: $a-color_banner--lightcyan;
+    @media screen and (max-width: 992px) {
+      flex-direction: column;
+      align-items: flex-start;
+      padding: rem(32);
+    }
+    @media screen and (max-width: 768px) {
+      padding: rem(20) rem(15);
+    }
   }
   
   &__questions {
     flex-basis: 40%;
   }
   &__prev {
-    margin-bottom: 20px;
+    margin-bottom: rem(20);
     color: #707c8b;
     cursor: pointer;
     & i {
       color: #a0a8b1;
-      font-size: 18px;
+      font-size: rem(18);
     }
   }
   &__question {
-    padding-right: 100px;
+    padding-right: rem(100);
+    padding-bottom: rem(20);
   }
 
   &__answers {
@@ -71,42 +82,58 @@ $a-borderRadius--default: 4px;
   }
   &__control {
     flex-basis: calc(50% - 20px);
-    margin: 0 20px 12px 0;
-    padding: 12px 40px 12px 20px;
+    margin: 0 rem(20) rem(12) 0;
+    padding: rem(12) rem(40) rem(12) rem(20);
     background: $a-color_bg;
     border-radius: $a-borderRadius--default;
+
+    @media screen and (max-width: 768px) {
+      flex-basis: 100%;
+      margin: 0 0 rem(12) 0;
+    }
   }
 
 
   // block finish
   &__finish {
-    padding: 50px 100px;
+    padding: rem(50) rem(100);
     background: $a-color_banner--lightcyan;
     @media screen and (max-width: 992px) {
       display: flex;
-      padding: 25px 32px;
+      padding: rem(25) rem(32);
+    }
+    @media screen and (max-width: 768px) {
+      display: block;
     }
   }
   &__finish-text {
     @media screen and (max-width: 992px) {
       width: 50%;
-      padding-right: 18px;
+      padding-right: rem(18);
+    }
+    @media screen and (max-width: 768px) {
+      width: 100%;
+      padding-right: 0;
     }
   }
   &__finish-title {
-    padding-bottom: 8px;
+    padding-bottom: rem(8);
   }
   &__finish-desc {
-    padding-bottom: 20px;
+    padding-bottom: rem(20);
   }
   &__finish-inputs {
+    width: 80%;
     @media screen and (max-width: 992px) {
       width: 50%;
+    }
+    @media screen and (max-width: 992px) {
+      width: 100%;
     }
   }
   &__finish-data {
     display: flex;
-    padding-bottom: 20px;
+    padding-bottom: rem(20);
 
     @media screen and (max-width: 992px) {
       flex-flow: column;
@@ -114,13 +141,12 @@ $a-borderRadius--default: 4px;
 
     & .a-input {
       width: 100%;
-      // max-width: 330px;
-      margin-right: 8px;
+      margin-right: rem(8);
       flex-grow: 1;
       @media screen and (max-width: 992px) {
         max-width: 100%;
         margin-right: 0;
-        margin-bottom: 12px;
+        margin-bottom: rem(12);
       }
     }
     & .a-input__wrapper {
@@ -132,7 +158,7 @@ $a-borderRadius--default: 4px;
 
     & .a-button {
       width: 100%;
-      max-width: 330px;
+      max-width: rem(330);
       @media screen and (max-width: 992px) {
         max-width: 100%;
       }
@@ -141,12 +167,12 @@ $a-borderRadius--default: 4px;
   &__finish-sogl {
     display: flex;
     align-items: flex-start;
-    padding-right: 30px;
+    padding-right: rem(30);
     color: #707c8b;
     & span {
       flex-grow: 1;
       width: 100%;
-      padding-left: 10px;
+      padding-left: rem(10);
     }
     & label {
       width: auto;

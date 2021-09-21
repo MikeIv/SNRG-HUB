@@ -5,9 +5,7 @@
     </div>
 
     <m-quiz
-      title="Образовательный маркетплейс"
-      description="Подобрать программу и начать учиться'"
-      textButton="Подобрать программу"
+      :quizId="1" 
       :imageFon="require(`~/assets/images/m-banner--quiz.png`)"
       :image="require(`~/assets/images/quiz-podbor_02.png`)">
     </m-quiz>
