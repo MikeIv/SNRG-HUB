@@ -58,13 +58,15 @@ export default {
       this.windowWidth = document.documentElement.clientWidth;
     },
   },
-  async mounted() {
+  async fetch() {
     this.methods.forEach(async (method) => {
       const expandedMethod = { ...method.data };
       expandedMethod.include = ['organization', 'levels', 'directions'];
       this.productsList = await getProductsList(expandedMethod);
       console.log(this.productsList);
     });
+  },
+  mounted() {
     this.$nextTick(function () {
       window.addEventListener('resize', this.getWindowWidth);
       // Init

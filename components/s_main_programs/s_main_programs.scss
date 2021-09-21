@@ -15,15 +15,15 @@
   }
   &__wrapper {
     flex-grow: 1;
-    max-width: calc(33% - rem(10));
+    width: calc(33% - rem(10));
     text-decoration: none;
     cursor: pointer;
 
-    @media screen and (max-width: rem(1100)) {
-      max-width: calc(50% - rem(10));
+    @media screen and (max-width: rem(991)) {
+      width: calc(50% - rem(10));
     }
     @media screen and (max-width: rem(767)) {
-      max-width: 100%;
+      width: 100%;
     }
   }
 
