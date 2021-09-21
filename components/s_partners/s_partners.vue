@@ -1,6 +1,6 @@
 <template>
-  <div class="s-partners">
-    <div class="s-partners__wrapper">
+  <section class="s-partners">
+    <div class="l-default">
       <h2 class="s-partners__title a-font_h5">{{ title }}</h2>
       <div class="s-partners__items">
         <div
@@ -11,7 +11,7 @@
         </div>
       </div>
     </div>
-  </div>
+  </section>
 </template>
 
 <script>
