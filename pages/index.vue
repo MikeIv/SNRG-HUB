@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <!-- <div class="container">
     <div>
       <h1 class="title">{{ pageInfo.name }}</h1>
     </div>
@@ -9,25 +9,26 @@
     <example />
     <br />
     <h2>PAGE INFO:</h2>
-    <!-- <component :is="section" v-for="section in sections" :key="section"></component> -->
-       <component
-        :is="key"
-        v-for="{ key, methods, title, id } in pageInfo.components"
-        :key="id"
-        :methods="methods"
-        :title="title"
-       ></component>
-    <pre>
+    <component :is="section" v-for="section in sections" :key="section"></component> -->
+  <!-- <component
+      :is="key"
+      v-for="{ key, methods, title, id } in pageInfo.components"
+      :key="id"
+      :methods="methods"
+      :title="title"
+    ></component> -->
+  <!-- <pre>
       {{ pageInfo }}
-    </pre>
-  </div>
+    </pre> -->
+  <s-header></s-header>
+  <!-- </div> -->
 </template>
 
 <script>
-import Example from '~/components/Example';
+// import Example from '~/components/Example';
 
 export default {
-  components: { Example },
+  // components: { Example },
 
   middleware: 'getPageInfo',
 
@@ -46,6 +47,7 @@ export default {
       's-main-banners-narrow',
       's-banner',
       's-partners',
+      's-header',
     ];
 
     return {
