@@ -1,5 +1,7 @@
 <template>
-  <SProgramContent :title="title" :direction="direction" :items="items" />
+  <div class="l-default">
+    <SProgramContent :title="title" :direction="direction" :items="items" />
+  </div>
 </template>
 
 <script>

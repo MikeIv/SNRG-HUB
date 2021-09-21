@@ -1,6 +1,6 @@
 <template>
   <section class="s_program_diploma">
-    <div class="s_program_diploma__wrapper">
+    <div class="l-default s_program_diploma__wrapper">
       <h2 class="s_program_diploma__title a-font_h2" v-html="title"></h2>
       <div class="s_program_diploma__items">
         <swiper class="swiper" :options="swiperOption">

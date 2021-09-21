@@ -14,7 +14,9 @@ export default {
   css: ['./assets/styles/main.scss', '@cwespb/synergyui/lib/synergyui.css', 'swiper/css/swiper.min.css'],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
-  plugins: [{ src: '@/plugins/vue-awesome-swiper', mode: 'client' }],
+  plugins: [
+    { src: '@/plugins/vue-awesome-swiper', mode: 'client' },
+  ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,

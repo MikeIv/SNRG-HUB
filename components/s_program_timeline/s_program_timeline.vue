@@ -1,6 +1,6 @@
 <template>
   <section class="s-program-timeline">
-    <div class="s-program-timeline__wrapper">
+    <div class="l-default s-program-timeline__wrapper">
       <div class="s-program-timeline__header">
         <h2 class="s-program-timeline__title a-font_h2" v-html="title"></h2>
         <div class="s-program-timeline__factoids">

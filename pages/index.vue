@@ -10,13 +10,14 @@
     <s-program-recommend />
     <br />
     <h2>PAGE INFO:</h2>
-    <component :is="section" v-for="section in sections" :key="section"></component>
-    <!--    <component-->
-    <!--      :is="section.key"-->
-    <!--      v-for="section in pageInfo.components"-->
-    <!--      :key="section"-->
-    <!--      :section.methods-->
-    <!--    ></component>-->
+    <!-- <component :is="section" v-for="section in sections" :key="section"></component> -->
+    <component
+      :is="key"
+      v-for="{ key, methods, title, id } in pageInfo.components"
+      :key="id"
+      :methods="methods"
+      :title="title"
+    ></component>
     <pre>
       {{ pageInfo }}
     </pre>
@@ -46,6 +47,7 @@ export default {
       's-main-banners',
       's-main-banners-narrow',
       's-banner',
+      's-partners',
     ];
 
     return {

@@ -1,6 +1,6 @@
 <template>
   <section class="s-program-info">
-    <div class="s-program-info__wrap">
+    <div class="l-default s-program-info__wrapper">
       <div class="s-program-info__items">
         <swiper class="swiper" :options="swiperOption">
           <AFactoid

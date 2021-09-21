@@ -1,6 +1,6 @@
 <template>
   <section class="s-program-people">
-    <div class="s-program-people__wrapper">
+    <div class="l-default s-program-people__wrapper">
       <h2 class="s-program-people__title a-font_h2" v-html="title"></h2>
       <div class="s-program-people__items">
         <swiper class="swiper" :options="swiperOption">
