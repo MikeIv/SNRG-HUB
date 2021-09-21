@@ -1,6 +1,6 @@
 <template>
   <div class="thanks__wrapper">
-     <!-- <header/> -->
+    <!-- <header/> -->
     <thanks></thanks>
     <!-- <footer/> -->
   </div>

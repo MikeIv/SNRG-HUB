@@ -1,10 +1,8 @@
 <template>
   <section class="s-main-university">
     <div class="l-wide">
-
       <h2 class="s-main-university__title a-font_h5">{{ title }}</h2>
       <div class="s-main-university__box">
-
         <template v-for="product in visibleCards">
           <nuxt-link :to="`${product.link}`" :key="product.id" class="m-card-program__wrapper">
             <m-card
@@ -17,12 +15,11 @@
             />
           </nuxt-link>
         </template>
-
       </div>
 
       <nuxt-link :to="redirectUrl" class="a-button__wrapper">
-        <a-button label="Показать все" size="large" bgColor="accent" />
-      </nuxt-link>ц
+        <a-button label="Показать все" size="large" bgColor="accent" /> </nuxt-link
+      >ц
     </div>
   </section>
 </template>

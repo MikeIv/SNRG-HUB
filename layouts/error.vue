@@ -1,7 +1,7 @@
 <template>
   <div class="page-404__wrapper">
     <!-- <header/> -->
-    <page404/>
+    <page404 />
     <!-- <footer/> -->
   </div>
 </template>

@@ -1,6 +1,6 @@
 <template>
   <nav class="menu-horizontal">
-    <swiper class="menu-horizontal__box" :options="swiperOption">
+    <swiper class="menu-horizontal__box" ref="menuSlider" :options="swiperOption">
       <swiper-slide v-for="item in navLinks" :key="item.id">
         <nuxt-link :to="`${item.link}`" class="a-font_m menu-horizontal__link swiper-slide">
           {{ item.anchor }}
@@ -11,7 +11,7 @@
 </template>
 
 <script>
-import { Swiper, SwiperSlide } from 'vue-awesome-swiper';
+import { directive } from 'vue-awesome-swiper';
 import getMenuData from '~/api/menuData';
 import './menu_horizontal.scss';
 
@@ -35,9 +35,13 @@ export default {
       },
     };
   },
-  components: {
-    Swiper,
-    SwiperSlide,
+  directives: {
+    swiper: directive,
+  },
+  computed: {
+    swiper() {
+      return this.$refs.menuSlider.$swiper;
+    },
   },
   async fetch() {
     this.navLinks = await getMenuData();
