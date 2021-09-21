@@ -1,38 +1,14 @@
 @import '@/assets/styles/tools/mixins';
 
-.menu-main {
-  /* .l-wide {
-    display: flex;
-  } */
+.menu-horizontal {
   .swiper-slide {
     width: fit-content;
-
-    /* & + .swiper-slide {
-      padding-left: rem(40);
-      @media screen and (max-width: 991px) {
-        padding-left: rem(24);
-      }
-    } */
-  }
-
-  &__location {
-    margin-right: rem(120);
-    color: var(--a-color_text);
-    white-space: nowrap;
-    text-decoration: none;
   }
 
   &__link {
     color: var(--a-color_text);
     font-weight: 600;
-    text-decoration: none;
-    & + .menu-main__link {
-      //margin-left: rem(40);
-    }
-  }
-
-  &__box {
-    margin-left: unset;
     white-space: nowrap;
+    text-decoration: none;
   }
 }

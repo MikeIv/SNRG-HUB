@@ -1,20 +1,18 @@
 <template>
-  <nav class="menu-main">
-    <div class="l-wide">
-      <!-- <a class="menu-main__location" href="#"><i class="si-location"></i>Москва</a> -->
-      <swiper class="swiper-container menu-main__box" :options="swiperOption">
-        <swiper-slide v-for="item in navLinks" :key="item.id">
-          <nuxt-link :to="`${item.link}`" class="a-font_m menu-main__link swiper-slide">{{ item.anchor }}</nuxt-link>
-        </swiper-slide>
-      </swiper>
-    </div>
+  <nav class="menu-horizontal">
+    <swiper class="menu-horizontal__box" :options="swiperOption">
+      <swiper-slide v-for="item in navLinks" :key="item.id">
+        <nuxt-link :to="`${item.link}`" class="a-font_m menu-horizontal__link swiper-slide">
+          {{ item.anchor }}
+        </nuxt-link>
+      </swiper-slide>
+    </swiper>
   </nav>
 </template>
 
 <script>
-import { Swiper, SwiperSlide, directive } from 'vue-awesome-swiper';
+import { Swiper, SwiperSlide } from 'vue-awesome-swiper';
 import getMenuData from '~/api/menuData';
-import 'swiper/css/swiper.min.css';
 import './menu_horizontal.scss';
 
 export default {
@@ -23,7 +21,6 @@ export default {
   data() {
     return {
       navLinks: [],
-      windowWidth: 0,
       swiperOption: {
         slidesPerView: 'auto',
         spaceBetween: 24,
@@ -41,9 +38,6 @@ export default {
   components: {
     Swiper,
     SwiperSlide,
-  },
-  directives: {
-    swiper: directive,
   },
   async fetch() {
     this.navLinks = await getMenuData();
