@@ -8,8 +8,8 @@
         :key="product.id"
         type="program"
         :description="product.included.levels[0].name"
-        :title="product.included.directions[0].name"
-        :verticalImgSrc="`${baseURL}/${product.included.directions[0].preview_image}`"
+        :title="product.name"
+        :verticalImgSrc="`${baseURL}/${product.preview_image}`"
         :bottomText="product.included.organization.abbreviation_name"
         :iconSrc="`${baseURL}/${product.included.organization.logo}`"
       />
@@ -20,7 +20,7 @@
       @change-current-page="changeCurrentPage"
       @next="nextPage"
       @prev="prevPage"
-      :totalItems="Number(totalProducts.length)"
+      :totalItems="Number(totalProducts)"
       :perPage="productsPerPage"
       :prevText="prevText"
       :nextText="nextText"
@@ -30,7 +30,6 @@
 
 <script>
 import { MCard, MPagination } from '@cwespb/synergyui';
-import '@cwespb/synergyui/lib/synergyui.css';
 import './s_catalog_product_list.scss';
 
 export default {
@@ -71,9 +70,8 @@ export default {
   },
 
   methods: {
-    changeCurrentPage(item) {
-      console.log(item);
-      console.log('!!!!!!!');
+    changeCurrentPage(page) {
+      this.pageInx = page;
     },
 
     nextPage(nextPage) {

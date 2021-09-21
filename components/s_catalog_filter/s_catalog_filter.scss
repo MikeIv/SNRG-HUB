@@ -11,6 +11,14 @@
     padding-bottom: rem(32);
   }
 
+  &__checkbox {
+    &.a-control__label-box {
+      justify-content: space-between;
+      padding-left: 0;
+      padding-bottom: rem(32);
+    }
+  }
+
   &__filter-tags {
     display: flex;
   }

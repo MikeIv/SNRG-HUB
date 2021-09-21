@@ -2,21 +2,21 @@
   <div class="catalog-page__wrapper">
     <h2 class="a-font_h2">
       Программы обучения
-      <sup class="catalog-page__header-total a-font_L"> {{ totalProducts.length }} программ</sup>
+      <sup class="catalog-page__header-total a-font_L"> {{ totalProducts }} программ</sup>
     </h2>
-    <swiper class="catalog-page__main-tags" :options="swiperOption">
+    <swiper ref="awesomeSwiper" class="catalog-page__main-tags" :options="swiperOption">
       <swiper-slide v-for="tag in main_tags" :key="tag.label" class="catalog-page__swiper-slide">
         <a-tag :label="tag.label" :status="tag.status" />
       </swiper-slide>
     </swiper>
-    <template v-if="filtersMenu">
+    <div v-show="filtersMenu">
       <div class="catalog-page__menu">
         <template v-if="!isFilterExpanded">
           <a-title title="Фильтры" :showIcon="false" @clickClose="filtersMenuClose" class="catalog-page__menu-header" />
           <div v-if="selectedFilters.length" class="catalog-page__menu-tags catalog-page__filters-tags">
             <a-tag
               v-for="tag in selectedFilters"
-              :key="tag.id"
+              :key="`${tag.title}${tag.id}`"
               :label="tag.title"
               status="selected"
               @aTagDelete="deleteTag(tag)"
@@ -30,68 +30,74 @@
             />
           </div>
         </template>
-        <div class="catalog-page__menu-contents" v-if="filterData">
+        <div class="catalog-page__menu-contents">
           <div v-if="isFilterExpanded">
             <a-title
-              :title="filtersKeys[currentExpandedFilter]"
+              :title="filterListData[currentExpandedFilter].title"
               :showIcon="true"
               @clickClose="filtersMenuClose"
               @click="isFilterExpanded = false"
               class="catalog-page__menu-header"
             />
             <a-control
-              v-for="filter in filterData[currentExpandedFilter]"
+              v-for="filter in filterListData[currentExpandedFilter].values"
               :title="filter.title"
-              :key="filter.id"
+              :key="`${filter.title}${filter.id}`"
               labelPosition="left"
               class="catalog-page__menu-filter_control"
               typeBtn="checkbox"
               typeCtrl="checkbox"
-              @change-control="menuControlSelect(filter)"
+              @input="selectFilter(filterListData[currentExpandedFilter].filter_by, filter, ...arguments)"
             />
           </div>
           <div
             v-else
             class="catalog-page__menu-filters"
-            v-for="(filterProp, filterKey) in filterData"
-            :key="filtersKeys[filterKey]"
+            v-for="filters in Object.entries(filterListData)"
+            :key="filters[0]"
           >
             <div
               class="catalog-page__menu-filter"
-              :class="{ 'catalog-page__menu-filter-expanded': filterProp.length > 7 }"
-              @click="expandedFilterClickHandler(filterKey, filterProp)"
+              :class="{ 'catalog-page__menu-filter-expanded': filters[1].values.length > $options.maxVisibleControls }"
+              @click="expandedFilterClickHandler(filters[0])"
             >
-              <h3 class="a-font_h3">{{ filtersKeys[filterKey] }}</h3>
-              <i v-if="filterProp.length > 7" class="si-chevron-right catalog-page__menu-filter-icon" />
+              <h3 class="a-font_h7">{{ filters[1].title }}</h3>
+              <i
+                v-if="filters[1].values.length > $options.maxVisibleControls"
+                class="si-chevron-right catalog-page__menu-filter-icon"
+              />
             </div>
-            <div v-if="filterProp.length < 7" class="catalog-page__menu-filter_controls">
+            <div
+              v-if="filters[1].values.length < $options.maxVisibleControls"
+              class="catalog-page__menu-filter_controls"
+            >
               <a-control
-                v-for="filter in filterProp"
+                v-for="filter in filters[1].values"
                 :title="filter.title"
-                :key="filter.id"
+                :key="`${filter.title}${filter.id}`"
+                :checked="filter.isChecked"
                 labelPosition="left"
                 class="catalog-page__menu-filter_control"
                 typeBtn="checkbox"
                 typeCtrl="checkbox"
-                @change-control="menuControlSelect(filter)"
+                @input="selectFilter(filters[0], filter, ...arguments)"
               />
             </div>
           </div>
           <div class="catalog-page__menu-button">
-            <a-button :label="menuButtonLabel" bgColor="accent" />
+            <a-button :label="menuButtonLabel" bgColor="accent" @onClickBtn="filtersMenuClose" />
           </div>
         </div>
       </div>
       <div class="catalog-page__menu-backdrop" @click="filtersMenuClose" />
-    </template>
-
+    </div>
     <div class="catalog-page__content">
       <s-catalog-filter
-        :methods="pageInfo.components[0].methods"
-        v-if="visibleFilters"
+        v-show="visibleFilters"
         @select-filter="selectFilter"
-        :filterData="filterData"
-        :filtersKeys="filtersKeys"
+        :filterListData="Object.entries(filterListData)"
+        :filterCheckboxData="filterCheckboxData"
+        :key="componentFilterKey"
       />
       <s-catalog-product-list
         v-if="productList"
@@ -103,6 +109,7 @@
         :selectedFilters="selectedFilters"
         @page="pageChange"
         @delete-tag="deleteTag"
+        :key="componentProductsKey"
       >
         <div class="catalog-page__filters">
           <div class="catalog-page__filters-tags" v-if="!visibleFiltersIcon">
@@ -115,7 +122,7 @@
             />
             <a-tag
               v-for="tag in selectedFilters"
-              :key="tag.id"
+              :key="`${tag.title}${tag.id}`"
               :label="tag.title"
               status="selected"
               @aTagDelete="deleteTag(tag)"
@@ -129,7 +136,7 @@
               tabindex="0"
               @click="filtersIconClickHandler"
             >
-              <span>Фильтры</span>
+              <span class="a-font_button">Фильтры</span>
             </i>
           </template>
         </div>
@@ -139,15 +146,12 @@
 </template>
 
 <script>
-import {
-  ATag, ASelect, AControl, ATitle, AButton,
-} from '@cwespb/synergyui';
-import { Swiper, SwiperSlide, directive } from 'vue-awesome-swiper';
+import { ATag, ASelect, ATitle, AButton, AControl } from '@cwespb/synergyui';
+import { directive } from 'vue-awesome-swiper';
 import SCatalogFilter from '~/components/s_catalog_filter/s_catalog_filter';
 import SCatalogProductList from '~/components/s_catalog_product_list/s_catalog_product_list';
 import getProductsList from '~/api/products_list';
 import getFilterData from '~/api/filter_data';
-import '@cwespb/synergyui/lib/synergyui.css';
 import './s_catalog.scss';
 import 'swiper/css/swiper.min.css';
 
@@ -158,20 +162,23 @@ export default {
     SCatalogFilter,
     ATag,
     ASelect,
-    AControl,
     ATitle,
     AButton,
-    Swiper,
-    SwiperSlide,
+    AControl,
   },
   props: ['pageInfo'],
 
-  productNumberOnDesktop: 9, // 24
-  productNumberOnTablet: 4, // 16
-  productNumberOnMobile: 2, // 8
+  productNumberOnDesktop: 24,
+  productNumberOnTablet: 16,
+  productNumberOnMobile: 8,
   desktopEndpointResolution: 1200,
   tabletEndpointResolution: 900,
-  mobileEndpointResolution: 600,
+  mobileEndpointResolution: 650,
+  maxVisibleControls: 7,
+
+  directives: {
+    swiper: directive,
+  },
 
   data() {
     return {
@@ -191,46 +198,47 @@ export default {
         { status: 'default', label: 'Веб-дизайнер' },
         { status: 'default', label: 'Аналитик' },
       ],
-      filterData: [],
       options: [
         {
           label: 'Популярные',
           value: 'popular',
         },
         {
-          label: 'label2',
-          value: 'value2',
-        },
-        {
-          label: 'label3',
-          value: 'value3',
+          label: 'Новые',
+          value: 'new',
         },
       ],
+
+      filterListData: {},
       filtersKeys: {
         directions: 'Направления',
         formats: 'Формат',
         levels: 'Уровень образования',
         subjects: 'Профессии',
       },
+
+      filterCheckboxData: [],
+
       filtersIdsData: {
+        // Будет порядок как с бэке, чтобы не писать лишние проверки на ключи
         directions: [],
-        formats: [],
         levels: [],
-        subjects: [],
+        formats: [],
+        organization_id: [],
+        city_ids: [],
       },
       filtersMenu: false,
       isFilterExpanded: false,
       currentExpandedFilter: null,
+      freshFilters: null,
+      componentFilterKey: 1,
+      componentProductsKey: 100,
 
       swiperOption: {
         slidesPerView: 'auto',
         spaceBetween: 8,
       },
     };
-  },
-
-  directives: {
-    swiper: directive,
   },
 
   watch: {
@@ -243,6 +251,8 @@ export default {
       this.fetchProductsList();
     },
 
+    filtersIdsData() {},
+
     filtersMenu() {
       document.body.style.cssText = `
         overflow: ${this.filtersMenu ? 'hidden' : ''};
@@ -253,14 +263,19 @@ export default {
     windowWidth() {
       if (this.windowWidth > this.$options.desktopEndpointResolution) {
         this.productsPerPage = this.$options.productNumberOnDesktop;
+        this.componentProductsKey += 1;
       }
 
       if (this.windowWidth < this.$options.desktopEndpointResolution) {
         this.productsPerPage = this.$options.productNumberOnTablet;
+        this.componentProductsKey += 1;
       }
 
       if (this.windowWidth < this.$options.mobileEndpointResolution) {
         this.productsPerPage = this.$options.productNumberOnMobile;
+        this.page = 1;
+        this.componentProductsKey += 1;
+        this.clearAllFilters();
       }
     },
   },
@@ -275,55 +290,55 @@ export default {
     },
 
     menuButtonLabel() {
-      return `Показать ${this.totalProducts.length} предложений`;
+      return `Показать ${this.totalProducts} предложений`;
+    },
+
+    swiper() {
+      return this.$refs.awesomeSwiper.$swiper;
     },
   },
 
   methods: {
+    async fetchFilterData() {
+      // массив selectedFilters и показываю тэги
+      const filtersResponse = await getFilterData(this.pageInfo.components[0].methods[0].data);
+      console.log('RESPONSE FILTER:', filtersResponse);
+      filtersResponse.forEach((filters) => {
+        if (filters.type === 'list') {
+          // Убрать эти четыре строчки после того как бэк поменяет на title
+          filters.values.forEach((filter) => {
+            // eslint-disable-next-line no-param-reassign
+            filter.title = filter.name;
+          });
+          this.filterListData[filters.filter_by] = { ...filters };
+        }
+
+        if (filters.type === 'checkbox') {
+          this.filterCheckboxData.push(filters);
+        }
+      });
+
+      console.log('MY-FILTER-LIST:', this.filterListData);
+    },
+
     async fetchProductsList() {
       const expandedMethod = { ...this.pageInfo.components[1].methods[0] };
       expandedMethod.include = ['organization', 'levels', 'directions'];
-      this.totalProducts = await getProductsList(expandedMethod);
+
+      // Todo
+      // Логика добавления фильтров в боди, если такие имеются при
+      // инициализации страницы или после выбора определенного фильтра
+      // expandedMethod.direction_ids = this.filtersIdsData.directions.map((filter) => filter.id);
+      // expandedMethod.format_ids = this.filtersIdsData.formats.map((filter) => filter.id);
+      // expandedMethod.level_ids = this.filtersIdsData.levels.map((filter) => filter.id);
+      // expandedMethod.subject_ids = this.filtersIdsData.subjects.map((filter) => filter.id);
+
+      console.log('requestBody to server', expandedMethod);
+
       expandedMethod.pagination = { page: this.page, page_size: this.productsPerPage };
-      this.productList = await getProductsList(expandedMethod);
-    },
-
-    async fetchFilterData() {
-      this.filterData = await getFilterData(this.pageInfo.components[0].methods[0].data);
-      // Todo Убрать после изменения бэка
-      // this.filterData.directions.forEach((el) => {
-      //   el.title = el.name;
-      //   if (el.id < 5) {
-      //     el.isChecked = true;
-      //   }
-      // });
-      //
-      // this.filterData.levels.forEach((el) => {
-      //   el.title = el.name;
-      //   el.isChecked = false;
-      // });
-      //
-      // this.filterData.formats.forEach((el) => {
-      //   el.title = el.name;
-      //   el.isChecked = false;
-      // });
-      //
-      // this.filterData.subjects.forEach((el) => {
-      //   el.title = el.name;
-      //   el.isChecked = false;
-      // });
-
-      console.log(this.filterData);
-      // Todo поменять после смены бэка
-      // Если с бэка приходят уже отмеченные фильтры, то я сразу заполняю
-      // массив selectedFilters и показываю тэги
-      Object.values(this.filterData).forEach((filterKey) => {
-        filterKey.forEach((filter) => {
-          if (filter.isChecked) {
-            this.selectedFilters.push(filter);
-          }
-        });
-      });
+      const response = await getProductsList(expandedMethod);
+      this.totalProducts = response.count;
+      this.productList = response.data;
     },
 
     handleResize() {
@@ -336,24 +351,49 @@ export default {
 
     deleteTag(tag) {
       this.selectedFilters = this.selectedFilters.filter((filter) => filter.title !== tag.title);
+      const found = this.filterListData[tag.key].values.find((value) => value.title === tag.title);
+      this.$set(found, 'isChecked', false);
+
+      // Меняяем уникальный ключ s-catalog-filter, заставляя его перерендерится
+      this.componentFilterKey += 1;
     },
 
     clearAllFilters() {
-      console.log(this.selectedFilters);
-      // this.selectedFilters.forEach((filter) => (filter.isChecked = false));
+      console.log('selected filters:', this.selectedFilters);
+      console.log('Object.values', Object.values(this.filterListData));
+
+      this.selectedFilters.forEach((selected) => {
+        const found = this.filterListData[selected.key].values.find((value) => value.title === selected.title);
+        this.$set(found, 'isChecked', false);
+      });
       this.selectedFilters = [];
-      console.log(this.selectedFilters.length);
+      this.componentFilterKey += 1;
     },
 
-    selectFilter(filter) {
-      console.log('clickedItem', filter);
-      // Todo this.selectedFilters.push(filter);
-      // здесь я буду получать объект менять значение isChecked в filterData
-      if (filter) {
-        this.selectedFilters.push(filter);
+    selectFilter(key, item, isChecked) {
+      const selectedItem = { ...item, key };
+      if (isChecked) {
+        selectedItem.isChecked = isChecked;
       }
-      // console.log(this.selectedFilters);
+      if (selectedItem.isChecked) {
+        this.selectedFilters.push(selectedItem);
+        this.filtersIdsData[key].push(selectedItem.id);
+      } else {
+        this.selectedFilters = this.selectedFilters.filter((filter) => filter.id !== item.id);
+        this.filtersIdsData[key] = this.filtersIdsData[key].filter((filter) => filter.id !== item.id);
+      }
     },
+
+    // selectMenuFilter(key, item, isChecked) {
+    //   const selectedItem = { ...item, isChecked, key };
+    //   if (selectedItem.isChecked) {
+    //     this.selectedFilters.push(selectedItem);
+    //     this.filtersIdsData[key].push(selectedItem.id);
+    //   } else {
+    //     this.selectedFilters = this.selectedFilters.filter((filter) => filter.id !== item.id);
+    //     this.filtersIdsData[key] = this.filtersIdsData[key].filter((filter) => filter.id !== item.id);
+    //   }
+    // },
 
     filtersIconClickHandler() {
       this.filtersMenu = true;
@@ -366,18 +406,12 @@ export default {
     },
 
     menuControlSelect(filter) {
-      // Возможно метод надо оъеденить с методом выбора фильтров на десктопе
       this.selectedFilters.push(filter);
-      console.log(filter);
     },
 
-    expandedFilterClickHandler(filterKey, filterProp) {
-      if (filterProp.length > 6) {
-        this.currentExpandedFilter = filterKey;
-        this.isFilterExpanded = true;
-        console.log(filterKey);
-        console.log(this.filtersKeys[filterKey]);
-      }
+    expandedFilterClickHandler(filterKey) {
+      this.currentExpandedFilter = filterKey;
+      this.isFilterExpanded = true;
     },
   },
 
@@ -389,9 +423,13 @@ export default {
     }
   },
 
+  async fetch() {
+    // await this.fetchFilterData();
+  },
+
   mounted() {
     this.fetchProductsList();
-    this.fetchFilterData();
+    this.fetchFilterData(); // Убрать отсюда, это для отладки
     this.windowWidth = window.innerWidth;
     window.addEventListener('resize', this.handleResize);
   },
