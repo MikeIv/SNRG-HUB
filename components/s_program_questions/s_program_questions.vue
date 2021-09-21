@@ -1,9 +1,5 @@
 <template>
-  <SProgramContent
-    :title="title"
-    :direction="direction"
-    :items="items"
-  />
+  <SProgramContent :title="title" :direction="direction" :items="items" />
 </template>
 
 <script>

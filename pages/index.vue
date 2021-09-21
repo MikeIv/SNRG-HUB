@@ -7,6 +7,7 @@
     <br />
     <h2>DATA FROM EXAMPLE:</h2>
     <example />
+    <s-program-recommend />
     <br />
     <h2>PAGE INFO:</h2>
     <component :is="section" v-for="section in sections" :key="section"></component>
@@ -24,9 +25,10 @@
 
 <script>
 import Example from '~/components/Example';
+import SProgramRecommend from '~/components/s_program_recommend/s_program_recommend';
 
 export default {
-  components: { Example },
+  components: { Example, SProgramRecommend },
 
   middleware: 'getPageInfo',
 

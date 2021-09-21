@@ -1,10 +1,5 @@
 <template>
-  <SProgramContent
-    :title="title"
-    :direction="direction"
-    :factoids="factoids"
-    :items="items"
-    />
+  <SProgramContent :title="title" :direction="direction" :factoids="factoids" :items="items" />
 </template>
 
 <script>
