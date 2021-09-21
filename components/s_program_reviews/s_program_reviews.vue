@@ -1,6 +1,6 @@
 <template>
   <section class="s-program-reviews">
-    <div class="s-program-reviews__wrapper">
+    <div class="l-default s-program-reviews__wrapper">
       <h2 class="s-program-reviews__title a-font_h2" v-html="title"></h2>
       <div class="s-program-reviews__items">
         <swiper class="swiper" :options="swiperOption">

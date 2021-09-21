@@ -1,6 +1,6 @@
 <template>
   <section class="s-program-teacher-horizontal">
-    <div class="s-program-teacher-horizontal__wrapper">
+    <div class="l-default s-program-teacher-horizontal__wrapper">
       <h2 class="s-program-teacher-horizontal__title a-font_h2" v-html="title"></h2>
       <div class="s-program-teacher-horizontal__items">
         <MCardSpeaker

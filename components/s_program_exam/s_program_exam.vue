@@ -1,6 +1,6 @@
 <template>
   <section class="s-program-exam">
-    <div class="s-program-exam__wrapper">
+    <div class="l-default s-program-exam__wrapper">
       <div class="s-program-exam__header">
         <h2 class="s-program-exam__title a-font_h2" v-html="title"></h2>
         <div class="s-program-exam__btns">
