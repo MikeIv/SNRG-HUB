@@ -7,6 +7,7 @@ body {
 :root {
   --layout-width: 81.25rem; // 1300px
   --layout-padding: 5rem; // 80px
+  --layout-v-padding: 3.75rem; // 60px
 }
 
 .l-default,
@@ -21,9 +22,11 @@ body {
   }
   @media all and (max-width: 1199px) {
     --layout-padding: 1.875rem; // 30px
+    --layout-v-padding: 2.5rem; // 40px
   }
   @media all and (max-width: 767px) {
     --layout-padding: 1rem; // 16px
+    --layout-v-padding: 2rem; // 32px
   }
 }
 

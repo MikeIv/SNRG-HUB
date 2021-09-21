@@ -1,41 +1,43 @@
 <template>
   <section class="s-program-exam">
-    <div class="l-default s-program-exam__wrapper">
-      <div class="s-program-exam__header">
-        <h2 class="s-program-exam__title a-font_h2" v-html="title"></h2>
-        <div class="s-program-exam__btns">
-          <ATag
-            v-for="tab in tabs"
-            :key="tab.id"
-            :label="tab.label"
-            :name="tab.name"
-            :class="{ 'a-tag__item_active': tab.isActive }"
-            @aTagClick="toggleTabs(tab)"
-          />
-        </div>
-      </div>
-
-      <div
-        v-for="tab in tabs"
-        :key="tab.id"
-        class="s-program-exam__items"
-        :class="{ 's-program-exam__items_active': tab.isActive }"
-        v-show="tab.isActive"
-      >
-        <swiper class="swiper" :options="swiperOption">
-          <div v-for="(exam, idx) in tab.exams" :key="exam.id" class="s-program-exam__item swiper-slide">
-            <h5 class="s-program-exam__item-caption a-font_h5">{{ slideCaption[idx] }}</h5>
-            <div class="s-program-exam__item-factoids">
-              <AFactoid
-                v-for="item in exam"
-                :key="item.id"
-                :type="item.type"
-                :title="item.title"
-                :number="item.number"
-              />
-            </div>
+    <div class="l-default">
+      <div class="s-program-exam__wrapper">
+        <div class="s-program-exam__header">
+          <h2 class="s-program-exam__title a-font_h2" v-html="title"></h2>
+          <div class="s-program-exam__btns">
+            <ATag
+              v-for="tab in tabs"
+              :key="tab.id"
+              :label="tab.label"
+              :name="tab.name"
+              :class="{ 'a-tag__item_active': tab.isActive }"
+              @aTagClick="toggleTabs(tab)"
+            />
           </div>
-        </swiper>
+        </div>
+
+        <div
+          v-for="tab in tabs"
+          :key="tab.id"
+          class="s-program-exam__items"
+          :class="{ 's-program-exam__items_active': tab.isActive }"
+          v-show="tab.isActive"
+        >
+          <swiper class="swiper" :options="swiperOption">
+            <div v-for="(exam, idx) in tab.exams" :key="exam.id" class="s-program-exam__item swiper-slide">
+              <h5 class="s-program-exam__item-caption a-font_h5">{{ slideCaption[idx] }}</h5>
+              <div class="s-program-exam__item-factoids">
+                <AFactoid
+                  v-for="item in exam"
+                  :key="item.id"
+                  :type="item.type"
+                  :title="item.title"
+                  :number="item.number"
+                />
+              </div>
+            </div>
+          </swiper>
+        </div>
       </div>
     </div>
   </section>

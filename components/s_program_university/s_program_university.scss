@@ -4,7 +4,7 @@
   &__wrapper {
     max-width: var(--layout-width);
     margin: rem(20) auto;
-    padding: var(--layout-padding);
+    padding: var(--layout-v-padding) var(--layout-padding);
     background-color: var(--a-color_bg);
     border-radius: var(--a-borderRadius--bg);
 
@@ -101,6 +101,9 @@
         margin-left: rem(10);
         padding-left: rem(10);
       }
+      h2 {
+        white-space: nowrap;
+      }
       &:first-child,
       &:nth-child(4) {
         margin-left: 0;
@@ -119,6 +122,9 @@
         justify-content: center;
         margin-left: rem(32);
         padding-left: rem(32);
+        h2 {
+          white-space: normal;
+        }
         @media (max-width: 767px) {
           margin-left: rem(16);
           padding-left: rem(16);

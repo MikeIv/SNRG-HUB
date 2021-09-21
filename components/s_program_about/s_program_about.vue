@@ -1,6 +1,6 @@
 <template>
   <div class="l-default">
-    <SProgramAbout :title="title" :description="description" :factoids="factoids" />
+    <SProgramAbout :title="title" :description="description" :image="image" :factoids="factoids" />
   </div>
 </template>
 

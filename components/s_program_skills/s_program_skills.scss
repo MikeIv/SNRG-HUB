@@ -5,16 +5,11 @@
   overflow: hidden;
   width: 100%;
   margin: rem(20) auto;
-  padding: var(--layout-padding);
+  padding: var(--layout-v-padding) var(--layout-padding);
   background-color: var(--a-color_bg);
   border-radius: var(--a-borderRadius--bg);
 
   @media (max-width: 991px) {
     margin-bottom: rem(12);
-    padding: var(--a-padding--x10) rem(30);
-  }
-
-  @media (max-width: 575px) {
-    padding: var(--a-padding--x6) 15px;
   }
 }

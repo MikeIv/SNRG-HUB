@@ -1,23 +1,25 @@
 <template>
   <div class="s-program-university">
-    <div class="l-default s-program-university__wrapper">
-      <div class="s-program-university__top">
-        <h2 class="s-program-university__title a-font_h2" v-html="title"></h2>
-        <p class="s-program-university__introtext a-font_xxl" v-html="introtext"></p>
-        <p class="s-program-university__description" v-html="description"></p>
-        <img class="s-program-university__img" v-if="image" :src="image" alt="" />
-      </div>
+    <div class="l-default">
+      <div class="s-program-university__wrapper">
+        <div class="s-program-university__top">
+          <h2 class="s-program-university__title a-font_h2" v-html="title"></h2>
+          <p class="s-program-university__introtext a-font_xxl" v-html="introtext"></p>
+          <p class="s-program-university__description" v-html="description"></p>
+          <img class="s-program-university__img" v-if="image" :src="image" alt="" />
+        </div>
 
-      <div class="s-program-university__factoids">
-        <div class="s-program-university__factoids-inner">
-          <AFactoid
-            v-for="factoid in factoids"
-            :key="factoid.id"
-            :type="factoid.type"
-            :title="factoid.title"
-            :number="factoid.number"
-            :color="factoid.color"
-          />
+        <div class="s-program-university__factoids">
+          <div class="s-program-university__factoids-inner">
+            <AFactoid
+              v-for="factoid in factoids"
+              :key="factoid.id"
+              :type="factoid.type"
+              :title="factoid.title"
+              :number="factoid.number"
+              :color="factoid.color"
+            />
+          </div>
         </div>
       </div>
     </div>

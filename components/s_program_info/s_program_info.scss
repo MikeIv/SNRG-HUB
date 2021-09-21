@@ -6,7 +6,7 @@
     overflow: hidden;
     width: 100%;
     margin: rem(20) auto;
-    padding: var(--layout-padding);
+    padding: var(--layout-v-padding) var(--layout-padding);
     background-color: var(--a-color_bg);
     border-radius: var(--a-borderRadius--bg);
 
@@ -22,6 +22,9 @@
 
   & .a-factoid-line__wrapper {
     max-width: rem(240);
+    @media screen and (max-width: 991px) {
+      // max-width: rem(180);
+    }
     h3 {
       white-space: nowrap;
     }
