@@ -26,8 +26,6 @@
     <nuxt-link :to="redirectUrl" class="s_main_programs__btn-link">
       <a-button class="s_main_programs__btn" label="Показать все" bgColor="accent" />
     </nuxt-link>
-    <!--    <pre>{{ methods }}</pre>-->
-    <!--    <pre>{{ productsList }}</pre>-->
   </section>
 </template>
 
