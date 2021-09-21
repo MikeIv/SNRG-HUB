@@ -1,5 +1,7 @@
 <template>
-  <SProgramAbout :title="title" :description="description" :factoids="factoids" />
+  <div class="l-default">
+    <SProgramAbout :title="title" :description="description" :image="image" :factoids="factoids" />
+  </div>
 </template>
 
 <script>

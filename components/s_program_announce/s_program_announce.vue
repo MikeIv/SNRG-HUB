@@ -1,20 +1,24 @@
 <template>
   <section class="s-program-announce">
-    <h2 class="s-program-announce__title a-font_h2" v-html="title"></h2>
-    <div class="s-program-announce__items">
-      <swiper class="swiper" :options="swiperOption">
-        <MCard
-          v-for="item in items"
-          :key="item.id"
-          :type="item.type"
-          :date="item.date"
-          :title="item.title"
-          :description="item.description"
-          :link="item.link"
-          :aButtonText="item.aButtonText"
-          class="swiper-slide"
-        />
-      </swiper>
+    <div class="l-default">
+      <div class="s-program-announce__wrapper">
+        <h2 class="s-program-announce__title a-font_h2" v-html="title"></h2>
+        <div class="s-program-announce__items">
+          <swiper class="swiper" :options="swiperOption">
+            <MCard
+              v-for="item in items"
+              :key="item.id"
+              :type="item.type"
+              :date="item.date"
+              :title="item.title"
+              :description="item.description"
+              :link="item.link"
+              :aButtonText="item.aButtonText"
+              class="swiper-slide"
+            />
+          </swiper>
+        </div>
+      </div>
     </div>
   </section>
 </template>
@@ -47,7 +51,7 @@ export default {
         slidesPerView: 1.5,
         spaceBetween: 16,
         breakpoints: {
-          768: {
+          1200: {
             slidesPerView: 3.5,
           },
           576: {

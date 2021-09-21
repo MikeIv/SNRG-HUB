@@ -1,15 +1,27 @@
 @import '@/assets/styles/tools/mixins';
 
 .s-program-start {
-  margin-bottom: rem(20);
-  padding: rem(48) 0;
-  background: var(--a-color_bg);
-  border-radius: var(--a-borderRadius--bg);
+  &__wrapper {
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    margin: rem(20) auto;
+    padding: var(--layout-padding);
+    background-color: #e6e4f1;
+    border-radius: var(--a-borderRadius--bg);
 
-  @media (max-width: 991px) {
-    margin-bottom: rem(12);
+    @media screen and (max-width: 767px) {
+      padding: rem(40) rem(16);
+    }
+
+    @media screen and (max-width: 991px) {
+      margin: rem(12) auto;
+      padding: rem(42) rem(30);
+    }
   }
 
-  &__wrapper {
+  & .s-program-start__event {
+    bottom: rem(18);
+    max-height: fit-content;
   }
 }

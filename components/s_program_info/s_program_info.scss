@@ -1,32 +1,36 @@
 @import '@/assets/styles/tools/mixins';
 
 .s-program-info {
-  position: relative;
-  overflow: hidden;
-  width: 100%;
-  max-width: var(--layout-width);
-  margin: rem(20) auto;
-  padding: var(--layout-padding);
-  background-color: var(--a-color_bg);
-  border-radius: var(--a-borderRadius--bg);
+  &__wrapper {
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    margin: rem(20) auto;
+    padding: var(--layout-v-padding) var(--layout-padding);
+    background-color: var(--a-color_bg);
+    border-radius: var(--a-borderRadius--bg);
 
-  @media screen and (max-width: 767px) {
-    padding: rem(40) rem(16);
+    @media screen and (max-width: 767px) {
+      padding: rem(40) rem(16);
+    }
+
+    @media screen and (max-width: 991px) {
+      margin: rem(12) auto;
+      padding: rem(42) rem(30);
+    }
   }
 
-  @media screen and (max-width: 991px) {
-    margin: rem(12) auto;
-    padding: rem(42) rem(30);
-  }
-
-  .a-factoid-line__wrapper {
+  & .a-factoid-line__wrapper {
     max-width: rem(240);
+    @media screen and (max-width: 991px) {
+      // max-width: rem(180);
+    }
     h3 {
       white-space: nowrap;
     }
   }
 
-  .a-factoid-line__title {
+  & .a-factoid-line__title {
     white-space: nowrap;
   }
 

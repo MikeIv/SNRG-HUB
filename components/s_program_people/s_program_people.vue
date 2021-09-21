@@ -1,18 +1,20 @@
 <template>
   <section class="s-program-people">
-    <div class="s-program-people__wrapper">
-      <h2 class="s-program-people__title a-font_h2" v-html="title"></h2>
-      <div class="s-program-people__items">
-        <swiper class="swiper" :options="swiperOption">
-          <MCardLanding
-            v-for="item in items"
-            :key="item.id"
-            :title="item.title"
-            :text="item.text"
-            :image="item.image"
-            class="swiper-slide"
-          />
-        </swiper>
+    <div class="l-default">
+      <div class="s-program-people__wrapper">
+        <h2 class="s-program-people__title a-font_h2" v-html="title"></h2>
+        <div class="s-program-people__items">
+          <swiper class="swiper" :options="swiperOption">
+            <MCardLanding
+              v-for="item in items"
+              :key="item.id"
+              :title="item.title"
+              :text="item.text"
+              :image="item.image"
+              class="swiper-slide"
+            />
+          </swiper>
+        </div>
       </div>
     </div>
   </section>

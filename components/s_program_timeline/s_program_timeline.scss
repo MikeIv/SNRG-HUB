@@ -1,20 +1,24 @@
 @import '@/assets/styles/tools/mixins';
 
 .s-program-timeline {
-  width: 100%;
-  max-width: var(--layout-width);
-  margin: rem(20) auto;
-  padding: var(--layout-padding);
-  background-color: var(--a-color_bg);
-  border-radius: var(--a-borderRadius--bg);
+  &__wrapper {
+    width: 100%;
+    margin: rem(20) auto;
+    padding: var(--layout-v-padding) var(--layout-padding);
+    background-color: var(--a-color_bg);
+    border-radius: var(--a-borderRadius--bg);
+  }
 
-  .m-card-landing__image {
+  & .m-card-landing__image {
     height: rem(192);
     object-fit: cover;
   }
 
   &__title {
     color: var(--a-color_text);
+    @media (max-width: 767px) {
+      margin-bottom: rem(20);
+    }
     span {
       color: var(--a-color_link);
     }
@@ -30,12 +34,22 @@
       margin-bottom: rem(24);
     }
 
+    @media (max-width: 767px) {
+      flex-direction: column;
+      align-items: flex-start;
+      margin-bottom: rem(20);
+    }
+
     @media (max-width: 575px) {
       margin-bottom: rem(20);
     }
 
     .a-factoid-default__wrapper {
       margin-left: rem(40);
+      @media (max-width: 767px) {
+        margin-right: rem(32);
+        margin-left: 0;
+      }
     }
   }
 }
