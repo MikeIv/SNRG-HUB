@@ -21,7 +21,7 @@ export default {
     // На данный момент там имена неправильные, поэтому хардкод
     // А так мы их будем брать из pageInfo.components и у объекта ключ "key"
     const sections = [
-      // 's-program-start',
+      's-program-start',
       's-program-cpa-line',
       's-program-info',
       's-program-announce',

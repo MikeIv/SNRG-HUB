@@ -1,5 +1,21 @@
 <template>
-  <SProgramStart :breadcrumbs="breadcrumbs" :event="event" :program="program" />
+  <section class="s-program-start">
+    <div class="l-default">
+      <SProgramStart
+        :breadcrumbs="breadcrumbs"
+        :program="program"
+        :event="event"
+        :description="description"
+        :city="city"
+        :language="language"
+        :duration="duration"
+        :form="form"
+        :photo="photo"
+        :link="link"
+        :sale="sale"
+        />
+    </div>
+  </section>
 </template>
 
 <script>
@@ -37,38 +53,27 @@ export default {
         date: '22 июня в 15:00',
         title: 'JAVA для новичков. Программируем вендинговый автомат',
         description: 'Вебинар',
+        link: 'https://google.com',
       },
       program: {
         subtitle: 'Профессия с трудоустройством',
         title: 'PHP-программист',
         social: [
           {
-            id: 1,
-            name: 'Вконтакте',
-            icon: 'vk',
-            link: '#vk',
+            id: 1, name: 'Вконтакте', icon: 'vk', link: '#vk',
           },
           {
-            id: 2,
-            name: 'Twitter',
-            icon: 'twitter',
-            link: '#twitter',
+            id: 2, name: 'Twitter', icon: 'twitter', link: '#twitter',
           },
           {
-            id: 3,
-            name: 'Instagram',
-            icon: 'instagram',
-            link: '#insta',
+            id: 3, name: 'Instagram', icon: 'instagram', link: '#insta',
           },
           {
-            id: 4,
-            name: 'Facebook',
-            icon: 'facebook',
-            link: '#facebook',
+            id: 4, name: 'Facebook', icon: 'facebook', link: '#facebook',
           },
         ],
         description:
-          'Язык PHP отличается практичностью и дает возможность быстро решать задачи, поэтому множество сайтов написаны именно на нем. Язык PHP отличается практичностью и дает возможность быстро решать задачи, поэтому множество сайтов написаны именно на нем.',
+      'Язык PHP отличается практичностью и дает возможность быстро решать задачи, поэтому множество сайтов написаны именно на нем. Язык PHP отличается практичностью и дает возможность быстро решать задачи, поэтому множество сайтов написаны именно на нем.',
         city: 'Москва',
         language: 'Русский',
         duration: '4 года',
@@ -77,6 +82,7 @@ export default {
         link: '#link',
         sale: {
           text: 'Скидка 40% на обучение до 10 февраля',
+          link: '#link',
         },
       },
     };
