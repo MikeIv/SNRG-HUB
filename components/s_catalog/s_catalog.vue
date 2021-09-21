@@ -4,7 +4,7 @@
       Программы обучения
       <sup class="catalog-page__header-total a-font_L"> {{ totalProducts }} программ</sup>
     </h2>
-    <swiper ref="awesomeSwiper" class="catalog-page__main-tags" :options="swiperOption">
+    <swiper class="catalog-page__main-tags" ref="awesomeSwiper" :options="swiperOption" v-if="totalProducts">
       <swiper-slide v-for="tag in main_tags" :key="tag.label" class="catalog-page__swiper-slide">
         <a-tag :label="tag.label" :status="tag.status" />
       </swiper-slide>
@@ -16,8 +16,8 @@
           <div v-if="selectedFilters.length" class="catalog-page__menu-tags catalog-page__filters-tags">
             <a-tag
               v-for="tag in selectedFilters"
-              :key="`${tag.title}${tag.id}`"
-              :label="tag.title"
+              :key="`${tag.name}${tag.id}`"
+              :label="tag.name"
               status="selected"
               @aTagDelete="deleteTag(tag)"
             />
@@ -41,8 +41,8 @@
             />
             <a-control
               v-for="filter in filterListData[currentExpandedFilter].values"
-              :title="filter.title"
-              :key="`${filter.title}${filter.id}`"
+              :title="filter.name"
+              :key="`${filter.name}${filter.id}`"
               labelPosition="left"
               class="catalog-page__menu-filter_control"
               typeBtn="checkbox"
@@ -73,8 +73,8 @@
             >
               <a-control
                 v-for="filter in filters[1].values"
-                :title="filter.title"
-                :key="`${filter.title}${filter.id}`"
+                :title="filter.name"
+                :key="`${filter.name}${filter.id}`"
                 :checked="filter.isChecked"
                 labelPosition="left"
                 class="catalog-page__menu-filter_control"
@@ -95,6 +95,7 @@
       <s-catalog-filter
         v-show="visibleFilters"
         @select-filter="selectFilter"
+        @switch-click="switchClick"
         :filterListData="Object.entries(filterListData)"
         :filterCheckboxData="filterCheckboxData"
         :key="componentFilterKey"
@@ -122,8 +123,8 @@
             />
             <a-tag
               v-for="tag in selectedFilters"
-              :key="`${tag.title}${tag.id}`"
-              :label="tag.title"
+              :key="`${tag.name}${tag.id}`"
+              :label="tag.name"
               status="selected"
               @aTagDelete="deleteTag(tag)"
             />
@@ -146,9 +147,7 @@
 </template>
 
 <script>
-import {
-  ATag, ASelect, ATitle, AButton, AControl,
-} from '@cwespb/synergyui';
+import { ATag, ASelect, ATitle, AButton, AControl } from '@cwespb/synergyui';
 import { directive } from 'vue-awesome-swiper';
 import SCatalogFilter from '~/components/s_catalog_filter/s_catalog_filter';
 import SCatalogProductList from '~/components/s_catalog_product_list/s_catalog_product_list';
@@ -190,7 +189,6 @@ export default {
       page: 1,
       productsPerPage: this.$options.productNumberOnDesktop,
       windowWidth: null,
-      // Todo: передать все фильтры из родителя в компонент фильтра и здесь менять на фолз при удалении
       main_tags: [
         { status: 'default', label: 'UX/UI  дизайнер' },
         { status: 'default', label: 'JS-разработчик' },
@@ -212,27 +210,21 @@ export default {
       ],
 
       filterListData: {},
-      filtersKeys: {
-        directions: 'Направления',
-        formats: 'Формат',
-        levels: 'Уровень образования',
-        subjects: 'Профессии',
-      },
-
       filterCheckboxData: [],
-
       filtersIdsData: {
-        // Будет порядок как с бэке, чтобы не писать лишние проверки на ключи
-        directions: [],
-        levels: [],
-        formats: [],
-        organization_id: [],
+        direction_ids: [],
+        format_ids: [],
+        level_ids: [],
         city_ids: [],
+        organization_ids: [],
+      },
+      filtersCheckboxDataRequest: {
+        is_employment: false,
+        is_installment: false,
       },
       filtersMenu: false,
       isFilterExpanded: false,
       currentExpandedFilter: null,
-      freshFilters: null,
       componentFilterKey: 1,
       componentProductsKey: 100,
 
@@ -253,7 +245,21 @@ export default {
       this.fetchProductsList();
     },
 
-    filtersIdsData() {},
+    filtersIdsData: {
+      deep: true,
+      handler() {
+        console.log('changed filtersIdsData');
+        this.fetchProductsList();
+      },
+    },
+
+    filtersCheckboxDataRequest: {
+      deep: true,
+      handler() {
+        console.log('changed filtersCheckboxDataRequest');
+        this.fetchProductsList();
+      },
+    },
 
     filtersMenu() {
       document.body.style.cssText = `
@@ -296,44 +302,40 @@ export default {
     },
 
     swiper() {
-      return this.$refs.awesomeSwiper.$swiper;
+      return this.$refs.awesomeSwiper.swiper;
     },
   },
 
   methods: {
     async fetchFilterData() {
-      // массив selectedFilters и показываю тэги
       const filtersResponse = await getFilterData(this.pageInfo.components[0].methods[0].data);
       console.log('RESPONSE FILTER:', filtersResponse);
       filtersResponse.forEach((filters) => {
         if (filters.type === 'list') {
-          // Убрать эти четыре строчки после того как бэк поменяет на title
-          filters.values.forEach((filter) => {
-            // eslint-disable-next-line no-param-reassign
-            filter.title = filter.name;
-          });
           this.filterListData[filters.filter_by] = { ...filters };
+          this.filtersIdsData[filters.filter_by] = [];
         }
-
         if (filters.type === 'checkbox') {
+          this.filtersCheckboxDataRequest[filters.filter_by] = false;
           this.filterCheckboxData.push(filters);
         }
       });
-
       console.log('MY-FILTER-LIST:', this.filterListData);
     },
 
     async fetchProductsList() {
-      const expandedMethod = { ...this.pageInfo.components[1].methods[0] };
+      const expandedMethod = { ...this.pageInfo.components[1].methods[0].data };
       expandedMethod.include = ['organization', 'levels', 'directions'];
-
       // Todo
-      // Логика добавления фильтров в боди, если такие имеются при
-      // инициализации страницы или после выбора определенного фильтра
-      // expandedMethod.direction_ids = this.filtersIdsData.directions.map((filter) => filter.id);
-      // expandedMethod.format_ids = this.filtersIdsData.formats.map((filter) => filter.id);
-      // expandedMethod.level_ids = this.filtersIdsData.levels.map((filter) => filter.id);
-      // expandedMethod.subject_ids = this.filtersIdsData.subjects.map((filter) => filter.id);
+      Object.entries(this.filtersIdsData).forEach((filterData) => {
+        if (filterData[1].length !== 0) {
+          expandedMethod.filter[filterData[0]] = filterData[1];
+        }
+      });
+
+      Object.entries(this.filtersCheckboxDataRequest).forEach((checkboxData) => {
+        expandedMethod.filter[checkboxData[0]] = checkboxData[1];
+      });
 
       console.log('requestBody to server', expandedMethod);
 
@@ -352,8 +354,9 @@ export default {
     },
 
     deleteTag(tag) {
-      this.selectedFilters = this.selectedFilters.filter((filter) => filter.title !== tag.title);
-      const found = this.filterListData[tag.key].values.find((value) => value.title === tag.title);
+      // Todo, убирать из filtersIdsData айди элемента, чтобы отправлялся запрос на бэк
+      this.selectedFilters = this.selectedFilters.filter((filter) => filter.name !== tag.name);
+      const found = this.filterListData[tag.key].values.find((value) => value.name === tag.name);
       this.$set(found, 'isChecked', false);
 
       // Меняяем уникальный ключ s-catalog-filter, заставляя его перерендерится
@@ -361,15 +364,17 @@ export default {
     },
 
     clearAllFilters() {
-      console.log('selected filters:', this.selectedFilters);
-      console.log('Object.values', Object.values(this.filterListData));
-
       this.selectedFilters.forEach((selected) => {
-        const found = this.filterListData[selected.key].values.find((value) => value.title === selected.title);
+        const found = this.filterListData[selected.key].values.find((value) => value.name === selected.name);
         this.$set(found, 'isChecked', false);
       });
       this.selectedFilters = [];
+      Object.values(this.filtersIdsData).forEach((filterIds) => filterIds.splice(0, filterIds.length));
       this.componentFilterKey += 1;
+    },
+
+    switchClick(selectedSwitch) {
+      this.filtersCheckboxDataRequest[selectedSwitch.filter_by] = selectedSwitch.isChecked;
     },
 
     selectFilter(key, item, isChecked) {
@@ -377,25 +382,16 @@ export default {
       if (isChecked) {
         selectedItem.isChecked = isChecked;
       }
+      console.log(key);
       if (selectedItem.isChecked) {
         this.selectedFilters.push(selectedItem);
         this.filtersIdsData[key].push(selectedItem.id);
       } else {
         this.selectedFilters = this.selectedFilters.filter((filter) => filter.id !== item.id);
-        this.filtersIdsData[key] = this.filtersIdsData[key].filter((filter) => filter.id !== item.id);
+        this.filtersIdsData[key] = this.filtersIdsData[key].filter((id) => id !== item.id);
       }
+      console.log('this.filtersIdsDat select control', this.filtersIdsData);
     },
-
-    // selectMenuFilter(key, item, isChecked) {
-    //   const selectedItem = { ...item, isChecked, key };
-    //   if (selectedItem.isChecked) {
-    //     this.selectedFilters.push(selectedItem);
-    //     this.filtersIdsData[key].push(selectedItem.id);
-    //   } else {
-    //     this.selectedFilters = this.selectedFilters.filter((filter) => filter.id !== item.id);
-    //     this.filtersIdsData[key] = this.filtersIdsData[key].filter((filter) => filter.id !== item.id);
-    //   }
-    // },
 
     filtersIconClickHandler() {
       this.filtersMenu = true;

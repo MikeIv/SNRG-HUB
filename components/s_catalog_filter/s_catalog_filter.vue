@@ -15,11 +15,19 @@
       class="catalog-filter__checkbox"
       :key="filter.filter_by"
       :title="filter.title"
-      :checked="false"
-      typeBtn="radio"
+      typeBtn="checkbox"
       typeCtrl="switch"
       labelPosition="left"
+      @input="switchClick(filter, ...arguments)"
     />
+    <!--    <a-control-->
+    <!--      class="catalog-filter__checkbox"-->
+    <!--      :title="filterCheckboxData[1].title"-->
+    <!--      typeCtrl="switch"-->
+    <!--      labelPosition="left"-->
+    <!--      v-model="switchControl"-->
+    <!--      @change="switchClick()"-->
+    <!--    />-->
   </div>
 </template>
 
@@ -39,21 +47,16 @@ export default {
 
   data() {
     return {
-      direction_ids: [],
-      level_ids: [],
-      format_ids: [],
-      subject_ids: [],
-      organization_ids: [],
-      person_ids: [],
-      selectedFilters: [],
-
       filtersText: {
-        directions: 'Все направления',
-        formats: 'Все форматы',
-        levels: 'Все уровени',
-        subjects: 'Все профессии',
+        direction_ids: 'Все направления',
+        format_ids: 'Все форматы',
+        level_ids: 'Все уровни',
         city_ids: 'Все города',
-        organization_id: 'Все заведения',
+        organization_ids: 'Все заведения',
+      },
+      switchControl: {
+        is_employment: false,
+        is_installment: true,
       },
     };
   },
@@ -63,14 +66,9 @@ export default {
       this.$emit('select-filter', key, item);
     },
 
-    controlDirectionsClick(productsList) {
-      // Todo буду получать айтем и его эмитить наверх
-      this.selectedDirections = productsList;
-      this.selectedFilters = [...this.selectedFilters, ...this.selectedDirections];
-
-      const lastItem = productsList[productsList.length - 1];
-      this.$emit('select-filter', lastItem);
-      // this.$emit('select-filter', this.selectedDirections);
+    switchClick(item, isChecked) {
+      const selectedSwitch = { ...item, isChecked };
+      this.$emit('switch-click', selectedSwitch);
     },
   },
 };
