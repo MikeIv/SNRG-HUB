@@ -35,6 +35,7 @@ export default {
       's-program-teacher-vertical',
       's-program-diploma',
       's-program-form',
+      's-program-university',
       's-program-reviews',
       's-program-price',
       's-program-questions',
