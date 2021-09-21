@@ -12,11 +12,11 @@
     <!-- <component :is="section" v-for="section in sections" :key="section"></component> -->
     <menu-horizontal />
     <component
-    :is="key"
-    v-for="{ key, methods, title, id } in pageInfo.components"
-    :key="id"
-    :methods="methods"
-    :title="title"
+      :is="key"
+      v-for="{ key, methods, title, id } in pageInfo.components"
+      :key="id"
+      :methods="methods"
+      :title="title"
     ></component>
     <pre>
       {{ pageInfo }}
@@ -25,10 +25,12 @@
 </template>
 
 <script>
+import Example from '~/components/Example';
 import menuHorizontal from '~/components/menu_horizontal/menu_horizontal';
 
 export default {
   components: {
+    Example,
     menuHorizontal,
   },
 
@@ -48,6 +50,7 @@ export default {
       's-main-banners',
       's-main-banners-narrow',
       's-banner',
+      's-partners',
     ];
 
     return {
