@@ -1,12 +1,13 @@
 <template>
   <section class="l-wide">
     <h2 class="s_main_programs__h2 a-font_h5">{{ title }}</h2>
+    <h2 class="s_main_programs__h2 a-font_h5">{{ methods }}</h2>
     <div class="s_main_programs__cards">
       <template v-for="(product, index) in productsList">
         <nuxt-link
           to="/#"
           class="s_main_programs__wrapper"
-          v-if="productsList && productsList.length > 0 && index <= cardsSet"
+          v-if="productsList && productsList.length > 0 && index < cardsSet"
           :key="product.id"
         >
           <m-card
@@ -33,6 +34,7 @@
 <script>
 import { MCard, AButton } from '@cwespb/synergyui';
 import getProductsList from '~/api/products_list';
+import getBannersDetail from '~/api/bannersDetail';
 import './s_main_programs.scss';
 
 export default {
@@ -46,8 +48,8 @@ export default {
   data() {
     return {
       productsList: [],
+      bannersDetail: [],
       baseURL: process.env.NUXT_ENV_S3BACKET,
-      limitationList: 5,
       windowWidth: 0,
       redirectUrl: '#',
     };
@@ -60,10 +62,19 @@ export default {
   },
   async fetch() {
     this.methods.forEach(async (method) => {
-      const expandedMethod = { ...method.data };
+      // console.log('method', method);
+      const expandedMethod = method.url === '/api/v1/products/list' ? { ...method.data } : {};
       expandedMethod.include = ['organization', 'levels', 'directions'];
+      // console.log('expandedMethod', expandedMethod);
       this.productsList = await getProductsList(expandedMethod);
-      console.log(this.productsList);
+
+      // console.log(method.url.includes('banners/detail'));
+      if (method.url.includes('banners/detail')) {
+        const expandedBanners = { ...method.data };
+        // console.log('expandedBanners', expandedBanners);
+        this.bannersDetail = await getBannersDetail(expandedBanners);
+        // console.log('this.bannersDetail ', this.bannersDetail);
+      }
     });
   },
   mounted() {
@@ -78,12 +89,13 @@ export default {
   },
   computed: {
     cardsSet() {
+      let cardsList = 0;
       if (this.windowWidth > 991) {
-        this.limitationList = 5;
+        cardsList = 6;
       } else if (this.windowWidth < 991) {
-        this.limitationList = 3;
+        cardsList = 4;
       }
-      return this.limitationList;
+      return cardsList;
     },
   },
 };
