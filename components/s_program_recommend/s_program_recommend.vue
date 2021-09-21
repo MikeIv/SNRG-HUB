@@ -15,7 +15,6 @@
               :bottomText="item.bottomText"
               :iconSrc="item.iconSrc"
               class="swiper-slide"
-              :class="si - heart"
               @onLikeClick="onLikeClickHandler"
             />
           </swiper>
@@ -25,7 +24,6 @@
             bg-color="ghost-primary"
             only-icon="square"
             iconType="si-chevron-left"
-            :class="si - chevron - left"
             slot="button-prev"
           ></a-button>
           <a-button
@@ -34,7 +32,6 @@
             bg-color="ghost-primary"
             only-icon="square"
             iconType="si-chevron-right"
-            :class="si - chevron - right"
             slot="button-next"
           ></a-button>
         </div>
@@ -104,19 +101,18 @@ export default {
         },
       ],
       swiperOption: {
-        slidesPerView: 1,
+        slidesPerView: 'auto',
         spaceBetween: 16,
+        grabCursor: true,
         navigation: {
           nextEl: '.swiper-button-next',
           prevEl: '.swiper-button-prev',
         },
         breakpoints: {
           767: {
-            slidesPerView: 2,
-            spaceBetween: 16,
+            spaceBetween: 12,
           },
           991: {
-            slidesPerView: 3,
             spaceBetween: 16,
           },
         },

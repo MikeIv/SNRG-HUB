@@ -39,6 +39,7 @@ export default {
       's-program-reviews',
       's-program-price',
       's-program-questions',
+      's-program-recommend',
     ];
 
     return {

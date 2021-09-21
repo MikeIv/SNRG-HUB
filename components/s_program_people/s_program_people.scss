@@ -9,9 +9,18 @@
     border-radius: var(--a-borderRadius--bg);
   }
 
+  .m-card-landing {
+    width: rem(364);
+  }
+
   & .m-card-landing__image {
+    border-radius: var(--a-borderRadius);
     height: rem(192);
     object-fit: cover;
+
+    @media (max-width: 767px) {
+      height: rem(128);
+    }
   }
 
   &__title {

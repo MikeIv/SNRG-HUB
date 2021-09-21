@@ -52,7 +52,7 @@ export default {
         date: '22 июня в 15:00',
         title: 'JAVA для новичков. Программируем вендинговый автомат',
         description: 'Вебинар',
-        link: 'https://google.com',
+        link: '#',
       },
       program: {
         subtitle: 'Профессия с трудоустройством',

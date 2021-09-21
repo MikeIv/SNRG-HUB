@@ -70,13 +70,9 @@ export default {
       swiperOption: {
         slidesPerView: 'auto',
         spaceBetween: 0,
-        loop: false,
         breakpoints: {
           768: {
-            slidesPerView: 'auto',
-          },
-          360: {
-            slidesPerView: 1.25,
+            grabCursor: true,
           },
         },
       },

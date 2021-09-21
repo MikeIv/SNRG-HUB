@@ -13,7 +13,17 @@
     }
   }
 
-  &.m-card-announce {
+  .m-card-announce {
+    width: rem(323);
+
+    @media (max-width: 767px) {
+      width: rem(274);
+    }
+
+    @media (max-width: 575px) {
+      width: rem(254);
+    }
+
     a {
       text-decoration: none;
     }

@@ -9,6 +9,14 @@
     border-radius: var(--a-borderRadius--bg);
   }
 
+  .m-card-landing {
+    width: rem(270);
+
+    @media (max-width: 767px) {
+      width: rem(223);
+    }
+  }
+
   & .m-card-landing__image {
     height: rem(192);
     object-fit: cover;

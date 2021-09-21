@@ -15,6 +15,15 @@
     }
   }
 
+  .m-card-landing {
+    width: 364px;
+  }
+
+  .m-card-landing__image {
+    height: rem(256);
+    object-fit: cover;
+  }
+
   &__title {
     margin-bottom: rem(40);
     color: var(--a-color_text);

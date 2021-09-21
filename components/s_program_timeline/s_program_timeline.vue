@@ -57,15 +57,11 @@ export default {
       baseUrl: process.env.NUXT_ENV_S3BACKET,
       swiperOption: {
         grabCursor: true,
-        slidesPerView: 1.5,
-        spaceBetween: 12,
-        loop: true,
+        slidesPerView: 'auto',
+        spaceBetween: 20,
         breakpoints: {
-          992: {
-            slidesPerView: 4,
-          },
           768: {
-            slidesPerView: 3.5,
+            spaceBetween: 12,
           },
         },
       },
@@ -84,6 +80,15 @@ export default {
         },
       ],
       items: [
+        {
+          title: 'Изучаете тему',
+          text:
+            // eslint-disable-next-line max-len
+            'Смотрите обучающие видео и задаёте вопросы',
+          image:
+            // eslint-disable-next-line max-len
+            'https://images.unsplash.com/photo-1528287942171-fbe365d1d9ac?ixlib=rb-1.2.1&q=85&fm=jpg&crop=entropy&w=1200&cs=srgb&ixid=eyJhcHBfaWQiOjE0NTg5fQ',
+        },
         {
           title: 'Изучаете тему',
           text:

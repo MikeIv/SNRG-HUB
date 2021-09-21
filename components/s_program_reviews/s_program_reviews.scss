@@ -15,6 +15,18 @@
     }
   }
 
+  .m-card-landing {
+    width: rem(364);
+
+    @media (max-width: 575px) {
+      width: rem(323);
+    }
+
+    @media (max-width: 320px) {
+      width: rem(270);
+    }
+  }
+
   & .m-card-speaker {
     @media (max-width: 991px) {
       gap: rem(18);

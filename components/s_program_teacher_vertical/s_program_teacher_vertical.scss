@@ -15,6 +15,10 @@
     }
   }
 
+  .m-card-landing {
+    width: rem(270);
+  }
+
   & .m-card-speaker {
     @media (max-width: 991px) {
       gap: rem(18);
