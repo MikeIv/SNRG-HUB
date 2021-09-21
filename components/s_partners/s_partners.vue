@@ -16,7 +16,6 @@
 
 <script>
 import { ALogo } from '@cwespb/synergyui';
-import '@cwespb/synergyui/lib/synergyui.css';
 
 // import getPageSectionDetail from '~/api/page_section_detail';
 
