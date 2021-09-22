@@ -46,9 +46,12 @@
   }
 
   &__wrapper {
-    padding: var(--layout-padding);
+    padding: rem(60) rem(80);
     background-color: var(--a-color_bg);
     border-radius: var(--a-borderRadius--bg);
+    @media screen and (max-width: 991px) {
+      padding: rem(40) rem(30);
+    }
   }
 
   &__title {
@@ -63,6 +66,10 @@
 
   &__swiper {
     position: relative;
+  }
+
+  &__slide {
+    width: 328px;
   }
 
   &__button {

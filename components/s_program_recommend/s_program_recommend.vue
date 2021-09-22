@@ -4,19 +4,23 @@
       <div class="s-program-recommend__wrapper">
         <h2 class="s-program-recommend__title a-font_h5">{{ title }}</h2>
         <div class="s-program-recommend__swiper">
-          <swiper class="swiper" :options="swiperOption">
-            <MCard
+          <swiper ref="awesomeSwiper" :options="swiperOptionA">
+            <swiper-slide
               v-for="item in items"
               :key="item.id"
-              :type="item.type"
-              :date="item.date"
-              :title="item.title"
-              :description="item.description"
-              :bottomText="item.bottomText"
-              :iconSrc="item.iconSrc"
-              class="swiper-slide"
-              @onLikeClick="onLikeClickHandler"
-            />
+              class="s-program-recommend__slide m-card-vertical"
+            >
+            <nuxt-link to="/">
+              <m-card  
+                :title="item.title" 
+                :type="item.type" 
+                :description="item.description"
+                :bottomText="item.bottomText"
+                :iconSrc="item.iconSrc" 
+                @onLikeClick="onLikeClickHandler"
+              />
+            </nuxt-link>
+            </swiper-slide>
           </swiper>
           <a-button
             class="swiper-button-prev m-card-verticalbutton s-program-recommend__button"
@@ -100,21 +104,23 @@ export default {
           bottomText: 'Университет Синергия',
         },
       ],
-      swiperOption: {
+      swiperOptionA: {
         slidesPerView: 'auto',
         spaceBetween: 16,
         grabCursor: true,
         direction: 'vertical',
+        resistance: true,
+        resistanceRatio: 0,
         navigation: {
           nextEl: '.swiper-button-next',
           prevEl: '.swiper-button-prev',
         },
         breakpoints: {
-          575: {
+          767: {     
             spaceBetween: 12,
             direction: 'horizontal',
           },
-          991: {
+          991: { 
             spaceBetween: 16,
             direction: 'horizontal',
           },
@@ -126,7 +132,7 @@ export default {
   },
   computed: {
     swiper() {
-      return this.$refs.mySwiper.$swiper;
+      return this.$refs.awesomeSwiper.swiper;
     },
   },
   methods: {
