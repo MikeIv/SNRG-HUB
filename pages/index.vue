@@ -5,7 +5,7 @@
     </div>
 
     <m-quiz
-      :quizId="1" 
+      :quizId="1"
       :imageFon="require(`~/assets/images/m-banner--quiz.png`)"
       :image="require(`~/assets/images/quiz-podbor_02.png`)">
     </m-quiz>
@@ -32,7 +32,7 @@
 <script>
 import Example from '~/components/Example';
 
-import MQuiz from '~/components/M-quiz.vue';
+import MQuiz from '~/components/m_quiz/m_quiz';
 
 export default {
   components: {

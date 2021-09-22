@@ -49,82 +49,91 @@
           <a-input placeholder="Телефон" v-model="send.tel"></a-input>
           <a-button bgColor="accent" size="large" label="Отправить" @click="sendQuiz"></a-button>
         </div>
-        <div class="m-quiz__finish-sogl a-font_l">
-          Нажимая на кнопку, вы соглашаетсь с политикой конфиденциальности и на получение рассылок
+        <div class="m-quiz__finish-sogl">
+          <a-control typeBtn="checkbox" typeCtrl="checkbox" v-model="send.sogl"></a-control>
+          <span class="a-font_l">Нажимая на кнопку, вы соглашаетсь с политикой конфиденциальности и на получение рассылок</span> 
         </div>
       </div>
     </div>
+
+    <a-progressbar :percent="progress"/>
 
   </div>
 </template>
 
 <script>
-  import { AButton, AInput, AControl} from '@cwespb/synergyui';
-  import getQuizzesDetail from '~/api/quizzesDetail';
+import { AButton, AInput, AControl, AProgressbar } from '@cwespb/synergyui';
+import getQuizzesDetail from '~/api/quizzesDetail';
 
-  import '~/assets/styles/M-quiz.scss';
+import './m_quiz.scss';
 
-  export default {
-    name: 'm-quiz',
-    components: {
-      AControl,
-      AButton,
-      AInput,
+export default {
+  name: 'm-quiz',
+  components: {
+    AProgressbar,
+    AControl,
+    AButton,
+    AInput,
+  },
+
+  data: () => ({
+    dataQuiz: null,
+    dataQuestion: [],
+
+    banerFlag: true,
+    count: null,
+    countPosition: 0,
+
+    listAnsvers: [],
+    ansver: '',
+
+    send: {
+      name: '',
+      tel: '',
+      sogl: true
     },
 
-    data: () => ({
-      dataQuiz: null,
-      dataQuestion: [],
+  }),
 
-      banerFlag: true,
-      count: null,
-      countPosition: 0,
+  props: {
+    imageFon: String,
+    image: String,
+    quizId: {},
+  },
 
-      listAnsvers: [],
-      ansver: '',
+  computed:{
+    progress(){
+      return (this.countPosition / this.count) * 100;
+    }
+  },
 
-      send: {
-        name: '',
-        tel: '',
-      },
-      
-    }),
+  async fetch() {
+    const response = await getQuizzesDetail({ filter: { id: this.quizId } });
+    this.dataQuiz = response;
+    this.dataQuestion = response.questions.filter((item) => item.answers.length > 0);
+    this.count = this.dataQuestion.length;
+  },
 
-    props: {
-      imageFon: String,
-      image: String,
-      quizId: {},
+  methods: {
+
+    prevQuiz() {
+      this.countPosition -= 1;
+      this.ansver = this.listAnsvers[this.countPosition].ansver;
     },
 
-    async created() {
-      const response = await getQuizzesDetail({ filter: { id: this.quizId } });
-      console.log(response);
-
-      this.dataQuiz = response;
-      this.dataQuestion = response.questions.filter(item => item.answers.length > 0);
-      this.count = this.dataQuestion.length;
+    async startQuiz() {
+      this.banerFlag = false;
     },
 
-    methods: {
-
-      prevQuiz() {
-        this.countPosition -= 1;
-        this.ansver = this.listAnsvers[this.countPosition].ansver;
-      },
-
-      async startQuiz() {
-        this.banerFlag = false;
-      },
-
-      sendQuiz() {
-
-      },
-
-      changeQuiz(value) {
-        this.listAnsvers[this.countPosition] = { ...value, ansver: this.ansver };
-        this.countPosition += 1;
-      },
+    sendQuiz() {
 
     },
-  };
+
+    changeQuiz(value) {
+      this.listAnsvers[this.countPosition] = { ...value, ansver: this.ansver };
+      this.countPosition += 1;
+    },
+
+  },
+};
 </script>

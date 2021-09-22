@@ -1,9 +1,4 @@
 @import '@/assets/styles/tools/mixins';
-
-$a-color_banner--lightcyan: #dcf3ff;
-$a-color_bg: #fff;
-$a-borderRadius--default: 4px;
-
 .m-quiz {
   &__baner {
     position: relative;
@@ -13,10 +8,10 @@ $a-borderRadius--default: 4px;
     background-position: 50% 50%;
     background-size: cover;
     @media screen and (max-width: 992px) {
-      padding: rem(24) rem(35);
+      padding: var(--a-padding--x6) var(--a-padding--x8); 
     }
-    @media screen and (max-width: 768px) {
-      padding: rem(34) rem(15);
+    @media screen and (max-width: 767px) {
+      padding: var(--a-padding--x8) var(--a-padding--x4);
     }
   }
   &__baner-img {
@@ -39,22 +34,25 @@ $a-borderRadius--default: 4px;
     max-width: rem(380);
   }
   &__descript {
-    padding: rem(16) 0 rem(20) 0;
+    padding: var(--a-padding--x4) 0 var(--a-padding--x5) 0;
   }
 
   // block quiz
   &__quiz {
     display: flex;
     align-items: center;
-    padding: rem(50) rem(100);
-    background: $a-color_banner--lightcyan;
-    @media screen and (max-width: 992px) {
+    padding: rem(60) rem(100);
+    background: var(--a-color_banner--lightcyan);
+    @media screen and (max-width: 1140px) {
+      padding: var(--a-padding--x12) var(--a-padding--x12);
+    }
+    @media screen and (max-width: 991px) {
       flex-direction: column;
       align-items: flex-start;
-      padding: rem(32);
+      padding: var(--a-padding--x8);
     }
-    @media screen and (max-width: 768px) {
-      padding: rem(20) rem(15);
+    @media screen and (max-width: 767px) {
+      padding: var(--a-padding--x5) var(--a-padding--x4);
     }
   }
   
@@ -62,17 +60,17 @@ $a-borderRadius--default: 4px;
     flex-basis: 40%;
   }
   &__prev {
-    margin-bottom: rem(20);
-    color: #707c8b;
+    margin-bottom: var(--a-padding--x5);
+    color: var(--a-color_text--secondary);
     cursor: pointer;
     & i {
-      color: #a0a8b1;
+      color: var(--a-color_active);
       font-size: rem(18);
     }
   }
   &__question {
     padding-right: rem(100);
-    padding-bottom: rem(20);
+    padding-bottom: var(--a-padding--x5);
   }
 
   &__answers {
@@ -83,13 +81,13 @@ $a-borderRadius--default: 4px;
   &__control {
     flex-basis: calc(50% - 20px);
     margin: 0 rem(20) rem(12) 0;
-    padding: rem(12) rem(40) rem(12) rem(20);
-    background: $a-color_bg;
-    border-radius: $a-borderRadius--default;
+    padding: var(--a-padding--x3) var(--a-padding--x10) var(--a-padding--x3) var(--a-padding--x5);
+    background: var(--a-color_bg);
+    border-radius: var(--a-borderRadius--default);
 
-    @media screen and (max-width: 768px) {
+    @media screen and (max-width: 767px) {
       flex-basis: 100%;
-      margin: 0 0 rem(12) 0;
+      margin: 0 0 var(--a-padding--x3) 0;
     }
   }
 
@@ -97,56 +95,57 @@ $a-borderRadius--default: 4px;
   // block finish
   &__finish {
     padding: rem(50) rem(100);
-    background: $a-color_banner--lightcyan;
-    @media screen and (max-width: 992px) {
+    background: var(--a-color_banner--lightcyan);
+    @media screen and (max-width: 991px) {
       display: flex;
-      padding: rem(25) rem(32);
+      align-items: center;
+      padding: var(--a-padding--x6) var(--a-padding--x8);
     }
-    @media screen and (max-width: 768px) {
+    @media screen and (max-width: 767px) {
       display: block;
     }
   }
   &__finish-text {
-    @media screen and (max-width: 992px) {
+    @media screen and (max-width: 991px) {
       width: 50%;
-      padding-right: rem(18);
+      padding-right: var(--a-padding--x4);
     }
-    @media screen and (max-width: 768px) {
+    @media screen and (max-width: 767px) {
       width: 100%;
       padding-right: 0;
     }
   }
   &__finish-title {
-    padding-bottom: rem(8);
+    padding-bottom: var(--a-padding--x2);
   }
   &__finish-desc {
-    padding-bottom: rem(20);
+    padding-bottom: var(--a-padding--x5);
   }
   &__finish-inputs {
     width: 80%;
-    @media screen and (max-width: 992px) {
+    @media screen and (max-width: 991px) {
       width: 50%;
     }
-    @media screen and (max-width: 992px) {
+    @media screen and (max-width: 767px) {
       width: 100%;
     }
   }
   &__finish-data {
     display: flex;
-    padding-bottom: rem(20);
+    padding-bottom: var(--a-padding--x5);
 
-    @media screen and (max-width: 992px) {
+    @media screen and (max-width: 991px) {
       flex-flow: column;
     }
 
     & .a-input {
       width: 100%;
-      margin-right: rem(8);
+      margin-right: var(--a-padding--x2);
       flex-grow: 1;
-      @media screen and (max-width: 992px) {
+      @media screen and (max-width: 991px) {
         max-width: 100%;
         margin-right: 0;
-        margin-bottom: rem(12);
+        margin-bottom: var(--a-padding--x3);
       }
     }
     & .a-input__wrapper {
@@ -159,16 +158,16 @@ $a-borderRadius--default: 4px;
     & .a-button {
       width: 100%;
       max-width: rem(330);
-      @media screen and (max-width: 992px) {
+      @media screen and (max-width: 991px) {
         max-width: 100%;
       }
     }
   }
   &__finish-sogl {
     display: flex;
-    align-items: flex-start;
-    padding-right: rem(30);
-    color: #707c8b;
+    align-items: center;
+    padding-right: var(--a-padding--x8);
+    color: var(--a-color_text--secondary);
     & span {
       flex-grow: 1;
       width: 100%;
