@@ -1,6 +1,7 @@
 <template>
-  <!-- <div class="container">
-    <div>
+  <div class="container">
+    <s-menu-main></s-menu-main>
+    <!-- <div>
       <h1 class="title">{{ pageInfo.name }}</h1>
     </div>
     <nuxt-link to="/product">TO PRODUCT PAGE</nuxt-link>
@@ -8,20 +9,19 @@
     <h2>DATA FROM EXAMPLE:</h2>
     <example />
     <br />
-    <h2>PAGE INFO:</h2>
-    <component :is="section" v-for="section in sections" :key="section"></component> -->
-       <!-- <component
-        :is="key"
-        v-for="{ key, methods, title, id } in pageInfo.components"
-        :key="id"
-        :methods="methods"
-        :title="title"
-       ></component>
+    <h2>PAGE INFO:</h2> -->
+    <!-- <component :is="section" v-for="section in sections" :key="section"></component> -->
+    <!-- <component
+      :is="key"
+      v-for="{ key, methods, title, id } in pageInfo.components"
+      :key="id"
+      :methods="methods"
+      :title="title"
+    ></component>
     <pre>
       {{ pageInfo }}
-    </pre>
-  </div> -->
-  <s-menu-main></s-menu-main>
+    </pre> -->
+  </div>
 </template>
 
 <script>
@@ -47,7 +47,6 @@ export default {
       's-main-banners-narrow',
       's-banner',
       's-partners',
-      's-menu-main',
     ];
 
     return {
