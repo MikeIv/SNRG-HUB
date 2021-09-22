@@ -11,10 +11,4 @@
   @media screen and (max-width: 991px) {
     margin: rem(12) auto;
   }
-
-  .m-form-pay {
-    @media screen and (max-width: 767px) {
-      padding: var(--a-padding--x6) var(--a-padding--x4);
-    }
-  }
 }
