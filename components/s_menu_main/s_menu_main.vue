@@ -1,5 +1,5 @@
 <template>
-  <section class="s-menu-main">
+  <section class="s-menu-main" :class="{open: isOpen}">
     <div class="l-default">
       <div class="s-menu-main__box">
         <div class="s-menu-main__items">
@@ -71,7 +71,7 @@ export default {
       menuLinks: [],
       isActive: false,
       windowWidth: 0,
-      isOpen: false,
+      isOpen: true,
       menuIsOpen: false,
     };
   },

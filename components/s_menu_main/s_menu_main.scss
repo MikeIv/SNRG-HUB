@@ -4,10 +4,16 @@
   position: absolute;
   top: 0;
   left: 0;
-  overflow-x: hidden;
+  transform: translateY(-200%);
+  transition: all .4s ease-in-out;
   width: 100%;
   min-height: 100vh;
   background: #fff;
+  overflow-x: hidden;
+
+  &.open {
+    transform: translateY(0);
+  }
 
   @media screen and (max-width: 767px) {
     background: #f5f5f5;
