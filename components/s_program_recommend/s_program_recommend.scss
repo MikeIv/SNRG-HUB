@@ -40,8 +40,8 @@
       width: rem(328);
     }
 
-    @media screen and (max-width: 320px) {
-      width: rem(270);
+    @media (max-width: 576px) {
+      width: 100%;
     }
   }
 
