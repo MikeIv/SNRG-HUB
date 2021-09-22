@@ -71,9 +71,11 @@
   }
 
   &__factoids {
-    overflow: auto;
     width: 100%;
     margin: rem(8) 0 0;
+    @media (max-width: 1399px) {
+      overflow-x: auto;
+    }
 
     &-inner {
       display: grid;
