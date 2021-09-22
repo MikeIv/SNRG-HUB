@@ -11,7 +11,7 @@
         </div>
         <div class="s-menu-main__content" :class="{ open: menuIsOpen }">
           <template v-for="(item, idx) in menuLinks">
-            <div class="s-menu-main__links" :key="idx" v-if="item.isActive">
+            <div class="s-menu-main__links" :key="idx" :class="{ active: item.isActive }">
               <div class="s-menu-main__links-top" @click="getActiveMenu">
                 <div class="s-menu-main__links-icon si-chevron-left"></div>
                 <div class="s-menu-main__links-title a-font_h4">
@@ -66,8 +66,6 @@ export default {
     MBanner,
   },
 
-  props: {},
-
   data() {
     return {
       menu: [],
@@ -86,9 +84,6 @@ export default {
 
       data.forEach((el, i) => {
         const element = el;
-
-        element.isActive = false;
-
         if (i === 0) {
           element.isActive = true;
         }
