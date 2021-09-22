@@ -1,26 +1,16 @@
 @import '@/assets/styles/tools/mixins';
 
 .s-program-people {
+
+  .m-card-landing {
+    width: rem(364);
+  }
   &__wrapper {
     width: 100%;
     margin: rem(20) auto;
     padding: var(--layout-v-padding) var(--layout-padding);
     background-color: var(--a-color_bg);
     border-radius: var(--a-borderRadius--bg);
-  }
-
-  .m-card-landing {
-    width: rem(364);
-  }
-
-  & .m-card-landing__image {
-    border-radius: var(--a-borderRadius);
-    height: rem(192);
-    object-fit: cover;
-
-    @media (max-width: 767px) {
-      height: rem(128);
-    }
   }
 
   &__title {
@@ -38,6 +28,16 @@
 
     span {
       color: var(--a-color_link);
+    }
+  }
+
+  & .m-card-landing__image {
+    height: rem(192);
+    border-radius: var(--a-borderRadius);
+    object-fit: cover;
+
+    @media (max-width: 767px) {
+      height: rem(128);
     }
   }
 }

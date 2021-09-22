@@ -1,6 +1,11 @@
 @import '@/assets/styles/tools/mixins';
 
 .s-program-price {
+  .m-form-pay {
+    @media screen and (max-width: 767px) {
+      padding: var(--a-padding--x6) var(--a-padding--x4);
+    }
+  }
   &__wrapper {
     position: relative;
     overflow: hidden;
@@ -11,12 +16,6 @@
 
     @media screen and (max-width: 991px) {
       margin: rem(12) auto;
-    }
-  }
-
-  .m-form-pay {
-    @media screen and (max-width: 767px) {
-      padding: var(--a-padding--x6) var(--a-padding--x4);
     }
   }
 }

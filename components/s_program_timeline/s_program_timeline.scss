@@ -1,14 +1,6 @@
 @import '@/assets/styles/tools/mixins';
 
 .s-program-timeline {
-  &__wrapper {
-    width: 100%;
-    margin: rem(20) auto;
-    padding: var(--layout-v-padding) var(--layout-padding);
-    background-color: var(--a-color_bg);
-    border-radius: var(--a-borderRadius--bg);
-  }
-
   .m-card-landing {
     width: rem(270);
 
@@ -16,10 +8,12 @@
       width: rem(223);
     }
   }
-
-  & .m-card-landing__image {
-    height: rem(192);
-    object-fit: cover;
+  &__wrapper {
+    width: 100%;
+    margin: rem(20) auto;
+    padding: var(--layout-v-padding) var(--layout-padding);
+    background-color: var(--a-color_bg);
+    border-radius: var(--a-borderRadius--bg);
   }
 
   &__title {
@@ -59,5 +53,10 @@
         margin-left: 0;
       }
     }
+  }
+
+  & .m-card-landing__image {
+    height: rem(192);
+    object-fit: cover;
   }
 }

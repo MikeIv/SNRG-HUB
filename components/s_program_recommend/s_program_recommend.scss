@@ -33,12 +33,6 @@
     }
   }
 
-  &__wrapper {
-    padding: var(--layout-padding);
-    background-color: var(--a-color_bg);
-    border-radius: var(--a-borderRadius--bg);
-  }
-
   .m-card-program {
     width: rem(370);
 
@@ -49,6 +43,12 @@
     @media screen and (max-width: 320px) {
       width: rem(270);
     }
+  }
+
+  &__wrapper {
+    padding: var(--layout-padding);
+    background-color: var(--a-color_bg);
+    border-radius: var(--a-borderRadius--bg);
   }
 
   &__title {

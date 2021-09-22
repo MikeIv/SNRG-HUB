@@ -1,17 +1,6 @@
 @import '@/assets/styles/tools/mixins';
 
 .s-program-announce {
-  &__wrapper {
-    width: 100%;
-    margin: rem(20) auto;
-    padding: var(--layout-v-padding) var(--layout-padding);
-    background-color: var(--a-color_bg);
-    border-radius: var(--a-borderRadius--bg);
-
-    @media (max-width: 991px) {
-      margin: rem(12) auto;
-    }
-  }
 
   .m-card-announce {
     width: rem(323);
@@ -26,6 +15,17 @@
 
     a {
       text-decoration: none;
+    }
+  }
+  &__wrapper {
+    width: 100%;
+    margin: rem(20) auto;
+    padding: var(--layout-v-padding) var(--layout-padding);
+    background-color: var(--a-color_bg);
+    border-radius: var(--a-borderRadius--bg);
+
+    @media (max-width: 991px) {
+      margin: rem(12) auto;
     }
   }
 

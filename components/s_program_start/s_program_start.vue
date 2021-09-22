@@ -12,7 +12,7 @@
         :form="program.form"
         :photo="program.photo"
         :link="program.link"
-        />
+      />
     </div>
   </section>
 </template>

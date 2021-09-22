@@ -1,19 +1,6 @@
 @import '@/assets/styles/tools/mixins';
 
 .s-program-form {
-  &__wrapper {
-    position: relative;
-    overflow: hidden;
-    width: 100%;
-    margin: rem(20) auto;
-    padding: var(--layout-v-padding) var(--layout-padding);
-    background-color: var(--a-color_corporate--blue);
-    border-radius: var(--a-borderRadius--bg);
-
-    @media screen and (max-width: 991px) {
-      margin: rem(12) auto;
-    }
-  }
 
   .m-form {
     @media screen and (max-width: 991px) {
@@ -36,5 +23,18 @@
 
   .a-input--large {
     width: inherit;
+  }
+  &__wrapper {
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    margin: rem(20) auto;
+    padding: var(--layout-v-padding) var(--layout-padding);
+    background-color: var(--a-color_corporate--blue);
+    border-radius: var(--a-borderRadius--bg);
+
+    @media screen and (max-width: 991px) {
+      margin: rem(12) auto;
+    }
   }
 }
