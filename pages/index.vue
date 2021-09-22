@@ -5,9 +5,10 @@
     </div>
 
     <s-quiz
-      :methodsData="{filter:{id:1}}"
+      :methodsData="{ filter: { id: 1 } }"
       :imageFon="require(`~/assets/images/m-banner--quiz.png`)"
-      :image="require(`~/assets/images/quiz-podbor_02.png`)">
+      :image="require(`~/assets/images/quiz-podbor_02.png`)"
+    >
     </s-quiz>
 
     <nuxt-link to="/product">TO PRODUCT PAGE</nuxt-link>

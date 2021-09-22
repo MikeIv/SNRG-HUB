@@ -1,11 +1,10 @@
 <template>
   <div class="m-quiz" v-if="dataQuiz">
-
     <!-- baner -->
     <div v-if="banerFlag" class="m-quiz__baner" :style="`background-image: url(${imageFon})`">
       <div class="m-quiz__baner-img" :style="`background-image: url(${image})`"></div>
-      <h1 class="m-quiz__title a-font_h1">{{dataQuiz.title}}</h1>
-      <div class="m-quiz__descript a-font_l-m">{{dataQuiz.text}}</div>
+      <h1 class="m-quiz__title a-font_h1">{{ dataQuiz.title }}</h1>
+      <div class="m-quiz__descript a-font_l-m">{{ dataQuiz.text }}</div>
       <a-button bgColor="accent" :label="dataQuiz.button" @onClickBtn="startQuiz"></a-button>
     </div>
 
@@ -18,7 +17,6 @@
         <h5 class="m-quiz__question a-font_h5">{{ dataQuestion[countPosition].question }}</h5>
       </div>
       <div class="m-quiz__answers">
-
         <div class="m-quiz__control" v-for="(item, index) in dataQuestion[countPosition].answers" :key="index">
           <a-control
             :title="item.answer"
@@ -28,10 +26,10 @@
             :valueControl="item.answer"
             v-model="ansver"
             name="quiz"
-            @change="changeQuiz(item)">
+            @change="changeQuiz(item)"
+          >
           </a-control>
         </div>
-
       </div>
     </div>
 
@@ -51,15 +49,18 @@
         </div>
         <div class="m-quiz__finish-sogl">
           <a-control
-            typeBtn="checkbox" typeCtrl="checkbox" v-model="sogl" labelPosition="right"
-            title="Нажимая на кнопку, вы соглашаетсь с политикой конфиденциальности и на получение рассылок">
+            typeBtn="checkbox"
+            typeCtrl="checkbox"
+            v-model="sogl"
+            labelPosition="right"
+            title="Нажимая на кнопку, вы соглашаетсь с политикой конфиденциальности и на получение рассылок"
+          >
           </a-control>
         </div>
       </div>
     </div>
 
-    <a-progressbar :percent="progress"/>
-
+    <a-progressbar :percent="progress" />
   </div>
 </template>
 
@@ -96,7 +97,6 @@ export default {
       tel: '',
     },
     sogl: true,
-
   }),
 
   props: {
@@ -119,7 +119,6 @@ export default {
   },
 
   methods: {
-
     prevQuiz() {
       this.countPosition -= 1;
       this.ansver = this.listAnsvers[this.countPosition].ansver;
@@ -129,15 +128,12 @@ export default {
       this.banerFlag = false;
     },
 
-    sendQuiz() {
-
-    },
+    sendQuiz() {},
 
     changeQuiz(value) {
       this.listAnsvers[this.countPosition] = { ...value, ansver: this.ansver };
       this.countPosition += 1;
     },
-
   },
 };
 </script>
