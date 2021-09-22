@@ -1,6 +1,5 @@
 <template>
   <div class="container">
-    <s-menu-main></s-menu-main>
     <div>
       <h1 class="title">{{ pageInfo.name }}</h1>
     </div>
