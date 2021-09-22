@@ -39,7 +39,7 @@
     <div v-else class="m-quiz__finish">
       <div class="m-quiz__finish-text">
         <h5 class="m-quiz__finish-title a-font_h5">Мы подобрали вам программу обучения</h5>
-        <div class="m-quiz__finish-desc a-font_l">
+        <div class="m-quiz__finish-desc a-font_l-m">
           Заполните форму, чтобы узнать больше о программе и наших предложений
         </div>
       </div>
@@ -47,11 +47,13 @@
         <div class="m-quiz__finish-data">
           <a-input placeholder="Имя" v-model="send.name"></a-input>
           <a-input placeholder="Телефон" v-model="send.tel"></a-input>
-          <a-button bgColor="accent" size="large" label="Отправить" @click="sendQuiz"></a-button>
+          <a-button bgColor="accent" size="large" label="Отправить" :disabled="!sogl" @click="sendQuiz"></a-button>
         </div>
         <div class="m-quiz__finish-sogl">
-          <a-control typeBtn="checkbox" typeCtrl="checkbox" v-model="send.sogl"></a-control>
-          <span class="a-font_l">Нажимая на кнопку, вы соглашаетсь с политикой конфиденциальности и на получение рассылок</span> 
+          <a-control 
+            typeBtn="checkbox" typeCtrl="checkbox" v-model="sogl" labelPosition="right"
+            title="Нажимая на кнопку, вы соглашаетсь с политикой конфиденциальности и на получение рассылок">
+          </a-control>
         </div>
       </div>
     </div>
@@ -62,13 +64,15 @@
 </template>
 
 <script>
-import { AButton, AInput, AControl, AProgressbar } from '@cwespb/synergyui';
+import {
+  AButton, AInput, AControl, AProgressbar,
+} from '@cwespb/synergyui';
 import getQuizzesDetail from '~/api/quizzesDetail';
 
-import './m_quiz.scss';
+import './s_quiz.scss';
 
 export default {
-  name: 'm-quiz',
+  name: 's-quiz',
   components: {
     AProgressbar,
     AControl,
@@ -90,25 +94,25 @@ export default {
     send: {
       name: '',
       tel: '',
-      sogl: true
     },
+    sogl: true,
 
   }),
 
   props: {
     imageFon: String,
     image: String,
-    quizId: {},
+    methodsData: {},
   },
 
-  computed:{
-    progress(){
+  computed: {
+    progress() {
       return (this.countPosition / this.count) * 100;
-    }
+    },
   },
 
   async fetch() {
-    const response = await getQuizzesDetail({ filter: { id: this.quizId } });
+    const response = await getQuizzesDetail(this.methodsData);
     this.dataQuiz = response;
     this.dataQuestion = response.questions.filter((item) => item.answers.length > 0);
     this.count = this.dataQuestion.length;

@@ -4,11 +4,11 @@
       <h1 class="title">{{ pageInfo.name }}</h1>
     </div>
 
-    <m-quiz
-      :quizId="1"
+    <s-quiz
+      :methodsData="{filter:{id:1}}"
       :imageFon="require(`~/assets/images/m-banner--quiz.png`)"
       :image="require(`~/assets/images/quiz-podbor_02.png`)">
-    </m-quiz>
+    </s-quiz>
 
     <nuxt-link to="/product">TO PRODUCT PAGE</nuxt-link>
     <br />
@@ -32,12 +32,12 @@
 <script>
 import Example from '~/components/Example';
 
-import MQuiz from '~/components/m_quiz/m_quiz';
+import SQuiz from '~/components/s_quiz/s_quiz';
 
 export default {
   components: {
     Example,
-    MQuiz,
+    SQuiz,
   },
 
   middleware: 'getPageInfo',
