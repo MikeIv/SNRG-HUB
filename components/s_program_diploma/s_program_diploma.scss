@@ -1,6 +1,18 @@
 @import '@/assets/styles/tools/mixins';
 
 .s_program_diploma {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  margin: rem(20) auto;
+  padding: var(--layout-v-padding) var(--layout-h-padding);
+  background-color: var(--a-color_bg);
+  border-radius: var(--a-borderRadius--bg);
+
+  @media screen and (max-width: 991px) {
+    margin: rem(12) auto;
+  }
+
   .m-card-landing {
     width: 364px;
   }
@@ -8,19 +20,6 @@
   .m-card-landing__image {
     height: rem(256);
     object-fit: cover;
-  }
-  &__wrapper {
-    position: relative;
-    overflow: hidden;
-    width: 100%;
-    margin: rem(20) auto;
-    padding: var(--layout-v-padding) var(--layout-padding);
-    background-color: var(--a-color_bg);
-    border-radius: var(--a-borderRadius--bg);
-
-    @media screen and (max-width: 991px) {
-      margin: rem(12) auto;
-    }
   }
 
   &__title {

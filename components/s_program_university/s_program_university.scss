@@ -1,16 +1,13 @@
 @import '@/assets/styles/tools/mixins';
 
 .s-program-university {
-  &__wrapper {
-    max-width: var(--layout-width);
-    margin: rem(20) auto;
-    padding: var(--layout-v-padding) var(--layout-padding);
-    background-color: var(--a-color_bg);
-    border-radius: var(--a-borderRadius--bg);
+  margin: rem(20) auto;
+  padding: var(--layout-v-padding) var(--layout-h-padding);
+  background-color: var(--a-color_bg);
+  border-radius: var(--a-borderRadius--bg);
 
-    @media (max-width: 991px) {
-      margin: rem(12) auto;
-    }
+  @media (max-width: 991px) {
+    margin: rem(12) auto;
   }
 
   &__title {
@@ -30,9 +27,9 @@
     align-items: flex-start;
     grid-template-columns: rem(746) rem(128);
     @media (max-width: 991px) {
-      grid-template-columns: rem(526) rem(48);
+      grid-template-columns: rem(526) rem(128);
     }
-    @media (max-width: 991px) {
+    @media (max-width: 767px) {
       grid-gap: 0 rem(16);
       grid-template-columns: 1fr rem(48);
     }
@@ -60,7 +57,10 @@
     justify-self: end;
     width: 100%;
     height: auto;
-    object-fit: cover;
+    img {
+      object-fit: cover;
+      vertical-align: top;
+    }
     @media (max-width: 991px) {
       grid-row-start: 2;
     }
@@ -71,31 +71,25 @@
   }
 
   &__factoids {
+    display: flex;
+    box-sizing: border-box;
     width: 100%;
     margin: rem(8) 0 0;
+    padding: rem(40) rem(32) rem(46);
+    border: 1px solid var(--a-color_thumbnail);
+    border-radius: var(--a-borderRadius--default);
     @media (max-width: 1399px) {
-      overflow-x: auto;
+      width: auto;
     }
-
-    &-inner {
-      display: grid;
-      grid-template-columns: repeat(10, 1fr);
-      grid-gap: rem(64) 0;
-      width: fit-content;
-      padding: rem(40) rem(32) rem(46);
-      border: 1px solid var(--a-color_thumbnail);
-      border-radius: var(--a-borderRadius--default);
-      @media (max-width: 767px) {
-        grid-gap: rem(40) 0;
-        margin: rem(4) 0 0;
-        padding: rem(16) rem(24);
-      }
+    @media (max-width: 767px) {
+      margin: rem(4) 0 0;
+      padding: rem(24) rem(16);
+    }
+    @media (max-width: 575px) {
+      padding: rem(16);
     }
 
     & .a-factoid-number__wrapper {
-      grid-column: span 2;
-      min-width: fit-content;
-      height: 100%;
       margin-left: rem(24);
       padding-left: rem(24);
       border-left: 1px solid var(--a-color_thumbnail);
@@ -103,33 +97,55 @@
         margin-left: rem(10);
         padding-left: rem(10);
       }
-      h2 {
-        white-space: nowrap;
+      @media (max-width: 575px) {
+        margin-left: rem(12);
+        padding-left: rem(12);
       }
-      &:first-child,
-      &:nth-child(4) {
+      &:first-child {
         margin-left: 0;
         padding-left: 0;
         border-left: 0;
       }
-      &:nth-child(4),
-      &:nth-child(5) {
-        grid-column: span 3;
-        grid-row: 2;
+      h2 {
+        white-space: nowrap;
       }
-      &:last-child {
-        grid-column: 7 / -1;
-        grid-row: span 2;
-        align-self: center;
-        justify-content: center;
-        margin-left: rem(32);
-        padding-left: rem(32);
-        h2 {
-          white-space: normal;
-        }
-        @media (max-width: 767px) {
-          margin-left: rem(16);
-          padding-left: rem(16);
+    }
+
+    &-left {
+      display: grid;
+      grid-gap: rem(64) 0;
+      flex: 1;
+      width: 60%;
+      @media (max-width: 767px) {
+        grid-gap: 0;
+      }
+    }
+
+    &-right {
+      display: flex;
+      align-items: center;
+      margin-left: rem(32);
+      padding-left: rem(32);
+      border-left: 1px solid var(--a-color_thumbnail);
+      @media (max-width: 767px) {
+        margin-left: rem(16);
+        padding-left: rem(16);
+      }
+
+      & .a-factoid-number__wrapper h2 {
+        white-space: normal;
+      }
+    }
+
+    &-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      @media (max-width: 767px) {
+        &:first-child {
+          margin: 0 0 rem(20);
+          padding: 0 0 rem(20);
+          border-bottom: 1px solid var(--a-color_thumbnail);
         }
       }
     }

@@ -1,43 +1,41 @@
 <template>
-  <section class="s-program-recommend">
-    <div class="l-default">
-      <div class="s-program-recommend__wrapper">
-        <h2 class="s-program-recommend__title a-font_h5">{{ title }}</h2>
-        <div class="s-program-recommend__swiper">
-          <swiper class="swiper" :options="swiperOption">
-            <MCard
-              v-for="item in items"
-              :key="item.id"
-              :type="item.type"
-              :date="item.date"
-              :title="item.title"
-              :description="item.description"
-              :bottomText="item.bottomText"
-              :iconSrc="item.iconSrc"
-              class="swiper-slide"
-              @onLikeClick="onLikeClickHandler"
-            />
-          </swiper>
-          <a-button
-            class="swiper-button-prev m-card-verticalbutton s-program-recommend__button"
-            size="medium"
-            bg-color="ghost-primary"
-            only-icon="square"
-            iconType="si-chevron-left"
-            slot="button-prev"
-          ></a-button>
-          <a-button
-            class="swiper-button-next m-card-verticalbutton s-program-recommend__button"
-            size="medium"
-            bg-color="ghost-primary"
-            only-icon="square"
-            iconType="si-chevron-right"
-            slot="button-next"
-          ></a-button>
-        </div>
+  <div class="l-default">
+    <section class="s-program-recommend">
+      <h2 class="s-program-recommend__title a-font_h5">{{ title }}</h2>
+      <div class="s-program-recommend__swiper">
+        <swiper class="swiper" :options="swiperOption">
+          <MCard
+            v-for="item in items"
+            :key="item.id"
+            :type="item.type"
+            :date="item.date"
+            :title="item.title"
+            :description="item.description"
+            :bottomText="item.bottomText"
+            :iconSrc="item.iconSrc"
+            class="swiper-slide"
+            @onLikeClick="onLikeClickHandler"
+          />
+        </swiper>
+        <a-button
+          class="swiper-button-prev m-card-verticalbutton s-program-recommend__button"
+          size="medium"
+          bg-color="ghost-primary"
+          only-icon="square"
+          iconType="si-chevron-left"
+          slot="button-prev"
+        ></a-button>
+        <a-button
+          class="swiper-button-next m-card-verticalbutton s-program-recommend__button"
+          size="medium"
+          bg-color="ghost-primary"
+          only-icon="square"
+          iconType="si-chevron-right"
+          slot="button-next"
+        ></a-button>
       </div>
-    </div>
-  </section>
+    </section>
+  </div>
 </template>
 
 <script>

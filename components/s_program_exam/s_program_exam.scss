@@ -1,16 +1,14 @@
 @import '@/assets/styles/tools/mixins';
 
 .s-program-exam {
-  &__wrapper {
-    width: 100%;
-    margin: rem(20) auto;
-    padding: var(--layout-v-padding) var(--layout-padding);
-    background-color: var(--a-color_bg);
-    border-radius: var(--a-borderRadius--bg);
+  width: 100%;
+  margin: rem(20) auto;
+  padding: var(--layout-v-padding) var(--layout-h-padding);
+  background-color: var(--a-color_bg);
+  border-radius: var(--a-borderRadius--bg);
 
-    @media (max-width: 991px) {
-      margin-bottom: rem(12);
-    }
+  @media (max-width: 991px) {
+    margin-bottom: rem(12);
   }
 
   &__header {
