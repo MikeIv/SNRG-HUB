@@ -47,6 +47,8 @@ export default {
         grabCursor: true,
         slidesPerView: 'auto',
         spaceBetween: 20,
+        resistance: true,
+        resistanceRatio: 0,
       },
 
       items: [
