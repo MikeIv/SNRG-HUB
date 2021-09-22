@@ -22,6 +22,18 @@
           </swiper>
         </div>
       </div>
+      <div class="s-program-timeline__items">
+        <swiper class="swiper" :options="swiperOption">
+          <MCardLanding
+            v-for="item in items"
+            :key="item.id"
+            :title="item.title"
+            :text="item.text"
+            :image="item.image"
+            class="swiper-slide"
+          />
+        </swiper>
+      </div>
     </div>
   </section>
 </template>

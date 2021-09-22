@@ -1,6 +1,6 @@
 <template>
-  <section class="s-program-start">
-    <div class="l-default">
+  <div class="l-default">
+    <section class="s-program-start">
       <SProgramStart
         :breadcrumbs="breadcrumbs"
         :program="program"
@@ -13,8 +13,8 @@
         :photo="program.photo"
         :link="program.link"
       />
-    </div>
-  </section>
+    </section>
+  </div>
 </template>
 
 <script>

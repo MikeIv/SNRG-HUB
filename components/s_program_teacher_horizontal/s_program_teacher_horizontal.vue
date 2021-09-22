@@ -1,21 +1,19 @@
 <template>
-  <section class="s-program-teacher-horizontal">
-    <div class="l-default">
-      <div class="s-program-teacher-horizontal__wrapper">
-        <h2 class="s-program-teacher-horizontal__title a-font_h2" v-html="title"></h2>
-        <div class="s-program-teacher-horizontal__items">
-          <MCardSpeaker
-            v-for="item in items"
-            :key="item.id"
-            :name="item.name"
-            :title="item.title"
-            :description="item.description"
-            :image="item.image"
-          />
-        </div>
+  <div class="l-default">
+    <section class="s-program-teacher-horizontal">
+      <h2 class="s-program-teacher-horizontal__title a-font_h2" v-html="title"></h2>
+      <div class="s-program-teacher-horizontal__items">
+        <MCardSpeaker
+          v-for="item in items"
+          :key="item.id"
+          :name="item.name"
+          :title="item.title"
+          :description="item.description"
+          :image="item.image"
+        />
       </div>
-    </div>
-  </section>
+    </section>
+  </div>
 </template>
 
 <script>

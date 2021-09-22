@@ -1,19 +1,18 @@
 @import '@/assets/styles/tools/mixins';
 
 .s-program-people {
+  width: 100%;
+  margin: rem(20) auto;
+  padding: var(--layout-v-padding) var(--layout-h-padding);
+  background-color: var(--a-color_bg);
+  border-radius: var(--a-borderRadius--bg);
+
   .m-card-landing {
     width: rem(364);
 
     @media (max-width: 576px) {
       width: 100%;
     }
-  }
-  &__wrapper {
-    width: 100%;
-    margin: rem(20) auto;
-    padding: var(--layout-v-padding) var(--layout-padding);
-    background-color: var(--a-color_bg);
-    border-radius: var(--a-borderRadius--bg);
   }
 
   &__title {
