@@ -1,18 +1,42 @@
 <template>
-  <div class="s-program-university">
-    <div class="l-default">
-      <div class="s-program-university__wrapper">
-        <div class="s-program-university__top">
-          <h2 class="s-program-university__title a-font_h2" v-html="title"></h2>
-          <p class="s-program-university__introtext a-font_xxl" v-html="introtext"></p>
-          <p class="s-program-university__description" v-html="description"></p>
-          <img class="s-program-university__img" v-if="image" :src="image" alt="" />
-        </div>
+  <div class="l-default">
+    <section class="s-program-university">
+      <div class="s-program-university__top">
+        <h2 class="s-program-university__title a-font_h2" v-html="title"></h2>
+        <p class="s-program-university__introtext a-font_xxl" v-html="introtext"></p>
+        <p class="s-program-university__description" v-html="description"></p>
+        <span class="s-program-university__img" v-if="image">
+          <img :src="image" alt="" />
+        </span>
+      </div>
 
-        <div class="s-program-university__factoids">
-          <div class="s-program-university__factoids-inner">
+      <swiper :options="swiperOption">
+        <div class="swiper-slide s-program-university__factoids">
+          <div class="s-program-university__factoids-left">
+            <div class="s-program-university__factoids-row">
+              <AFactoid
+                v-for="factoid in factoids.slice(0, 3)"
+                :key="factoid.id"
+                :type="factoid.type"
+                :title="factoid.title"
+                :number="factoid.number"
+                :color="factoid.color"
+              />
+            </div>
+            <div class="s-program-university__factoids-row">
+              <AFactoid
+                v-for="factoid in factoids.slice(3, 5)"
+                :key="factoid.id"
+                :type="factoid.type"
+                :title="factoid.title"
+                :number="factoid.number"
+                :color="factoid.color"
+              />
+            </div>
+          </div>
+          <div class="s-program-university__factoids-right">
             <AFactoid
-              v-for="factoid in factoids"
+              v-for="factoid in factoids.slice(5, 6)"
               :key="factoid.id"
               :type="factoid.type"
               :title="factoid.title"
@@ -21,12 +45,13 @@
             />
           </div>
         </div>
-      </div>
-    </div>
+      </swiper>
+    </section>
   </div>
 </template>
 
 <script>
+import { Swiper } from 'vue-awesome-swiper';
 import { AFactoid } from '@cwespb/synergyui';
 import './s_program_university.scss';
 
@@ -34,11 +59,25 @@ export default {
   name: 's_program_university',
 
   components: {
+    Swiper,
     AFactoid,
   },
 
   data() {
     return {
+      swiperOption: {
+        observer: true,
+        observeParents: true,
+        freeMode: true,
+        slidesPerView: 'auto',
+        spaceBetween: 0,
+        breakpoints: {
+          768: {
+            grabCursor: true,
+          },
+        },
+      },
+
       title: 'Университет <span>«Синергия»</span>',
       introtext: 'Флагманский проект образовательной корпорации, который является одним из ведущих российских вузов',
       description:

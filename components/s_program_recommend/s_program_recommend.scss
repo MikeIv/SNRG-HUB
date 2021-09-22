@@ -2,6 +2,9 @@
 
 .s-program-recommend {
   margin-bottom: rem(20);
+  padding: var(--layout-v-padding) var(--layout-h-padding);
+  background-color: var(--a-color_bg);
+  border-radius: var(--a-borderRadius--bg);
 
   @media (max-width: 991px) {
     margin-bottom: rem(12);
@@ -42,15 +45,6 @@
 
     @media (max-width: 576px) {
       width: 100%;
-    }
-  }
-
-  &__wrapper {
-    padding: rem(60) rem(80);
-    background-color: var(--a-color_bg);
-    border-radius: var(--a-borderRadius--bg);
-    @media screen and (max-width: 991px) {
-      padding: rem(40) rem(30);
     }
   }
 

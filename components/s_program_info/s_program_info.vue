@@ -1,6 +1,6 @@
 <template>
-  <section class="s-program-info">
-    <div class="l-default">
+  <div class="l-default">
+    <section class="s-program-info">
       <div class="s-program-info__wrapper">
         <div class="s-program-info__items">
           <swiper class="swiper" :options="swiperOption">
@@ -23,8 +23,8 @@
           </svg>
         </span>
       </div>
-    </div>
-  </section>
+    </section>
+  </div>
 </template>
 
 <script>

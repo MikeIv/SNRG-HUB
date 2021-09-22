@@ -1,6 +1,6 @@
 <template>
-  <section class="s-program-people">
-    <div class="l-default">
+  <div class="l-default">
+    <section class="s-program-people">
       <div class="s-program-people__wrapper">
         <h2 class="s-program-people__title a-font_h2" v-html="title"></h2>
         <div class="s-program-people__items">
@@ -16,8 +16,8 @@
           </swiper>
         </div>
       </div>
-    </div>
-  </section>
+    </section>
+  </div>
 </template>
 
 <script>

@@ -1,23 +1,16 @@
 @import '@/assets/styles/tools/mixins';
 
 .s-program-start {
-  &__wrapper {
-    position: relative;
-    overflow: hidden;
-    width: 100%;
-    margin: rem(20) auto;
-    padding: var(--layout-padding);
-    background-color: #e6e4f1;
-    border-radius: var(--a-borderRadius--bg);
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  margin: rem(20) auto;
+  padding: var(--layout-v-padding) var(--layout-h-padding);
+  background-color: #e6e4f1;
+  border-radius: var(--a-borderRadius--bg);
 
-    @media screen and (max-width: 991px) {
-      margin: rem(12) auto;
-      padding: rem(42) rem(30);
-    }
-
-    @media screen and (max-width: 767px) {
-      padding: rem(40) rem(16);
-    }
+  @media screen and (max-width: 991px) {
+    margin: rem(12) auto;
   }
 
   & .s-program-start__event {
