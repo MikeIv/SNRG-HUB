@@ -104,16 +104,19 @@ export default {
         slidesPerView: 'auto',
         spaceBetween: 16,
         grabCursor: true,
+        direction: 'vertical',
         navigation: {
           nextEl: '.swiper-button-next',
           prevEl: '.swiper-button-prev',
         },
         breakpoints: {
-          767: {
+          575: {
             spaceBetween: 12,
+            direction: 'horizontal'
           },
           991: {
             spaceBetween: 16,
+            direction: 'horizontal'
           },
         },
       },

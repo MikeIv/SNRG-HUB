@@ -48,9 +48,11 @@ export default {
         slidesPerView: 'auto',
         spaceBetween: 16,
         loop: true,
+        direction: 'vertical',
         breakpoints: {
           768: {
             slidesPerView: 3,
+            direction: 'horizontal'
           },
         },
       },
