@@ -112,11 +112,11 @@ export default {
         breakpoints: {
           575: {
             spaceBetween: 12,
-            direction: 'horizontal'
+            direction: 'horizontal',
           },
           991: {
             spaceBetween: 16,
-            direction: 'horizontal'
+            direction: 'horizontal',
           },
         },
       },

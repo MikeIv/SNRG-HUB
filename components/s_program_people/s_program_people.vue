@@ -52,7 +52,7 @@ export default {
         breakpoints: {
           768: {
             slidesPerView: 3,
-            direction: 'horizontal'
+            direction: 'horizontal',
           },
         },
       },
