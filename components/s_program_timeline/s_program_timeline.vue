@@ -1,26 +1,24 @@
 <template>
-  <section class="s-program-timeline">
-    <div class="l-default">
-      <div class="s-program-timeline__wrapper">
-        <div class="s-program-timeline__header">
-          <h2 class="s-program-timeline__title a-font_h2" v-html="title"></h2>
-          <div class="s-program-timeline__factoids">
-            <AFactoid
-              v-for="factoid in factoids"
-              :key="factoid.id"
-              :type="factoid.type"
-              :title="factoid.title"
-              :subtitle="factoid.subtitle"
-            />
-          </div>
+  <div class="l-default">
+    <section class="s-program-timeline">
+      <div class="s-program-timeline__header">
+        <h2 class="s-program-timeline__title a-font_h2" v-html="title"></h2>
+        <div class="s-program-timeline__factoids">
+          <AFactoid
+            v-for="factoid in factoids"
+            :key="factoid.id"
+            :type="factoid.type"
+            :title="factoid.title"
+            :subtitle="factoid.subtitle"
+          />
         </div>
-        <div class="s-program-timeline__swiper">
-          <swiper ref="awesomeSwiper" :options="swiperOptionA">
-            <swiper-slide v-for="item in items" :key="item.id" class="s-program-timeline__slide m-card-landing">
-              <MCardLanding :title="item.title" :text="item.text" :image="item.image" />
-            </swiper-slide>
-          </swiper>
-        </div>
+      </div>
+      <div class="s-program-timeline__swiper">
+        <swiper ref="awesomeSwiper" :options="swiperOptionA">
+          <swiper-slide v-for="item in items" :key="item.id" class="s-program-timeline__slide m-card-landing">
+            <MCardLanding :title="item.title" :text="item.text" :image="item.image" />
+          </swiper-slide>
+        </swiper>
       </div>
       <div class="s-program-timeline__items">
         <swiper class="swiper" :options="swiperOption">
@@ -34,8 +32,8 @@
           />
         </swiper>
       </div>
-    </div>
-  </section>
+    </section>
+  </div>
 </template>
 
 <script>
@@ -62,6 +60,18 @@ export default {
   data() {
     return {
       baseUrl: process.env.NUXT_ENV_S3BACKET,
+      swiperOption: {
+        grabCursor: true,
+        slidesPerView: 'auto',
+        spaceBetween: 20,
+        resistance: true,
+        resistanceRatio: 0,
+        breakpoints: {
+          768: {
+            spaceBetween: 12,
+          },
+        },
+      },
       swiperOptionA: {
         grabCursor: true,
         slidesPerView: 'auto',
