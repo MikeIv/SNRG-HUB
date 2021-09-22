@@ -50,6 +50,8 @@ export default {
         loop: false,
         direction: 'vertical',
         height: 'auto',
+        resistance: true,
+        resistanceRatio: 0,
         breakpoints: {
           992: {
             slidesPerView: 3,

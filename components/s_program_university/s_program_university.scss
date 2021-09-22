@@ -92,7 +92,7 @@
     & .a-factoid-number__wrapper {
       margin-left: rem(24);
       padding-left: rem(24);
-      border-left: 1px solid var(--a-color_thumbnail);
+      border-left: rem(1) solid var(--a-color_thumbnail);
       @media (max-width: 767px) {
         margin-left: rem(10);
         padding-left: rem(10);

@@ -62,6 +62,10 @@
     position: relative;
   }
 
+  &__slide {
+    width: 328px;
+  }
+
   &__button {
     .a-button__icon {
       color: var(--a-color_text--secondary);

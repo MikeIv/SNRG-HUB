@@ -98,17 +98,19 @@ export default {
           bottomText: 'Университет Синергия',
         },
       ],
-      swiperOption: {
+      swiperOptionA: {
         slidesPerView: 'auto',
         spaceBetween: 16,
         grabCursor: true,
         direction: 'vertical',
+        resistance: true,
+        resistanceRatio: 0,
         navigation: {
           nextEl: '.swiper-button-next',
           prevEl: '.swiper-button-prev',
         },
         breakpoints: {
-          575: {
+          767: {
             spaceBetween: 12,
             direction: 'horizontal',
           },
@@ -124,7 +126,7 @@ export default {
   },
   computed: {
     swiper() {
-      return this.$refs.mySwiper.$swiper;
+      return this.$refs.awesomeSwiper.swiper;
     },
   },
   methods: {
