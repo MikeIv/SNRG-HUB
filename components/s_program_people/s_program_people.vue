@@ -46,12 +46,16 @@ export default {
       swiperOption: {
         grabCursor: true,
         slidesPerView: 3,
-        spaceBetween: 16,
+        spaceBetween: 20,
         loop: false,
         direction: 'vertical',
+        height: 'auto',
         breakpoints: {
-          768: {
+          992: {
             slidesPerView: 3,
+          },
+          768: {
+            spaceBetween: 24,
           },
           576: {
             spaceBetween: 16,
