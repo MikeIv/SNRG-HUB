@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <s-menu-main></s-menu-main>
-    <!-- <div>
+    <div>
       <h1 class="title">{{ pageInfo.name }}</h1>
     </div>
     <nuxt-link to="/product">TO PRODUCT PAGE</nuxt-link>
@@ -9,9 +9,9 @@
     <h2>DATA FROM EXAMPLE:</h2>
     <example />
     <br />
-    <h2>PAGE INFO:</h2> -->
+    <h2>PAGE INFO:</h2>
     <!-- <component :is="section" v-for="section in sections" :key="section"></component> -->
-    <!-- <component
+    <component
       :is="key"
       v-for="{ key, methods, title, id } in pageInfo.components"
       :key="id"
@@ -20,7 +20,7 @@
     ></component>
     <pre>
       {{ pageInfo }}
-    </pre> -->
+    </pre>
   </div>
 </template>
 

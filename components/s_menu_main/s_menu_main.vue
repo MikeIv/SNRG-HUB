@@ -60,7 +60,7 @@ import './s_menu_main.scss';
 
 export default {
   name: 'SMenuMain',
-  
+
   components: {
     ASidebarItem,
     MBanner,
@@ -85,14 +85,17 @@ export default {
       this.menuAnchors = data;
 
       data.forEach((el, i) => {
-        el.isActive = false;
+        const element = el;
+
+        element.isActive = false;
+
         if (i === 0) {
-          el.isActive = true;
+          element.isActive = true;
         }
         const item = {
-          title: el.anchor,
-          items: el.sub_items,
-          isActive: el.isActive,
+          title: element.anchor,
+          items: element.sub_items,
+          isActive: element.isActive,
         };
         this.menuLinks.push(item);
       });
@@ -147,6 +150,5 @@ export default {
     window.removeEventListener('resize', this.handleResize);
     window.removeEventListener('DOMContentLoaded', this.handleResize);
   },
-
 };
 </script>
