@@ -53,6 +53,7 @@ export default {
         breakpoints: {
           992: {
             slidesPerView: 3,
+            direction: 'horizontal',
           },
           768: {
             spaceBetween: 24,

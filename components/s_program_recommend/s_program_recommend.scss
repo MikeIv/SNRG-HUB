@@ -53,6 +53,12 @@
 
   &__title {
     margin-bottom: rem(40);
+    @media screen and (max-width: 991px) {
+      margin-bottom: rem(24);
+    }
+    @media screen and (max-width: 767px) {
+      margin-bottom: rem(16);
+    }
   }
 
   &__swiper {
