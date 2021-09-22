@@ -3,11 +3,8 @@
     <div class="l-default">
       <h2 class="s-partners__title a-font_h5">{{ title }}</h2>
       <div class="s-partners__items">
-        <div
-          class="s-partners__item"
-          v-for="item in items"
-          :key="item.id">
-          <a-logo type="bordered" :link="item.link"/>
+        <div class="s-partners__item" v-for="item in items" :key="item.id">
+          <a-logo type="bordered" :link="item.link" />
         </div>
       </div>
     </div>
@@ -87,6 +84,5 @@ export default {
   //   };
   //   this.partnersList = await getPageSectionDetail(requestData);
   // },
-
 };
 </script>
