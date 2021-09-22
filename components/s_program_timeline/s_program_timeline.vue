@@ -1,6 +1,6 @@
 <template>
-  <section class="s-program-timeline">
-    <div class="l-default">
+  <div class="l-default">
+    <section class="s-program-timeline">
       <div class="s-program-timeline__wrapper">
         <div class="s-program-timeline__header">
           <h2 class="s-program-timeline__title a-font_h2" v-html="title"></h2>
@@ -22,20 +22,8 @@
           </swiper>
         </div>
       </div>
-      <div class="s-program-timeline__items">
-        <swiper class="swiper" :options="swiperOption">
-          <MCardLanding
-            v-for="item in items"
-            :key="item.id"
-            :title="item.title"
-            :text="item.text"
-            :image="item.image"
-            class="swiper-slide"
-          />
-        </swiper>
-      </div>
-    </div>
-  </section>
+    </section>
+  </div>
 </template>
 
 <script>
@@ -66,6 +54,7 @@ export default {
         grabCursor: true,
         slidesPerView: 'auto',
         spaceBetween: 20,
+        loop: true,
         resistance: true,
         resistanceRatio: 0,
         breakpoints: {
@@ -91,38 +80,26 @@ export default {
       items: [
         {
           title: 'Изучаете тему',
-          text:
-            // eslint-disable-next-line max-len
-            'Смотрите обучающие видео и задаёте вопросы',
+          text: 'Смотрите обучающие видео и задаёте вопросы',
           image:
-            // eslint-disable-next-line max-len
             'https://images.unsplash.com/photo-1528287942171-fbe365d1d9ac?ixlib=rb-1.2.1&q=85&fm=jpg&crop=entropy&w=1200&cs=srgb&ixid=eyJhcHBfaWQiOjE0NTg5fQ',
         },
         {
           title: 'Изучаете тему',
-          text:
-            // eslint-disable-next-line max-len
-            'Смотрите обучающие видео и задаёте вопросы',
+          text: 'Смотрите обучающие видео и задаёте вопросы',
           image:
-            // eslint-disable-next-line max-len
             'https://images.unsplash.com/photo-1528287942171-fbe365d1d9ac?ixlib=rb-1.2.1&q=85&fm=jpg&crop=entropy&w=1200&cs=srgb&ixid=eyJhcHBfaWQiOjE0NTg5fQ',
         },
         {
           title: 'Изучаете тему',
-          text:
-            // eslint-disable-next-line max-len
-            'Смотрите обучающие видео и задаёте вопросы',
+          text: 'Смотрите обучающие видео и задаёте вопросы',
           image:
-            // eslint-disable-next-line max-len
             'https://images.unsplash.com/photo-1528287942171-fbe365d1d9ac?ixlib=rb-1.2.1&q=85&fm=jpg&crop=entropy&w=1200&cs=srgb&ixid=eyJhcHBfaWQiOjE0NTg5fQ',
         },
         {
           title: 'Изучаете тему',
-          text:
-            // eslint-disable-next-line max-len
-            'Смотрите обучающие видео и задаёте вопросы',
+          text: 'Смотрите обучающие видео и задаёте вопросы',
           image:
-            // eslint-disable-next-line max-len
             'https://images.unsplash.com/photo-1528287942171-fbe365d1d9ac?ixlib=rb-1.2.1&q=85&fm=jpg&crop=entropy&w=1200&cs=srgb&ixid=eyJhcHBfaWQiOjE0NTg5fQ',
         },
       ],

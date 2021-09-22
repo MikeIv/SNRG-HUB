@@ -1,6 +1,6 @@
 <template>
-  <section class="s-program-recommend">
-    <div class="l-default">
+  <div class="l-default">
+    <section class="s-program-recommend">
       <div class="s-program-recommend__wrapper">
         <h2 class="s-program-recommend__title a-font_h2">{{ title }}</h2>
         <div class="s-program-recommend__swiper">
@@ -36,8 +36,8 @@
           ></a-button>
         </div>
       </div>
-    </div>
-  </section>
+    </section>
+  </div>
 </template>
 
 <script>
