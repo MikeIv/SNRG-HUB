@@ -3,11 +3,11 @@
 .s_program_diploma {
   .m-card-landing {
     width: rem(364);
+    object-fit: cover;
   }
 
   .m-card-landing__image {
     height: rem(256);
-    object-fit: cover;
   }
   &__wrapper {
     position: relative;

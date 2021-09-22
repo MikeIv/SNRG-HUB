@@ -3,20 +3,36 @@
     <div class="l-default">
       <div class="s-program-announce__wrapper">
         <h2 class="s-program-announce__title a-font_h2" v-html="title"></h2>
-        <div class="s-program-announce__items">
-          <swiper class="swiper" :options="swiperOption">
-            <MCard
-              v-for="item in items"
-              :key="item.id"
-              :type="item.type"
-              :date="item.date"
-              :title="item.title"
-              :description="item.description"
-              :link="item.link"
-              :aButtonText="item.aButtonText"
-              class="swiper-slide"
-            />
+        <div class="s-program-announce__swiper">
+          <swiper ref="awesomeSwiper" :options="swiperOptionA">
+            <swiper-slide v-for="item in items" :key="item.id" class="s-program-announce__slide m-card-vertical">
+              <nuxt-link to="/">
+                <m-card
+                  :title="item.title"
+                  :type="item.type"
+                  :description="item.description"
+                  :link="item.link"
+                  :aButtonText="item.aButtonText"
+                />
+              </nuxt-link>
+            </swiper-slide>
           </swiper>
+          <a-button
+            class="swiper-button-prev m-card-vertical__button s-program-announce__button"
+            size="medium"
+            bg-color="ghost-primary"
+            only-icon="square"
+            iconType="si-chevron-left"
+            slot="button-prev"
+          ></a-button>
+          <a-button
+            class="swiper-button-next m-card-vertical__button s-program-announce__button"
+            size="medium"
+            bg-color="ghost-primary"
+            only-icon="square"
+            iconType="si-chevron-right"
+            slot="button-next"
+          ></a-button>
         </div>
       </div>
     </div>
@@ -26,7 +42,7 @@
 <script>
 import { Swiper } from 'vue-awesome-swiper';
 
-import { MCard } from '@cwespb/synergyui';
+import { MCard, AButton } from '@cwespb/synergyui';
 import './s_program_announce.scss';
 
 export default {
@@ -35,23 +51,28 @@ export default {
   components: {
     Swiper,
     MCard,
+    AButton,
   },
 
   computed: {
     swiper() {
-      return this.$refs.mySwiper.$swiper;
+      return this.$refs.awesomeSwiper.swiper;
     },
   },
 
   data() {
     return {
       baseUrl: process.env.NUXT_ENV_S3BACKET,
-      swiperOption: {
+      swiperOptionA: {
         grabCursor: true,
         slidesPerView: 'auto',
         spaceBetween: 16,
         resistance: true,
         resistanceRatio: 0,
+        navigation: {
+          nextEl: '.swiper-button-next',
+          prevEl: '.swiper-button-prev',
+        },
         breakpoints: {
           576: {
             spaceBetween: 10,

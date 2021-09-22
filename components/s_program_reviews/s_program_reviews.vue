@@ -3,17 +3,16 @@
     <div class="l-default">
       <div class="s-program-reviews__wrapper">
         <h2 class="s-program-reviews__title a-font_h2" v-html="title"></h2>
-        <div class="s-program-reviews__items">
-          <swiper class="swiper" :options="swiperOption">
-            <MCardLanding
-              v-for="item in items"
-              :key="item.id"
-              :subhead="item.subhead"
-              :userName="item.userName"
-              :userImage="item.userImage"
-              :text="item.text"
-              class="swiper-slide"
-            />
+        <div class="s-program-reviews__swiper">
+          <swiper ref="awesomeSwiper" :options="swiperOptionA">
+            <swiper-slide v-for="item in items" :key="item.id" class="s-program-reviews__slide m-card-landing">
+              <MCardLanding
+                :subhead="item.subhead"
+                :userName="item.userName"
+                :userImage="item.userImage"
+                :text="item.text"
+              />
+            </swiper-slide>
           </swiper>
         </div>
       </div>
@@ -44,18 +43,18 @@ export default {
   data() {
     return {
       baseUrl: process.env.NUXT_ENV_S3BACKET,
-      swiperOption: {
+      swiperOptionA: {
         grabCursor: true,
         slidesPerView: 'auto',
         spaceBetween: 24,
         resistance: true,
         resistanceRatio: 0,
         breakpoints: {
-          768: {
-            spaceBetween: 20,
-          },
           360: {
             spaceBetween: 16,
+          },
+          768: {
+            spaceBetween: 20,
           },
         },
       },

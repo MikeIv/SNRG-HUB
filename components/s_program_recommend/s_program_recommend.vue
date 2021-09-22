@@ -2,7 +2,7 @@
   <section class="s-program-recommend">
     <div class="l-default">
       <div class="s-program-recommend__wrapper">
-        <h2 class="s-program-recommend__title a-font_h5">{{ title }}</h2>
+        <h2 class="s-program-recommend__title a-font_h2">{{ title }}</h2>
         <div class="s-program-recommend__swiper">
           <swiper ref="awesomeSwiper" :options="swiperOptionA">
             <swiper-slide v-for="item in items" :key="item.id" class="s-program-recommend__slide m-card-vertical">
@@ -112,7 +112,7 @@ export default {
           prevEl: '.swiper-button-prev',
         },
         breakpoints: {
-          767: {
+          475: {
             spaceBetween: 12,
             direction: 'horizontal',
           },

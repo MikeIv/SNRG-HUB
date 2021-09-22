@@ -14,16 +14,11 @@
             />
           </div>
         </div>
-        <div class="s-program-timeline__items">
-          <swiper class="swiper" :options="swiperOption">
-            <MCardLanding
-              v-for="item in items"
-              :key="item.id"
-              :title="item.title"
-              :text="item.text"
-              :image="item.image"
-              class="swiper-slide"
-            />
+        <div class="s-program-timeline__swiper">
+          <swiper ref="awesomeSwiper" :options="swiperOptionA">
+            <swiper-slide v-for="item in items" :key="item.id" class="s-program-timeline__slide m-card-landing">
+              <MCardLanding :title="item.title" :text="item.text" :image="item.image" />
+            </swiper-slide>
           </swiper>
         </div>
       </div>
@@ -48,14 +43,14 @@ export default {
 
   computed: {
     swiper() {
-      return this.$refs.mySwiper.$swiper;
+      return this.$refs.awesomeSwiper.swiper;
     },
   },
 
   data() {
     return {
       baseUrl: process.env.NUXT_ENV_S3BACKET,
-      swiperOption: {
+      swiperOptionA: {
         grabCursor: true,
         slidesPerView: 'auto',
         spaceBetween: 20,
