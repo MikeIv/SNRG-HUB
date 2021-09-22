@@ -15,11 +15,16 @@
 
   .m-card-landing {
     width: rem(364);
-    object-fit: cover;
   }
 
   .m-card-landing__image {
-    height: rem(256);
+    display: block;
+    object-fit: cover;
+    height: 100%;
+
+    &-wrapper {
+      height: rem(256);
+    }
   }
 
   &__title {

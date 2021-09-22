@@ -4,8 +4,12 @@
   width: 100%;
   margin: rem(20) auto;
   padding: var(--layout-v-padding) var(--layout-h-padding);
-  background-color: var(--a-color_bg);
   border-radius: var(--a-borderRadius--bg);
+  background-color: var(--a-color_bg);
+
+  a {
+    text-decoration: none;
+  }
 
   .m-card-landing {
     width: rem(364);
@@ -33,13 +37,18 @@
     }
   }
 
-  & .m-card-landing__image {
-    height: rem(192);
-    border-radius: var(--a-borderRadius);
+  .m-card-landing__image {
+    display: block;
+    height: 100%;
+    border-radius: var(--a-borderRadius--default);
     object-fit: cover;
 
-    @media (max-width: 767px) {
-      height: rem(128);
+    &-wrapper {
+      height: rem(192);
+
+      @media (max-width: 767px) {
+        height: rem(128);
+      }
     }
   }
 }
