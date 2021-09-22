@@ -59,6 +59,8 @@ export default {
         grabCursor: true,
         slidesPerView: 'auto',
         spaceBetween: 20,
+        resistance: true,
+        resistanceRatio: 0,
         breakpoints: {
           768: {
             spaceBetween: 12,

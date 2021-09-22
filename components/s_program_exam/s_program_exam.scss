@@ -50,13 +50,13 @@
     align-items: center;
     .a-tag__item {
       margin-bottom: 0;
-      margin-left: 8px;
+      margin-left: reem(8);
       @media (max-width: 767px) {
-        margin-right: 8px;
+        margin-right: rerm(8);
         margin-left: 0;
       }
       &_active {
-        color: #fff;
+        color: var(--a-color_bg);
         background-color: var(--a-color_link);
       }
     }
@@ -66,7 +66,7 @@
     flex: 1;
     box-sizing: border-box;
     padding: var(--a-padding--x8) rem(112) var(--a-padding--x8) var(--a-padding--x8);
-    border: 1px solid var(--a-color_thumbnail);
+    border: rem(1) solid var(--a-color_thumbnail);
     border-radius: var(--a-borderRadius--default);
 
     @media (max-width: 1399px) {

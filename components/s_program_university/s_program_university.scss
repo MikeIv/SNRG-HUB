@@ -83,7 +83,7 @@
       grid-gap: rem(64) 0;
       width: fit-content;
       padding: rem(40) rem(32) rem(46);
-      border: 1px solid var(--a-color_thumbnail);
+      border: rem(1) solid var(--a-color_thumbnail);
       border-radius: var(--a-borderRadius--default);
       @media (max-width: 767px) {
         grid-gap: rem(40) 0;
@@ -98,7 +98,7 @@
       height: 100%;
       margin-left: rem(24);
       padding-left: rem(24);
-      border-left: 1px solid var(--a-color_thumbnail);
+      border-left: rem(1) solid var(--a-color_thumbnail);
       @media (max-width: 767px) {
         margin-left: rem(10);
         padding-left: rem(10);
