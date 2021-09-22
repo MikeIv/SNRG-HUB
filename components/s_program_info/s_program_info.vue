@@ -58,7 +58,7 @@ export default {
         breakpoints: {
           576: {
             slidesPerView: 'auto',
-            spaceBetween: 30,
+            spaceBetween: 12,
           },
         },
       },
