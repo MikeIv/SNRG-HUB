@@ -50,7 +50,7 @@
           <a-button bgColor="accent" size="large" label="Отправить" :disabled="!sogl" @click="sendQuiz"></a-button>
         </div>
         <div class="m-quiz__finish-sogl">
-          <a-control 
+          <a-control
             typeBtn="checkbox" typeCtrl="checkbox" v-model="sogl" labelPosition="right"
             title="Нажимая на кнопку, вы соглашаетсь с политикой конфиденциальности и на получение рассылок">
           </a-control>
