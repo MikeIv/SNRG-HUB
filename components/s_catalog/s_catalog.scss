@@ -132,6 +132,40 @@
         border-bottom: 1px solid var(--a-color_bg--secondary);
       }
 
+      &_mfilter {
+        justify-content: space-between;
+        padding: rem(14) rem(16) 0 rem(16);
+        background: var(--a-color_bg);
+        border-bottom: 1px solid var(--a-color_bg--secondary);
+
+        .a-control__label-control--right {
+          order: -1;
+          margin-left: 0;
+        }
+
+        &.m-filter {
+          display: block;
+        }
+
+        .a-control__label {
+          padding: rem(12) 0;
+          border-bottom: 1px solid var(--a-color_bg--secondary);
+        }
+
+        .a-control__box {
+          margin-left: auto;
+        }
+
+        .a-input__row {
+          width: 100%;
+        }
+
+        .a-input--small {
+          width: 100%;
+          height: rem(50);
+        }
+      }
+
       &_switch {
         & + .catalog-page__menu-filter_switch {
           margin-top: 0.5rem;

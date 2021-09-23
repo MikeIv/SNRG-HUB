@@ -4,20 +4,20 @@
       Программы обучения
       <sup class="catalog-page__header-total a-font_L"> {{ totalProducts }} программ</sup>
     </h2>
-    <swiper class="catalog-page__main-tags" ref="awesomeSwiper" :options="swiperOption" v-if="totalProducts">
+    <swiper class="catalog-page__main-tags" :options="swiperOption" v-if="totalProducts">
       <swiper-slide v-for="tag in main_tags" :key="tag.label" class="catalog-page__swiper-slide">
         <a-tag :label="tag.label" :status="tag.status" />
       </swiper-slide>
     </swiper>
     <div v-show="filtersMenu">
-      <div class="catalog-page__menu">
+      <div class="catalog-page__menu" :key="componentMenuKey">
         <div v-show="!isFilterExpanded">
           <a-title title="Фильтры" :showIcon="false" @clickClose="filtersMenuClose" class="catalog-page__menu-header" />
           <div v-if="selectedFilters.length" class="catalog-page__menu-tags catalog-page__filters-tags">
             <a-tag
               v-for="tag in selectedFilters"
               :key="`${tag.name}${tag.id}`"
-              :label="tag.name"
+              :label="tag.key === 'organization_ids' ? tag.abbreviation_name : tag.name"
               status="selected"
               @aTagDelete="deleteTag(tag)"
             />
@@ -31,7 +31,7 @@
           </div>
         </div>
         <div class="catalog-page__menu-contents">
-          <div v-show="isFilterExpanded">
+          <div v-show="isFilterExpanded" :key="componentExpandedMenuKey">
             <a-title
               :title="filterListData[currentExpandedFilter].title"
               :showIcon="true"
@@ -39,16 +39,14 @@
               @click="isFilterExpanded = false"
               class="catalog-page__menu-header"
             />
-            <a-control
-              v-for="filter in filterListData[currentExpandedFilter].values"
-              :title="filter.name"
-              :key="`${filter.name}${filter.id}`"
-              labelPosition="left"
-              :checked="filter.isChecked"
-              class="catalog-page__menu-filter_control"
-              typeBtn="checkbox"
-              typeCtrl="checkbox"
-              @input="selectFilter(filterListData[currentExpandedFilter].filter_by, filter, ...arguments)"
+            <m-filter
+              title=""
+              passedBtnText=""
+              :hasSearch="filterListData[currentExpandedFilter].search"
+              :items="filterListData[currentExpandedFilter].values"
+              :visibleCount="1000"
+              class="catalog-page__menu-filter_mfilter"
+              @item-click="selectFilter(filterListData[currentExpandedFilter].filter_by, ...arguments)"
             />
           </div>
 
@@ -61,7 +59,9 @@
             <div
               class="catalog-page__menu-filter"
               :class="{ 'catalog-page__menu-filter-expanded': filters[1].values.length > $options.maxVisibleControls }"
-              @click="expandedFilterClickHandler(filters[0])"
+              @click="
+                filters[1].values.length > $options.maxVisibleControls ? expandedFilterClickHandler(filters[0]) : null
+              "
             >
               <h3 class="a-font_h7">{{ filters[1].title }}</h3>
               <i
@@ -75,9 +75,10 @@
             >
               <a-control
                 v-for="filter in filters[1].values"
-                :title="filter.name"
+                :title="filter.abbreviation_name ? filter.abbreviation_name : filter.name"
                 :key="`${filter.name}${filter.id}`"
                 :checked="filter.isChecked"
+                :labelText="filter.abbreviation_name ? filter.name : filter.abbreviation_name"
                 labelPosition="left"
                 class="catalog-page__menu-filter_control"
                 typeBtn="checkbox"
@@ -95,7 +96,6 @@
               typeBtn="checkbox"
               typeCtrl="switch"
               labelPosition="left"
-              :checked="filtersCheckboxDataRequest.filter_by"
               @input="switchClick(filter, ...arguments)"
             />
             <div class="catalog-page__menu-button">
@@ -139,7 +139,7 @@
             <a-tag
               v-for="tag in selectedFilters"
               :key="`${tag.name}${tag.id}`"
-              :label="tag.name"
+              :label="tag.key === 'organization_ids' ? tag.abbreviation_name : tag.name"
               status="selected"
               @aTagDelete="deleteTag(tag)"
             />
@@ -162,8 +162,8 @@
 </template>
 
 <script>
-import { ATag, ASelect, ATitle, AButton, AControl } from '@cwespb/synergyui';
-import { directive } from 'vue-awesome-swiper';
+import { ATag, ASelect, ATitle, AButton, AControl, MFilter } from '@cwespb/synergyui';
+import { Swiper, SwiperSlide, directive } from 'vue-awesome-swiper';
 import SCatalogFilter from '~/components/s_catalog_filter/s_catalog_filter';
 import SCatalogProductList from '~/components/s_catalog_product_list/s_catalog_product_list';
 import getProductsList from '~/api/products_list';
@@ -181,6 +181,9 @@ export default {
     ATitle,
     AButton,
     AControl,
+    MFilter,
+    Swiper,
+    SwiperSlide,
   },
   props: ['pageInfo'],
 
@@ -239,6 +242,8 @@ export default {
       currentExpandedFilter: 'direction_ids',
       componentFilterKey: 1,
       componentProductsKey: 100,
+      componentExpandedMenuKey: 1000,
+      componentMenuKey: 3000,
 
       swiperOption: {
         slidesPerView: 'auto',
@@ -312,16 +317,11 @@ export default {
     menuButtonLabel() {
       return `Показать ${this.totalProducts} предложений`;
     },
-
-    swiper() {
-      return this.$refs.awesomeSwiper.swiper;
-    },
   },
 
   methods: {
     async fetchFilterData() {
       const filtersResponse = await getFilterData(this.pageInfo.components[0].methods[0].data);
-
       filtersResponse.forEach((filters) => {
         if (filters.type === 'list') {
           this.filterListData[filters.filter_by] = { ...filters };
@@ -347,12 +347,9 @@ export default {
       });
 
       Object.entries(this.filtersCheckboxDataRequest).forEach((checkboxData) => {
-        console.log('1', this.filtersCheckboxDataRequest);
         const [key, value] = checkboxData;
         expandedMethod.filter[key] = value;
       });
-
-      console.log(expandedMethod);
 
       expandedMethod.pagination = { page: this.page, page_size: this.productsPerPage };
       const response = await getProductsList(expandedMethod);
@@ -383,8 +380,9 @@ export default {
         const found = this.filterListData[selected.key].values.find((value) => value.name === selected.name);
         this.$set(found, 'isChecked', false);
       });
-      // Todo
-      console.log('----', this.filtersCheckboxDataRequest);
+      this.$set(this.filtersCheckboxDataRequest, 'is_employment', false);
+      this.$set(this.filtersCheckboxDataRequest, 'is_installment', false);
+      this.componentMenuKey += 1;
       this.selectedFilters = [];
       Object.values(this.filtersIdsData).forEach((filterIds) => filterIds.splice(0, filterIds.length));
       this.componentFilterKey += 1;
@@ -422,7 +420,6 @@ export default {
     filtersMenuClose() {
       this.filtersMenu = false;
       this.isFilterExpanded = false;
-      // this.currentExpandedFilter = null;
     },
 
     menuControlSelect(filter) {
@@ -430,9 +427,9 @@ export default {
     },
 
     expandedFilterClickHandler(filterKey) {
+      console.log(filterKey, this.filterListData[filterKey]);
+      this.componentExpandedMenuKey += 1;
       this.currentExpandedFilter = filterKey;
-      console.log('key', this.filterListData[this.currentExpandedFilter]);
-
       this.isFilterExpanded = true;
     },
   },
@@ -451,8 +448,6 @@ export default {
   },
 
   mounted() {
-    // this.fetchProductsList();
-    // this.fetchFilterData();
     this.windowWidth = window.innerWidth;
     window.addEventListener('resize', this.handleResize);
   },
