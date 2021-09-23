@@ -7,7 +7,7 @@
           <nuxt-link :to="`${product.link}`" :key="product.id" class="m-card-program__wrapper">
             <m-card
               :title="product.name"
-              :description="product.address"
+              :description="product.included.city.name"
               :verticalImgSrc="`${baseUrl}/${product.digital_image}`"
               :iconSrc="`${baseUrl}/${product.logo}`"
               :bottomText="product.abbreviation_name"
@@ -57,7 +57,10 @@ export default {
   },
 
   async fetch() {
-    this.cards = await getOrganizationsList();
+    let [expandedMethod] = this.methods;
+    expandedMethod = { ...expandedMethod.data };
+    expandedMethod.include = ['city'];
+    this.cards = await getOrganizationsList(expandedMethod);
   },
 
   mounted() {
