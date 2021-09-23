@@ -1,35 +1,26 @@
 <template>
-  <header class="s-header" :class="{ open: isOpen }">
+  <header class="s-header" :class="{ open: isOpen, fixed: isScrolled}">
     <div class="shadow" v-if="isOpen"></div>
     <div class="s-header__wrapper">
-      <div class="s-header__top">
-        <m-banner
-          bgColor="primary"
-          topTxt="Подберите программу обучения"
-          type="top"
-          ImgSrc="https://placeimg.com/200/200/people"
-        ></m-banner>
-      </div>
       <div class="s-header__center">
         <div class="l-default">
           <div class="s-header__center-wrapper">
-            <a-logo type="standart" link=""></a-logo>
+            <a-logo type="standart" :link="logoURL"></a-logo>
             <div class="s-header__burger" @click="isOpen = !isOpen">
               <div class="s-header__burger-icon">
                 <div class="si-menu" v-if="!isOpen"></div>
                 <div class="si-close" v-if="isOpen"></div>
               </div>
-              <div class="s-header__burger-text a-font_l a-color_link">Всё обучение</div>
+              <div class="s-header__burger-text a-font_l a-color_link">{{ btnText }}</div>
             </div>
             <div class="s-header__search">
-              <a-input :isSearch="true" size="medium" placeholder="Поиск по сайту"></a-input>
+              <a-input :isSearch="true" size="medium" :placeholder="searchPlaceholder"></a-input>
             </div>
             <div class="s-header__phones">
-              <a class="s-header__phone" href="tel:+74958001001">
+              <a class="s-header__phone" v-for="(phone, idx) in phonesNumbers" :key="idx" :href="`tel:${phone.href}`">
                 <div class="s-header__phones-icon si-phone"></div>
-                <div class="s-header__phones-text a-font_m-s">+7 495 800-10-01</div>
+                <div class="s-header__phones-text a-font_m-s">{{ phone.number }}</div>
               </a>
-              <a class="s-header__phone s-header__phones-text a-font_m-s" href="tel:88001000011">8 800 100-00-11</a>
             </div>
           </div>
         </div>
@@ -45,7 +36,7 @@
 </template>
 
 <script>
-import { MBanner, ALogo, AInput } from '@cwespb/synergyui';
+import { ALogo, AInput } from '@cwespb/synergyui';
 import './s_header.scss';
 import SMenuMain from '../s_menu_main/s_menu_main';
 import MenuHorizontal from '../menu_horizontal/menu_horizontal';
@@ -56,15 +47,50 @@ export default {
   data() {
     return {
       isOpen: false,
+      logoURL: 'assets/svg/logo.svg',
+      scrollTop: 0,
+      isScrolled: false,
+      btnText: 'Всё обучение',
+      phones: ['+7 495 800-10-01', '8 800 100-00-11'],
+      phonesNumbers: [],
+      searchPlaceholder: "Поиск по сайту",
     };
   },
 
   components: {
-    MBanner,
     ALogo,
     AInput,
     MenuHorizontal,
     SMenuMain,
+  },
+
+  created() {
+    this.phones.forEach(element => {
+      let phone = {
+        number: element,
+        href: element.replace(/[^+\d]/g, ""),
+      }
+
+      this.phonesNumbers.push(phone);
+    });
+  },
+
+  mounted() {
+    window.addEventListener('scroll', this.handleScroll);
+  },
+  beforeDestroy() {
+    window.removeEventListener('scroll', this.handleScroll);
+  },
+
+  methods: {
+    handleScroll () {
+      this.scrollTop = window.scrollY;
+      if (this.scrollTop > 1) {
+        this.isScrolled = true;
+      } else {
+        this.isScrolled = false;
+      }
+    }
   },
 };
 </script>

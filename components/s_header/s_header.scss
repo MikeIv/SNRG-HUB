@@ -2,7 +2,7 @@
 
 .s-header {
   position: relative;
-
+  z-index: 100;
   .a-logo__wrapper {
     margin-right: rem(60);
 
@@ -21,6 +21,17 @@
 
   .menu-horizontal {
     padding-bottom: var(--a-padding--x4);
+  }
+
+  &.fixed {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+
+    .menu-horizontal {
+      display: none;
+    }
   }
 
   .shadow {
@@ -159,6 +170,9 @@
     text-decoration: none;
     &:last-child {
       margin-right: 0;
+      @media screen and (max-width: 991px) {
+        display: none;
+      }
     }
   }
 

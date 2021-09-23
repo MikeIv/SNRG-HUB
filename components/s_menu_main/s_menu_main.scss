@@ -58,10 +58,10 @@
   }
 
   &__items {
+    overflow-y: scroll;
     padding-top: var(--a-padding--x5);
     padding-right: var(--a-padding--x4);
     border-right: 1px solid var(--a-color_thumbnail);
-    overflow-y: scroll;
 
     &::-webkit-scrollbar {
       display: none;
@@ -209,7 +209,7 @@
   &__links {
     display: none;
     overflow-y: scroll;
-    height: 100vh;
+    height: calc(100vh - 120px);
     margin: 0 rem(-16);
     flex-wrap: wrap;
     @media screen and (max-width: 767px) {
@@ -218,6 +218,8 @@
 
     &.active {
       display: flex;
+      align-items: flex-start;
+      justify-content: flex-start;
     }
 
     &::-webkit-scrollbar {
