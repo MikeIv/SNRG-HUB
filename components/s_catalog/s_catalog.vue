@@ -1,5 +1,5 @@
 <template>
-  <div class="catalog-page__wrapper">
+  <div class="l-wide catalog-page">
     <h2 class="a-font_h2">
       Программы обучения
       <sup class="catalog-page__header-total a-font_L"> {{ totalProducts }} программ</sup>
@@ -11,7 +11,7 @@
     </swiper>
     <div v-show="filtersMenu">
       <div class="catalog-page__menu">
-        <template v-if="!isFilterExpanded">
+        <div v-show="!isFilterExpanded">
           <a-title title="Фильтры" :showIcon="false" @clickClose="filtersMenuClose" class="catalog-page__menu-header" />
           <div v-if="selectedFilters.length" class="catalog-page__menu-tags catalog-page__filters-tags">
             <a-tag
@@ -29,9 +29,9 @@
               @aTagClick="clearAllFilters"
             />
           </div>
-        </template>
+        </div>
         <div class="catalog-page__menu-contents">
-          <div v-if="isFilterExpanded">
+          <div v-show="isFilterExpanded">
             <a-title
               :title="filterListData[currentExpandedFilter].title"
               :showIcon="true"
@@ -44,14 +44,16 @@
               :title="filter.name"
               :key="`${filter.name}${filter.id}`"
               labelPosition="left"
+              :checked="filter.isChecked"
               class="catalog-page__menu-filter_control"
               typeBtn="checkbox"
               typeCtrl="checkbox"
               @input="selectFilter(filterListData[currentExpandedFilter].filter_by, filter, ...arguments)"
             />
           </div>
+
           <div
-            v-else
+            v-show="!isFilterExpanded"
             class="catalog-page__menu-filters"
             v-for="filters in Object.entries(filterListData)"
             :key="filters[0]"
@@ -84,8 +86,21 @@
               />
             </div>
           </div>
-          <div class="catalog-page__menu-button">
-            <a-button :label="menuButtonLabel" bgColor="accent" @onClickBtn="filtersMenuClose" />
+          <div v-show="!isFilterExpanded">
+            <a-control
+              v-for="filter in filterCheckboxData"
+              class="catalog-page__menu-filter_control catalog-page__menu-filter_switch"
+              :key="filter.filter_by"
+              :title="filter.title"
+              typeBtn="checkbox"
+              typeCtrl="switch"
+              labelPosition="left"
+              :checked="filtersCheckboxDataRequest.filter_by"
+              @input="switchClick(filter, ...arguments)"
+            />
+            <div class="catalog-page__menu-button">
+              <a-button :label="menuButtonLabel" bgColor="accent" @onClickBtn="filtersMenuClose" />
+            </div>
           </div>
         </div>
       </div>
@@ -98,10 +113,10 @@
         @switch-click="switchClick"
         :filterListData="Object.entries(filterListData)"
         :filterCheckboxData="filterCheckboxData"
+        :filtersCheckboxDataRequest="filtersCheckboxDataRequest"
         :key="componentFilterKey"
       />
       <s-catalog-product-list
-        v-if="productList"
         :productList="productList"
         :totalProducts="totalProducts"
         :page="page"
@@ -218,13 +233,10 @@ export default {
         city_ids: [],
         organization_ids: [],
       },
-      filtersCheckboxDataRequest: {
-        is_employment: false,
-        is_installment: false,
-      },
+      filtersCheckboxDataRequest: {},
       filtersMenu: false,
       isFilterExpanded: false,
-      currentExpandedFilter: null,
+      currentExpandedFilter: 'direction_ids',
       componentFilterKey: 1,
       componentProductsKey: 100,
 
@@ -248,7 +260,7 @@ export default {
     filtersIdsData: {
       deep: true,
       handler() {
-        console.log('changed filtersIdsData');
+        this.componentProductsKey += 1;
         this.fetchProductsList();
       },
     },
@@ -256,7 +268,7 @@ export default {
     filtersCheckboxDataRequest: {
       deep: true,
       handler() {
-        console.log('changed filtersCheckboxDataRequest');
+        this.componentProductsKey += 1;
         this.fetchProductsList();
       },
     },
@@ -309,7 +321,7 @@ export default {
   methods: {
     async fetchFilterData() {
       const filtersResponse = await getFilterData(this.pageInfo.components[0].methods[0].data);
-      console.log('RESPONSE FILTER:', filtersResponse);
+
       filtersResponse.forEach((filters) => {
         if (filters.type === 'list') {
           this.filterListData[filters.filter_by] = { ...filters };
@@ -320,24 +332,27 @@ export default {
           this.filterCheckboxData.push(filters);
         }
       });
-      console.log('MY-FILTER-LIST:', this.filterListData);
     },
 
     async fetchProductsList() {
       const expandedMethod = { ...this.pageInfo.components[1].methods[0].data };
       expandedMethod.include = ['organization', 'levels', 'directions'];
-      // Todo
       Object.entries(this.filtersIdsData).forEach((filterData) => {
-        if (filterData[1].length !== 0) {
-          expandedMethod.filter[filterData[0]] = filterData[1];
+        if (filterData[1].length === 0) {
+          delete expandedMethod.filter[filterData[0]];
+        } else {
+          const [key, value] = filterData;
+          expandedMethod.filter[key] = value;
         }
       });
 
       Object.entries(this.filtersCheckboxDataRequest).forEach((checkboxData) => {
-        expandedMethod.filter[checkboxData[0]] = checkboxData[1];
+        console.log('1', this.filtersCheckboxDataRequest);
+        const [key, value] = checkboxData;
+        expandedMethod.filter[key] = value;
       });
 
-      console.log('requestBody to server', expandedMethod);
+      console.log(expandedMethod);
 
       expandedMethod.pagination = { page: this.page, page_size: this.productsPerPage };
       const response = await getProductsList(expandedMethod);
@@ -354,8 +369,8 @@ export default {
     },
 
     deleteTag(tag) {
-      // Todo, убирать из filtersIdsData айди элемента, чтобы отправлялся запрос на бэк
       this.selectedFilters = this.selectedFilters.filter((filter) => filter.name !== tag.name);
+      this.filtersIdsData[tag.key] = this.filtersIdsData[tag.key].filter((id) => id !== tag.id);
       const found = this.filterListData[tag.key].values.find((value) => value.name === tag.name);
       this.$set(found, 'isChecked', false);
 
@@ -368,21 +383,29 @@ export default {
         const found = this.filterListData[selected.key].values.find((value) => value.name === selected.name);
         this.$set(found, 'isChecked', false);
       });
+      // Todo
+      console.log('----', this.filtersCheckboxDataRequest);
       this.selectedFilters = [];
       Object.values(this.filtersIdsData).forEach((filterIds) => filterIds.splice(0, filterIds.length));
       this.componentFilterKey += 1;
     },
 
-    switchClick(selectedSwitch) {
+    switchClick(item, isChecked) {
+      const selectedSwitch = { ...item, isChecked };
+      this.page = 1;
       this.filtersCheckboxDataRequest[selectedSwitch.filter_by] = selectedSwitch.isChecked;
     },
 
     selectFilter(key, item, isChecked) {
+      const found = this.filterListData[key].values.find((value) => value.name === item.name);
+      this.$set(found, 'isChecked', isChecked);
+
+      this.page = 1;
       const selectedItem = { ...item, key };
       if (isChecked) {
         selectedItem.isChecked = isChecked;
       }
-      console.log(key);
+
       if (selectedItem.isChecked) {
         this.selectedFilters.push(selectedItem);
         this.filtersIdsData[key].push(selectedItem.id);
@@ -390,7 +413,6 @@ export default {
         this.selectedFilters = this.selectedFilters.filter((filter) => filter.id !== item.id);
         this.filtersIdsData[key] = this.filtersIdsData[key].filter((id) => id !== item.id);
       }
-      console.log('this.filtersIdsDat select control', this.filtersIdsData);
     },
 
     filtersIconClickHandler() {
@@ -400,7 +422,7 @@ export default {
     filtersMenuClose() {
       this.filtersMenu = false;
       this.isFilterExpanded = false;
-      this.currentExpandedFilter = null;
+      // this.currentExpandedFilter = null;
     },
 
     menuControlSelect(filter) {
@@ -409,6 +431,8 @@ export default {
 
     expandedFilterClickHandler(filterKey) {
       this.currentExpandedFilter = filterKey;
+      console.log('key', this.filterListData[this.currentExpandedFilter]);
+
       this.isFilterExpanded = true;
     },
   },
@@ -422,12 +446,13 @@ export default {
   },
 
   async fetch() {
-    // await this.fetchFilterData();
+    await this.fetchProductsList();
+    await this.fetchFilterData();
   },
 
   mounted() {
-    this.fetchProductsList();
-    this.fetchFilterData(); // Убрать отсюда, это для отладки
+    // this.fetchProductsList();
+    // this.fetchFilterData();
     this.windowWidth = window.innerWidth;
     window.addEventListener('resize', this.handleResize);
   },

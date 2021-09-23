@@ -1,12 +1,6 @@
 @import '/assets/styles/tools/mixins';
 
 .catalog-page {
-  &__wrapper {
-    max-width: rem(1480);
-    margin: 0 auto;
-    padding: rem(48) rem(10) rem(80) rem(10);
-  }
-
   &__content {
     display: flex;
     margin-top: rem(24);
@@ -26,10 +20,6 @@
 
     .swiper-slide {
       width: fit-content;
-
-      //&.a-tag__item {
-      //  background: var(--a-color_bg--secondary);
-      //}
     }
 
     .swiper-wrapper {
@@ -104,6 +94,7 @@
     }
 
     &-filters {
+      margin-bottom: 0.5rem;
       border-radius: rem(10);
     }
 
@@ -139,25 +130,12 @@
         padding: rem(14) rem(16);
         background: var(--a-color_bg);
         border-bottom: 1px solid var(--a-color_bg--secondary);
+      }
 
-        //.a-control__label-control--right {
-        //  order: -1;
-        //  margin-left: 0;
-        //}
-        //
-        //&.m-filter {
-        //  display: block;
-        //  max-width: unset;
-        //}
-        //
-        //.a-control__label {
-        //  padding: rem(12) 0;
-        //  border-bottom: 1px solid var(--a-color_bg--secondary);
-        //}
-        //
-        //.a-control__box {
-        //  margin-left: auto;
-        //}
+      &_switch {
+        & + .catalog-page__menu-filter_switch {
+          margin-top: 0.5rem;
+        }
       }
 
       &-icon {

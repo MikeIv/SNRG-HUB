@@ -1,7 +1,8 @@
 <template>
-  <div>
+  <div class="catalog-product-list">
     <div class="catalog-product-list__wrapper" v-if="productList">
       <slot />
+      <h3 v-if="!productList.length">К сожалению, ничего нет</h3>
       <m-card
         class="catalog-product-list__item"
         v-for="product in productList"
@@ -45,7 +46,6 @@ export default {
   data() {
     return {
       baseURL: process.env.NUXT_ENV_S3BACKET,
-      filter: {},
     };
   },
 

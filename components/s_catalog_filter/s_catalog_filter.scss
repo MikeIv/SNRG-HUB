@@ -9,13 +9,17 @@
 
   &__filter {
     padding-bottom: rem(32);
+
+    // Todo Убрать после удаление из кита max-w
+    &.m-filter {
+      max-width: unset;
+    }
   }
 
   &__checkbox {
     &.a-control__label-box {
       justify-content: space-between;
-      padding-left: 0;
-      padding-bottom: rem(32);
+      padding: 0 0 rem(32) 0;
     }
   }
 

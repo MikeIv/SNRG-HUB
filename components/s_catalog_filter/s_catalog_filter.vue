@@ -20,14 +20,6 @@
       labelPosition="left"
       @input="switchClick(filter, ...arguments)"
     />
-    <!--    <a-control-->
-    <!--      class="catalog-filter__checkbox"-->
-    <!--      :title="filterCheckboxData[1].title"-->
-    <!--      typeCtrl="switch"-->
-    <!--      labelPosition="left"-->
-    <!--      v-model="switchControl"-->
-    <!--      @change="switchClick()"-->
-    <!--    />-->
   </div>
 </template>
 
@@ -38,7 +30,7 @@ import './s_catalog_filter.scss';
 export default {
   name: 'SCatalogFilter',
 
-  props: ['filterListData', 'filterCheckboxData'],
+  props: ['filterListData', 'filterCheckboxData', 'filtersCheckboxDataRequest'],
 
   components: {
     MFilter,
@@ -56,7 +48,7 @@ export default {
       },
       switchControl: {
         is_employment: false,
-        is_installment: true,
+        is_installment: false,
       },
     };
   },
@@ -67,8 +59,7 @@ export default {
     },
 
     switchClick(item, isChecked) {
-      const selectedSwitch = { ...item, isChecked };
-      this.$emit('switch-click', selectedSwitch);
+      this.$emit('switch-click', item, isChecked);
     },
   },
 };
