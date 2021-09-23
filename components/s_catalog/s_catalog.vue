@@ -248,6 +248,14 @@ export default {
         slidesPerView: 'auto',
         spaceBetween: 8,
       },
+
+      routeQueries: {
+        direction_ids: [],
+        format_ids: [],
+        level_ids: [],
+        city_ids: [],
+        organization_ids: [],
+      },
     };
   },
 
@@ -266,6 +274,15 @@ export default {
       handler() {
         this.componentProductsKey += 1;
         this.fetchProductsList();
+
+        const newQuery = {};
+        Object.entries(this.filtersIdsData).forEach(([filterKey, filterIds]) => {
+          if (filterIds.length) {
+            newQuery[filterKey] = filterIds.join(',');
+          }
+        });
+
+        this.$router.push({ path: this.$route.path, query: { page: this.page.toString(), ...newQuery } });
       },
     },
 
@@ -408,8 +425,6 @@ export default {
         this.selectedFilters = this.selectedFilters.filter((filter) => filter.name !== item.name);
         this.filtersIdsData[key] = this.filtersIdsData[key].filter((id) => id !== item.id);
       }
-
-      console.log('filters', this.selectedFilters);
     },
 
     filtersIconClickHandler() {
@@ -433,6 +448,7 @@ export default {
   },
 
   created() {
+    console.log(this.$route.query);
     if (this.$route.query.page) {
       this.page = Number(this.$route.query.page);
     } else {
