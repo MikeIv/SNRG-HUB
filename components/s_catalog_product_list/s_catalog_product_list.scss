@@ -1,0 +1,23 @@
+@import '/assets/styles/tools/mixins';
+
+.catalog-product-list {
+  flex: 1;
+  &__wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    gap: rem(20);
+    margin-bottom: rem(48);
+  }
+
+  &__item {
+    max-width: calc((100% - rem(40)) / 3);
+
+    @media screen and (max-width: 1350px) {
+      max-width: calc((100% - rem(20)) / 2);
+    }
+
+    @media screen and (max-width: 575px) {
+      max-width: 100%;
+    }
+  }
+}
