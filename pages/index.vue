@@ -3,20 +3,20 @@
     <div>
       <h1 class="title">{{ pageInfo.name }}</h1>
     </div>
-    <nuxt-link to="/product">TO PRODUCT PAGE</nuxt-link>
+
     <br />
-    <h2>DATA FROM EXAMPLE:</h2>
-    <example />
+    <h2>Banner:</h2>
+    <s-banner />
     <br />
     <h2>PAGE INFO:</h2>
     <!-- <component :is="section" v-for="section in sections" :key="section"></component> -->
-       <component
-        :is="key"
-        v-for="{ key, methods, title, id } in pageInfo.components"
-        :key="id"
-        :methods="methods"
-        :title="title"
-       ></component>
+    <component
+      :is="key"
+      v-for="{ key, methods, title, id } in pageInfo.components"
+      :key="id"
+      :methods="methods"
+      :title="title"
+    ></component>
     <pre>
       {{ pageInfo }}
     </pre>
@@ -24,10 +24,10 @@
 </template>
 
 <script>
-import Example from '~/components/Example';
+import SBanner from '~/components/s_banner/s_banner';
 
 export default {
-  components: { Example },
+  components: { SBanner },
 
   middleware: 'getPageInfo',
 
