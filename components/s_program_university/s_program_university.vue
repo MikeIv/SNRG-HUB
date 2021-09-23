@@ -1,42 +1,30 @@
 <template>
-  <div class="l-default">
-    <section class="s-program-university">
-      <div class="s-program-university__top">
-        <h2 class="s-program-university__title a-font_h2" v-html="title"></h2>
-        <p class="s-program-university__introtext a-font_xxl" v-html="introtext"></p>
-        <p class="s-program-university__description" v-html="description"></p>
-        <span class="s-program-university__img" v-if="image">
-          <img :src="image" alt="" />
-        </span>
-      </div>
+  <section class="s-program-university">
+    <div class="s-program-university__top">
+      <h2 class="s-program-university__title a-font_h2" v-html="title"></h2>
+      <p class="s-program-university__introtext a-font_xxl" v-html="introtext"></p>
+      <p class="s-program-university__description" v-html="description"></p>
+      <span class="s-program-university__img" v-if="image">
+        <img :src="image" alt="" />
+      </span>
+    </div>
 
-      <swiper :options="swiperOption">
-        <div class="swiper-slide s-program-university__factoids">
-          <div class="s-program-university__factoids-left">
-            <div class="s-program-university__factoids-row">
-              <AFactoid
-                v-for="factoid in factoids.slice(0, 3)"
-                :key="factoid.id"
-                :type="factoid.type"
-                :title="factoid.title"
-                :number="factoid.number"
-                :color="factoid.color"
-              />
-            </div>
-            <div class="s-program-university__factoids-row">
-              <AFactoid
-                v-for="factoid in factoids.slice(3, 5)"
-                :key="factoid.id"
-                :type="factoid.type"
-                :title="factoid.title"
-                :number="factoid.number"
-                :color="factoid.color"
-              />
-            </div>
-          </div>
-          <div class="s-program-university__factoids-right">
+    <swiper :options="swiperOption">
+      <div class="swiper-slide s-program-university__factoids">
+        <div class="s-program-university__factoids-left">
+          <div class="s-program-university__factoids-row">
             <AFactoid
-              v-for="factoid in factoids.slice(5, 6)"
+              v-for="factoid in factoids.slice(0, 3)"
+              :key="factoid.id"
+              :type="factoid.type"
+              :title="factoid.title"
+              :number="factoid.number"
+              :color="factoid.color"
+            />
+          </div>
+          <div class="s-program-university__factoids-row">
+            <AFactoid
+              v-for="factoid in factoids.slice(3, 5)"
               :key="factoid.id"
               :type="factoid.type"
               :title="factoid.title"
@@ -45,9 +33,19 @@
             />
           </div>
         </div>
-      </swiper>
-    </section>
-  </div>
+        <div class="s-program-university__factoids-right">
+          <AFactoid
+            v-for="factoid in factoids.slice(5, 6)"
+            :key="factoid.id"
+            :type="factoid.type"
+            :title="factoid.title"
+            :number="factoid.number"
+            :color="factoid.color"
+          />
+        </div>
+      </div>
+    </swiper>
+  </section>
 </template>
 
 <script>

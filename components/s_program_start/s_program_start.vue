@@ -1,21 +1,19 @@
 <template>
-  <div class="l-default">
-    <section class="s-program-start">
-      <SProgramStart
-        :breadcrumbs="breadcrumbs"
-        :program="program"
-        :event="event"
-        :description="program.description"
-        :city="program.city"
-        :language="program.language"
-        :duration="program.duration"
-        :form="program.form"
-        :photo="program.photo"
-        :link="program.link"
-        :color="program.color"
-      />
-    </section>
-  </div>
+  <section class="s-program-start">
+    <SProgramStart
+      :breadcrumbs="breadcrumbs"
+      :program="program"
+      :event="event"
+      :description="program.description"
+      :city="program.city"
+      :language="program.language"
+      :duration="program.duration"
+      :form="program.form"
+      :photo="program.photo"
+      :link="program.link"
+      :color="program.color"
+    />
+  </section>
 </template>
 
 <script>
