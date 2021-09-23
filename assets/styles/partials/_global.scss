@@ -1,7 +1,10 @@
 body {
-  background-color: var(--a-color_bg--secondary);
   font-family: 'TT Norms', serif;
   font-size: 16px;
+
+  &.bg-gray {
+    background-color: var(--a-color_bg--secondary);
+  }
 }
 
 :root {
@@ -36,9 +39,6 @@ body {
 
   padding: 0 var(--layout-padding);
 
-  @media all and (max-width: 1699px) {
-    --layout-width: 82.125rem; // 1314px (1254 + 60)
-  }
   @media all and (max-width: 767px) {
     --layout-padding: 1rem; // 16px
   }

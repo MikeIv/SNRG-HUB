@@ -1,5 +1,5 @@
 global:
-  appName: 'template-vue'
+  appName: 'synergyedu'
   dev:
     instanceCount: '1'
     log:
