@@ -7,16 +7,12 @@
       :methods="methods"
       :title="title"
     ></component>
-    <pre>
-      {{ pageInfo }}
-    </pre>
   </div>
 </template>
 
 <script>
 export default {
   middleware: 'getPageInfo',
-
   computed: {
     pageInfo() {
       return this.$store.state.pageInfo;
