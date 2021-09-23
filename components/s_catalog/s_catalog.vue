@@ -426,7 +426,6 @@ export default {
     },
 
     expandedFilterClickHandler(filterKey) {
-      console.log(filterKey, this.filterListData[filterKey]);
       this.componentExpandedMenuKey += 1;
       this.currentExpandedFilter = filterKey;
       this.isFilterExpanded = true;
