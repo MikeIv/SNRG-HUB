@@ -52,7 +52,7 @@ export default {
   data() {
     return {
       isOpen: false,
-      logoURL: 'assets/svg/logo.svg',
+      logoURL: 'svg/logo.svg',
       scrollTop: 0,
       isScrolled: false,
       btnText: 'Всё обучение',

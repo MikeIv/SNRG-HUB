@@ -57,6 +57,7 @@
   }
 
   &__items {
+    height: calc(100vh - 120px);
     overflow-y: scroll;
     padding-top: var(--a-padding--x5);
     padding-right: var(--a-padding--x4);
