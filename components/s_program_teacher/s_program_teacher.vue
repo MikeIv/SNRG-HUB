@@ -1,31 +1,29 @@
 <template>
-  <div class="l-default">
-    <section class="s-program-teacher">
-      <h2 class="s-program-teacher__title a-font_h2" v-html="title"></h2>
-      <div class="s-program-teacher__items s-program-teacher__items_horisontal" v-if="items.length < 3">
-        <MCardSpeaker
+  <section class="s-program-teacher">
+    <h2 class="s-program-teacher__title a-font_h2" v-html="title"></h2>
+    <div class="s-program-teacher__items s-program-teacher__items_horisontal" v-if="items.length < 3">
+      <MCardSpeaker
+        v-for="item in items"
+        :key="item.id"
+        :name="item.name"
+        :title="item.title"
+        :description="item.description"
+        :image="item.image"
+      />
+    </div>
+    <div class="s-program-teacher__items s-program-teacher__items_vertical" v-else>
+      <swiper class="swiper" :options="swiperOption">
+        <MCardLanding
           v-for="item in items"
           :key="item.id"
-          :name="item.name"
           :title="item.title"
-          :description="item.description"
+          :text="item.text"
           :image="item.image"
+          class="swiper-slide"
         />
-      </div>
-      <div class="s-program-teacher__items s-program-teacher__items_vertical" v-else>
-        <swiper class="swiper" :options="swiperOption">
-          <MCardLanding
-            v-for="item in items"
-            :key="item.id"
-            :title="item.title"
-            :text="item.text"
-            :image="item.image"
-            class="swiper-slide"
-          />
-        </swiper>
-      </div>
-    </section>
-  </div>
+      </swiper>
+    </div>
+  </section>
 </template>
 
 <script>
