@@ -45,11 +45,8 @@ export default {
     },
   },
   async fetch() {
-    let expandedBanners = this.methods;
-    if (expandedBanners) {
-      expandedBanners = { ...expandedBanners.data };
-      this.bannersDetail = await getBannersDetail(expandedBanners);
-    }
+    const expandedBanners = this.methods.data;
+    this.bannersDetail = await getBannersDetail(expandedBanners);
   },
   mounted() {
     this.$nextTick(function () {

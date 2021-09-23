@@ -3,13 +3,13 @@
     <div>
       <h1 class="title">{{ pageInfo.name }}</h1>
     </div>
-    <nuxt-link to="/product">TO PRODUCT PAGE</nuxt-link>
+
     <br />
     <h2>DATA FROM EXAMPLE:</h2>
     <example />
     <br />
     <h2>PAGE INFO:</h2>
-    <component :is="section" v-for="section in sections" :key="section"></component>
+    <!--    <component :is="section" v-for="section in sections" :key="section"></component>-->
     <component
       :is="key"
       v-for="{ key, methods, title, id } in pageInfo.components"
@@ -25,11 +25,14 @@
 
 <script>
 // import Example from '~/components/Example';
+import banner_main_page from '~/components/banner_main_page/banner_main_page';
 
 export default {
   // components: { Example },
 
   middleware: 'getPageInfo',
+
+  components: { banner_main_page },
 
   asyncData() {
     // Массив имен для component :is будет формироваться от бэка
