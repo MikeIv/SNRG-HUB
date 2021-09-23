@@ -1,0 +1,10 @@
+@import '@/assets/styles/tools/mixins';
+
+.footer {
+  padding-top: var(--a-padding--x8);
+  padding-bottom: var(--a-padding--x8);
+  @media screen and (max-width: 991px) {
+    padding-top: var(--a-padding--x5);
+    padding-bottom: var(--a-padding--x5);
+  }
+}
