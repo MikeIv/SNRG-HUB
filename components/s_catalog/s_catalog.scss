@@ -134,7 +134,6 @@
 
       &_mfilter {
         justify-content: space-between;
-        padding: rem(14) rem(16) 0 rem(16);
         background: var(--a-color_bg);
         border-bottom: 1px solid var(--a-color_bg--secondary);
 
@@ -147,8 +146,12 @@
           display: block;
         }
 
+        .m-filter__search {
+          padding: rem(16) rem(16) 0 rem(16);
+        }
+
         .a-control__label {
-          padding: rem(12) 0;
+          padding: rem(16) rem(16) !important;
           border-bottom: 1px solid var(--a-color_bg--secondary);
         }
 

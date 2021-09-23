@@ -287,18 +287,17 @@ export default {
     windowWidth() {
       if (this.windowWidth > this.$options.desktopEndpointResolution) {
         this.productsPerPage = this.$options.productNumberOnDesktop;
-        this.componentProductsKey += 1;
       }
 
       if (this.windowWidth < this.$options.desktopEndpointResolution) {
         this.productsPerPage = this.$options.productNumberOnTablet;
-        this.componentProductsKey += 1;
       }
 
       if (this.windowWidth < this.$options.mobileEndpointResolution) {
         this.productsPerPage = this.$options.productNumberOnMobile;
-        this.page = 1;
-        this.componentProductsKey += 1;
+      }
+
+      if (this.windowWidth < 950 && this.windowWidth > 850) {
         this.clearAllFilters();
       }
     },
@@ -347,7 +346,11 @@ export default {
 
       Object.entries(this.filtersCheckboxDataRequest).forEach((checkboxData) => {
         const [key, value] = checkboxData;
-        expandedMethod.filter[key] = value;
+        if (value) {
+          expandedMethod.filter[key] = value;
+        } else {
+          delete expandedMethod.filter[[key]];
+        }
       });
 
       expandedMethod.pagination = { page: this.page, page_size: this.productsPerPage };
@@ -394,12 +397,11 @@ export default {
     },
 
     selectFilter(key, item, isChecked) {
-      const found = this.filterListData[key].values.find((value) => value.name === item.name);
-      this.$set(found, 'isChecked', isChecked);
-
+      // const found = this.filterListData[key].values.find((value) => value.name === item.name);
+      // this.$set(found, 'isChecked', item.isChecked);
       this.page = 1;
       const selectedItem = { ...item, key };
-      if (isChecked) {
+      if (isChecked !== undefined) {
         selectedItem.isChecked = isChecked;
       }
 
@@ -407,7 +409,7 @@ export default {
         this.selectedFilters.push(selectedItem);
         this.filtersIdsData[key].push(selectedItem.id);
       } else {
-        this.selectedFilters = this.selectedFilters.filter((filter) => filter.id !== item.id);
+        this.selectedFilters = this.selectedFilters.filter((filter) => filter.name !== item.name);
         this.filtersIdsData[key] = this.filtersIdsData[key].filter((id) => id !== item.id);
       }
     },
