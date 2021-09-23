@@ -1,10 +1,5 @@
 <template>
-  <SProgramAbout
-    :title="title"
-    :description="description"
-    :image="image"
-    :factoids="factoids"
-  />
+  <SProgramAbout :title="title" :description="description" :image="image" :factoids="factoids" />
 </template>
 
 <script>

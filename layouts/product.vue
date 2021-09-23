@@ -1,4 +1,5 @@
-s<template>
+s
+<template>
   <main class="product-page">
     <Nuxt />
   </main>
