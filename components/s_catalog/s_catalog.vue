@@ -4,7 +4,7 @@
       Программы обучения
       <sup class="catalog-page__header-total a-font_L"> {{ totalProducts }} программ</sup>
     </h2>
-    <swiper class="catalog-page__main-tags" :options="swiperOption" v-if="totalProducts">
+    <swiper class="catalog-page__main-tags" :options="swiperOption">
       <swiper-slide v-for="tag in main_tags" :key="tag.label" class="catalog-page__swiper-slide">
         <a-tag :label="tag.label" :status="tag.status" />
       </swiper-slide>
