@@ -1,5 +1,5 @@
 <template>
-  <main class="product-page">
+  <main class="organization-page">
     <Nuxt />
   </main>
 </template>
