@@ -32,20 +32,6 @@ import './s_main_university.scss';
 export default {
   name: 'SMainUniversity',
 
-  props: {
-    redirectUrl: {
-      type: String,
-      default: '#',
-    },
-    methods: {
-      type: Array,
-      required: true,
-    },
-    title: {
-      type: String,
-    },
-  },
-
   data() {
     return {
       cards: [],
