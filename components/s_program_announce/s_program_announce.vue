@@ -60,7 +60,6 @@ export default {
 
   data() {
     return {
-      baseUrl: process.env.NUXT_ENV_S3BACKET,
       swiperOptionA: {
         grabCursor: true,
         slidesPerView: 'auto',

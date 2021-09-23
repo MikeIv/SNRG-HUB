@@ -5,12 +5,14 @@
   overflow: hidden;
   width: 100%;
   margin: rem(20) auto;
-  padding: var(--layout-v-padding) var(--layout-h-padding);
-  background-color: #e6e4f1;
   border-radius: var(--a-borderRadius--bg);
 
   @media screen and (max-width: 991px) {
     margin: rem(12) auto;
+  }
+
+  &__wrapper {
+    padding: var(--layout-v-padding) var(--layout-h-padding);
   }
 
   & .s-program-start__event {

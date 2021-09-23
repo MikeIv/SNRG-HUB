@@ -12,6 +12,7 @@
         :form="program.form"
         :photo="program.photo"
         :link="program.link"
+        :color="program.color"
       />
     </section>
   </div>
@@ -57,6 +58,7 @@ export default {
       program: {
         subtitle: 'Профессия с трудоустройством',
         title: 'PHP-программист',
+        color: '#e6e4f1',
         social: [
           {
             id: 1,

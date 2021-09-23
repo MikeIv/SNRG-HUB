@@ -12,27 +12,4 @@
   @media screen and (max-width: 991px) {
     margin: rem(12) auto;
   }
-
-  .m-form {
-    @media screen and (max-width: 991px) {
-      padding: var(--a-padding--x10) var(--a-padding--x4);
-    }
-
-    @media screen and (max-width: 767px) {
-      padding: var(--a-padding--x6) var(--a-padding--x4);
-    }
-
-    &__inputs {
-      justify-content: space-between;
-      margin: 0;
-    }
-  }
-
-  .a-input__row {
-    width: 100%;
-  }
-
-  .a-input--large {
-    width: inherit;
-  }
 }
