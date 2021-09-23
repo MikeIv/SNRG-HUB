@@ -1,29 +1,18 @@
 <template>
-  <div class="container">
-    <component :is="section" v-for="section in sections" :key="section"></component>
-    <pre>
-      {{ pageInfo }}
-    </pre>
+  <div>
+    <component
+      :is="key"
+      v-for="{ key, methods, title, id } in pageInfo.components"
+      :key="id"
+      :methods="methods"
+      :title="title"
+    ></component>
   </div>
 </template>
 
 <script>
 export default {
   middleware: 'getPageInfo',
-
-  asyncData() {
-    // Массив имен для component :is будет формироваться от бэка
-    // На данный момент там имена неправильные, поэтому хардкод
-    // А так мы их будем брать из pageInfo.components и у объекта ключ "key"
-    const sections = [
-      's-header',
-    ];
-
-    return {
-      sections,
-    };
-  },
-
   computed: {
     pageInfo() {
       return this.$store.state.pageInfo;

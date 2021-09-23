@@ -1,0 +1,58 @@
+@import '@/assets/styles/tools/mixins';
+
+.s-program-people {
+  width: 100%;
+  margin: rem(20) auto;
+  padding: var(--layout-v-padding) var(--layout-h-padding);
+  background-color: var(--a-color_bg);
+  border-radius: var(--a-borderRadius--bg);
+
+  &__slide {
+    width: rem(364);
+
+    @media (max-width: 767px) {
+      width: 100%;
+    }
+  }
+
+  .m-card-landing {
+    width: 100%;
+
+    &__image {
+      display: block;
+      height: 100%;
+      border-radius: var(--a-borderRadius--default);
+      object-fit: cover;
+
+      &-wrapper {
+        height: rem(192);
+
+        @media (max-width: 767px) {
+          height: rem(128);
+        }
+      }
+    }
+  }
+
+  &__title {
+    margin-bottom: rem(40);
+    color: var(--a-color_text);
+
+    @media (max-width: 991px) {
+      margin-bottom: rem(24);
+      font-size: rem(20);
+    }
+
+    @media (max-width: 575px) {
+      margin-bottom: rem(20);
+    }
+
+    span {
+      color: var(--a-color_link);
+    }
+  }
+
+  a {
+    text-decoration: none;
+  }
+}
