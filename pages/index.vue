@@ -6,6 +6,7 @@
     <nuxt-link to="/product">TO PRODUCT PAGE</nuxt-link>
     <br />
     <h2>DATA FROM EXAMPLE:</h2>
+    <menu-horizontal />
     <example />
     <br />
     <h2>PAGE INFO:</h2>
