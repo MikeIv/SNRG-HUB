@@ -1,5 +1,5 @@
 <template>
-  <header class="s-header" :class="{ open: isOpen, fixed: isScrolled}">
+  <header class="s-header" :class="{ open: isOpen, fixed: isScrolled }">
     <div class="shadow" v-if="isOpen"></div>
     <div class="s-header__wrapper">
       <div class="s-header__center">
@@ -17,9 +17,9 @@
               <a-input :isSearch="true" size="medium" :placeholder="searchPlaceholder"></a-input>
             </div>
             <div class="s-header__phones">
-              <a class="s-header__phone" v-for="(phone, idx) in phonesNumbers" :key="idx" :href="`tel:${phone.href}`">
+              <a class="s-header__phone" v-for="(phone, idx) in phones" :key="idx" :href="`tel:${phone.replace(/[^+\d]/g, '')}`">
                 <div class="s-header__phones-icon si-phone"></div>
-                <div class="s-header__phones-text a-font_m-s">{{ phone.number }}</div>
+                <div class="s-header__phones-text a-font_m-s">{{ phone }}</div>
               </a>
             </div>
           </div>
@@ -52,8 +52,7 @@ export default {
       isScrolled: false,
       btnText: 'Всё обучение',
       phones: ['+7 495 800-10-01', '8 800 100-00-11'],
-      phonesNumbers: [],
-      searchPlaceholder: "Поиск по сайту",
+      searchPlaceholder: 'Поиск по сайту',
     };
   },
 
@@ -64,17 +63,6 @@ export default {
     SMenuMain,
   },
 
-  created() {
-    this.phones.forEach(element => {
-      let phone = {
-        number: element,
-        href: element.replace(/[^+\d]/g, ""),
-      }
-
-      this.phonesNumbers.push(phone);
-    });
-  },
-
   mounted() {
     window.addEventListener('scroll', this.handleScroll);
   },
@@ -83,14 +71,14 @@ export default {
   },
 
   methods: {
-    handleScroll () {
+    handleScroll() {
       this.scrollTop = window.scrollY;
       if (this.scrollTop > 1) {
         this.isScrolled = true;
       } else {
         this.isScrolled = false;
       }
-    }
+    },
   },
 };
 </script>
