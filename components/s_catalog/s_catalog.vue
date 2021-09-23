@@ -296,10 +296,6 @@ export default {
       if (this.windowWidth < this.$options.mobileEndpointResolution) {
         this.productsPerPage = this.$options.productNumberOnMobile;
       }
-
-      if (this.windowWidth < 950 && this.windowWidth > 850) {
-        this.clearAllFilters();
-      }
     },
   },
 
@@ -372,7 +368,7 @@ export default {
       this.filtersIdsData[tag.key] = this.filtersIdsData[tag.key].filter((id) => id !== tag.id);
       const found = this.filterListData[tag.key].values.find((value) => value.name === tag.name);
       this.$set(found, 'isChecked', false);
-
+      console.log('filters', this.selectedFilters);
       // Меняяем уникальный ключ s-catalog-filter, заставляя его перерендерится
       this.componentFilterKey += 1;
     },
@@ -412,6 +408,8 @@ export default {
         this.selectedFilters = this.selectedFilters.filter((filter) => filter.name !== item.name);
         this.filtersIdsData[key] = this.filtersIdsData[key].filter((id) => id !== item.id);
       }
+
+      console.log('filters', this.selectedFilters);
     },
 
     filtersIconClickHandler() {
