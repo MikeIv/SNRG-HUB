@@ -4,13 +4,6 @@
       <h1 class="title">{{ pageInfo.name }}</h1>
     </div>
 
-    <s-quiz
-      :methodsData="{ filter: { id: 1 } }"
-      :imageFon="require(`~/assets/images/m-banner--quiz.png`)"
-      :image="require(`~/assets/images/quiz-podbor_02.png`)"
-    >
-    </s-quiz>
-
     <nuxt-link to="/product">TO PRODUCT PAGE</nuxt-link>
     <br />
     <h2>DATA FROM EXAMPLE:</h2>

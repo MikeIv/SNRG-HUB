@@ -102,7 +102,6 @@ export default {
   props: {
     imageFon: String,
     image: String,
-    methodsData: {},
   },
 
   computed: {
@@ -112,7 +111,8 @@ export default {
   },
 
   async fetch() {
-    const response = await getQuizzesDetail(this.methodsData);
+    const expandedMethod = this.methods.data;
+    const response = await getQuizzesDetail(expandedMethod);
     this.dataQuiz = response;
     this.dataQuestion = response.questions.filter((item) => item.answers.length > 0);
     this.count = this.dataQuestion.length;
