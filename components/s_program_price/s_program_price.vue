@@ -1,27 +1,25 @@
 <template>
-  <div class="l-default">
-    <section class="s-program-price">
-      <MFormPay
-        :title="title"
-        :iconSrc="iconSrc"
-        :text="text"
-        :courseName="courseName"
-        :years="years"
-        :study="study"
-        :priceText="priceText"
-        :oldPrice="oldPrice"
-        :currentPrice="currentPrice"
-        :formTitle="formTitle"
-        :inputs="inputs"
-        :btnText="btnText"
-        :actionForm="actionForm"
-        :checkboxText="checkboxText"
-        :typeCtrl="typeCtrl"
-        :typeBtn="typeBtn"
-        :checked="checked"
-      />
-    </section>
-  </div>
+  <section class="s-program-price">
+    <MFormPay
+      :title="title"
+      :iconSrc="iconSrc"
+      :text="text"
+      :courseName="courseName"
+      :years="years"
+      :study="study"
+      :priceText="priceText"
+      :oldPrice="oldPrice"
+      :currentPrice="currentPrice"
+      :formTitle="formTitle"
+      :inputs="inputs"
+      :btnText="btnText"
+      :actionForm="actionForm"
+      :checkboxText="checkboxText"
+      :typeCtrl="typeCtrl"
+      :typeBtn="typeBtn"
+      :checked="checked"
+    />
+  </section>
 </template>
 
 <script>

@@ -1,18 +1,16 @@
 <template>
-  <div class="l-default">
-    <section class="s-program-form">
-      <MForm
-        :actionForm="actionForm"
-        :title="title"
-        :checkboxText="checkboxText"
-        :btnText="btnText"
-        :inputs="inputs"
-        :typeCtrl="typeCtrl"
-        :typeBtn="typeBtn"
-        :checked="checked"
-      />
-    </section>
-  </div>
+  <section class="s-program-form">
+    <MForm
+      :actionForm="actionForm"
+      :title="title"
+      :checkboxText="checkboxText"
+      :btnText="btnText"
+      :inputs="inputs"
+      :typeCtrl="typeCtrl"
+      :typeBtn="typeBtn"
+      :checked="checked"
+    />
+  </section>
 </template>
 
 <script>

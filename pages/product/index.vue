@@ -1,5 +1,5 @@
 <template>
-  <div class="product-page">
+  <div class="l-default">
     <component :is="section" v-for="section in sections" :key="section"></component>
   </div>
 </template>
@@ -8,6 +8,14 @@
 import '@cwespb/synergyui/lib/synergyui.css';
 
 export default {
+  layout: 'product',
+
+  head: {
+    bodyAttrs: {
+      class: 'bg-gray',
+    },
+  },
+
   components: {},
 
   middleware: 'getPageInfo',
@@ -50,12 +58,6 @@ export default {
   computed: {
     pageInfo() {
       return this.$store.state.pageInfo;
-    },
-  },
-
-  head: {
-    bodyAttrs: {
-      class: 'bg-gray',
     },
   },
 };

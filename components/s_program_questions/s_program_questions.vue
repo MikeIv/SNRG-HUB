@@ -1,7 +1,5 @@
 <template>
-  <div class="l-default">
-    <SProgramQuestions :title="title" :items="items" />
-  </div>
+  <SProgramQuestions :title="title" :items="items" />
 </template>
 
 <script>

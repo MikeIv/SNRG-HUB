@@ -1,7 +1,10 @@
 <template>
-  <div class="l-default">
-    <SProgramAbout :title="title" :description="description" :image="image" :factoids="factoids" />
-  </div>
+  <SProgramAbout
+    :title="title"
+    :description="description"
+    :image="image"
+    :factoids="factoids"
+  />
 </template>
 
 <script>

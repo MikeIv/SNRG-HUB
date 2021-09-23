@@ -1,30 +1,28 @@
 <template>
-  <div class="l-default">
-    <section class="s-program-info">
-      <div class="s-program-info__wrapper">
-        <div class="s-program-info__items">
-          <swiper class="swiper" :options="swiperOption">
-            <AFactoid
-              v-for="item in items"
-              :key="item.id"
-              :type="item.type"
-              :title="item.title"
-              :lineNumber="item.lineNumber"
-              class="swiper-slide"
-            />
-          </swiper>
-        </div>
-        <span class="s-program-info__arrow">
-          <svg viewBox="0 0 259 482" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path
-              d="M259 482L240.794 353.75L180.22 297.382L119.645 241.014L240.794 128.28L259 0L0 240.987L259 482Z"
-              fill="#FF0040"
-            ></path>
-          </svg>
-        </span>
+  <section class="s-program-info">
+    <div class="s-program-info__wrapper">
+      <div class="s-program-info__items">
+        <swiper ref="awesomeSwiper" :options="swiperOptionProgramInfo">
+          <AFactoid
+            v-for="item in items"
+            :key="item.id"
+            :type="item.type"
+            :title="item.title"
+            :lineNumber="item.lineNumber"
+            class="swiper-slide"
+          />
+        </swiper>
       </div>
-    </section>
-  </div>
+      <span class="s-program-info__arrow">
+        <svg viewBox="0 0 259 482" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path
+            d="M259 482L240.794 353.75L180.22 297.382L119.645 241.014L240.794 128.28L259 0L0 240.987L259 482Z"
+            fill="#FF0040"
+          ></path>
+        </svg>
+      </span>
+    </div>
+  </section>
 </template>
 
 <script>
@@ -42,14 +40,14 @@ export default {
 
   computed: {
     swiper() {
-      return this.$refs.mySwiper.$swiper;
+      return this.$refs.awesomeSwiper.swiper;
     },
   },
 
   data() {
     return {
       baseUrl: process.env.NUXT_ENV_S3BACKET,
-      swiperOption: {
+      swiperOptionProgramInfo: {
         grabCursor: true,
         slidesPerView: 'auto',
         spaceBetween: 32,
@@ -85,5 +83,6 @@ export default {
       ],
     };
   },
+
 };
 </script>

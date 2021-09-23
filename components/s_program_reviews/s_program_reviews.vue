@@ -1,21 +1,19 @@
 <template>
-  <div class="l-default">
-    <section class="s-program-reviews">
-      <h2 class="s-program-reviews__title a-font_h2" v-html="title"></h2>
-      <div class="s-program-reviews__swiper">
-        <swiper ref="awesomeSwiper" :options="swiperOptionA">
-          <swiper-slide v-for="item in items" :key="item.id" class="s-program-reviews__slide m-card-landing">
-            <MCardLanding
-              :subhead="item.subhead"
-              :userName="item.userName"
-              :userImage="item.userImage"
-              :text="item.text"
-            />
-          </swiper-slide>
-        </swiper>
-      </div>
-    </section>
-  </div>
+  <section class="s-program-reviews">
+    <h2 class="s-program-reviews__title a-font_h2" v-html="title"></h2>
+    <div class="s-program-reviews__swiper">
+      <swiper ref="awesomeSwiper" :options="swiperOptionA">
+        <swiper-slide v-for="item in items" :key="item.id" class="s-program-reviews__slide m-card-landing">
+          <MCardLanding
+            :subhead="item.subhead"
+            :userName="item.userName"
+            :userImage="item.userImage"
+            :text="item.text"
+          />
+        </swiper-slide>
+      </swiper>
+    </div>
+  </section>
 </template>
 
 <script>
