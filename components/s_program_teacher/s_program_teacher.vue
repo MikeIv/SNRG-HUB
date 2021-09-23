@@ -1,7 +1,7 @@
 <template>
   <section class="s-program-teacher">
     <h2 class="s-program-teacher__title a-font_h2" v-html="title"></h2>
-    <div class="s-program-teacher__items s-program-teacher__items_horisontal" v-if="items.length < 3">
+    <div class="s-program-teacher__items s-program-teacher__items_horisontal" v-if="items.length < 4">
       <MCardSpeaker
         v-for="item in items"
         :key="item.id"
@@ -26,7 +26,7 @@
 </template>
 
 <script>
-import { Swiper, SwiperSlide, directive } from 'vue-awesome-swiper';
+import { Swiper, SwiperSlide } from 'vue-awesome-swiper';
 import { MCardSpeaker, MCardLanding } from '@cwespb/synergyui';
 import './s_program_teacher.scss';
 
@@ -38,16 +38,6 @@ export default {
     MCardLanding,
     Swiper,
     SwiperSlide,
-  },
-
-  directives: {
-    swiper: directive,
-  },
-
-  computed: {
-    swiper() {
-      return this.$refs.awesomeSwiper.swiper;
-    },
   },
 
   data() {
