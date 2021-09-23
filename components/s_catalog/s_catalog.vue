@@ -169,7 +169,6 @@ import SCatalogProductList from '~/components/s_catalog_product_list/s_catalog_p
 import getProductsList from '~/api/products_list';
 import getFilterData from '~/api/filter_data';
 import './s_catalog.scss';
-import 'swiper/css/swiper.min.css';
 
 export default {
   name: 'SCatalog',
