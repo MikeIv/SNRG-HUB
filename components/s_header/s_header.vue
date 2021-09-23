@@ -17,7 +17,12 @@
               <a-input :isSearch="true" size="medium" :placeholder="searchPlaceholder"></a-input>
             </div>
             <div class="s-header__phones">
-              <a class="s-header__phone" v-for="(phone, idx) in phones" :key="idx" :href="`tel:${phone.replace(/[^+\d]/g, '')}`">
+              <a
+                class="s-header__phone"
+                v-for="(phone, idx) in phones"
+                :key="idx"
+                :href="`tel:${phone.replace(/[^+\d]/g, '')}`"
+              >
                 <div class="s-header__phones-icon si-phone"></div>
                 <div class="s-header__phones-text a-font_m-s">{{ phone }}</div>
               </a>
