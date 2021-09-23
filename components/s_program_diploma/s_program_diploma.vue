@@ -1,23 +1,22 @@
 <template>
-  <section class="s_program_diploma">
-    <h2 class="s_program_diploma__title a-font_h2" v-html="title"></h2>
-    <div class="s_program_diploma__items">
-      <swiper ref="awesomeSwiper" :options="swiperOptionProgramDiploma">
-        <MCardLanding
-          v-for="item in items"
-          :key="item.id"
-          :title="item.title"
-          :text="item.text"
-          :image="item.image"
-          class="swiper-slide"
-        />
+  <section class="s-program-diploma">
+    <h2 class="s-program-diploma__title a-font_h2" v-html="title"></h2>
+    <div class="s-program-diploma__items">
+      <swiper :options="swiperOptionProgramDiploma">
+        <swiper-slide v-for="item in items" :key="item.id" class="s-program-diploma__slide">
+          <MCardLanding
+            :title="item.title"
+            :text="item.text"
+            :image="item.image"
+          />
+        </swiper-slide>
       </swiper>
     </div>
   </section>
 </template>
 
 <script>
-import { directive } from 'vue-awesome-swiper';
+import { Swiper, SwiperSlide } from 'vue-awesome-swiper';
 
 import { MCardLanding } from '@cwespb/synergyui';
 import './s_program_diploma.scss';
@@ -27,16 +26,8 @@ export default {
 
   components: {
     MCardLanding,
-  },
-
-  directives: {
-    swiper: directive,
-  },
-
-  computed: {
-    swiper() {
-      return this.$refs.awesomeSwiper.swiper;
-    },
+    Swiper,
+    SwiperSlide,
   },
 
   data() {

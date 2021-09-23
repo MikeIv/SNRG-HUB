@@ -1,6 +1,6 @@
 @import '@/assets/styles/tools/mixins';
 
-.s_program_diploma {
+.s-program-diploma {
   position: relative;
   overflow: hidden;
   width: 100%;
@@ -13,7 +13,7 @@
     margin: rem(12) auto;
   }
 
-  .m-card-landing {
+  &__slide {
     width: rem(364);
   }
 

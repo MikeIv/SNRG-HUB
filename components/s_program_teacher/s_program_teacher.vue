@@ -12,22 +12,21 @@
       />
     </div>
     <div class="s-program-teacher__items s-program-teacher__items_vertical" v-else>
-      <swiper ref="awesomeSwiper" :options="swiperOptionA">
-        <MCardLanding
-          v-for="item in items"
-          :key="item.id"
-          :title="item.title"
-          :text="item.description"
-          :image="item.image"
-          class="swiper-slide"
-        />
+      <swiper :options="swiperOptionA">
+        <swiper-slide v-for="item in items" :key="item.id" class="s-program-teacher__slide m-card-landing-vertical">
+          <MCardLanding
+            :title="item.title"
+            :text="item.description"
+            :image="item.image"
+          />
+        </swiper-slide>
       </swiper>
     </div>
   </section>
 </template>
 
 <script>
-import { directive } from 'vue-awesome-swiper';
+import { Swiper, SwiperSlide, directive } from 'vue-awesome-swiper';
 import { MCardSpeaker, MCardLanding } from '@cwespb/synergyui';
 import './s_program_teacher.scss';
 
@@ -37,6 +36,8 @@ export default {
   components: {
     MCardSpeaker,
     MCardLanding,
+    Swiper,
+    SwiperSlide,
   },
 
   directives: {

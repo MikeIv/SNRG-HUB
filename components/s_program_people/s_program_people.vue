@@ -3,8 +3,8 @@
     <div class="s-program-people__wrapper">
       <h2 class="s-program-people__title a-font_h2" v-html="title"></h2>
       <div class="s-program-people__slider">
-        <swiper ref="awesomeSwiper" :options="swiperOptionProgramPeople">
-          <swiper-slide v-for="item in items" :key="item.id" class="s-program-people__slide m-card-landing">
+        <swiper :options="swiperOptionProgramPeople">
+          <swiper-slide v-for="item in items" :key="item.id" class="s-program-people__slide">
             <nuxt-link to="/">
               <m-card-landing :title="item.title" :text="item.text" :image="item.image" />
             </nuxt-link>
@@ -16,7 +16,7 @@
 </template>
 
 <script>
-import { directive } from 'vue-awesome-swiper';
+import { Swiper, SwiperSlide, directive } from 'vue-awesome-swiper';
 
 import { MCardLanding } from '@cwespb/synergyui';
 import './s_program_people.scss';
@@ -26,16 +26,12 @@ export default {
 
   components: {
     MCardLanding,
+    Swiper,
+    SwiperSlide,
   },
 
   directives: {
     swiper: directive,
-  },
-
-  computed: {
-    swiper() {
-      return this.$refs.awesomeSwiper.swiper;
-    },
   },
 
   data() {

@@ -2,7 +2,7 @@
   <section class="s-program-reviews">
     <h2 class="s-program-reviews__title a-font_h2" v-html="title"></h2>
     <div class="s-program-reviews__swiper">
-      <swiper ref="awesomeSwiper" :options="swiperOptionA">
+      <swiper :options="swiperOptionA">
         <swiper-slide v-for="item in items" :key="item.id" class="s-program-reviews__slide m-card-landing">
           <MCardLanding
             :subhead="item.subhead"
@@ -17,7 +17,7 @@
 </template>
 
 <script>
-import { directive } from 'vue-awesome-swiper';
+import { Swiper, SwiperSlide, directive } from 'vue-awesome-swiper';
 import { MCardLanding } from '@cwespb/synergyui';
 import './s_program_reviews.scss';
 
@@ -26,16 +26,12 @@ export default {
 
   components: {
     MCardLanding,
+    Swiper,
+    SwiperSlide,
   },
 
   directives: {
     swiper: directive,
-  },
-
-  computed: {
-    swiper() {
-      return this.$refs.awesomeSwiper.swiper;
-    },
   },
 
   data() {

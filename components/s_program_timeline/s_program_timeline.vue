@@ -13,7 +13,7 @@
       </div>
     </div>
     <div class="s-program-timeline__swiper">
-      <swiper ref="awesomeSwiper" :options="swiperOptionA">
+      <swiper :options="swiperOptionA">
         <swiper-slide v-for="item in items" :key="item.id" class="s-program-timeline__slide m-card-landing">
           <MCardLanding :title="item.title" :text="item.text" :image="item.image" />
         </swiper-slide>
@@ -23,7 +23,7 @@
 </template>
 
 <script>
-import { directive } from 'vue-awesome-swiper';
+import { Swiper, SwiperSlide, directive } from 'vue-awesome-swiper';
 
 import { AFactoid, MCardLanding } from '@cwespb/synergyui';
 import './s_program_timeline.scss';
@@ -34,16 +34,12 @@ export default {
   components: {
     AFactoid,
     MCardLanding,
+    Swiper,
+    SwiperSlide,
   },
 
   directives: {
     swiper: directive,
-  },
-
-  computed: {
-    swiper() {
-      return this.$refs.awesomeSwiper.swiper;
-    },
   },
 
   data() {

@@ -7,25 +7,29 @@
   background-color: var(--a-color_bg);
   border-radius: var(--a-borderRadius--bg);
 
-  .m-card-landing {
+  &__slide {
     width: rem(364);
 
-    @media (max-width: 576px) {
+    @media (max-width: 767px) {
       width: 100%;
     }
   }
 
-  .m-card-landing__image {
-    display: block;
-    height: 100%;
-    border-radius: var(--a-borderRadius--default);
-    object-fit: cover;
+  .m-card-landing {
+    width: 100%;
 
-    &-wrapper {
-      height: rem(192);
+    &__image {
+      display: block;
+      height: 100%;
+      border-radius: var(--a-borderRadius--default);
+      object-fit: cover;
 
-      @media (max-width: 767px) {
-        height: rem(128);
+      &-wrapper {
+        height: rem(192);
+
+        @media (max-width: 767px) {
+          height: rem(128);
+        }
       }
     }
   }
