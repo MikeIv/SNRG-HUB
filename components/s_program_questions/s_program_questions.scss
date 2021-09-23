@@ -1,0 +1,11 @@
+@import '@/assets/styles/tools/mixins';
+
+.s-program-questions {
+  margin-bottom: rem(20);
+  background: var(--a-color_bg);
+  border-radius: var(--a-borderRadius--bg);
+
+  @media (max-width: 991px) {
+    margin-bottom: rem(12);
+  }
+}
