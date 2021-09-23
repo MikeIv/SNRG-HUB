@@ -21,7 +21,7 @@
       :class="{ 's-program-exam__items_active': tab.isActive }"
       v-show="tab.isActive"
     >
-      <swiper class="swiper" :options="swiperOption">
+      <swiper ref="awesomeSwiper" :options="swiperOptionProgramExam">
         <div v-for="(exam, idx) in tab.exams" :key="exam.id" class="s-program-exam__item swiper-slide">
           <h5 class="s-program-exam__item-caption a-font_h5">{{ slideCaption[idx] }}</h5>
           <div class="s-program-exam__item-factoids">
@@ -40,7 +40,7 @@
 </template>
 
 <script>
-import { Swiper } from 'vue-awesome-swiper';
+import { directive } from 'vue-awesome-swiper';
 
 import { ATag, AFactoid } from '@cwespb/synergyui';
 import './s_program_exam.scss';
@@ -49,20 +49,23 @@ export default {
   name: 's_program_exam',
 
   components: {
-    Swiper,
     ATag,
     AFactoid,
   },
 
+  directives: {
+    swiper: directive,
+  },
+
   computed: {
     swiper() {
-      return this.$refs.mySwiper.$swiper;
+      return this.$refs.awesomeSwiper.swiper;
     },
   },
 
   data() {
     return {
-      swiperOption: {
+      swiperOptionProgramExam: {
         slidesPerView: 'auto',
         spaceBetween: 0,
         resistance: true,

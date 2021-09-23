@@ -2,7 +2,7 @@
   <section class="s-program-recommend">
     <h2 class="s-program-recommend__title a-font_h2">{{ title }}</h2>
     <div class="s-program-recommend__swiper">
-      <swiper ref="awesomeSwiper" :options="swiperOptionA">
+      <swiper ref="awesomeSwiper" :options="swiperOptionRecomend">
         <swiper-slide v-for="item in items" :key="item.id" class="s-program-recommend__slide m-card-vertical">
           <nuxt-link to="/">
             <m-card
@@ -37,7 +37,7 @@
 </template>
 
 <script>
-import { Swiper } from 'vue-awesome-swiper';
+import { directive } from 'vue-awesome-swiper';
 import { MCard, AButton } from '@cwespb/synergyui';
 import './s_program_recommend.scss';
 
@@ -45,9 +45,18 @@ export default {
   name: 's_program_recommend',
 
   components: {
-    Swiper,
     MCard,
     AButton,
+  },
+
+  directives: {
+    swiper: directive,
+  },
+
+  computed: {
+    swiper() {
+      return this.$refs.awesomeSwiper.swiper;
+    },
   },
 
   data() {
@@ -96,7 +105,7 @@ export default {
           bottomText: 'Университет Синергия',
         },
       ],
-      swiperOptionA: {
+      swiperOptionRecomend: {
         slidesPerView: 'auto',
         spaceBetween: 16,
         grabCursor: true,
@@ -122,11 +131,7 @@ export default {
       bgColor: 'ghost-primary',
     };
   },
-  computed: {
-    swiper() {
-      return this.$refs.awesomeSwiper.swiper;
-    },
-  },
+
   methods: {
     onLikeClickHandler() {
       this.$emit('onLikeClick');

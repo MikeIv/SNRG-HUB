@@ -17,8 +17,7 @@
 </template>
 
 <script>
-import { Swiper } from 'vue-awesome-swiper';
-
+import { directive } from 'vue-awesome-swiper';
 import { MCardLanding } from '@cwespb/synergyui';
 import './s_program_reviews.scss';
 
@@ -26,13 +25,16 @@ export default {
   name: 's_program_reviews',
 
   components: {
-    Swiper,
     MCardLanding,
+  },
+
+  directives: {
+    swiper: directive,
   },
 
   computed: {
     swiper() {
-      return this.$refs.mySwiper.$swiper;
+      return this.$refs.awesomeSwiper.swiper;
     },
   },
 

@@ -3,7 +3,7 @@
     <div class="s-program-people__wrapper">
       <h2 class="s-program-people__title a-font_h2" v-html="title"></h2>
       <div class="s-program-people__slider">
-        <swiper ref="awesomeSwiper" :options="swiperOptionA">
+        <swiper ref="awesomeSwiper" :options="swiperOptionProgramPeople">
           <swiper-slide v-for="item in items" :key="item.id" class="s-program-people__slide m-card-landing">
             <nuxt-link to="/">
               <m-card-landing :title="item.title" :text="item.text" :image="item.image" />
@@ -41,7 +41,7 @@ export default {
   data() {
     return {
       baseUrl: process.env.NUXT_ENV_S3BACKET,
-      swiperOptionA: {
+      swiperOptionProgramPeople: {
         slidesPerView: 3,
         spaceBetween: 20,
         loop: false,

@@ -2,7 +2,7 @@
   <section class="s_program_diploma">
     <h2 class="s_program_diploma__title a-font_h2" v-html="title"></h2>
     <div class="s_program_diploma__items">
-      <swiper class="swiper" :options="swiperOption">
+      <swiper ref="awesomeSwiper" :options="swiperOptionProgramDiploma">
         <MCardLanding
           v-for="item in items"
           :key="item.id"
@@ -17,7 +17,7 @@
 </template>
 
 <script>
-import { Swiper } from 'vue-awesome-swiper';
+import { directive } from 'vue-awesome-swiper';
 
 import { MCardLanding } from '@cwespb/synergyui';
 import './s_program_diploma.scss';
@@ -26,20 +26,23 @@ export default {
   name: 's_program_diploma',
 
   components: {
-    Swiper,
     MCardLanding,
+  },
+
+  directives: {
+    swiper: directive,
   },
 
   computed: {
     swiper() {
-      return this.$refs.mySwiper.$swiper;
+      return this.$refs.awesomeSwiper.swiper;
     },
   },
 
   data() {
     return {
       baseUrl: process.env.NUXT_ENV_S3BACKET,
-      swiperOption: {
+      swiperOptionProgramDiploma: {
         grabCursor: true,
         slidesPerView: 'auto',
         spaceBetween: 24,

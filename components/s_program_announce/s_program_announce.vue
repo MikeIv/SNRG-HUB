@@ -2,7 +2,7 @@
   <section class="s-program-announce">
     <h2 class="s-program-announce__title a-font_h2" v-html="title"></h2>
     <div class="s-program-announce__swiper">
-      <swiper ref="awesomeSwiper" :options="swiperOptionA">
+      <swiper ref="awesomeSwiper" :options="swiperOptionProgramAnnounce">
         <swiper-slide v-for="item in items" :key="item.id" class="s-program-announce__slide m-card-vertical">
           <nuxt-link to="/">
             <m-card
@@ -36,7 +36,7 @@
 </template>
 
 <script>
-import { Swiper } from 'vue-awesome-swiper';
+import { directive } from 'vue-awesome-swiper';
 
 import { MCard, AButton } from '@cwespb/synergyui';
 import './s_program_announce.scss';
@@ -45,9 +45,12 @@ export default {
   name: 's_program_announce',
 
   components: {
-    Swiper,
     MCard,
     AButton,
+  },
+
+  directives: {
+    swiper: directive,
   },
 
   computed: {
@@ -58,7 +61,7 @@ export default {
 
   data() {
     return {
-      swiperOptionA: {
+      swiperOptionProgramAnnounce: {
         grabCursor: true,
         slidesPerView: 'auto',
         spaceBetween: 16,
