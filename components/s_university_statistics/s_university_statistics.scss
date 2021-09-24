@@ -1,13 +1,67 @@
 @import '@/assets/styles/tools/mixins';
 
-.s-university-statistic {
+.s-university-statistics {
   position: relative;
   overflow: hidden;
   width: 100%;
   margin: rem(20) auto;
+  padding: var(--layout-v-padding) var(--layout-h-padding);
+  background-color: var(--a-color_bg);
   border-radius: var(--a-borderRadius--bg);
 
   @media screen and (max-width: 991px) {
     margin: rem(12) auto;
+  }
+
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0 0 rem(40);
+    @media screen and (max-width: 991px) {
+      margin: 0 0 rem(24);
+    }
+    @media screen and (max-width: 767px) {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  }
+
+  &__title {
+    @media screen and (max-width: 767px) {
+      margin: 0 0 rem(14);
+    }
+  }
+
+  &__tag {
+    display: inline-block;
+    font-weight: 500;
+    white-space: nowrap;
+    &:not(:last-child) {
+      margin-right: rem(32);
+    }
+    @media screen and (max-width: 991px) {
+      font-size: rem(14);
+      &:not(:last-child) {
+        margin-right: rem(27);
+      }
+    }
+    @media screen and (max-width: 767px) {
+      margin: rem(8) 0;
+    }
+  }
+
+  &__factoids {
+    & .swiper-slide {
+      min-width: fit-content;
+    }
+    & .a-factoid-number__wrapper {
+      padding: var(--a-padding--x6);
+      background-color: var(--a-color_bg--secondary);
+    }
+    & .a-factoid__color_link,
+    & .a-factoid-number__title {
+      white-space: nowrap;
+    }
   }
 }

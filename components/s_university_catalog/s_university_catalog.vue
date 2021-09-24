@@ -14,7 +14,6 @@
           :description="item.description"
           :bottomText="item.bottomText"
           :iconSrc="item.iconSrc"
-          @onLikeClick="onLikeClickHandler"
         />
       </nuxt-link>
     </div>
