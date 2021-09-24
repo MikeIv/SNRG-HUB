@@ -9,12 +9,12 @@
     display: flex;
     margin-bottom: rem(32);
 
-    @media screen and (min-width: rem(992)) {
+    @media screen and (min-width: 992px) {
       & .m-banner__main-wrapper {
         margin-left: rem(20);
       }
     }
-    @media screen and (max-width: rem(991)) {
+    @media screen and (max-width: 991px) {
       flex-wrap: wrap;
 
       & .m-banner__main-wrapper {
@@ -24,14 +24,14 @@
 
     .l-wide {
       padding: 0;
-      @media screen and (max-width: rem(991)) {
+      @media screen and (max-width: 991px) {
         width: 100%;
       }
 
       .m-banner__main-wrapper {
         flex: none;
         width: 250px;
-        @media screen and (max-width: rem(991)) {
+        @media screen and (max-width: 991px) {
           width: 100%;
         }
       }
@@ -47,19 +47,18 @@
     text-decoration: none;
     cursor: pointer;
 
-    @media screen and (max-width: rem(991)) {
+    @media screen and (max-width: 991px) {
       width: calc((100% - rem(40)) / 2);
     }
-    @media screen and (max-width: rem(767)) {
+    @media screen and (max-width: 767px) {
       width: 100%;
     }
   }
 
   &__btn {
     margin: 0 auto;
-    margin-bottom: rem(40);
 
-    @media screen and (max-width: rem(767)) {
+    @media screen and (max-width: 767px) {
       width: 100%;
     }
   }

@@ -38,8 +38,6 @@ export default {
       bannersDetail: [],
       bannersConcatArray: [],
       baseURL: process.env.NUXT_ENV_S3BACKET,
-      windowWidth: 0,
-      redirectUrl: '#',
     };
   },
   props: ['methods'],

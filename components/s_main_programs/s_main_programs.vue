@@ -23,10 +23,10 @@
           </nuxt-link>
         </template>
       </div>
-      <s-banner :methods="[...this.methods[1]]" />
+      <s-banner v-if="viewType === 'product_list_banner'" :methods="[...this.methods[1]]" />
     </div>
 
-    <nuxt-link :to="redirectUrl" class="s_main_programs__btn-link">
+    <nuxt-link :to="{ redirectUrl }" class="s_main_programs__btn-link">
       <a-button class="s_main_programs__btn" label="Показать все" bgColor="accent" />
     </nuxt-link>
   </section>
@@ -55,7 +55,7 @@ export default {
       redirectUrl: '#',
     };
   },
-  props: ['methods', 'title', 'view_type'],
+  props: ['methods', 'title', 'viewType'],
   methods: {
     getWindowWidth() {
       this.windowWidth = document.documentElement.clientWidth;
@@ -93,9 +93,3 @@ export default {
   },
 };
 </script>
-
-<style>
-.s_main_programs__btn-link {
-  margin-bottom: rem(30);
-}
-</style>
