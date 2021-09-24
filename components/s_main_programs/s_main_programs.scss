@@ -7,6 +7,12 @@
   }
   &__row {
     display: flex;
+    gap: 0 rem(20);
+    margin-bottom: rem(32);
+
+    .l-wide {
+      padding: 0;
+    }
 
     @media screen and (max-width: rem(991)) {
       flex-wrap: wrap;
@@ -18,7 +24,6 @@
     justify-content: center;
     gap: rem(20);
     width: 100%;
-    margin-bottom: rem(32);
   }
   &__wrapper {
     flex-grow: 1;

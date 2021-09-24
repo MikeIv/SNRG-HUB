@@ -5,7 +5,7 @@
       <div class="s_main_programs__cards">
         <template v-for="(product, index) in productsList">
           <nuxt-link
-            to="/#"
+            :to="product.id"
             class="s_main_programs__wrapper"
             v-if="productsList && productsList.length > 0 && index < cardsSet"
             :key="product.id"
@@ -92,3 +92,10 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.m-banner__main-wrapper {
+  flex: none;
+  width: 250px;
+}
+</style>
