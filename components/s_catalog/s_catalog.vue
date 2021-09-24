@@ -249,6 +249,8 @@ export default {
         slidesPerView: 'auto',
         spaceBetween: 8,
       },
+
+      slugs: [],
     };
   },
 
@@ -268,10 +270,36 @@ export default {
     allFiltersData: {
       deep: true,
       handler() {
+        console.log('watcher', this.$route);
+        console.log(this.filtersIdsData);
+
+        // if (this.$route.params.pathMatch) {
+        //   this.slugs = this.$route.params.pathMatch.split('/');
+        //   console.log(this.slugs);
+        //   Object.values(this.filterListData).forEach((filterList) => {
+        //     filterList.values.forEach((value) => {
+        //       this.slugs.forEach((slug) => {
+        //         if (value.slug === slug) {
+        //           this.$set(value, 'isChecked', true);
+        //           this.filtersIdsData[filterList.filter_by].push(value.id);
+        //           const newFilter = { ...value, key: filterList.filter_by };
+        //           this.selectedFilters.push(newFilter);
+        //         }
+        //       });
+        //     });
+        //   });
+        // }
+
         const newQuery = {};
         Object.entries(this.filtersIdsData).forEach(([filterKey, filterIds]) => {
-          if (filterIds.length) {
+          if (filterIds.length === 1) {
+            const found = this.filterListData[filterKey].values.find((value) => value.id === Number(filterIds[0]));
+            const newQuery2 = { ...this.$route.query, page: this.page.toString() };
+            const newPath = this.$route.path + `/${found.slug}`;
+            this.$router.push({ path: newPath, query: newQuery2 });
+          } else if (filterIds.length) {
             newQuery[filterKey] = typeof filterIds === 'string' ? filterIds : filterIds.join(',');
+            this.$router.push({ path: this.$route.path, query: { page: this.page.toString(), ...newQuery } });
           }
         });
 
@@ -284,7 +312,7 @@ export default {
           }
         });
 
-        this.$router.push({ path: this.$route.path, query: { page: this.page.toString(), ...newQuery } });
+        // this.$router.push({ path: this.$route.path, query: { page: this.page.toString(), ...newQuery } });
         this.componentProductsKey += 1;
         this.fetchProductsList();
       },
@@ -341,6 +369,9 @@ export default {
       filtersResponse.forEach((filters) => {
         if (filters.type === 'list') {
           this.filterListData[filters.filter_by] = { ...filters };
+          if (filters.filter_by === 'direction_ids') {
+            filters.values[0].slug = 'finance';
+          }
         }
         if (filters.type === 'checkbox') {
           this.filtersCheckboxDataRequest[filters.filter_by] = false;
@@ -348,9 +379,36 @@ export default {
         }
       });
 
+      // Работа со слагами
+      console.log(this.$route);
+      // if (this.$route.params.pathMatch) {
+      //   this.slugs = this.$route.params.pathMatch.split('/');
+      //   console.log(this.slugs);
+      //   Object.values(this.filterListData).forEach((filterList) => {
+      //     filterList.values.forEach((value) => {
+      //       this.slugs.forEach((slug) => {
+      //         if (value.slug === slug) {
+      //           this.$set(value, 'isChecked', true);
+      //           this.filtersIdsData[filterList.filter_by].push(value.id);
+      //           const newFilter = { ...value, key: filterList.filter_by };
+      //           this.selectedFilters.push(newFilter);
+      //         }
+      //       });
+      //     });
+      //   });
+      // }
+
       Object.entries(this.$route.query).forEach(([key, ids]) => {
         if (key !== 'page' && key !== 'is_employment' && key !== 'is_installment') {
           this.filtersIdsData[key] = typeof ids === 'string' ? ids.split(',') : ids;
+
+          // if (ids.split(',').length === 1) {
+          //   const found = this.filterListData[key].values.find((value) => value.id === Number(ids.split(',')[0]));
+          //   console.log('////', found.slug, this.$route);
+          //   // Добавить путь в урл
+          //   // this.$route.path += `/${found.slug}`;
+          //   this.$router.push({ path: this.$route.path + `/${found.slug}` });
+
           ids.split(',').forEach((id) => {
             const found = this.filterListData[key].values.find((value) => value.id === Number(id));
             this.$set(found, 'isChecked', true);
@@ -362,6 +420,8 @@ export default {
           this.filterCheckboxData[key].isChecked = true;
         }
       });
+
+      // console.log(this.filterListData.direction_ids.values);
     },
 
     async fetchProductsList() {
