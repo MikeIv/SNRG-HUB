@@ -3,15 +3,15 @@
 .s-menu-main {
   position: absolute;
   z-index: 100;
-  top: 0;
+  top: 100%;
   left: 0;
   overflow: hidden;
   width: 100%;
   min-height: 100vh;
-  max-height: 100vh;
+  max-height: rem(592);
   background: var(--a-color_bg);
-  transition: all 0.4s ease-in-out;
   transform: translateY(-200%);
+
   &.open {
     transform: translateY(0);
   }
@@ -58,15 +58,18 @@
 
   &__items {
     overflow-y: scroll;
+    height: calc(100vh - 120px);
     padding-top: var(--a-padding--x5);
     padding-right: var(--a-padding--x4);
     border-right: 1px solid var(--a-color_thumbnail);
+
     &::-webkit-scrollbar {
       display: none;
     }
 
     @media screen and (max-width: 1499px) {
       width: auto;
+      min-width: rem(238);
     }
     @media screen and (max-width: 991px) {
       padding-top: var(--a-padding--x4);
@@ -205,6 +208,8 @@
 
   &__links {
     display: none;
+    overflow-y: scroll;
+    height: calc(100vh - 120px);
     margin: 0 rem(-16);
     flex-wrap: wrap;
     @media screen and (max-width: 767px) {
@@ -213,6 +218,12 @@
 
     &.active {
       display: flex;
+      justify-content: flex-start;
+      align-items: flex-start;
+    }
+
+    &::-webkit-scrollbar {
+      display: none;
     }
 
     &-top {

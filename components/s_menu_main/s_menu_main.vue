@@ -1,5 +1,5 @@
 <template>
-  <section class="s-menu-main" :class="{ open: isOpen }">
+  <div class="s-menu-main" :class="{ open: isOpen }">
     <div class="l-default">
       <div class="s-menu-main__box">
         <div class="s-menu-main__items">
@@ -50,7 +50,7 @@
         ></m-banner>
       </div>
     </div>
-  </section>
+  </div>
 </template>
 
 <script>
@@ -73,9 +73,15 @@ export default {
       menuLinks: [],
       isActive: false,
       windowWidth: 0,
-      isOpen: true,
+      isOpen: this.open,
       menuIsOpen: false,
     };
+  },
+
+  watch: {
+    open(val) {
+      this.isOpen = val;
+    },
   },
 
   async fetch() {
@@ -96,6 +102,8 @@ export default {
       });
     });
   },
+
+  props: ['open'],
 
   mounted() {
     window.addEventListener('resize', this.handleResize);

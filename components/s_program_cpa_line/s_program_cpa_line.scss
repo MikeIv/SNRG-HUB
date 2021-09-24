@@ -1,0 +1,11 @@
+@import '@/assets/styles/tools/mixins';
+
+.s-program-cpaLine {
+  width: 100%;
+  max-width: var(--layout-width);
+  margin: rem(20) auto;
+
+  @media (max-width: 991px) {
+    margin: rem(12) auto;
+  }
+}

@@ -1,0 +1,25 @@
+@import '@/assets/styles/tools/mixins';
+
+.s-program-price {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  margin: rem(20) auto;
+  background-color: var(--a-color_bg);
+  border-radius: var(--a-borderRadius--bg);
+
+  @media screen and (max-width: 991px) {
+    margin: rem(12) auto;
+  }
+
+  .m-form-pay {
+    padding: var(--layout-v-padding) var(--layout-h-padding);
+
+    @media screen and (max-width: 991px) {
+      .m-form-pay__course,
+      .m-form-pay__reg {
+        max-width: 100%;
+      }
+    }
+  }
+}
