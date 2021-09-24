@@ -1,5 +1,5 @@
 <template>
-  <footer class="footer">
+  <section class="s-footer__wrap">
     <div class="l-wide">
       <s-footer
         socialsTitle='Мы в соцсетях'
@@ -12,7 +12,7 @@
         <MenuHorizontal/>
       </s-footer>
     </div>
-  </footer>
+  </section>
 </template>
 
 <script>
@@ -58,7 +58,7 @@ export default {
           title: '© 2021 Synergy. Все права защищены',
         },
         {
-          href: '#',
+          href: 'https://synergy.ru/lp/_chunk/privacy.php?lang=ru',
           title: 'Политика конфиденциальности',
         },
         {

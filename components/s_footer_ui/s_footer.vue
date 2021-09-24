@@ -45,7 +45,7 @@
       </nuxt-link>
     </nav> -->
     <div class="s-footer__nav-list">
-      <slot class=""></slot>
+      <slot></slot>
     </div>
 
     <div class="s-footer__bottom-row">
