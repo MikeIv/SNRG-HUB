@@ -1,9 +1,6 @@
 <template>
   <section class="s-university-catalog">
-    <div class="s-university-catalog__header">
-      <h2 class="s-program-timeline__title a-font_h2" v-html="title"></h2>
-    </div>
-
+    <h2 class="s-program-timeline__title a-font_h2" v-html="title"></h2>
     <div class="s-university-catalog__cards">
       <nuxt-link to="/">
         <m-card
@@ -17,7 +14,6 @@
         />
       </nuxt-link>
     </div>
-
     <div class="s-university-catalog__pagination">
       <MPagination
         :totalItems="pagination.totalItems"

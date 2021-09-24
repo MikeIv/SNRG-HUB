@@ -7,6 +7,7 @@
     <br />
     <h2>DATA FROM EXAMPLE:</h2>
     <example />
+    <sUniversityCatalog />
     <br />
     <h2>PAGE INFO:</h2>
     <component :is="section" v-for="section in sections" :key="section"></component>
@@ -25,9 +26,10 @@
 
 <script>
 // import Example from '~/components/Example';
+import sUniversityCatalog from '~/components/s_university_catalog/s_university_catalog.vue';
 
 export default {
-  // components: { Example },
+  components: { sUniversityCatalog, sUniversityDiploma },
 
   middleware: 'getPageInfo',
 
