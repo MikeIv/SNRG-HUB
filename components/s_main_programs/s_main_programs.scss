@@ -10,12 +10,23 @@
     gap: 0 rem(20);
     margin-bottom: rem(32);
 
-    .l-wide {
-      padding: 0;
-    }
-
     @media screen and (max-width: rem(991)) {
       flex-wrap: wrap;
+    }
+
+    .l-wide {
+      padding: 0;
+      @media screen and (max-width: rem(991)) {
+        width: 100%;
+      }
+
+      .m-banner__main-wrapper {
+        flex: none;
+        width: 250px;
+        @media screen and (max-width: rem(991)) {
+          width: 100%;
+        }
+      }
     }
   }
   &__cards {

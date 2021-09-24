@@ -92,10 +92,3 @@ export default {
   },
 };
 </script>
-
-<style scoped>
-.m-banner__main-wrapper {
-  flex: none;
-  width: 250px;
-}
-</style>
