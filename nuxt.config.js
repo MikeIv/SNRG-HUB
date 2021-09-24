@@ -33,6 +33,8 @@ export default {
     '@nuxtjs/axios',
     // https://go.nuxtjs.dev/pwa
     '@nuxtjs/pwa',
+    // https://github.com/nuxt-community/robots-module
+    '@nuxtjs/robots',
   ],
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
@@ -62,7 +64,13 @@ export default {
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {},
+
   env: {
     NUXT_ENV_S3BACKET: 'https://sys3.ru/marketplace/',
+  },
+
+  robots: {
+    UserAgent: '*',
+    Disallow: '/',
   },
 };
