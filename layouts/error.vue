@@ -19,8 +19,5 @@ export default {
     SHeader,
     SFooter,
   },
-  mounted() {
-    console.error(this.error.message, ', status code: ', this.error.statusCode);
-  },
 };
 </script>
