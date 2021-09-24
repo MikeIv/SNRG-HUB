@@ -23,10 +23,7 @@
           </nuxt-link>
         </template>
       </div>
-
-      <template v-if="Object.keys(bannersDetail).length">
-        <s-banner />
-      </template>
+      <s-banner :methods="[...this.methods[1]]" />
     </div>
 
     <nuxt-link :to="redirectUrl" class="s_main_programs__btn-link">
