@@ -34,9 +34,7 @@ export default {
     // https://go.nuxtjs.dev/pwa
     '@nuxtjs/pwa',
     // https://github.com/nuxt-community/robots-module
-    '@nuxtjs/robots',
-    // https://github.com/nuxt-community/yandex-metrika-module
-    '@nuxtjs/yandex-metrika',
+    '@nuxtjs/robots',,
     // https://github.com/nuxt-community/gtm-module
     '@nuxtjs/gtm',
     // https://www.npmjs.com/package/nuxt-facebook-pixel-module
@@ -79,25 +77,6 @@ export default {
   robots: {
     UserAgent: '*',
     Disallow: '/',
-  },
-
-  // Yandex metrika
-  yandexMetrika: {
-    id: 'XXXXXXX',
-    // accurateTrackBounce: true,
-    // childIframe: true,
-    // clickmap: true,
-    // defer: true,
-    // ecommerce: true,
-    // params: true,
-    // userParams: true,
-    // trackHash: true,
-    // trackLinks: true,
-    // trustedDomains: true,
-    // type: true,
-    // ut: true,
-    webvisor: true,
-    // triggerEvent: true,
   },
 
   // GTM
