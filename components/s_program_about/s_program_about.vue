@@ -17,6 +17,7 @@ export default {
     return {
       title: 'Зачем учиться <br>на <span>PHP-разработчика</span>',
       description:
+        // eslint-disable-next-line max-len
         'PHP-программист — это специалист, который занимается созданием сайтов и различных web-приложений. Кроме того в его задачу входит интеграция цифровых продуктов с автоматизированными бизнес-системами',
       image: 'https://sys3.ru/marketplace/uploads/products_sections/610/8-items-0-icon.png',
       factoids: [

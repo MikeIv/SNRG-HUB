@@ -37,7 +37,7 @@
 </template>
 
 <script>
-import { Swiper, SwiperSlide, directive } from 'vue-awesome-swiper';
+import { Swiper, SwiperSlide } from 'vue-awesome-swiper';
 import { MCard, AButton } from '@cwespb/synergyui';
 import './s_program_recommend.scss';
 
@@ -49,10 +49,6 @@ export default {
     AButton,
     Swiper,
     SwiperSlide,
-  },
-
-  directives: {
-    swiper: directive,
   },
 
   data() {

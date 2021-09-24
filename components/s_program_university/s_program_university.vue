@@ -10,7 +10,7 @@
     </div>
 
     <swiper :options="swiperOption">
-      <div class="swiper-slide s-program-university__factoids">
+      <swiper-slide class="swiper-slide s-program-university__factoids">
         <div class="s-program-university__factoids-left">
           <div class="s-program-university__factoids-row">
             <AFactoid
@@ -43,13 +43,13 @@
             :color="factoid.color"
           />
         </div>
-      </div>
+      </swiper-slide>
     </swiper>
   </section>
 </template>
 
 <script>
-import { Swiper } from 'vue-awesome-swiper';
+import { Swiper, SwiperSlide } from 'vue-awesome-swiper';
 import { AFactoid } from '@cwespb/synergyui';
 import './s_program_university.scss';
 
@@ -58,6 +58,7 @@ export default {
 
   components: {
     Swiper,
+    SwiperSlide,
     AFactoid,
   },
 
@@ -79,8 +80,10 @@ export default {
       title: 'Университет <span>«Синергия»</span>',
       introtext: 'Флагманский проект образовательной корпорации, который является одним из ведущих российских вузов',
       description:
+        // eslint-disable-next-line max-len
         'С 1988 года он осуществляет профессиональную подготовку студентов по более 200 программам колледжа, высшего, второго высшего и дополнительного образования. На базе университета существует первая в России школа бизнеса, которая обладает 7 престижными международными аккредитациями AMBA',
       image:
+        // eslint-disable-next-line max-len
         'https://images.unsplash.com/photo-1528287942171-fbe365d1d9ac?ixlib=rb-1.2.1&q=85&fm=jpg&crop=entropy&w=1200&cs=srgb&ixid=eyJhcHBfaWQiOjE0NTg5fQ',
       factoids: [
         {
