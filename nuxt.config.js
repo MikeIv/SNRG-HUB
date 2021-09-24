@@ -35,6 +35,8 @@ export default {
     '@nuxtjs/pwa',
     // https://github.com/nuxt-community/robots-module
     '@nuxtjs/robots',
+    // https://github.com/nuxt-community/yandex-metrika-module
+    '@nuxtjs/yandex-metrika',
   ],
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
@@ -69,8 +71,28 @@ export default {
     NUXT_ENV_S3BACKET: 'https://sys3.ru/marketplace/',
   },
 
+  // robots.txt
   robots: {
     UserAgent: '*',
     Disallow: '/',
+  },
+
+  // Yandex metrika
+  yandexMetrika: {
+    id: '84113566',
+    // accurateTrackBounce: true,
+    // childIframe: true,
+    // clickmap: true,
+    // defer: true,
+    // ecommerce: true,
+    // params: true,
+    // userParams: true,
+    // trackHash: true,
+    // trackLinks: true,
+    // trustedDomains: true,
+    // type: true,
+    // ut: true,
+    webvisor: true,
+    // triggerEvent: true,
   },
 };
