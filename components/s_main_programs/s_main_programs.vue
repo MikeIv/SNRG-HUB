@@ -66,7 +66,8 @@ export default {
     if (expandedMethod) {
       expandedMethod = { ...expandedMethod.data };
       expandedMethod.include = ['organization', 'levels', 'directions'];
-      this.productsList = await getProductsList(expandedMethod);
+      const productsData = await getProductsList(expandedMethod);
+      this.productsList = productsData.data;
     }
   },
   mounted() {
