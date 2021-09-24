@@ -16,7 +16,8 @@
 </template>
 
 <script>
-import SFooter from '~/components/s_footer_ui/s_footer';
+import { SFooter } from '@cwespb/synergyui';
+import MenuHorizontal from '../menu_horizontal/menu_horizontal';
 import './s_footer.scss';
 
 export default {
@@ -70,6 +71,7 @@ export default {
   },
   components: {
     SFooter,
+    MenuHorizontal,
   },
 };
 </script>
