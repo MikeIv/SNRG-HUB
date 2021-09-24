@@ -37,6 +37,8 @@ export default {
     '@nuxtjs/robots',
     // https://github.com/nuxt-community/yandex-metrika-module
     '@nuxtjs/yandex-metrika',
+    // https://github.com/nuxt-community/gtm-module
+    '@nuxtjs/gtm',
   ],
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
@@ -94,5 +96,10 @@ export default {
     // ut: true,
     webvisor: true,
     // triggerEvent: true,
+  },
+
+  // GTM
+  gtm: {
+    id: 'GTM-XXXXXXX',
   },
 };
