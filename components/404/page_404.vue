@@ -91,7 +91,7 @@ import './404.scss';
 
 export default {
   name: 'page404',
-  layout: 'error',
+
   components: {
     AButton,
   },
