@@ -5,6 +5,13 @@
     display: flex;
     margin-bottom: rem(24);
   }
+  &__row {
+    display: flex;
+
+    @media screen and (max-width: rem(991)) {
+      flex-wrap: wrap;
+    }
+  }
   &__cards {
     display: flex;
     flex-wrap: wrap;
