@@ -3,7 +3,7 @@
     <div class="shadow" v-if="isOpen"></div>
     <div class="s-header__wrapper">
       <div class="s-header__center">
-        <div class="l-default">
+        <div class="l-wide">
           <div class="s-header__center-wrapper">
             <a-logo type="standart" :link="logoURL"></a-logo>
             <div class="s-header__burger" @click="isOpen = !isOpen">
@@ -31,7 +31,7 @@
         </div>
       </div>
       <div class="s-header__bottom">
-        <div class="l-default">
+        <div class="l-wide">
           <menu-horizontal></menu-horizontal>
         </div>
       </div>
