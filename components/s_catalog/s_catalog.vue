@@ -95,6 +95,7 @@
               :title="filter.title"
               typeBtn="checkbox"
               typeCtrl="switch"
+              :checked="filter.isChecked"
               labelPosition="left"
               @input="switchClick(filter, ...arguments)"
             />
@@ -225,7 +226,7 @@ export default {
       ],
 
       filterListData: {},
-      filterCheckboxData: [],
+      filterCheckboxData: {},
       filtersIdsData: {
         direction_ids: [],
         format_ids: [],
@@ -251,7 +252,8 @@ export default {
 
   watch: {
     page() {
-      this.$router.push({ path: this.$route.path, query: { page: this.page } });
+      const newQuery = { ...this.$route.query, page: this.page.toString() };
+      this.$router.push({ path: this.$route.path, query: newQuery });
       this.fetchProductsList();
     },
 
@@ -259,17 +261,28 @@ export default {
       this.fetchProductsList();
     },
 
-    filtersIdsData: {
+    // Использую хак, чтобы watcher следил сразу за двумя объектами, чтобы не дублировать одинаковый код
+    // Из коробки Vue 3 будет изящное решение
+    allFiltersData: {
       deep: true,
       handler() {
-        this.componentProductsKey += 1;
-        this.fetchProductsList();
-      },
-    },
+        const newQuery = {};
+        Object.entries(this.filtersIdsData).forEach(([filterKey, filterIds]) => {
+          if (filterIds.length) {
+            newQuery[filterKey] = typeof filterIds === 'string' ? filterIds : filterIds.join(',');
+          }
+        });
 
-    filtersCheckboxDataRequest: {
-      deep: true,
-      handler() {
+        Object.entries(this.filtersCheckboxDataRequest).forEach(([key, checked]) => {
+          if (checked) {
+            // Пока не понимаю как можно просто добавить query без значения
+            newQuery[key] = checked;
+          } else {
+            delete newQuery[key];
+          }
+        });
+
+        this.$router.push({ path: this.$route.path, query: { page: this.page.toString(), ...newQuery } });
         this.componentProductsKey += 1;
         this.fetchProductsList();
       },
@@ -298,6 +311,15 @@ export default {
   },
 
   computed: {
+    // Создаю компьютед, чтобы watch следил сразу за двумя данными
+    allFiltersData() {
+      const { filtersIdsData, filtersCheckboxDataRequest } = this;
+      return {
+        filtersIdsData,
+        filtersCheckboxDataRequest,
+      };
+    },
+
     visibleFilters() {
       return this.windowWidth > this.$options.tabletEndpointResolution;
     },
@@ -317,11 +339,25 @@ export default {
       filtersResponse.forEach((filters) => {
         if (filters.type === 'list') {
           this.filterListData[filters.filter_by] = { ...filters };
-          this.filtersIdsData[filters.filter_by] = [];
         }
         if (filters.type === 'checkbox') {
           this.filtersCheckboxDataRequest[filters.filter_by] = false;
-          this.filterCheckboxData.push(filters);
+          this.filterCheckboxData[filters.filter_by] = { ...filters };
+        }
+      });
+
+      Object.entries(this.$route.query).forEach(([key, ids]) => {
+        if (key !== 'page' && key !== 'is_employment' && key !== 'is_installment') {
+          this.filtersIdsData[key] = typeof ids === 'string' ? ids.split(',') : ids;
+          ids.split(',').forEach((id) => {
+            const found = this.filterListData[key].values.find((value) => value.id === Number(id));
+            this.$set(found, 'isChecked', true);
+            const newFilter = { ...found, key };
+            this.selectedFilters.push(newFilter);
+          });
+        } else if (key === 'is_employment' || key === 'is_installment') {
+          this.filtersCheckboxDataRequest[key] = true;
+          this.filterCheckboxData[key].isChecked = true;
         }
       });
     },
@@ -363,10 +399,9 @@ export default {
 
     deleteTag(tag) {
       this.selectedFilters = this.selectedFilters.filter((filter) => filter.name !== tag.name);
-      this.filtersIdsData[tag.key] = this.filtersIdsData[tag.key].filter((id) => id !== tag.id);
+      this.filtersIdsData[tag.key] = this.filtersIdsData[tag.key].filter((id) => Number(id) !== tag.id);
       const found = this.filterListData[tag.key].values.find((value) => value.name === tag.name);
       this.$set(found, 'isChecked', false);
-      console.log('filters', this.selectedFilters);
       // Меняяем уникальный ключ s-catalog-filter, заставляя его перерендерится
       this.componentFilterKey += 1;
     },
@@ -378,10 +413,14 @@ export default {
       });
       this.$set(this.filtersCheckboxDataRequest, 'is_employment', false);
       this.$set(this.filtersCheckboxDataRequest, 'is_installment', false);
-      this.componentMenuKey += 1;
       this.selectedFilters = [];
       Object.values(this.filtersIdsData).forEach((filterIds) => filterIds.splice(0, filterIds.length));
+      Object.entries(this.filterCheckboxData).forEach((checkboxData) => {
+        this.filterCheckboxData[checkboxData[0]].isChecked = false;
+      });
+      this.$router.push({ path: this.$route.path, query: {} });
       this.componentFilterKey += 1;
+      this.componentMenuKey += 1;
     },
 
     switchClick(item, isChecked) {
@@ -391,8 +430,6 @@ export default {
     },
 
     selectFilter(key, item, isChecked) {
-      // const found = this.filterListData[key].values.find((value) => value.name === item.name);
-      // this.$set(found, 'isChecked', item.isChecked);
       this.page = 1;
       const selectedItem = { ...item, key };
       if (isChecked !== undefined) {
@@ -404,10 +441,8 @@ export default {
         this.filtersIdsData[key].push(selectedItem.id);
       } else {
         this.selectedFilters = this.selectedFilters.filter((filter) => filter.name !== item.name);
-        this.filtersIdsData[key] = this.filtersIdsData[key].filter((id) => id !== item.id);
+        this.filtersIdsData[key] = this.filtersIdsData[key].filter((id) => Number(id) !== item.id);
       }
-
-      console.log('filters', this.selectedFilters);
     },
 
     filtersIconClickHandler() {
@@ -431,11 +466,14 @@ export default {
   },
 
   created() {
+    let newQuery = this.$route.query;
     if (this.$route.query.page) {
       this.page = Number(this.$route.query.page);
     } else {
-      this.$router.push({ path: this.$route.path, query: { page: 1 } });
+      newQuery = { ...newQuery, page: '1' };
     }
+
+    this.$router.push({ path: this.$route.path, query: { ...newQuery } });
   },
 
   async fetch() {
