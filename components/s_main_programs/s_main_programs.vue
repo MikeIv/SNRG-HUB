@@ -36,7 +36,6 @@
 import { MCard, AButton } from '@cwespb/synergyui';
 import SBanner from '~/components/s_banner/s_banner';
 import getProductsList from '~/api/products_list';
-import getBannersDetail from '~/api/bannersDetail';
 import './s_main_programs.scss';
 
 export default {
@@ -51,7 +50,6 @@ export default {
   data() {
     return {
       productsList: [],
-      bannersDetail: {},
       baseURL: process.env.NUXT_ENV_S3BACKET,
       windowWidth: 0,
       redirectUrl: '#',
@@ -64,15 +62,11 @@ export default {
     },
   },
   async fetch() {
-    let [expandedMethod, expandedBanners] = this.methods;
+    let [expandedMethod] = this.methods;
     if (expandedMethod) {
       expandedMethod = { ...expandedMethod.data };
       expandedMethod.include = ['organization', 'levels', 'directions'];
       this.productsList = await getProductsList(expandedMethod);
-    }
-    if (expandedBanners) {
-      expandedBanners = { ...expandedBanners.data };
-      this.bannersDetail = await getBannersDetail(expandedBanners);
     }
   },
   mounted() {
