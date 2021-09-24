@@ -1,13 +1,16 @@
 <template>
-  <div class="m-quiz" v-if="dataQuiz">
+  <div class="l-wide m-quiz" v-if="dataQuiz">
     <!-- baner -->
-    <div v-if="banerFlag" class="m-quiz__baner" :style="`background-image: url(${imageFon})`">
-      <div class="m-quiz__baner-img" :style="`background-image: url(${image})`"></div>
+    <div
+      v-if="banerFlag"
+      class="m-quiz__baner"
+      :style="`background-image: url(${baseUrl}/${dataQuiz.background_image})`"
+    >
+      <div class="m-quiz__baner-img" :style="`background-image: url(${baseUrl}/${dataQuiz.person_image})`"></div>
       <h1 class="m-quiz__title a-font_h1">{{ dataQuiz.title }}</h1>
       <div class="m-quiz__descript a-font_l-m">{{ dataQuiz.text }}</div>
       <a-button bgColor="accent" :label="dataQuiz.button" @onClickBtn="startQuiz"></a-button>
     </div>
-
     <!-- quiz -->
     <div class="m-quiz__quiz" v-else-if="countPosition != count">
       <div class="m-quiz__questions">
@@ -32,7 +35,6 @@
         </div>
       </div>
     </div>
-
     <!-- finish -->
     <div v-else class="m-quiz__finish">
       <div class="m-quiz__finish-text">
@@ -84,7 +86,7 @@ export default {
   data: () => ({
     dataQuiz: null,
     dataQuestion: [],
-
+    baseUrl: process.env.NUXT_ENV_S3BACKET,
     banerFlag: true,
     count: null,
     countPosition: 0,
@@ -111,7 +113,7 @@ export default {
   },
 
   async fetch() {
-    const expandedMethod = this.methods.data;
+    const expandedMethod = this.methods;
     const response = await getQuizzesDetail(expandedMethod);
     this.dataQuiz = response;
     this.dataQuestion = response.questions.filter((item) => item.answers.length > 0);

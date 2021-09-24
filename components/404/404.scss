@@ -5,23 +5,10 @@
   flex: 1;
   align-items: center;
   width: 100%;
-  min-height: rem(700);
-  @media screen and (max-width: 1699px) {
-    min-height: rem(600);
-  }
-  @media screen and (max-width: 1499px) {
-    min-height: rem(500);
-  }
-  @media screen and (max-width: 1299px) {
-    min-height: rem(450);
-  }
-  @media screen and (max-width: 991px) {
-    min-height: rem(301);
-  }
   @media screen and (max-width: 600px) {
     align-items: flex-start;
     min-height: auto;
-    padding: rem(32) 0 rem(72);
+    padding: rem(32) 0 rem(40);
   }
   .l-wide,
   .a-button {

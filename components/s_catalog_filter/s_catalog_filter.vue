@@ -15,6 +15,7 @@
       class="catalog-filter__checkbox"
       :key="filter.filter_by"
       :title="filter.title"
+      :checked="filter.isChecked"
       typeBtn="checkbox"
       typeCtrl="switch"
       labelPosition="left"

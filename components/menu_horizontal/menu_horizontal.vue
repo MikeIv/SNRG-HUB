@@ -1,7 +1,6 @@
 <template>
   <nav class="menu-horizontal">
     <swiper class="menu-horizontal__box" :options="swiperOption">
-
       <template v-for="item in navLinks">
         <swiper-slide v-if="item.active" :key="item.id">
           <nuxt-link :to="`${item.link}`" class="a-font_m menu-horizontal__link">
@@ -9,7 +8,6 @@
           </nuxt-link>
         </swiper-slide>
       </template>
-
     </swiper>
   </nav>
 </template>
