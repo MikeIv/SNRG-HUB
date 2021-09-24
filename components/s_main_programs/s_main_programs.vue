@@ -65,13 +65,6 @@ export default {
     getWindowWidth() {
       this.windowWidth = document.documentElement.clientWidth;
     },
-    addBanner() {
-      if (this.inputs.length === 0) {
-        this.inputs.push({
-          rangField: '',
-        });
-      }
-    },
   },
   async fetch() {
     let [expandedMethod, expandedBanners] = this.methods;
