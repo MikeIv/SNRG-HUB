@@ -1,0 +1,25 @@
+@import '@/assets/styles/tools/mixins';
+
+.s-lp-address {
+  .m-contacts__adress {
+    margin-top: rem(24);
+  }
+  .m-contacts__info {
+    color: var(--a-color_text);
+    text-decoration: none;
+  }
+  &__title {
+    margin-bottom: rem(24);
+    @media screen and (max-width: 767px) {
+      margin-bottom: rem(20);
+    }
+  }
+  &__map {
+    width: 100%;
+    max-width: 1140px;
+    min-height: 286px;
+  }
+  iframe.m-contact__map {
+    display: none;
+  }
+}
