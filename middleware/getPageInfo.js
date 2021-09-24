@@ -13,6 +13,10 @@ export default async function (context) {
     requestData.filter.id = 1;
   } else {
     requestData.filter.slug = context.route.name;
+
+    if (context.route.name === 'catalog-all') {
+      requestData.filter.slug = 'catalog';
+    }
   }
 
   await context.store.dispatch('getPageInfo', requestData);

@@ -163,9 +163,7 @@
 </template>
 
 <script>
-import {
-  ATag, ASelect, ATitle, AButton, AControl, MFilter,
-} from '@cwespb/synergyui';
+import { ATag, ASelect, ATitle, AButton, AControl, MFilter } from '@cwespb/synergyui';
 import { Swiper, SwiperSlide } from 'vue-awesome-swiper';
 import SCatalogFilter from '~/components/s_catalog_filter/s_catalog_filter';
 import SCatalogProductList from '~/components/s_catalog_product_list/s_catalog_product_list';
@@ -293,7 +291,7 @@ export default {
           if (filterIds.length === 1) {
             const found = this.filterListData[filterKey].values.find((value) => value.id === Number(filterIds[0]));
             const newQuery2 = { ...this.$route.query, page: this.page.toString() };
-            const newPath = this.$route.path + `/${found.slug}`;
+            const newPath = `${this.$route.path}/${found.slug}`;
             this.$router.push({ path: newPath, query: newQuery2 });
           } else if (filterIds.length) {
             newQuery[filterKey] = typeof filterIds === 'string' ? filterIds : filterIds.join(',');
@@ -378,7 +376,7 @@ export default {
       });
 
       // Работа со слагами
-      console.log(this.$route);
+      // console.log(this.$route);
       // if (this.$route.params.pathMatch) {
       //   this.slugs = this.$route.params.pathMatch.split('/');
       //   console.log(this.slugs);
