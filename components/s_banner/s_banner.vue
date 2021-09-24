@@ -41,7 +41,6 @@ export default {
     };
   },
   props: ['methods'],
-  methods: {},
   async fetch() {
     this.methods.forEach((item) => {
       const obj = { ...item.data };
