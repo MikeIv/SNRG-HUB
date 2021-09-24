@@ -39,6 +39,8 @@ export default {
     '@nuxtjs/yandex-metrika',
     // https://github.com/nuxt-community/gtm-module
     '@nuxtjs/gtm',
+    // https://www.npmjs.com/package/nuxt-facebook-pixel-module
+    'nuxt-facebook-pixel-module',
   ],
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
@@ -81,7 +83,7 @@ export default {
 
   // Yandex metrika
   yandexMetrika: {
-    id: '84113566',
+    id: 'XXXXXXX',
     // accurateTrackBounce: true,
     // childIframe: true,
     // clickmap: true,
@@ -101,5 +103,14 @@ export default {
   // GTM
   gtm: {
     id: 'GTM-XXXXXXX',
+  },
+
+  // Facebook pixel
+  facebook: {
+    /* module options */
+    track: 'PageView',
+    pixelId: 'XXXXXXX',
+    autoPageView: true,
+    disabled: false,
   },
 };
