@@ -9,8 +9,17 @@
     display: flex;
     margin-bottom: rem(32);
 
+    @media screen and (min-width: rem(992)) {
+      & .m-banner__main-wrapper {
+        margin-left: rem(20);
+      }
+    }
     @media screen and (max-width: rem(991)) {
       flex-wrap: wrap;
+
+      & .m-banner__main-wrapper {
+        margin-top: rem(20);
+      }
     }
 
     .l-wide {
@@ -34,12 +43,12 @@
     gap: rem(20);
   }
   &__wrapper {
-    width: calc((100% - rem(40))/3);
+    width: calc((100% - rem(40)) / 3);
     text-decoration: none;
     cursor: pointer;
 
     @media screen and (max-width: rem(991)) {
-      width: calc((100% - rem(40))/2);
+      width: calc((100% - rem(40)) / 2);
     }
     @media screen and (max-width: rem(767)) {
       width: 100%;
