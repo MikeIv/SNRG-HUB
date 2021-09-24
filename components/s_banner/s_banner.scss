@@ -1,5 +1,34 @@
+@import '@/assets/styles/tools/mixins';
+
 .s_banner {
+
   &__link {
     text-decoration: none;
+    .m-banner__main-wrapper {
+      margin-left: rem(20);
+    }
+  }
+  &--multibanner {
+    width: calc(50% - rem(10));
+
+    @media screen and (max-width: rem(767)) {
+      width: 100%;
+      margin-bottom: rem(20);
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+  }
+}
+
+.l-wide.banners {
+  display: flex;
+  justify-content: space-between;
+  margin-top: rem(30);
+  margin-left: rem(20);
+  @media screen and (max-width: rem(767)) {
+    flex-direction: column;
+    margin-left: 0;
   }
 }

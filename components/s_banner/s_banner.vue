@@ -1,17 +1,24 @@
 <template>
-  <section class="l-wide">
-    <nuxt-link :to="`${baseURL}/${bannersDetail.link}`" class="s_banner__link">
-      <m-banner
-        class="s_banner"
-        :type="bannersDetail.banner_type"
-        :bgColor="bannersDetail.color_bg"
-        :topTxt="bannersDetail.description"
-        :titleTxt="bannersDetail.name"
-        :secondTxt="bannersDetail.name_second"
-        :color="bannersDetail.color_text"
-        :ImgSrc="`${baseURL}/${bannersDetail.image}`"
-      />
-    </nuxt-link>
+  <section class="l-wide" :class="{ banners: bannersDetail.length > 1 }">
+    <template v-for="item in bannersDetail">
+      <nuxt-link
+        :to="`${item.link}`"
+        class="s_banner__link"
+        :key="item.id"
+        :class="{ multibanner: bannersDetail.length > 1 }"
+      >
+        <m-banner
+          class="s_banner"
+          :type="item.banner_type"
+          :bgColor="item.color_bg_list"
+          :topTxt="item.description"
+          :titleTxt="item.name"
+          :secondTxt="item.name_second"
+          :color="item.color_text_list"
+          :ImgSrc="`${baseURL}/${item.image}`"
+        />
+      </nuxt-link>
+    </template>
   </section>
 </template>
 
@@ -26,23 +33,27 @@ export default {
   components: {
     MBanner,
   },
-
   data() {
     return {
-      bannersDetail: {},
+      bannersDetail: [],
+      bannersConcatArray: [],
       baseURL: process.env.NUXT_ENV_S3BACKET,
       windowWidth: 0,
       redirectUrl: '#',
     };
   },
-  props: ['methods', 'title'],
+  props: ['methods'],
   methods: {},
   async fetch() {
-    let [expandedMethod] = this.methods;
-    expandedMethod = { ...expandedMethod.data };
-    this.bannersDetail = await getBannersDetail(expandedMethod);
+    this.methods.forEach((item) => {
+      const obj = { ...item.data };
+      this.bannersConcatArray.push(obj);
+    });
+
+    this.bannersConcatArray.forEach(async (item) => {
+      const obj = await getBannersDetail(item);
+      this.bannersDetail.push(obj);
+    });
   },
-  mounted() {},
-  computed: {},
 };
 </script>

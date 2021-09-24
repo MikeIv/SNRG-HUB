@@ -92,3 +92,9 @@ export default {
   },
 };
 </script>
+
+<style>
+.s_main_programs__btn-link {
+  margin-bottom: rem(30);
+}
+</style>
