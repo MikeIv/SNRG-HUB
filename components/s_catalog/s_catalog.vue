@@ -163,8 +163,10 @@
 </template>
 
 <script>
-import { ATag, ASelect, ATitle, AButton, AControl, MFilter } from '@cwespb/synergyui';
-import { Swiper, SwiperSlide, directive } from 'vue-awesome-swiper';
+import {
+  ATag, ASelect, ATitle, AButton, AControl, MFilter,
+} from '@cwespb/synergyui';
+import { Swiper, SwiperSlide } from 'vue-awesome-swiper';
 import SCatalogFilter from '~/components/s_catalog_filter/s_catalog_filter';
 import SCatalogProductList from '~/components/s_catalog_product_list/s_catalog_product_list';
 import getProductsList from '~/api/products_list';
@@ -194,10 +196,6 @@ export default {
   tabletEndpointResolution: 900,
   mobileEndpointResolution: 650,
   maxVisibleControls: 7,
-
-  directives: {
-    swiper: directive,
-  },
 
   data() {
     return {

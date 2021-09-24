@@ -38,7 +38,7 @@
 </template>
 <script>
 import { MCard, AButton } from '@cwespb/synergyui';
-import { directive } from 'vue-awesome-swiper';
+import { Swiper, SwiperSlide } from 'vue-awesome-swiper';
 import './s_main_topics.scss';
 import getDirectionsList from '~/api/dicrectionsList';
 
@@ -72,17 +72,10 @@ export default {
   components: {
     MCard,
     AButton,
-  },
-  directives: {
-    swiper: directive,
+    Swiper,
+    SwiperSlide,
   },
   props: ['methods', 'title'],
-  methods: {},
-  computed: {
-    swiper() {
-      return this.$refs.awesomeSwiper.swiper;
-    },
-  },
   async fetch() {
     const expandedMethod = this.methods.data;
     this.directionsList = await getDirectionsList(expandedMethod);

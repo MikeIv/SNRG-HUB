@@ -34,7 +34,7 @@
 </template>
 
 <script>
-import { Swiper, SwiperSlide, directive } from 'vue-awesome-swiper';
+import { Swiper, SwiperSlide } from 'vue-awesome-swiper';
 
 import { ATag, AFactoid } from '@cwespb/synergyui';
 import './s_program_exam.scss';
@@ -47,10 +47,6 @@ export default {
     AFactoid,
     Swiper,
     SwiperSlide,
-  },
-
-  directives: {
-    swiper: directive,
   },
 
   data() {
@@ -151,7 +147,7 @@ export default {
       },
     };
   },
-
+  /* eslint no-param-reassign: ["error", { "props": false }] */
   methods: {
     toggleTabs(selectedTab) {
       this.tabs.forEach((tab) => {

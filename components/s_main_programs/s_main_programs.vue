@@ -1,29 +1,32 @@
 <template>
-  <section class="l-wide">
+  <section class="l-wide s_main_programs">
     <h2 class="s_main_programs__h2 a-font_h5">{{ title }}</h2>
-    <div class="s_main_programs__cards">
-      <template v-for="(product, index) in productsList">
-        <nuxt-link
-          to="/#"
-          class="s_main_programs__wrapper"
-          v-if="productsList && productsList.length > 0 && index < cardsSet"
-          :key="product.id"
-        >
-          <m-card
-            :title="product.name"
-            :bottomText="product.included.organization.name"
-            :name="product.name"
-            :description="product.included.levels[0].name"
-            :iconSrc="`${baseURL}/${product.included.organization.logo}`"
-            :verticalImgSrc="`${baseURL}/${product.digital_image}`"
-            type="program"
-            @click="$router.push({ name: 'product', params: { id: product.id } })"
-          />
-        </nuxt-link>
-      </template>
+    <div class="s_main_programs__row">
+      <div class="s_main_programs__cards">
+        <template v-for="(product, index) in productsList">
+          <nuxt-link
+            :to="`/product/${product.id}`"
+            class="s_main_programs__wrapper"
+            v-if="productsList && productsList.length > 0 && index < cardsSet"
+            :key="product.id"
+          >
+            <m-card
+              :title="product.name"
+              :bottomText="product.included.organization.name"
+              :name="product.name"
+              :description="product.included.levels[0].name"
+              :iconSrc="`${baseURL}/${product.included.organization.logo}`"
+              :verticalImgSrc="`${baseURL}/${product.digital_image}`"
+              type="program"
+              @click="$router.push({ name: 'product', params: { id: product.id } })"
+            />
+          </nuxt-link>
+        </template>
+      </div>
+      <s-banner v-if="viewType === 'product_list_banner'" :methods="[...this.methods[1]]" />
     </div>
 
-    <nuxt-link :to="redirectUrl" class="s_main_programs__btn-link">
+    <nuxt-link :to="{ redirectUrl }" class="s_main_programs__btn-link">
       <a-button class="s_main_programs__btn" label="Показать все" bgColor="accent" />
     </nuxt-link>
   </section>
@@ -31,8 +34,8 @@
 
 <script>
 import { MCard, AButton } from '@cwespb/synergyui';
+import SBanner from '~/components/s_banner/s_banner';
 import getProductsList from '~/api/products_list';
-import getBannersDetail from '~/api/bannersDetail';
 import './s_main_programs.scss';
 
 export default {
@@ -41,37 +44,34 @@ export default {
   components: {
     MCard,
     AButton,
+    SBanner,
   },
 
   data() {
     return {
       productsList: [],
-      bannersDetail: [],
       baseURL: process.env.NUXT_ENV_S3BACKET,
       windowWidth: 0,
       redirectUrl: '#',
     };
   },
-  props: ['methods', 'title', 'view_type'],
+  props: ['methods', 'title', 'viewType'],
   methods: {
     getWindowWidth() {
       this.windowWidth = document.documentElement.clientWidth;
     },
   },
   async fetch() {
-    let [expandedMethod, expandedBanners] = this.methods;
+    let [expandedMethod] = this.methods;
     if (expandedMethod) {
       expandedMethod = { ...expandedMethod.data };
       expandedMethod.include = ['organization', 'levels', 'directions'];
-      this.productsList = await getProductsList(expandedMethod);
-    }
-    if (expandedBanners) {
-      expandedBanners = { ...expandedBanners.data };
-      this.bannersDetail = await getBannersDetail(expandedBanners);
+      const productsData = await getProductsList(expandedMethod);
+      this.productsList = productsData.data;
     }
   },
   mounted() {
-    this.$nextTick(function () {
+    this.$nextTick(() => {
       window.addEventListener('resize', this.getWindowWidth);
       // Init
       this.getWindowWidth();
