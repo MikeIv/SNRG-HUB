@@ -23,7 +23,7 @@
 </template>
 
 <script>
-import { Swiper, SwiperSlide, directive } from 'vue-awesome-swiper';
+import { Swiper, SwiperSlide } from 'vue-awesome-swiper';
 
 import { AFactoid, MCardLanding } from '@cwespb/synergyui';
 import './s_program_timeline.scss';
@@ -36,10 +36,6 @@ export default {
     MCardLanding,
     Swiper,
     SwiperSlide,
-  },
-
-  directives: {
-    swiper: directive,
   },
 
   data() {
@@ -89,24 +85,28 @@ export default {
           title: 'Изучаете тему',
           text: 'Смотрите обучающие видео и задаёте вопросы',
           image:
+            // eslint-disable-next-line max-len
             'https://images.unsplash.com/photo-1528287942171-fbe365d1d9ac?ixlib=rb-1.2.1&q=85&fm=jpg&crop=entropy&w=1200&cs=srgb&ixid=eyJhcHBfaWQiOjE0NTg5fQ',
         },
         {
           title: 'Изучаете тему',
           text: 'Смотрите обучающие видео и задаёте вопросы',
           image:
+            // eslint-disable-next-line max-len
             'https://images.unsplash.com/photo-1528287942171-fbe365d1d9ac?ixlib=rb-1.2.1&q=85&fm=jpg&crop=entropy&w=1200&cs=srgb&ixid=eyJhcHBfaWQiOjE0NTg5fQ',
         },
         {
           title: 'Изучаете тему',
           text: 'Смотрите обучающие видео и задаёте вопросы',
           image:
+            // eslint-disable-next-line max-len
             'https://images.unsplash.com/photo-1528287942171-fbe365d1d9ac?ixlib=rb-1.2.1&q=85&fm=jpg&crop=entropy&w=1200&cs=srgb&ixid=eyJhcHBfaWQiOjE0NTg5fQ',
         },
         {
           title: 'Изучаете тему',
           text: 'Смотрите обучающие видео и задаёте вопросы',
           image:
+            // eslint-disable-next-line max-len
             'https://images.unsplash.com/photo-1528287942171-fbe365d1d9ac?ixlib=rb-1.2.1&q=85&fm=jpg&crop=entropy&w=1200&cs=srgb&ixid=eyJhcHBfaWQiOjE0NTg5fQ',
         },
       ],

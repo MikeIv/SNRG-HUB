@@ -1,6 +1,7 @@
 @import '@/assets/styles/tools/mixins';
 
-body, html {
+body,
+html {
   overflow-x: hidden;
 }
 
@@ -81,17 +82,17 @@ body, html {
     color: var(--a-color_link);
     border: 1px solid var(--a-color_link);
     border-radius: rem(4);
+    white-space: nowrap;
     cursor: pointer;
     transition: all 0.4s ease-in-out;
-    white-space: nowrap;
     @media screen and (max-width: 991px) {
       padding: var(--a-padding--x2) var(--a-padding--x2);
     }
 
     @media screen and (max-width: 600px) {
-      order: 1;
       margin-right: rem(12);
       margin-left: auto;
+      order: 1;
     }
 
     &:hover {
@@ -117,8 +118,8 @@ body, html {
   &__search {
     width: 100%;
     max-width: rem(720);
-    margin-left: rem(12);
     margin-right: rem(60);
+    margin-left: rem(12);
     @media screen and (max-width: 1499px) {
       max-width: rem(403);
     }
@@ -128,9 +129,9 @@ body, html {
       margin-left: rem(8);
     }
     @media screen and (max-width: 600px) {
-      order: 9;
       max-width: 100%;
       margin: rem(16) rem(8) 0 0;
+      order: 9;
     }
     .a-input {
       width: 100%;
@@ -176,8 +177,8 @@ body, html {
     margin-right: rem(12);
     color: var(--a-color_text);
     font-weight: 600;
-    text-decoration: none;
     white-space: nowrap;
+    text-decoration: none;
     &:last-child {
       margin-right: 0;
       @media screen and (max-width: 991px) {

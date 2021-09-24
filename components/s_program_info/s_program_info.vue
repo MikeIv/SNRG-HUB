@@ -4,12 +4,7 @@
       <div class="s-program-info__items">
         <swiper :options="swiperOptionProgramInfo">
           <swiper-slide v-for="item in items" :key="item.id" class="s-program-info__item">
-            <AFactoid
-              :type="item.type"
-              :title="item.title"
-              :lineNumber="item.lineNumber"
-              class="swiper-slide"
-            />
+            <AFactoid :type="item.type" :title="item.title" :lineNumber="item.lineNumber" class="swiper-slide" />
           </swiper-slide>
         </swiper>
       </div>

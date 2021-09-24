@@ -17,7 +17,7 @@
 </template>
 
 <script>
-import { Swiper, SwiperSlide, directive } from 'vue-awesome-swiper';
+import { Swiper, SwiperSlide } from 'vue-awesome-swiper';
 import { MCardLanding } from '@cwespb/synergyui';
 import './s_program_reviews.scss';
 
@@ -28,10 +28,6 @@ export default {
     MCardLanding,
     Swiper,
     SwiperSlide,
-  },
-
-  directives: {
-    swiper: directive,
   },
 
   data() {
@@ -58,28 +54,36 @@ export default {
           subhead: '14 сентября',
           userName: 'Екатерина Моисеева',
           userImage:
+            // eslint-disable-next-line max-len
             'https://images.unsplash.com/photo-1528287942171-fbe365d1d9ac?ixlib=rb-1.2.1&q=85&fm=jpg&crop=entropy&w=1200&cs=srgb&ixid=eyJhcHBfaWQiOjE0NTg5fQ',
+          // eslint-disable-next-line max-len
           text: 'Благодаря этой программе я не только узнала по моей профессии больше, но и получила работающие советы и полезные ссылки для закрепления материала. Все материалы даются не только в формате видео, но и в презентациях, это важно, потому что у меня не всегда есть возможность смотреть видео, мало времени. А в презентациях вся информация кратко, после выпуска работает как шпаргалка)',
         },
         {
           subhead: '14 сентября',
           userName: 'Екатерина Моисеева',
           userImage:
+            // eslint-disable-next-line max-len
             'https://images.unsplash.com/photo-1528287942171-fbe365d1d9ac?ixlib=rb-1.2.1&q=85&fm=jpg&crop=entropy&w=1200&cs=srgb&ixid=eyJhcHBfaWQiOjE0NTg5fQ',
+          // eslint-disable-next-line max-len
           text: 'Благодаря этой программе я не только узнала по моей профессии больше, но и получила работающие советы и полезные ссылки для закрепления материала. Все материалы даются не только в формате видео, но и в презентациях, это важно, потому что у меня не всегда есть возможность смотреть видео, мало времени. А в презентациях вся информация кратко, после выпуска работает как шпаргалка)',
         },
         {
           subhead: '14 сентября',
           userName: 'Екатерина Моисеева',
           userImage:
+            // eslint-disable-next-line max-len
             'https://images.unsplash.com/photo-1528287942171-fbe365d1d9ac?ixlib=rb-1.2.1&q=85&fm=jpg&crop=entropy&w=1200&cs=srgb&ixid=eyJhcHBfaWQiOjE0NTg5fQ',
+          // eslint-disable-next-line max-len
           text: 'Благодаря этой программе я не только узнала по моей профессии больше, но и получила работающие советы и полезные ссылки для закрепления материала. Все материалы даются не только в формате видео, но и в презентациях, это важно, потому что у меня не всегда есть возможность смотреть видео, мало времени. А в презентациях вся информация кратко, после выпуска работает как шпаргалка)',
         },
         {
           subhead: '14 сентября',
           userName: 'Екатерина Моисеева',
           userImage:
+            // eslint-disable-next-line max-len
             'https://images.unsplash.com/photo-1528287942171-fbe365d1d9ac?ixlib=rb-1.2.1&q=85&fm=jpg&crop=entropy&w=1200&cs=srgb&ixid=eyJhcHBfaWQiOjE0NTg5fQ',
+          // eslint-disable-next-line max-len
           text: 'Благодаря этой программе я не только узнала по моей профессии больше, но и получила работающие советы и полезные ссылки для закрепления материала. Все материалы даются не только в формате видео, но и в презентациях, это важно, потому что у меня не всегда есть возможность смотреть видео, мало времени. А в презентациях вся информация кратко, после выпуска работает как шпаргалка)',
         },
       ],

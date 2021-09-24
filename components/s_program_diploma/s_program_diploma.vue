@@ -4,11 +4,7 @@
     <div class="s-program-diploma__items">
       <swiper :options="swiperOptionProgramDiploma">
         <swiper-slide v-for="item in items" :key="item.id" class="s-program-diploma__slide">
-          <MCardLanding
-            :title="item.title"
-            :text="item.text"
-            :image="item.image"
-          />
+          <MCardLanding :title="item.title" :text="item.text" :image="item.image" />
         </swiper-slide>
       </swiper>
     </div>
@@ -50,26 +46,22 @@ export default {
         {
           title: 'Государственный диплом',
           text: 'о высшем образовании с присвоением степени бакалавра',
-          image:
-            'https://images.unsplash.com/photo-1528287942171-fbe365d1d9ac?ixlib=rb-1.2.1&q=85&fm=jpg&crop=entropy&w=1200&cs=srgb&ixid=eyJhcHBfaWQiOjE0NTg5fQ',
+          image: 'https://images.unsplash.com/photo-1528287942171-fbe365d1d9ac',
         },
         {
           title: 'Государственный диплом',
           text: 'о высшем образовании с присвоением степени бакалавра',
-          image:
-            'https://images.unsplash.com/photo-1528287942171-fbe365d1d9ac?ixlib=rb-1.2.1&q=85&fm=jpg&crop=entropy&w=1200&cs=srgb&ixid=eyJhcHBfaWQiOjE0NTg5fQ',
+          image: 'https://images.unsplash.com/photo-1528287942171-fbe365d1d9ac',
         },
         {
           title: 'Государственный диплом',
           text: 'о высшем образовании с присвоением степени бакалавра',
-          image:
-            'https://images.unsplash.com/photo-1528287942171-fbe365d1d9ac?ixlib=rb-1.2.1&q=85&fm=jpg&crop=entropy&w=1200&cs=srgb&ixid=eyJhcHBfaWQiOjE0NTg5fQ',
+          image: 'https://images.unsplash.com/photo-1528287942171-fbe365d1d9ac',
         },
         {
           title: 'Государственный диплом',
           text: 'о высшем образовании с присвоением степени бакалавра',
-          image:
-            'https://images.unsplash.com/photo-1528287942171-fbe365d1d9ac?ixlib=rb-1.2.1&q=85&fm=jpg&crop=entropy&w=1200&cs=srgb&ixid=eyJhcHBfaWQiOjE0NTg5fQ',
+          image: 'https://images.unsplash.com/photo-1528287942171-fbe365d1d9ac',
         },
       ],
       title: 'Образцы дипломов',

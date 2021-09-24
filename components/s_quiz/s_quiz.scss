@@ -71,6 +71,9 @@
   &__question {
     padding-right: rem(100);
     padding-bottom: var(--a-padding--x5);
+    @media screen and (max-width: 767px) {
+      padding-right: 0;
+    }
   }
 
   &__answers {
@@ -81,13 +84,17 @@
   &__control {
     flex-basis: calc(50% - 20px);
     margin: 0 rem(20) rem(12) 0;
-    padding: var(--a-padding--x3) var(--a-padding--x10) var(--a-padding--x3) var(--a-padding--x5);
     background: var(--a-color_bg);
     border-radius: var(--a-borderRadius--default);
-
     @media screen and (max-width: 767px) {
       flex-basis: 100%;
       margin: 0 0 var(--a-padding--x3) 0;
+    }
+    label {
+      padding: var(--a-padding--x3) var(--a-padding--x10) var(--a-padding--x3) var(--a-padding--x5);
+      @media screen and (max-width: 767px) {
+        padding: var(--a-padding--x2) var(--a-padding--x4);
+      }
     }
   }
 
@@ -102,6 +109,7 @@
     }
     @media screen and (max-width: 767px) {
       display: block;
+      padding: var(--a-padding--x5) var(--a-padding--x4);
     }
   }
   &__finish-text {
@@ -169,6 +177,15 @@
     & label {
       align-items: flex-start;
       padding: 0;
+    }
+    @media screen and (max-width: 767px) {
+      padding-right: 0;
+      label {
+        p {
+          font-size: rem(12);
+          line-height: 1.2;
+        }
+      }
     }
   }
 }
