@@ -27,19 +27,19 @@ export default {
     return {
       socials: [
         {
-          href: '#',
+          href: 'https://vk.com/synergyuniversity',
           icon: 'si-social-vk',
         },
         {
-          href: '#',
+          href: 'https://www.facebook.com/synergyunivers',
           icon: 'si-social-facebook',
         },
         {
-          href: '#',
+          href: 'https://www.instagram.com/synergyuniversity',
           icon: 'si-social-instagram',
         },
         {
-          href: '#',
+          href: 'https://www.youtube.com/user/synergytvru',
           icon: 'si-social-youtube',
         },
       ],
@@ -47,10 +47,12 @@ export default {
         {
           link: 'https://synergy.ru/assets/template/v5/images/apps/apple_color_ru.png',
           alt: 'Apple Store',
+          href: '',
         },
         {
           link: 'https://synergy.ru/assets/template/v5/images/apps/google_color_ru.png',
           alt: 'Google Play',
+          href: '',
         },
       ],
       accords: [
