@@ -7,14 +7,6 @@
   background-color: var(--a-color_bg);
   border-radius: var(--a-borderRadius--bg);
 
-  &__slide {
-    width: rem(364);
-
-    @media (max-width: 767px) {
-      width: 100%;
-    }
-  }
-
   .m-card-landing {
     width: 100%;
 
@@ -31,6 +23,14 @@
           height: rem(128);
         }
       }
+    }
+  }
+
+  &__slide {
+    width: rem(364);
+
+    @media (max-width: 767px) {
+      width: 100%;
     }
   }
 

@@ -14,11 +14,7 @@
     <div class="s-program-teacher__items s-program-teacher__items_vertical" v-else>
       <swiper :options="swiperOptionA">
         <swiper-slide v-for="item in items" :key="item.id" class="s-program-teacher__slide m-card-landing-vertical">
-          <MCardLanding
-            :title="item.title"
-            :text="item.description"
-            :image="item.image"
-          />
+          <MCardLanding :title="item.title" :text="item.description" :image="item.image" />
         </swiper-slide>
       </swiper>
     </div>

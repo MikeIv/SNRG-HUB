@@ -13,10 +13,6 @@
     margin: rem(12) auto;
   }
 
-  &__slide {
-    width: rem(364);
-  }
-
   .m-card-landing__image {
     display: block;
     object-fit: cover;
@@ -25,6 +21,10 @@
     &-wrapper {
       height: rem(256);
     }
+  }
+
+  &__slide {
+    width: rem(364);
   }
 
   &__title {

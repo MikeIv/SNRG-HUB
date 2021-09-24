@@ -4,11 +4,7 @@
     <div class="s-program-diploma__items">
       <swiper :options="swiperOptionProgramDiploma">
         <swiper-slide v-for="item in items" :key="item.id" class="s-program-diploma__slide">
-          <MCardLanding
-            :title="item.title"
-            :text="item.text"
-            :image="item.image"
-          />
+          <MCardLanding :title="item.title" :text="item.text" :image="item.image" />
         </swiper-slide>
       </swiper>
     </div>
