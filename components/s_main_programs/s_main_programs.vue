@@ -5,7 +5,7 @@
       <div class="s_main_programs__cards">
         <template v-for="(product, index) in productsList">
           <nuxt-link
-            :to="product.id"
+            :to="`/product/${product.id}`"
             class="s_main_programs__wrapper"
             v-if="productsList && productsList.length > 0 && index < cardsSet"
             :key="product.id"
@@ -70,7 +70,7 @@ export default {
     }
   },
   mounted() {
-    this.$nextTick(function () {
+    this.$nextTick(() => {
       window.addEventListener('resize', this.getWindowWidth);
       // Init
       this.getWindowWidth();
