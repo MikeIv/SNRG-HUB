@@ -11,7 +11,7 @@
               class="s-main-topics__slide m-card-vertical"
             >
               <nuxt-link to="/">
-                <m-card :verticalImgSrc="`${baseUrl}/${product.preview_image}`" :title="product.name" type="vertical" />
+                <m-card :verticalImgSrc="`${baseUrl}${product.preview_image}`" :title="product.name" type="vertical" />
               </nuxt-link>
             </swiper-slide>
           </swiper>
@@ -51,6 +51,8 @@ export default {
       swiperOptionA: {
         slidesPerView: 'auto',
         spaceBetween: 12,
+        resistance: true,
+        resistanceRatio: 0,
         navigation: {
           nextEl: '.swiper-button-next',
           prevEl: '.swiper-button-prev',

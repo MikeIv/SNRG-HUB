@@ -1,6 +1,6 @@
 <template>
   <section class="s-partners">
-    <div class="l-default">
+    <div class="l-wide">
       <h2 class="s-partners__title a-font_h5">{{ title }}</h2>
       <div class="s-partners__items">
         <div class="s-partners__item" v-for="item in items" :key="item.id">

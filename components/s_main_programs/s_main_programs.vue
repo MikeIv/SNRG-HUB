@@ -1,12 +1,12 @@
 <template>
-  <section class="l-wide s_main_programs">
-    <h2 class="s_main_programs__h2 a-font_h5">{{ title }}</h2>
-    <div class="s_main_programs__row">
-      <div class="s_main_programs__cards">
+  <section class="l-wide s-main-programs">
+    <h2 class="s-main-programs__h2 a-font_h5">{{ title }}</h2>
+    <div class="s-main-programs__row">
+      <div class="s-main-programs__cards">
         <template v-for="(product, index) in productsList">
           <nuxt-link
-            :to="`/product/${product.id}`"
-            class="s_main_programs__wrapper"
+            :to="`/product/${product.slug}`"
+            class="s-main-programs__wrapper"
             v-if="productsList && productsList.length > 0 && index < cardsSet"
             :key="product.id"
           >
@@ -15,8 +15,8 @@
               :bottomText="product.included.organization.name"
               :name="product.name"
               :description="product.included.levels[0].name"
-              :iconSrc="`${baseURL}/${product.included.organization.logo}`"
-              :verticalImgSrc="`${baseURL}/${product.digital_image}`"
+              :iconSrc="`${baseURL}${product.included.organization.logo}`"
+              :verticalImgSrc="`${baseURL}${product.digital_image}`"
               type="program"
               @click="$router.push({ name: 'product', params: { id: product.id } })"
             />
@@ -26,8 +26,8 @@
       <s-banner v-if="viewType === 'product_list_banner'" :methods="[...this.methods[1]]" />
     </div>
 
-    <nuxt-link :to="{ redirectUrl }" class="s_main_programs__btn-link">
-      <a-button class="s_main_programs__btn" label="Показать все" bgColor="accent" />
+    <nuxt-link :to="{ redirectUrl }" class="s-main-programs__btn-link">
+      <a-button class="s-main-programs__btn" label="Показать все" bgColor="accent" />
     </nuxt-link>
   </section>
 </template>

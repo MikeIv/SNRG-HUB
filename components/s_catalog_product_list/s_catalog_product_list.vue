@@ -12,7 +12,7 @@
         :title="product.name"
         :verticalImgSrc="`${baseURL}/${product.preview_image}`"
         :bottomText="product.included.organization.abbreviation_name"
-        :iconSrc="`${baseURL}/${product.included.organization.logo}`"
+        :iconSrc="`${baseURL}${product.included.organization.logo}`"
       />
     </div>
     <m-pagination

@@ -5,7 +5,6 @@
 </template>
 
 <script>
-import '@cwespb/synergyui/lib/synergyui.css';
 
 export default {
   layout: 'product',
