@@ -2,7 +2,7 @@ export default async function (context) {
   const requestData = {
     filter: {},
   };
-
+  console.log(context.route);
   // Когда мы заходим на любую страницу, нам нужно сделать запрос, передам объект параметров
   // Мы знаем, что для главной страницы нужно передать id = 1
   // Здесь мы проверяем, что если главная страница, то добавляем id = 1
@@ -16,6 +16,10 @@ export default async function (context) {
 
     if (context.route.name === 'catalog-all') {
       requestData.filter.slug = 'catalog';
+    }
+
+    if (context.route.name === 'product-slug') {
+      requestData.filter.slug = 'product';
     }
   }
 

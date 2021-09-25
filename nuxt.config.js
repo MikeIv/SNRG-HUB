@@ -60,6 +60,26 @@ export default {
     },
   },
 
+  // router: {
+  //   extendRoutes(routes, resolve) {
+  //     routes.push({
+  //       name: 'catalog',
+  //       path: '/catalog',
+  //       components: {
+  //         default: resolve(__dirname, 'pages/catalog/index.vue'),
+  //       },
+  //     });
+  //
+  //     routes.push({
+  //       name: 'catalog',
+  //       path: '/catalog/*',
+  //       components: {
+  //         default: resolve(__dirname, 'pages/catalog/_.vue'),
+  //       },
+  //     });
+  //   },
+  // },
+
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {},
   env: {
