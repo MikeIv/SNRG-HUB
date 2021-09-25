@@ -1,8 +1,8 @@
 <template>
   <div class="thanks__wrapper">
-    <SHeader/>
-    <Thanks/>
-    <SFooter/>
+    <SHeader />
+    <Thanks />
+    <SFooter />
   </div>
 </template>
 

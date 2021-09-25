@@ -1,8 +1,8 @@
 <template>
-  <header class="s-header" :class="{ open: isOpen, fixed: isScrolled }">
+  <header class="s-header" :class="{ open: isOpen }">
     <div class="shadow" v-if="isOpen"></div>
     <div class="s-header__wrapper">
-      <div class="s-header__center">
+      <div class="s-header__center" :class="{ fixed: isScrolled }">
         <div class="l-wide">
           <div class="s-header__center-wrapper">
             <nuxt-link to="/" class="s-header__logo-link">

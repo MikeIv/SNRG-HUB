@@ -1,22 +1,21 @@
 <template>
-  <section class="s-main-topics s-padding">
+  <section class="s-persons s-padding">
     <div class="l-wide">
-      <div class="s-main-topics__wrapper">
-        <h2 class="s-main-topics__title a-font_h5">{{ title }}</h2>
-        <div class="s-main-topics__swiper">
+      <div class="s-persons__wrapper">
+        <h2 class="s-persons__title a-font_h5">{{ title }}</h2>
+        <div class="s-persons__swiper">
           <swiper ref="awesomeSwiper" :options="swiperOptionA">
-            <swiper-slide
-              v-for="product in directionsList"
-              :key="product.id"
-              class="s-main-topics__slide m-card-vertical"
-            >
-              <nuxt-link to="/">
-                <m-card :verticalImgSrc="`${baseUrl}${product.preview_image}`" :title="product.name" type="vertical" />
-              </nuxt-link>
+            <swiper-slide v-for="person in personsList" :key="person.id" class="s-persons__slide m-card-vertical">
+              <m-card
+                :verticalImgSrc="`${baseUrl}${person.preview_image}`"
+                :title="person.name"
+                :description="person.description"
+                type="vertical"
+              />
             </swiper-slide>
           </swiper>
           <a-button
-            class="swiper-button-prev m-card-vertical__button s-main-topics__button"
+            class="swiper-button-prev m-card-vertical__button s-persons__button"
             size="medium"
             bg-color="ghost-primary"
             only-icon="square"
@@ -24,7 +23,7 @@
             slot="button-prev"
           ></a-button>
           <a-button
-            class="swiper-button-next m-card-vertical__button s-main-topics__button"
+            class="swiper-button-next m-card-vertical__button s-persons__button"
             size="medium"
             bg-color="ghost-primary"
             only-icon="square"
@@ -39,18 +38,18 @@
 <script>
 import { MCard, AButton } from '@cwespb/synergyui';
 import { Swiper, SwiperSlide } from 'vue-awesome-swiper';
-import './s_main_topics.scss';
-import getDirectionsList from '~/api/dicrectionsList';
+import './s_persons.scss';
+import getPersonsList from '~/api/personsList';
 
 export default {
-  name: 'SMainTopics',
+  name: 'SPersons',
   data() {
     return {
-      directionsList: [],
+      personsList: [],
       baseUrl: process.env.NUXT_ENV_S3BACKET,
       swiperOptionA: {
         slidesPerView: 'auto',
-        spaceBetween: 12,
+        spaceBetween: 20,
         resistance: true,
         resistanceRatio: 0,
         navigation: {
@@ -79,8 +78,8 @@ export default {
   },
   props: ['methods', 'title'],
   async fetch() {
-    const expandedMethod = this.methods.data;
-    this.directionsList = await getDirectionsList(expandedMethod);
+    const expandedMethod = this.methods[0].data;
+    this.personsList = await getPersonsList(expandedMethod);
   },
 };
 </script>

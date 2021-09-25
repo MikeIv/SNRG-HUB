@@ -1,7 +1,6 @@
 @import '@/assets/styles/tools/mixins';
 
-.s-main-topics {
-  background: var(--a-color_bg--secondary);
+.s-success-history {
   .swiper {
     &-button-disabled {
       display: none;

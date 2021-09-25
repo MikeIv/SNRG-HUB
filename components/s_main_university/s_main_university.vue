@@ -1,10 +1,10 @@
 <template>
-  <section class="s-main-university">
+  <section class="s-main-university s-padding">
     <div class="l-wide">
       <h2 class="s-main-university__title a-font_h5">{{ title }}</h2>
       <div class="s-main-university__box">
         <template v-for="product in visibleCards">
-          <nuxt-link :to="`${product.slug}`" :key="product.id" class="m-card-program__wrapper">
+          <nuxt-link :to="`organization/${product.slug}`" :key="product.id" class="m-card-program__wrapper">
             <m-card
               :title="product.name"
               :description="product.included.city.name"

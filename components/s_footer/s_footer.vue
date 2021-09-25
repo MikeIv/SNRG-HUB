@@ -2,14 +2,14 @@
   <section class="s-footer__wrap">
     <div class="l-wide">
       <s-footer
-        socialsTitle='Мы в соцсетях'
-        applicationsTitle='Приёмная комиссия в твоем телефоне'
-        linkLogo='https://synergy.ru/assets/template/v5/images/logos/costum_part_dark_ru.svg'
-        :socials='socials'
-        :applications='applications'
-        :accords='accords'
+        socialsTitle="Мы в соцсетях"
+        applicationsTitle="Приёмная комиссия в твоем телефоне"
+        linkLogo="https://synergy.ru/assets/template/v5/images/logos/costum_part_dark_ru.svg"
+        :socials="socials"
+        :applications="applications"
+        :accords="accords"
       >
-        <MenuHorizontal/>
+        <MenuHorizontal />
       </s-footer>
     </div>
   </section>
