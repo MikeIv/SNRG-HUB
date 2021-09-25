@@ -1,11 +1,13 @@
 <template>
-  <header class="s-header" :class="{ open: isOpen, fixed: isScrolled }">
+  <header class="s-header" :class="{ open: isOpen }">
     <div class="shadow" v-if="isOpen"></div>
     <div class="s-header__wrapper">
-      <div class="s-header__center">
+      <div class="s-header__center" :class="{ fixed: isScrolled }">
         <div class="l-wide">
           <div class="s-header__center-wrapper">
-            <a-logo type="standart" :link="logoURL"></a-logo>
+            <nuxt-link to="/" class="s-header__logo-link">
+              <a-logo type="standart" :link="logoURL"></a-logo>
+            </nuxt-link>
             <div class="s-header__burger" @click="isOpen = !isOpen">
               <div class="s-header__burger-icon">
                 <div class="si-menu" v-if="!isOpen"></div>
@@ -52,7 +54,7 @@ export default {
   data() {
     return {
       isOpen: false,
-      logoURL: 'svg/logo.svg',
+      logoURL: '/svg/logo.svg',
       scrollTop: 0,
       isScrolled: false,
       btnText: 'Всё обучение',

@@ -31,17 +31,6 @@ html {
     padding-bottom: var(--a-padding--x4);
   }
 
-  &.fixed {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-
-    .menu-horizontal {
-      display: none;
-    }
-  }
-
   .shadow {
     position: fixed;
     z-index: 99;
@@ -60,7 +49,20 @@ html {
   }
   &__center {
     padding: var(--a-padding--x5) 0;
-
+    &.fixed {
+      position: fixed;
+      z-index: 2;
+      top: 0;
+      left: 0;
+      width: 100%;
+      background: #fff;
+      & + .s-header__bottom {
+        margin-top: rem(84);
+        @media screen and (max-width: 600px) {
+          margin-top: rem(136);
+        }
+      }
+    }
     @media screen and (max-width: 600px) {
       padding: var(--a-padding--x4) 0;
     }
