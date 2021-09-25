@@ -10,8 +10,6 @@ export default async function (context) {
   // если другая, то добавляем route.name
   // Для этой реализации нам нужно, чтобы названия роутов совпадали со слагом на бэке
 
-  console.log(context);
-
   if (context.route.name === 'index') {
     requestData.filter.id = 1;
   } else {
@@ -19,6 +17,7 @@ export default async function (context) {
 
     if (context.route.name === 'product-slug') {
       requestData.filter.slug = 'product';
+      requestData.params.id = 500;
     }
   }
   await context.store.dispatch('getPageInfo', requestData);

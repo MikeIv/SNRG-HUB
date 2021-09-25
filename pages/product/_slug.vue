@@ -11,7 +11,6 @@
     <pre>
       {{ pageInfo }}
     </pre>
-    <p><Path></Path>: {{ $route.path }}</p>
 
   </div>
 
@@ -36,10 +35,6 @@ export default {
     pageInfo() {
       return this.$store.state.pageInfo;
     },
-  },
-
-  mounted() {
-    console.log(this.$route);
   },
 };
 </script>

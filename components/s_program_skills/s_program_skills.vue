@@ -1,10 +1,14 @@
 <template>
-  <SProgramSkills :title="title" :items="items" />
+<div>
+  <SProgramSkills :title="title" :items="programSkillsList.data" :type="icon"/>
+  <pre>{{programSkillsList}}</pre>
+</div>
 </template>
 
 <script>
 import { SProgramSkills } from '@cwespb/synergyui';
 import './s_program_skills.scss';
+import getEntitiesSectionsDetail from '~/api/entitiesSectionsDetail';
 
 export default {
   name: 's_program_skills',
@@ -15,40 +19,17 @@ export default {
 
   data() {
     return {
-      title: 'Чему <span>вы научитесь</span>',
-      items: [
-        {
-          id: 1,
-          type: 'icon',
-          text: 'Работа с базами данных',
-        },
-        {
-          id: 2,
-          type: 'icon',
-          text: 'Разрабатывать технические задания для проектов',
-        },
-        {
-          id: 3,
-          type: 'icon',
-          text: 'Верстать сайты любой сложности',
-        },
-        {
-          id: 4,
-          type: 'icon',
-          text: 'Работа с разными операторами',
-        },
-        {
-          id: 5,
-          type: 'icon',
-          text: 'Установка и настройка веб-серверов',
-        },
-        {
-          id: 6,
-          type: 'icon',
-          text: 'Навыки работы с объектами',
-        },
-      ],
+      programSkillsList: [],
     };
+  },
+
+  props: ['methods', 'title'],
+  async fetch() {
+    const expandedMethod = this.methods[0].data;
+    let preData = await getEntitiesSectionsDetail(expandedMethod);
+    preData = preData.json.items;
+
+    this.programSkillsList = preData.map(({ data: { title }, ...item }) => ({ ...item, data: title }));
   },
 };
 </script>

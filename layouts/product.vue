@@ -1,11 +1,9 @@
 <template>
-  <div>
+  <main class="product-page">
     <SHeader />
-    <main class="product-page">
     <Nuxt />
-    </main>
     <SFooter />
-  </div>
+  </main>
 </template>
 
 <script>

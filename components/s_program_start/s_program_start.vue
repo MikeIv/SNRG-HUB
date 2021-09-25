@@ -3,6 +3,7 @@
     <SProgramStart
       :breadcrumbs="breadcrumbs"
       :program="program"
+      :title="program.title"
       :event="event"
       :description="program.description"
       :city="program.city"
@@ -20,6 +21,8 @@
 import { SProgramStart } from '@cwespb/synergyui';
 import './s_program_start.scss';
 
+import getProductsDetail from '~/api/productsDetail';
+
 export default {
   name: 's_program_start',
 
@@ -29,6 +32,11 @@ export default {
 
   data() {
     return {
+      productsDetail: null,
+      baseURL: process.env.NUXT_ENV_S3BACKET,
+
+      props: ['methods', 'title'],
+
       breadcrumbs: [
         {
           label: 'Учебные заведения',
@@ -94,6 +102,17 @@ export default {
         link: '#link',
       },
     };
+  },
+
+  async fetch() {
+    const requestData = {
+      filter: {
+        slug: 'ekonomika-i-buxgalterskii-ucet',
+      },
+    };
+    const expandedMethod = this.methods[0].data;
+    const preData = await getProductsDetail(expandedMethod);
+    this.productsDetail = preData.json.data;
   },
 };
 </script>
