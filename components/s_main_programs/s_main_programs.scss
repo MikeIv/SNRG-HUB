@@ -21,12 +21,14 @@
         margin-top: rem(20);
       }
     }
-
-    .l-wide {
+    .s-banner {
       padding: 0;
       @media screen and (max-width: 991px) {
         width: 100%;
       }
+    }
+    .l-wide {
+      padding: 0;
 
       .m-banner__main-wrapper {
         flex: none;

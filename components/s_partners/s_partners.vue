@@ -1,5 +1,5 @@
 <template>
-  <section class="s-partners">
+  <section class="s-partners s-padding">
     <div class="l-wide">
       <h2 class="s-partners__title a-font_h5">{{ title }}</h2>
       <div class="s-partners__items">

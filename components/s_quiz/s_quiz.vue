@@ -63,7 +63,7 @@
         </div>
       </div>
 
-      <a-progressbar :percent="progress" />
+      <a-progressbar :percent="progress" v-if="!banerFlag" />
     </div>
   </section>
 </template>
