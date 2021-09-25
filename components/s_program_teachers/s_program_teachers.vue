@@ -1,7 +1,7 @@
 <template>
-  <section class="s-program-teacher">
-    <h2 class="s-program-teacher__title a-font_h2" v-html="title"></h2>
-    <div class="s-program-teacher__items s-program-teacher__items_horisontal" v-if="items.length < 4">
+  <section class="s-program-teachers">
+    <h2 class="s-program-teachers__title a-font_h2" v-html="title"></h2>
+    <div class="s-program-teachers__items s-program-teachers__items_horisontal" v-if="items.length < 4">
       <MCardSpeaker
         v-for="item in items"
         :key="item.id"
@@ -11,9 +11,9 @@
         :image="item.image"
       />
     </div>
-    <div class="s-program-teacher__items s-program-teacher__items_vertical" v-else>
+    <div class="s-program-teachers__items s-program-teachers__items_vertical" v-else>
       <swiper :options="swiperOptionA">
-        <swiper-slide v-for="item in items" :key="item.id" class="s-program-teacher__slide m-card-landing-vertical">
+        <swiper-slide v-for="item in items" :key="item.id" class="s-program-teachers__slide m-card-landing-vertical">
           <MCardLanding :title="item.title" :text="item.description" :image="item.image" />
         </swiper-slide>
       </swiper>
@@ -24,10 +24,10 @@
 <script>
 import { Swiper, SwiperSlide } from 'vue-awesome-swiper';
 import { MCardSpeaker, MCardLanding } from '@cwespb/synergyui';
-import './s_program_teacher.scss';
+import './s_program_teachers.scss';
 
 export default {
-  name: 's_program_teacher',
+  name: 's_program_teachers',
 
   components: {
     MCardSpeaker,
