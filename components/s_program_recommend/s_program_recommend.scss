@@ -1,0 +1,75 @@
+@import '@/assets/styles/tools/mixins';
+
+.s-program-recommend {
+  margin-bottom: rem(20);
+  padding: var(--layout-v-padding) var(--layout-h-padding);
+  background-color: var(--a-color_bg);
+  border-radius: var(--a-borderRadius--bg);
+
+  @media (max-width: 991px) {
+    margin-bottom: rem(12);
+  }
+
+  a {
+    text-decoration: none;
+  }
+
+  .swiper {
+    &-button-disabled {
+      display: none;
+    }
+
+    &-button-next,
+    &-button-prev {
+      @media screen and (max-width: 991px) {
+        display: none;
+      }
+    }
+
+    &-button-next {
+      right: rem(-12);
+    }
+
+    &-button-prev {
+      left: rem(-12);
+    }
+
+    &-button-next::after,
+    &-button-prev::after {
+      content: none;
+    }
+  }
+
+  .m-card-vertical {
+    width: rem(370);
+
+    @media screen and (max-width: 767px) {
+      width: rem(328);
+    }
+
+    @media screen and (max-width: 575px) {
+      width: 100%;
+    }
+  }
+
+  &__title {
+    margin-bottom: rem(40);
+    @media screen and (max-width: 991px) {
+      margin-bottom: rem(24);
+    }
+    @media screen and (max-width: 767px) {
+      margin-bottom: rem(16);
+    }
+  }
+
+  &__swiper {
+    position: relative;
+  }
+
+  &__button {
+    .a-button__icon {
+      color: var(--a-color_text--secondary);
+      font-size: rem(24);
+    }
+  }
+}
