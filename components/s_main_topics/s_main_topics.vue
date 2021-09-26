@@ -1,5 +1,5 @@
 <template>
-  <section class="s-main-topics">
+  <section class="s-main-topics s-padding">
     <div class="l-wide">
       <div class="s-main-topics__wrapper">
         <h2 class="s-main-topics__title a-font_h5">{{ title }}</h2>
@@ -11,7 +11,7 @@
               class="s-main-topics__slide m-card-vertical"
             >
               <nuxt-link to="/">
-                <m-card :verticalImgSrc="`${baseUrl}/${product.preview_image}`" :title="product.name" type="vertical" />
+                <m-card :verticalImgSrc="`${baseUrl}${product.preview_image}`" :title="product.name" type="vertical" />
               </nuxt-link>
             </swiper-slide>
           </swiper>
@@ -38,7 +38,7 @@
 </template>
 <script>
 import { MCard, AButton } from '@cwespb/synergyui';
-import { directive } from 'vue-awesome-swiper';
+import { Swiper, SwiperSlide } from 'vue-awesome-swiper';
 import './s_main_topics.scss';
 import getDirectionsList from '~/api/dicrectionsList';
 
@@ -51,6 +51,8 @@ export default {
       swiperOptionA: {
         slidesPerView: 'auto',
         spaceBetween: 12,
+        resistance: true,
+        resistanceRatio: 0,
         navigation: {
           nextEl: '.swiper-button-next',
           prevEl: '.swiper-button-prev',
@@ -72,17 +74,10 @@ export default {
   components: {
     MCard,
     AButton,
-  },
-  directives: {
-    swiper: directive,
+    Swiper,
+    SwiperSlide,
   },
   props: ['methods', 'title'],
-  methods: {},
-  computed: {
-    swiper() {
-      return this.$refs.awesomeSwiper.swiper;
-    },
-  },
   async fetch() {
     const expandedMethod = this.methods.data;
     this.directionsList = await getDirectionsList(expandedMethod);

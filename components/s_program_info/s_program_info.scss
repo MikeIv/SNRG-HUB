@@ -18,13 +18,15 @@
     padding: rem(40) rem(16);
   }
 
-  & .a-factoid-line__wrapper {
+  &__item {
     max-width: rem(240);
 
     @media screen and (max-width: 991px) {
       max-width: rem(180);
     }
+  }
 
+  & .a-factoid-line__wrapper {
     h3 {
       white-space: nowrap;
 

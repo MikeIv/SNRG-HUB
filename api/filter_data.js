@@ -6,6 +6,6 @@ const axios = axiosCreate();
 // Поля доступные для сортировки: id, name
 
 export default async function getFilterData(requestData) {
-  const response = await axios.post('api/v1/filter', requestData);
+  const response = await axios.post('api/v1/filters/products/catalog', requestData);
   return response.data.data;
 }

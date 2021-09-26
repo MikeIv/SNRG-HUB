@@ -8,25 +8,29 @@
   border-radius: var(--a-borderRadius--bg);
 
   .m-card-landing {
-    width: rem(364);
+    width: 100%;
 
-    @media (max-width: 576px) {
-      width: 100%;
+    &__image {
+      display: block;
+      height: 100%;
+      border-radius: var(--a-borderRadius--default);
+      object-fit: cover;
+
+      &-wrapper {
+        height: rem(192);
+
+        @media (max-width: 767px) {
+          height: rem(128);
+        }
+      }
     }
   }
 
-  .m-card-landing__image {
-    display: block;
-    height: 100%;
-    border-radius: var(--a-borderRadius--default);
-    object-fit: cover;
+  &__slide {
+    width: rem(364);
 
-    &-wrapper {
-      height: rem(192);
-
-      @media (max-width: 767px) {
-        height: rem(128);
-      }
+    @media (max-width: 767px) {
+      width: 100%;
     }
   }
 

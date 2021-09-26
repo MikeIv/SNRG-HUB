@@ -2,7 +2,7 @@
   <section class="s-program-reviews">
     <h2 class="s-program-reviews__title a-font_h2" v-html="title"></h2>
     <div class="s-program-reviews__swiper">
-      <swiper ref="awesomeSwiper" :options="swiperOptionA">
+      <swiper :options="swiperOptionA">
         <swiper-slide v-for="item in items" :key="item.id" class="s-program-reviews__slide m-card-landing">
           <MCardLanding
             :subhead="item.subhead"
@@ -17,7 +17,7 @@
 </template>
 
 <script>
-import { directive } from 'vue-awesome-swiper';
+import { Swiper, SwiperSlide } from 'vue-awesome-swiper';
 import { MCardLanding } from '@cwespb/synergyui';
 import './s_program_reviews.scss';
 
@@ -26,16 +26,8 @@ export default {
 
   components: {
     MCardLanding,
-  },
-
-  directives: {
-    swiper: directive,
-  },
-
-  computed: {
-    swiper() {
-      return this.$refs.awesomeSwiper.swiper;
-    },
+    Swiper,
+    SwiperSlide,
   },
 
   data() {
@@ -62,28 +54,36 @@ export default {
           subhead: '14 сентября',
           userName: 'Екатерина Моисеева',
           userImage:
+            // eslint-disable-next-line max-len
             'https://images.unsplash.com/photo-1528287942171-fbe365d1d9ac?ixlib=rb-1.2.1&q=85&fm=jpg&crop=entropy&w=1200&cs=srgb&ixid=eyJhcHBfaWQiOjE0NTg5fQ',
+          // eslint-disable-next-line max-len
           text: 'Благодаря этой программе я не только узнала по моей профессии больше, но и получила работающие советы и полезные ссылки для закрепления материала. Все материалы даются не только в формате видео, но и в презентациях, это важно, потому что у меня не всегда есть возможность смотреть видео, мало времени. А в презентациях вся информация кратко, после выпуска работает как шпаргалка)',
         },
         {
           subhead: '14 сентября',
           userName: 'Екатерина Моисеева',
           userImage:
+            // eslint-disable-next-line max-len
             'https://images.unsplash.com/photo-1528287942171-fbe365d1d9ac?ixlib=rb-1.2.1&q=85&fm=jpg&crop=entropy&w=1200&cs=srgb&ixid=eyJhcHBfaWQiOjE0NTg5fQ',
+          // eslint-disable-next-line max-len
           text: 'Благодаря этой программе я не только узнала по моей профессии больше, но и получила работающие советы и полезные ссылки для закрепления материала. Все материалы даются не только в формате видео, но и в презентациях, это важно, потому что у меня не всегда есть возможность смотреть видео, мало времени. А в презентациях вся информация кратко, после выпуска работает как шпаргалка)',
         },
         {
           subhead: '14 сентября',
           userName: 'Екатерина Моисеева',
           userImage:
+            // eslint-disable-next-line max-len
             'https://images.unsplash.com/photo-1528287942171-fbe365d1d9ac?ixlib=rb-1.2.1&q=85&fm=jpg&crop=entropy&w=1200&cs=srgb&ixid=eyJhcHBfaWQiOjE0NTg5fQ',
+          // eslint-disable-next-line max-len
           text: 'Благодаря этой программе я не только узнала по моей профессии больше, но и получила работающие советы и полезные ссылки для закрепления материала. Все материалы даются не только в формате видео, но и в презентациях, это важно, потому что у меня не всегда есть возможность смотреть видео, мало времени. А в презентациях вся информация кратко, после выпуска работает как шпаргалка)',
         },
         {
           subhead: '14 сентября',
           userName: 'Екатерина Моисеева',
           userImage:
+            // eslint-disable-next-line max-len
             'https://images.unsplash.com/photo-1528287942171-fbe365d1d9ac?ixlib=rb-1.2.1&q=85&fm=jpg&crop=entropy&w=1200&cs=srgb&ixid=eyJhcHBfaWQiOjE0NTg5fQ',
+          // eslint-disable-next-line max-len
           text: 'Благодаря этой программе я не только узнала по моей профессии больше, но и получила работающие советы и полезные ссылки для закрепления материала. Все материалы даются не только в формате видео, но и в презентациях, это важно, потому что у меня не всегда есть возможность смотреть видео, мало времени. А в презентациях вся информация кратко, после выпуска работает как шпаргалка)',
         },
       ],
