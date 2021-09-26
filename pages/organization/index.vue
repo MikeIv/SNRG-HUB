@@ -38,9 +38,11 @@ export default {
       's-program-timeline',
       's-university-career',
       's-program-diploma',
-      's-program-questions',
+      's-university-diploma',
+      's-partners',
+      's-lp-address',
+      's-program-questions',   
     ];
-
     return {
       sections,
     };

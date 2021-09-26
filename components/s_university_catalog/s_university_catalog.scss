@@ -1,12 +1,1 @@
 @import '@/assets/styles/tools/mixins';
-
-.s-university-catalog {
-  position: relative;
-  overflow: hidden;
-  width: 100%;
-  border-radius: var(--a-borderRadius--bg);
-
-  @media screen and (max-width: 991px) {
-    margin: rem(12) auto;
-  }
-}

@@ -29,7 +29,7 @@
 import sUniversityCatalog from '~/components/s_university_catalog/s_university_catalog.vue';
 
 export default {
-  components: { sUniversityCatalog, sUniversityDiploma },
+  components: { sUniversityCatalog },
 
   middleware: 'getPageInfo',
 

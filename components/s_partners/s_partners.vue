@@ -1,7 +1,7 @@
 <template>
   <section class="s-partners">
     <div class="l-default">
-      <h2 class="s-partners__title a-font_h5">{{ title }}</h2>
+      <h2 class="s-partners__title s-program-timeline__title a-font_h5" v-html="title"></h2>
       <div class="s-partners__items">
         <div class="s-partners__item" v-for="item in items" :key="item.id">
           <a-logo type="bordered" :link="item.link" />
@@ -71,7 +71,7 @@ export default {
           link: 'https://synergymarket.ru/site/img/svg/companies/tinkof.svg',
         },
       ],
-      title: 'Наши выпускники строят карьеру в ведущих компаниях',
+      title: 'Наши выпускники строят карьеру <span> в ведущих компаниях </span>',
     };
   },
 
