@@ -1,4 +1,7 @@
+process.env.DEBUG = 'nuxt:*'
+
 export default {
+  debug: true,
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
     title: 'marketplace-vue',
@@ -69,7 +72,7 @@ export default {
 
   axios: {
     https: true,
-    debug: false,
+    debug: true,
     headers: {
       common: {
         Accept: 'application/vnd.api+json',
