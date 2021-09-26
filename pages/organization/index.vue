@@ -41,7 +41,7 @@ export default {
       's-university-diploma',
       's-partners',
       's-lp-address',
-      's-program-questions',   
+      's-program-questions',
     ];
     return {
       sections,
