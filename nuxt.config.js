@@ -73,6 +73,7 @@ export default {
   axios: {
     https: true,
     debug: true,
+    baseURL: 'https://mp.synergy.ru',
     headers: {
       common: {
         Accept: 'application/vnd.api+json',
