@@ -1,13 +1,8 @@
 @import '@/assets/styles/tools/mixins';
 
 .s-partners {
-  position: relative;
-  overflow: hidden;
-  width: 100%;
-  margin: 1.25rem auto;
-  padding: var(--layout-v-padding) var(--layout-h-padding);
-  background-color: var(--a-color_bg);
-  border-radius: var(--a-borderRadius--bg);
+  padding: rem(48) 0;
+  background: var(--a-color_bg);
 
   @media (max-width: 991px) {
     padding: var(--a-padding--x8) 0;

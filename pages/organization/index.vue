@@ -72,5 +72,14 @@ export default {
       --layout-padding: 0;
     }
   }
+  .s-partners {
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    margin: 1.25rem auto;
+    padding: var(--layout-v-padding) var(--layout-h-padding);
+    background-color: var(--a-color_bg);
+    border-radius: var(--a-borderRadius--bg);
+  }
 }
 </style>
