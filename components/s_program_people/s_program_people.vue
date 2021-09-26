@@ -65,7 +65,7 @@ export default {
   async fetch() {
     const expandedMethod = this.methods[0].data;
     const preData = await getEntitiesSectionsDetail(expandedMethod);
-    this.programPeopleList = preData.json.items.data.map((item, index, array) => ({
+    this.programPeopleList = preData.json.items.data.map((item) => ({
       title: item.title.value,
       text: item.description.value,
       // Todo: Проверка на пустоту preview_image - сейчас значение пустое

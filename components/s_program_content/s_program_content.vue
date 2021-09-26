@@ -1,10 +1,12 @@
 <template>
-  <SProgramContent :title="title" :direction="direction" :factoids="factoids" :items="items" />
+  <SProgramContent :title="title" :direction="direction" :factoids="factoids" :items="programContentList" />
 </template>
 
 <script>
 import { SProgramContent } from '@cwespb/synergyui';
 import './s_program_content.scss';
+
+import getEntitiesSectionsDetail from '~/api/entitiesSectionsDetail';
 
 export default {
   name: 's_program_content',
@@ -15,96 +17,35 @@ export default {
 
   data() {
     return {
-      title: 'Программа обучения',
-      factoids: [
-        {
-          id: 1,
-          number: 93,
-          title: 'тематических модуля',
-          type: 'number',
-          color: 'color_link',
-        },
-        {
-          id: 2,
-          number: 280,
-          title: 'онлайн-уроков',
-          type: 'number',
-          color: 'color_link',
-        },
-      ],
+      programContentList: [],
       direction: 'down',
-      items: [
-        {
-          id: 1,
-          title: 'Базовый курс по PHP',
-          isActive: true,
-          listItems: [
-            {
-              id: 1,
-              type: 'numbered',
-              text: 'Что такое PHP',
-              number: 1,
-            },
-            {
-              id: 2,
-              type: 'numbered',
-              text: 'Константы, операторы сравнения, ветвления',
-              number: 2,
-            },
-            {
-              id: 3,
-              type: 'numbered',
-              text: 'Массивы, отслеживание потребления памяти',
-              number: 3,
-            },
-            {
-              id: 4,
-              type: 'numbered',
-              text: 'Консольные скрипты, интерактивная консоль',
-              number: 4,
-            },
-          ],
-        },
-        {
-          id: 2,
-          title: 'Продвинутый курс по PHP',
-          isActive: false,
-          listItems: [
-            {
-              id: 1,
-              type: 'dotted',
-              text: 'Что такое PHP',
-              number: 1,
-            },
-            {
-              id: 2,
-              type: 'dotted',
-              text: 'Установка PHP',
-              number: 2,
-            },
-          ],
-        },
-        {
-          id: 3,
-          title: 'GIT и командная работа',
-          isActive: false,
-          listItems: [
-            {
-              id: 1,
-              type: 'dotted',
-              text: '"Lorem ipsum dolor sit amet, consectetur',
-              number: 1,
-            },
-            {
-              id: 2,
-              type: 'dotted',
-              text: 'Ut enim ad minima veniam',
-              number: 2,
-            },
-          ],
-        },
-      ],
+      // factoids: [
+      //   {
+      //     id: 1,
+      //     number: 93,
+      //     title: 'тематических модуля',
+      //     type: 'number',
+      //     color: 'color_link',
+      //   },
+      // ],
     };
+  },
+
+  props: ['methods', 'title'],
+
+  async fetch() {
+    const expandedMethod = this.methods[0].data;
+    const preData = await getEntitiesSectionsDetail(expandedMethod);
+    this.programContentList = preData.json.items.data.map((item, index) => ({
+      title: item.title.value,
+      isActive: !index,
+      listItems: item.items.data.map((elem, i) => ({
+        id: i,
+        type: 'dotted',
+        text: elem.item.value,
+        number: i + 1,
+      })),
+    }));
   },
 };
 </script>
