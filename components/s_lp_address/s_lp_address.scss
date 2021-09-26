@@ -1,6 +1,13 @@
 @import '@/assets/styles/tools/mixins';
 
 .s-lp-address {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  margin: 1.25rem auto;
+  padding: var(--layout-v-padding) var(--layout-h-padding);
+  background-color: var(--a-color_bg);
+  border-radius: var(--a-borderRadius--bg);
   .m-contacts__adress {
     margin-top: rem(24);
   }
