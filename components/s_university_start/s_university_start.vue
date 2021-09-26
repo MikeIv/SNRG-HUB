@@ -40,11 +40,13 @@ export default {
         date: '22 июня в 15:00',
         title: 'День открытых дверей',
         description: 'Событие',
+        link: '#',
       },
       university: {
         city: 'Москва',
         name: 'Московский открытый институт',
         description:
+          // eslint-disable-next-line max-len
           'По итогам 2012 года он вошел в десятку лучших негосударственных высших учебных заведений Москвы. Институт имеет бессрочную лицензию на осуществление образовательной деятельности.',
         type: 'Негосударственный',
         hostel: true,
@@ -74,7 +76,7 @@ export default {
             link: '#facebook',
           },
         ],
-        link: '#link',
+        link: '#',
         photo: 'https://fainaidea.com/wp-content/uploads/2015/02/agh1.jpg',
       },
     };

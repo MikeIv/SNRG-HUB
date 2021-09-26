@@ -32,13 +32,14 @@ export default {
       // 's-university-start',
       's-university-score',
       's-university-statistics',
-      's-university-catalog',
       's-program-skills',
       's-program-teacher',
       's-program-timeline',
       's-university-career',
       's-program-diploma',
       's-program-questions',
+      's-partners',
+      's-lp-address',
     ];
 
     return {
