@@ -32,7 +32,6 @@ export default {
       // 's-university-start',
       's-university-score',
       's-university-statistics',
-      's-university-catalog',
       's-program-skills',
       's-program-teacher',
       's-program-timeline',

@@ -1,0 +1,71 @@
+@import '@/assets/styles/tools/mixins';
+
+.s-main-programs {
+  &__h2 {
+    display: flex;
+    margin-bottom: rem(24);
+  }
+  &__row {
+    display: flex;
+    margin-bottom: rem(32);
+
+    @media screen and (min-width: 992px) {
+      & .m-banner__main-wrapper {
+        margin-left: rem(20);
+      }
+    }
+    @media screen and (max-width: 991px) {
+      flex-wrap: wrap;
+
+      & .m-banner__main-wrapper {
+        margin-top: rem(20);
+      }
+    }
+    .s-banner {
+      padding: 0;
+      @media screen and (max-width: 991px) {
+        width: 100%;
+      }
+    }
+    .l-wide {
+      padding: 0;
+
+      .m-banner__main-wrapper {
+        flex: none;
+        width: 250px;
+        @media screen and (max-width: 991px) {
+          width: 100%;
+        }
+      }
+    }
+  }
+  &__cards {
+    display: flex;
+    flex-wrap: wrap;
+    gap: rem(20);
+  }
+  &__wrapper {
+    width: calc((100% - rem(40)) / 3);
+    text-decoration: none;
+    cursor: pointer;
+
+    @media screen and (max-width: 991px) {
+      width: calc((100% - rem(40)) / 2);
+    }
+    @media screen and (max-width: 767px) {
+      width: 100%;
+    }
+  }
+
+  &__btn {
+    margin: 0 auto;
+
+    @media screen and (max-width: 767px) {
+      width: 100%;
+    }
+  }
+
+  &__btn-link {
+    text-decoration: none;
+  }
+}

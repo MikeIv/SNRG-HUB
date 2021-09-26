@@ -2,15 +2,10 @@
   <section class="s-program-info">
     <div class="s-program-info__wrapper">
       <div class="s-program-info__items">
-        <swiper ref="awesomeSwiper" :options="swiperOptionProgramInfo">
-          <AFactoid
-            v-for="item in items"
-            :key="item.id"
-            :type="item.type"
-            :title="item.title"
-            :lineNumber="item.lineNumber"
-            class="swiper-slide"
-          />
+        <swiper :options="swiperOptionProgramInfo">
+          <swiper-slide v-for="item in items" :key="item.id" class="s-program-info__item">
+            <AFactoid :type="item.type" :title="item.title" :lineNumber="item.lineNumber" class="swiper-slide" />
+          </swiper-slide>
         </swiper>
       </div>
       <span class="s-program-info__arrow">
@@ -26,7 +21,7 @@
 </template>
 
 <script>
-import { Swiper } from 'vue-awesome-swiper';
+import { Swiper, SwiperSlide } from 'vue-awesome-swiper';
 import { AFactoid } from '@cwespb/synergyui';
 import './s_program_info.scss';
 
@@ -34,19 +29,13 @@ export default {
   name: 's_program_info',
 
   components: {
-    Swiper,
     AFactoid,
-  },
-
-  computed: {
-    swiper() {
-      return this.$refs.awesomeSwiper.swiper;
-    },
+    Swiper,
+    SwiperSlide,
   },
 
   data() {
     return {
-      baseUrl: process.env.NUXT_ENV_S3BACKET,
       swiperOptionProgramInfo: {
         grabCursor: true,
         slidesPerView: 'auto',
@@ -57,6 +46,9 @@ export default {
           576: {
             slidesPerView: 'auto',
             spaceBetween: 12,
+          },
+          768: {
+            spaceBetween: 32,
           },
         },
       },

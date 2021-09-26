@@ -1,0 +1,13 @@
+@import '@/assets/styles/tools/mixins';
+
+.s-footer {
+  &__wrap {
+    padding-top: var(--a-padding--x8);
+    padding-bottom: var(--a-padding--x8);
+    background-color: var(--a-color_bg--secondary);
+    @media screen and (max-width: 991px) {
+      padding-top: var(--a-padding--x5);
+      padding-bottom: var(--a-padding--x5);
+    }
+  }
+}

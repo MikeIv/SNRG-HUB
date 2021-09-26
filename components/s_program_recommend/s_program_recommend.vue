@@ -2,7 +2,7 @@
   <section class="s-program-recommend">
     <h2 class="s-program-recommend__title a-font_h2">{{ title }}</h2>
     <div class="s-program-recommend__swiper">
-      <swiper ref="awesomeSwiper" :options="swiperOptionRecomend">
+      <swiper :options="swiperOptionRecomend">
         <swiper-slide v-for="item in items" :key="item.id" class="s-program-recommend__slide m-card-vertical">
           <nuxt-link to="/">
             <m-card
@@ -37,7 +37,7 @@
 </template>
 
 <script>
-import { directive } from 'vue-awesome-swiper';
+import { Swiper, SwiperSlide } from 'vue-awesome-swiper';
 import { MCard, AButton } from '@cwespb/synergyui';
 import './s_program_recommend.scss';
 
@@ -47,16 +47,8 @@ export default {
   components: {
     MCard,
     AButton,
-  },
-
-  directives: {
-    swiper: directive,
-  },
-
-  computed: {
-    swiper() {
-      return this.$refs.awesomeSwiper.swiper;
-    },
+    Swiper,
+    SwiperSlide,
   },
 
   data() {

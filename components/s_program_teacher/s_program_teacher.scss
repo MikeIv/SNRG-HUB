@@ -12,12 +12,11 @@
   @media screen and (max-width: 991px) {
     margin: rem(12) auto;
   }
+  .m-card-landing-vertical {
+    width: rem(270);
+  }
 
   &__items_vertical {
-    & .m-card-landing {
-      width: rem(270);
-    }
-
     & .m-card-speaker {
       margin-bottom: rem(32);
 
