@@ -69,7 +69,11 @@ export default {
       baseURL: 'https://mp.synergy.ru',
     },
   },
-
+  privateRuntimeConfig: {
+    axios: {
+      baseURL: 'https://mp.synergy.ru',
+    },
+  },
   axios: {
     https: true,
     debug: true,
