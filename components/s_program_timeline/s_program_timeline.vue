@@ -41,18 +41,6 @@ export default {
   data() {
     return {
       baseUrl: process.env.NUXT_ENV_S3BACKET,
-      swiperOption: {
-        grabCursor: true,
-        slidesPerView: 'auto',
-        spaceBetween: 20,
-        resistance: true,
-        resistanceRatio: 0,
-        breakpoints: {
-          768: {
-            spaceBetween: 12,
-          },
-        },
-      },
       swiperOptionA: {
         grabCursor: true,
         slidesPerView: 'auto',
