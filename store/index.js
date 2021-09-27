@@ -1,3 +1,7 @@
+import { axiosCreate } from '~/axios/axios';
+
+const axios = axiosCreate();
+
 export const state = () => ({
   pageInfo: {},
   pageMeta: {},
@@ -14,8 +18,7 @@ export const mutations = {
 
 export const actions = {
   async getPageInfo({ commit }, requestData) {
-    const response = await this.$axios.$post('/api/v1/page', requestData);
-    console.log(response);
+    const response = await axios.post('/api/v1/page', requestData);
     commit('setPageMeta', response.meta);
     commit('setPageInfo', response.data);
   },
