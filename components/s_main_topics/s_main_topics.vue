@@ -16,20 +16,18 @@
             </swiper-slide>
           </swiper>
           <a-button
-            class="swiper-button-prev m-card-vertical__button s-main-topics__button"
+            class="swiper-button-prev s-main-topics__prev"
             size="medium"
             bg-color="ghost-primary"
             only-icon="square"
             iconType="si-chevron-left"
-            slot="button-prev"
           ></a-button>
           <a-button
-            class="swiper-button-next m-card-vertical__button s-main-topics__button"
+            class="swiper-button-next s-main-topics__next"
             size="medium"
             bg-color="ghost-primary"
             only-icon="square"
             iconType="si-chevron-right"
-            slot="button-next"
           ></a-button>
         </div>
       </div>
@@ -54,8 +52,8 @@ export default {
         resistance: true,
         resistanceRatio: 0,
         navigation: {
-          nextEl: '.swiper-button-next',
-          prevEl: '.swiper-button-prev',
+          nextEl: '.s-main-topics__next',
+          prevEl: '.s-main-topics__prev',
         },
         breakpoints: {
           767: {

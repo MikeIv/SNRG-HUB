@@ -45,14 +45,14 @@ export default {
       ],
       applications: [
         {
-          link: 'https://synergy.ru/assets/template/v5/images/apps/apple_color_ru.png',
+          href: '#',
+          image: 'https://synergy.ru/assets/template/v5/images/apps/apple_color_ru.png',
           alt: 'Apple Store',
-          href: '',
         },
         {
-          link: 'https://synergy.ru/assets/template/v5/images/apps/google_color_ru.png',
+          href: '#',
+          image: 'https://synergy.ru/assets/template/v5/images/apps/google_color_ru.png',
           alt: 'Google Play',
-          href: '',
         },
       ],
       accords: [
