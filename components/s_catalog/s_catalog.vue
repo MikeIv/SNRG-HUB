@@ -9,8 +9,8 @@
         <a-tag :label="tag.label" :status="tag.status" />
       </swiper-slide>
     </swiper>
-    <div v-show="filtersMenu">
-      <div class="catalog-page__menu" :key="componentMenuKey">
+    <div v-if="filtersMenu">
+      <div class="catalog-page__menu" :key="componentMenuKey" v-if="filterListData">
         <div v-show="!isFilterExpanded">
           <a-title title="Фильтры" :showIcon="false" @clickClose="filtersMenuClose" class="catalog-page__menu-header" />
           <div v-if="selectedFilters.length" class="catalog-page__menu-tags catalog-page__filters-tags">
@@ -163,9 +163,7 @@
 </template>
 
 <script>
-import {
-  ATag, ASelect, ATitle, AButton, AControl, MFilter,
-} from '@cwespb/synergyui';
+import { ATag, ASelect, ATitle, AButton, AControl, MFilter } from '@cwespb/synergyui';
 import { Swiper, SwiperSlide } from 'vue-awesome-swiper';
 import SCatalogFilter from '~/components/s_catalog_filter/s_catalog_filter';
 import SCatalogProductList from '~/components/s_catalog_product_list/s_catalog_product_list';
@@ -254,8 +252,13 @@ export default {
 
   watch: {
     page() {
-      const newQuery = { ...this.$route.query, page: this.page.toString() };
-      this.$router.push({ path: this.$route.path, query: newQuery });
+      // Todo заменить на window.location
+      // this.$router.push({ path: this.$route.path, query: newQuery });
+      const newSearch = window.location.search
+        .split('?')
+        .filter((query) => !query.includes('page'))
+        .join('?');
+      window.history.pushState({}, null, `${window.location.pathname}${newSearch}?page=${this.page}`);
       this.fetchProductsList();
     },
 
@@ -268,9 +271,6 @@ export default {
     allFiltersData: {
       deep: true,
       handler() {
-        console.log('watcher', this.$route);
-        console.log(this.filtersIdsData);
-
         // if (this.$route.params.pathMatch) {
         //   this.slugs = this.$route.params.pathMatch.split('/');
         //   console.log(this.slugs);
@@ -288,29 +288,99 @@ export default {
         //   });
         // }
 
-        const newQuery = {};
+        // Todo пофиксить трейлинг слэшэс
+
         Object.entries(this.filtersIdsData).forEach(([filterKey, filterIds]) => {
           if (filterIds.length === 1) {
-            const found = this.filterListData[filterKey].values.find((value) => value.id === Number(filterIds[0]));
-            const newQuery2 = { ...this.$route.query, page: this.page.toString() };
-            const newPath = `${this.$route.path}/${found.slug}`;
-            this.$router.push({ path: newPath, query: newQuery2 });
-          } else if (filterIds.length) {
-            newQuery[filterKey] = typeof filterIds === 'string' ? filterIds : filterIds.join(',');
-            this.$router.push({ path: this.$route.path, query: { page: this.page.toString(), ...newQuery } });
-          }
-        });
+            if (filterKey !== 'city_ids') {
+              const found = this.filterListData[filterKey].values.find((value) => value.id === Number(filterIds[0]));
+              const slugs = window.location.pathname.split('/');
+              slugs.splice(0, 2);
 
-        Object.entries(this.filtersCheckboxDataRequest).forEach(([key, checked]) => {
-          if (checked) {
-            // Пока не понимаю как можно просто добавить query без значения
-            newQuery[key] = checked;
+              if (!window.location.pathname.includes(found.slug)) {
+                // Сюда мы попадаем, если у нас только один слаг в фильтре и должны
+                // подчитстить ненужные квери, связанные с этим фильтром
+                const newSearch = window.location.search
+                  .split('?')
+                  .filter((query) => !query.includes(filterKey))
+                  .join('?');
+
+                const newPath = `${window.location.pathname}/${found.slug}${newSearch}`;
+                window.history.pushState({}, null, newPath);
+              }
+            }
+          } else if (filterIds.length > 1) {
+            let newPath = window.location.pathname;
+            const slugs = window.location.pathname.split('/');
+            slugs.splice(0, 2);
+
+            slugs.forEach((slug) => {
+              if (this.filterListData[filterKey].values.some((value) => value.slug === slug)) {
+                newPath = newPath.replace(`/${slug}`, '');
+              }
+            });
+
+            let queries = '';
+            let newSearch = window.location.search;
+            // newSearch = newSearch.replace('?', '&');
+
+            queries = `${filterKey}=${typeof filterIds === 'string' ? filterIds : filterIds.join(',')}`;
+            newSearch = window.location.search
+              .split('?')
+              .filter((query) => !query.includes(filterKey))
+              .join('?');
+
+            window.history.pushState(
+              {},
+              null,
+              `${newPath}?${queries}${newSearch}`, // ${window.location.search}
+            );
           } else {
-            delete newQuery[key];
+            this.filterListData[filterKey].values.forEach((value) => {
+              if (window.location.pathname.includes(value.slug)) {
+                const freshPath = window.location.pathname.replace(`/${value.slug}`, '');
+                window.history.pushState({}, null, `${freshPath}${window.location.search}`);
+              }
+            });
           }
         });
 
-        // this.$router.push({ path: this.$route.path, query: { page: this.page.toString(), ...newQuery } });
+        // Логика для городов (надо будет заменить сепаратор)
+        if (this.filtersIdsData.city_ids.length) {
+          const newSearch = window.location.search
+            .split('?') // заменить потом на &, когда мы научимся заменять все символы на &
+            .filter((query) => !query.includes('city_ids'))
+            .join('?'); // заменить потом на &
+          const queries = `city_ids=${
+            typeof this.filtersIdsData.city_ids === 'string'
+              ? this.filtersIdsData.city_ids
+              : this.filtersIdsData.city_ids.join(',')
+          }`;
+
+          window.history.pushState({}, null, `${window.location.pathname}?${queries}${newSearch}`);
+        } else {
+          const newSearch = window.location.search
+            .split('?') // заменить потом на &, когда мы научимся заменять все символы на &
+            .filter((query) => !query.includes('city_ids'))
+            .join('?'); // заменить потом на &
+          window.history.pushState({}, null, `${window.location.pathname}${newSearch}`);
+        }
+
+        // Логика с добавлением значений чекбоков-свитчей в урл
+        Object.entries(this.filtersCheckboxDataRequest).forEach(([key, checked]) => {
+          const newSearch = window.location.search
+            .split('?') // заменить потом на &, когда мы научимся заменять все символы на &
+            .filter((query) => !query.includes(key))
+            .join('?'); // заменить потом на &
+          let queries = '';
+          if (checked) {
+            queries = `${key}`;
+            window.history.pushState({}, null, `${window.location.pathname}?${queries}${newSearch}`);
+          } else {
+            window.history.pushState({}, null, `${window.location.pathname}${newSearch}`);
+          }
+        });
+
         this.componentProductsKey += 1;
         this.fetchProductsList();
       },
@@ -367,10 +437,8 @@ export default {
       filtersResponse.forEach((filters) => {
         if (filters.type === 'list') {
           this.filterListData[filters.filter_by] = { ...filters };
-          if (filters.filter_by === 'direction_ids') {
-            filters.values[0].slug = 'finance';
-          }
         }
+
         if (filters.type === 'checkbox') {
           this.filtersCheckboxDataRequest[filters.filter_by] = false;
           this.filterCheckboxData[filters.filter_by] = { ...filters };
@@ -378,23 +446,23 @@ export default {
       });
 
       // Работа со слагами
-      // console.log(this.$route);
-      // if (this.$route.params.pathMatch) {
-      //   this.slugs = this.$route.params.pathMatch.split('/');
-      //   console.log(this.slugs);
-      //   Object.values(this.filterListData).forEach((filterList) => {
-      //     filterList.values.forEach((value) => {
-      //       this.slugs.forEach((slug) => {
-      //         if (value.slug === slug) {
-      //           this.$set(value, 'isChecked', true);
-      //           this.filtersIdsData[filterList.filter_by].push(value.id);
-      //           const newFilter = { ...value, key: filterList.filter_by };
-      //           this.selectedFilters.push(newFilter);
-      //         }
-      //       });
-      //     });
-      //   });
-      // }
+      console.log(this.$route);
+      if (this.$route.params.pathMatch) {
+        this.slugs = this.$route.params.pathMatch.split('/');
+        console.log(this.slugs);
+        Object.values(this.filterListData).forEach((filterList) => {
+          filterList.values.forEach((value) => {
+            this.slugs.forEach((slug) => {
+              if (value.slug === slug) {
+                this.$set(value, 'isChecked', true);
+                this.filtersIdsData[filterList.filter_by].push(value.id);
+                const newFilter = { ...value, key: filterList.filter_by };
+                this.selectedFilters.push(newFilter);
+              }
+            });
+          });
+        });
+      }
 
       Object.entries(this.$route.query).forEach(([key, ids]) => {
         if (key !== 'page' && key !== 'is_employment' && key !== 'is_installment') {
@@ -419,7 +487,7 @@ export default {
         }
       });
 
-      // console.log(this.filterListData.direction_ids.values);
+      this.componentFilterKey += 3;
     },
 
     async fetchProductsList() {
@@ -478,7 +546,9 @@ export default {
       Object.entries(this.filterCheckboxData).forEach((checkboxData) => {
         this.filterCheckboxData[checkboxData[0]].isChecked = false;
       });
-      this.$router.push({ path: this.$route.path, query: {} });
+
+      this.$router.push({ path: this.$route.path, query: { page: this.page.toString() } });
+
       this.componentFilterKey += 1;
       this.componentMenuKey += 1;
     },
@@ -542,6 +612,8 @@ export default {
   },
 
   mounted() {
+    console.log(this.filterListData);
+
     this.windowWidth = window.innerWidth;
     window.addEventListener('resize', this.handleResize);
   },
