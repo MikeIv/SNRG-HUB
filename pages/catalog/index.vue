@@ -5,11 +5,34 @@
 <script>
 export default {
   middleware: 'getPageInfo',
+  data() {
+    return {
+      title: 'Catalog page',
+    };
+  },
 
   computed: {
     pageInfo() {
       return this.$store.state.pageInfo;
     },
+    pageMeta() {
+      return this.$store.state.pageMeta;
+    },
+  },
+  head() {
+    return {
+      title: this.pageMeta?.title,
+      meta: [
+        {
+          hid: 'description',
+          name: 'description',
+          content: 'Home page description',
+        },
+      ],
+      bodyAttrs: {
+        class: 'bg-gray',
+      },
+    };
   },
 };
 </script>
