@@ -1,0 +1,39 @@
+@import '@/assets/styles/tools/mixins';
+
+.s-main-search {
+  &__row {
+    display: flex;
+
+    & + .s-main-search__row {
+      margin-top: 40px;
+    }
+  }
+
+  &__category {
+    width: 160px;
+    min-width: 160px;
+  }
+
+  &__items {
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  &__item {
+    display: flex;
+    width: 20%;
+    white-space: nowrap;
+
+    &-title {
+      display: -webkit-box;
+      -webkit-line-clamp: 1;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    &-count {
+      padding-left: 8px;
+    }
+  }
+}
