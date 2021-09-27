@@ -5,7 +5,7 @@
         <h2 class="s-persons__title a-font_h5">{{ title }}</h2>
         <div class="s-persons__swiper">
           <swiper ref="awesomeSwiper" :options="swiperOptionA">
-            <swiper-slide v-for="person in personsList" :key="person.id" class="s-persons__slide m-card-vertical">
+            <swiper-slide v-for="person in personsList" :key="person.id" class="s-persons__slide">
               <m-card
                 :verticalImgSrc="`${baseUrl}${person.preview_image}`"
                 :title="person.name"
@@ -15,20 +15,18 @@
             </swiper-slide>
           </swiper>
           <a-button
-            class="swiper-button-prev m-card-vertical__button s-persons__button"
+            class="swiper-button-prev s-persons__prev"
             size="medium"
             bg-color="ghost-primary"
             only-icon="square"
             iconType="si-chevron-left"
-            slot="button-prev"
           ></a-button>
           <a-button
-            class="swiper-button-next m-card-vertical__button s-persons__button"
+            class="swiper-button-next s-persons__next"
             size="medium"
             bg-color="ghost-primary"
             only-icon="square"
             iconType="si-chevron-right"
-            slot="button-next"
           ></a-button>
         </div>
       </div>
@@ -53,8 +51,8 @@ export default {
         resistance: true,
         resistanceRatio: 0,
         navigation: {
-          nextEl: '.swiper-button-next',
-          prevEl: '.swiper-button-prev',
+          nextEl: '.s-persons__next',
+          prevEl: '.s-persons__prev',
         },
         breakpoints: {
           767: {

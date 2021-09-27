@@ -11,6 +11,10 @@
       @media screen and (max-width: 991px) {
         display: none;
       }
+      .a-button__icon {
+        color: var(--a-color_text--secondary);
+        font-size: rem(24);
+      }
     }
     &-button-next {
       right: rem(-12);
@@ -35,13 +39,6 @@
     width: rem(160);
     a {
       text-decoration: none;
-    }
-  }
-
-  &__button {
-    .a-button__icon {
-      color: var(--a-color_text--secondary);
-      font-size: rem(24);
     }
   }
 }
