@@ -2,7 +2,7 @@
   <div>
     <component
       :is="key"
-      v-for="{ key, methods, title, id, view_type } in pageInfo.components"
+      v-for="{ key, methods, title, id, view_type } in pageInfo.data.components"
       :key="id"
       :methods="methods"
       :title="title"
