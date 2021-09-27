@@ -1,5 +1,5 @@
 <template>
-  <SProgramAbout :title="title" :description="description" :factoids="programAboutList" />
+  <SProgramAbout :title="title" :description="programAboutDescription.value" :items="programAboutList" />
 </template>
 
 <script>
@@ -17,22 +17,23 @@ export default {
 
   data() {
     return {
+      programAboutDescription: [],
       programAboutList: [],
       baseUrl: process.env.NUXT_ENV_S3BACKET,
     };
   },
 
-  // ! Todo: API не отдает поле description
-
   props: ['methods', 'title'],
   async fetch() {
     const expandedMethod = this.methods[0].data;
     const preData = await getEntitiesSectionsDetail(expandedMethod);
+    this.programAboutDescription = preData.json.description;
     this.programAboutList = preData.json.items.data.map((item, index) => ({
-      id: index + 1,
+      id: index,
       number: item.title.value,
       title: item.description.value,
       image: `${this.baseUrl}${item.icon.value}`,
+      type: item.icon.value ? 'image' : 'number-horizontal',
     }));
   },
 };
