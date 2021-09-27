@@ -1,6 +1,7 @@
 export default async function (context) {
   const requestData = {
     filter: {},
+    params: {},
   };
 
   // Когда мы заходим на любую страницу, нам нужно сделать запрос, передам объект параметров
@@ -13,6 +14,16 @@ export default async function (context) {
     requestData.filter.id = 1;
   } else {
     requestData.filter.slug = context.route.name;
+  }
+  if (context.route.name === 'index') {
+    requestData.filter.id = 1;
+  } else {
+    requestData.filter.slug = context.route.name;
+
+    if (context.route.name === 'organization-slug') {
+      requestData.filter.slug = 'organization';
+      requestData.params.id = 71;
+    }
   }
 
   await context.store.dispatch('getPageInfo', requestData);

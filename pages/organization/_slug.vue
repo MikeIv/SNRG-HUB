@@ -1,12 +1,17 @@
 <template>
   <div class="l-default">
-    <component :is="section" v-for="section in sections" :key="section"></component>
+    <component
+      :is="key"
+      v-for="{ key, methods, title, id } in pageInfo.components"
+      :key="id"
+      :methods="methods"
+      :title="title"
+    ></component>
+    <pre>{{PageInfo}}</pre>
   </div>
 </template>
 
 <script>
-import '@cwespb/synergyui/lib/synergyui.css';
-
 export default {
   layout: 'organization',
 
@@ -19,33 +24,6 @@ export default {
   components: {},
 
   middleware: 'getPageInfo',
-
-  data() {
-    return {};
-  },
-
-  asyncData() {
-    // Массив имен для component :is будет формироваться от бэка
-    // На данный момент там имена неправильные, поэтому хардкод
-    // А так мы их будем брать из pageInfo.components и у объекта ключ "key"
-    const sections = [
-      // 's-university-start',
-      's-university-score',
-      's-university-statistics',
-      's-program-skills',
-      's-program-teacher',
-      's-program-timeline',
-      's-university-career',
-      's-program-diploma',
-      's-university-diploma',
-      's-partners',
-      's-lp-address',
-      's-program-questions',
-    ];
-    return {
-      sections,
-    };
-  },
 
   computed: {
     pageInfo() {
