@@ -32,7 +32,7 @@ export default {
       id: index + 1,
       number: item.title.value,
       title: item.description.value,
-      image: item.icon.value,
+      image: `${this.baseUrl}${item.icon.value}`,
     }));
   },
 };

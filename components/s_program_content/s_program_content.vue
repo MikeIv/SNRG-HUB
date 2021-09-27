@@ -1,5 +1,10 @@
 <template>
-  <SProgramContent :title="title" :direction="direction" :factoids="factoids" :items="programContentList" />
+  <SProgramContent
+    :title="title"
+    :direction="direction"
+    :factoids="programContentRightItems"
+    :items="programContentList"
+  />
 </template>
 
 <script>
@@ -18,16 +23,8 @@ export default {
   data() {
     return {
       programContentList: [],
+      programContentRightItems: [],
       direction: 'down',
-      // factoids: [
-      //   {
-      //     id: 1,
-      //     number: 93,
-      //     title: 'тематических модуля',
-      //     type: 'number',
-      //     color: 'color_link',
-      //   },
-      // ],
     };
   },
 
@@ -45,6 +42,13 @@ export default {
         text: elem.item.value,
         number: i + 1,
       })),
+    }));
+    this.programContentRightItems = preData.json.rightItems.data.map((item, index) => ({
+      id: index + 1,
+      title: item.description.value,
+      number: item.title.value,
+      type: 'number',
+      color: 'color_link',
     }));
   },
 };

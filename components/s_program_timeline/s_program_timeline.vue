@@ -2,13 +2,13 @@
   <section class="s-program-timeline">
     <div class="s-program-timeline__header">
       <h2 class="s-program-timeline__title a-font_h2" v-html="title"></h2>
-      <div class="s-program-timeline__factoids" v-if="factoids">
+      <div class="s-program-timeline__factoids" v-if="programTimelineRightItems">
         <AFactoid
-          v-for="factoid in factoids"
-          :key="factoid.id"
-          :type="factoid.type"
-          :title="factoid.title"
-          :subtitle="factoid.subtitle"
+          v-for="timelineItem in programTimelineRightItems"
+          :key="timelineItem.id"
+          :type="timelineItem.type"
+          :title="timelineItem.title"
+          :subtitle="timelineItem.subtitle"
         />
       </div>
     </div>
@@ -46,6 +46,7 @@ export default {
   data() {
     return {
       programTimelineList: [],
+      programTimelineRightItems: [],
       baseUrl: process.env.NUXT_ENV_S3BACKET,
       swiperOption: {
         grabCursor: true,
@@ -71,20 +72,6 @@ export default {
           },
         },
       },
-
-      // factoids: [
-      //   {
-      //     title: '6 месяцев',
-      //     subtitle: 'Длительность',
-      //     type: 'default',
-      //   },
-      //   {
-      //     title: 'командный кейс',
-      //     subtitle: 'Дипломный проект',
-      //     type: 'default',
-      //   },
-      // ],
-
     };
   },
 
@@ -95,8 +82,12 @@ export default {
     this.programTimelineList = preData.json.items.data.map((item) => ({
       title: item.title.value,
       text: item.description.value,
-      // Todo: Проверка на пустоту preview_image - сейчас значение пустое
-      // image: item.preview_image.value ? item.preview_image.value : '',
+      image: `${this.baseUrl}${item.preview_image.value}`,
+    }));
+    this.programTimelineRightItems = preData.json.rightItems.data.map((item) => ({
+      title: item.description.value,
+      subtitle: item.title.value,
+      type: 'default',
     }));
   },
 };
