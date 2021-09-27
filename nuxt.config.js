@@ -1,4 +1,4 @@
-process.env.DEBUG = 'nuxt:*'
+process.env.DEBUG = 'nuxt:*';
 
 export default {
   debug: true,
@@ -64,26 +64,9 @@ export default {
   ],
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
-  publicRuntimeConfig: {
-    axios: {
-      baseURL: 'https://mp.synergy.ru',
-    },
-  },
-  privateRuntimeConfig: {
-    axios: {
-      baseURL: 'https://mp.synergy.ru',
-    },
-  },
+
   axios: {
-    https: true,
     debug: true,
-    baseURL: 'https://mp.synergy.ru',
-    headers: {
-      common: {
-        Accept: 'application/vnd.api+json',
-        'Content-Type': 'application/json',
-      },
-    },
   },
 
   // PWA module configuration: https://go.nuxtjs.dev/pwa
