@@ -22,11 +22,13 @@ export default {
     };
   },
 
+  // ! Todo: API не отдает поле description
+
   props: ['methods', 'title'],
   async fetch() {
     const expandedMethod = this.methods[0].data;
     const preData = await getEntitiesSectionsDetail(expandedMethod);
-    this.programAboutListArray = preData.json.items.data.map((item, index) => ({
+    this.programAboutList = preData.json.items.data.map((item, index) => ({
       id: index + 1,
       number: item.title.value,
       title: item.description.value,

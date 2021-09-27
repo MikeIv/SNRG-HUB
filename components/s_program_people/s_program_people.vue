@@ -10,7 +10,6 @@
         </swiper>
       </div>
     </div>
-
   </section>
 </template>
 
@@ -68,8 +67,7 @@ export default {
     this.programPeopleList = preData.json.items.data.map((item) => ({
       title: item.title.value,
       text: item.description.value,
-      // Todo: Проверка на пустоту preview_image - сейчас значение пустое
-      // image: item.preview_image.value ? item.preview_image.value : '',
+      image: item.preview_image.value ? item.preview_image.value : '',
     }));
   },
 };

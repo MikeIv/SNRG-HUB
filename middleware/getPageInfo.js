@@ -17,7 +17,7 @@ export default async function (context) {
 
     if (context.route.name === 'product-slug') {
       requestData.filter.slug = 'product';
-      requestData.params.id = 500;
+      requestData.params.id = 1521;
     }
   }
   await context.store.dispatch('getPageInfo', requestData);
