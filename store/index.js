@@ -18,7 +18,6 @@ export const mutations = {
 
 export const actions = {
   async getPageInfo({ commit }, requestData) {
-    console.log('here', requestData);
     const response = await axios.post('api/v1/page', requestData);
     commit('setPageMeta', response.meta);
     commit('setPageInfo', response.data.data);

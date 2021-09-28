@@ -455,7 +455,6 @@ export default {
     },
 
     async fetchProductsList() {
-      console.log(this.pageInfo);
       const expandedMethod = { ...this.pageInfo.components[1].methods[0].data };
       expandedMethod.include = ['organization', 'levels', 'directions'];
       Object.entries(this.filtersIdsData).forEach((filterData) => {
