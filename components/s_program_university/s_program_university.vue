@@ -1,7 +1,7 @@
 <template>
   <section class="s-program-university">
     <div class="s-program-university__top">
-      <h2 class="s-program-university__title a-font_h2" v-html="title"></h2>
+      <h2 class="s-program-university__title a-font_h2">{{ title }}</h2>
       <p class="s-program-university__introtext a-font_xxl" v-html="introtext"></p>
       <p class="s-program-university__description" v-html="description"></p>
       <span class="s-program-university__img" v-if="image">
@@ -9,40 +9,26 @@
       </span>
     </div>
 
-    <swiper :options="swiperOption">
-      <swiper-slide class="swiper-slide s-program-university__factoids">
-        <div class="s-program-university__factoids-left">
-          <div class="s-program-university__factoids-row">
-            <AFactoid
-              v-for="factoid in factoids.slice(0, 3)"
-              :key="factoid.id"
-              :type="factoid.type"
-              :title="factoid.title"
-              :number="factoid.number"
-              :color="factoid.color"
-            />
-          </div>
-          <div class="s-program-university__factoids-row">
-            <AFactoid
-              v-for="factoid in factoids.slice(3, 5)"
-              :key="factoid.id"
-              :type="factoid.type"
-              :title="factoid.title"
-              :number="factoid.number"
-              :color="factoid.color"
-            />
-          </div>
-        </div>
-        <div class="s-program-university__factoids-right">
+    <swiper ref="awesomeSwiper" :options="swiperOptionProgramUniversity">
+      <swiper-slide
+        v-for="(item, idx) in programUniversityList"
+        :key="idx"
+        class="s-program-university__slide"
+      >
+      <!-- <div class="s-program-university__factoids-left">
+        <div class="s-program-university__factoids-row">
           <AFactoid
-            v-for="factoid in factoids.slice(5, 6)"
-            :key="factoid.id"
-            :type="factoid.type"
-            :title="factoid.title"
-            :number="factoid.number"
-            :color="factoid.color"
+            :title="item.title.value"
+            type="number"
           />
         </div>
+      </div>
+      <div class="s-program-university__factoids-right">
+        <AFactoid
+            :title="item.title.value"
+            type="number"
+          />
+      </div> -->
       </swiper-slide>
     </swiper>
   </section>
@@ -52,19 +38,21 @@
 import { Swiper, SwiperSlide } from 'vue-awesome-swiper';
 import { AFactoid } from '@cwespb/synergyui';
 import './s_program_university.scss';
+import getEntitiesSectionsDetail from '~/api/entitiesSectionsDetail';
 
 export default {
-  name: 's_program_university',
+  name: 'SProgramUniversity',
 
   components: {
     Swiper,
     SwiperSlide,
     AFactoid,
-  },
-
+  },  
   data() {
     return {
-      swiperOption: {
+      programUniversityList: [],
+      baseUrl: process.env.NUXT_ENV_S3BACKET,
+      swiperOptionProgramUniversity: {
         observer: true,
         observeParents: true,
         freeMode: true,
@@ -79,7 +67,7 @@ export default {
         },
       },
 
-      title: 'Университет <span>«Синергия»</span>',
+      // title: 'Университет <span>«Синергия»</span>',
       introtext: 'Флагманский проект образовательной корпорации, который является одним из ведущих российских вузов',
       description:
         // eslint-disable-next-line max-len
@@ -87,45 +75,51 @@ export default {
       image:
         // eslint-disable-next-line max-len
         'https://images.unsplash.com/photo-1528287942171-fbe365d1d9ac?ixlib=rb-1.2.1&q=85&fm=jpg&crop=entropy&w=1200&cs=srgb&ixid=eyJhcHBfaWQiOjE0NTg5fQ',
-      factoids: [
-        {
-          number: '140',
-          title: 'филиалов в России <br>и за рубежом',
-          color: 'color_link',
-          type: 'number',
-        },
-        {
-          number: '7',
-          title: 'престижных <br>аккредитаций АМВА',
-          color: 'color_link',
-          type: 'number',
-        },
-        {
-          number: '120 000',
-          title: 'студентов в России <br>и за рубежом',
-          color: 'color_link',
-          type: 'number',
-        },
-        {
-          number: '200 000 +',
-          title: 'выпускников, успешно окончивших <br>образовательные программы',
-          color: 'color_link',
-          type: 'number',
-        },
-        {
-          number: '1',
-          title: 'место в рейтинге образовательных <br>программ управления АЦ «Эксперт»',
-          color: 'color_link',
-          type: 'number',
-        },
-        {
-          number: 'Государственный диплом',
-          title: 'о высшем образованиии общеевропейское <br>приложение на английском языке',
-          color: 'color_link',
-          type: 'number',
-        },
-      ],
+      // factoids: [
+      //   {
+      //     number: '140',
+      //     title: 'филиалов в России <br>и за рубежом',
+      //     color: 'color_link',
+      //     type: 'number',
+      //   },
+      //   {
+      //     number: '7',
+      //     title: 'престижных <br>аккредитаций АМВА',
+      //     color: 'color_link',
+      //     type: 'number',
+      //   },
+      //   {
+      //     number: '120 000',
+      //     title: 'студентов в России <br>и за рубежом',
+      //     color: 'color_link',
+      //     type: 'number',
+      //   },
+      //   {
+      //     number: '200 000 +',
+      //     title: 'выпускников, успешно окончивших <br>образовательные программы',
+      //     color: 'color_link',
+      //     type: 'number',
+      //   },
+      //   {
+      //     number: '1',
+      //     title: 'место в рейтинге образовательных <br>программ управления АЦ «Эксперт»',
+      //     color: 'color_link',
+      //     type: 'number',
+      //   },
+      //   {
+      //     number: 'Государственный диплом',
+      //     title: 'о высшем образованиии общеевропейское <br>приложение на английском языке',
+      //     color: 'color_link',
+      //     type: 'number',
+      //   },
+      // ],
     };
+  },
+  props: ['methods', 'title'],
+  async fetch() {
+    const expandedMethod = this.methods[0].data;
+    const preData = await getEntitiesSectionsDetail(expandedMethod);
+    this.programUniversityList = preData.json.items;
   },
 };
 </script>
