@@ -7,20 +7,36 @@
 <script>
 export default {
   layout: 'product',
-
-  head: {
-    bodyAttrs: {
-      class: 'bg-gray',
+  data() {
+    return {
+      title: 'Product page',
+    };
+  },
+  computed: {
+    pageInfo() {
+      return this.$store.state.pageInfo;
+    },
+    pageMeta() {
+      return this.$store.state.pageMeta;
     },
   },
-
-  components: {},
+  head() {
+    return {
+      title: this.pageMeta?.title,
+      meta: [
+        {
+          hid: 'description',
+          name: 'description',
+          content: 'Home page description',
+        },
+      ],
+      bodyAttrs: {
+        class: 'bg-gray',
+      },
+    };
+  },
 
   middleware: 'getPageInfo',
-
-  data() {
-    return {};
-  },
 
   asyncData() {
     // Массив имен для component :is будет формироваться от бэка
@@ -50,12 +66,6 @@ export default {
     return {
       sections,
     };
-  },
-
-  computed: {
-    pageInfo() {
-      return this.$store.state.pageInfo;
-    },
   },
 };
 </script>
