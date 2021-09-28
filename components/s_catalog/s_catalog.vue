@@ -252,13 +252,15 @@ export default {
 
   watch: {
     page() {
-      // Todo заменить на window.location
-      // this.$router.push({ path: this.$route.path, query: newQuery });
       const newSearch = window.location.search
-        .split('?')
+        .split('&')
         .filter((query) => !query.includes('page'))
-        .join('?');
-      window.history.pushState({}, null, `${window.location.pathname}${newSearch}?page=${this.page}`);
+        .join('&');
+      window.history.pushState(
+        {},
+        null,
+        `${window.location.pathname}?page=${this.page}${newSearch ? '&' : ''}${newSearch}`,
+      );
       this.fetchProductsList();
     },
 
@@ -271,42 +273,21 @@ export default {
     allFiltersData: {
       deep: true,
       handler() {
-        // if (this.$route.params.pathMatch) {
-        //   this.slugs = this.$route.params.pathMatch.split('/');
-        //   console.log(this.slugs);
-        //   Object.values(this.filterListData).forEach((filterList) => {
-        //     filterList.values.forEach((value) => {
-        //       this.slugs.forEach((slug) => {
-        //         if (value.slug === slug) {
-        //           this.$set(value, 'isChecked', true);
-        //           this.filtersIdsData[filterList.filter_by].push(value.id);
-        //           const newFilter = { ...value, key: filterList.filter_by };
-        //           this.selectedFilters.push(newFilter);
-        //         }
-        //       });
-        //     });
-        //   });
-        // }
-
-        // Todo пофиксить трейлинг слэшэс
-
         Object.entries(this.filtersIdsData).forEach(([filterKey, filterIds]) => {
           if (filterIds.length === 1) {
             if (filterKey !== 'city_ids') {
               const found = this.filterListData[filterKey].values.find((value) => value.id === Number(filterIds[0]));
-              const slugs = window.location.pathname.split('/');
-              slugs.splice(0, 2);
 
               if (!window.location.pathname.includes(found.slug)) {
                 // Сюда мы попадаем, если у нас только один слаг в фильтре и должны
                 // подчитстить ненужные квери, связанные с этим фильтром
+                // например слаг dizain и остался direction_ids=3
                 const newSearch = window.location.search
-                  .split('?')
+                  .split('&')
                   .filter((query) => !query.includes(filterKey))
-                  .join('?');
+                  .join('&');
 
-                const newPath = `${window.location.pathname}/${found.slug}${newSearch}`;
-                window.history.pushState({}, null, newPath);
+                window.history.pushState({}, null, `${window.location.pathname}/${found.slug}${newSearch}`);
               }
             }
           } else if (filterIds.length > 1) {
@@ -320,21 +301,13 @@ export default {
               }
             });
 
-            let queries = '';
-            let newSearch = window.location.search;
-            // newSearch = newSearch.replace('?', '&');
-
-            queries = `${filterKey}=${typeof filterIds === 'string' ? filterIds : filterIds.join(',')}`;
-            newSearch = window.location.search
-              .split('?')
+            const queries = `${filterKey}=${typeof filterIds === 'string' ? filterIds : filterIds.join(',')}`;
+            const newSearch = window.location.search
+              .split('&')
               .filter((query) => !query.includes(filterKey))
-              .join('?');
+              .join('&');
 
-            window.history.pushState(
-              {},
-              null,
-              `${newPath}?${queries}${newSearch}`, // ${window.location.search}
-            );
+            window.history.pushState({}, null, `${newPath}${newSearch}&${queries}`);
           } else {
             this.filterListData[filterKey].values.forEach((value) => {
               if (window.location.pathname.includes(value.slug)) {
@@ -348,41 +321,41 @@ export default {
         // Логика для городов (надо будет заменить сепаратор)
         if (this.filtersIdsData.city_ids.length) {
           const newSearch = window.location.search
-            .split('?') // заменить потом на &, когда мы научимся заменять все символы на &
+            .split('&')
             .filter((query) => !query.includes('city_ids'))
-            .join('?'); // заменить потом на &
+            .join('&');
           const queries = `city_ids=${
             typeof this.filtersIdsData.city_ids === 'string'
               ? this.filtersIdsData.city_ids
               : this.filtersIdsData.city_ids.join(',')
           }`;
 
-          window.history.pushState({}, null, `${window.location.pathname}?${queries}${newSearch}`);
+          window.history.pushState({}, null, `${window.location.pathname}${newSearch}&${queries}`);
         } else {
           const newSearch = window.location.search
-            .split('?') // заменить потом на &, когда мы научимся заменять все символы на &
+            .split('&')
             .filter((query) => !query.includes('city_ids'))
-            .join('?'); // заменить потом на &
+            .join('&');
           window.history.pushState({}, null, `${window.location.pathname}${newSearch}`);
         }
 
         // Логика с добавлением значений чекбоков-свитчей в урл
         Object.entries(this.filtersCheckboxDataRequest).forEach(([key, checked]) => {
           const newSearch = window.location.search
-            .split('?') // заменить потом на &, когда мы научимся заменять все символы на &
+            .split('&')
             .filter((query) => !query.includes(key))
-            .join('?'); // заменить потом на &
+            .join('&');
           let queries = '';
           if (checked) {
             queries = `${key}`;
-            window.history.pushState({}, null, `${window.location.pathname}?${queries}${newSearch}`);
+            window.history.pushState({}, null, `${window.location.pathname}${newSearch}&${queries}`);
           } else {
             window.history.pushState({}, null, `${window.location.pathname}${newSearch}`);
           }
         });
 
-        this.componentProductsKey += 1;
         this.fetchProductsList();
+        this.componentProductsKey += 1;
       },
     },
 
@@ -445,11 +418,9 @@ export default {
         }
       });
 
-      // Работа со слагами
-      console.log(this.$route);
+      // Логика парсинга слагов из урла, если такие есть
       if (this.$route.params.pathMatch) {
         this.slugs = this.$route.params.pathMatch.split('/');
-        console.log(this.slugs);
         Object.values(this.filterListData).forEach((filterList) => {
           filterList.values.forEach((value) => {
             this.slugs.forEach((slug) => {
@@ -467,13 +438,6 @@ export default {
       Object.entries(this.$route.query).forEach(([key, ids]) => {
         if (key !== 'page' && key !== 'is_employment' && key !== 'is_installment') {
           this.filtersIdsData[key] = typeof ids === 'string' ? ids.split(',') : ids;
-
-          // if (ids.split(',').length === 1) {
-          //   const found = this.filterListData[key].values.find((value) => value.id === Number(ids.split(',')[0]));
-          //   console.log('////', found.slug, this.$route);
-          //   // Добавить путь в урл
-          //   // this.$route.path += `/${found.slug}`;
-          //   this.$router.push({ path: this.$route.path + `/${found.slug}` });
 
           ids.split(',').forEach((id) => {
             const found = this.filterListData[key].values.find((value) => value.id === Number(id));
@@ -547,7 +511,8 @@ export default {
         this.filterCheckboxData[checkboxData[0]].isChecked = false;
       });
 
-      this.$router.push({ path: this.$route.path, query: { page: this.page.toString() } });
+      this.page = 1;
+      window.history.pushState({}, null, '/catalog?page=1');
 
       this.componentFilterKey += 1;
       this.componentMenuKey += 1;
@@ -556,6 +521,7 @@ export default {
     switchClick(item, isChecked) {
       const selectedSwitch = { ...item, isChecked };
       this.page = 1;
+      this.filterCheckboxData[selectedSwitch.filter_by].isChecked = selectedSwitch.isChecked;
       this.filtersCheckboxDataRequest[selectedSwitch.filter_by] = selectedSwitch.isChecked;
     },
 
@@ -612,8 +578,6 @@ export default {
   },
 
   mounted() {
-    console.log(this.filterListData);
-
     this.windowWidth = window.innerWidth;
     window.addEventListener('resize', this.handleResize);
   },
