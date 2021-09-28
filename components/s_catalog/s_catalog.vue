@@ -578,9 +578,6 @@ export default {
   },
 
   mounted() {
-    this.fetchProductsList();
-    this.fetchFilterData();
-
     this.windowWidth = window.innerWidth;
     window.addEventListener('resize', this.handleResize);
   },
