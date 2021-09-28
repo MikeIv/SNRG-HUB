@@ -1,5 +1,5 @@
 <template>
-    <SProgramSkills :title="title" :items="programSkillsList" />
+  <SProgramSkills :title="title" :items="programSkillsList" />
 </template>
 
 <script>
