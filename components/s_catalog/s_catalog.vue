@@ -9,8 +9,8 @@
         <a-tag :label="tag.label" :status="tag.status" />
       </swiper-slide>
     </swiper>
-    <div v-show="filtersMenu">
-      <div class="catalog-page__menu" :key="componentMenuKey">
+    <div v-if="filtersMenu">
+      <div class="catalog-page__menu" :key="componentMenuKey" v-if="filterListData">
         <div v-show="!isFilterExpanded">
           <a-title title="Фильтры" :showIcon="false" @clickClose="filtersMenuClose" class="catalog-page__menu-header" />
           <div v-if="selectedFilters.length" class="catalog-page__menu-tags catalog-page__filters-tags">
@@ -146,7 +146,7 @@
             />
           </div>
           <template v-if="productList.length">
-            <a-select :options="options" class="catalog-page__select" />
+            <a-select :options="options" class="catalog-page__select" @change="changeSortOption" />
             <i
               v-if="visibleFiltersIcon"
               class="si-filter a-font_button catalog-page__filters-icon"
@@ -163,9 +163,7 @@
 </template>
 
 <script>
-import {
-  ATag, ASelect, ATitle, AButton, AControl, MFilter,
-} from '@cwespb/synergyui';
+import { ATag, ASelect, ATitle, AButton, AControl, MFilter } from '@cwespb/synergyui';
 import { Swiper, SwiperSlide } from 'vue-awesome-swiper';
 import SCatalogFilter from '~/components/s_catalog_filter/s_catalog_filter';
 import SCatalogProductList from '~/components/s_catalog_product_list/s_catalog_product_list';
@@ -214,14 +212,28 @@ export default {
         { status: 'default', label: 'Веб-дизайнер' },
         { status: 'default', label: 'Аналитик' },
       ],
+
+      currentOption: 'sort',
       options: [
         {
           label: 'Популярные',
-          value: 'popular',
+          value: 'sort',
         },
         {
           label: 'Новые',
-          value: 'new',
+          value: '-id',
+        },
+        {
+          label: 'Старые',
+          value: 'id',
+        },
+        {
+          label: 'По алфавиту А-Я',
+          value: 'name',
+        },
+        {
+          label: 'По алфавиту Я-А',
+          value: '-name',
         },
       ],
 
@@ -247,13 +259,26 @@ export default {
         slidesPerView: 'auto',
         spaceBetween: 8,
       },
+
+      slugs: [],
     };
   },
 
   watch: {
+    currentOption() {
+      this.fetchProductsList();
+    },
+
     page() {
-      const newQuery = { ...this.$route.query, page: this.page.toString() };
-      this.$router.push({ path: this.$route.path, query: newQuery });
+      const newSearch = window.location.search
+        .split('&')
+        .filter((query) => !query.includes('page'))
+        .join('&');
+      window.history.pushState(
+        {},
+        null,
+        `${window.location.pathname}?page=${this.page}${newSearch ? '&' : ''}${newSearch}`,
+      );
       this.fetchProductsList();
     },
 
@@ -266,25 +291,89 @@ export default {
     allFiltersData: {
       deep: true,
       handler() {
-        const newQuery = {};
         Object.entries(this.filtersIdsData).forEach(([filterKey, filterIds]) => {
-          if (filterIds.length) {
-            newQuery[filterKey] = typeof filterIds === 'string' ? filterIds : filterIds.join(',');
-          }
-        });
+          if (filterIds.length === 1) {
+            if (filterKey !== 'city_ids') {
+              const found = this.filterListData[filterKey].values.find((value) => value.id === Number(filterIds[0]));
 
-        Object.entries(this.filtersCheckboxDataRequest).forEach(([key, checked]) => {
-          if (checked) {
-            // Пока не понимаю как можно просто добавить query без значения
-            newQuery[key] = checked;
+              if (!window.location.pathname.includes(found.slug)) {
+                // Сюда мы попадаем, если у нас только один слаг в фильтре и должны
+                // подчитстить ненужные квери, связанные с этим фильтром
+                // например слаг dizain и остался direction_ids=3
+                const newSearch = window.location.search
+                  .split('&')
+                  .filter((query) => !query.includes(filterKey))
+                  .join('&');
+
+                window.history.pushState({}, null, `${window.location.pathname}/${found.slug}${newSearch}`);
+              }
+            }
+          } else if (filterIds.length > 1) {
+            let newPath = window.location.pathname;
+            const slugs = window.location.pathname.split('/');
+            slugs.splice(0, 2);
+
+            slugs.forEach((slug) => {
+              if (this.filterListData[filterKey].values.some((value) => value.slug === slug)) {
+                newPath = newPath.replace(`/${slug}`, '');
+              }
+            });
+
+            const queries = `${filterKey}=${typeof filterIds === 'string' ? filterIds : filterIds.join(',')}`;
+            const newSearch = window.location.search
+              .split('&')
+              .filter((query) => !query.includes(filterKey))
+              .join('&');
+
+            window.history.pushState({}, null, `${newPath}${newSearch}&${queries}`);
           } else {
-            delete newQuery[key];
+            this.filterListData[filterKey].values.forEach((value) => {
+              if (window.location.pathname.includes(value.slug)) {
+                const freshPath = window.location.pathname.replace(`/${value.slug}`, '');
+                window.history.pushState({}, null, `${freshPath}${window.location.search}`);
+              }
+            });
           }
         });
 
-        this.$router.push({ path: this.$route.path, query: { page: this.page.toString(), ...newQuery } });
-        this.componentProductsKey += 1;
+        // Логика для городов (надо будет заменить сепаратор)
+        if (this.filtersIdsData.city_ids.length) {
+          const newSearch = window.location.search
+            .split('&')
+            .filter((query) => !query.includes('city_ids'))
+            .join('&');
+          const queries = `city_ids=${
+            typeof this.filtersIdsData.city_ids === 'string'
+              ? this.filtersIdsData.city_ids
+              : this.filtersIdsData.city_ids.join(',')
+          }`;
+
+          window.history.pushState({}, null, `${window.location.pathname}${newSearch}&${queries}`);
+        } else {
+          const newSearch = window.location.search
+            .split('&')
+            .filter((query) => !query.includes('city_ids'))
+            .join('&');
+          window.history.pushState({}, null, `${window.location.pathname}${newSearch}`);
+        }
+
+        // Логика с добавлением значений чекбоков-свитчей в урл
+        Object.entries(this.filtersCheckboxDataRequest).forEach(([key, checked]) => {
+          const newSearch = window.location.search
+            .split('&')
+            .filter((query) => !query.includes(key))
+            .join('&');
+          let queries = '';
+          if (checked) {
+            queries = `${key}`;
+            window.history.pushState({}, null, `${window.location.pathname}${newSearch}&${queries}`);
+          } else {
+            window.history.pushState({}, null, `${window.location.pathname}${newSearch}`);
+          }
+        });
+
         this.fetchProductsList();
+        this.componentProductsKey += 1;
       },
     },
 
@@ -334,21 +423,48 @@ export default {
   },
 
   methods: {
+    changeSortOption(option) {
+      this.options = [
+        { label: this.options.find((elem) => elem.value === option).label, value: option },
+        ...this.options.filter((elem) => elem.value !== option),
+      ];
+      this.currentOption = option;
+    },
+
     async fetchFilterData() {
       const filtersResponse = await getFilterData(this.pageInfo.components[0].methods[0].data);
       filtersResponse.forEach((filters) => {
         if (filters.type === 'list') {
           this.filterListData[filters.filter_by] = { ...filters };
         }
+
         if (filters.type === 'checkbox') {
           this.filtersCheckboxDataRequest[filters.filter_by] = false;
           this.filterCheckboxData[filters.filter_by] = { ...filters };
         }
       });
 
+      // Логика парсинга слагов из урла, если такие есть
+      if (this.$route.params.pathMatch) {
+        this.slugs = this.$route.params.pathMatch.split('/');
+        Object.values(this.filterListData).forEach((filterList) => {
+          filterList.values.forEach((value) => {
+            this.slugs.forEach((slug) => {
+              if (value.slug === slug) {
+                this.$set(value, 'isChecked', true);
+                this.filtersIdsData[filterList.filter_by].push(value.id);
+                const newFilter = { ...value, key: filterList.filter_by };
+                this.selectedFilters.push(newFilter);
+              }
+            });
+          });
+        });
+      }
+
       Object.entries(this.$route.query).forEach(([key, ids]) => {
         if (key !== 'page' && key !== 'is_employment' && key !== 'is_installment') {
           this.filtersIdsData[key] = typeof ids === 'string' ? ids.split(',') : ids;
+
           ids.split(',').forEach((id) => {
             const found = this.filterListData[key].values.find((value) => value.id === Number(id));
             this.$set(found, 'isChecked', true);
@@ -360,6 +476,8 @@ export default {
           this.filterCheckboxData[key].isChecked = true;
         }
       });
+
+      this.componentFilterKey += 3;
     },
 
     async fetchProductsList() {
@@ -384,6 +502,7 @@ export default {
       });
 
       expandedMethod.pagination = { page: this.page, page_size: this.productsPerPage };
+      expandedMethod.sort = this.currentOption;
       const response = await getProductsList(expandedMethod);
       this.totalProducts = response.count;
       this.productList = response.data;
@@ -418,7 +537,10 @@ export default {
       Object.entries(this.filterCheckboxData).forEach((checkboxData) => {
         this.filterCheckboxData[checkboxData[0]].isChecked = false;
       });
-      this.$router.push({ path: this.$route.path, query: {} });
+
+      this.page = 1;
+      window.history.pushState({}, null, '/catalog?page=1');
+
       this.componentFilterKey += 1;
       this.componentMenuKey += 1;
     },
@@ -426,6 +548,7 @@ export default {
     switchClick(item, isChecked) {
       const selectedSwitch = { ...item, isChecked };
       this.page = 1;
+      this.filterCheckboxData[selectedSwitch.filter_by].isChecked = selectedSwitch.isChecked;
       this.filtersCheckboxDataRequest[selectedSwitch.filter_by] = selectedSwitch.isChecked;
     },
 
