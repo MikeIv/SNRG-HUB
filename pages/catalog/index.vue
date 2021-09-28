@@ -29,9 +29,6 @@ export default {
           content: 'Home page description',
         },
       ],
-      bodyAttrs: {
-        class: 'bg-gray',
-      },
     };
   },
 };

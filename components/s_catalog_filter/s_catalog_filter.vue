@@ -31,7 +31,7 @@ import './s_catalog_filter.scss';
 export default {
   name: 'SCatalogFilter',
 
-  props: ['filterListData', 'filterCheckboxData', 'filtersCheckboxDataRequest'],
+  props: ['filterListData', 'filterCheckboxData'],
 
   components: {
     MFilter,
