@@ -10,12 +10,8 @@
     </div>
 
     <swiper ref="awesomeSwiper" :options="swiperOptionProgramUniversity">
-      <swiper-slide
-        v-for="(item, idx) in programUniversityList"
-        :key="idx"
-        class="s-program-university__slide"
-      >
-      <!-- <div class="s-program-university__factoids-left">
+      <swiper-slide v-for="(item, idx) in programUniversityList" :key="idx" class="s-program-university__slide">
+        <!-- <div class="s-program-university__factoids-left">
         <div class="s-program-university__factoids-row">
           <AFactoid
             :title="item.title.value"
@@ -36,7 +32,6 @@
 
 <script>
 import { Swiper, SwiperSlide } from 'vue-awesome-swiper';
-import { AFactoid } from '@cwespb/synergyui';
 import './s_program_university.scss';
 import getEntitiesSectionsDetail from '~/api/entitiesSectionsDetail';
 
@@ -46,8 +41,7 @@ export default {
   components: {
     Swiper,
     SwiperSlide,
-    AFactoid,
-  },  
+  },
   data() {
     return {
       programUniversityList: [],
