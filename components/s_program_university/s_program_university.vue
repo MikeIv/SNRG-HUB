@@ -70,6 +70,8 @@ export default {
         freeMode: true,
         slidesPerView: 'auto',
         spaceBetween: 0,
+        resistance: true,
+        resistanceRatio: 0,
         breakpoints: {
           768: {
             grabCursor: true,

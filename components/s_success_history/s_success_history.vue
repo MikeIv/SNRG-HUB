@@ -9,7 +9,7 @@
             <swiper-slide
               v-for="(successHistory, idx) in successHistoryList.data"
               :key="idx"
-              class="s-success-history__slide m-card-vertical"
+              class="s-success-history__slide"
             >
               <m-card
                 :verticalImgSrc="`${baseUrl}${successHistory.avatar_image.value}`"
@@ -21,20 +21,18 @@
             </swiper-slide>
           </swiper>
           <a-button
-            class="swiper-button-prev m-card-vertical__button s-success-history__button"
+            class="swiper-button-prev s-success-history__prev"
             size="medium"
             bg-color="ghost-primary"
             only-icon="square"
             iconType="si-chevron-left"
-            slot="button-prev"
           ></a-button>
           <a-button
-            class="swiper-button-next m-card-vertical__button s-success-history__button"
+            class="swiper-button-next s-success-history__next"
             size="medium"
             bg-color="ghost-primary"
             only-icon="square"
             iconType="si-chevron-right"
-            slot="button-next"
           ></a-button>
         </div>
       </div>
@@ -59,8 +57,8 @@ export default {
         resistance: true,
         resistanceRatio: 0,
         navigation: {
-          nextEl: '.swiper-button-next',
-          prevEl: '.swiper-button-prev',
+          nextEl: '.s-success-history__next',
+          prevEl: '.s-success-history__prev',
         },
         breakpoints: {
           767: {
