@@ -146,12 +146,7 @@
             />
           </div>
           <template v-if="productList.length">
-            <a-select
-              :options="options"
-              select="currentOption"
-              class="catalog-page__select"
-              @change-option="changeSortOption"
-            />
+            <a-select :options="options" class="catalog-page__select" @change="changeSortOption" />
             <i
               v-if="visibleFiltersIcon"
               class="si-filter a-font_button catalog-page__filters-icon"
@@ -217,6 +212,8 @@ export default {
         { status: 'default', label: 'Веб-дизайнер' },
         { status: 'default', label: 'Аналитик' },
       ],
+
+      currentOption: 'sort',
       options: [
         {
           label: 'Популярные',
@@ -264,8 +261,6 @@ export default {
       },
 
       slugs: [],
-
-      currentOption: 'sort',
     };
   },
 
@@ -429,6 +424,10 @@ export default {
 
   methods: {
     changeSortOption(option) {
+      this.options = [
+        { label: this.options.find((elem) => elem.value === option).label, value: option },
+        ...this.options.filter((elem) => elem.value !== option),
+      ];
       this.currentOption = option;
     },
 
