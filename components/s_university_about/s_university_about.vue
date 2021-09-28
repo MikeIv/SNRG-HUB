@@ -1,8 +1,5 @@
 <template>
-  <div>
-    {{ universityAboutList }}
-    <SProgramSkills :title="title" :items="universityAboutList" />
-  </div>
+  <SProgramSkills :title="title" :items="universityAboutList" />
 </template>
 
 <script>
@@ -27,6 +24,7 @@ export default {
     const expandedMethod = this.methods[0].data;
     const preData = await getEntitiesSectionsDetail(expandedMethod);
     this.universityAboutList = preData.json.top.data.map(({ description }) => {
+      // eslint-disable-next-line no-param-reassign
       description.type = 'icon';
       return description;
     });

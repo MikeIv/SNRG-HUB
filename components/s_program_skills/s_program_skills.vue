@@ -19,14 +19,13 @@ export default {
       programSkillsList: [],
     };
   },
+
   props: ['methods', 'title'],
   async fetch() {
     const expandedMethod = this.methods[0].data;
     const preData = await getEntitiesSectionsDetail(expandedMethod);
-    this.programSkillsList = preData.json.items.data.map(({ title }) => {
-      title.type = 'icon';
-      return title;
-    });
+    // eslint-disable-next-line no-param-reassign
+    this.programSkillsList = preData.json.items.data.map(({ title }) => { title.type = 'icon'; return title; });
   },
 };
 </script>
