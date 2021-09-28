@@ -1,22 +1,25 @@
 <template>
   <section class="s-main-search">
     <div class="l-wide">
-
       <div class="s-main-search__box">
       <h2 class="s-main-search__title a-font_h5">s-main-search {{ title }}</h2>
-      <div class="s-main-search__row" v-for="row in rows" :key="row.id">
+      <div class="s-main-search__row" v-for="row in getAllItems" :key="row.id">
         <div class="s-main-search__category a-font_l">{{ row.name }}</div>
         <div class="s-main-search__items">
 
           <template v-for="(item) in row.items" >
-            <div class="s-main-search__item" v-if="item.isActive" :key="item.id">
+
+            <nuxt-link
+            :to="`${item.page.filter.slug}/?${extractQueryParams(item.page.params)}`"
+            class="s-main-search__item" v-if="item.isActive"
+            :key="item.id">
               <div class="s-main-search__item-title a-font_l-m"><span>{{ item.name }}</span></div>
               <div class="s-main-search__item-count a-font_m">{{ item.count }}</div>
-            </div>
+            </nuxt-link>
+
           </template>
 
-          <div
-          v-if="row.items.length >= visibleCount"
+          <div v-if="row.items.length >= maxLinksCount"
           :class="[{ 'is-open' : row.isOpen },
           's-main-search__item s-main-search__item--btn']"
           >
@@ -47,11 +50,23 @@ import './s_main_search.scss';
 export default {
   name: 'SMainSearch',
 
+  data() {
+    return {
+      rows: [],
+      windowWidth: null,
+      maxLinksCount: null,
+      desktopLinksCount: 24,
+      tabletLinksCount: 19,
+      mobileLinksCount: 23,
+      desktopBreakPoint: 1500,
+      mobileBreakPoint: 768,
+      buttonClass: false,
+      btnIconType: false,
+      baseURL: process.env.NUXT_ENV_S3BACKET,
+    };
+  },
+
   props: {
-    redirectUrl: {
-      type: String,
-      default: '#',
-    },
     methods: {
       type: Array,
     },
@@ -60,29 +75,40 @@ export default {
     },
   },
 
-  mounted() {
-    this.rows.forEach((row) => {
-      const el = row;
-      el.items.forEach((item, i) => {
-        if (i < this.visibleCount) {
-          this.$set(item, 'isActive', true);
-        } else {
-          this.$set(item, 'isActive', false);
-        }
-      });
+  watch: {
+    windowWidth() {
+      if (this.windowWidth >= this.desktopBreakPoint) {
+        this.maxLinksCount = this.desktopLinksCount;
+      }
 
-      this.$set(row, 'isOpen', false);
-    });
+      if (this.windowWidth < this.desktopBreakPoint) {
+        this.maxLinksCount = this.tabletLinksCount;
+      }
+
+      if (this.windowWidth < this.mobileBreakPoint) {
+        this.maxLinksCount = this.mobileLinksCount;
+      }
+    },
   },
 
-  data() {
-    return {
-      rows: [],
-      windowWidth: 0,
-      visibleCount: 24,
-      buttonClass: false,
-      btnIconType: false,
-    };
+  computed: {
+    getAllItems() {
+      const linkToRows = this.rows;
+
+      linkToRows.forEach((row) => {
+        const linkToRow = row;
+        linkToRow.items.forEach((item, i) => {
+          if (i < this.maxLinksCount) {
+            this.$set(item, 'isActive', true);
+          } else {
+            this.$set(item, 'isActive', false);
+          }
+        });
+        this.$set(row, 'isOpen', false);
+      });
+
+      return linkToRows;
+    },
   },
 
   async fetch() {
@@ -94,7 +120,7 @@ export default {
       const { items } = elems;
       items.forEach((item, i) => {
         const linkToItem = item;
-        if (elems.isOpen && i + 1 > this.visibleCount) {
+        if (elems.isOpen && i + 1 > this.maxLinksCount) {
           linkToItem.isActive = false;
         } else {
           linkToItem.isActive = true;
@@ -106,6 +132,28 @@ export default {
       const linkToRow = elems;
       linkToRow.isOpen = !linkToRow.isOpen;
     },
+
+    handleResize() {
+      this.windowWidth = window.innerWidth;
+    },
+
+    extractQueryParams(params) {
+      let query = '';
+      Object.keys(params).forEach((key) => {
+        query += `?${key}=${params[key][0]}`;
+      });
+
+      return query;
+    },
+  },
+
+  beforeDestroy() {
+    window.removeEventListener('resize', this.handleResize);
+  },
+
+  mounted() {
+    this.windowWidth = window.innerWidth;
+    window.addEventListener('resize', this.handleResize);
   },
 
   components: {
