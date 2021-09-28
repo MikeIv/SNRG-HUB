@@ -13,6 +13,7 @@
       :photo="program.photo"
       :link="program.link"
       :color="program.color"
+      :items="productsDetail"
     />
   </section>
 </template>
@@ -24,7 +25,7 @@ import './s_program_start.scss';
 import getProductsDetail from '~/api/productsDetail';
 
 export default {
-  name: 's_program_start',
+  name: 's-program-start',
 
   components: {
     SProgramStart,
@@ -32,10 +33,9 @@ export default {
 
   data() {
     return {
-      productsDetail: null,
-      baseURL: process.env.NUXT_ENV_S3BACKET,
+      productsDetail: [],
 
-      props: ['methods', 'title'],
+      baseURL: process.env.NUXT_ENV_S3BACKET,
 
       breadcrumbs: [
         {
@@ -58,10 +58,11 @@ export default {
       event: {
         date: '22 июня в 15:00',
         title: 'JAVA для новичков. Программируем вендинговый автомат',
-        description: 'Вебинар',
+        // description: 'Вебинар',
         link: '#',
       },
       program: {
+        description: '',
         subtitle: 'Профессия с трудоустройством',
         title: 'PHP-программист',
         color: '#e6e4f1',
@@ -91,10 +92,7 @@ export default {
             link: '#facebook',
           },
         ],
-        description:
-          // eslint-disable-next-line max-len
-          'Язык PHP отличается практичностью и дает возможность быстро решать задачи, поэтому множество сайтов написаны именно на нем. Язык PHP отличается практичностью и дает возможность быстро решать задачи, поэтому множество сайтов написаны именно на нем.',
-        city: 'Москва',
+        city: '',
         language: 'Русский',
         duration: '4 года',
         form: 'Очно, заочно',
@@ -104,15 +102,24 @@ export default {
     };
   },
 
+  props: ['methods', 'title'],
   async fetch() {
-    const requestData = {
-      filter: {
-        slug: 'ekonomika-i-buxgalterskii-ucet',
-      },
-    };
-    const expandedMethod = this.methods[0].data;
+    let [expandedMethod] = this.methods;
+    console.log('expandedMethod', expandedMethod);
+    expandedMethod = { ...expandedMethod.data };
+    expandedMethod.include = ['organization', 'formats', 'levels', 'directions', 'organization.city'];
     const preData = await getProductsDetail(expandedMethod);
-    this.productsDetail = preData.json.data;
+    console.log('preData', preData);
+    // this.productsDetail = preData;
+    this.productsDetail = preData.data;
+    console.log('productsDetail', this.productsDetail);
+    const obj = this.program;
+    //this.program.description = this.productsDetail.description;
+    const { description, included } = this.productsDetail;
+
+    obj.description = description;
+    obj.city = included.organization.included.city.name;
+    console.log('description', description);
   },
 };
 </script>
