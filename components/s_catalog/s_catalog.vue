@@ -146,7 +146,12 @@
             />
           </div>
           <template v-if="productList.length">
-            <a-select :options="options" class="catalog-page__select" />
+            <a-select
+              :options="options"
+              select="currentOption"
+              class="catalog-page__select"
+              @change-option="changeSortOption"
+            />
             <i
               v-if="visibleFiltersIcon"
               class="si-filter a-font_button catalog-page__filters-icon"
@@ -215,11 +220,23 @@ export default {
       options: [
         {
           label: 'Популярные',
-          value: 'popular',
+          value: 'sort',
         },
         {
           label: 'Новые',
-          value: 'new',
+          value: '-id',
+        },
+        {
+          label: 'Старые',
+          value: 'id',
+        },
+        {
+          label: 'По алфавиту А-Я',
+          value: 'name',
+        },
+        {
+          label: 'По алфавиту Я-А',
+          value: '-name',
         },
       ],
 
@@ -247,10 +264,16 @@ export default {
       },
 
       slugs: [],
+
+      currentOption: 'sort',
     };
   },
 
   watch: {
+    currentOption() {
+      this.fetchProductsList();
+    },
+
     page() {
       const newSearch = window.location.search
         .split('&')
@@ -405,6 +428,10 @@ export default {
   },
 
   methods: {
+    changeSortOption(option) {
+      this.currentOption = option;
+    },
+
     async fetchFilterData() {
       const filtersResponse = await getFilterData(this.pageInfo.components[0].methods[0].data);
       filtersResponse.forEach((filters) => {
@@ -476,6 +503,7 @@ export default {
       });
 
       expandedMethod.pagination = { page: this.page, page_size: this.productsPerPage };
+      expandedMethod.sort = this.currentOption;
       const response = await getProductsList(expandedMethod);
       this.totalProducts = response.count;
       this.productList = response.data;
