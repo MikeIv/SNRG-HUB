@@ -8,9 +8,7 @@
           :key="idx"
           class="s-university-life__slide m-card-landing"
         >
-          <MCardLanding
-            :image="`${baseUrl}${item.preview_image.value}`"
-          />
+          <MCardLanding :image="`${baseUrl}${item.preview_image.value}`" />
         </swiper-slide>
       </swiper>
     </div>
