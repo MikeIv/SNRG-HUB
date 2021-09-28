@@ -22,7 +22,7 @@ export default async function (context) {
 
     if (context.route.name === 'organization-slug') {
       requestData.filter.slug = 'organization';
-      requestData.params.id = 71;
+      requestData.params.id = 72;
     }
   }
 
