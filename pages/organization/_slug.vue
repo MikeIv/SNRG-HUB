@@ -7,7 +7,7 @@
       :methods="methods"
       :title="title"
     ></component>
-    <pre>{{PageInfo}}</pre>
+    <pre>{{ PageInfo }}</pre>
   </div>
 </template>
 
