@@ -1,19 +1,15 @@
 <template>
-  <section class="s-program-reviews">
-    <h2 class="s-program-reviews__title a-font_h2" v-html="title"></h2>
-    <div class="s-program-reviews__swiper">
-      <swiper :options="swiperOptionA">
+  <section class="s-university-life">
+    <h2 class="s-university-life__title s-university-life__title a-font_h2" v-html="title"></h2>
+    <div class="s-university-life__items">
+      <swiper :options="swiperOptionlifeUniversity">
         <swiper-slide
-          v-for="(review, idx) in reviewsList.data"
+          v-for="(item, idx) in lifeUniversityList.data"
           :key="idx"
-          class="s-program-reviews__slide m-card-landing"
+          class="s-university-life__slide m-card-landing"
         >
-          <!-- API не отдает дату отзыва. Поля физически нет, когда появится передать в subhead-->
           <MCardLanding
-            :subhead="review.subhead"
-            :userName="review.name.value"
-            :userImage="`${baseUrl}${review.avatar_image.value}`"
-            :text="review.description.value"
+            :image="`${baseUrl}${item.preview_image.value}`"
           />
         </swiper-slide>
       </swiper>
@@ -24,11 +20,12 @@
 <script>
 import { Swiper, SwiperSlide } from 'vue-awesome-swiper';
 import { MCardLanding } from '@cwespb/synergyui';
-import './s_program_reviews.scss';
+import './s_university_life.scss';
+
 import getEntitiesSectionsDetail from '~/api/entitiesSectionsDetail';
 
 export default {
-  name: 's_program_reviews',
+  name: 's_university_life',
 
   components: {
     MCardLanding,
@@ -38,18 +35,15 @@ export default {
 
   data() {
     return {
-      reviewsList: [],
+      lifeUniversityList: [],
       baseUrl: process.env.NUXT_ENV_S3BACKET,
-      swiperOptionA: {
+      swiperOptionlifeUniversity: {
         grabCursor: true,
         slidesPerView: 'auto',
         spaceBetween: 24,
         resistance: true,
         resistanceRatio: 0,
         breakpoints: {
-          360: {
-            spaceBetween: 16,
-          },
           768: {
             spaceBetween: 20,
           },
@@ -61,7 +55,7 @@ export default {
   async fetch() {
     const expandedMethod = this.methods[0].data;
     const preData = await getEntitiesSectionsDetail(expandedMethod);
-    this.reviewsList = preData.json.items;
+    this.lifeUniversityList = preData.json.items;
   },
 };
 </script>
