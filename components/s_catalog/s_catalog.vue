@@ -163,9 +163,7 @@
 </template>
 
 <script>
-import {
-  ATag, ASelect, ATitle, AButton, AControl, MFilter,
-} from '@cwespb/synergyui';
+import { ATag, ASelect, ATitle, AButton, AControl, MFilter } from '@cwespb/synergyui';
 import { Swiper, SwiperSlide } from 'vue-awesome-swiper';
 import SCatalogFilter from '~/components/s_catalog_filter/s_catalog_filter';
 import SCatalogProductList from '~/components/s_catalog_product_list/s_catalog_product_list';
@@ -457,6 +455,7 @@ export default {
     },
 
     async fetchProductsList() {
+      console.log(this.pageInfo);
       const expandedMethod = { ...this.pageInfo.components[1].methods[0].data };
       expandedMethod.include = ['organization', 'levels', 'directions'];
       Object.entries(this.filtersIdsData).forEach((filterData) => {
@@ -580,6 +579,9 @@ export default {
   },
 
   mounted() {
+    this.fetchProductsList();
+    this.fetchFilterData();
+
     this.windowWidth = window.innerWidth;
     window.addEventListener('resize', this.handleResize);
   },
