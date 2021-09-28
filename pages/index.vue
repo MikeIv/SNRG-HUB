@@ -13,7 +13,7 @@
 
 <script>
 export default {
-  middleware: 'getPageInfo',
+  middleware: ['getPageInfo', 'getGlobalData'],
   data() {
     return {
       title: 'Home page',
@@ -25,6 +25,9 @@ export default {
     },
     pageMeta() {
       return this.$store.state.pageMeta;
+    },
+    globalData() {
+      return this.$store.state.globalData;
     },
   },
 
