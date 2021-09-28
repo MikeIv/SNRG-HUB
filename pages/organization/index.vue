@@ -5,73 +5,58 @@
 </template>
 
 <script>
+import '@cwespb/synergyui/lib/synergyui.css';
+
 export default {
-  layout: 'product',
-  data() {
-    return {
-      title: 'Product page',
-    };
-  },
-  computed: {
-    pageInfo() {
-      return this.$store.state.pageInfo;
+  layout: 'organization',
+
+  head: {
+    bodyAttrs: {
+      class: 'bg-gray',
     },
-    pageMeta() {
-      return this.$store.state.pageMeta;
-    },
-  },
-  head() {
-    return {
-      title: this.pageMeta?.title,
-      meta: [
-        {
-          hid: 'description',
-          name: 'description',
-          content: 'Home page description',
-        },
-      ],
-      bodyAttrs: {
-        class: 'bg-gray',
-      },
-    };
   },
 
+  components: {},
+
   middleware: 'getPageInfo',
+
+  data() {
+    return {};
+  },
 
   asyncData() {
     // Массив имен для component :is будет формироваться от бэка
     // На данный момент там имена неправильные, поэтому хардкод
     // А так мы их будем брать из pageInfo.components и у объекта ключ "key"
     const sections = [
-      's-program-start',
-      's-program-cpa-line',
-      's-program-info',
-      's-program-announce',
-      's-program-about',
-      's-program-exam',
-      's-program-people',
-      's-program-timeline',
+      // 's-university-start',
+      's-university-score',
+      's-university-statistics',
       's-program-skills',
-      's-program-content',
       's-program-teacher',
+      's-program-timeline',
+      's-university-career',
       's-program-diploma',
-      's-program-form',
-      's-program-university',
-      's-program-reviews',
-      's-program-price',
+      's-university-diploma',
+      's-partners',
+      's-lp-address',
       's-program-questions',
-      's-program-recommend',
     ];
-
     return {
       sections,
     };
+  },
+
+  computed: {
+    pageInfo() {
+      return this.$store.state.pageInfo;
+    },
   },
 };
 </script>
 
 <style lang="scss">
-.product-page {
+.organization-page {
   --layout-v-padding: 3.75rem; // 60px
   --layout-h-padding: 5rem; // 80px
   @media all and (max-width: 1199px) {
@@ -86,6 +71,15 @@ export default {
     .l-default {
       --layout-padding: 0;
     }
+  }
+  .s-partners {
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    margin: 1.25rem auto;
+    padding: var(--layout-v-padding) var(--layout-h-padding);
+    background-color: var(--a-color_bg);
+    border-radius: var(--a-borderRadius--bg);
   }
 }
 </style>

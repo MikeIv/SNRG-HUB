@@ -1,4 +1,7 @@
+process.env.DEBUG = 'nuxt:*';
+
 export default {
+  debug: true,
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
     title: 'marketplace-vue',
@@ -61,21 +64,9 @@ export default {
   ],
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
-  publicRuntimeConfig: {
-    axios: {
-      baseURL: 'https://mp.synergy.ru',
-    },
-  },
 
   axios: {
-    https: true,
-    debug: false,
-    headers: {
-      common: {
-        Accept: 'application/vnd.api+json',
-        'Content-Type': 'application/json',
-      },
-    },
+    debug: true,
   },
 
   // PWA module configuration: https://go.nuxtjs.dev/pwa
