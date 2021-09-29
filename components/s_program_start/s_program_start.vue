@@ -3,17 +3,13 @@
     <SProgramStart
       :breadcrumbs="breadcrumbs"
       :program="program"
-      title="program.title"
-      :event="event"
       :description="program.description"
       :city="program.city"
-      :language="program.language"
+      :document="program.document"
       :duration="program.duration"
       :form="program.form"
       :photo="`${baseURL}/${program.photo}`"
-      :link="program.link"
       :color="program.color"
-      :items="productsDetail"
     />
   </section>
 </template>
@@ -93,7 +89,7 @@ export default {
           },
         ],
         city: '',
-        language: 'Русский',
+        document: '',
         duration: '4 года',
         form: '',
         photo: 'https://fainaidea.com/wp-content/uploads/2015/02/agh1.jpg',
@@ -105,15 +101,13 @@ export default {
   props: ['methods', 'title'],
   async fetch() {
     let [expandedMethod] = this.methods;
-    console.log('expandedMethod', expandedMethod);
     expandedMethod = { ...expandedMethod.data };
     expandedMethod.include = ['organization', 'formats', 'levels', 'directions', 'organization.city'];
     const preData = await getProductsDetail(expandedMethod);
-    console.log('preData', preData);
     this.productsDetail = preData.data;
-    console.log('productsDetail', this.productsDetail);
     const obj = this.program;
-    const { description, color, name, digital_image, begin_duration_format_value, included } = this.productsDetail;
+    const { description, color, name, digital_image, document, begin_duration_format_value, included } =
+      this.productsDetail;
     const duration_value =
       begin_duration_format_value.charAt(1) === 'm'
         ? `${begin_duration_format_value.charAt(0)} месяца`
@@ -122,13 +116,11 @@ export default {
     obj.title = name;
     obj.subtitle = included.levels[0].name;
     obj.description = description;
+    obj.document = document;
     obj.city = included.organization.included.city.name;
     obj.form = included.formats[0].name;
     obj.duration = duration_value;
     obj.photo = digital_image;
-
-    console.log('description', description);
-    console.log('duration', duration_value);
   },
 };
 </script>
