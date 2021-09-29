@@ -163,7 +163,9 @@
 </template>
 
 <script>
-import { ATag, ASelect, ATitle, AButton, AControl, MFilter } from '@cwespb/synergyui';
+import {
+  ATag, ASelect, ATitle, AButton, AControl, MFilter,
+} from '@cwespb/synergyui';
 import { Swiper, SwiperSlide } from 'vue-awesome-swiper';
 import SCatalogFilter from '~/components/s_catalog_filter/s_catalog_filter';
 import SCatalogProductList from '~/components/s_catalog_product_list/s_catalog_product_list';
@@ -293,10 +295,6 @@ export default {
       this.fetchFilterData();
       this.fetchProductsList();
     },
-
-    // categories() {
-    //   this.fetchProductsList();
-    // },
 
     // Использую хак, чтобы watcher следил сразу за двумя объектами, чтобы не дублировать одинаковый код
     // Из коробки Vue 3 будет изящное решение
