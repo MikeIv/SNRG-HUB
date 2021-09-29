@@ -27,7 +27,7 @@
         <s-banner v-if="viewType === 'product_list_banner'" :methods="[...this.methods[1]]" />
       </div>
 
-      <nuxt-link :to="{ redirectUrl }" class="s-main-programs__btn-link">
+      <nuxt-link to="/catalog" class="s-main-programs__btn-link">
         <a-button class="s-main-programs__btn" label="Показать все" bgColor="accent" />
       </nuxt-link>
     </div>
@@ -54,7 +54,6 @@ export default {
       productsList: [],
       baseURL: process.env.NUXT_ENV_S3BACKET,
       windowWidth: 0,
-      redirectUrl: '#',
     };
   },
   props: ['methods', 'title', 'viewType'],

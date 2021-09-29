@@ -1,6 +1,6 @@
 <template>
   <section class="s-program-recommend">
-    <h2 class="s-program-recommend__title a-font_h2">{{ title }}</h2>
+    <h2 class="s-program-recommend__title a-font_h2" v-html="title"></h2>
     <div class="s-program-recommend__swiper">
       <swiper :options="swiperOptionRecomend">
         <swiper-slide v-for="item in items" :key="item.id" class="s-program-recommend__slide m-card-vertical">

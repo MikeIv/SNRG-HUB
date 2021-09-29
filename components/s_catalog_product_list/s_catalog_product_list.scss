@@ -10,14 +10,19 @@
   }
 
   &__item {
-    max-width: calc((100% - rem(40)) / 3);
+    &-wrapper {
+      display: flex;
+      width: 100%;
+      max-width: calc((100% - rem(40)) / 3);
+      text-decoration: none;
 
-    @media screen and (max-width: 1350px) {
-      max-width: calc((100% - rem(20)) / 2);
-    }
+      @media screen and (max-width: 1350px) {
+        max-width: calc((100% - rem(20)) / 2);
+      }
 
-    @media screen and (max-width: 575px) {
-      max-width: 100%;
+      @media screen and (max-width: 575px) {
+        max-width: 100%;
+      }
     }
   }
 }

@@ -1,10 +1,11 @@
 <template>
-  <SProgramQuestions :title="title" :items="items" />
+  <SProgramQuestions :title="title" :items="questionsList" />
 </template>
 
 <script>
 import { SProgramQuestions } from '@cwespb/synergyui';
 import './s_program_questions.scss';
+import getEntitiesSectionsDetail from '~/api/entitiesSectionsDetail';
 
 export default {
   name: 's_program_questions',
@@ -15,52 +16,20 @@ export default {
 
   data() {
     return {
-      title: 'Часто задаваемые вопросы',
-      items: [
-        {
-          id: 1,
-          isActive: true,
-          title: 'Как проходит обучение?',
-          // eslint-disable-next-line max-len
-          text: 'Для тех, кто не смог вовремя присутствовать на уроке, мы записываем каждое занятие. Видеозаписи всегда доступны в разделе обучения. Также к каждому уроку мы разработали методички, с помиощью которых можно лучше подготовиться к занятиям и получить дополнительные знания',
-        },
-        {
-          id: 2,
-          isActive: false,
-          title: 'Что делать, если я не могу учиться Online?',
-          // eslint-disable-next-line max-len
-          text: 'Для тех, кто не смог вовремя присутствовать на уроке, мы записываем каждое занятие. Видеозаписи всегда доступны в разделе обучения. Также к каждому уроку мы разработали методички, с помиощью которых можно лучше подготовиться к занятиям и получить дополнительные знания',
-        },
-        {
-          id: 3,
-          isActive: false,
-          title: 'Что делать, если у меня проблема или срочный вопрос?',
-          // eslint-disable-next-line max-len
-          text: 'Для тех, кто не смог вовремя присутствовать на уроке, мы записываем каждое занятие. Видеозаписи всегда доступны в разделе обучения. Также к каждому уроку мы разработали методички, с помиощью которых можно лучше подготовиться к занятиям и получить дополнительные знания',
-        },
-        {
-          id: 4,
-          isActive: false,
-          title: 'Я никогда не работал с кодом, у меня получится?',
-          // eslint-disable-next-line max-len
-          text: 'Для тех, кто не смог вовремя присутствовать на уроке, мы записываем каждое занятие. Видеозаписи всегда доступны в разделе обучения. Также к каждому уроку мы разработали методички, с помиощью которых можно лучше подготовиться к занятиям и получить дополнительные знания',
-        },
-        {
-          id: 5,
-          isActive: false,
-          title: 'Сколько часов в неделю мне нужно будет уделять учёбе?',
-          // eslint-disable-next-line max-len
-          text: 'Для тех, кто не смог вовремя присутствовать на уроке, мы записываем каждое занятие. Видеозаписи всегда доступны в разделе обучения. Также к каждому уроку мы разработали методички, с помиощью которых можно лучше подготовиться к занятиям и получить дополнительные знания',
-        },
-        {
-          id: 6,
-          isActive: false,
-          title: 'А я точно трудоустроюсь?',
-          // eslint-disable-next-line max-len
-          text: 'Для тех, кто не смог вовремя присутствовать на уроке, мы записываем каждое занятие. Видеозаписи всегда доступны в разделе обучения. Также к каждому уроку мы разработали методички, с помиощью которых можно лучше подготовиться к занятиям и получить дополнительные знания',
-        },
-      ],
+      questionsList: [],
     };
+  },
+
+  props: ['methods', 'title'],
+  async fetch() {
+    const expandedMethod = this.methods[0].data;
+    const preData = await getEntitiesSectionsDetail(expandedMethod);
+    this.questionsList = preData.json.items.data.map((item, index) => ({
+      title: item.title.value,
+      text: item.description.value,
+      id: index + 1,
+      isActive: !index,
+    }));
   },
 };
 </script>
