@@ -1,5 +1,5 @@
 <template>
-  <header class="s-header" :class="{ open: isOpen, fixed: isScrolled}">
+  <header class="s-header" :class="{ open: isOpen, fixed: isScrolled }">
     <div class="shadow" v-if="isOpen" @click="isOpen = !isOpen"></div>
     <div class="s-header__wrapper">
       <div class="s-header__center">
@@ -74,7 +74,7 @@ export default {
   computed: {
     setGlobalData() {
       return this.$store.state.globalData;
-    }
+    },
   },
 
   created() {

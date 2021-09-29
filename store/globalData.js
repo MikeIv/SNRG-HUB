@@ -18,5 +18,3 @@ export const actions = {
     commit('setGlobalData', response.data);
   },
 };
-
-

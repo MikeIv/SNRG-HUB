@@ -13,7 +13,7 @@
 
 <script>
 export default {
-  middleware: ['getPageInfo', 'getGlobalData'],
+  middleware: 'getPageInfo',
   data() {
     return {
       title: 'Home page',

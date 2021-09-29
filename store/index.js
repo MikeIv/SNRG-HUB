@@ -22,4 +22,8 @@ export const actions = {
     commit('setPageMeta', response.meta);
     commit('setPageInfo', response.data);
   },
+
+  async nuxtServerInit({ dispatch }) {
+    await dispatch('globalData/getGlobalData')
+  },
 };
