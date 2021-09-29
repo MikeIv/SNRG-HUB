@@ -4,10 +4,11 @@
       <s-footer
         socialsTitle="Мы в соцсетях"
         applicationsTitle="Приёмная комиссия в твоем телефоне"
-        linkLogo="https://synergy.ru/assets/template/v5/images/logos/costum_part_dark_ru.svg"
+        :linkLogo="logoURL"
         :socials="socials"
         :applications="applications"
-        :accords="accords"
+        :terms="terms"
+        :policy="policy"
       >
         <MenuHorizontal />
       </s-footer>
@@ -25,24 +26,16 @@ export default {
 
   data() {
     return {
-      socials: [
-        {
-          href: 'https://vk.com/synergyuniversity',
-          icon: 'si-social-vk',
-        },
-        {
-          href: 'https://www.facebook.com/synergyunivers',
-          icon: 'si-social-facebook',
-        },
-        {
-          href: 'https://www.instagram.com/synergyuniversity',
-          icon: 'si-social-instagram',
-        },
-        {
-          href: 'https://www.youtube.com/user/synergytvru',
-          icon: 'si-social-youtube',
-        },
-      ],
+      socials: [],
+      logoURL: '',
+      policy: {
+        href: "",
+        text: "",
+      },
+      terms: {
+        href: "",
+        text: "",
+      },
       applications: [
         {
           href: '#',
@@ -55,22 +48,33 @@ export default {
           alt: 'Google Play',
         },
       ],
-      accords: [
-        {
-          href: '#',
-          title: '© 2021 Synergy. Все права защищены',
-        },
-        {
-          href: 'https://synergy.ru/lp/_chunk/privacy.php?lang=ru',
-          title: 'Политика конфиденциальности',
-        },
-        {
-          href: '#',
-          title: 'Пользовательское соглашение',
-        },
-      ],
     };
   },
+
+  computed: {
+    globalData() {
+      return this.$store.state.globalData.globalData;
+    },
+  },
+
+  created() {
+    let globalData = this.$store.state.globalData.globalData.data;
+    let socialsItems = globalData.contacts.social_networks;
+    this.logoURL = globalData.main.logo;
+
+    this.policy.href = globalData.privacy_policy.link;
+    this.policy.text = globalData.privacy_policy.text;
+
+    for (let i = 0; i < socialsItems.length; i++) {
+      let item = socialsItems[i];
+      let social = {
+        href: item.link,
+        icon: 'si-social-' + item.name,
+      }
+      this.socials.push(social);
+    }
+  },
+
   components: {
     SFooter,
     MenuHorizontal,
