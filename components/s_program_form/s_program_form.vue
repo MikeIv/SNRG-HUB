@@ -1,5 +1,5 @@
 <template>
-  <section class="s-program-form">
+  <section class="s-program-form" ref="form" id="form">
     <MForm
       :actionForm="actionForm"
       :title="title"
@@ -39,6 +39,11 @@ export default {
       typeBtn: 'checkbox',
       checked: true,
     };
+  },
+
+  mounted() {
+    this.$emit('form-ref', this.$refs.form);
+    console.log('s-program-form', this.$refs.form);
   },
 };
 </script>
