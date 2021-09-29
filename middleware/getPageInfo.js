@@ -14,11 +14,11 @@ export default async function (context) {
     requestData.filter.id = 1;
   } else {
     requestData.filter.slug = context.route.name;
+  }
 
-    if (context.route.name === 'product-slug') {
-      requestData.filter.slug = 'product';
-      requestData.params.id = 1521;
-    }
+  if (context.route.name === 'product-slug') {
+    requestData.filter.slug = 'product';
+    requestData.params.slug = context.route.params.slug;
   }
   await context.store.dispatch('getPageInfo', requestData);
 }
