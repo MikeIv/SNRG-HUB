@@ -100,7 +100,7 @@
               @input="switchClick(filter, ...arguments)"
             />
             <div class="catalog-page__menu-button">
-              <a-button :label="menuButtonLabel" bgColor="accent" @onClickBtn="filtersMenuClose" />
+              <a-button :label="menuButtonLabel" bgColor="accent" @click="filtersMenuClose" />
             </div>
           </div>
         </div>

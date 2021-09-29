@@ -10,7 +10,7 @@
         <div class="m-quiz__baner-img" :style="`background-image: url(${baseUrl}${dataQuiz.person_image})`"></div>
         <h1 class="m-quiz__title a-font_h1">{{ dataQuiz.title }}</h1>
         <div class="m-quiz__descript a-font_l-m">{{ dataQuiz.text }}</div>
-        <a-button bgColor="accent" :label="dataQuiz.button" @onClickBtn="startQuiz"></a-button>
+        <a-button bgColor="accent" :label="dataQuiz.button" @click="startQuiz"></a-button>
       </div>
       <!-- quiz -->
       <div class="m-quiz__quiz" v-else-if="countPosition != count">
@@ -46,9 +46,15 @@
         </div>
         <div class="m-quiz__finish-inputs">
           <div class="m-quiz__finish-data">
-            <a-input placeholder="Имя" v-model="send.name"></a-input>
-            <a-input placeholder="Телефон" v-model="send.tel"></a-input>
-            <a-button bgColor="accent" size="large" label="Отправить" :disabled="!sogl" @click="sendQuiz"></a-button>
+            <a-input placeholder="Имя" v-model="send.name" @input="validQuizData"></a-input>
+            <a-input placeholder="Телефон" v-model="send.tel" @input="validQuizData"></a-input>
+            <a-button
+              bgColor="accent"
+              size="large"
+              label="Отправить"
+              :disabled="!sogl || !validFlag"
+              @click="sendQuiz"
+            ></a-button>
           </div>
           <div class="m-quiz__finish-sogl">
             <a-control
@@ -62,6 +68,7 @@
           </div>
         </div>
       </div>
+
 
       <a-progressbar :percent="progress" v-if="!banerFlag" />
     </div>
@@ -101,6 +108,7 @@ export default {
       tel: '',
     },
     sogl: true,
+    validFlag: false,
   }),
 
   props: {
@@ -132,7 +140,16 @@ export default {
       this.banerFlag = false;
     },
 
-    sendQuiz() {},
+    validQuizData() {
+      const dataForm = [{ value: this.send.name }, { value: this.send.tel }];
+      this.validFlag = this.$validator.valid(dataForm);
+    },
+
+    sendQuiz() {
+      this.$validator.send(this.send).then((response) => {
+        console.log(response);
+      });
+    },
 
     changeQuiz(value) {
       this.listAnsvers[this.countPosition] = { ...value, ansver: this.ansver };
