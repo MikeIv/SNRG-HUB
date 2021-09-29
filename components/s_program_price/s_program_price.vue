@@ -11,7 +11,6 @@
       :oldPrice="oldPrice"
       :currentPrice="currentPrice"
       :formTitle="formTitle"
-      :inputs="inputs"
       :btnText="btnText"
       :actionForm="actionForm"
       :checkboxText="checkboxText"
@@ -28,7 +27,7 @@
 </template>
 
 <script>
-import { MFormPay } from '@cwespb/synergyui';
+import { MFormPay, AInput } from '@cwespb/synergyui';
 import './s_program_price.scss';
 
 export default {
@@ -36,6 +35,7 @@ export default {
 
   components: {
     MFormPay,
+    AInput
   },
 
   data: () => ({

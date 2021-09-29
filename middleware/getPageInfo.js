@@ -1,6 +1,7 @@
 export default async function ({ route, store }) {
   const requestData = {
     filter: {},
+    params: {},
   };
   // Когда мы заходим на любую страницу, нам нужно сделать запрос, передам объект параметров
   // Мы знаем, что для главной страницы нужно передать id = 1
@@ -15,6 +16,11 @@ export default async function ({ route, store }) {
 
   if (route.name === 'catalog-all') {
     requestData.filter.slug = 'catalog';
+  }
+
+  if (route.name === 'product-slug') {
+    requestData.filter.slug = 'product';
+    requestData.params.slug = route.params.slug;
   }
 
   await store.dispatch('getPageInfo', requestData);

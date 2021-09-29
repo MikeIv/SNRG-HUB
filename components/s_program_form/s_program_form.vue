@@ -18,7 +18,7 @@
 </template>
 
 <script>
-import { MForm } from '@cwespb/synergyui';
+import { MForm, AInput } from '@cwespb/synergyui';
 import './s_program_form.scss';
 
 export default {
@@ -26,6 +26,7 @@ export default {
 
   components: {
     MForm,
+    AInput
   },
 
   data: () => ({
