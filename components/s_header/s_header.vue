@@ -50,7 +50,6 @@ import MenuHorizontal from '../menu_horizontal/menu_horizontal';
 
 export default {
   name: 'SHeader',
-  middleware: 'getGlobalData',
   data() {
     return {
       isOpen: false,
@@ -60,7 +59,6 @@ export default {
       btnText: 'Всё обучение',
       phones: [],
       searchPlaceholder: 'Поиск по сайту',
-      globalInfo: [],
     };
   },
 
@@ -71,16 +69,9 @@ export default {
     SMenuMain,
   },
 
-  computed: {
-    globalData() {
-      return this.$store.state.globalData.globalData;
-    },
-  },
-
   created() {
-    this.globalInfo = this.$store.state.globalData.globalData.data;
-    this.phones = this.globalInfo.contacts.phones;
-    this.logoURL = this.globalInfo.main.logo;
+    this.phones = this.$store.state.globalData.globalData.data.contacts.phones;
+    this.logoURL = this.$store.state.globalData.globalData.data.main.logo;
   },
 
   mounted() {
