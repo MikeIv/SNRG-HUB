@@ -43,11 +43,7 @@
         </div>
 
         <nuxt-link to="/catalog" class="s-main-search__btn-link">
-          <AButton
-            size="large"
-            bgColor="accent"
-            :label="`Показать предложения`"
-          />
+          <AButton size="large" bgColor="accent" :label="`Показать предложения`" />
         </nuxt-link>
       </div>
     </div>

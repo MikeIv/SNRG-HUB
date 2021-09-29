@@ -7,7 +7,6 @@ export default async function ({ route, store }) {
   // Здесь мы проверяем, что если главная страница, то добавляем id = 1
   // если другая, то добавляем route.name
   // Для этой реализации нам нужно, чтобы названия роутов совпадали со слагом на бэке
-  console.log(route);
   if (route.name === 'index') {
     requestData.filter.id = 1;
   } else {

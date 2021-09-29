@@ -79,7 +79,6 @@ export default {
   async fetch() {
     const expandedMethod = this.methods.data;
     this.directionsList = await getDirectionsList(expandedMethod);
-    console.log(this.directionsList);
   },
 };
 </script>

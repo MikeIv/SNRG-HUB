@@ -47,9 +47,5 @@ export default {
   async fetch() {
     this.navLinks = await getMenuData();
   },
-
-  buildLinkByFilter(key) {
-    console.log(key);
-  },
 };
 </script>

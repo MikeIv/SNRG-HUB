@@ -43,7 +43,6 @@ export default {
 
   mounted() {
     this.$emit('form-ref', this.$refs.form);
-    console.log('s-program-form', this.$refs.form);
   },
 };
 </script>
