@@ -512,10 +512,11 @@ export default {
       });
 
       if (process.browser && window.location.search.includes('category_ids')) {
-        this.categories = window.location.search
+        const category = window.location.search
           .split('&')
           .filter((query) => query.includes('category_ids'))[0]
           .split('=')[1];
+        this.categories = category;
       }
 
       if (this.categories) {
