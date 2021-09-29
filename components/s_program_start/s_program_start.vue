@@ -3,13 +3,6 @@
     <SProgramStart
       :breadcrumbs="breadcrumbs"
       :program="program"
-      :description="program.description"
-      :city="program.city"
-      :document="program.document"
-      :duration="program.duration"
-      :form="program.form"
-      :photo="`${baseURL}/${program.photo}`"
-      :color="program.color"
       @get-program-click="scrollToFormBlock"
       @sign-up="scrollToFormBlock"
     />
@@ -62,40 +55,15 @@ export default {
       program: {
         description: '',
         subtitle: '',
-        title: 'PHP-программист',
-        color: '#e6e4f1',
-        social: [
-          {
-            id: 1,
-            name: 'Вконтакте',
-            icon: 'vk',
-            link: '#vk',
-          },
-          {
-            id: 2,
-            name: 'Twitter',
-            icon: 'twitter',
-            link: '#twitter',
-          },
-          {
-            id: 3,
-            name: 'Instagram',
-            icon: 'instagram',
-            link: '#insta',
-          },
-          {
-            id: 4,
-            name: 'Facebook',
-            icon: 'facebook',
-            link: '#facebook',
-          },
-        ],
+        title: '',
+        color: '',
+        social: [],
         city: '',
         document: '',
-        duration: '4 года',
+        duration: '',
         form: '',
-        photo: 'https://fainaidea.com/wp-content/uploads/2015/02/agh1.jpg',
-        link: '#link',
+        photo: '',
+        link: '',
       },
     };
   },
@@ -108,12 +76,13 @@ export default {
     const preData = await getProductsDetail(expandedMethod);
     this.productsDetail = preData.data;
     const obj = this.program;
-    const { description, color, name, digital_image, document, begin_duration_format_value, included } =
-      this.productsDetail;
-    const duration_value =
-      begin_duration_format_value.charAt(1) === 'm'
-        ? `${begin_duration_format_value.charAt(0)} месяца`
-        : `${begin_duration_format_value.charAt(0)} года`;
+    const {
+      description, color, name, digital_image, document, duration_format_value, included,
+    } = this.productsDetail;
+    //TODO: дописать парсинг duration_format_value на год\месяцы и склонения добавить
+    const duration_value = duration_format_value.charAt(1) === 'm'
+      ? `${duration_format_value.charAt(0)} месяца`
+      : `${duration_format_value.charAt(0)} года`;
     obj.color = color;
     obj.title = name;
     obj.subtitle = included.levels[0].name;
@@ -122,7 +91,8 @@ export default {
     obj.city = included.organization.included.city.name;
     obj.form = included.formats[0].name;
     obj.duration = duration_value;
-    obj.photo = digital_image;
+    obj.photo = this.baseURL + digital_image;
+  },
 
   methods: {
     scrollToFormBlock() {

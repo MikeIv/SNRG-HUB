@@ -70,11 +70,11 @@ export default {
     this.programTimelineList = preData.json.items.data.map((item) => ({
       title: item.title.value,
       text: item.description.value,
-      image: `${this.baseUrl}${item.preview_image.value}`,
+      image: item.image ? this.baseUrl + item.preview_image.value : '',
     }));
     this.programTimelineRightItems = preData.json.rightItems.data.map((item) => ({
-      title: item.description.value,
-      subtitle: item.title.value,
+      title: item.description.value ?? 'нет контента',
+      subtitle: item.title.value ?? 'нет котента',
       type: 'default',
     }));
   },

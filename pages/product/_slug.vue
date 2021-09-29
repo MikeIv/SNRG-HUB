@@ -7,13 +7,7 @@
       :methods="methods"
       :title="title"
     ></component>
-
-    <pre>
-      {{ pageInfo }}
-    </pre>
-
   </div>
-
 </template>
 
 <script>

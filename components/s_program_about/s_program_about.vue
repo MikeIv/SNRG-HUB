@@ -32,8 +32,8 @@ export default {
       id: index,
       number: item.title.value,
       title: item.description.value,
-      image: `${this.baseUrl}${item.icon.value}`,
-      type: item.icon.value ? 'image' : 'number-horizontal',
+      image: item.icon ? this.baseUrl + item.icon.value : '',
+      type: item.icon ? 'image' : 'number-horizontal',
     }));
   },
 };
