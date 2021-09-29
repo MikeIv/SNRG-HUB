@@ -2,7 +2,7 @@
   <section class="s-persons s-padding">
     <div class="l-wide">
       <div class="s-persons__wrapper">
-        <h2 class="s-persons__title a-font_h5">{{ title }}</h2>
+        <h2 class="s-persons__title a-font_h5" v-html="title"></h2>
         <div class="s-persons__swiper">
           <swiper ref="awesomeSwiper" :options="swiperOptionA">
             <swiper-slide v-for="person in personsList" :key="person.id" class="s-persons__slide">

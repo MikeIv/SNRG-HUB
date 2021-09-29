@@ -1,6 +1,9 @@
 <template>
   <section class="s-university-start">
-    <SUniversityStart :breadcrumbs="breadcrumbs" :event="event" :university="university" :logoSrc="logoSrc" />
+    <SUniversityStart
+      :breadcrumbs="breadcrumbs"
+      :university="university"
+      :logoSrc="logoSrc" />
   </section>
 </template>
 
@@ -49,7 +52,7 @@ export default {
           // eslint-disable-next-line max-len
           'По итогам 2012 года он вошел в десятку лучших негосударственных высших учебных заведений Москвы. Институт имеет бессрочную лицензию на осуществление образовательной деятельности.',
         type: 'Негосударственный',
-        hostel: true,
+        hostel: 'есть',
         social: [
           {
             id: 1,

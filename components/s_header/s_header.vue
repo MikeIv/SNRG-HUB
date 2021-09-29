@@ -1,8 +1,8 @@
 <template>
-  <header class="s-header" :class="{ open: isOpen }">
-    <div class="shadow" v-if="isOpen"></div>
+  <header class="s-header" :class="{ open: isOpen, fixed: isScrolled }">
+    <div class="shadow" v-if="isOpen" @click="isOpen = !isOpen"></div>
     <div class="s-header__wrapper">
-      <div class="s-header__center" :class="{ fixed: isScrolled }">
+      <div class="s-header__center">
         <div class="l-wide">
           <div class="s-header__center-wrapper">
             <nuxt-link to="/" class="s-header__logo-link">
@@ -34,7 +34,7 @@
       </div>
       <div class="s-header__bottom">
         <div class="l-wide">
-          <menu-horizontal></menu-horizontal>
+          <menu-horizontal v-if="!isScrolled"></menu-horizontal>
         </div>
       </div>
       <s-menu-main :open="isOpen"></s-menu-main>
@@ -50,15 +50,14 @@ import MenuHorizontal from '../menu_horizontal/menu_horizontal';
 
 export default {
   name: 'SHeader',
-
   data() {
     return {
       isOpen: false,
-      logoURL: '/svg/logo.svg',
+      logoURL: '',
       scrollTop: 0,
       isScrolled: false,
       btnText: 'Всё обучение',
-      phones: ['+7 495 800-10-01', '8 800 100-00-11'],
+      phones: [],
       searchPlaceholder: 'Поиск по сайту',
     };
   },
@@ -70,9 +69,15 @@ export default {
     SMenuMain,
   },
 
+  created() {
+    this.phones = this.$store.state.globalData.globalData.data.contacts.phones;
+    this.logoURL = this.$store.state.globalData.globalData.data.main.logo;
+  },
+
   mounted() {
     window.addEventListener('scroll', this.handleScroll);
   },
+
   beforeDestroy() {
     window.removeEventListener('scroll', this.handleScroll);
   },

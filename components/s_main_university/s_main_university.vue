@@ -17,7 +17,7 @@
         </template>
       </div>
 
-      <nuxt-link :to="`${redirectUrl}`" class="a-button__wrapper">
+      <nuxt-link to="/catalog" class="a-button__wrapper">
         <a-button label="Показать все" size="large" bgColor="accent" />
       </nuxt-link>
     </div>
@@ -39,7 +39,6 @@ export default {
       visibleCountMobile: 3,
       baseUrl: process.env.NUXT_ENV_S3BACKET,
       windowWidth: 0,
-      redirectUrl: '#',
     };
   },
 

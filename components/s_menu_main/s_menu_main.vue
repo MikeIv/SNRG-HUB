@@ -42,6 +42,7 @@
             </div>
           </template>
         </div>
+
         <m-banner
           type="side"
           titleTxt="Разработка VR/AR"
