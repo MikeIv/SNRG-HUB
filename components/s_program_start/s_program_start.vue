@@ -3,14 +3,14 @@
     <SProgramStart
       :breadcrumbs="breadcrumbs"
       :program="program"
-      :title="program.title"
+      title="program.title"
       :event="event"
       :description="program.description"
       :city="program.city"
       :language="program.language"
       :duration="program.duration"
       :form="program.form"
-      :photo="program.photo"
+      :photo="`${baseURL}/${program.photo}`"
       :link="program.link"
       :color="program.color"
       :items="productsDetail"
@@ -95,7 +95,7 @@ export default {
         city: '',
         language: 'Русский',
         duration: '4 года',
-        form: 'Очно, заочно',
+        form: '',
         photo: 'https://fainaidea.com/wp-content/uploads/2015/02/agh1.jpg',
         link: '#link',
       },
@@ -110,16 +110,23 @@ export default {
     expandedMethod.include = ['organization', 'formats', 'levels', 'directions', 'organization.city'];
     const preData = await getProductsDetail(expandedMethod);
     console.log('preData', preData);
-    // this.productsDetail = preData;
     this.productsDetail = preData.data;
     console.log('productsDetail', this.productsDetail);
     const obj = this.program;
-    //this.program.description = this.productsDetail.description;
-    const { description, included } = this.productsDetail;
-
+    const { description, color, digital_image, begin_duration_format_value, included } = this.productsDetail;
+    let duration_value =
+      begin_duration_format_value.charAt(1) === 'm'
+        ? begin_duration_format_value.charAt(0) + ' месяца'
+        : begin_duration_format_value.charAt(0) + ' года';
+    obj.color = color;
     obj.description = description;
     obj.city = included.organization.included.city.name;
+    obj.form = included.formats[0].name;
+    obj.duration = duration_value;
+    obj.photo = digital_image;
+
     console.log('description', description);
+    console.log('duration', duration_value);
   },
 };
 </script>
