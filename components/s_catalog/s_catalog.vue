@@ -263,6 +263,8 @@ export default {
       },
 
       slugs: [],
+
+      categories: null,
     };
   },
 
@@ -285,6 +287,12 @@ export default {
     },
 
     productsPerPage() {
+      this.fetchProductsList();
+    },
+
+    $route() {
+      this.clearRouteFilters();
+      this.fetchFilterData();
       this.fetchProductsList();
     },
 
@@ -434,7 +442,7 @@ export default {
     },
 
     async fetchFilterData() {
-      const filtersResponse = await getFilterData(this.pageInfo.components[0].methods[0].data);
+      const filtersResponse = await getFilterData(this.pageInfo.components[1].methods[0].data);
       filtersResponse.forEach((filters) => {
         if (filters.type === 'list') {
           this.filterListData[filters.filter_by] = { ...filters };
@@ -464,7 +472,7 @@ export default {
       }
 
       Object.entries(this.$route.query).forEach(([key, ids]) => {
-        if (key !== 'page' && key !== 'is_employment' && key !== 'is_installment') {
+        if (key !== 'page' && key !== 'is_employment' && key !== 'is_installment' && key !== 'category_ids') {
           this.filtersIdsData[key] = typeof ids === 'string' ? ids.split(',') : ids;
 
           ids.split(',').forEach((id) => {
@@ -483,7 +491,7 @@ export default {
     },
 
     async fetchProductsList() {
-      const expandedMethod = { ...this.pageInfo.components[1].methods[0].data };
+      const expandedMethod = { ...this.pageInfo.components[0].methods[0].data };
       expandedMethod.include = ['organization', 'levels', 'directions'];
       Object.entries(this.filtersIdsData).forEach((filterData) => {
         if (filterData[1].length === 0) {
@@ -502,6 +510,19 @@ export default {
           delete expandedMethod.filter[[key]];
         }
       });
+
+      if (process.browser && window.location.search.includes('category_ids')) {
+        this.categories = window.location.search
+          .split('&')
+          .filter((query) => query.includes('category_ids'))[0]
+          .split('=')[1];
+      }
+
+      if (this.categories) {
+        expandedMethod.filter.category_ids = this.categories;
+      } else {
+        delete expandedMethod.filter.category_ids;
+      }
 
       expandedMethod.pagination = { page: this.page, page_size: this.productsPerPage };
       expandedMethod.sort = this.currentOption;
@@ -527,7 +548,7 @@ export default {
       this.componentFilterKey += 1;
     },
 
-    clearAllFilters() {
+    clearRouteFilters() {
       this.selectedFilters.forEach((selected) => {
         const found = this.filterListData[selected.key].values.find((value) => value.name === selected.name);
         this.$set(found, 'isChecked', false);
@@ -541,7 +562,13 @@ export default {
       });
 
       this.page = 1;
-      window.history.pushState({}, null, '/catalog?page=1');
+    },
+
+    clearAllFilters() {
+      this.clearRouteFilters();
+
+      this.categories = null;
+      window.history.pushState({}, null, '/catalog');
 
       this.componentFilterKey += 1;
       this.componentMenuKey += 1;
@@ -591,11 +618,9 @@ export default {
   },
 
   created() {
-    let newQuery = this.$route.query;
+    const newQuery = this.$route.query;
     if (this.$route.query.page) {
       this.page = Number(this.$route.query.page);
-    } else {
-      newQuery = { ...newQuery, page: '1' };
     }
 
     this.$router.push({ path: this.$route.path, query: { ...newQuery } });

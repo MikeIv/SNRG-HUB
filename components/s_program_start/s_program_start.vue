@@ -12,6 +12,8 @@
       :photo="program.photo"
       :link="program.link"
       :color="program.color"
+      @get-program-click="scrollToFormBlock"
+      @sign-up="scrollToFormBlock"
     />
   </section>
 </template>
@@ -94,6 +96,13 @@ export default {
         link: '#link',
       },
     };
+  },
+
+  methods: {
+    scrollToFormBlock() {
+      const formBlock = document.getElementById('form');
+      formBlock.scrollIntoView({ behavior: 'smooth' });
+    },
   },
 };
 </script>

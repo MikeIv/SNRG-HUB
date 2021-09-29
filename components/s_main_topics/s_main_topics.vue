@@ -10,7 +10,7 @@
               :key="product.id"
               class="s-main-topics__slide m-card-vertical"
             >
-              <nuxt-link to="/">
+              <nuxt-link :to="`/catalog/${product.slug}`">
                 <m-card :verticalImgSrc="`${baseUrl}${product.preview_image}`" :title="product.name" type="vertical" />
               </nuxt-link>
             </swiper-slide>
@@ -79,6 +79,7 @@ export default {
   async fetch() {
     const expandedMethod = this.methods.data;
     this.directionsList = await getDirectionsList(expandedMethod);
+    console.log(this.directionsList);
   },
 };
 </script>
