@@ -1,0 +1,44 @@
+@import '@/assets/styles/tools/mixins';
+
+.s-success-history {
+  .swiper {
+    &-button-disabled {
+      display: none;
+    }
+    &-button-next,
+    &-button-prev {
+      transform: translateY(-50%);
+      @media screen and (max-width: 991px) {
+        display: none;
+      }
+      .a-button__icon {
+        color: var(--a-color_text--secondary);
+        font-size: rem(24);
+      }
+    }
+    &-button-next {
+      right: rem(-12);
+    }
+    &-button-prev {
+      left: rem(-12);
+    }
+    &-button-next::after,
+    &-button-prev::after {
+      content: none;
+    }
+  }
+  &__title {
+    margin-bottom: rem(24);
+  }
+
+  &__swiper {
+    position: relative;
+  }
+
+  &__slide {
+    width: rem(160);
+    a {
+      text-decoration: none;
+    }
+  }
+}

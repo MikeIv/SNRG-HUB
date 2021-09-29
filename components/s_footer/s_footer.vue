@@ -2,14 +2,15 @@
   <section class="s-footer__wrap">
     <div class="l-wide">
       <s-footer
-        socialsTitle='Мы в соцсетях'
-        applicationsTitle='Приёмная комиссия в твоем телефоне'
-        linkLogo='https://synergy.ru/assets/template/v5/images/logos/costum_part_dark_ru.svg'
-        :socials='socials'
-        :applications='applications'
-        :accords='accords'
+        socialsTitle="Мы в соцсетях"
+        applicationsTitle="Приёмная комиссия в твоем телефоне"
+        :linkLogo="logoURL"
+        :socials="socials"
+        :applications="applications"
+        :terms="terms"
+        :policy="policy"
       >
-        <MenuHorizontal/>
+        <MenuHorizontal />
       </s-footer>
     </div>
   </section>
@@ -25,50 +26,48 @@ export default {
 
   data() {
     return {
-      socials: [
-        {
-          href: '#',
-          icon: 'si-social-vk',
-        },
-        {
-          href: '#',
-          icon: 'si-social-facebook',
-        },
-        {
-          href: '#',
-          icon: 'si-social-instagram',
-        },
-        {
-          href: '#',
-          icon: 'si-social-youtube',
-        },
-      ],
+      socials: [],
+      logoURL: '',
+      policy: {
+        href: '',
+        text: '',
+      },
+      terms: {
+        href: '',
+        text: '',
+      },
       applications: [
-        {
-          link: 'https://synergy.ru/assets/template/v5/images/apps/apple_color_ru.png',
-          alt: 'Apple Store',
-        },
-        {
-          link: 'https://synergy.ru/assets/template/v5/images/apps/google_color_ru.png',
-          alt: 'Google Play',
-        },
-      ],
-      accords: [
-        {
-          href: '#',
-          title: '© 2021 Synergy. Все права защищены',
-        },
-        {
-          href: 'https://synergy.ru/lp/_chunk/privacy.php?lang=ru',
-          title: 'Политика конфиденциальности',
-        },
-        {
-          href: '#',
-          title: 'Пользовательское соглашение',
-        },
+        // {
+        //   href: '#',
+        //   image: 'https://synergy.ru/assets/template/v5/images/apps/apple_color_ru.png',
+        //   alt: 'Apple Store',
+        // },
+        // {
+        //   href: '#',
+        //   image: 'https://synergy.ru/assets/template/v5/images/apps/google_color_ru.png',
+        //   alt: 'Google Play',
+        // },
       ],
     };
   },
+
+  created() {
+    const socialsItems = this.$store.state.globalData.globalData.data.contacts.social_networks;
+    this.logoURL = this.$store.state.globalData.globalData.data.main.logo;
+
+    this.policy.href = this.$store.state.globalData.globalData.data.privacy_policy.link;
+    this.policy.text = this.$store.state.globalData.globalData.data.privacy_policy.text;
+
+    for (let i = 0; i < socialsItems.length; i += 1) {
+      const item = socialsItems[i];
+      const social = {
+        href: item.link,
+        icon: `si-social-${item.name}`,
+      };
+      this.socials.push(social);
+    }
+  },
+
   components: {
     SFooter,
     MenuHorizontal,

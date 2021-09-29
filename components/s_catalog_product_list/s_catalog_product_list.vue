@@ -3,17 +3,22 @@
     <div class="catalog-product-list__wrapper" v-if="productList">
       <slot />
       <h3 v-if="!productList.length">К сожалению, ничего нет</h3>
-      <m-card
-        class="catalog-product-list__item"
+      <nuxt-link
         v-for="product in productList"
+        :to="`/product/${product.slug}`"
         :key="product.id"
-        type="program"
-        :description="product.included.levels[0].name"
-        :title="product.name"
-        :verticalImgSrc="`${baseURL}/${product.preview_image}`"
-        :bottomText="product.included.organization.abbreviation_name"
-        :iconSrc="`${baseURL}/${product.included.organization.logo}`"
-      />
+        class="catalog-product-list__item-wrapper"
+      >
+        <m-card
+          type="program"
+          class="catalog-product-list__item"
+          :description="product.included.levels[0].name"
+          :title="product.name"
+          :verticalImgSrc="`${baseURL}/${product.preview_image}`"
+          :bottomText="product.included.organization.abbreviation_name"
+          :iconSrc="`${baseURL}${product.included.organization.logo}`"
+        />
+      </nuxt-link>
     </div>
     <m-pagination
       v-if="productList"

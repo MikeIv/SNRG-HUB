@@ -10,6 +10,8 @@
       :form="program.form"
       :photo="`${baseURL}/${program.photo}`"
       :color="program.color"
+      @get-program-click="scrollToFormBlock"
+      @sign-up="scrollToFormBlock"
     />
   </section>
 </template>
@@ -121,6 +123,12 @@ export default {
     obj.form = included.formats[0].name;
     obj.duration = duration_value;
     obj.photo = digital_image;
+
+  methods: {
+    scrollToFormBlock() {
+      const formBlock = document.getElementById('form');
+      formBlock.scrollIntoView({ behavior: 'smooth' });
+    },
   },
 };
 </script>

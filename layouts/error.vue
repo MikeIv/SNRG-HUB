@@ -1,8 +1,8 @@
 <template>
   <div class="page-404__wrapper">
-    <SHeader/>
+    <SHeader />
     <Page404 />
-    <SFooter/>
+    <SFooter />
   </div>
 </template>
 

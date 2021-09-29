@@ -1,24 +1,26 @@
 <template>
-  <section class="l-wide" :class="{ banners: bannersDetail.length > 1 }">
-    <template v-for="item in bannersDetail">
-      <nuxt-link
-        :to="`${item.link}`"
-        class="s_banner__link"
-        :key="item.id"
-        :class="{ multibanner: bannersDetail.length > 1 }"
-      >
-        <m-banner
-          class="s_banner"
-          :type="item.banner_type"
-          :bgColor="item.color_bg_list"
-          :topTxt="item.description"
-          :titleTxt="item.name"
-          :secondTxt="item.name_second"
-          :color="item.color_text_list"
-          :ImgSrc="`${baseURL}/${item.image}`"
-        />
-      </nuxt-link>
-    </template>
+  <section class="s-banner s-padding--smallTop" :class="{ banners: bannersDetail.length > 1 }">
+    <div class="l-wide">
+      <template v-for="item in bannersDetail">
+        <nuxt-link
+          :to="`${item.link}`"
+          class="s_banner__link"
+          :key="item.id"
+          :class="{ multibanner: bannersDetail.length > 1 }"
+        >
+          <m-banner
+            class="s_banner"
+            :type="item.banner_type"
+            :bgColor="item.color_bg_list"
+            :topTxt="item.description"
+            :titleTxt="item.name"
+            :secondTxt="item.name_second"
+            :color="item.color_text_list"
+            :ImgSrc="`${baseURL}${item.image}`"
+          />
+        </nuxt-link>
+      </template>
+    </div>
   </section>
 </template>
 
