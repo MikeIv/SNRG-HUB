@@ -5,16 +5,19 @@
       :title="title"
       :checkboxText="checkboxText"
       :btnText="btnText"
-      :inputs="inputs"
       :typeCtrl="typeCtrl"
       :typeBtn="typeBtn"
       :checked="checked"
-    />
+    >
+      <a-input class="m-form__input" placeholder="Имя" type="text"/>
+      <a-input class="m-form__input" placeholder="Телефон" type="tel"/>
+      <a-input class="m-form__input" placeholder="Почта" type="email"/>
+    </MForm>
   </section>
 </template>
 
 <script>
-import { MForm } from '@cwespb/synergyui';
+import { MForm, AInput } from '@cwespb/synergyui';
 import './s_program_form.scss';
 
 export default {
@@ -22,6 +25,7 @@ export default {
 
   components: {
     MForm,
+    AInput
   },
 
   data() {
@@ -30,11 +34,6 @@ export default {
       title: 'Записаться на курс или получить бесплатную консультацию',
       checkboxText: 'Нажимая на кнопку, вы соглашаетсь с политикой конфиденциальности и на получение рассылок',
       btnText: 'Записаться',
-      inputs: [
-        { placeholder: 'Имя', name: 'name', type: 'text' },
-        { placeholder: 'Телефон', name: 'phone', type: 'tel' },
-        { placeholder: 'Почта', name: 'email', type: 'email' },
-      ],
       typeCtrl: 'checkbox',
       typeBtn: 'checkbox',
       checked: true,

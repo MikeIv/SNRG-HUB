@@ -2,7 +2,7 @@
   <section class="s-main-search">
     <div class="l-wide">
       <div class="s-main-search__box">
-        <h2 class="s-main-search__title a-font_h5">{{ title }}</h2>
+        <h2 class="s-main-search__title a-font_h5" v-html="title">Search</h2>
 
         <div class="s-main-search__row" v-for="row in getAllItems" :key="row.id">
           <div class="s-main-search__category a-font_l">{{ row.name }}</div>

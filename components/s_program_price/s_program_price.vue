@@ -11,19 +11,22 @@
       :oldPrice="oldPrice"
       :currentPrice="currentPrice"
       :formTitle="formTitle"
-      :inputs="inputs"
       :btnText="btnText"
       :actionForm="actionForm"
       :checkboxText="checkboxText"
       :typeCtrl="typeCtrl"
       :typeBtn="typeBtn"
       :checked="checked"
-    />
+    >
+      <a-input class="m-form__input" placeholder="Имя" type="text"/>
+      <a-input class="m-form__input" placeholder="Телефон" type="tel"/>
+      <a-input class="m-form__input" placeholder="Почта" type="email"/>
+    </MFormPay>
   </section>
 </template>
 
 <script>
-import { MFormPay } from '@cwespb/synergyui';
+import { MFormPay, AInput } from '@cwespb/synergyui';
 import './s_program_price.scss';
 
 export default {
@@ -31,6 +34,7 @@ export default {
 
   components: {
     MFormPay,
+    AInput
   },
 
   data() {
@@ -40,11 +44,6 @@ export default {
       actionForm: '/',
       checkboxText: 'Нажимая на кнопку, вы соглашаетсь с политикой конфиденциальности и на получение рассылок',
       btnText: 'Записаться',
-      inputs: [
-        { placeholder: 'Имя', name: 'name', type: 'text' },
-        { placeholder: 'Телефон', name: 'phone', type: 'tel' },
-        { placeholder: 'Почта', name: 'email', type: 'email' },
-      ],
       typeCtrl: 'checkbox',
       typeBtn: 'checkbox',
       checked: true,
