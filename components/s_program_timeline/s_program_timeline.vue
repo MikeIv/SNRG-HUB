@@ -17,7 +17,8 @@
         <swiper-slide
           v-for="item in programTimelineList"
           :key="item.id"
-          class="s-program-timeline__slide m-card-landing">
+          class="s-program-timeline__slide m-card-landing"
+        >
           <MCardLanding :title="item.title" :text="item.text" :image="item.image" />
         </swiper-slide>
       </swiper>

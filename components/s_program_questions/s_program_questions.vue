@@ -1,7 +1,5 @@
 <template>
-<div>
   <SProgramQuestions :title="title" :items="questionsList" />
-</div>
 </template>
 
 <script>

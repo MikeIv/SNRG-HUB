@@ -79,7 +79,7 @@ export default {
     const {
       description, color, name, digital_image, document, duration_format_value, included,
     } = this.productsDetail;
-    //TODO: дописать парсинг duration_format_value на год\месяцы и склонения добавить
+    // TODO: дописать парсинг duration_format_value на год\месяцы и склонения добавить
     const duration_value = duration_format_value.charAt(1) === 'm'
       ? `${duration_format_value.charAt(0)} месяца`
       : `${duration_format_value.charAt(0)} года`;

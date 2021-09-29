@@ -18,10 +18,7 @@
           :key="item.id"
           class="s-program-teachers__slide m-card-landing-vertical"
         >
-          <MCardLanding
-            :title="item.name"
-            :text="item.description"
-            :image="`${baseURL}${item.preview_image}`" />
+          <MCardLanding :title="item.name" :text="item.description" :image="`${baseURL}${item.preview_image}`" />
         </swiper-slide>
       </swiper>
     </div>

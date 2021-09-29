@@ -26,7 +26,10 @@ export default {
     const expandedMethod = this.methods[0].data;
     const preData = await getEntitiesSectionsDetail(expandedMethod);
     // eslint-disable-next-line no-param-reassign
-    this.programSkillsList = preData.json.items.data.map(({ title }) => { title.type = 'icon'; return title; });
+    this.programSkillsList = preData.json.items.data.map(({ title }) => {
+      title.type = 'icon';
+      return title;
+    });
   },
 };
 </script>
