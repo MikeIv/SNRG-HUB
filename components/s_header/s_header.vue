@@ -72,8 +72,8 @@ export default {
   },
 
   computed: {
-    setGlobalData() {
-      return this.$store.state.globalData;
+    globalData() {
+      return this.$store.state.globalData.globalData;
     },
   },
 

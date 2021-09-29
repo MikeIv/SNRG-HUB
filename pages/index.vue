@@ -26,9 +26,6 @@ export default {
     pageMeta() {
       return this.$store.state.pageMeta;
     },
-    globalData() {
-      return this.$store.state.globalData;
-    },
   },
 
   head() {
