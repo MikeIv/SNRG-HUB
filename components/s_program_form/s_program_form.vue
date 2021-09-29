@@ -1,6 +1,6 @@
 <template>
   <section class="s-program-form" ref="form" id="form">
-    <MForm
+    <m-form
       :actionForm="actionForm"
       :title="title"
       :checkboxText="checkboxText"
@@ -8,11 +8,12 @@
       :typeCtrl="typeCtrl"
       :typeBtn="typeBtn"
       :checked="checked"
+      @click="sendForm"
     >
-      <a-input class="m-form__input" placeholder="Имя" type="text"/>
-      <a-input class="m-form__input" placeholder="Телефон" type="tel"/>
-      <a-input class="m-form__input" placeholder="Почта" type="email"/>
-    </MForm>
+      <a-input class="m-form__input" v-model="dataForm.name" placeholder="Имя" type="text" />
+      <a-input class="m-form__input" v-model="dataForm.phone" placeholder="Телефон" type="tel" />
+      <a-input class="m-form__input" v-model="dataForm.email" placeholder="Почта" type="email" />
+    </m-form>
   </section>
 </template>
 
@@ -28,20 +29,30 @@ export default {
     AInput
   },
 
-  data() {
-    return {
-      actionForm: '/',
-      title: 'Записаться на курс или получить бесплатную консультацию',
-      checkboxText: 'Нажимая на кнопку, вы соглашаетсь с политикой конфиденциальности и на получение рассылок',
-      btnText: 'Записаться',
-      typeCtrl: 'checkbox',
-      typeBtn: 'checkbox',
-      checked: true,
-    };
-  },
+  data: () => ({
+    actionForm: '/',
+    title: 'Записаться на курс или получить бесплатную консультацию',
+    checkboxText: 'Нажимая на кнопку, вы соглашаетсь с политикой конфиденциальности и на получение рассылок',
+    btnText: 'Записаться',
+    typeCtrl: 'checkbox',
+    typeBtn: 'checkbox',
+    checked: true,
+
+    dataForm: {
+      name: '',
+      phone: '',
+      email: '',
+    },
+  }),
 
   mounted() {
     this.$emit('form-ref', this.$refs.form);
+  },
+
+  methods: {
+    sendForm() {
+      this.$validator.send(this.dataForm).then(() => {});
+    },
   },
 };
 </script>
