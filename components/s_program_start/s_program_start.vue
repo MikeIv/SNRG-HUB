@@ -63,7 +63,7 @@ export default {
       },
       program: {
         description: '',
-        subtitle: 'Профессия с трудоустройством',
+        subtitle: '',
         title: 'PHP-программист',
         color: '#e6e4f1',
         social: [
@@ -113,12 +113,14 @@ export default {
     this.productsDetail = preData.data;
     console.log('productsDetail', this.productsDetail);
     const obj = this.program;
-    const { description, color, digital_image, begin_duration_format_value, included } = this.productsDetail;
-    let duration_value =
+    const { description, color, name, digital_image, begin_duration_format_value, included } = this.productsDetail;
+    const duration_value =
       begin_duration_format_value.charAt(1) === 'm'
-        ? begin_duration_format_value.charAt(0) + ' месяца'
-        : begin_duration_format_value.charAt(0) + ' года';
+        ? `${begin_duration_format_value.charAt(0)} месяца`
+        : `${begin_duration_format_value.charAt(0)} года`;
     obj.color = color;
+    obj.title = name;
+    obj.subtitle = included.levels[0].name;
     obj.description = description;
     obj.city = included.organization.included.city.name;
     obj.form = included.formats[0].name;
