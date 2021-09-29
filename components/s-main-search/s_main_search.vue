@@ -2,42 +2,54 @@
   <section class="s-main-search">
     <div class="l-wide">
       <div class="s-main-search__box">
-      <h2 class="s-main-search__title a-font_h5">s-main-search {{ title }}</h2>
-      <div class="s-main-search__row" v-for="row in getAllItems" :key="row.id">
-        <div class="s-main-search__category a-font_l">{{ row.name }}</div>
-        <div class="s-main-search__items">
+        <h2 class="s-main-search__title a-font_h5">{{ title }}</h2>
 
-          <template v-for="(item) in row.items" >
+        <div class="s-main-search__row" v-for="row in getAllItems" :key="row.id">
+          <div class="s-main-search__category a-font_l">{{ row.name }}</div>
+          <div class="s-main-search__items">
+            <template v-for="item in row.items">
+              <nuxt-link
+                :to="`catalog?${extractQueryParams(row, item)}`"
+                class="s-main-search__item"
+                v-if="item.isActive"
+                :key="item.id"
+              >
+                <div class="s-main-search__item-title a-font_l-m">
+                  <span>{{ item.name }}</span>
+                </div>
+                <div class="s-main-search__item-count a-font_m">{{ item.count }}</div>
+              </nuxt-link>
+            </template>
 
-            <nuxt-link
-            :to="`${item.page.filter.slug}/?${extractQueryParams(item.page.params)}`"
-            class="s-main-search__item" v-if="item.isActive"
-            :key="item.id">
-              <div class="s-main-search__item-title a-font_l-m"><span>{{ item.name }}</span></div>
-              <div class="s-main-search__item-count a-font_m">{{ item.count }}</div>
-            </nuxt-link>
-
-          </template>
-
-          <div v-if="row.items.length >= maxLinksCount"
-          :class="[{ 'is-open' : row.isOpen },
-          's-main-search__item s-main-search__item--btn']"
-          >
-            <AButton
-              @onClickBtn="toggleItems(row); toggleBtnClass(row)"
-              size = 'small'
-              class="a-font_l"
-              bgColor = 'none'
-              addIcon = 'fonts-icon'
-              iconPosition = 'right'
-              :iconType="row.isOpen ? 'si-chevron-up' : 'si-chevron-down'"
-              :label="row.isOpen ? 'Свернуть' : 'Еще программы'"
-            />
+            <div
+              v-if="row.items.length >= maxLinksCount"
+              :class="[{ 'is-open': row.isOpen }, 's-main-search__item s-main-search__item--btn']"
+            >
+              <AButton
+                @onClickBtn="
+                  toggleItems(row);
+                  toggleBtnClass(row);
+                "
+                size="small"
+                class="a-font_l"
+                bgColor="none"
+                addIcon="fonts-icon"
+                iconPosition="right"
+                :iconType="row.isOpen ? 'si-chevron-up' : 'si-chevron-down'"
+                :label="row.isOpen ? 'Свернуть' : 'Еще программы'"
+              />
+            </div>
           </div>
         </div>
-      </div>
 
-    </div>
+        <nuxt-link to="/catalog" class="s-main-search__btn-link">
+          <AButton
+            size="large"
+            bgColor="accent"
+            :label="`Показать предложения`"
+          />
+        </nuxt-link>
+      </div>
     </div>
   </section>
 </template>
@@ -62,7 +74,6 @@ export default {
       mobileBreakPoint: 768,
       buttonClass: false,
       btnIconType: false,
-      baseURL: process.env.NUXT_ENV_S3BACKET,
     };
   },
 
@@ -112,7 +123,9 @@ export default {
   },
 
   async fetch() {
-    this.rows = await getProductsMain();
+    let [expandedMethod] = this.methods;
+    expandedMethod = { ...expandedMethod.data };
+    this.rows = await getProductsMain(expandedMethod);
   },
 
   methods: {
@@ -137,13 +150,8 @@ export default {
       this.windowWidth = window.innerWidth;
     },
 
-    extractQueryParams(params) {
-      let query = '';
-      Object.keys(params).forEach((key) => {
-        query += `?${key}=${params[key][0]}`;
-      });
-
-      return query;
+    extractQueryParams(params, item) {
+      return `${params.filter_by}=${item.id}`;
     },
   },
 

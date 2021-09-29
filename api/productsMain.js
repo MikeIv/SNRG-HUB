@@ -5,7 +5,7 @@ const axios = axiosCreate();
 // Метод получения продуктов на главной странице
 //
 
-export default async function getPersonsList(requestData) {
+export default async function getProductsMain(requestData) {
   const response = await axios.post('api/v1/filters/products/main', requestData);
   return response.data.data;
 }

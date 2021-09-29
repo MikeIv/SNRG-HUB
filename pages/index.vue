@@ -8,7 +8,6 @@
       :title="title"
       :viewType="view_type"
     ></component>
-    <SMainSearch />
   </div>
 </template>
 
