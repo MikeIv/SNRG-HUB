@@ -32,11 +32,11 @@
               <div class="s-header__burger-text a-font_l a-color_link">{{ btnText }}</div>
             </div>
             <div class="s-header__search">
-              <a-input :isSearch="true" size="medium" :placeholder="searchPlaceholder"></a-input>
+              <a-input icons="si-search" size="medium" :placeholder="searchPlaceholder"></a-input>
             </div>
-            <div class="s-header__login">
+            <a href="//pass.synergy.ru" target="_blank" class="s-header__login">
               <a-button label="Войти" bgColor="ghost-accept"></a-button>
-            </div>
+            </a>
           </div>
         </div>
         <div class="s-header__bottom">

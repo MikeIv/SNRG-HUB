@@ -94,7 +94,7 @@
 
     @media screen and (max-width: 767px) {
       width: 100%;
-      height: calc(100vh - 172px);
+      height: calc(100vh - 136px);
       padding-right: 0;
       background: var(--a-color_bg--secondary);
       border-right: none;
@@ -105,7 +105,7 @@
     overflow-x: hidden;
     overflow-y: scroll;
     width: auto;
-    height: calc(100vh - 195px);
+    height: calc(100vh - 156px);
     padding-top: var(--a-padding--x5);
     padding-left: var(--a-padding--x8);
     transition: all 0.4s ease-in-out;
@@ -118,6 +118,7 @@
       width: auto;
     }
     @media screen and (max-width: 991px) {
+      height: calc(100vh - 116px);
       padding-top: var(--a-padding--x4);
       padding-left: var(--a-padding--x6);
     }
