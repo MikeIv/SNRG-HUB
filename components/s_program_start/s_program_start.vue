@@ -76,13 +76,12 @@ export default {
     const preData = await getProductsDetail(expandedMethod);
     this.productsDetail = preData.data;
     const obj = this.program;
-    const {
-      description, color, name, digital_image, document, duration_format_value, included,
-    } = this.productsDetail;
+    const { description, color, name, digital_image, document, duration_format_value, included } = this.productsDetail;
     // TODO: дописать парсинг duration_format_value на год\месяцы и склонения добавить
-    const duration_value = duration_format_value.charAt(1) === 'm'
-      ? `${duration_format_value.charAt(0)} месяца`
-      : `${duration_format_value.charAt(0)} года`;
+    const duration_value =
+      duration_format_value.charAt(1) === 'm'
+        ? `${duration_format_value.charAt(0)} месяца`
+        : `${duration_format_value.charAt(0)} года`;
     obj.color = color;
     obj.title = name;
     obj.subtitle = included.levels[0].name;
@@ -97,7 +96,7 @@ export default {
   methods: {
     scrollToFormBlock() {
       const formBlock = document.getElementById('form');
-      formBlock.scrollIntoView({ behavior: 'smooth' });
+      formBlock.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'nearest' });
     },
   },
 };
