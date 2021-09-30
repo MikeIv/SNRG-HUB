@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <main>
     <component
       :is="key"
       v-for="{ key, methods, title, id, view_type } in pageInfo.components"
@@ -8,7 +8,7 @@
       :title="title"
       :viewType="view_type"
     ></component>
-  </div>
+  </main>
 </template>
 
 <script>
