@@ -85,7 +85,6 @@ export default {
 
   async fetch() {
     this.menu = await getMenuMain().then((data) => {
-      console.log('@@@', data);
       this.menuAnchors = data;
 
       data.forEach((el, i) => {
@@ -99,7 +98,6 @@ export default {
           isActive: element.isActive,
         };
         this.menuLinks.push(item);
-        console.log('!!', this.menuLinks);
       });
     });
   },

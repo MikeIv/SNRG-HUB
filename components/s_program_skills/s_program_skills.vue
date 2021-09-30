@@ -26,6 +26,7 @@ export default {
     const preData = await getEntitiesSectionsDetail(expandedMethod);
     // eslint-disable-next-line no-param-reassign
     this.programSkillsList = preData.json.items.data.map(({ title }) => {
+      // eslint-disable-next-line no-param-reassign
       title.type = 'icon';
       return title;
     });
