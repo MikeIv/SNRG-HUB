@@ -1,7 +1,10 @@
 <template>
   <section class="s-partners">
-    <div class="l-default">
-      <h2 class="s-partners__title s-program-timeline__title a-font_h5" v-html="title"></h2>
+    <div :class="this.$route.name == 'index' ? 'l-wide' : 'l-default'">
+      <h2
+      class="s-partners__title s-program-timeline__title "
+      :class="this.$route.name == 'index' ? 'a-font_h5' : 'a-font_h2'"
+      v-html="title"></h2>
       <div class="s-partners__items">
         <div class="s-partners__item" v-for="(company, idx) in companyList" :key="idx">
           <a-logo type="bordered" :link="`${baseUrl}${company.logo_image.value}`" />
