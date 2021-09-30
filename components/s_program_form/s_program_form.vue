@@ -1,7 +1,6 @@
 <template>
   <section class="s-program-form" ref="form" id="form">
     <m-form
-      :actionForm="actionForm"
       :title="title"
       :checkboxText="checkboxText"
       :btnText="btnText"
@@ -10,9 +9,11 @@
       :checked="checked"
       @click="sendForm"
     >
-      <a-input class="m-form__input" v-model="dataForm.name" placeholder="Имя" type="text" />
-      <a-input class="m-form__input" v-model="dataForm.phone" placeholder="Телефон" type="tel" />
-      <a-input class="m-form__input" v-model="dataForm.email" placeholder="Почта" type="email" />
+      <template v-slot:inputs>
+        <a-input class="m-form__input" v-model="dataForm.name" placeholder="Имя" type="text" />
+        <a-input class="m-form__input" v-model="dataForm.phone" placeholder="Телефон" type="tel" />
+        <a-input class="m-form__input" v-model="dataForm.email" placeholder="Почта" type="email" />
+      </template>
     </m-form>
   </section>
 </template>
@@ -30,7 +31,6 @@ export default {
   },
 
   data: () => ({
-    actionForm: '/',
     title: 'Записаться на курс или получить бесплатную консультацию',
     checkboxText: 'Нажимая на кнопку, вы соглашаетсь с политикой конфиденциальности и на получение рассылок',
     btnText: 'Записаться',
