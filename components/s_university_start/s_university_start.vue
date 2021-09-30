@@ -61,13 +61,13 @@ export default {
     const expandedMethod = this.methods[0].data;
     expandedMethod.include = ['persons', 'city'];
     const preData = await getOrganizationsDetail(expandedMethod);
-    this.university.city = preData.included.city.name;
-    this.university.name = preData.name;
-    this.university.description = preData.description;
-    this.university.type = preData.type_text;
+    this.university.city = preData.data.included.city.name;
+    this.university.name = preData.data.name;
+    this.university.description = preData.data.description;
+    this.university.type = preData.data.type_text;
     this.university.hostel = 'есть';
-    this.university.photo = this.baseURL + preData.digital_image;
-    this.logoSrc = this.baseURL + preData.logo;
+    this.university.photo = this.baseURL + preData.data.digital_image;
+    this.logoSrc = this.baseURL + preData.data.logo;
   },
 };
 </script>
