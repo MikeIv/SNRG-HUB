@@ -623,18 +623,24 @@ export default {
 
   created() {
     if (process.client) {
-      if (this.$route.query.page) {
+      if (window.location.search.includes('page')) {
+        const newSearch = window.location.search
+          .split('&')
+          .filter((query) => !query.includes('page'))
+          .join('&');
         this.page = Number(this.$route.query.page);
         window.history.pushState(
           {},
           null,
-          `/catalog?page=${this.page}&${window.location.search ? window.location.search.split('?')[1] : ''}`,
+          `/catalog?page=${this.page}${newSearch ? '&' : ''}${newSearch ? newSearch.split('?')[1] : ''}`,
         );
       } else {
         window.history.pushState(
           {},
           null,
-          `/catalog?page=1&${window.location.search ? window.location.search.split('?')[1] : ''}`,
+          `/catalog?page=1${window.location.search ? '&' : ''}${
+            window.location.search ? window.location.search.split('?')[1] : ''
+          }`,
         );
       }
     }
