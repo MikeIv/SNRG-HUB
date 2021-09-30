@@ -100,7 +100,7 @@
               @input="switchClick(filter, ...arguments)"
             />
             <div class="catalog-page__menu-button">
-              <a-button :label="menuButtonLabel" bgColor="accent" @onClickBtn="filtersMenuClose" />
+              <a-button :label="menuButtonLabel" bgColor="accent" @click="filtersMenuClose" />
             </div>
           </div>
         </div>
@@ -515,10 +515,11 @@ export default {
       });
 
       if (process.browser && window.location.search.includes('category_ids')) {
-        this.categories = window.location.search
+        const category = window.location.search
           .split('&')
           .filter((query) => query.includes('category_ids'))[0]
           .split('=')[1];
+        this.categories = category;
       }
 
       if (this.categories) {

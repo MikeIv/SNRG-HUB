@@ -3,15 +3,6 @@
     <SProgramStart
       :breadcrumbs="breadcrumbs"
       :program="program"
-      :event="event"
-      :description="program.description"
-      :city="program.city"
-      :language="program.language"
-      :duration="program.duration"
-      :form="program.form"
-      :photo="program.photo"
-      :link="program.link"
-      :color="program.color"
       @get-program-click="scrollToFormBlock"
       @sign-up="scrollToFormBlock"
     />
@@ -22,8 +13,10 @@
 import { SProgramStart } from '@cwespb/synergyui';
 import './s_program_start.scss';
 
+import getProductsDetail from '~/api/productsDetail';
+
 export default {
-  name: 's_program_start',
+  name: 's-program-start',
 
   components: {
     SProgramStart,
@@ -31,6 +24,10 @@ export default {
 
   data() {
     return {
+      productsDetail: [],
+
+      baseURL: process.env.NUXT_ENV_S3BACKET,
+
       breadcrumbs: [
         {
           label: 'Учебные заведения',
@@ -52,50 +49,48 @@ export default {
       event: {
         date: '22 июня в 15:00',
         title: 'JAVA для новичков. Программируем вендинговый автомат',
-        description: 'Вебинар',
+        // description: 'Вебинар',
         link: '#',
       },
       program: {
-        subtitle: 'Профессия с трудоустройством',
-        title: 'PHP-программист',
-        color: '#e6e4f1',
-        social: [
-          {
-            id: 1,
-            name: 'Вконтакте',
-            icon: 'vk',
-            link: '#vk',
-          },
-          {
-            id: 2,
-            name: 'Twitter',
-            icon: 'twitter',
-            link: '#twitter',
-          },
-          {
-            id: 3,
-            name: 'Instagram',
-            icon: 'instagram',
-            link: '#insta',
-          },
-          {
-            id: 4,
-            name: 'Facebook',
-            icon: 'facebook',
-            link: '#facebook',
-          },
-        ],
-        description:
-          // eslint-disable-next-line max-len
-          'Язык PHP отличается практичностью и дает возможность быстро решать задачи, поэтому множество сайтов написаны именно на нем. Язык PHP отличается практичностью и дает возможность быстро решать задачи, поэтому множество сайтов написаны именно на нем.',
-        city: 'Москва',
-        language: 'Русский',
-        duration: '4 года',
-        form: 'Очно, заочно',
-        photo: 'https://fainaidea.com/wp-content/uploads/2015/02/agh1.jpg',
-        link: '#link',
+        description: '',
+        subtitle: '',
+        title: '',
+        color: '',
+        social: [],
+        city: '',
+        document: '',
+        duration: '',
+        form: '',
+        photo: '',
+        link: '',
       },
     };
+  },
+
+  props: ['methods', 'title'],
+  async fetch() {
+    let [expandedMethod] = this.methods;
+    expandedMethod = { ...expandedMethod.data };
+    expandedMethod.include = ['organization', 'formats', 'levels', 'directions', 'organization.city'];
+    const preData = await getProductsDetail(expandedMethod);
+    this.productsDetail = preData.data;
+    const obj = this.program;
+    const { description, color, name, digital_image, document, duration_format_value, included } = this.productsDetail;
+    // TODO: дописать парсинг duration_format_value на год\месяцы и склонения добавить
+    const duration_value =
+      duration_format_value.charAt(1) === 'm'
+        ? `${duration_format_value.charAt(0)} месяца`
+        : `${duration_format_value.charAt(0)} года`;
+    obj.color = color;
+    obj.title = name;
+    obj.subtitle = included.levels[0].name;
+    obj.description = description;
+    obj.document = document;
+    obj.city = included.organization.included.city.name;
+    obj.form = included.formats[0].name;
+    obj.duration = duration_value;
+    obj.photo = this.baseURL + digital_image;
   },
 
   methods: {
