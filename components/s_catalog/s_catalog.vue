@@ -100,7 +100,7 @@
               @input="switchClick(filter, ...arguments)"
             />
             <div class="catalog-page__menu-button">
-              <a-button :label="menuButtonLabel" bgColor="accent" @onClickBtn="filtersMenuClose" />
+              <a-button :label="menuButtonLabel" bgColor="accent" @click="filtersMenuClose" />
             </div>
           </div>
         </div>
@@ -163,9 +163,7 @@
 </template>
 
 <script>
-import {
-  ATag, ASelect, ATitle, AButton, AControl, MFilter,
-} from '@cwespb/synergyui';
+import { ATag, ASelect, ATitle, AButton, AControl, MFilter } from '@cwespb/synergyui';
 import { Swiper, SwiperSlide } from 'vue-awesome-swiper';
 import SCatalogFilter from '~/components/s_catalog_filter/s_catalog_filter';
 import SCatalogProductList from '~/components/s_catalog_product_list/s_catalog_product_list';
@@ -305,15 +303,18 @@ export default {
           if (filterIds.length === 1) {
             if (filterKey !== 'city_ids') {
               const found = this.filterListData[filterKey].values.find((value) => value.id === Number(filterIds[0]));
-
               if (!window.location.pathname.includes(found.slug)) {
                 // Сюда мы попадаем, если у нас только один слаг в фильтре и должны
                 // подчитстить ненужные квери, связанные с этим фильтром
                 // например слаг dizain и остался direction_ids=3
-                const newSearch = window.location.search
+                let newSearch = window.location.search
                   .split('&')
                   .filter((query) => !query.includes(filterKey))
                   .join('&');
+
+                if (!window.location.search.includes('page')) {
+                  newSearch = `${newSearch}?page=1`;
+                }
 
                 window.history.pushState({}, null, `${window.location.pathname}/${found.slug}${newSearch}`);
               }
@@ -512,10 +513,11 @@ export default {
       });
 
       if (process.browser && window.location.search.includes('category_ids')) {
-        this.categories = window.location.search
+        const category = window.location.search
           .split('&')
           .filter((query) => query.includes('category_ids'))[0]
           .split('=')[1];
+        this.categories = category;
       }
 
       if (this.categories) {
@@ -568,7 +570,7 @@ export default {
       this.clearRouteFilters();
 
       this.categories = null;
-      window.history.pushState({}, null, '/catalog');
+      window.history.pushState({}, null, '/catalog?page=1');
 
       this.componentFilterKey += 1;
       this.componentMenuKey += 1;
@@ -618,12 +620,28 @@ export default {
   },
 
   created() {
-    const newQuery = this.$route.query;
-    if (this.$route.query.page) {
-      this.page = Number(this.$route.query.page);
+    if (process.client) {
+      if (window.location.search.includes('page')) {
+        const newSearch = window.location.search
+          .split('&')
+          .filter((query) => !query.includes('page'))
+          .join('&');
+        this.page = Number(this.$route.query.page);
+        window.history.pushState(
+          {},
+          null,
+          `/catalog?page=${this.page}${newSearch ? '&' : ''}${newSearch ? newSearch.split('?')[1] : ''}`,
+        );
+      } else {
+        window.history.pushState(
+          {},
+          null,
+          `/catalog?page=1${window.location.search ? '&' : ''}${
+            window.location.search ? window.location.search.split('?')[1] : ''
+          }`,
+        );
+      }
     }
-
-    this.$router.push({ path: this.$route.path, query: { ...newQuery } });
   },
 
   async fetch() {

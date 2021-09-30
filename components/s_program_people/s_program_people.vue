@@ -67,7 +67,7 @@ export default {
     this.programPeopleList = preData.json.items.data.map((item) => ({
       title: item.title.value,
       text: item.description.value,
-      image: item.preview_image ? this.baseUrl + item.preview_image.value : '',
+      image: item.preview_image && item.preview_image.value ? this.baseUrl + item.preview_image.value : '',
     }));
   },
 };

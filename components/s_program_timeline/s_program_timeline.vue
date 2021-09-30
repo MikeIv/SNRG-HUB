@@ -74,8 +74,8 @@ export default {
       image: item.image ? this.baseUrl + item.preview_image.value : '',
     }));
     this.programTimelineRightItems = preData.json.rightItems.data.map((item) => ({
-      title: item.description.value ?? 'нет контента',
-      subtitle: item.title.value ?? 'нет котента',
+      title: item.description && item.description.value ? item.title.value : '',
+      subtitle: item.title && item.title.value ? item.title.value : '',
       type: 'default',
     }));
   },
