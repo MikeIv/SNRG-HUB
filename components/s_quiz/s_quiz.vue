@@ -75,9 +75,7 @@
 </template>
 
 <script>
-import {
-  AButton, AInput, AControl, AProgressbar,
-} from '@cwespb/synergyui';
+import { AButton, AInput, AControl, AProgressbar } from '@cwespb/synergyui';
 import getQuizzesDetail from '~/api/quizzesDetail';
 
 import './s_quiz.scss';
@@ -145,9 +143,7 @@ export default {
     },
 
     sendQuiz() {
-      this.$validator.send(this.send).then((response) => {
-        console.log(response);
-      });
+      this.$validator.send(this.send).then((response) => {});
     },
 
     changeQuiz(value) {
