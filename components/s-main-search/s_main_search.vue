@@ -26,10 +26,7 @@
               :class="[{ 'is-open': row.isOpen }, 's-main-search__item s-main-search__item--btn']"
             >
               <AButton
-                @onClickBtn="
-                  toggleItems(row);
-                  toggleBtnClass(row);
-                "
+                @click="toggleItems(row); toggleBtnClass(row);"
                 size="small"
                 class="a-font_l"
                 bgColor="none"
