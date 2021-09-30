@@ -45,8 +45,8 @@ export default {
     }));
     this.programContentRightItems = preData.json.rightItems.data.map((item, index) => ({
       id: index + 1,
-      title: item.description.value ?? '',
-      number: item.title.value ?? '',
+      title: item.description && item.description.value ? item.description.value : '',
+      number: item.title && item.title.value ? item.title.value : '',
       type: 'number',
       color: 'color_link',
     }));
