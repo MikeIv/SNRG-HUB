@@ -19,7 +19,7 @@
                 :iconSrc="`${baseURL}${product.included.organization.logo}`"
                 :verticalImgSrc="`${baseURL}${product.digital_image}`"
                 type="program"
-                @click="$router.push({ name: 'product', params: { id: product.id } })"
+                @organization-click="onOrganizationClick(product)"
               />
             </nuxt-link>
           </template>
@@ -60,6 +60,10 @@ export default {
   methods: {
     getWindowWidth() {
       this.windowWidth = document.documentElement.clientWidth;
+    },
+
+    onOrganizationClick(product) {
+      this.$router.push(`/organization/${product.included.organization.slug}`);
     },
   },
   async fetch() {
