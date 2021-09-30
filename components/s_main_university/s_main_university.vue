@@ -12,6 +12,7 @@
               :iconSrc="`${baseUrl}${product.logo}`"
               :bottomText="product.abbreviation_name"
               type="program"
+              @organization-click="onOrganizationClick(product)"
             />
           </nuxt-link>
         </template>
@@ -57,6 +58,10 @@ export default {
   },
 
   methods: {
+    onOrganizationClick(product) {
+      this.$router.push(`/organization/${product.slug}`);
+    },
+
     handleResize() {
       this.windowWidth = window.innerWidth;
     },
