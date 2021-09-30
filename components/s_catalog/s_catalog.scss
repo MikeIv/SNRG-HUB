@@ -30,6 +30,12 @@
       padding-top: rem(32);
       padding-bottom: rem(14);
     }
+
+    &_active {
+      color: #fff;
+      background-color: var(--a-color_link);
+      transition: .4s;
+    }
   }
 
   &__filters {

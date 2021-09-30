@@ -5,8 +5,10 @@
       <sup class="catalog-page__header-total a-font_L"> {{ totalProducts }} программ</sup>
     </h2>
     <swiper class="catalog-page__main-tags" :options="swiperOption">
-      <swiper-slide v-for="tag in main_tags" :key="tag.label" class="catalog-page__swiper-slide">
-        <a-tag :label="tag.label" :status="tag.status" />
+      <swiper-slide v-for="preset in presets" :key="preset.name" class="catalog-page__swiper-slide">
+        <nuxt-link :to="`${buildPresetUrl(preset.filter)}`">
+          <a-tag :label="preset.name" :class="{'catalog-page__main-tags_active' : isPresetMatched(preset.filter)}"/>
+        </nuxt-link>
       </swiper-slide>
     </swiper>
     <div v-if="filtersMenu">
@@ -163,14 +165,13 @@
 </template>
 
 <script>
-import {
-  ATag, ASelect, ATitle, AButton, AControl, MFilter,
-} from '@cwespb/synergyui';
+import { ATag, ASelect, ATitle, AButton, AControl, MFilter } from '@cwespb/synergyui';
 import { Swiper, SwiperSlide } from 'vue-awesome-swiper';
 import SCatalogFilter from '~/components/s_catalog_filter/s_catalog_filter';
 import SCatalogProductList from '~/components/s_catalog_product_list/s_catalog_product_list';
 import getProductsList from '~/api/products_list';
 import getFilterData from '~/api/filter_data';
+import getFiltersProductPresets from '~/api/filtersProductsPresets';
 import './s_catalog.scss';
 
 export default {
@@ -214,6 +215,7 @@ export default {
         { status: 'default', label: 'Веб-дизайнер' },
         { status: 'default', label: 'Аналитик' },
       ],
+      presets: [],
 
       currentOption: 'sort',
       options: [
@@ -436,28 +438,31 @@ export default {
   },
 
   methods: {
-    changeSortOption(option) {
-      this.options = [
-        { label: this.options.find((elem) => elem.value === option).label, value: option },
-        ...this.options.filter((elem) => elem.value !== option),
-      ];
-      this.currentOption = option;
-    },
-
-    async fetchFilterData() {
-      const filtersResponse = await getFilterData(this.pageInfo.components[1].methods[0].data);
-      filtersResponse.forEach((filters) => {
-        if (filters.type === 'list') {
-          this.filterListData[filters.filter_by] = { ...filters };
-        }
-
-        if (filters.type === 'checkbox') {
-          this.filtersCheckboxDataRequest[filters.filter_by] = false;
-          this.filterCheckboxData[filters.filter_by] = { ...filters };
+    buildPresetUrl(preset) {
+      let url = '/catalog?page=1';
+      Object.entries(preset).forEach(([key, ids]) => {
+        if (key !== 'published') {
+          url = url.concat(`&${key}=${ids}`);
         }
       });
+      return url;
+    },
 
-      // Логика парсинга слагов из урла, если такие есть
+    isPresetMatched(preset) {
+      const matchedArray = [];
+      Object.entries(preset).forEach(([key, ids]) => {
+        if (key !== 'published') {
+          if (this.filtersIdsData[key].toString() === ids.toString()) {
+            matchedArray.push(true);
+          } else {
+            matchedArray.push(false);
+          }
+        }
+      });
+      return !matchedArray.includes(false);
+    },
+
+    parseQueryIntoFilters() {
       if (this.$route.params.pathMatch) {
         this.slugs = this.$route.params.pathMatch.split('/');
         Object.values(this.filterListData).forEach((filterList) => {
@@ -489,13 +494,74 @@ export default {
           this.filterCheckboxData[key].isChecked = true;
         }
       });
+    },
 
+    changeSortOption(option) {
+      this.options = [
+        { label: this.options.find((elem) => elem.value === option).label, value: option },
+        ...this.options.filter((elem) => elem.value !== option),
+      ];
+      this.currentOption = option;
+    },
+
+    async fetchFilterPresets() {
+      this.presets = await getFiltersProductPresets();
+    },
+
+    async fetchFilterData() {
+      const filtersResponse = await getFilterData(this.pageInfo.components[1].methods[0].data);
+      filtersResponse.forEach((filters) => {
+        if (filters.type === 'list') {
+          this.filterListData[filters.filter_by] = { ...filters };
+        }
+
+        if (filters.type === 'checkbox') {
+          this.filtersCheckboxDataRequest[filters.filter_by] = false;
+          this.filterCheckboxData[filters.filter_by] = { ...filters };
+        }
+      });
+
+      // Логика парсинга слагов из урла, если такие есть
+      // if (this.$route.params.pathMatch) {
+      //   this.slugs = this.$route.params.pathMatch.split('/');
+      //   Object.values(this.filterListData).forEach((filterList) => {
+      //     filterList.values.forEach((value) => {
+      //       this.slugs.forEach((slug) => {
+      //         if (value.slug === slug) {
+      //           this.$set(value, 'isChecked', true);
+      //           this.filtersIdsData[filterList.filter_by].push(value.id);
+      //           const newFilter = { ...value, key: filterList.filter_by };
+      //           this.selectedFilters.push(newFilter);
+      //         }
+      //       });
+      //     });
+      //   });
+      // }
+
+      // Object.entries(this.$route.query).forEach(([key, ids]) => {
+      //   if (key !== 'page' && key !== 'is_employment' && key !== 'is_installment' && key !== 'category_ids') {
+      //     this.filtersIdsData[key] = typeof ids === 'string' ? ids.split(',') : ids;
+      //
+      //     ids.split(',').forEach((id) => {
+      //       const found = this.filterListData[key].values.find((value) => value.id === Number(id));
+      //       this.$set(found, 'isChecked', true);
+      //       const newFilter = { ...found, key };
+      //       this.selectedFilters.push(newFilter);
+      //     });
+      //   } else if (key === 'is_employment' || key === 'is_installment') {
+      //     this.filtersCheckboxDataRequest[key] = true;
+      //     this.filterCheckboxData[key].isChecked = true;
+      //   }
+      // });
+
+      this.parseQueryIntoFilters();
       this.componentFilterKey += 3;
     },
 
     async fetchProductsList() {
       const expandedMethod = { ...this.pageInfo.components[0].methods[0].data };
       expandedMethod.include = ['organization', 'levels', 'directions'];
+
       Object.entries(this.filtersIdsData).forEach((filterData) => {
         if (filterData[1].length === 0) {
           delete expandedMethod.filter[filterData[0]];
@@ -649,6 +715,7 @@ export default {
   async fetch() {
     await this.fetchProductsList();
     await this.fetchFilterData();
+    await this.fetchFilterPresets();
   },
 
   mounted() {
