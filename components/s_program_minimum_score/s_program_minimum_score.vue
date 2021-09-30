@@ -1,8 +1,8 @@
 <template>
-  <section class="s-program-exam">
-    <div class="s-program-exam__header">
-      <h2 class="s-program-exam__title a-font_h2" v-html="title"></h2>
-      <div class="s-program-exam__btns">
+  <section class="s-program-minimum-score">
+    <div class="s-program-minimum-score__header">
+      <h2 class="s-program-minimum-score__title a-font_h2" v-html="title"></h2>
+      <div class="s-program-minimum-score__btns">
         <ATag
           v-for="tab in tabs"
           :key="tab.id"
@@ -17,14 +17,14 @@
     <div
       v-for="tab in tabs"
       :key="tab.id"
-      class="s-program-exam__items"
-      :class="{ 's-program-exam__items_active': tab.isActive }"
+      class="s-program-minimum-score__items"
+      :class="{ 's-program-minimum-score__items_active': tab.isActive }"
       v-show="tab.isActive"
     >
       <swiper :options="swiperOptionProgramExam">
-        <swiper-slide v-for="(exam, idx) in tab.exams" :key="exam.id" class="s-program-exam__item">
-          <h5 class="s-program-exam__item-caption a-font_h5">{{ slideCaption[idx] }}</h5>
-          <div class="s-program-exam__item-factoids">
+        <swiper-slide v-for="(exam, idx) in tab.exams" :key="exam.id" class="s-program-minimum-score__item">
+          <h5 class="s-program-minimum-score__item-caption a-font_h5">{{ slideCaption[idx] }}</h5>
+          <div class="s-program-minimum-score__item-factoids">
             <AFactoid v-for="item in exam" :key="item.id" :type="item.type" :title="item.title" :number="item.number" />
           </div>
         </swiper-slide>
@@ -37,10 +37,10 @@
 import { Swiper, SwiperSlide } from 'vue-awesome-swiper';
 
 import { ATag, AFactoid } from '@cwespb/synergyui';
-import './s_program_exam.scss';
+import './s_program_minimum_score.scss';
 
 export default {
-  name: 's_program_exam',
+  name: 's_program_minimum_score',
 
   components: {
     ATag,

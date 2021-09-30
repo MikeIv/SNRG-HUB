@@ -1,9 +1,6 @@
 <template>
   <section class="s-university-start">
-    <SUniversityStart
-      :breadcrumbs="breadcrumbs"
-      :university="university"
-      :logoSrc="logoSrc" />
+    <SUniversityStart :breadcrumbs="breadcrumbs" :university="university" :logoSrc="logoSrc" />
   </section>
 </template>
 
