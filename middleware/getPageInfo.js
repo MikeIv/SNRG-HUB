@@ -1,13 +1,13 @@
 export default async function ({ route, store }) {
   const requestData = {
     filter: {},
+    params: {},
   };
   // Когда мы заходим на любую страницу, нам нужно сделать запрос, передам объект параметров
   // Мы знаем, что для главной страницы нужно передать id = 1
   // Здесь мы проверяем, что если главная страница, то добавляем id = 1
   // если другая, то добавляем route.name
   // Для этой реализации нам нужно, чтобы названия роутов совпадали со слагом на бэке
-  console.log(route);
   if (route.name === 'index') {
     requestData.filter.id = 1;
   } else {
@@ -16,6 +16,11 @@ export default async function ({ route, store }) {
 
   if (route.name === 'catalog-all') {
     requestData.filter.slug = 'catalog';
+  }
+
+  if (route.name === 'product-slug') {
+    requestData.filter.slug = 'product';
+    requestData.params.slug = route.params.slug;
   }
 
   await store.dispatch('getPageInfo', requestData);

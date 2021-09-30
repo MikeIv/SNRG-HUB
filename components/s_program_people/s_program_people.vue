@@ -4,10 +4,8 @@
       <h2 class="s-program-people__title a-font_h2" v-html="title"></h2>
       <div class="s-program-people__slider">
         <swiper :options="swiperOptionProgramPeople">
-          <swiper-slide v-for="item in items" :key="item.id" class="s-program-people__slide">
-            <nuxt-link to="/">
-              <m-card-landing :title="item.title" :text="item.text" :image="item.image" />
-            </nuxt-link>
+          <swiper-slide v-for="people in programPeopleList" :key="people.id" class="s-program-people__slide">
+            <m-card-landing :title="people.title" :text="people.text" :image="people.image" />
           </swiper-slide>
         </swiper>
       </div>
@@ -21,6 +19,8 @@ import { Swiper, SwiperSlide } from 'vue-awesome-swiper';
 import { MCardLanding } from '@cwespb/synergyui';
 import './s_program_people.scss';
 
+import getEntitiesSectionsDetail from '~/api/entitiesSectionsDetail';
+
 export default {
   name: 's_program_people',
 
@@ -32,6 +32,7 @@ export default {
 
   data() {
     return {
+      programPeopleList: [],
       baseUrl: process.env.NUXT_ENV_S3BACKET,
       swiperOptionProgramPeople: {
         slidesPerView: 3,
@@ -56,34 +57,18 @@ export default {
           },
         },
       },
-      title: 'Кому подойдет <span>этот курс</span>',
-      items: [
-        {
-          title: 'Новичкам',
-          // eslint-disable-next-line max-len
-          text: 'Вы освоите все необходимые знания для написания структурированного кода, изучите основы работы с базами данных',
-          image:
-            // eslint-disable-next-line max-len
-            'https://images.unsplash.com/photo-1528287942171-fbe365d1d9ac?ixlib=rb-1.2.1&q=85&fm=jpg&crop=entropy&w=1200&cs=srgb&ixid=eyJhcHBfaWQiOjE0NTg5fQ',
-        },
-        {
-          title: 'Новичкам',
-          // eslint-disable-next-line max-len
-          text: 'Вы освоите все необходимые знания для написания структурированного кода, изучите основы работы с базами данных',
-          image:
-            // eslint-disable-next-line max-len
-            'https://images.unsplash.com/photo-1528287942171-fbe365d1d9ac?ixlib=rb-1.2.1&q=85&fm=jpg&crop=entropy&w=1200&cs=srgb&ixid=eyJhcHBfaWQiOjE0NTg5fQ',
-        },
-        {
-          title: 'Новичкам',
-          // eslint-disable-next-line max-len
-          text: 'Вы освоите все необходимые знания для написания структурированного кода, изучите основы работы с базами данных',
-          image:
-            // eslint-disable-next-line max-len
-            'https://images.unsplash.com/photo-1528287942171-fbe365d1d9ac?ixlib=rb-1.2.1&q=85&fm=jpg&crop=entropy&w=1200&cs=srgb&ixid=eyJhcHBfaWQiOjE0NTg5fQ',
-        },
-      ],
     };
+  },
+
+  props: ['methods', 'title'],
+  async fetch() {
+    const expandedMethod = this.methods[0].data;
+    const preData = await getEntitiesSectionsDetail(expandedMethod);
+    this.programPeopleList = preData.json.items.data.map((item) => ({
+      title: item.title.value,
+      text: item.description.value,
+      image: item.preview_image && item.preview_image.value ? this.baseUrl + item.preview_image.value : '',
+    }));
   },
 };
 </script>

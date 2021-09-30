@@ -18,26 +18,24 @@
             <div class="s-menu-main__links" :key="idx" :class="{ active: item.isActive }">
               <div class="s-menu-main__links-top" @click="getActiveMenu">
                 <div class="s-menu-main__links-icon si-chevron-left"></div>
-                <div class="s-menu-main__links-title a-font_h4">
-                  {{ item.title }}
-                </div>
+                <div class="s-menu-main__links-title a-font_h4">{{ item.title }}</div>
               </div>
               <div class="s-menu-main__links-item" v-for="(linkItem, idx) in item.items" :key="idx">
-                <nuxt-link to="" class="s-menu-main__link">
+                <div class="s-menu-main__link">
                   <div class="s-menu-main__link-top" @click="openMenuItem($event)">
                     <div class="s-menu-main__link-title a-font_xxl">
-                      {{ linkItem.anchor }}
+                      <nuxt-link :to="linkItem.link">{{ linkItem.anchor }}</nuxt-link>
                     </div>
                     <div class="s-menu-main__link-icon si-chevron-down"></div>
                   </div>
-                </nuxt-link>
+                </div>
                 <div class="s-menu-main__link-list">
                   <div v-for="(product, idx) in linkItem.products" :index="idx" :key="idx">
                     <nuxt-link v-if="idx < 5" :to="product.link" class="s-menu-main__link-product">
                       <div class="s-menu-main__link-text a-font_m">{{ product.anchor }}</div>
                     </nuxt-link>
                   </div>
-                  <nuxt-link to="/" class="s-menu-main__link-more">
+                  <nuxt-link :to="linkItem.link" class="s-menu-main__link-more">
                     <div class="s-menu-main__link-more--text a-font_l">Смотреть все</div>
                     <div class="s-menu-main__link-more--icon si-chevron-right"></div>
                   </nuxt-link>
