@@ -9,7 +9,8 @@ export default (context, inject) => {
   // const redirectUrl = '';
 
   // eslint-disable-next-line max-len
-  const url = 'http://syn.su/lander.php?r=land/index&unit=synergy_marketplace&type=marketplace&land=KD_market&ignore-thanksall=1';
+  const url =
+    'http://syn.su/lander.php?r=land/index&unit=synergy_marketplace&type=marketplace&land=KD_market&ignore-thanksall=1';
 
   // Объект набора валидаторов
   const typesValid = {
@@ -54,7 +55,7 @@ export default (context, inject) => {
         method: 'post',
         url,
         data,
-        headers: { 'Content-Type': 'multipart/form-data', Accept: '*/*' },
+        headers: { 'Content-Type': 'multipart/form-data', 'Accept': '*/*' },
       })
         .then((response) => {
           resolve(response);
