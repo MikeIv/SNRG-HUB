@@ -26,7 +26,7 @@ export default {
 
   components: {
     MForm,
-    AInput
+    AInput,
   },
 
   data: () => ({
