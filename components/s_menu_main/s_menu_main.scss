@@ -229,7 +229,6 @@
   &__links {
     display: none;
     overflow-y: scroll;
-    height: calc(100vh - 120px);
     margin: 0 rem(-16);
     flex-wrap: wrap;
     @media screen and (max-width: 767px) {
