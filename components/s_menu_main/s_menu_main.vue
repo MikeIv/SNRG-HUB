@@ -3,6 +3,10 @@
     <div class="l-default">
       <div class="s-menu-main__box">
         <div class="s-menu-main__items">
+          <div class="s-menu-main__login">
+            <a-button label="Войти в аккаунт" backgroundColor="#F5F5F5" bgColor="ghost-accept"></a-button>
+          </div>
+          <div class="s-menu-main__title a-font_h5">Всё обучение</div>
           <template v-for="(item, idx) in menuAnchors" :index="idx">
             <div class="s-menu-main__item" @mouseover="getActive(idx)" @click="getActiveMenu" :key="idx">
               <a-sidebar-item :class="{ active: item.isActive }" :label="item.anchor" href="" />
@@ -42,10 +46,11 @@
         </div>
 
         <m-banner
+          v-if="bannerImg !== ''"
           type="side"
           titleTxt="Разработка VR/AR"
           secondTxt="Станьте редким востребованным специалистом"
-          ImgBgSrc="https://placeimg.com/250/350/people"
+          :ImgSrc="bannerImg"
         ></m-banner>
       </div>
     </div>
@@ -53,7 +58,7 @@
 </template>
 
 <script>
-import { ASidebarItem, MBanner } from '@cwespb/synergyui';
+import { ASidebarItem, MBanner, AButton } from '@cwespb/synergyui';
 import getMenuMain from '~/api/menuMain';
 import './s_menu_main.scss';
 
@@ -63,6 +68,7 @@ export default {
   components: {
     ASidebarItem,
     MBanner,
+    AButton,
   },
 
   data() {
@@ -74,12 +80,20 @@ export default {
       windowWidth: 0,
       isOpen: this.open,
       menuIsOpen: false,
+      bannerImg: '',
     };
   },
 
   watch: {
     open(val) {
       this.isOpen = val;
+      const htmlWrapper = document.querySelector('html');
+
+      if (val === true) {
+        htmlWrapper.style.overflowY = 'hidden';
+      } else {
+        htmlWrapper.style.overflowY = 'visible';
+      }
     },
   },
 
