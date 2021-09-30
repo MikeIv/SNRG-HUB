@@ -7,9 +7,9 @@
   left: 0;
   overflow: hidden;
   width: 100%;
-  max-height: rem(592);
   background: var(--a-color_bg);
   transform: translateY(-200%);
+
   &.open {
     transform: translateY(0);
   }
