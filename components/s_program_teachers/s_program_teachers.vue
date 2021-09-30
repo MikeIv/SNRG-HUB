@@ -29,6 +29,7 @@
 import { Swiper, SwiperSlide } from 'vue-awesome-swiper';
 import { MCardSpeaker, MCardLanding } from '@cwespb/synergyui';
 import getProductsDetails from '~/api/productsDetail';
+import getOrganizationsDetails from '~/api/organizationsDetail';
 
 import './s_program_teachers.scss';
 
@@ -61,8 +62,13 @@ export default {
     const expandedMethod = { filter: {} };
     expandedMethod.include = ['persons'];
     expandedMethod.filter.slug = this.$route.params.slug;
-    const preData = await getProductsDetails(expandedMethod);
-    this.programTeachers = preData.data.included.persons;
+    if (this.$route.name === 'product-slug') {
+      const preData = await getProductsDetails(expandedMethod);
+      this.programTeachers = preData.data.included.persons;
+    } else {
+      const preData = await getOrganizationsDetails(expandedMethod);
+      this.programTeachers = preData.data.included.persons;
+    }
   },
 };
 </script>

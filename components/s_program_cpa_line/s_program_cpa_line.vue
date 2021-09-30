@@ -24,7 +24,7 @@ export default {
   methods: {
     scrollToFormBlock() {
       const formBlock = document.getElementById('form');
-      formBlock.scrollIntoView({ behavior: 'smooth' });
+      formBlock.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'nearest' });
     },
   },
 };
