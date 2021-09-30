@@ -6,5 +6,5 @@ const axios = axiosCreate();
 
 export default async function getOrganizationsDetail(requestData) {
   const response = await axios.post('api/v1/organizations/detail', requestData);
-  return response.data.data;
+  return response.data;
 }
