@@ -1,9 +1,9 @@
 <template>
-  <section class="s-program-announce">
-    <h2 class="s-program-announce__title a-font_h2" v-html="title"></h2>
-    <div class="s-program-announce__swiper">
+  <section class="s-program-events">
+    <h2 class="s-program-events__title a-font_h2" v-html="title"></h2>
+    <div class="s-program-events__swiper">
       <swiper :options="swiperOptionProgramAnnounce">
-        <swiper-slide v-for="item in items" :key="item.id" class="s-program-announce__slide m-card-vertical">
+        <swiper-slide v-for="item in items" :key="item.id" class="s-program-events__slide m-card-vertical">
           <nuxt-link to="/">
             <m-card
               :title="item.title"
@@ -16,7 +16,7 @@
         </swiper-slide>
       </swiper>
       <a-button
-        class="swiper-button-prev m-card-vertical__button s-program-announce__button"
+        class="swiper-button-prev m-card-vertical__button s-program-events__button"
         size="medium"
         bg-color="ghost-primary"
         only-icon="square"
@@ -24,7 +24,7 @@
         slot="button-prev"
       ></a-button>
       <a-button
-        class="swiper-button-next m-card-vertical__button s-program-announce__button"
+        class="swiper-button-next m-card-vertical__button s-program-events__button"
         size="medium"
         bg-color="ghost-primary"
         only-icon="square"
@@ -39,10 +39,10 @@
 import { Swiper, SwiperSlide } from 'vue-awesome-swiper';
 
 import { MCard, AButton } from '@cwespb/synergyui';
-import './s_program_announce.scss';
+import './s_program_events.scss';
 
 export default {
-  name: 's_program_announce',
+  name: 's_program_events',
 
   components: {
     MCard,
