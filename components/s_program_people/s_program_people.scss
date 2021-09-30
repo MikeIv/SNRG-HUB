@@ -12,13 +12,14 @@
 
     &__image {
       display: block;
-      height: 100%;
+      width: auto;
       border-radius: var(--a-borderRadius--default);
       object-fit: cover;
-
       &-wrapper {
+        display: flex;
+        justify-content: center;
+        align-items: center;
         height: rem(192);
-
         @media (max-width: 767px) {
           height: rem(128);
         }
