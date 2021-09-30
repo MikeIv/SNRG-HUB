@@ -289,8 +289,6 @@ export default {
     },
 
     $route() {
-      // console.log('QWE', window.location.pathname, window.location.search);
-      // window.history.pushState({}, null, `${window.location.pathname}${window.location.search}?page=1`);
       this.clearRouteFilters();
       this.fetchFilterData();
       this.fetchProductsList();
@@ -317,7 +315,7 @@ export default {
                 if (!window.location.search.includes('page')) {
                   newSearch = `${newSearch}?page=1`;
                 }
-                console.log(newSearch);
+
                 window.history.pushState({}, null, `${window.location.pathname}/${found.slug}${newSearch}`);
               }
             }
