@@ -621,7 +621,6 @@ export default {
   },
 
   created() {
-    console.log(this.$route.query, window.location.search);
     if (process.client) {
       if (this.$route.query.page) {
         this.page = Number(this.$route.query.page);
