@@ -234,6 +234,7 @@ html {
     top: 0;
     left: 0;
     width: 100%;
+    animation: show .4s ease;
     background: #fff;
     .s-header__bottom {
       display: none;
@@ -256,6 +257,15 @@ html {
         color: var(--a-color_bg);
         background: var(--a-color_link);
       }
+    }
+  }
+
+  @keyframes show {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
     }
   }
 }
