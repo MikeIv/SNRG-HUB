@@ -6,15 +6,15 @@ export default function getParseDate(date) {
   const datesArrLen = datesArr.length;
   const datesObj = {};
 
-  for (let i = 0; i < datesArrLen; i++) {
+  for (let i = 0; i < datesArrLen; i += 1) {
     if (datesArr[i].includes('d')) {
-      datesObj.days = parseInt(datesArr[i]);
+      datesObj.days = parseInt(datesArr[i], 10);
     }
     if (datesArr[i].includes('m')) {
-      datesObj.months = parseInt(datesArr[i]);
+      datesObj.months = parseInt(datesArr[i], 10);
     }
     if (datesArr[i].includes('y')) {
-      datesObj.years = parseInt(datesArr[i]);
+      datesObj.years = parseInt(datesArr[i], 10);
     }
   }
   return datesObj;
