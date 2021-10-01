@@ -234,8 +234,8 @@ html {
     top: 0;
     left: 0;
     width: 100%;
-    animation: show .4s ease;
     background: #fff;
+    animation: showHeader .6s ease;
     .s-header__bottom {
       display: none;
       // margin-top: rem(84);
@@ -260,12 +260,12 @@ html {
     }
   }
 
-  @keyframes show {
+  @keyframes showHeader {
     from {
-      opacity: 0;
+      transform: translateY(-100%);
     }
     to {
-      opacity: 1;
+      transform: translateY(0);
     }
   }
 }
