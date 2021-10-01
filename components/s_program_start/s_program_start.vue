@@ -26,12 +26,6 @@ export default {
 
   data() {
     return {
-      productsDetail: [],
-      date: '',
-      parseDate: {},
-      dateFromDatesObj: '',
-      declOfNumber: '',
-
       baseURL: process.env.NUXT_ENV_S3BACKET,
 
       breadcrumbs: [
@@ -77,19 +71,18 @@ export default {
   async fetch() {
     const expandedMethod = this.methods[0].data;
     const preData = await getProductsDetail(expandedMethod);
-    console.log(preData);
-    this.productsDetail = preData.data;
-    this.program.color = this.productsDetail.color;
-    this.program.title = this.productsDetail.name;
-    this.program.subtitle = this.productsDetail.included.levels[0].name;
-    this.program.description = this.productsDetail.description;
-    this.program.document = this.productsDetail.document;
-    this.program.city = this.productsDetail.included.organization.included.city.name;
-    this.program.form = this.productsDetail.included.formats[0].name;
-    this.program.photo = `${this.baseURL}${this.productsDetail.digital_image}`;
+    const getData = preData.data;
+    this.program.color = getData.color;
+    this.program.title = getData.name;
+    this.program.subtitle = getData.included.levels[0].name;
+    this.program.description = getData.description;
+    this.program.document = getData.document;
+    this.program.city = getData.included.organization.included.city.name;
+    this.program.form = getData.included.formats[0].name;
+    this.program.photo = `${this.baseURL}${getData.digital_image}`;
 
-    this.program.duration = getDateFromDatesObj(getParseDate(this.productsDetail.duration_format_value));
     // Перевод строки в виде "4y-6m-5d" и возврат даты в нужном формате (4 года 6 месяцев 5 дней)
+    this.program.duration = getDateFromDatesObj(getParseDate(getData.duration_format_value));
   },
 
   methods: {
