@@ -1,7 +1,7 @@
 <template>
-  <section class="s-lp-address">
-    <h2 class="s-lp-address__title a-font_h2">{{ title }}</h2>
-    <iframe class="s-lp-address__map" :src="iframeSrc" frameborder="0"></iframe>
+  <section class="s-university-contacts">
+    <h2 class="s-university-contacts__title a-font_h2" v-html="title"></h2>
+    <iframe class="s-university-contacts__map" :src="iframeSrc" frameborder="0" loading="lazy"></iframe>
     <MContacts
       :adress="adress"
       :metro="metro"
@@ -17,10 +17,10 @@
 
 <script>
 import { MContacts } from '@cwespb/synergyui';
-import './s_lp_address.scss';
+import './s_university_contacts.scss';
 
 export default {
-  name: 's_lp_address',
+  name: 's_university_contacts',
 
   components: { MContacts },
 

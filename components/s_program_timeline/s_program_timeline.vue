@@ -68,14 +68,16 @@ export default {
   async fetch() {
     const expandedMethod = this.methods[0].data;
     const preData = await getEntitiesSectionsDetail(expandedMethod);
-    this.programTimelineList = preData.json.items.data.map((item) => ({
+    this.programTimelineList = preData.json.items.data.map((item, index) => ({
       title: item.title.value,
       text: item.description.value,
-      image: item.image ? this.baseUrl + item.preview_image.value : '',
+      image: item.image
+        ? this.baseUrl + item.preview_image.value
+        : `https://synergymarket.ru/site/img/how/${index + 1}.png`,
     }));
     this.programTimelineRightItems = preData.json.rightItems.data.map((item) => ({
-      title: item.description.value ?? 'нет контента',
-      subtitle: item.title.value ?? 'нет котента',
+      title: item.description && item.description.value ? item.title.value : '',
+      subtitle: item.title && item.title.value ? item.title.value : '',
       type: 'default',
     }));
   },

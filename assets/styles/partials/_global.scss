@@ -7,6 +7,11 @@ body {
   }
 }
 
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
 :root {
   --layout-width: 81.25rem; // 1300px
   --layout-padding: 5rem; // 80px

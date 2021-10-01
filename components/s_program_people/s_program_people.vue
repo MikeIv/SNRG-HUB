@@ -64,10 +64,14 @@ export default {
   async fetch() {
     const expandedMethod = this.methods[0].data;
     const preData = await getEntitiesSectionsDetail(expandedMethod);
-    this.programPeopleList = preData.json.items.data.map((item) => ({
+    this.programPeopleList = preData.json.items.data.map((item, index) => ({
       title: item.title.value,
       text: item.description.value,
-      image: item.preview_image ? this.baseUrl + item.preview_image.value : '',
+      // eslint-disable-next-line max-len
+      image:
+        item.preview_image && item.preview_image.value
+          ? this.baseUrl + item.preview_image.value
+          : `https://synergymarket.ru/site/img/for-whom/${index + 1}.png`,
     }));
   },
 };

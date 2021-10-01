@@ -1,6 +1,9 @@
 @import '@/assets/styles/tools/mixins';
 
 .s-success-history {
+  margin-bottom: rem(20);
+  padding: var(--layout-v-padding) var(--layout-h-padding);
+
   .swiper {
     &-button-disabled {
       display: none;
@@ -39,6 +42,18 @@
     width: rem(160);
     a {
       text-decoration: none;
+    }
+  }
+}
+
+.organization-page,
+.product-page {
+  .s-success-history {
+    background-color: var(--a-color_bg);
+    border-radius: var(--a-borderRadius--bg);
+
+    @media (max-width: 991px) {
+      margin-bottom: rem(12);
     }
   }
 }
