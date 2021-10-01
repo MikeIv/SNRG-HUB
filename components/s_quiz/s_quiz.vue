@@ -145,7 +145,9 @@ export default {
     },
 
     sendQuiz() {
-      this.$validator.send(this.send).then((response) => {});
+      this.$validator.send(this.send).then((response) => {
+        console.log(response);
+      });
     },
 
     changeQuiz(value) {

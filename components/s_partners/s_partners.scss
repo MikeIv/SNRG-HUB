@@ -2,10 +2,11 @@
 
 .s-partners {
   padding: rem(48) 0;
-  background: var(--a-color_bg);
+  margin-bottom: rem(20);
 
   @media (max-width: 991px) {
     padding: var(--a-padding--x8) 0;
+    margin-bottom: rem(12);
   }
 
   @media (max-width: 575px) {
@@ -74,5 +75,14 @@
         margin: 0 auto;
       }
     }
+  }
+}
+
+.organization-page,
+.product-page {
+  .s-partners {
+    background: var(--a-color_bg);
+    border-radius: var(--a-borderRadius--bg);
+    padding: var(--layout-v-padding) var(--layout-h-padding);
   }
 }

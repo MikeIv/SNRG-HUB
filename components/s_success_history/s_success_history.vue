@@ -1,8 +1,12 @@
 <template>
-  <section class="s-success-history s-padding">
-    <div class="l-wide">
+  <section :class="this.$route.name == 'index' ? 's-success-history s-padding' : 's-success-history'">
+    <div :class="this.$route.name == 'index' ? 'l-wide' : ''">
       <div class="s-success-history__wrapper">
-        <h2 class="s-success-history__title a-font_h5" v-html="title"></h2>
+        <h2
+          class="s-success-history__title"
+          :class="this.$route.name == 'index' ? 'a-font_h5' : 'a-font_h2'"
+          v-html="title"
+        ></h2>
         <div class="s-success-history__swiper">
           <!-- При клике на карточку m-card необходимо отлавливать @click и открывать попап, когда он будет закочен. -->
           <swiper ref="awesomeSwiper" :options="swiperOptionA">
