@@ -7,7 +7,7 @@
     <swiper class="catalog-page__main-tags" :options="swiperOption">
       <swiper-slide v-for="preset in presets" :key="preset.name" class="catalog-page__swiper-slide">
         <nuxt-link :to="`${buildPresetUrl(preset.filter)}`">
-          <a-tag :label="preset.name" :class="{'catalog-page__main-tags_active' : isPresetMatched(preset.filter)}"/>
+          <a-tag :label="preset.name" :class="{ 'catalog-page__main-tags_active': isPresetMatched(preset.filter) }" />
         </nuxt-link>
       </swiper-slide>
     </swiper>
@@ -165,7 +165,9 @@
 </template>
 
 <script>
-import { ATag, ASelect, ATitle, AButton, AControl, MFilter } from '@cwespb/synergyui';
+import {
+  ATag, ASelect, ATitle, AButton, AControl, MFilter,
+} from '@cwespb/synergyui';
 import { Swiper, SwiperSlide } from 'vue-awesome-swiper';
 import SCatalogFilter from '~/components/s_catalog_filter/s_catalog_filter';
 import SCatalogProductList from '~/components/s_catalog_product_list/s_catalog_product_list';
@@ -450,18 +452,24 @@ export default {
 
     isPresetMatched(preset) {
       const matchedArray = [];
-      Object.entries(preset).forEach(([key, ids]) => {
-        if (key !== 'published') {
-          if (this.filtersIdsData[key].toString() === ids.toString()) {
+
+      Object.entries(this.filtersIdsData).forEach(([key, ids]) => {
+        if (Object.keys(preset).includes(key)) {
+          const filterIds = ids.map((id) => Number(id)).sort((a, b) => a - b);
+          if (filterIds.toString() === preset[key].toString()) {
             matchedArray.push(true);
           } else {
             matchedArray.push(false);
           }
+        } else if (ids.length) {
+          matchedArray.push(false);
         }
       });
+
       return !matchedArray.includes(false);
     },
 
+    // Todo sort ids in watch filters
     parseQueryIntoFilters() {
       if (this.$route.params.pathMatch) {
         this.slugs = this.$route.params.pathMatch.split('/');
@@ -520,39 +528,6 @@ export default {
           this.filterCheckboxData[filters.filter_by] = { ...filters };
         }
       });
-
-      // Логика парсинга слагов из урла, если такие есть
-      // if (this.$route.params.pathMatch) {
-      //   this.slugs = this.$route.params.pathMatch.split('/');
-      //   Object.values(this.filterListData).forEach((filterList) => {
-      //     filterList.values.forEach((value) => {
-      //       this.slugs.forEach((slug) => {
-      //         if (value.slug === slug) {
-      //           this.$set(value, 'isChecked', true);
-      //           this.filtersIdsData[filterList.filter_by].push(value.id);
-      //           const newFilter = { ...value, key: filterList.filter_by };
-      //           this.selectedFilters.push(newFilter);
-      //         }
-      //       });
-      //     });
-      //   });
-      // }
-
-      // Object.entries(this.$route.query).forEach(([key, ids]) => {
-      //   if (key !== 'page' && key !== 'is_employment' && key !== 'is_installment' && key !== 'category_ids') {
-      //     this.filtersIdsData[key] = typeof ids === 'string' ? ids.split(',') : ids;
-      //
-      //     ids.split(',').forEach((id) => {
-      //       const found = this.filterListData[key].values.find((value) => value.id === Number(id));
-      //       this.$set(found, 'isChecked', true);
-      //       const newFilter = { ...found, key };
-      //       this.selectedFilters.push(newFilter);
-      //     });
-      //   } else if (key === 'is_employment' || key === 'is_installment') {
-      //     this.filtersCheckboxDataRequest[key] = true;
-      //     this.filterCheckboxData[key].isChecked = true;
-      //   }
-      // });
 
       this.parseQueryIntoFilters();
       this.componentFilterKey += 3;
