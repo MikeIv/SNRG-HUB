@@ -14,6 +14,8 @@ import { SProgramStart } from '@cwespb/synergyui';
 import './s_program_start.scss';
 
 import getProductsDetail from '~/api/productsDetail';
+import getParseDate from '~/assets/js/getParseDate';
+import getDateFromDatesObj from '~/assets/js/getDateFromDatesObj';
 
 export default {
   name: 's-program-start',
@@ -25,6 +27,10 @@ export default {
   data() {
     return {
       productsDetail: [],
+      date: '',
+      parseDate: {},
+      dateFromDatesObj: '',
+      declOfNumber: '',
 
       baseURL: process.env.NUXT_ENV_S3BACKET,
 
@@ -49,7 +55,6 @@ export default {
       event: {
         date: '22 июня в 15:00',
         title: 'JAVA для новичков. Программируем вендинговый автомат',
-        // description: 'Вебинар',
         link: '#',
       },
       program: {
@@ -70,27 +75,21 @@ export default {
 
   props: ['methods', 'title'],
   async fetch() {
-    let [expandedMethod] = this.methods;
-    expandedMethod = { ...expandedMethod.data };
-    expandedMethod.include = ['organization', 'formats', 'levels', 'directions', 'organization.city'];
+    const expandedMethod = this.methods[0].data;
     const preData = await getProductsDetail(expandedMethod);
+    console.log(preData);
     this.productsDetail = preData.data;
-    const obj = this.program;
-    const { description, color, name, digital_image, document, duration_format_value, included } = this.productsDetail;
-    // TODO: дописать парсинг duration_format_value на год\месяцы и склонения добавить
-    const duration_value =
-      duration_format_value.charAt(1) === 'm'
-        ? `${duration_format_value.charAt(0)} месяца`
-        : `${duration_format_value.charAt(0)} года`;
-    obj.color = color;
-    obj.title = name;
-    obj.subtitle = included.levels[0].name;
-    obj.description = description;
-    obj.document = document;
-    obj.city = included.organization.included.city.name;
-    obj.form = included.formats[0].name;
-    obj.duration = duration_value;
-    obj.photo = this.baseURL + digital_image;
+    this.program.color = this.productsDetail.color;
+    this.program.title = this.productsDetail.name;
+    this.program.subtitle = this.productsDetail.included.levels[0].name;
+    this.program.description = this.productsDetail.description;
+    this.program.document = this.productsDetail.document;
+    this.program.city = this.productsDetail.included.organization.included.city.name;
+    this.program.form = this.productsDetail.included.formats[0].name;
+    this.program.photo = `${this.baseURL}${this.productsDetail.digital_image}`;
+
+    this.program.duration = getDateFromDatesObj(getParseDate(this.productsDetail.duration_format_value));
+    // Перевод строки в виде "4y-6m-5d" и возврат даты в нужном формате (4 года 6 месяцев 5 дней)
   },
 
   methods: {
