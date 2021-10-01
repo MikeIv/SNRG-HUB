@@ -94,9 +94,11 @@ export default {
   methods: {
     handleScroll() {
       const mainWrapper = document.querySelector('main');
+      const headerHeight = document.querySelector('.s-header').offsetHeight;
+      console.log(headerHeight)
 
       this.scrollTop = window.scrollY;
-      if (this.scrollTop > 1) {
+      if (this.scrollTop > headerHeight) {
         this.isScrolled = true;
         mainWrapper.classList.add('js-fixed');
       } else {
