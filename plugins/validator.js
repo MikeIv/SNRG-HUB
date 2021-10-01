@@ -41,7 +41,7 @@ export default (context, inject) => {
     return new Promise((resolve, reject) => {
       const data = new FormData();
       const formDataKeys = Object.keys(formData);
-      for (let i = 0; i < formDataKeys.length; i = +1) {
+      for (let i = 0; i < formDataKeys.length; i += 1) {
         data.append(formDataKeys[i], formData[formDataKeys[i]]);
       }
       data.append('personalDataAgree', 'on');

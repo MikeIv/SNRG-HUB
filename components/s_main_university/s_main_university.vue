@@ -26,7 +26,7 @@
 </template>
 
 <script>
-import { MCard, AButton } from '@cwespb/synergyui';
+import { MCard } from '@cwespb/synergyui';
 import getOrganizationsList from '~/api/organizationsList';
 import './s_main_university.scss';
 
@@ -83,7 +83,6 @@ export default {
 
   components: {
     MCard,
-    AButton,
   },
 };
 </script>
