@@ -1,6 +1,6 @@
 <template>
-  <section class="s-banner s-padding--smallTop" :class="{ banners: bannersDetail.length > 1 }">
-    <div class="l-wide">
+  <section class="s-banner s-padding--smallTop" v-if="bannersDetail.length">
+    <div class="l-wide" :class="{ banners: bannersDetail.length > 1 }">
       <template v-for="item in bannersDetail">
         <nuxt-link
           :to="`${item.link}`"
@@ -43,6 +43,7 @@ export default {
     };
   },
   props: ['methods'],
+
   async fetch() {
     this.methods.forEach((item) => {
       const obj = { ...item.data };
