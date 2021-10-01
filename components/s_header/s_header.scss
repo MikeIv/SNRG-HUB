@@ -237,6 +237,7 @@ html {
     left: 0;
     width: 100%;
     background: #fff;
+    animation: showHeader 0.6s ease;
     .s-header__bottom {
       display: none;
       // margin-top: rem(84);
@@ -258,6 +259,15 @@ html {
         color: var(--a-color_bg);
         background: var(--a-color_link);
       }
+    }
+  }
+
+  @keyframes showHeader {
+    from {
+      transform: translateY(-100%);
+    }
+    to {
+      transform: translateY(0);
     }
   }
 }
