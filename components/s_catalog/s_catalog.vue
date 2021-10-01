@@ -5,7 +5,7 @@
       <sup class="catalog-page__header-total a-font_L"> {{ totalProducts }} программ</sup>
     </h2>
     <swiper class="catalog-page__main-tags" :options="swiperOption">
-      <swiper-slide v-for="preset in presets" :key="preset.name" class="catalog-page__swiper-slide">
+      <swiper-slide v-for="(preset, index) in presets" :key="index" class="catalog-page__swiper-slide">
         <nuxt-link :to="`${buildPresetUrl(preset.filter)}`">
           <a-tag :label="preset.name" :class="{ 'catalog-page__main-tags_active': isPresetMatched(preset.filter) }" />
         </nuxt-link>
@@ -287,6 +287,7 @@ export default {
         null,
         `${window.location.pathname}?page=${this.page}${newSearch ? '&' : ''}${newSearch}`,
       );
+
       this.fetchProductsList();
     },
 
@@ -294,10 +295,12 @@ export default {
       this.fetchProductsList();
     },
 
-    $route() {
-      this.clearRouteFilters();
-      this.fetchFilterData();
-      this.fetchProductsList();
+    $route: {
+      deep: true,
+      handler() {
+        this.clearRouteFilters();
+        this.parseQueryIntoFilters();
+      },
     },
 
     // Использую хак, чтобы watcher следил сразу за двумя объектами, чтобы не дублировать одинаковый код
