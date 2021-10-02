@@ -54,7 +54,7 @@ export default (context, inject) => {
         method: 'post',
         url,
         data,
-        headers: { 'Content-Type': 'multipart/form-data', Accept: '*/*' },
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded', Accept: '*/*' },
       })
         .then((response) => {
           resolve(response);

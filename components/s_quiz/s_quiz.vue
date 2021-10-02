@@ -47,7 +47,7 @@
         <div class="m-quiz__finish-inputs">
           <div class="m-quiz__finish-data">
             <a-input placeholder="Имя" v-model="send.name" @input="validQuizData"></a-input>
-            <a-input placeholder="Телефон" v-model="send.tel" @input="validQuizData"></a-input>
+            <a-input placeholder="Телефон" v-model="send.phone" @input="validQuizData"></a-input>
             <a-button
               bgColor="accent"
               size="large"
@@ -104,7 +104,7 @@ export default {
 
     send: {
       name: '',
-      tel: '',
+      phone: '',
     },
     sogl: true,
     validFlag: false,
