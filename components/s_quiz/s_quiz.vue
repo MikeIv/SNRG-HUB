@@ -47,7 +47,7 @@
         <div class="m-quiz__finish-inputs">
           <div class="m-quiz__finish-data">
             <a-input placeholder="Имя" v-model="send.name" @input="validQuizData"></a-input>
-            <a-input placeholder="Телефон" v-model="send.tel" @input="validQuizData"></a-input>
+            <a-input placeholder="Телефон" v-model="send.phone" @input="validQuizData"></a-input>
             <a-button
               bgColor="accent"
               size="large"
@@ -75,7 +75,9 @@
 </template>
 
 <script>
-import { AButton, AInput, AControl, AProgressbar } from '@cwespb/synergyui';
+import {
+  AButton, AInput, AControl, AProgressbar,
+} from '@cwespb/synergyui';
 import getQuizzesDetail from '~/api/quizzesDetail';
 
 import './s_quiz.scss';
@@ -102,7 +104,7 @@ export default {
 
     send: {
       name: '',
-      tel: '',
+      phone: '',
     },
     sogl: true,
     validFlag: false,
@@ -143,7 +145,9 @@ export default {
     },
 
     sendQuiz() {
-      this.$validator.send(this.send).then((response) => {});
+      this.$validator.send(this.send).then((response) => {
+        console.log(response);
+      });
     },
 
     changeQuiz(value) {

@@ -5,8 +5,10 @@
       <sup class="catalog-page__header-total a-font_L"> {{ totalProducts }} программ</sup>
     </h2>
     <swiper class="catalog-page__main-tags" :options="swiperOption">
-      <swiper-slide v-for="tag in main_tags" :key="tag.label" class="catalog-page__swiper-slide">
-        <a-tag :label="tag.label" :status="tag.status" />
+      <swiper-slide v-for="(preset, index) in presets" :key="index" class="catalog-page__swiper-slide">
+        <nuxt-link :to="`${buildPresetUrl(preset.filter)}`">
+          <a-tag :label="preset.name" :class="{ 'catalog-page__main-tags_active': isPresetMatched(preset.filter) }" />
+        </nuxt-link>
       </swiper-slide>
     </swiper>
     <div v-if="filtersMenu">
@@ -171,6 +173,7 @@ import SCatalogFilter from '~/components/s_catalog_filter/s_catalog_filter';
 import SCatalogProductList from '~/components/s_catalog_product_list/s_catalog_product_list';
 import getProductsList from '~/api/products_list';
 import getFilterData from '~/api/filter_data';
+import getFiltersProductPresets from '~/api/filtersProductsPresets';
 import './s_catalog.scss';
 
 export default {
@@ -214,6 +217,7 @@ export default {
         { status: 'default', label: 'Веб-дизайнер' },
         { status: 'default', label: 'Аналитик' },
       ],
+      presets: [],
 
       currentOption: 'sort',
       options: [
@@ -283,6 +287,7 @@ export default {
         null,
         `${window.location.pathname}?page=${this.page}${newSearch ? '&' : ''}${newSearch}`,
       );
+
       this.fetchProductsList();
     },
 
@@ -290,10 +295,12 @@ export default {
       this.fetchProductsList();
     },
 
-    $route() {
-      this.clearRouteFilters();
-      this.fetchFilterData();
-      this.fetchProductsList();
+    $route: {
+      deep: true,
+      handler() {
+        this.clearRouteFilters();
+        this.parseQueryIntoFilters();
+      },
     },
 
     // Использую хак, чтобы watcher следил сразу за двумя объектами, чтобы не дублировать одинаковый код
@@ -436,28 +443,37 @@ export default {
   },
 
   methods: {
-    changeSortOption(option) {
-      this.options = [
-        { label: this.options.find((elem) => elem.value === option).label, value: option },
-        ...this.options.filter((elem) => elem.value !== option),
-      ];
-      this.currentOption = option;
+    buildPresetUrl(preset) {
+      let url = '/catalog?page=1';
+      Object.entries(preset).forEach(([key, ids]) => {
+        if (key !== 'published') {
+          url = url.concat(`&${key}=${ids}`);
+        }
+      });
+      return url;
     },
 
-    async fetchFilterData() {
-      const filtersResponse = await getFilterData(this.pageInfo.components[1].methods[0].data);
-      filtersResponse.forEach((filters) => {
-        if (filters.type === 'list') {
-          this.filterListData[filters.filter_by] = { ...filters };
-        }
+    isPresetMatched(preset) {
+      const matchedArray = [];
 
-        if (filters.type === 'checkbox') {
-          this.filtersCheckboxDataRequest[filters.filter_by] = false;
-          this.filterCheckboxData[filters.filter_by] = { ...filters };
+      Object.entries(this.filtersIdsData).forEach(([key, ids]) => {
+        if (Object.keys(preset).includes(key)) {
+          const filterIds = ids.map((id) => Number(id)).sort((a, b) => a - b);
+          if (filterIds.toString() === preset[key].toString()) {
+            matchedArray.push(true);
+          } else {
+            matchedArray.push(false);
+          }
+        } else if (ids.length) {
+          matchedArray.push(false);
         }
       });
 
-      // Логика парсинга слагов из урла, если такие есть
+      return !matchedArray.includes(false);
+    },
+
+    // Todo sort ids in watch filters
+    parseQueryIntoFilters() {
       if (this.$route.params.pathMatch) {
         this.slugs = this.$route.params.pathMatch.split('/');
         Object.values(this.filterListData).forEach((filterList) => {
@@ -489,13 +505,41 @@ export default {
           this.filterCheckboxData[key].isChecked = true;
         }
       });
+    },
 
+    changeSortOption(option) {
+      this.options = [
+        { label: this.options.find((elem) => elem.value === option).label, value: option },
+        ...this.options.filter((elem) => elem.value !== option),
+      ];
+      this.currentOption = option;
+    },
+
+    async fetchFilterPresets() {
+      this.presets = await getFiltersProductPresets();
+    },
+
+    async fetchFilterData() {
+      const filtersResponse = await getFilterData(this.pageInfo.components[1].methods[0].data);
+      filtersResponse.forEach((filters) => {
+        if (filters.type === 'list') {
+          this.filterListData[filters.filter_by] = { ...filters };
+        }
+
+        if (filters.type === 'checkbox') {
+          this.filtersCheckboxDataRequest[filters.filter_by] = false;
+          this.filterCheckboxData[filters.filter_by] = { ...filters };
+        }
+      });
+
+      this.parseQueryIntoFilters();
       this.componentFilterKey += 3;
     },
 
     async fetchProductsList() {
       const expandedMethod = { ...this.pageInfo.components[0].methods[0].data };
       expandedMethod.include = ['organization', 'levels', 'directions'];
+
       Object.entries(this.filtersIdsData).forEach((filterData) => {
         if (filterData[1].length === 0) {
           delete expandedMethod.filter[filterData[0]];
@@ -649,6 +693,7 @@ export default {
   async fetch() {
     await this.fetchProductsList();
     await this.fetchFilterData();
+    await this.fetchFilterPresets();
   },
 
   mounted() {

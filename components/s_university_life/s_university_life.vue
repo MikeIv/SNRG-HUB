@@ -1,14 +1,14 @@
 <template>
-  <section class="s-program-diploma">
-    <h2 class="s-program-diploma__title a-font_h2">{{ title }}</h2>
-    <div class="s-program-diploma__items">
-      <swiper :options="swiperOptionProgramDiploma">
-        <swiper-slide v-for="(diploma, idx) in diplomaList.data" :key="idx" class="s-program-diploma__slide">
-          <MCardLanding
-            :title="diploma.title.value"
-            :text="diploma.description.value"
-            :image="`${baseUrl}${diploma.preview_image.value}`"
-          />
+  <section class="s-university-life">
+    <h2 class="s-university-life__title s-university-life__title a-font_h2" v-html="title"></h2>
+    <div class="s-university-life__items">
+      <swiper :options="swiperOptionlifeUniversity">
+        <swiper-slide
+          v-for="(item, idx) in lifeUniversityList.data"
+          :key="idx"
+          class="s-university-life__slide m-card-landing"
+        >
+          <MCardLanding :image="`${baseUrl}${item.preview_image.value}`" />
         </swiper-slide>
       </swiper>
     </div>
@@ -18,11 +18,12 @@
 <script>
 import { Swiper, SwiperSlide } from 'vue-awesome-swiper';
 import { MCardLanding } from '@cwespb/synergyui';
-import './s_program_diploma.scss';
+import './s_university_life.scss';
+
 import getEntitiesSectionsDetail from '~/api/entitiesSectionsDetail';
 
 export default {
-  name: 's_program_diploma',
+  name: 's_university_life',
 
   components: {
     MCardLanding,
@@ -32,9 +33,9 @@ export default {
 
   data() {
     return {
-      diplomaList: [],
+      lifeUniversityList: [],
       baseUrl: process.env.NUXT_ENV_S3BACKET,
-      swiperOptionProgramDiploma: {
+      swiperOptionlifeUniversity: {
         grabCursor: true,
         slidesPerView: 'auto',
         spaceBetween: 24,
@@ -52,7 +53,7 @@ export default {
   async fetch() {
     const expandedMethod = this.methods[0].data;
     const preData = await getEntitiesSectionsDetail(expandedMethod);
-    this.diplomaList = preData.json.items;
+    this.lifeUniversityList = preData.json.items;
   },
 };
 </script>

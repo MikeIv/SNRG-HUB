@@ -5,6 +5,22 @@
       <div class="s-header__center">
         <div class="l-wide">
           <div class="s-header__center-wrapper">
+            <div class="s-header__center-top">
+              <div class="s-header__location">
+                <a-button label="Москва" bgColor="none" iconType="si-chevron-down"></a-button>
+              </div>
+              <div class="s-header__phones">
+                <a
+                  class="s-header__phone"
+                  v-for="(phone, idx) in phones"
+                  :key="idx"
+                  :href="`tel:${phone.replace(/[^+\d]/g, '')}`"
+                >
+                  <div class="s-header__phones-icon si-phone"></div>
+                  <div class="s-header__phones-text a-font_m-s">{{ phone }}</div>
+                </a>
+              </div>
+            </div>
             <nuxt-link to="/" class="s-header__logo-link">
               <a-logo type="standart" :link="logoURL"></a-logo>
             </nuxt-link>
@@ -16,25 +32,17 @@
               <div class="s-header__burger-text a-font_l a-color_link">{{ btnText }}</div>
             </div>
             <div class="s-header__search">
-              <a-input :isSearch="true" size="medium" :placeholder="searchPlaceholder"></a-input>
+              <a-input icons="si-search" size="medium" :placeholder="searchPlaceholder"></a-input>
             </div>
-            <div class="s-header__phones">
-              <a
-                class="s-header__phone"
-                v-for="(phone, idx) in phones"
-                :key="idx"
-                :href="`tel:${phone.replace(/[^+\d]/g, '')}`"
-              >
-                <div class="s-header__phones-icon si-phone"></div>
-                <div class="s-header__phones-text a-font_m-s">{{ phone }}</div>
-              </a>
-            </div>
+            <a href="//pass.synergy.ru" target="_blank" class="s-header__login">
+              <a-button label="Войти" bgColor="ghost-accept"></a-button>
+            </a>
           </div>
         </div>
-      </div>
-      <div class="s-header__bottom">
-        <div class="l-wide">
-          <menu-horizontal v-if="!isScrolled"></menu-horizontal>
+        <div class="s-header__bottom">
+          <div class="l-wide">
+            <menu-horizontal></menu-horizontal>
+          </div>
         </div>
       </div>
       <s-menu-main :open="isOpen"></s-menu-main>
@@ -43,7 +51,7 @@
 </template>
 
 <script>
-import { ALogo, AInput } from '@cwespb/synergyui';
+import { ALogo, AInput, AButton } from '@cwespb/synergyui';
 import './s_header.scss';
 import SMenuMain from '../s_menu_main/s_menu_main';
 import MenuHorizontal from '../menu_horizontal/menu_horizontal';
@@ -65,6 +73,7 @@ export default {
   components: {
     ALogo,
     AInput,
+    AButton,
     MenuHorizontal,
     SMenuMain,
   },
@@ -84,11 +93,16 @@ export default {
 
   methods: {
     handleScroll() {
+      const mainWrapper = document.querySelector('main');
+      const headerHeight = document.querySelector('.s-header').offsetHeight;
+
       this.scrollTop = window.scrollY;
-      if (this.scrollTop > 1) {
+      if (this.scrollTop > headerHeight) {
         this.isScrolled = true;
+        mainWrapper.classList.add('js-fixed');
       } else {
         this.isScrolled = false;
+        mainWrapper.classList.remove('js-fixed');
       }
     },
   },

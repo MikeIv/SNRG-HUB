@@ -77,7 +77,7 @@ export default {
   },
   props: ['methods', 'title'],
   async fetch() {
-    const expandedMethod = this.methods.data;
+    const expandedMethod = this.methods[0].data;
     this.directionsList = await getDirectionsList(expandedMethod);
   },
 };
