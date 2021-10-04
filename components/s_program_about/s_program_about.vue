@@ -33,7 +33,7 @@ export default {
       number: item.title.value,
       title: item.description.value,
       image: item.icon ? this.baseUrl + item.icon.value : '',
-      type: item.icon ? 'image' : 'number-horizontal',
+      type: item.icon && item.icon.value ? 'image' : 'number-horizontal',
     }));
   },
 };
