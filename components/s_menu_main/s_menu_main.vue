@@ -32,7 +32,7 @@
                 <div class="s-menu-main__link-list">
                   <div v-for="(product, idx) in linkItem.products" :index="idx" :key="idx">
                     <nuxt-link v-if="idx < 5" :to="product.link" class="s-menu-main__link-product">
-                      <div class="s-menu-main__link-text a-font_m">{{ product.anchor }}</div>
+                      <div class="s-menu-main__link-text a-font_m"  @click="changeIsOpen">{{ product.anchor }}</div>
                     </nuxt-link>
                   </div>
                   <nuxt-link :to="linkItem.link" class="s-menu-main__link-more">
@@ -78,22 +78,16 @@ export default {
       menuLinks: [],
       isActive: false,
       windowWidth: 0,
-      isOpen: this.open,
       menuIsOpen: false,
       bannerImg: '',
     };
   },
 
-  watch: {
-    open(val) {
-      this.isOpen = val;
-      const htmlWrapper = document.querySelector('html');
+  props: ['isOpen'],
 
-      if (val === true) {
-        htmlWrapper.style.overflowY = 'hidden';
-      } else {
-        htmlWrapper.style.overflowY = 'visible';
-      }
+  watch: {
+    isOpen() {
+      this.getScrollBody();
     },
   },
 
@@ -116,9 +110,9 @@ export default {
     });
   },
 
-  props: ['open'],
 
   mounted() {
+    this.getScrollBody();
     window.addEventListener('resize', this.handleResize);
     window.addEventListener('DOMContentLoaded', this.handleResize);
   },
@@ -144,6 +138,16 @@ export default {
       });
     },
 
+    getScrollBody() {
+      const htmlWrapper = document.querySelector('html');
+
+      if (this.isOpen === true) {
+        htmlWrapper.style.overflowY = 'hidden';
+      } else {
+        htmlWrapper.style.overflowY = 'visible';
+      }
+    },
+
     handleResize() {
       this.windowWidth = window.innerWidth;
     },
@@ -160,6 +164,10 @@ export default {
 
       parent.classList.toggle('open');
     },
+
+    changeIsOpen() {
+      this.$emit('change-is-open');
+    }
   },
 
   beforeDestroy() {
