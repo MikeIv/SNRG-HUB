@@ -110,6 +110,7 @@
       -webkit-line-clamp: 1;
       -webkit-box-orient: vertical;
       text-overflow: ellipsis;
+      width: min-content;
       @media screen and (max-width: 480px) {
         max-width: rem(120);
       }
