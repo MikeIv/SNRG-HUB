@@ -5,7 +5,7 @@
     <div class="s-contacts-main__subtitle a-font_xxl" v-html="subtitle"></div>
     <div class="s-contacts-main__phones">
       <template v-for="phone in phones">
-        <a :href="`tel:${phone.number}`" class="s-contacts-main__phone a-font_h4" :key="phone.id">
+        <a v-if="phone.number" :href="`tel:${phone.number}`" class="s-contacts-main__phone a-font_h4" :key="phone.id">
         {{ phone.number }}
         </a>
       </template>
@@ -14,8 +14,8 @@
 
     <div class="s-contacts-main__emails">
       <div class="s-contacts-main__email" v-for="item in emails" :key="item.id">
-        <div class="s-contacts-main__email-title" v-html="item.title"></div>
-        <a class="s-contacts-main__email-adress">{{ item.email }}</a>
+        <div class="s-contacts-main__email-title a-font_xxl" v-html="item.title"></div>
+        <a class="s-contacts-main__email-adress a-font_xxl">{{ item.email }}</a>
       </div>
     </div>
 
@@ -39,8 +39,8 @@ export default {
       emails: [
         { id: 1, title: 'Отдел продаж', email: 'sales@synergyeducation.ru' },
         { id: 2, title: 'Служба поддержки', email: 'support@synergyeducation.ru' },
-        { id: 2, title: 'Пресс-служба', email: 'press@synergyeducation.ru' },
-        { id: 2, title: 'Партнёрам', email: 'partner@synergyeducation.ru' },
+        { id: 3, title: 'Пресс-служба', email: 'press@synergyeducation.ru' },
+        { id: 4, title: 'Партнёрам', email: 'partner@synergyeducation.ru' },
       ],
     };
   },

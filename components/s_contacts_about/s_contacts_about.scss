@@ -1,0 +1,54 @@
+@import '@/assets/styles/tools/mixins';
+
+.s-contacts-about {
+  margin-top: var(--a-padding--x5);
+  background-color: var(--a-color_bg);
+  border-radius: var(--a-borderRadius--bg);
+  @media screen and (max-width: 767px) {
+    margin-top: var(--a-padding--x3);
+  }
+
+  &__title {
+    margin-bottom: var(--a-padding--x10);
+    @media screen and (max-width: 991px) {
+      margin-bottom: var(--a-padding--x6);
+    }
+  }
+
+  &__items {
+    display: flex;
+    justify-content: space-between;
+    gap: var(--a-padding--x5);
+    @media screen and (max-width: 1299px) {
+      justify-content: flex-start;
+      flex-wrap: wrap;
+      row-gap: var(--a-padding--x6);
+      column-gap: var(--a-padding--x15);
+    }
+  }
+
+  &__item {
+    &-pretitle {
+      margin-bottom: var(--a-padding--x3);
+      color: var(--a-color_text--secondary);
+      @media screen and (max-width: 991px) {
+        font-size: rem(18);
+      }
+    }
+    &-title {
+      @media screen and (max-width: 991px) {
+        font-size: rem(24);
+      }
+    }
+
+    &:first-child {
+      @media screen and (max-width: 1299px) {
+        flex-basis: 100%;
+      }
+    }
+  }
+}
+
+.m-contact__map {
+  display: none;
+}

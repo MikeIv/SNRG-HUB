@@ -30,6 +30,9 @@ export default {
     const sections = [
       // 's-university-start',
       's-contacts-main',
+      's-contacts-address',
+      's-contacts-about',
+      's-contats-note',
     ];
     return {
       sections,
@@ -45,21 +48,18 @@ export default {
 </script>
 
 <style lang="scss">
-.organization-page {
-  --layout-v-padding: 3.75rem; // 60px
-  --layout-h-padding: 5rem; // 80px
-  @media all and (max-width: 1199px) {
-    --layout-h-padding: 1.875rem; // 30px
-    --layout-v-padding: 2.5rem; // 40px
-  }
-  @media all and (max-width: 767px) {
-    --layout-h-padding: 1rem; // 16px
-    --layout-v-padding: 2rem; // 32px
+section {
+  padding: var(--a-padding--x15) var(--a-padding--x20);
+  @media screen and (max-width: 991px) {
+    padding: var(--a-padding--x10) var(--a-padding--x8);
   }
   @media screen and (max-width: 767px) {
-    .l-default {
-      --layout-padding: 0;
-    }
+    padding: var(--a-padding--x10) var(--a-padding--x4);
+  }
+}
+.l-default {
+  @media screen and (max-width: 767px) {
+    padding: 0;
   }
 }
 </style>
