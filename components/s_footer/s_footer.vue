@@ -10,7 +10,9 @@
         :terms="terms"
         :policy="policy"
       >
-        <MenuHorizontal />
+        <template v-slot:nav>
+          <MenuHorizontal />
+        </template>
       </s-footer>
     </div>
   </section>
