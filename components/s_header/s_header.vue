@@ -45,7 +45,7 @@
           </div>
         </div>
       </div>
-      <s-menu-main :open="isOpen"></s-menu-main>
+      <s-menu-main :isOpen="isOpen" @change-is-open="handleChange"></s-menu-main>
     </div>
   </header>
 </template>
@@ -104,6 +104,10 @@ export default {
         this.isScrolled = false;
         mainWrapper.classList.remove('js-fixed');
       }
+    },
+
+    handleChange() {
+      this.isOpen = !this.isOpen;
     },
   },
 };
