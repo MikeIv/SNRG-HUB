@@ -2,17 +2,24 @@
 
 .s_banner {
   &__link {
+    width: 100%;
     text-decoration: none;
-  }
-  &--multibanner {
-    width: calc(50% - rem(10));
+    &.multibanner {
+      display: flex;
+      align-items: stretch;
+      width: calc(50% - rem(10));
 
-    @media screen and (max-width: 767px) {
-      width: 100%;
-      margin-bottom: rem(20);
+      @media screen and (max-width: 767px) {
+        width: 100%;
+        margin-bottom: rem(20);
 
-      &:last-child {
-        margin-bottom: 0;
+        &:last-child {
+          margin-bottom: 0;
+        }
+      }
+
+      .s_banner {
+        width: 100%;
       }
     }
   }
@@ -22,9 +29,7 @@
   display: flex;
   justify-content: space-between;
   margin-top: rem(30);
-  margin-left: rem(20);
   @media screen and (max-width: 767px) {
     flex-direction: column;
-    margin-left: 0;
   }
 }

@@ -17,6 +17,7 @@
           :verticalImgSrc="`${baseURL}/${product.preview_image}`"
           :bottomText="product.included.organization.abbreviation_name"
           :iconSrc="`${baseURL}${product.included.organization.logo}`"
+          @organization-click="onOrganizationClick(product)"
         />
       </nuxt-link>
     </div>
@@ -85,6 +86,10 @@ export default {
 
     prevPage(prevPage) {
       this.pageInx = prevPage;
+    },
+
+    onOrganizationClick(product) {
+      this.$router.push(`/organization/${product.included.organization.slug}`);
     },
   },
 };

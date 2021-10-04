@@ -12,16 +12,17 @@
       :currentPrice="currentPrice"
       :formTitle="formTitle"
       :btnText="btnText"
-      :actionForm="actionForm"
       :checkboxText="checkboxText"
       :typeCtrl="typeCtrl"
       :typeBtn="typeBtn"
       :checked="checked"
       @click="sendForm"
     >
-      <a-input class="m-form__input" v-model="dataForm.name" placeholder="Имя" type="text" />
-      <a-input class="m-form__input" v-model="dataForm.phone" placeholder="Телефон" type="tel" />
-      <a-input class="m-form__input" v-model="dataForm.email" placeholder="Почта" type="email" />
+      <template v-slot:inputs>
+        <a-input class="m-form__input" v-model="dataForm.name" placeholder="Имя" type="text" />
+        <a-input class="m-form__input" v-model="dataForm.phone" placeholder="Телефон" type="tel" />
+        <a-input class="m-form__input" v-model="dataForm.email" placeholder="Почта" type="email" />
+      </template>
     </m-form-pay>
   </section>
 </template>
@@ -41,7 +42,6 @@ export default {
   data: () => ({
     title: 'Стоимость программы',
     formTitle: 'Зарегистрироваться и оплатить',
-    actionForm: '/',
     checkboxText: 'Нажимая на кнопку, вы соглашаетсь с политикой конфиденциальности и на получение рассылок',
     btnText: 'Записаться',
     typeCtrl: 'checkbox',

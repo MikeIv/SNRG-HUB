@@ -12,20 +12,21 @@
               :iconSrc="`${baseUrl}${product.logo}`"
               :bottomText="product.abbreviation_name"
               type="program"
+              @organization-click="onOrganizationClick(product)"
             />
           </nuxt-link>
         </template>
       </div>
 
-      <nuxt-link to="/catalog" class="a-button__wrapper">
+      <!-- <nuxt-link to="/catalog" class="a-button__wrapper">
         <a-button label="Показать все" size="large" bgColor="accent" />
-      </nuxt-link>
+      </nuxt-link> -->
     </div>
   </section>
 </template>
 
 <script>
-import { MCard, AButton } from '@cwespb/synergyui';
+import { MCard } from '@cwespb/synergyui';
 import getOrganizationsList from '~/api/organizationsList';
 import './s_main_university.scss';
 
@@ -57,6 +58,10 @@ export default {
   },
 
   methods: {
+    onOrganizationClick(product) {
+      this.$router.push(`/organization/${product.slug}`);
+    },
+
     handleResize() {
       this.windowWidth = window.innerWidth;
     },
@@ -78,7 +83,6 @@ export default {
 
   components: {
     MCard,
-    AButton,
   },
 };
 </script>
