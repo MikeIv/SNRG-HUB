@@ -108,7 +108,7 @@ export default {
 
     handleChange() {
       this.isOpen = !this.isOpen;
-    }
-  },  
+    },
+  },
 };
 </script>

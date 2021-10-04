@@ -32,7 +32,7 @@
                 <div class="s-menu-main__link-list">
                   <div v-for="(product, idx) in linkItem.products" :index="idx" :key="idx">
                     <nuxt-link v-if="idx < 5" :to="product.link" class="s-menu-main__link-product">
-                      <div class="s-menu-main__link-text a-font_m"  @click="changeIsOpen">{{ product.anchor }}</div>
+                      <div class="s-menu-main__link-text a-font_m" @click="changeIsOpen">{{ product.anchor }}</div>
                     </nuxt-link>
                   </div>
                   <nuxt-link :to="linkItem.link" class="s-menu-main__link-more">
@@ -110,9 +110,7 @@ export default {
     });
   },
 
-
   mounted() {
-    this.getScrollBody();
     window.addEventListener('resize', this.handleResize);
     window.addEventListener('DOMContentLoaded', this.handleResize);
   },
@@ -167,7 +165,7 @@ export default {
 
     changeIsOpen() {
       this.$emit('change-is-open');
-    }
+    },
   },
 
   beforeDestroy() {
