@@ -33,3 +33,14 @@
     flex-direction: column;
   }
 }
+
+.m-banner--side {
+  min-height: rem(375);
+  border-radius: var(--a-borderRadius--default);
+  @media screen and (max-width: 991px) {
+    min-height: rem(80);
+  }
+  @media screen and (max-width: 767px) {
+    min-height: rem(160);
+  }
+}

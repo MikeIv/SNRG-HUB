@@ -5,7 +5,7 @@
       :program="program"
       @get-program-click="scrollToFormBlock"
       @sign-up="scrollToFormBlock"
-    />  
+    />
   </section>
 </template>
 
