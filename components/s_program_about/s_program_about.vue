@@ -1,5 +1,5 @@
 <template>
-  <SProgramAbout :title="title" :description="programAboutDescription.value" :items="programAboutList" />
+  <SProgramAbout v-if="programAboutList.length" :title="title" :description="programAboutDescription.value" :items="programAboutList" />
 </template>
 
 <script>
@@ -31,7 +31,7 @@ export default {
     this.programAboutList = preData.json.items.data.map((item, index) => ({
       id: index,
       number: item.title.value,
-      title: item.description.value,
+      title: item.description.value ?? '',
       image: item.icon ? this.baseUrl + item.icon.value : '',
       type: item.icon && item.icon.value ? 'image' : 'number-horizontal',
     }));

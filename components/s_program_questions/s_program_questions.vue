@@ -1,5 +1,5 @@
 <template>
-  <SProgramQuestions :title="title" :items="questionsList" />
+  <SProgramQuestions v-if="questionsList.length" :title="title" :items="questionsList" />
 </template>
 
 <script>

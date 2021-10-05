@@ -1,5 +1,6 @@
 <template>
   <SProgramContent
+    v-if="programContentList.length"
     :direction="direction"
     :factoids="programContentRightItems"
     :items="programContentList"
@@ -29,7 +30,7 @@ export default {
   },
 
   props: ['methods', 'title'],
-
+  
   async fetch() {
     const expandedMethod = this.methods[0].data;
     const preData = await getEntitiesSectionsDetail(expandedMethod);
