@@ -51,7 +51,7 @@ export default {
 
   methods: {
     sendForm() {
-      this.$validator.send(this.dataForm).then(() => {});
+      this.$formTools.send(this.dataForm).then(() => {});
     },
   },
 };

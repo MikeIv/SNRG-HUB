@@ -75,9 +75,7 @@
 </template>
 
 <script>
-import {
-  AButton, AInput, AControl, AProgressbar,
-} from '@cwespb/synergyui';
+import { AButton, AInput, AControl, AProgressbar } from '@cwespb/synergyui';
 import getQuizzesDetail from '~/api/quizzesDetail';
 
 import './s_quiz.scss';
@@ -129,6 +127,12 @@ export default {
     this.count = this.dataQuestion.length;
   },
 
+  mounted(){
+    this.$nextTick(function () {
+      this.$formTools.cookie.set('test1', 'test dev');
+    });
+  },
+
   methods: {
     prevQuiz() {
       this.countPosition -= 1;
@@ -136,16 +140,17 @@ export default {
     },
 
     async startQuiz() {
+      console.log( this.$formTools.cookie.get('test1') );
       this.banerFlag = false;
     },
 
     validQuizData() {
       const dataForm = [{ value: this.send.name }, { value: this.send.tel }];
-      this.validFlag = this.$validator.valid(dataForm);
+      this.validFlag = this.$formTools.valid(dataForm);
     },
 
     sendQuiz() {
-      this.$validator.send(this.send).then((response) => {
+      this.$formTools.send(this.send).then((response) => {
         console.log(response);
       });
     },
