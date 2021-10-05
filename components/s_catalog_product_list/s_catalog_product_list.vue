@@ -42,7 +42,7 @@ import './s_catalog_product_list.scss';
 export default {
   name: 'SCatalogProductList',
 
-  props: ['productList', 'totalProducts', 'page', 'productsPerPage', 'windowWidth', 'selectedFilters'],
+  props: ['productList', 'totalProducts', 'page', 'productsPerPage', 'windowWidth'],
 
   components: {
     MCard,

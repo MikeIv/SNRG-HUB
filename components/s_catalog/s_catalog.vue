@@ -1,176 +1,87 @@
 <template>
   <div class="l-wide catalog-page">
-    <h2 class="a-font_h2">
-      Программы обучения
-      <sup class="catalog-page__header-total a-font_L"> {{ totalProducts }} программ</sup>
-    </h2>
-    <swiper class="catalog-page__main-tags" :options="swiperOption">
-      <swiper-slide v-for="(preset, index) in presets" :key="index" class="catalog-page__swiper-slide">
-        <nuxt-link :to="`${buildPresetUrl(preset.filter)}`">
-          <a-tag :label="preset.name" :class="{ 'catalog-page__main-tags_active': isPresetMatched(preset.filter) }" />
-        </nuxt-link>
-      </swiper-slide>
-    </swiper>
-    <div v-if="filtersMenu">
-      <div class="catalog-page__menu" :key="componentMenuKey" v-if="filterListData">
-        <div v-show="!isFilterExpanded">
-          <a-title title="Фильтры" :showIcon="false" @clickClose="filtersMenuClose" class="catalog-page__menu-header" />
-          <div v-if="selectedFilters.length" class="catalog-page__menu-tags catalog-page__filters-tags">
-            <a-tag
-              v-for="tag in selectedFilters"
-              :key="`${tag.name}${tag.id}`"
-              :label="tag.key === 'organization_ids' ? tag.abbreviation_name : tag.name"
-              status="selected"
-              @aTagDelete="deleteTag(tag)"
-            />
-            <a-tag
-              v-if="selectedFilters.length"
-              label="Очистить все"
-              status="delete"
-              @aTagDelete="clearAllFilters"
-              @aTagClick="clearAllFilters"
-            />
-          </div>
-        </div>
-        <div class="catalog-page__menu-contents">
-          <div v-show="isFilterExpanded" :key="componentExpandedMenuKey">
-            <a-title
-              :title="filterListData[currentExpandedFilter].title"
-              :showIcon="true"
-              @clickClose="filtersMenuClose"
-              @click="isFilterExpanded = false"
-              class="catalog-page__menu-header"
-            />
-            <m-filter
-              title=""
-              passedBtnText=""
-              :hasSearch="filterListData[currentExpandedFilter].search"
-              :items="filterListData[currentExpandedFilter].values"
-              :visibleCount="1000"
-              class="catalog-page__menu-filter_mfilter"
-              @item-click="selectFilter(filterListData[currentExpandedFilter].filter_by, ...arguments)"
-            />
-          </div>
-
-          <div
-            v-show="!isFilterExpanded"
-            class="catalog-page__menu-filters"
-            v-for="filters in Object.entries(filterListData)"
-            :key="filters[0]"
-          >
-            <div
-              class="catalog-page__menu-filter"
-              :class="{ 'catalog-page__menu-filter-expanded': filters[1].values.length > $options.maxVisibleControls }"
-              @click="
-                filters[1].values.length > $options.maxVisibleControls ? expandedFilterClickHandler(filters[0]) : null
-              "
-            >
-              <h3 class="a-font_h7">{{ filters[1].title }}</h3>
-              <i
-                v-if="filters[1].values.length > $options.maxVisibleControls"
-                class="si-chevron-right catalog-page__menu-filter-icon"
-              />
-            </div>
-            <div
-              v-if="filters[1].values.length < $options.maxVisibleControls"
-              class="catalog-page__menu-filter_controls"
-            >
-              <a-control
-                v-for="filter in filters[1].values"
-                :title="filter.abbreviation_name ? filter.abbreviation_name : filter.name"
-                :key="`${filter.name}${filter.id}`"
-                :checked="filter.isChecked"
-                :labelText="filter.abbreviation_name ? filter.name : filter.abbreviation_name"
-                labelPosition="left"
-                class="catalog-page__menu-filter_control"
-                typeBtn="checkbox"
-                typeCtrl="checkbox"
-                @input="selectFilter(filters[0], filter, ...arguments)"
-              />
-            </div>
-          </div>
-          <div v-show="!isFilterExpanded">
-            <a-control
-              v-for="filter in filterCheckboxData"
-              class="catalog-page__menu-filter_control catalog-page__menu-filter_switch"
-              :key="filter.filter_by"
-              :title="filter.title"
-              typeBtn="checkbox"
-              typeCtrl="switch"
-              :checked="filter.isChecked"
-              labelPosition="left"
-              @input="switchClick(filter, ...arguments)"
-            />
-            <div class="catalog-page__menu-button">
-              <a-button :label="menuButtonLabel" bgColor="accent" @click="filtersMenuClose" />
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="catalog-page__menu-backdrop" @click="filtersMenuClose" />
-    </div>
-    <div class="catalog-page__content">
-      <s-catalog-filter
-        v-show="visibleFilters"
-        @select-filter="selectFilter"
-        @switch-click="switchClick"
-        :filterListData="Object.entries(filterListData)"
-        :filterCheckboxData="filterCheckboxData"
-        :filtersCheckboxDataRequest="filtersCheckboxDataRequest"
-        :key="componentFilterKey"
-      />
-      <s-catalog-product-list
-        :productList="productList"
-        :totalProducts="totalProducts"
-        :page="page"
-        :productsPerPage="productsPerPage"
-        :windowWidth="windowWidth"
-        :selectedFilters="selectedFilters"
-        @page="pageChange"
-        @delete-tag="deleteTag"
-        :key="componentProductsKey"
-      >
-        <div class="catalog-page__filters">
-          <div class="catalog-page__filters-tags" v-if="!visibleFiltersIcon">
-            <a-tag
-              v-if="selectedFilters.length"
-              label="Очистить все"
-              status="delete"
-              @aTagDelete="clearAllFilters"
-              @aTagClick="clearAllFilters"
-            />
-            <a-tag
-              v-for="tag in selectedFilters"
-              :key="`${tag.name}${tag.id}`"
-              :label="tag.key === 'organization_ids' ? tag.abbreviation_name : tag.name"
-              status="selected"
-              @aTagDelete="deleteTag(tag)"
-            />
-          </div>
-          <template v-if="productList.length">
-            <a-select :options="options" class="catalog-page__select" @change="changeSortOption" />
-            <i
-              v-if="visibleFiltersIcon"
-              class="si-filter a-font_button catalog-page__filters-icon"
-              tabindex="0"
-              @click="filtersIconClickHandler"
-            >
-              <span class="a-font_button">Фильтры</span>
-            </i>
-          </template>
-        </div>
-      </s-catalog-product-list>
-    </div>
+    <s-catalog-menu
+      :filtersMenu="filtersMenu"
+      :filterListData="filterListData"
+      :filterCheckboxData="filterCheckboxData"
+      :selectedFilters="selectedFilters"
+      :totalProducts="totalProducts"
+      :maxVisibleControls="$options.maxVisibleControls"
+      @menu-toggle="menuToggle"
+      @delete-tag="deleteTag"
+      @clear-all-filters="clearAllFilters"
+      @select-menu-filter="selectFilter"
+      @switch-menu-click="switchClick"
+    />
+    <s-catalog-main
+      title="Программы обучения"
+      :total-products="totalProducts"
+      :hasPresets="true"
+      :presets="presets"
+      :page-info="pageInfo"
+      category="default"
+      @select-filter="selectFilter"
+      @switch-click="switchClick"
+    />
+    <!--    <div class="catalog-page__content">-->
+    <!--      <s-catalog-filter-->
+    <!--        v-show="visibleFilters"-->
+    <!--        @select-filter="selectFilter"-->
+    <!--        @switch-click="switchClick"-->
+    <!--        :filterListData="Object.entries(filterListData)"-->
+    <!--        :filterCheckboxData="filterCheckboxData"-->
+    <!--        :filtersCheckboxDataRequest="filtersCheckboxDataRequest"-->
+    <!--        :key="componentFilterKey"-->
+    <!--      />-->
+    <!--      <s-catalog-product-list-->
+    <!--        :productList="productList"-->
+    <!--        :totalProducts="totalProducts"-->
+    <!--        :page="page"-->
+    <!--        :productsPerPage="productsPerPage"-->
+    <!--        :windowWidth="windowWidth"-->
+    <!--        @page="pageChange"-->
+    <!--        :key="componentProductsKey"-->
+    <!--      >-->
+    <!--        <div class="catalog-page__filters">-->
+    <!--          <div class="catalog-page__filters-tags" v-if="!visibleFiltersIcon">-->
+    <!--            <a-tag-->
+    <!--              v-if="selectedFilters.length"-->
+    <!--              label="Очистить все"-->
+    <!--              status="delete"-->
+    <!--              @aTagDelete="clearAllFilters"-->
+    <!--              @aTagClick="clearAllFilters"-->
+    <!--            />-->
+    <!--            <a-tag-->
+    <!--              v-for="tag in selectedFilters"-->
+    <!--              :key="`${tag.name}${tag.id}`"-->
+    <!--              :label="tag.key === 'organization_ids' ? tag.abbreviation_name : tag.name"-->
+    <!--              status="selected"-->
+    <!--              @aTagDelete="deleteTag(tag)"-->
+    <!--            />-->
+    <!--          </div>-->
+    <!--          <template v-if="productList.length">-->
+    <!--            <a-select :options="options" class="catalog-page__select" @change="changeSortOption" />-->
+    <!--            <i-->
+    <!--              v-if="visibleFiltersIcon"-->
+    <!--              class="si-filter a-font_button catalog-page__filters-icon"-->
+    <!--              tabindex="0"-->
+    <!--              @click="filtersIconClickHandler"-->
+    <!--            >-->
+    <!--              <span class="a-font_button">Фильтры</span>-->
+    <!--            </i>-->
+    <!--          </template>-->
+    <!--        </div>-->
+    <!--      </s-catalog-product-list>-->
+    <!--    </div>-->
   </div>
 </template>
 
 <script>
-import {
-  ATag, ASelect, ATitle, AButton, AControl, MFilter,
-} from '@cwespb/synergyui';
-import { Swiper, SwiperSlide } from 'vue-awesome-swiper';
+import { ATag, ASelect } from '@cwespb/synergyui';
 import SCatalogFilter from '~/components/s_catalog_filter/s_catalog_filter';
 import SCatalogProductList from '~/components/s_catalog_product_list/s_catalog_product_list';
+import SCatalogMenu from '~/components/s_catalog_menu/s_catalog_menu';
+import SCatalogMain from '~/components/s_catalog_main/s_catalog_main';
 import getProductsList from '~/api/products_list';
 import getFilterData from '~/api/filter_data';
 import getFiltersProductPresets from '~/api/filtersProductsPresets';
@@ -179,16 +90,12 @@ import './s_catalog.scss';
 export default {
   name: 'SCatalog',
   components: {
+    SCatalogMain,
+    SCatalogMenu,
     SCatalogProductList,
     SCatalogFilter,
     ATag,
     ASelect,
-    ATitle,
-    AButton,
-    AControl,
-    MFilter,
-    Swiper,
-    SwiperSlide,
   },
   props: ['pageInfo'],
 
@@ -208,15 +115,6 @@ export default {
       page: 1,
       productsPerPage: this.$options.productNumberOnDesktop,
       windowWidth: null,
-      main_tags: [
-        { status: 'default', label: 'UX/UI  дизайнер' },
-        { status: 'default', label: 'JS-разработчик' },
-        { status: 'default', label: 'Верстальщик' },
-        { status: 'default', label: 'Проджект-менеджер' },
-        { status: 'default', label: 'Менеджер по продажам' },
-        { status: 'default', label: 'Веб-дизайнер' },
-        { status: 'default', label: 'Аналитик' },
-      ],
       presets: [],
 
       currentOption: 'sort',
@@ -254,17 +152,8 @@ export default {
       },
       filtersCheckboxDataRequest: {},
       filtersMenu: false,
-      isFilterExpanded: false,
-      currentExpandedFilter: 'direction_ids',
       componentFilterKey: 1,
       componentProductsKey: 100,
-      componentExpandedMenuKey: 1000,
-      componentMenuKey: 3000,
-
-      swiperOption: {
-        slidesPerView: 'auto',
-        spaceBetween: 8,
-      },
 
       slugs: [],
 
@@ -436,43 +325,9 @@ export default {
     visibleFiltersIcon() {
       return this.windowWidth < this.$options.tabletEndpointResolution;
     },
-
-    menuButtonLabel() {
-      return `Показать ${this.totalProducts} предложений`;
-    },
   },
 
   methods: {
-    buildPresetUrl(preset) {
-      let url = '/catalog?page=1';
-      Object.entries(preset).forEach(([key, ids]) => {
-        if (key !== 'published') {
-          url = url.concat(`&${key}=${ids}`);
-        }
-      });
-      return url;
-    },
-
-    isPresetMatched(preset) {
-      const matchedArray = [];
-
-      Object.entries(this.filtersIdsData).forEach(([key, ids]) => {
-        if (Object.keys(preset).includes(key)) {
-          const filterIds = ids.map((id) => Number(id)).sort((a, b) => a - b);
-          if (filterIds.toString() === preset[key].toString()) {
-            matchedArray.push(true);
-          } else {
-            matchedArray.push(false);
-          }
-        } else if (ids.length) {
-          matchedArray.push(false);
-        }
-      });
-
-      return !matchedArray.includes(false);
-    },
-
-    // Todo sort ids in watch filters
     parseQueryIntoFilters() {
       if (this.$route.params.pathMatch) {
         this.slugs = this.$route.params.pathMatch.split('/');
@@ -649,19 +504,12 @@ export default {
       this.filtersMenu = true;
     },
 
-    filtersMenuClose() {
-      this.filtersMenu = false;
-      this.isFilterExpanded = false;
-    },
-
     menuControlSelect(filter) {
       this.selectedFilters.push(filter);
     },
 
-    expandedFilterClickHandler(filterKey) {
-      this.componentExpandedMenuKey += 1;
-      this.currentExpandedFilter = filterKey;
-      this.isFilterExpanded = true;
+    menuToggle(value) {
+      this.filtersMenu = value;
     },
   },
 
