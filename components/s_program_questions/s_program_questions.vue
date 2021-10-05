@@ -24,13 +24,14 @@ export default {
   async fetch() {
     const expandedMethod = this.methods[0].data;
     const preData = await getEntitiesSectionsDetail(expandedMethod);
-    this.questionsList = preData.json.items.data.filter((item) => item.title.value
-    && item.description.value).map((item, index) => ({
-      title: item.title.value,
-      text: item.description.value,
-      id: index + 1,
-      isActive: !index,
-    }));
+    this.questionsList = preData.json.items.data
+      .filter((item) => item.title.value && item.description.value)
+      .map((item, index) => ({
+        title: item.title.value,
+        text: item.description.value,
+        id: index + 1,
+        isActive: !index,
+      }));
   },
 };
 </script>
