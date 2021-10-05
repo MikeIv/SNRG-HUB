@@ -5,7 +5,7 @@
       :program="program"
       @get-program-click="scrollToFormBlock"
       @sign-up="scrollToFormBlock"
-    />
+    />  
   </section>
 </template>
 
@@ -29,22 +29,22 @@ export default {
       baseURL: process.env.NUXT_ENV_S3BACKET,
 
       breadcrumbs: [
-        {
-          label: 'Учебные заведения',
-          href: '/',
-        },
-        {
-          label: 'Универститеты',
-          href: '/',
-        },
-        {
-          label: 'Москва',
-          href: '/',
-        },
-        {
-          label: 'Онлайн-курсы',
-          href: '/',
-        },
+        // {
+        //   label: 'Учебные заведения',
+        //   href: '/',
+        // },
+        // {
+        //   label: 'Универститеты',
+        //   href: '/',
+        // },
+        // {
+        //   label: 'Москва',
+        //   href: '/',
+        // },
+        // {
+        //   label: 'Онлайн-курсы',
+        //   href: '/',
+        // },
       ],
       event: {
         date: '22 июня в 15:00',
