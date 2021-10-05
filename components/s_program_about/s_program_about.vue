@@ -1,5 +1,10 @@
 <template>
-  <SProgramAbout v-if="programAboutList.length" :title="title" :description="programAboutDescription.value" :items="programAboutList" />
+  <SProgramAbout
+    v-if="programAboutList.length"
+    :title="title"
+    :description="programAboutDescription.value"
+    :items="programAboutList"
+  />
 </template>
 
 <script>
