@@ -23,6 +23,11 @@
       }
     }
   }
+  .m-banner--side {
+    min-height: rem(380);
+    border-radius: var(--a-borderRadius--default);
+    color: var(--a-color_bg);
+  }
 }
 
 .l-wide.banners {
@@ -31,16 +36,5 @@
   margin-top: rem(30);
   @media screen and (max-width: 767px) {
     flex-direction: column;
-  }
-}
-
-.m-banner--side {
-  min-height: rem(375);
-  border-radius: var(--a-borderRadius--default);
-  @media screen and (max-width: 991px) {
-    min-height: rem(80);
-  }
-  @media screen and (max-width: 767px) {
-    min-height: rem(160);
   }
 }

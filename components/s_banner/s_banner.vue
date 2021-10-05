@@ -17,7 +17,7 @@
             :secondTxt="item.name_second"
             :color="item.color_text_list"
             :ImgSrc="`${baseURL}${item.image}`"
-            :class="aside"
+            :class="side"
           />
         </nuxt-link>
       </template>
