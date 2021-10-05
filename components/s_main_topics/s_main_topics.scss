@@ -1,6 +1,7 @@
 @import '@/assets/styles/tools/mixins';
 
 .s-main-topics {
+  background: var(--a-color_bg--secondary);
   .swiper {
     &-button-disabled {
       display: none;
@@ -10,6 +11,10 @@
       transform: translateY(-50%);
       @media screen and (max-width: 991px) {
         display: none;
+      }
+      .a-button__icon {
+        color: var(--a-color_text--secondary);
+        font-size: rem(24);
       }
     }
     &-button-next {
@@ -35,13 +40,6 @@
     width: rem(160);
     a {
       text-decoration: none;
-    }
-  }
-
-  &__button {
-    .a-button__icon {
-      color: var(--a-color_text--secondary);
-      font-size: rem(24);
     }
   }
 }

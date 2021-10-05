@@ -1,5 +1,5 @@
 <template>
-  <SProgramCpaLine :sale="sale" />
+  <SProgramCpaLine :sale="sale" @get-discount-click="scrollToFormBlock" />
 </template>
 
 <script>
@@ -19,6 +19,13 @@ export default {
         text: 'Скидка 40% на обучение до 10 февраля',
       },
     };
+  },
+
+  methods: {
+    scrollToFormBlock() {
+      const formBlock = document.getElementById('form');
+      formBlock.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'nearest' });
+    },
   },
 };
 </script>

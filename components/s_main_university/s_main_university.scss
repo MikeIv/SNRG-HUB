@@ -1,20 +1,6 @@
 @import '@/assets/styles/tools/mixins';
 
 .s-main-university {
-  padding-top: var(--a-padding--x12);
-  padding-bottom: var(--a-padding--x6);
-  @media all and (max-width: 991px) {
-    padding-top: var(--a-padding--x8);
-    padding-bottom: var(--a-padding--x4);
-  }
-  @media all and (max-width: 767px) {
-    padding-top: var(--a-padding--x6);
-    padding-bottom: var(--a-padding--x6);
-  }
-  .container {
-    max-width: rem(1510);
-    margin: 0 auto;
-  }
   .m-card-program__wrapper {
     flex-grow: 1;
     max-width: calc(33% - rem(11));

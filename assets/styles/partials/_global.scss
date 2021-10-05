@@ -7,6 +7,11 @@ body {
   }
 }
 
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
 :root {
   --layout-width: 81.25rem; // 1300px
   --layout-padding: 5rem; // 80px
@@ -41,5 +46,18 @@ body {
 
   @media all and (max-width: 767px) {
     --layout-padding: 1rem; // 16px
+  }
+}
+
+.s-padding {
+  padding: var(--a-padding--x12) 0;
+  @media screen and (max-width: 767px) {
+    padding: var(--a-padding--x6) 0;
+  }
+  &--smallTop {
+    padding: var(--a-padding--x6) 0 var(--a-padding--x12);
+    @media screen and (max-width: 767px) {
+      padding: var(--a-padding--x2) 0 var(--a-padding--x8);
+    }
   }
 }

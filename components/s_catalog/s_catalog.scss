@@ -3,7 +3,11 @@
 .catalog-page {
   &__content {
     display: flex;
-    margin-top: rem(24);
+    padding: rem(24) 0 rem(80) 0;
+
+    @media all and (max-width: 600px) {
+      padding: rem(20) 0 rem(48) 0;
+    }
   }
 
   &__header-total {
@@ -25,6 +29,12 @@
     .swiper-wrapper {
       padding-top: rem(32);
       padding-bottom: rem(14);
+    }
+
+    &_active {
+      color: #fff;
+      background-color: var(--a-color_link);
+      transition: 0.4s;
     }
   }
 

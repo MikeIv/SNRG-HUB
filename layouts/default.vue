@@ -1,9 +1,9 @@
 <template>
-  <div>
+  <main>
     <SHeader />
     <Nuxt />
     <SFooter />
-  </div>
+  </main>
 </template>
 
 <script>
@@ -18,7 +18,7 @@ export default {
       ],
     };
   },
-  
+
   components: {
     SFooter,
     SHeader,

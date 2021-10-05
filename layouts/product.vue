@@ -1,10 +1,15 @@
 <template>
   <main class="product-page">
+    <SHeader />
     <Nuxt />
+    <SFooter />
   </main>
 </template>
 
 <script>
+import SHeader from '~/components/s_header/s_header';
+import SFooter from '~/components/s_footer/s_footer';
+
 export default {
   head() {
     return {
@@ -12,6 +17,11 @@ export default {
         { rel: 'canonical', href: `http://localhost:3000${this.$route.path}` },
       ],
     };
+  },
+
+  components: {
+    SHeader,
+    SFooter,
   },
 };
 </script>

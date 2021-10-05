@@ -1,10 +1,14 @@
 <template>
   <section class="s-program-diploma">
-    <h2 class="s-program-diploma__title a-font_h2" v-html="title"></h2>
+    <h2 class="s-program-diploma__title a-font_h2">{{ title }}</h2>
     <div class="s-program-diploma__items">
       <swiper :options="swiperOptionProgramDiploma">
-        <swiper-slide v-for="item in items" :key="item.id" class="s-program-diploma__slide">
-          <MCardLanding :title="item.title" :text="item.text" :image="item.image" />
+        <swiper-slide v-for="(diploma, idx) in diplomaList.data" :key="idx" class="s-program-diploma__slide">
+          <MCardLanding
+            :title="diploma.title.value"
+            :text="diploma.description.value"
+            :image="`${baseUrl}${diploma.preview_image.value}`"
+          />
         </swiper-slide>
       </swiper>
     </div>
@@ -13,9 +17,9 @@
 
 <script>
 import { Swiper, SwiperSlide } from 'vue-awesome-swiper';
-
 import { MCardLanding } from '@cwespb/synergyui';
 import './s_program_diploma.scss';
+import getEntitiesSectionsDetail from '~/api/entitiesSectionsDetail';
 
 export default {
   name: 's_program_diploma',
@@ -28,6 +32,7 @@ export default {
 
   data() {
     return {
+      diplomaList: [],
       baseUrl: process.env.NUXT_ENV_S3BACKET,
       swiperOptionProgramDiploma: {
         grabCursor: true,
@@ -41,31 +46,13 @@ export default {
           },
         },
       },
-
-      items: [
-        {
-          title: 'Государственный диплом',
-          text: 'о высшем образовании с присвоением степени бакалавра',
-          image: 'https://images.unsplash.com/photo-1528287942171-fbe365d1d9ac',
-        },
-        {
-          title: 'Государственный диплом',
-          text: 'о высшем образовании с присвоением степени бакалавра',
-          image: 'https://images.unsplash.com/photo-1528287942171-fbe365d1d9ac',
-        },
-        {
-          title: 'Государственный диплом',
-          text: 'о высшем образовании с присвоением степени бакалавра',
-          image: 'https://images.unsplash.com/photo-1528287942171-fbe365d1d9ac',
-        },
-        {
-          title: 'Государственный диплом',
-          text: 'о высшем образовании с присвоением степени бакалавра',
-          image: 'https://images.unsplash.com/photo-1528287942171-fbe365d1d9ac',
-        },
-      ],
-      title: 'Образцы дипломов',
     };
+  },
+  props: ['methods', 'title'],
+  async fetch() {
+    const expandedMethod = this.methods[0].data;
+    const preData = await getEntitiesSectionsDetail(expandedMethod);
+    this.diplomaList = preData.json.items;
   },
 };
 </script>

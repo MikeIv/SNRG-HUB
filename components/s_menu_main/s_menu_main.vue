@@ -3,6 +3,10 @@
     <div class="l-default">
       <div class="s-menu-main__box">
         <div class="s-menu-main__items">
+          <div class="s-menu-main__login">
+            <a-button label="Войти в аккаунт" backgroundColor="#F5F5F5" bgColor="ghost-accept"></a-button>
+          </div>
+          <div class="s-menu-main__title a-font_h5">Всё обучение</div>
           <template v-for="(item, idx) in menuAnchors" :index="idx">
             <div class="s-menu-main__item" @mouseover="getActive(idx)" @click="getActiveMenu" :key="idx">
               <a-sidebar-item :class="{ active: item.isActive }" :label="item.anchor" href="" />
@@ -14,26 +18,24 @@
             <div class="s-menu-main__links" :key="idx" :class="{ active: item.isActive }">
               <div class="s-menu-main__links-top" @click="getActiveMenu">
                 <div class="s-menu-main__links-icon si-chevron-left"></div>
-                <div class="s-menu-main__links-title a-font_h4">
-                  {{ item.title }}
-                </div>
+                <div class="s-menu-main__links-title a-font_h4">{{ item.title }}</div>
               </div>
               <div class="s-menu-main__links-item" v-for="(linkItem, idx) in item.items" :key="idx">
-                <nuxt-link to="" class="s-menu-main__link">
+                <div class="s-menu-main__link">
                   <div class="s-menu-main__link-top" @click="openMenuItem($event)">
                     <div class="s-menu-main__link-title a-font_xxl">
-                      {{ linkItem.anchor }}
+                      <nuxt-link :to="linkItem.link">{{ linkItem.anchor }}</nuxt-link>
                     </div>
                     <div class="s-menu-main__link-icon si-chevron-down"></div>
                   </div>
-                </nuxt-link>
+                </div>
                 <div class="s-menu-main__link-list">
                   <div v-for="(product, idx) in linkItem.products" :index="idx" :key="idx">
                     <nuxt-link v-if="idx < 5" :to="product.link" class="s-menu-main__link-product">
-                      <div class="s-menu-main__link-text a-font_m">{{ product.anchor }}</div>
+                      <div class="s-menu-main__link-text a-font_m" @click="changeIsOpen">{{ product.anchor }}</div>
                     </nuxt-link>
                   </div>
-                  <nuxt-link to="/" class="s-menu-main__link-more">
+                  <nuxt-link :to="linkItem.link" class="s-menu-main__link-more">
                     <div class="s-menu-main__link-more--text a-font_l">Смотреть все</div>
                     <div class="s-menu-main__link-more--icon si-chevron-right"></div>
                   </nuxt-link>
@@ -42,11 +44,13 @@
             </div>
           </template>
         </div>
+
         <m-banner
+          v-if="bannerImg !== ''"
           type="side"
           titleTxt="Разработка VR/AR"
           secondTxt="Станьте редким востребованным специалистом"
-          ImgBgSrc="https://placeimg.com/250/350/people"
+          :ImgSrc="bannerImg"
         ></m-banner>
       </div>
     </div>
@@ -54,7 +58,7 @@
 </template>
 
 <script>
-import { ASidebarItem, MBanner } from '@cwespb/synergyui';
+import { ASidebarItem, MBanner, AButton } from '@cwespb/synergyui';
 import getMenuMain from '~/api/menuMain';
 import './s_menu_main.scss';
 
@@ -64,6 +68,7 @@ export default {
   components: {
     ASidebarItem,
     MBanner,
+    AButton,
   },
 
   data() {
@@ -73,14 +78,16 @@ export default {
       menuLinks: [],
       isActive: false,
       windowWidth: 0,
-      isOpen: this.open,
       menuIsOpen: false,
+      bannerImg: '',
     };
   },
 
+  props: ['isOpen'],
+
   watch: {
-    open(val) {
-      this.isOpen = val;
+    isOpen() {
+      this.getScrollBody();
     },
   },
 
@@ -102,8 +109,6 @@ export default {
       });
     });
   },
-
-  props: ['open'],
 
   mounted() {
     window.addEventListener('resize', this.handleResize);
@@ -131,6 +136,16 @@ export default {
       });
     },
 
+    getScrollBody() {
+      const htmlWrapper = document.querySelector('html');
+
+      if (this.isOpen === true) {
+        htmlWrapper.style.overflowY = 'hidden';
+      } else {
+        htmlWrapper.style.overflowY = 'visible';
+      }
+    },
+
     handleResize() {
       this.windowWidth = window.innerWidth;
     },
@@ -146,6 +161,10 @@ export default {
       const parent = element.closest('.s-menu-main__links-item');
 
       parent.classList.toggle('open');
+    },
+
+    changeIsOpen() {
+      this.$emit('change-is-open');
     },
   },
 

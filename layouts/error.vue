@@ -1,9 +1,9 @@
 <template>
-  <div class="page-404__wrapper">
-    <SHeader/>
+  <main class="page-404__wrapper">
+    <SHeader />
     <Page404 />
-    <SFooter/>
-  </div>
+    <SFooter />
+  </main>
 </template>
 
 <script>

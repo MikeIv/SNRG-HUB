@@ -1,5 +1,5 @@
 <template>
-  <section class="s-main-topics">
+  <section class="s-main-topics s-padding">
     <div class="l-wide">
       <div class="s-main-topics__wrapper">
         <h2 class="s-main-topics__title a-font_h5">{{ title }}</h2>
@@ -10,26 +10,24 @@
               :key="product.id"
               class="s-main-topics__slide m-card-vertical"
             >
-              <nuxt-link to="/">
-                <m-card :verticalImgSrc="`${baseUrl}/${product.preview_image}`" :title="product.name" type="vertical" />
+              <nuxt-link :to="`/catalog/${product.slug}`">
+                <m-card :verticalImgSrc="`${baseUrl}${product.preview_image}`" :title="product.name" type="vertical" />
               </nuxt-link>
             </swiper-slide>
           </swiper>
           <a-button
-            class="swiper-button-prev m-card-vertical__button s-main-topics__button"
+            class="swiper-button-prev s-main-topics__prev"
             size="medium"
             bg-color="ghost-primary"
             only-icon="square"
             iconType="si-chevron-left"
-            slot="button-prev"
           ></a-button>
           <a-button
-            class="swiper-button-next m-card-vertical__button s-main-topics__button"
+            class="swiper-button-next s-main-topics__next"
             size="medium"
             bg-color="ghost-primary"
             only-icon="square"
             iconType="si-chevron-right"
-            slot="button-next"
           ></a-button>
         </div>
       </div>
@@ -51,9 +49,11 @@ export default {
       swiperOptionA: {
         slidesPerView: 'auto',
         spaceBetween: 12,
+        resistance: true,
+        resistanceRatio: 0,
         navigation: {
-          nextEl: '.swiper-button-next',
-          prevEl: '.swiper-button-prev',
+          nextEl: '.s-main-topics__next',
+          prevEl: '.s-main-topics__prev',
         },
         breakpoints: {
           767: {
@@ -77,7 +77,7 @@ export default {
   },
   props: ['methods', 'title'],
   async fetch() {
-    const expandedMethod = this.methods.data;
+    const expandedMethod = this.methods[0].data;
     this.directionsList = await getDirectionsList(expandedMethod);
   },
 };

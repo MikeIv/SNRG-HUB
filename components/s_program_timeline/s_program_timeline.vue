@@ -2,19 +2,23 @@
   <section class="s-program-timeline">
     <div class="s-program-timeline__header">
       <h2 class="s-program-timeline__title a-font_h2" v-html="title"></h2>
-      <div class="s-program-timeline__factoids">
+      <div class="s-program-timeline__factoids" v-if="programTimelineRightItems">
         <AFactoid
-          v-for="factoid in factoids"
-          :key="factoid.id"
-          :type="factoid.type"
-          :title="factoid.title"
-          :subtitle="factoid.subtitle"
+          v-for="timelineItem in programTimelineRightItems"
+          :key="timelineItem.id"
+          :type="timelineItem.type"
+          :title="timelineItem.title"
+          :subtitle="timelineItem.subtitle"
         />
       </div>
     </div>
     <div class="s-program-timeline__swiper">
       <swiper :options="swiperOptionA">
-        <swiper-slide v-for="item in items" :key="item.id" class="s-program-timeline__slide m-card-landing">
+        <swiper-slide
+          v-for="item in programTimelineList"
+          :key="item.id"
+          class="s-program-timeline__slide m-card-landing"
+        >
           <MCardLanding :title="item.title" :text="item.text" :image="item.image" />
         </swiper-slide>
       </swiper>
@@ -28,6 +32,8 @@ import { Swiper, SwiperSlide } from 'vue-awesome-swiper';
 import { AFactoid, MCardLanding } from '@cwespb/synergyui';
 import './s_program_timeline.scss';
 
+import getEntitiesSectionsDetail from '~/api/entitiesSectionsDetail';
+
 export default {
   name: 's_program_timeline',
 
@@ -40,24 +46,13 @@ export default {
 
   data() {
     return {
+      programTimelineList: [],
+      programTimelineRightItems: [],
       baseUrl: process.env.NUXT_ENV_S3BACKET,
-      swiperOption: {
-        grabCursor: true,
-        slidesPerView: 'auto',
-        spaceBetween: 20,
-        resistance: true,
-        resistanceRatio: 0,
-        breakpoints: {
-          768: {
-            spaceBetween: 12,
-          },
-        },
-      },
       swiperOptionA: {
         grabCursor: true,
         slidesPerView: 'auto',
         spaceBetween: 20,
-        loop: true,
         resistance: true,
         resistanceRatio: 0,
         breakpoints: {
@@ -66,51 +61,25 @@ export default {
           },
         },
       },
-
-      title: 'Как проходит <span>обучение</span>',
-      factoids: [
-        {
-          title: '6 месяцев',
-          subtitle: 'Длительность',
-          type: 'default',
-        },
-        {
-          title: 'командный кейс',
-          subtitle: 'Дипломный проект',
-          type: 'default',
-        },
-      ],
-      items: [
-        {
-          title: 'Изучаете тему',
-          text: 'Смотрите обучающие видео и задаёте вопросы',
-          image:
-            // eslint-disable-next-line max-len
-            'https://images.unsplash.com/photo-1528287942171-fbe365d1d9ac?ixlib=rb-1.2.1&q=85&fm=jpg&crop=entropy&w=1200&cs=srgb&ixid=eyJhcHBfaWQiOjE0NTg5fQ',
-        },
-        {
-          title: 'Изучаете тему',
-          text: 'Смотрите обучающие видео и задаёте вопросы',
-          image:
-            // eslint-disable-next-line max-len
-            'https://images.unsplash.com/photo-1528287942171-fbe365d1d9ac?ixlib=rb-1.2.1&q=85&fm=jpg&crop=entropy&w=1200&cs=srgb&ixid=eyJhcHBfaWQiOjE0NTg5fQ',
-        },
-        {
-          title: 'Изучаете тему',
-          text: 'Смотрите обучающие видео и задаёте вопросы',
-          image:
-            // eslint-disable-next-line max-len
-            'https://images.unsplash.com/photo-1528287942171-fbe365d1d9ac?ixlib=rb-1.2.1&q=85&fm=jpg&crop=entropy&w=1200&cs=srgb&ixid=eyJhcHBfaWQiOjE0NTg5fQ',
-        },
-        {
-          title: 'Изучаете тему',
-          text: 'Смотрите обучающие видео и задаёте вопросы',
-          image:
-            // eslint-disable-next-line max-len
-            'https://images.unsplash.com/photo-1528287942171-fbe365d1d9ac?ixlib=rb-1.2.1&q=85&fm=jpg&crop=entropy&w=1200&cs=srgb&ixid=eyJhcHBfaWQiOjE0NTg5fQ',
-        },
-      ],
     };
+  },
+
+  props: ['methods', 'title'],
+  async fetch() {
+    const expandedMethod = this.methods[0].data;
+    const preData = await getEntitiesSectionsDetail(expandedMethod);
+    this.programTimelineList = preData.json.items.data.map((item, index) => ({
+      title: item.title.value,
+      text: item.description.value,
+      image: item.image
+        ? this.baseUrl + item.preview_image.value
+        : `https://synergymarket.ru/site/img/how/${index + 1}.png`,
+    }));
+    this.programTimelineRightItems = preData.json.rightItems.data.map((item) => ({
+      title: item.description && item.description.value ? item.title.value : '',
+      subtitle: item.title && item.title.value ? item.title.value : '',
+      type: 'default',
+    }));
   },
 };
 </script>

@@ -1,5 +1,6 @@
 @import '@/assets/styles/tools/mixins';
 .m-quiz {
+  background: var(--a-color_bg--secondary);
   &__baner {
     position: relative;
     overflow: hidden;

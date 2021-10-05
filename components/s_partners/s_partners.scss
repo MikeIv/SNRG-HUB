@@ -1,10 +1,11 @@
 @import '@/assets/styles/tools/mixins';
 
 .s-partners {
+  margin-bottom: rem(20);
   padding: rem(48) 0;
-  background: var(--a-color_bg);
 
   @media (max-width: 991px) {
+    margin-bottom: rem(12);
     padding: var(--a-padding--x8) 0;
   }
 
@@ -74,5 +75,14 @@
         margin: 0 auto;
       }
     }
+  }
+}
+
+.organization-page,
+.product-page {
+  .s-partners {
+    padding: var(--layout-v-padding) var(--layout-h-padding);
+    background: var(--a-color_bg);
+    border-radius: var(--a-borderRadius--bg);
   }
 }

@@ -1,50 +1,37 @@
 <template>
-  <section class="s-main-university">
+  <section class="s-main-university s-padding">
     <div class="l-wide">
       <h2 class="s-main-university__title a-font_h5">{{ title }}</h2>
       <div class="s-main-university__box">
         <template v-for="product in visibleCards">
-          <nuxt-link :to="`${product.link}`" :key="product.id" class="m-card-program__wrapper">
+          <nuxt-link :to="`organization/${product.slug}`" :key="product.id" class="m-card-program__wrapper">
             <m-card
               :title="product.name"
               :description="product.included.city.name"
-              :verticalImgSrc="`${baseUrl}/${product.digital_image}`"
-              :iconSrc="`${baseUrl}/${product.logo}`"
+              :verticalImgSrc="`${baseUrl}${product.digital_image}`"
+              :iconSrc="`${baseUrl}${product.logo}`"
               :bottomText="product.abbreviation_name"
               type="program"
+              @organization-click="onOrganizationClick(product)"
             />
           </nuxt-link>
         </template>
       </div>
 
-      <nuxt-link :to="`${redirectUrl}`" class="a-button__wrapper">
+      <!-- <nuxt-link to="/catalog" class="a-button__wrapper">
         <a-button label="Показать все" size="large" bgColor="accent" />
-      </nuxt-link>
+      </nuxt-link> -->
     </div>
   </section>
 </template>
 
 <script>
-import { MCard, AButton } from '@cwespb/synergyui';
+import { MCard } from '@cwespb/synergyui';
 import getOrganizationsList from '~/api/organizationsList';
 import './s_main_university.scss';
 
 export default {
   name: 'SMainUniversity',
-
-  props: {
-    redirectUrl: {
-      type: String,
-      default: '#',
-    },
-    methods: {
-      type: Array,
-      required: true,
-    },
-    title: {
-      type: String,
-    },
-  },
 
   data() {
     return {
@@ -55,6 +42,8 @@ export default {
       windowWidth: 0,
     };
   },
+
+  props: ['methods', 'title'],
 
   async fetch() {
     let [expandedMethod] = this.methods;
@@ -69,6 +58,10 @@ export default {
   },
 
   methods: {
+    onOrganizationClick(product) {
+      this.$router.push(`/organization/${product.slug}`);
+    },
+
     handleResize() {
       this.windowWidth = window.innerWidth;
     },
@@ -90,7 +83,6 @@ export default {
 
   components: {
     MCard,
-    AButton,
   },
 };
 </script>

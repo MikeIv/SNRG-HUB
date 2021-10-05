@@ -1,10 +1,11 @@
 <template>
-  <SProgramSkills :title="title" :items="items" />
+  <SProgramSkills :title="title" :items="programSkillsList" />
 </template>
 
 <script>
 import { SProgramSkills } from '@cwespb/synergyui';
 import './s_program_skills.scss';
+import getEntitiesSectionsDetail from '~/api/entitiesSectionsDetail';
 
 export default {
   name: 's_program_skills',
@@ -15,40 +16,20 @@ export default {
 
   data() {
     return {
-      title: 'Чему <span>вы научитесь</span>',
-      items: [
-        {
-          id: 1,
-          type: 'icon',
-          text: 'Работа с базами данных',
-        },
-        {
-          id: 2,
-          type: 'icon',
-          text: 'Разрабатывать технические задания для проектов',
-        },
-        {
-          id: 3,
-          type: 'icon',
-          text: 'Верстать сайты любой сложности',
-        },
-        {
-          id: 4,
-          type: 'icon',
-          text: 'Работа с разными операторами',
-        },
-        {
-          id: 5,
-          type: 'icon',
-          text: 'Установка и настройка веб-серверов',
-        },
-        {
-          id: 6,
-          type: 'icon',
-          text: 'Навыки работы с объектами',
-        },
-      ],
+      programSkillsList: [],
     };
+  },
+
+  props: ['methods', 'title'],
+  async fetch() {
+    const expandedMethod = this.methods[0].data;
+    const preData = await getEntitiesSectionsDetail(expandedMethod);
+    // eslint-disable-next-line no-param-reassign
+    this.programSkillsList = preData.json.items.data.map(({ title }) => {
+      // eslint-disable-next-line no-param-reassign
+      title.type = 'icon';
+      return title;
+    });
   },
 };
 </script>

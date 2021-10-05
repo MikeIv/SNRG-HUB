@@ -3,15 +3,8 @@
     <SProgramStart
       :breadcrumbs="breadcrumbs"
       :program="program"
-      :event="event"
-      :description="program.description"
-      :city="program.city"
-      :language="program.language"
-      :duration="program.duration"
-      :form="program.form"
-      :photo="program.photo"
-      :link="program.link"
-      :color="program.color"
+      @get-program-click="scrollToFormBlock"
+      @sign-up="scrollToFormBlock"
     />
   </section>
 </template>
@@ -20,8 +13,12 @@
 import { SProgramStart } from '@cwespb/synergyui';
 import './s_program_start.scss';
 
+import getProductsDetail from '~/api/productsDetail';
+import getParseDate from '~/assets/js/getParseDate';
+import getDateFromDatesObj from '~/assets/js/getDateFromDatesObj';
+
 export default {
-  name: 's_program_start',
+  name: 's-program-start',
 
   components: {
     SProgramStart,
@@ -29,6 +26,8 @@ export default {
 
   data() {
     return {
+      baseURL: process.env.NUXT_ENV_S3BACKET,
+
       breadcrumbs: [
         {
           label: 'Учебные заведения',
@@ -50,50 +49,47 @@ export default {
       event: {
         date: '22 июня в 15:00',
         title: 'JAVA для новичков. Программируем вендинговый автомат',
-        description: 'Вебинар',
         link: '#',
       },
       program: {
-        subtitle: 'Профессия с трудоустройством',
-        title: 'PHP-программист',
-        color: '#e6e4f1',
-        social: [
-          {
-            id: 1,
-            name: 'Вконтакте',
-            icon: 'vk',
-            link: '#vk',
-          },
-          {
-            id: 2,
-            name: 'Twitter',
-            icon: 'twitter',
-            link: '#twitter',
-          },
-          {
-            id: 3,
-            name: 'Instagram',
-            icon: 'instagram',
-            link: '#insta',
-          },
-          {
-            id: 4,
-            name: 'Facebook',
-            icon: 'facebook',
-            link: '#facebook',
-          },
-        ],
-        description:
-          // eslint-disable-next-line max-len
-          'Язык PHP отличается практичностью и дает возможность быстро решать задачи, поэтому множество сайтов написаны именно на нем. Язык PHP отличается практичностью и дает возможность быстро решать задачи, поэтому множество сайтов написаны именно на нем.',
-        city: 'Москва',
-        language: 'Русский',
-        duration: '4 года',
-        form: 'Очно, заочно',
-        photo: 'https://fainaidea.com/wp-content/uploads/2015/02/agh1.jpg',
-        link: '#link',
+        description: '',
+        subtitle: '',
+        title: '',
+        color: '',
+        social: [],
+        city: '',
+        document: '',
+        duration: '',
+        form: '',
+        photo: '',
+        link: '',
       },
     };
+  },
+
+  props: ['methods', 'title'],
+  async fetch() {
+    const expandedMethod = this.methods[0].data;
+    const preData = await getProductsDetail(expandedMethod);
+    const getData = preData.data;
+    this.program.color = getData.color;
+    this.program.title = getData.name;
+    this.program.subtitle = getData.included.levels[0].name;
+    this.program.description = getData.description;
+    this.program.document = getData.document;
+    this.program.city = getData.included.organization.included.city.name;
+    this.program.form = getData.included.formats[0].name;
+    this.program.photo = `${this.baseURL}${getData.digital_image}`;
+
+    // Перевод строки в виде "4y-6m-5d" и возврат даты в нужном формате (4 года 6 месяцев 5 дней)
+    this.program.duration = getDateFromDatesObj(getParseDate(getData.duration_format_value));
+  },
+
+  methods: {
+    scrollToFormBlock() {
+      const formBlock = document.getElementById('form');
+      formBlock.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'nearest' });
+    },
   },
 };
 </script>
