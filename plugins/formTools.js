@@ -1,7 +1,6 @@
 import axios from 'axios';
 
 export default (context, inject) => {
-
   // eslint-disable-next-line max-len
   const url = 'http://syn.su/lander.php?r=land/index&unit=synergy_marketplace&type=marketplace&land=KD_market&ignore-thanksall=1';
 
@@ -12,50 +11,49 @@ export default (context, inject) => {
     },
   };
 
-
   // Функции для получения и установки кук
   const cookie = {
-    get: function(name) {
-      var results = document.cookie.match('(^|;) ?' + name + '=([^;]*)(;|$)');
-      if (results)
-        return (decodeURIComponent(results[2]));
-      else
-        return null;
+    get(name) {
+      const results = document.cookie.match(`(^|;) ?${name}=([^;]*)(;|$)`);
+      if (results) return decodeURIComponent(results[2]);
+      return null;
     },
-    set: function(name, value, options) {
-      options = options || {};
-      var expires = options.expires;
-      if (typeof expires == "number" && expires) {
-        var d = new Date();
+    set(name, valueData, optionsData) {
+      const options = optionsData || {};
+      let { expires } = options;
+      if (typeof expires === 'number' && expires) {
+        const d = new Date();
         d.setTime(expires);
-        expires = options.expires = d;
+        expires = d;
+        options.expires = d;
       }
       if (expires && expires.toUTCString) {
         options.expires = expires.toGMTString();
       }
-      value = encodeURIComponent(value);
-      var updatedCookie = name + "=" + value;
-      for (var propName in options) {
-        updatedCookie += "; " + propName;
-        var propValue = options[propName];
+      const value = encodeURIComponent(valueData);
+      let updatedCookie = `${name}=${value}`;
+
+      const optionsKeys = Object.keys(options);
+      for (let i = 0; i < optionsKeys.length; i += 1) {
+        updatedCookie += `; ${optionsKeys[i]}`;
+        const propValue = options[optionsKeys[i]];
         if (propValue !== true) {
-          updatedCookie += "=" + propValue;
+          updatedCookie += `=${propValue}`;
         }
       }
       document.cookie = updatedCookie;
-    }
-  }
+    },
+  };
 
   // Сохранение и загрузка данных форм из хранилища
   const storage = {
-    save: function(name, data){
+    save(name, data) {
       localStorage.setItem(name, data);
     },
-    load: function(name){
+    load(name) {
       return localStorage.getItem(name);
-    }
-  }
-
+    },
+  };
 
   // Валидатор для формы
   // formData - массив
@@ -73,8 +71,6 @@ export default (context, inject) => {
     return true;
   }
 
-
-
   // Функция оправки данных на сервер
   // formData - объект из данных формы
   // setings = объект переопределения настроек
@@ -84,28 +80,33 @@ export default (context, inject) => {
     land: '',
     version: '',
     redirectUrl: '',
-  }
+  };
 
-  function send(formData, setings) {
+  function send(formData, setingsData) {
     return new Promise((resolve, reject) => {
+      const data = new FormData();
 
       // Получение и переназначение настроект
-      setings = setings || {};
-      let setingsData = setingSend;
-      const setingsKeys = Object.keys(setings);
+      const setings = setingsData || {};
+      const setingsSendData = setingSend;
+      const setingsKeys = Object.keys(setingsSendData);
       for (let i = 0; i < setingsKeys.length; i += 1) {
-        setingsData[setingsKeys[i]] = setings[setingsKeys[i]];
+        let value;
+        if (setingsKeys[i] in setings) value = setings[setingsKeys[i]];
+        else value = setingsSendData[setingsKeys[i]];
+        data.append(setingsKeys[i], value);
       }
-      
 
       // Обработка и подготовка данных для отправки
-      const data = new FormData();
       const formDataKeys = Object.keys(formData);
       for (let i = 0; i < formDataKeys.length; i += 1) {
         data.append(formDataKeys[i], formData[formDataKeys[i]]);
       }
       data.append('personalDataAgree', 'on');
-      data.append('mergelead', `id_${Math.random().toString(36).substr(2, 9)} ${Math.round(new Date().getTime() / 1000)}`);
+      data.append(
+        'mergelead',
+        `id_${Math.random().toString(36).substr(2, 9)} ${Math.round(new Date().getTime() / 1000)}`,
+      );
       data.append('url_location', document.location.href);
       data.append('entry_point', document.location.host);
       data.append('analytics_id', cookie.get('_ga'));
@@ -126,7 +127,11 @@ export default (context, inject) => {
     });
   }
 
-
-  const formTools = { send, valid, cookie };
+  const formTools = {
+    send,
+    valid,
+    cookie,
+    storage,
+  };
   inject('formTools', formTools);
 };
