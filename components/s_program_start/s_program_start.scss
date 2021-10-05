@@ -19,4 +19,8 @@
     bottom: rem(18);
     max-height: fit-content;
   }
+
+  .a-breadcrumbs-item__wrapper {
+    display: none;
+  }
 }
