@@ -87,7 +87,7 @@ export default {
   build: {},
 
   env: {
-    NUXT_ENV_S3BACKET: 'https://sys3.ru/marketplace/',
+    NUXT_ENV_S3BACKET: process.env.NUXT_ENV_S3BACKET,
     SITE_FB_PIXEL: process.env.SITE_FB_PIXEL,
     SITE_GTM: process.env.SITE_GTM,
   },
