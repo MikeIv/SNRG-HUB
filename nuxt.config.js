@@ -88,6 +88,12 @@ export default {
 
   env: {
     NUXT_ENV_S3BACKET: 'https://sys3.ru/marketplace/',
+    SITE_FB_PIXEL: process.env.SITE_FB_PIXEL,
+    SITE_GTM: process.env.SITE_GTM,
+  },
+
+  publicRuntimeConfig: {
+    SITE_URL: process.env.SITE_URL,
   },
 
   // robots.txt
@@ -98,14 +104,14 @@ export default {
 
   // GTM
   gtm: {
-    id: 'GTM-XXXXXXX',
+    id: process.env.SITE_GTM,
   },
 
   // Facebook pixel
   facebook: {
     /* module options */
     track: 'PageView',
-    pixelId: 'XXXXXXX',
+    pixelId: process.env.SITE_FB_PIXEL,
     autoPageView: true,
     disabled: false,
   },

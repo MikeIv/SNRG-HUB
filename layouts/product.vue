@@ -14,7 +14,10 @@ export default {
   head() {
     return {
       link: [
-        { rel: 'canonical', href: `http://localhost:3000${this.$route.path}` },
+        {
+          rel: 'canonical',
+          href: `${this.$config.SITE_URL}${this.$route.path}`,
+        },
       ],
     };
   },
