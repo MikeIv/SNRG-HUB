@@ -48,3 +48,14 @@ Create chart name and version as used by the chart label.
 {{- end -}}
 {{- end -}}
 
+{{- define "apps-env-var-values" -}}
+{{- $globals := ternary .Values.global.prod .Values.global.dev (eq .Values.global.env_name "prod") -}}
+- name: SITE_FB_PIXEL
+  value: "{{ $globals.fbPixel }}"
+- name: SITE_GTM
+  value: "{{ $globals.gtm }}"
+- name: SITE_URL
+  value: "https://{{ .Values.global.ci_url }}{{- if and (ne .Values.global.ci_path "") (ne .Values.global.ci_path "/") }}/{{ .Values.global.ci_path | trimAll "/" }}{{- else }}/{{- end }}"
+- name: NUXT_ENV_S3BACKET
+  value: "{{ $globals.s3UrlBacket }}"
+{{- end -}}

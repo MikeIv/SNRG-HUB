@@ -7,7 +7,7 @@
           <div class="s-header__center-wrapper">
             <div class="s-header__center-top">
               <div class="s-header__location">
-                <a-button label="Москва" bgColor="none" iconType="si-chevron-down"></a-button>
+                <a-button label="Москва" bgColor="none" iconType="si-location"></a-button>
               </div>
               <div class="s-header__phones">
                 <a
@@ -16,7 +16,7 @@
                   :key="idx"
                   :href="`tel:${phone.replace(/[^+\d]/g, '')}`"
                 >
-                  <div class="s-header__phones-icon si-phone"></div>
+                  <div class="s-header__phones-icon si-phone-filled"></div>
                   <div class="s-header__phones-text a-font_m-s">{{ phone }}</div>
                 </a>
               </div>
@@ -45,7 +45,7 @@
           </div>
         </div>
       </div>
-      <s-menu-main :open="isOpen"></s-menu-main>
+      <s-menu-main :isOpen="isOpen" @change-is-open="handleChange"></s-menu-main>
     </div>
   </header>
 </template>
@@ -104,6 +104,10 @@ export default {
         this.isScrolled = false;
         mainWrapper.classList.remove('js-fixed');
       }
+    },
+
+    handleChange() {
+      this.isOpen = !this.isOpen;
     },
   },
 };

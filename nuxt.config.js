@@ -44,7 +44,7 @@ export default {
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
     { src: '@/plugins/vue-awesome-swiper', mode: 'client' },
-    { src: '@/plugins/validator.js', mode: 'client' },
+    { src: '@/plugins/lander.js', mode: 'client' },
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -62,6 +62,12 @@ export default {
     '@nuxtjs/axios',
     // https://go.nuxtjs.dev/pwa
     '@nuxtjs/pwa',
+    // https://github.com/nuxt-community/robots-module
+    '@nuxtjs/robots',
+    // https://github.com/nuxt-community/gtm-module
+    '@nuxtjs/gtm',
+    // https://www.npmjs.com/package/nuxt-facebook-pixel-module
+    'nuxt-facebook-pixel-module',
   ],
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
@@ -79,7 +85,34 @@ export default {
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {},
+
   env: {
-    NUXT_ENV_S3BACKET: 'https://sys3.ru/marketplace/',
+    NUXT_ENV_S3BACKET: process.env.NUXT_ENV_S3BACKET,
+    SITE_FB_PIXEL: process.env.SITE_FB_PIXEL,
+    SITE_GTM: process.env.SITE_GTM,
+  },
+
+  publicRuntimeConfig: {
+    SITE_URL: process.env.SITE_URL,
+  },
+
+  // robots.txt
+  robots: {
+    UserAgent: '*',
+    Disallow: '/',
+  },
+
+  // GTM
+  gtm: {
+    id: process.env.SITE_GTM,
+  },
+
+  // Facebook pixel
+  facebook: {
+    /* module options */
+    track: 'PageView',
+    pixelId: process.env.SITE_FB_PIXEL,
+    autoPageView: true,
+    disabled: false,
   },
 };

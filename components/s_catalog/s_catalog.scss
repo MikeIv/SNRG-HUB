@@ -39,6 +39,7 @@
   }
 
   &__filters {
+    grid-column: 1 / -1;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -75,10 +76,10 @@
     right: 0;
     bottom: 0;
     overflow-y: auto;
-    width: rem(360);
+    width: rem(375);
     background: var(--a-color_bg--secondary);
 
-    @media screen and (max-width: 360px) {
+    @media screen and (max-width: 375px) {
       width: 100%;
     }
 

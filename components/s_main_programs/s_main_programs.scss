@@ -40,21 +40,20 @@
     }
   }
   &__cards {
-    display: flex;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
     gap: rem(20);
-  }
-  &__wrapper {
-    width: calc((100% - rem(40)) / 3);
-    text-decoration: none;
-    cursor: pointer;
-
+    width: 100%;
     @media screen and (max-width: 991px) {
-      width: calc((100% - rem(40)) / 2);
+      grid-template-columns: repeat(2, 1fr);
     }
     @media screen and (max-width: 767px) {
-      width: 100%;
+      grid-template-columns: 1fr;
     }
+  }
+  &__wrapper {
+    text-decoration: none;
+    cursor: pointer;
   }
 
   &__btn {

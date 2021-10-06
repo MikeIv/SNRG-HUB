@@ -2,12 +2,21 @@ global:
   appName: 'synergyedu'
   dev:
     instanceCount: '1'
+
     log:
       host: 'syslog2.synergy.ru'
       port: '12201'
+    
+    fbPixel: "641239533512669"
+    gtm: "W9PTKQ6"
+    s3UrlBacket: "https://dev.sys3.ru/marketplace/"
 
   prod:
     instanceCount: '1'
     log:
       host: 'syslog.synergy.ru'
       port: '12201'
+    
+    fbPixel: "641239533512669"
+    gtm: "W9PTKQ6"
+    s3UrlBacket: "https://sys3.ru/marketplace/"

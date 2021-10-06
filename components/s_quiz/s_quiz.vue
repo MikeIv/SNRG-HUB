@@ -28,7 +28,7 @@
               typeCtrl="radiobutton"
               labelPosition="right"
               :valueControl="item.answer"
-              v-model="ansver"
+              v-model="answer"
               name="quiz"
               @change="changeQuiz(item)"
             >
@@ -47,12 +47,18 @@
         <div class="m-quiz__finish-inputs">
           <div class="m-quiz__finish-data">
             <a-input placeholder="Имя" v-model="send.name" @input="validQuizData"></a-input>
-            <a-input placeholder="Телефон" v-model="send.phone" @input="validQuizData"></a-input>
+            <a-input
+              type="phone"
+              placeholder="Телефон"
+              @validate="validatePhone"
+              v-model="send.phone"
+              @input="validQuizData"
+            ></a-input>
             <a-button
               bgColor="accent"
               size="large"
               label="Отправить"
-              :disabled="!sogl || !validFlag"
+              :disabled="!sogl || !validFlag || !validPhone"
               @click="sendQuiz"
             ></a-button>
           </div>
@@ -78,6 +84,7 @@
 import {
   AButton, AInput, AControl, AProgressbar,
 } from '@cwespb/synergyui';
+
 import getQuizzesDetail from '~/api/quizzesDetail';
 
 import './s_quiz.scss';
@@ -99,8 +106,8 @@ export default {
     count: null,
     countPosition: 0,
 
-    listAnsvers: [],
-    ansver: '',
+    listAnswers: [],
+    answer: '',
 
     send: {
       name: '',
@@ -108,6 +115,7 @@ export default {
     },
     sogl: true,
     validFlag: false,
+    validPhone: false,
   }),
 
   props: {
@@ -129,29 +137,57 @@ export default {
     this.count = this.dataQuestion.length;
   },
 
+  mounted() {
+    this.$nextTick(function () {
+      this.$lander.cookie.set('test1', 'test dev');
+
+      const loadDataForm = this.$lander.storage.load('quiz');
+      if (loadDataForm) this.send = loadDataForm;
+
+      const dataForm = [{ value: this.send.name }, { value: this.send.tel }];
+      this.validFlag = this.$lander.valid(dataForm);
+    });
+  },
+
   methods: {
+    validatePhone(value) {
+      this.validPhone = value.valid;
+    },
     prevQuiz() {
       this.countPosition -= 1;
-      this.ansver = this.listAnsvers[this.countPosition].ansver;
+      this.answer = this.listAnswers[this.countPosition].answer;
     },
 
     async startQuiz() {
+      console.log(this.$lander.cookie.get('test1'));
       this.banerFlag = false;
     },
 
     validQuizData() {
       const dataForm = [{ value: this.send.name }, { value: this.send.tel }];
-      this.validFlag = this.$validator.valid(dataForm);
+      this.validFlag = this.$lander.valid(dataForm);
+
+      this.$lander.storage.save('quiz', this.send);
     },
 
     sendQuiz() {
-      this.$validator.send(this.send).then((response) => {
+      const dataQuiz = this.listAnswers.map((item) => ({ question: item.question, answer: item.answer }));
+      let quizString = '';
+      for (let i = 0; i < dataQuiz.length; i += 1) {
+        quizString = `${quizString} Вопрос: ${dataQuiz[i].question} - Ответ:  ${dataQuiz[i].answer} \n`;
+      }
+      this.send.comment = quizString;
+      this.$lander.send(this.send).then((response) => {
         console.log(response);
       });
     },
 
     changeQuiz(value) {
-      this.listAnsvers[this.countPosition] = { ...value, ansver: this.ansver };
+      this.listAnswers[this.countPosition] = {
+        ...value,
+        question: this.dataQuestion[this.countPosition].question,
+      };
+      this.answer = '';
       this.countPosition += 1;
     },
   },
