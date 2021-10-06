@@ -13,6 +13,18 @@ import SFooter from '~/components/s_footer/s_footer';
 
 export default {
   props: ['error'],
+
+  head() {
+    return {
+      link: [
+        {
+          rel: 'canonical',
+          href: `${this.$config.SITE_URL}${this.$route.path}`,
+        },
+      ],
+    };
+  },
+
   layout: 'empty',
   components: {
     page404,
