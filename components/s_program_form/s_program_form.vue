@@ -10,9 +10,16 @@
       @click="sendForm"
     >
       <template v-slot:inputs>
-        <a-input class="m-form__input" v-model="dataForm.name" placeholder="Имя" type="text" />
-        <a-input class="m-form__input" v-model="dataForm.phone" placeholder="Телефон" type="tel" />
-        <a-input class="m-form__input" v-model="dataForm.email" placeholder="Почта" type="email" />
+        <a-input class="m-form__input" @input="handlerSave" v-model="dataForm.name" placeholder="Имя" />
+        <a-input
+          type="phone"
+          class="m-form__input"
+          @validate="validatePhone"
+          @input="handlerSave"
+          v-model="dataForm.phone"
+          placeholder="Телефон"
+        />
+        <a-input class="m-form__input" @input="handlerSave" v-model="dataForm.email" placeholder="Почта" />
       </template>
     </m-form>
   </section>
@@ -43,15 +50,26 @@ export default {
       phone: '',
       email: '',
     },
+
+    validPhone: false,
   }),
 
   mounted() {
     this.$emit('form-ref', this.$refs.form);
+
+    const loadDataForm = this.$lander.storage.load('programform');
+    if (loadDataForm) this.dataForm = loadDataForm;
   },
 
   methods: {
     sendForm() {
-      this.$formTools.send(this.dataForm).then(() => {});
+      this.$lander.send(this.dataForm).then(() => {});
+    },
+    handlerSave() {
+      this.$lander.storage.save('programform', this.dataForm);
+    },
+    validatePhone(value) {
+      this.validPhone = value.valid;
     },
   },
 };

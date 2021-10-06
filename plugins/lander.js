@@ -1,9 +1,8 @@
 import axios from 'axios';
 
-export default (context, inject) => {
-  // eslint-disable-next-line max-len
-  const url = 'http://syn.su/lander.php?r=land/index&unit=synergy_marketplace&type=marketplace&land=KD_market&ignore-thanksall=1';
+const landerConfig = require('~/lander.config.json');
 
+export default (context, inject) => {
   // Объект набора валидаторов
   const typesValid = {
     email(value) {
@@ -48,10 +47,11 @@ export default (context, inject) => {
   // Сохранение и загрузка данных форм из хранилища
   const storage = {
     save(name, data) {
-      localStorage.setItem(name, data);
+      localStorage.setItem(name, JSON.stringify(data));
     },
     load(name) {
-      return localStorage.getItem(name);
+      const value = localStorage.getItem(name);
+      return value ? JSON.parse(value) : null;
     },
   };
 
@@ -74,10 +74,19 @@ export default (context, inject) => {
   // Функция оправки данных на сервер
   // formData - объект из данных формы
   // setings = объект переопределения настроек
+
+  function getConfig() {
+    let url = '';
+    if (landerConfig) {
+      const { unit, type, land } = landerConfig;
+      // eslint-disable-next-line max-len
+      url = `https://syn.su/lander.php?r=land/index&unit=${unit}&type=${type}&land=${land}&ignore-thanksall=1`;
+    }
+    return url;
+  }
+
+  const url = getConfig();
   const setingSend = {
-    unit: '',
-    type: '',
-    land: '',
     version: '',
     redirectUrl: '',
   };
@@ -127,11 +136,11 @@ export default (context, inject) => {
     });
   }
 
-  const formTools = {
+  const lander = {
     send,
     valid,
     cookie,
     storage,
   };
-  inject('formTools', formTools);
+  inject('lander', lander);
 };
