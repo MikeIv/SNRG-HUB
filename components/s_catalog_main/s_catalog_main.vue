@@ -63,7 +63,7 @@ import './s_catalog_main.scss';
 export default {
   name: 'SCatalogMain',
 
-  props: ['title', 'hasPresets', 'presets', 'pageInfo', 'category'],
+  props: ['title', 'hasPresets', 'presets', 'pageInfo', 'category', 'defaultFilters', 'slugs'],
 
   components: {
     SCatalogTags,
@@ -157,7 +157,22 @@ export default {
   methods: {
     async fetchFilterData() {
       const filtersResponse = await getFilterData(this.pageInfo.components[1].methods[0].data);
+
       filtersResponse.forEach((filters) => {
+        // Если мы передаем дефолтные фильтры, то мы выбираем фильтры, тэги и отправляем на бэк
+        if (this.defaultFilters) {
+          Object.entries(this.defaultFilters).forEach(([key, ids]) => {
+            if (filters.filter_by === key && ids.length) {
+              ids.forEach((id) => {
+                const found = filters.values.find((value) => value.id === id);
+                this.$set(found, 'isChecked', true);
+                this.selectedFilters.push({ ...found, key });
+                this.filtersIdsData[key].push(id);
+              });
+            }
+          });
+        }
+
         if (filters.type === 'list') {
           this.filterListData[filters.filter_by] = { ...filters };
         }
@@ -170,6 +185,22 @@ export default {
         // Todo с бэка будет приходить еще один тип в будущем
         // нужно будет добавить сюда проверку
       });
+
+      // Если нам приходят слаги с урла, то тоже находим их фильтры, выбираем и отправляем на бэк
+      if (this.slugs) {
+        Object.values(this.filterListData).forEach((filterList) => {
+          filterList.values.forEach((value) => {
+            this.slugs.forEach((slug) => {
+              if (value.slug === slug) {
+                this.$set(value, 'isChecked', true);
+                this.filtersIdsData[filterList.filter_by].push(value.id);
+                const newFilter = { ...value, key: filterList.filter_by };
+                this.selectedFilters.push(newFilter);
+              }
+            });
+          });
+        });
+      }
 
       this.componentFilterKey += 3;
     },
