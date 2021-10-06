@@ -15,8 +15,10 @@
             :topTxt="item.description"
             :titleTxt="item.name"
             :secondTxt="item.name_second"
+            :customTextColor="item.color_text"
             :color="item.color_text_list"
             :ImgSrc="`${baseURL}${item.image}`"
+            :class="side"
           />
         </nuxt-link>
       </template>

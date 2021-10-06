@@ -1,5 +1,6 @@
 <template>
   <SProgramContent
+    v-if="programContentList.length"
     :direction="direction"
     :factoids="programContentRightItems"
     :items="programContentList"

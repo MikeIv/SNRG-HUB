@@ -3,14 +3,7 @@
 .s-main-university {
   .m-card-program__wrapper {
     flex-grow: 1;
-    max-width: calc(33% - rem(11));
     text-decoration: none;
-    @media all and (max-width: 991px) {
-      max-width: calc(50% - rem(11));
-    }
-    @media all and (max-width: 767px) {
-      max-width: unset;
-    }
   }
   .a-button {
     margin: 0 auto;
@@ -31,14 +24,18 @@
     }
   }
   &__box {
-    display: flex;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
     justify-content: space-between;
     gap: rem(20);
     margin-bottom: rem(32);
+    @media all and (max-width: 991px) {
+      grid-template-columns: repeat(2, 1fr);
+    }
     @media all and (max-width: 767px) {
       gap: rem(16);
       margin-bottom: rem(20);
+      grid-template-columns: 1fr;
     }
   }
 }
