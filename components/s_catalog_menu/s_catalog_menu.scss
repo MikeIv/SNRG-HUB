@@ -31,6 +31,8 @@
     }
 
     &-tags {
+      display: flex;
+      flex-wrap: wrap;
       margin-bottom: rem(8);
       padding: rem(9) rem(16);
       background: var(--a-color_bg);

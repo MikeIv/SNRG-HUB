@@ -1,8 +1,8 @@
 <template>
   <div class="catalog-page__filters">
-    <div class="catalog-page__filters-tags" v-if="!visibleFiltersIcon">
+    <div class="catalog-page__filters-tags">
       <a-tag
-        v-if="selectedFilters && selectedFilters.length"
+        v-if="selectedFilters.length"
         label="Очистить все"
         status="delete"
         @aTagDelete="clearAllFilters"
@@ -16,14 +16,9 @@
         @aTagDelete="deleteTag(tag)"
       />
     </div>
-    <template v-if="productList && productList.length">
+    <template v-if="productList.length">
       <a-select :options="options" class="catalog-page__select" @change="changeSortOption" />
-      <i
-        v-if="visibleFiltersIcon"
-        class="si-filter a-font_button catalog-page__filters-icon"
-        tabindex="0"
-        @click="filtersIconClickHandler"
-      >
+      <i class="si-filter a-font_button catalog-page__filters-icon" tabindex="0" @click="filtersIconClickHandler">
         <span class="a-font_button">Фильтры</span>
       </i>
     </template>
@@ -37,7 +32,7 @@ import './s_catalog_tags.scss';
 export default {
   name: 'SCatalogTags',
 
-  props: ['visibleFiltersIcon', 'selectedFilters', 'productList', 'currentOption', 'options'],
+  props: ['selectedFilters', 'productList', 'options'],
 
   components: {
     ATag,

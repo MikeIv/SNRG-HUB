@@ -1,9 +1,9 @@
 <template>
   <div v-if="menu">
-    <div class="catalog-page__menu" :key="componentMenuKey" v-if="filterListData">
+    <div class="catalog-page__menu" v-if="filterListData">
       <div v-show="!isFilterExpanded">
         <a-title title="Фильтры" :showIcon="false" @clickClose="filtersMenuClose" class="catalog-page__menu-header" />
-        <div v-if="selectedFilters.length" class="catalog-page__menu-tags catalog-page__filters-tags">
+        <div v-if="selectedFilters.length" class="catalog-page__menu-tags">
           <a-tag
             v-for="tag in selectedFilters"
             :key="`${tag.name}${tag.id}`"
@@ -68,7 +68,7 @@
               class="catalog-page__menu-filter_control"
               typeBtn="checkbox"
               typeCtrl="checkbox"
-              @input="selectFilter(filters[0], filter, ...arguments)"
+              @input="selectFilterControl(filters[0], filter, ...arguments)"
             />
           </div>
         </div>
@@ -122,7 +122,6 @@ export default {
     return {
       isFilterExpanded: false,
       currentExpandedFilter: 'direction_ids',
-      componentMenuKey: 1000,
       componentExpandedMenuKey: 3000,
     };
   },
@@ -162,8 +161,12 @@ export default {
       this.$emit('clear-all-filters');
     },
 
-    selectFilter(key, item, isChecked) {
-      this.$emit('select-menu-filter', key, item, isChecked);
+    selectFilter(key, item) {
+      this.$emit('select-menu-filter', key, item);
+    },
+
+    selectFilterControl(key, item, isChecked) {
+      this.$emit('select-menu-control', key, item, isChecked);
     },
 
     switchClick(item, isChecked) {

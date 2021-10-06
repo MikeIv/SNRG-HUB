@@ -1,18 +1,18 @@
 <template>
   <div class="l-wide catalog-page">
-    <s-catalog-menu
-      :filtersMenu="filtersMenu"
-      :filterListData="filterListData"
-      :filterCheckboxData="filterCheckboxData"
-      :selectedFilters="selectedFilters"
-      :totalProducts="totalProducts"
-      :maxVisibleControls="$options.maxVisibleControls"
-      @menu-toggle="menuToggle"
-      @delete-tag="deleteTag"
-      @clear-all-filters="clearAllFilters"
-      @select-menu-filter="selectFilter"
-      @switch-menu-click="switchClick"
-    />
+    <!--    <s-catalog-menu-->
+    <!--      :filtersMenu="filtersMenu"-->
+    <!--      :filterListData="filterListData"-->
+    <!--      :filterCheckboxData="filterCheckboxData"-->
+    <!--      :selectedFilters="selectedFilters"-->
+    <!--      :totalProducts="totalProducts"-->
+    <!--      :maxVisibleControls="$options.maxVisibleControls"-->
+    <!--      @menu-toggle="menuToggle"-->
+    <!--      @delete-tag="deleteTag"-->
+    <!--      @clear-all-filters="clearAllFilters"-->
+    <!--      @select-menu-filter="selectFilter"-->
+    <!--      @switch-menu-click="switchClick"-->
+    <!--    />-->
     <s-catalog-main
       title="Программы обучения"
       :total-products="totalProducts"
@@ -20,8 +20,6 @@
       :presets="presets"
       :page-info="pageInfo"
       category="default"
-      @select-filter="selectFilter"
-      @switch-click="switchClick"
     />
     <!--    <div class="catalog-page__content">-->
     <!--      <s-catalog-filter-->
@@ -30,7 +28,6 @@
     <!--        @switch-click="switchClick"-->
     <!--        :filterListData="Object.entries(filterListData)"-->
     <!--        :filterCheckboxData="filterCheckboxData"-->
-    <!--        :filtersCheckboxDataRequest="filtersCheckboxDataRequest"-->
     <!--        :key="componentFilterKey"-->
     <!--      />-->
     <!--      <s-catalog-product-list-->

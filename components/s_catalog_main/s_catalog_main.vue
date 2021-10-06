@@ -5,26 +5,41 @@
       <sup class="catalog-page__header-total a-font_L"> {{ totalProducts }} программ</sup>
     </h2>
     <s-catalog-presets :presets="presets" :has-presets="hasPresets" :filters-ids-data="filtersIdsData" />
+    <s-catalog-menu
+      :filtersMenu="filtersMenu"
+      :filterListData="filterListData"
+      :filterCheckboxData="filterCheckboxData"
+      :selectedFilters="selectedFilters"
+      :totalProducts="totalProducts"
+      :maxVisibleControls="7"
+      :key="componentMenuKey"
+      @menu-toggle="menuToggle"
+      @delete-tag="deleteTag"
+      @clear-all-filters="clearAllFilters"
+      @select-menu-filter="selectFilter"
+      @select-menu-control="selectControlFilter"
+      @switch-menu-click="switchClick"
+    />
     <div class="catalog-page__content">
       <s-catalog-filter
-        v-show="visibleFilters"
         :filterListData="Object.entries(filterListData)"
         :filterCheckboxData="filterCheckboxData"
         :key="componentFilterKey"
+        @select-filter="selectFilter"
+        @switch-click="switchClick"
       />
       <s-catalog-product-list
         :productList="productList"
         :totalProducts="totalProducts"
         :page="page"
         :productsPerPage="productsPerPage"
-        :windowWidth="windowWidth"
         :key="componentProductsKey"
         @page="page = $event"
       >
         <s-catalog-tags
-          :selected-filters="selectedFilters"
-          :visibleFiltersIcon="visibleFiltersIcon"
+          :selectedFilters="selectedFilters"
           :productList="productList"
+          :options="options"
           @clear-all-filters="clearAllFilters"
           @delete-tag="deleteTag"
           @filters-icon-click="filtersIconClickHandler"
@@ -40,6 +55,7 @@ import SCatalogFilter from '~/components/s_catalog_filter/s_catalog_filter';
 import SCatalogProductList from '~/components/s_catalog_product_list/s_catalog_product_list';
 import SCatalogPresets from '~/components/s_catalog_presets/s_catalog_presets';
 import SCatalogTags from '~/components/s_catalog_tags/s_catalog_tags';
+import SCatalogMenu from '~/components/s_catalog_menu/s_catalog_menu';
 import getProductsList from '~/api/products_list';
 import getFilterData from '~/api/filter_data';
 import './s_catalog_main.scss';
@@ -54,20 +70,13 @@ export default {
     SCatalogPresets,
     SCatalogProductList,
     SCatalogFilter,
+    SCatalogMenu,
   },
-
-  productNumberOnDesktop: 24,
-  productNumberOnTablet: 16,
-  productNumberOnMobile: 8,
-  desktopEndpointResolution: 1200,
-  tabletEndpointResolution: 900,
-  mobileEndpointResolution: 650,
 
   data() {
     return {
       totalProducts: null,
       productList: [],
-      windowWidth: null,
       filterListData: {},
       filterCheckboxData: {},
       filtersIdsData: {
@@ -78,10 +87,12 @@ export default {
         organization_ids: [],
       },
       filtersCheckboxDataRequest: {},
+      filtersMenu: false,
       componentProductsKey: 10,
       componentFilterKey: 100,
+      componentMenuKey: 1000,
       page: 1,
-      productsPerPage: this.$options.productNumberOnDesktop,
+      productsPerPage: 24,
 
       selectedFilters: [],
 
@@ -111,17 +122,11 @@ export default {
     };
   },
 
-  computed: {
-    visibleFilters() {
-      return this.windowWidth > this.$options.tabletEndpointResolution;
-    },
-
-    visibleFiltersIcon() {
-      return this.windowWidth < this.$options.tabletEndpointResolution;
-    },
-  },
-
   watch: {
+    currentOption() {
+      this.fetchProductsList();
+    },
+
     page() {
       this.fetchProductsList();
     },
@@ -130,18 +135,22 @@ export default {
       this.fetchProductsList();
     },
 
-    windowWidth() {
-      if (this.windowWidth > this.$options.desktopEndpointResolution) {
-        this.productsPerPage = this.$options.productNumberOnDesktop;
-      }
+    filtersIdsData: {
+      deep: true,
+      handler() {
+        this.page = 1;
+        this.componentProductsKey += 3;
+        this.fetchProductsList();
+      },
+    },
 
-      if (this.windowWidth < this.$options.desktopEndpointResolution) {
-        this.productsPerPage = this.$options.productNumberOnTablet;
-      }
-
-      if (this.windowWidth < this.$options.mobileEndpointResolution) {
-        this.productsPerPage = this.$options.productNumberOnMobile;
-      }
+    filtersCheckboxDataRequest: {
+      deep: true,
+      handler() {
+        this.page = 1;
+        this.componentProductsKey += 3;
+        this.fetchProductsList();
+      },
     },
   },
 
@@ -157,6 +166,9 @@ export default {
           this.filtersCheckboxDataRequest[filters.filter_by] = false;
           this.filterCheckboxData[filters.filter_by] = { ...filters };
         }
+
+        // Todo с бэка будет приходить еще один тип в будущем
+        // нужно будет добавить сюда проверку
       });
 
       this.componentFilterKey += 3;
@@ -179,6 +191,7 @@ export default {
         }
       });
 
+      // Логика парсинга чекбоксов, для получения отфильрованный товаров
       Object.entries(this.filtersCheckboxDataRequest).forEach((checkboxData) => {
         const [key, value] = checkboxData;
         if (value) {
@@ -196,11 +209,41 @@ export default {
     },
 
     switchClick(item, isChecked) {
-      this.$emit('switch-click', item, isChecked);
+      const selectedSwitch = { ...item, isChecked };
+      this.filterCheckboxData[selectedSwitch.filter_by].isChecked = selectedSwitch.isChecked;
+      this.$set(this.filtersCheckboxDataRequest, selectedSwitch.filter_by, selectedSwitch.isChecked);
     },
 
-    selectFilter(key, item, isChecked) {
-      this.$emit('select-filter', key, item, isChecked);
+    selectFilter(key, item) {
+      const selectedItem = { ...item, key };
+
+      if (selectedItem.isChecked) {
+        this.selectedFilters.push(selectedItem);
+        this.filtersIdsData[key].push(selectedItem.id);
+      } else {
+        this.selectedFilters = this.selectedFilters.filter((filter) => filter.name !== item.name);
+        this.filtersIdsData[key] = this.filtersIdsData[key].filter((id) => Number(id) !== item.id);
+      }
+    },
+
+    selectControlFilter(key, item, isChecked) {
+      const selectedItem = { ...item, key, isChecked };
+
+      if (selectedItem.isChecked) {
+        this.selectedFilters.push(selectedItem);
+        this.filtersIdsData[key].push(selectedItem.id);
+        const found = this.filterListData[selectedItem.key].values.find((value) => value.name === selectedItem.name);
+        this.$set(found, 'isChecked', true);
+      } else {
+        this.selectedFilters = this.selectedFilters.filter((filter) => filter.name !== item.name);
+        this.filtersIdsData[key] = this.filtersIdsData[key].filter((id) => Number(id) !== item.id);
+        const found = this.filterListData[selectedItem.key].values.find((value) => value.name === selectedItem.name);
+        this.$set(found, 'isChecked', false);
+      }
+    },
+
+    menuToggle(value) {
+      this.filtersMenu = value;
     },
 
     changeSortOption(option) {
@@ -211,7 +254,7 @@ export default {
       this.currentOption = option;
     },
 
-    clearRouteFilters() {
+    clearAllFilters() {
       this.selectedFilters.forEach((selected) => {
         const found = this.filterListData[selected.key].values.find((value) => value.name === selected.name);
         this.$set(found, 'isChecked', false);
@@ -225,11 +268,6 @@ export default {
       });
 
       this.page = 1;
-    },
-
-    clearAllFilters() {
-      this.clearRouteFilters();
-
       this.componentFilterKey += 1;
       this.componentMenuKey += 1;
     },
@@ -246,19 +284,6 @@ export default {
     filtersIconClickHandler() {
       this.filtersMenu = true;
     },
-
-    handleResize() {
-      this.windowWidth = window.innerWidth;
-    },
-  },
-
-  mounted() {
-    this.windowWidth = window.innerWidth;
-    window.addEventListener('resize', this.handleResize);
-  },
-
-  beforeDestroy() {
-    window.removeEventListener('resize', this.handleResize);
   },
 
   async fetch() {

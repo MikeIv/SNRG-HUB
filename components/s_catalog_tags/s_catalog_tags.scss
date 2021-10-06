@@ -4,7 +4,7 @@
   &__filters {
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    align-items: flex-start;
     width: 100%;
 
     &-icon {
@@ -12,6 +12,10 @@
       align-items: center;
       font-size: rem(20);
       cursor: pointer;
+
+      @media screen and (min-width: 767px) {
+        display: none;
+      }
 
       span {
         padding-left: rem(6);
@@ -22,11 +26,16 @@
     &-tags {
       display: flex;
       flex-wrap: wrap;
+
+      @media screen and (max-width: 767px) {
+        display: none;
+      }
     }
   }
 
   &__select {
-    @media screen and (max-width: 900px) {
+    z-index: 2;
+    @media screen and (max-width: 767px) {
       margin-right: auto;
     }
   }
