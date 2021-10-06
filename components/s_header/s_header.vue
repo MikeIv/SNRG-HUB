@@ -16,7 +16,7 @@
                   :key="idx"
                   :href="`tel:${phone.replace(/[^+\d]/g, '')}`"
                 >
-                  <div class="s-header__phones-icon si-phone"></div>
+                  <div class="s-header__phones-icon si-phone-filled"></div>
                   <div class="s-header__phones-text a-font_m-s">{{ phone }}</div>
                 </a>
               </div>
