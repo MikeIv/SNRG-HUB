@@ -1,16 +1,30 @@
 <template>
-  <SUniversityCareer :title="title" :factoids="factoids" />
+  <!-- <SUniversityCareer :title="title" :factoids="factoids" /> -->
+  <section class="s-university-career">
+    <div class="s-university-career__wrap">
+      <h2 class="s-university-career__title a-font_h2" v-html="title"></h2>
+      <div class="s-university-career__items">
+        <AFactoid
+          v-for="factoid in factoids"
+          :key="factoid.id"
+          :type="factoid.type"
+          :title="factoid.title"
+          :lineNumber="factoid.lineNumber"
+        />
+      </div>
+    </div>
+  </section>
 </template>
 
 <script>
-import { SUniversityCareer } from '@cwespb/synergyui';
+import { AFactoid } from '@cwespb/synergyui';
 import './s_university_career.scss';
 
 export default {
   name: 's_university_career',
 
   components: {
-    SUniversityCareer,
+    AFactoid,
   },
 
   data() {

@@ -1,16 +1,23 @@
 <template>
-  <SProgramCpaLine :sale="sale" @get-discount-click="scrollToFormBlock" />
+  <!-- <SProgramCpaLine :sale="sale" @get-discount-click="scrollToFormBlock" /> -->
+  <div class="s-program-cpaLine">
+    <span class="s-program-cpaLine__text a-font_xl">{{ sale.text }}</span>
+    <a-button
+    label="Получить скидку"
+    bg-color="custom" backgroundColor="#fff"
+    @click="scrollToFormBlock(); getDiscountClickHandler();" />
+  </div>
 </template>
 
 <script>
-import { SProgramCpaLine } from '@cwespb/synergyui';
+import { AButton } from '@cwespb/synergyui';
 import './s_program_cpa_line.scss';
 
 export default {
   name: 's_program_cpa_line',
 
   components: {
-    SProgramCpaLine,
+    AButton,
   },
 
   data() {
@@ -24,7 +31,12 @@ export default {
   methods: {
     scrollToFormBlock() {
       const formBlock = document.getElementById('form');
-      formBlock.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'nearest' });
+      if (formBlock) {
+        formBlock.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'nearest' });
+      }
+    },
+    getDiscountClickHandler() {
+      this.$emit('get-discount-click');
     },
   },
 };
