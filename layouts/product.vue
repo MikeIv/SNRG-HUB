@@ -1,9 +1,9 @@
 <template>
-  <main class="product-page">
+  <div class="product-page">
     <SHeader />
     <Nuxt />
     <SFooter />
-  </main>
+  </div>
 </template>
 
 <script>

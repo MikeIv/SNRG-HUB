@@ -3,14 +3,14 @@
     <div class="shadow" v-if="isOpen" @click="isOpen = !isOpen"></div>
     <div class="s-header__wrapper">
       <div class="s-header__top">
-        <m-banner 
+        <m-banner
           :type="bannerTop.banner_type"
           :backgroundColor="bannerTop.color_bg"
           :ImgSrc="baseUrl + bannerTop.image"
           :href="bannerTop.link"
           :topTxt="bannerTop.name"
           buttonLabel="Подобрать"
-          ></m-banner>
+        ></m-banner>
       </div>
       <div class="s-header__center">
         <div class="l-wide">
@@ -61,7 +61,9 @@
 </template>
 
 <script>
-import { ALogo, AInput, AButton, MBanner } from '@cwespb/synergyui';
+import {
+  ALogo, AInput, AButton, MBanner,
+} from '@cwespb/synergyui';
 import './s_header.scss';
 import SMenuMain from '../s_menu_main/s_menu_main';
 import MenuHorizontal from '../menu_horizontal/menu_horizontal';
@@ -94,9 +96,9 @@ export default {
 
   async fetch() {
     const request = {
-        "filter": {
-          "id": 7
-      }
+      filter: {
+        id: 7,
+      },
     };
 
     this.bannerTop = await getBannersDetail(request);
