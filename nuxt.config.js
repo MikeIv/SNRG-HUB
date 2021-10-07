@@ -1,5 +1,3 @@
-process.env.DEBUG = 'nuxt:*';
-
 export default {
   debug: true,
   // Global page headers: https://go.nuxtjs.dev/config-head
@@ -79,7 +77,7 @@ export default {
   // PWA module configuration: https://go.nuxtjs.dev/pwa
   pwa: {
     manifest: {
-      lang: 'en',
+      lang: 'ru',
     },
   },
 

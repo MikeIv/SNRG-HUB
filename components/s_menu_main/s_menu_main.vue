@@ -46,7 +46,7 @@
         </div>
 
         <m-banner
-          v-if="bannerImg !== ''"
+          v-if="bannerImg"
           type="side"
           titleTxt="Разработка VR/AR"
           secondTxt="Станьте редким востребованным специалистом"
