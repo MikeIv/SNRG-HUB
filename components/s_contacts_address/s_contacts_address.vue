@@ -3,7 +3,7 @@
     <h2 class="s-contacts-address__title a-font_h2" v-html="title"></h2>
 
     <div class="s-contacts-address__map">
-      <iframe class="s-lp-address__map" :src="iframeSrc" frameborder="0"></iframe>
+      <iframe class="s-contacts-address__frame" :src="iframeSrc" frameborder="0"></iframe>
     </div>
     <MContacts
       :adress="adress"

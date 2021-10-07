@@ -1,6 +1,6 @@
 @import '@/assets/styles/tools/mixins';
 
-.s-contacts-address {
+.s-contacts-form {
   margin-top: var(--a-padding--x5);
   background-color: var(--a-color_bg);
   border-radius: var(--a-borderRadius--bg);
@@ -8,29 +8,13 @@
     margin-top: var(--a-padding--x3);
   }
 
+  .m-form {
+    padding: 0;
+  }
   &__title {
     margin-bottom: var(--a-padding--x10);
     @media screen and (max-width: 991px) {
       margin-bottom: var(--a-padding--x6);
     }
   }
-
-  &__map {
-    margin-bottom: var(--a-padding--x6);
-    @media screen and (max-width: 767px) {
-      margin-bottom: var(--a-padding--x4);
-    }
-  }
-
-  &__frame {
-    width: 100%;
-    min-height: rem(286);
-    @media screen and (max-width: 767px) {
-      min-height: rem(154);
-    }
-  }
-}
-
-.m-contact__map {
-  display: none;
 }

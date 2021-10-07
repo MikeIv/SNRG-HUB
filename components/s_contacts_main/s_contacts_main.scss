@@ -23,7 +23,6 @@
 
   &__phones {
     display: flex;
-    margin-bottom: var(--a-padding--x8);
     @media screen and (max-width: 575px) {
       flex-wrap: wrap;
     }
@@ -49,17 +48,13 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
-    @media screen and (max-width: 1199px) {
-      gap: var(--a-padding--x6) rem(15);
-    }
-    @media screen and (max-width: 575px) {
-      gap: var(--a-padding--x4);
-    }
   }
 
   &__email {
+    margin-top: rem(32);
     @media screen and (max-width: 1199px) {
       width: calc((100% - rem(15)) / 2);
+      margin-top: rem(24);
     }
     @media screen and (max-width: 575px) {
       width: 100%;

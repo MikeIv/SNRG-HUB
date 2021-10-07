@@ -31,6 +31,7 @@ export default {
       // 's-university-start',
       's-contacts-main',
       's-contacts-address',
+      's-contacts-form',
       's-contacts-about',
       's-contats-note',
     ];
