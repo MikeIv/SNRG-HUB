@@ -8,7 +8,6 @@
 import '@cwespb/synergyui/lib/synergyui.css';
 
 export default {
-
   head: {
     bodyAttrs: {
       class: 'bg-gray',
@@ -17,7 +16,7 @@ export default {
 
   components: {},
 
-  //middleware: 'getPageInfo',
+  // middleware: 'getPageInfo',
 
   data() {
     return {};

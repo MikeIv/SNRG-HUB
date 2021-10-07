@@ -5,12 +5,15 @@
     <div class="s-contacts-main__subtitle a-font_xxl" v-html="subtitle"></div>
     <div class="s-contacts-main__phones">
       <template v-for="phone in phones">
-        <a v-if="phone.number" :href="`tel:${phone.number.replace(/[^+\d]/g, '')}`"
-        class="s-contacts-main__phone a-font_h4" :key="phone.id">
-        {{ phone.number }}
+        <a
+          v-if="phone.number"
+          :href="`tel:${phone.number.replace(/[^+\d]/g, '')}`"
+          class="s-contacts-main__phone a-font_h4"
+          :key="phone.id"
+        >
+          {{ phone.number }}
         </a>
       </template>
-
     </div>
 
     <div class="s-contacts-main__emails">
@@ -19,7 +22,6 @@
         <a :href="`mailto:${item.email}`" class="s-contacts-main__email-adress a-font_xxl">{{ item.email }}</a>
       </div>
     </div>
-
   </section>
 </template>
 
@@ -46,7 +48,6 @@ export default {
     };
   },
 
-  components: {
-  },
+  components: {},
 };
 </script>

@@ -5,12 +5,7 @@
     <div class="s-contacts-address__map">
       <iframe class="s-contacts-address__frame" :src="iframeSrc" frameborder="0"></iframe>
     </div>
-    <MContacts
-      :adress="adress"
-      :metro="metro"
-      :backgroundColor="backgroundColor"
-    />
-
+    <MContacts :adress="adress" :metro="metro" :backgroundColor="backgroundColor" />
   </section>
 </template>
 

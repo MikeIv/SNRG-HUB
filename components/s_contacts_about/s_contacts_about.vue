@@ -8,7 +8,6 @@
         <div class="s-contacts-about__item-title a-font_h4">{{ item.title }}</div>
       </div>
     </div>
-
   </section>
 </template>
 
