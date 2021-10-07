@@ -20,7 +20,7 @@
           />
         </div>
       </div>
-      <div class="catalog-page__menu-contents">
+      <div class="catalog-page__menu-contents" ref="menuContent">
         <div v-show="isFilterExpanded" :key="componentExpandedMenuKey">
           <a-title
             :title="filterListData[currentExpandedFilter].title"
@@ -148,6 +148,7 @@ export default {
     },
 
     expandedFilterClickHandler(filterKey) {
+      this.$refs.menuContent.scrollIntoView(true);
       this.componentExpandedMenuKey += 1;
       this.currentExpandedFilter = filterKey;
       this.isFilterExpanded = true;
