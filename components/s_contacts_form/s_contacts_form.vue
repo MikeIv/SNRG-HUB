@@ -1,5 +1,5 @@
 <template>
-  <section class="s-contacts-form">
+  <section class="s-contacts-form" ref="form">
     <m-form
       :isVertical="true"
       titleClass="a-font_h2"
@@ -10,11 +10,18 @@
       :checked="checked"
       :btnText="buttonText"
       :checkboxText="checkboxText"
+      @click="sendForm"
     >
       <template v-slot:inputs>
-        <a-input class="m-form__input" placeholder="Имя" type="text" />
-        <a-input class="m-form__input" placeholder="Почта" type="email" />
-        <a-input class="m-form__input" placeholder="Ваш вопрос" type="textarea" />
+        <a-input class="m-form__input" @input="handlerSave" v-model="dataForm.name" placeholder="Имя" />
+        <a-input class="m-form__input" @input="handlerSave" v-model="dataForm.email" placeholder="Почта" />
+        <a-input
+          class="m-form__input"
+          @input="handlerSave"
+          v-model="dataForm.question"
+          placeholder="Ваш вопрос"
+          type="textarea"
+        />
       </template>
     </m-form>
   </section>
@@ -34,7 +41,26 @@ export default {
       buttonText: 'Отправить',
       checked: true,
       checkboxText: 'Нажимая на кнопку, вы соглашаетсь с политикой конфиденциальности и на получение рассылок',
+      dataForm: {
+        name: '',
+        email: '',
+        question: '',
+      },
     };
+  },
+  mounted() {
+    this.$emit('contactsform-ref', this.$refs.form);
+
+    const loadDataForm = this.$lander.storage.load('contactsform');
+    if (loadDataForm) this.dataForm = loadDataForm;
+  },
+  methods: {
+    sendForm() {
+      this.$lander.send(this.dataForm).then(() => {});
+    },
+    handlerSave() {
+      this.$lander.storage.save('contactsform', this.dataForm);
+    },
   },
   components: {
     MForm,
