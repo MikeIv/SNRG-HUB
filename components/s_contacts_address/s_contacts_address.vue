@@ -14,7 +14,7 @@ import { MContacts } from '@cwespb/synergyui';
 import './s_contacts_address.scss';
 
 export default {
-  name: 'SContactsMain',
+  name: 'SContactsAdress',
 
   components: { MContacts },
 

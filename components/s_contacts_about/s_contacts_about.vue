@@ -15,7 +15,7 @@
 import './s_contacts_about.scss';
 
 export default {
-  name: 'SContactsMain',
+  name: 'SContactsAbout',
 
   data() {
     return {
