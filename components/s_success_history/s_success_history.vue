@@ -20,6 +20,7 @@
                 :title="successHistory.name.value"
                 :description="successHistory.position.value"
                 :href="successHistory.link_video.value"
+                @clickVertical="togglePopup(successHistory.link_video.value)"
                 type="vertical"
               />
             </swiper-slide>
@@ -41,10 +42,22 @@
         </div>
       </div>
     </div>
+    <APopup :visible="popupOptions.visible">
+      <iframe
+        width="560"
+        height="315"
+        :src="popupOptions.videoHref"
+        title="YouTube video player"
+        frameborder="0"
+        autoplay="1"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        allowfullscreen
+      ></iframe>
+    </APopup>
   </section>
 </template>
 <script>
-import { MCard, AButton } from '@cwespb/synergyui';
+import { MCard, AButton, APopup } from '@cwespb/synergyui';
 import { Swiper, SwiperSlide } from 'vue-awesome-swiper';
 import './s_success_history.scss';
 import getEntitiesSectionsDetail from '~/api/entitiesSectionsDetail';
@@ -76,13 +89,24 @@ export default {
           },
         },
       },
+      popupOptions: {
+        visible: false,
+        videoHref: '',
+      },
     };
   },
   components: {
     MCard,
     AButton,
+    APopup,
     Swiper,
     SwiperSlide,
+  },
+  methods: {
+    togglePopup(href) {
+      this.popupOptions.videoHref = href;
+      this.popupOptions.visible = true;
+    },
   },
   props: ['methods', 'title'],
   async fetch() {
