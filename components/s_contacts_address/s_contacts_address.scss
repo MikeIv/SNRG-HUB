@@ -1,0 +1,28 @@
+@import '@/assets/styles/tools/mixins';
+
+.s-contacts-address {
+  margin-top: var(--a-padding--x5);
+  background-color: var(--a-color_bg);
+  border-radius: var(--a-borderRadius--bg);
+  @media screen and (max-width: 767px) {
+    margin-top: var(--a-padding--x3);
+  }
+
+  &__title {
+    margin-bottom: var(--a-padding--x10);
+    @media screen and (max-width: 991px) {
+      margin-bottom: var(--a-padding--x6);
+    }
+  }
+
+  &__map {
+    margin-bottom: var(--a-padding--x6);
+    @media screen and (max-width: 767px) {
+      margin-bottom: var(--a-padding--x4);
+    }
+  }
+}
+
+.m-contact__map {
+  display: none;
+}
