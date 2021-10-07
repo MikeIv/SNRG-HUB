@@ -31,10 +31,10 @@
       <s-catalog-product-list
         :productList="productList"
         :totalProducts="totalProducts"
-        :page="page"
+        :page="pageMain"
         :productsPerPage="productsPerPage"
         :key="componentProductsKey"
-        @page="page = $event"
+        @page="pageMain = $event"
       >
         <s-catalog-tags
           :selectedFilters="selectedFilters"
@@ -63,7 +63,7 @@ import './s_catalog_main.scss';
 export default {
   name: 'SCatalogMain',
 
-  props: ['title', 'hasPresets', 'presets', 'pageInfo', 'category', 'defaultFilters', 'slugs'],
+  props: ['title', 'hasPresets', 'presets', 'pageInfo', 'category', 'defaultFilters', 'slugs', 'categoryId', 'page'],
 
   components: {
     SCatalogTags,
@@ -91,7 +91,6 @@ export default {
       componentProductsKey: 10,
       componentFilterKey: 100,
       componentMenuKey: 1000,
-      page: 1,
       productsPerPage: 24,
 
       selectedFilters: [],
@@ -127,7 +126,7 @@ export default {
       this.fetchProductsList();
     },
 
-    page() {
+    pageMain() {
       this.fetchProductsList();
     },
 
@@ -138,7 +137,7 @@ export default {
     filtersIdsData: {
       deep: true,
       handler() {
-        this.page = 1;
+        this.pageMain = 1;
         this.componentProductsKey += 3;
         this.fetchProductsList();
       },
@@ -147,9 +146,20 @@ export default {
     filtersCheckboxDataRequest: {
       deep: true,
       handler() {
-        this.page = 1;
+        this.pageMain = 1;
         this.componentProductsKey += 3;
         this.fetchProductsList();
+      },
+    },
+  },
+
+  computed: {
+    pageMain: {
+      get() {
+        return this.page;
+      },
+      set(page) {
+        this.$emit('page-change', page);
       },
     },
   },
@@ -163,12 +173,21 @@ export default {
         if (this.defaultFilters) {
           Object.entries(this.defaultFilters).forEach(([key, ids]) => {
             if (filters.filter_by === key && ids.length) {
-              ids.forEach((id) => {
-                const found = filters.values.find((value) => value.id === id);
+              if (ids.length === 1) {
+                const found = filters.values.find((value) => value.id === ids[0]);
                 this.$set(found, 'isChecked', true);
-                this.selectedFilters.push({ ...found, key });
-                this.filtersIdsData[key].push(id);
-              });
+                const newFilter = { ...found, key };
+                this.selectedFilters.push(newFilter);
+                this.filtersIdsData[key].push(ids[0]);
+                this.$emit('slug', newFilter);
+              } else {
+                ids.forEach((id) => {
+                  const found = filters.values.find((value) => value.id === id);
+                  this.$set(found, 'isChecked', true);
+                  this.selectedFilters.push({ ...found, key });
+                  this.filtersIdsData[key].push(id);
+                });
+              }
             }
           });
         }
@@ -231,6 +250,12 @@ export default {
           delete expandedMethod.filter[[key]];
         }
       });
+
+      if (this.categoryId) {
+        expandedMethod.filter.category_ids = this.categoryId;
+      } else {
+        delete expandedMethod.filter.category_ids;
+      }
 
       expandedMethod.pagination = { page: this.page, page_size: this.productsPerPage };
       expandedMethod.sort = this.currentOption;
@@ -298,9 +323,10 @@ export default {
         this.filterCheckboxData[checkboxData[0]].isChecked = false;
       });
 
-      this.page = 1;
+      this.pageMain = 1;
       this.componentFilterKey += 1;
       this.componentMenuKey += 1;
+      this.$emit('clear-filters');
     },
 
     deleteTag(tag) {

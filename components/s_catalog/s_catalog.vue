@@ -8,6 +8,12 @@
       category="default"
       :defaultFilters="defaultFilters"
       :slugs="slugs"
+      :page="page"
+      :categoryId="categoryId"
+      :key="mainCatalogKey"
+      @slug="parseSlugToUrl"
+      @page-change="pageChangeHandler"
+      @clear-filters="clearAllFilters"
     />
   </div>
 </template>
@@ -29,6 +35,9 @@ export default {
       presets: [],
       slugs: [],
       categories: null,
+      mainCatalogKey: 123,
+      categoryId: null,
+      page: 1,
       defaultFilters: {
         // direction_ids: [1],
         // format_ids: [22, 27],
@@ -52,12 +61,41 @@ export default {
   //     `${window.location.pathname}?page=${this.page}${newSearch ? '&' : ''}${newSearch}`,
   //   );
   // },
-  // $route: {
-  //   deep: true,
-  //   handler() {
-  //     this.clearRouteFilters();
-  //     this.parseQueryIntoFilters();
-  //   },
+  watch: {
+    $route: {
+      deep: true,
+      immediate: true,
+      handler() {
+        console.log('route watcher');
+        this.defaultFilters = {};
+        this.slugs = [];
+        this.categoryId = null;
+
+        this.parseUrlToFilters();
+
+        this.mainCatalogKey += 1;
+        // this.clearRouteFilters();
+        // this.parseQueryIntoFilters();
+        // if (this.$route.params.pathMatch) {
+        //   this.slugs = this.$route.params.pathMatch.split('/');
+        //   console.log('slugs', this.slugs);
+        // }
+        //
+        // // Если есть квери (direction_ids=1,2) в урле при инициализации
+        // if (this.$route.query) {
+        //   Object.entries(this.$route.query).forEach(([key, ids]) => {
+        //     this.defaultFilters[key] = ids.split(',').map((id) => Number(id));
+        //     console.log('defaultFilters', this.defaultFilters);
+        //   });
+        // }
+      },
+    },
+
+    page() {
+      console.log('page change');
+    },
+  },
+
   // },
   // Использую хак, чтобы watcher следил сразу за двумя объектами, чтобы не дублировать одинаковый код
   // Из коробки Vue 3 будет изящное решение
@@ -165,9 +203,72 @@ export default {
   // },
   // },
 
+  created() {
+    if (process.client) {
+      if (window.location.search.includes('page')) {
+        const newSearch = window.location.search
+          .split('&')
+          .filter((query) => !query.includes('page'))
+          .join('&');
+        this.page = Number(this.$route.query.page);
+        window.history.pushState(
+          {},
+          null,
+          `/catalog?page=${this.page}${newSearch ? '&' : ''}${newSearch ? newSearch.split('?')[1] : ''}`,
+        );
+      } else {
+        window.history.pushState(
+          {},
+          null,
+          `/catalog?page=1${window.location.search ? '&' : ''}${
+            window.location.search ? window.location.search.split('?')[1] : ''
+          }`,
+        );
+      }
+    }
+  },
+
   methods: {
+    pageChangeHandler(page) {
+      this.page = page;
+    },
+
+    parseUrlToFilters() {
+      console.log('parse url', this.$route);
+
+      if (this.$route.params.pathMatch) {
+        this.slugs = this.$route.params.pathMatch.split('/');
+      }
+
+      // Если есть квери (direction_ids=1,2) в урле при инициализации
+      if (this.$route.query) {
+        Object.entries(this.$route.query).forEach(([key, ids]) => {
+          if (key === 'category_ids') {
+            this.categoryId = ids;
+          } else {
+            this.defaultFilters[key] = ids.split(',').map((id) => Number(id));
+          }
+        });
+      }
+    },
+
+    clearAllFilters() {
+      this.$router.push('/catalog');
+    },
+
     async fetchFilterPresets() {
       this.presets = await getFiltersProductPresets();
+    },
+
+    parseSlugToUrl(filter) {
+      if (process.client) {
+        const newSearch = window.location.search
+          .split('&')
+          .filter((query) => !query.includes(filter.key))
+          .join('&');
+        console.log('search!', window.location.search, newSearch);
+        window.history.pushState({}, null, `${window.location.pathname}/${filter.slug}${newSearch}`);
+      }
     },
     // parseQueryIntoFilters() {
     //   if (this.$route.params.pathMatch) {
@@ -231,34 +332,6 @@ export default {
     //   this.componentFilterKey += 1;
     //   this.componentMenuKey += 1;
     // },
-  },
-
-  created() {
-    console.log(this.$route);
-    // Если изначально есть слаги в урлах
-    if (this.$route.params.pathMatch) {
-      this.slugs = this.$route.params.pathMatch.split('/');
-    }
-
-    // Если есть квери (direction_ids=1,2) в урле при инициализации
-    if (this.$route.query) {
-      Object.entries(this.$route.query).forEach(([key, ids]) => {
-        this.defaultFilters[key] = ids.split(',').map((id) => Number(id));
-      });
-    }
-
-    // Object.values(this.filterListData).forEach((filterList) => {
-    //   filterList.values.forEach((value) => {
-    //     this.slugs.forEach((slug) => {
-    //       if (value.slug === slug) {
-    //         this.$set(value, 'isChecked', true);
-    //         this.filtersIdsData[filterList.filter_by].push(value.id);
-    //         const newFilter = { ...value, key: filterList.filter_by };
-    //         this.selectedFilters.push(newFilter);
-    //       }
-    //     });
-    //   });
-    // });
   },
 
   // created() {
