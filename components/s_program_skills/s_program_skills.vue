@@ -1,9 +1,15 @@
 <template>
-  <SProgramSkills :title="title" :items="programSkillsList" />
+  <!-- <SProgramSkills :title="title" :items="programSkillsList" />   -->
+  <section class="s-program-skills">
+    <h2 class="s-program-skills__title a-font_h2" v-html="title"></h2>
+    <div class="s-program-skills__items">
+      <AListElement v-for="(item, index) in programSkillsList" :key="index" :type="item.type" :label="item.value" />
+    </div>
+  </section>
 </template>
 
 <script>
-import { SProgramSkills } from '@cwespb/synergyui';
+import { AListElement } from '@cwespb/synergyui';
 import './s_program_skills.scss';
 import getEntitiesSectionsDetail from '~/api/entitiesSectionsDetail';
 
@@ -11,7 +17,7 @@ export default {
   name: 's_program_skills',
 
   components: {
-    SProgramSkills,
+    AListElement,
   },
 
   data() {

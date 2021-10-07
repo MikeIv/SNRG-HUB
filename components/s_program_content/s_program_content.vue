@@ -1,15 +1,53 @@
 <template>
-  <SProgramContent
+  <!-- <SProgramContent
     v-if="programContentList.length"
     :direction="direction"
     :factoids="programContentRightItems"
     :items="programContentList"
     :title="title"
-  />
+  /> -->
+  <section class="s-program-content" v-if="programContentList.length">
+    <div class="s-program-content__wrapper">
+      <div class="s-program-content__top">
+        <h2 class="s-program-content__title a-font_h2" v-html="title"></h2>
+        <div class="s-program-content__numbs" v-if="programContentRightItems">
+          <AFactoid
+            v-for="factoid in programContentRightItems"
+            :key="factoid.id"
+            :type="factoid.type"
+            :title="factoid.title"
+            :number="factoid.number"
+            :color="factoid.color"
+          />
+        </div>
+      </div>
+      <div class="s-program-content__body">
+        <div class="s-program-content__row" v-for="item in programContentList" :key="item.id" @click="showMore(item)">
+          <div class="s-program-content__head">
+            <div class="title a-font_xxl">{{ item.title }}</div>
+            <div class="s-program-content__icon-wrapper" v-if="item.listItems.length">
+              <i class="s-program-content__icon" :class="`si-chevron-${item.isActive ? 'down' : 'up'}`"> </i>
+            </div>
+          </div>
+          <transition name="fadeHeight" v-if="item.listItems.length">
+            <div class="s-program-content__info" v-if="item.isActive">
+              <AListElement
+                v-for="item in item.listItems"
+                :key="item.id"
+                :type="item.type"
+                :number="item.number"
+                :label="item.text"
+              />
+            </div>
+          </transition>
+        </div>
+      </div>
+    </div>
+  </section>
 </template>
 
 <script>
-import { SProgramContent } from '@cwespb/synergyui';
+import { AFactoid, AListElement } from '@cwespb/synergyui';
 import './s_program_content.scss';
 
 import getEntitiesSectionsDetail from '~/api/entitiesSectionsDetail';
@@ -18,7 +56,8 @@ export default {
   name: 's_program_content',
 
   components: {
-    SProgramContent,
+    AFactoid,
+    AListElement,
   },
 
   data() {
@@ -26,6 +65,7 @@ export default {
       programContentList: [],
       programContentRightItems: [],
       direction: 'down',
+      isActive: true,
     };
   },
 
@@ -51,6 +91,18 @@ export default {
       type: 'number',
       color: 'color_link',
     }));
+  },
+
+  methods: {
+    showMore(elem) {
+      this.programContentList.forEach((item, i) => {
+        if (item === elem) {
+          this.programContentList[i].isActive = !this.programContentList[i].isActive;
+        } else {
+          this.programContentList[i].isActive = false;
+        }
+      });
+    },
   },
 };
 </script>

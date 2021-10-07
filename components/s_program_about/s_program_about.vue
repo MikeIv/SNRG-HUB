@@ -1,14 +1,32 @@
 <template>
-  <SProgramAbout
+  <!-- <SProgramAbout
     v-if="programAboutList.length"
     :title="title"
     :description="programAboutDescription.value"
     :items="programAboutList"
-  />
+  /> -->
+  <section class="s-program-about" v-if="programAboutList.length">
+    <div class="s-program-about__row">
+      <h2 class="s-program-about__title a-font_h2" v-html="title"></h2>
+      <p class="s-program-about__description a-font_xl" v-if="programAboutDescription.value"
+      v-html="programAboutDescription.value"></p>
+    </div>
+    <div class="s-program-about__triggers">
+      <AFactoid
+        v-for="item in programAboutList"
+        :key="item.id"
+        :type="item.type"
+        :title="item.title"
+        :number="item.number"
+        :image="item.image"
+        class="s-program-about__triggers-item"
+      />
+    </div>
+  </section>
 </template>
 
 <script>
-import { SProgramAbout } from '@cwespb/synergyui';
+import { AFactoid } from '@cwespb/synergyui';
 import './s_program_about.scss';
 
 import getEntitiesSectionsDetail from '~/api/entitiesSectionsDetail';
@@ -17,7 +35,7 @@ export default {
   name: 's_program_about',
 
   components: {
-    SProgramAbout,
+    AFactoid,
   },
 
   data() {
