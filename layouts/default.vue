@@ -1,9 +1,9 @@
 <template>
-  <main>
+  <div>
     <SHeader />
     <Nuxt />
     <SFooter />
-  </main>
+  </div>
 </template>
 
 <script>

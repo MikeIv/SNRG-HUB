@@ -1,9 +1,9 @@
 <template>
-  <main class="organization-page">
+  <div class="organization-page">
     <SHeader />
     <Nuxt />
     <SFooter />
-  </main>
+  </div>
 </template>
 
 <script>

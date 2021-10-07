@@ -46,6 +46,10 @@ html {
     opacity: 0.8;
   }
 
+  &__top {
+    width: 100%;
+  }
+
   &__center {
     width: 100%;
     &-top {
@@ -278,14 +282,11 @@ html {
 }
 
 .js-fixed {
-  margin-top: rem(192);
-  @media screen and (max-width: 1499px) {
-    margin-top: rem(184);
-  }
+  margin-top: rem(212);
   @media screen and (max-width: 991px) {
-    margin-top: rem(120);
+    margin-top: rem(164);
   }
   @media screen and (max-width: 767px) {
-    margin-top: rem(172);
+    margin-top: rem(189);
   }
 }
