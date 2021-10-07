@@ -220,6 +220,11 @@ html {
     }
     .a-button {
       height: auto;
+
+      &__label {
+        font-size: rem(14);
+        line-height: rem(14);
+      }
     }
   }
 
