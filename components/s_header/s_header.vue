@@ -7,7 +7,7 @@
           <div class="s-header__center-wrapper">
             <div class="s-header__center-top">
               <div class="s-header__location">
-                <a-button label="Москва" bgColor="none" iconType="si-location"></a-button>
+                <a-button label="Москва" bgColor="none" iconType="si-location-city"></a-button>
               </div>
               <div class="s-header__phones">
                 <a
