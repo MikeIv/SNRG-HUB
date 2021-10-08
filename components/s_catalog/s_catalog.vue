@@ -114,13 +114,17 @@ export default {
       // Логика для городов (надо будет заменить сепаратор)
       // Логика другая, потому что у городов нет слагов
       if (filtersIdsData.city_ids.length) {
-        const newSearch = window.location.search
+        let newSearch = window.location.search
           .split('&')
           .filter((query) => !query.includes('city_ids'))
           .join('&');
         const queries = `city_ids=${
           typeof filtersIdsData.city_ids === 'string' ? filtersIdsData.city_ids : filtersIdsData.city_ids.join(',')
         }`;
+
+        if (!window.location.search.includes('page')) {
+          newSearch = `${newSearch}?page=1`;
+        }
 
         window.history.pushState({}, null, `${window.location.pathname}${newSearch}&${queries}`);
       } else {
