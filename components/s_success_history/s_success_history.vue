@@ -42,18 +42,12 @@
         </div>
       </div>
     </div>
-    <APopup :visible="popupOptions.visible">
-      <iframe
-        width="560"
-        height="315"
-        :src="popupOptions.videoHref"
-        title="YouTube video player"
-        frameborder="0"
-        autoplay="1"
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-        allowfullscreen
-      ></iframe>
-    </APopup>
+    <APopup
+      :visible="popupOptions.visible"
+      type="iframe"
+      :link="popupOptions.videoHref"
+      @close="popupOptions.visible = false"
+    ></APopup>
   </section>
 </template>
 <script>
