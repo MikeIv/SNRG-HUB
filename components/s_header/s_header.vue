@@ -2,12 +2,22 @@
   <header class="s-header" :class="{ open: isOpen, fixed: isScrolled }">
     <div class="shadow" v-if="isOpen" @click="isOpen = !isOpen"></div>
     <div class="s-header__wrapper">
+      <div class="s-header__top">
+        <m-banner
+          :type="bannerTop.banner_type"
+          :backgroundColor="bannerTop.color_bg"
+          :ImgSrc="baseUrl + bannerTop.image"
+          :href="bannerTop.link"
+          :topTxt="bannerTop.name"
+          buttonLabel="Подобрать"
+        ></m-banner>
+      </div>
       <div class="s-header__center">
         <div class="l-wide">
           <div class="s-header__center-wrapper">
             <div class="s-header__center-top">
               <div class="s-header__location">
-                <a-button label="Москва" bgColor="none" iconType="si-chevron-down"></a-button>
+                <a-button label="Москва" bgColor="none" iconType="si-location-city"></a-button>
               </div>
               <div class="s-header__phones">
                 <a
@@ -16,7 +26,7 @@
                   :key="idx"
                   :href="`tel:${phone.replace(/[^+\d]/g, '')}`"
                 >
-                  <div class="s-header__phones-icon si-phone"></div>
+                  <div class="s-header__phones-icon si-phone-filled"></div>
                   <div class="s-header__phones-text a-font_m-s">{{ phone }}</div>
                 </a>
               </div>
@@ -51,15 +61,19 @@
 </template>
 
 <script>
-import { ALogo, AInput, AButton } from '@cwespb/synergyui';
+import {
+  ALogo, AInput, AButton, MBanner,
+} from '@cwespb/synergyui';
 import './s_header.scss';
 import SMenuMain from '../s_menu_main/s_menu_main';
 import MenuHorizontal from '../menu_horizontal/menu_horizontal';
+import getBannersDetail from '~/api/bannersDetail';
 
 export default {
   name: 'SHeader',
   data() {
     return {
+      baseUrl: process.env.NUXT_ENV_S3BACKET,
       isOpen: false,
       logoURL: '',
       scrollTop: 0,
@@ -67,6 +81,7 @@ export default {
       btnText: 'Всё обучение',
       phones: [],
       searchPlaceholder: 'Поиск по сайту',
+      bannerTop: {},
     };
   },
 
@@ -76,6 +91,17 @@ export default {
     AButton,
     MenuHorizontal,
     SMenuMain,
+    MBanner,
+  },
+
+  async fetch() {
+    const request = {
+      filter: {
+        id: 7,
+      },
+    };
+
+    this.bannerTop = await getBannersDetail(request);
   },
 
   created() {

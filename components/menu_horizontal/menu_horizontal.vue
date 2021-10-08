@@ -32,9 +32,6 @@ export default {
         slidesPerView: 'auto',
         spaceBetween: 24,
         breakpoints: {
-          1300: {
-            spaceBetween: 75,
-          },
           768: {
             spaceBetween: 40,
           },

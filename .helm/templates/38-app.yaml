@@ -24,6 +24,7 @@ spec:
         - name: {{ .Values.global.appName }}
           image: {{ .Values.werf.image.app }}
           env:
+{{ include "apps-env-var-values" . | indent 12 }}
             - name: HOST
               value: "0"
             - name: PORT
@@ -55,7 +56,6 @@ metadata:
     {{- if ne .Values.global.mon_code "" }}
     synergy.ru/blackbox.code: {{ .Values.global.mon_code }}
     {{- end }}
-    kubernetes.io/ingress.class: "nginx"
     {{- if ne .Values.global.www_redirect "no" }}
     nginx.ingress.kubernetes.io/from-to-www-redirect: "true"
     {{- end }}
@@ -71,6 +71,7 @@ metadata:
       {{- end }}
   name: ingress
 spec:
+  ingressClassName: "nginx"
   rules:
       - host: {{ .Values.global.ci_url }}
         http:
