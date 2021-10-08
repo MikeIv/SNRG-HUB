@@ -123,10 +123,9 @@ export default {
 
   methods: {
     handleScroll() {
-      const mainWrapper = document.querySelector('main');
+      const mainWrapper = document.querySelector('body');
       const headerHeight = document.querySelector('.s-header').offsetHeight;
-      const sections = document.querySelectorAll('section');
-      const secondSection = sections[1].offsetTop;
+      const startPos = window.innerHeight + window.innerHeight / 2;
       this.scrollTop = window.scrollY;
 
       switch (true) {
@@ -134,7 +133,7 @@ export default {
           this.isScrolled = true;
           mainWrapper.classList.add('js-fixed');
 
-          if (this.scrollTop > secondSection) {
+          if (this.scrollTop > startPos) {
             this.isVisible = true;
           } else {
             this.isVisible = false;
