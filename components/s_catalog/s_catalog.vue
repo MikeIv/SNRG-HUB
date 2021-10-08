@@ -2,7 +2,7 @@
   <div class="l-wide catalog-page">
     <s-catalog-main
       title="Программы обучения"
-      :hasPresets="true"
+      :hasPresets="presets.length"
       :presets="presets"
       :page-info="pageInfo"
       category="default"
@@ -39,10 +39,6 @@ export default {
       categoryId: null,
       defaultFilters: {},
     };
-  },
-
-  async fetch() {
-    await this.fetchFilterPresets();
   },
 
   watch: {
@@ -181,6 +177,10 @@ export default {
         window.history.pushState({}, null, `${window.location.pathname}/${filter.slug}${newSearch}`);
       }
     },
+  },
+
+  async fetch() {
+    await this.fetchFilterPresets();
   },
 };
 </script>
