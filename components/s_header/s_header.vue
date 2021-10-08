@@ -85,7 +85,7 @@ export default {
       searchPlaceholder: 'Поиск по сайту',
       bannerTop: {},
       isVisible: false,
-      quizHref: '.m-quiz',
+      quizHref: '#quiz',
     };
   },
 
@@ -160,9 +160,9 @@ export default {
 
       window.scrollTo({
         top: quizPosition,
-        behavior: "smooth"
+        behavior: 'smooth',
       });
-    }
+    },
   },
 };
 </script>
