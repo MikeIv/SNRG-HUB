@@ -8,12 +8,11 @@
       category="default"
       :defaultFilters="defaultFilters"
       :slugs="slugs"
-      :page="page"
       :categoryId="categoryId"
       :key="mainCatalogKey"
       @slug="parseSlugToUrl"
-      @page-change="pageChangeHandler"
       @clear-filters="clearAllFilters"
+      @on-filter-click="filterClickHandler"
     />
   </div>
 </template>
@@ -38,10 +37,7 @@ export default {
       mainCatalogKey: 123,
       categoryId: null,
       page: 1,
-      defaultFilters: {
-        // direction_ids: [1],
-        // format_ids: [22, 27],
-      },
+      defaultFilters: {},
     };
   },
 
@@ -49,18 +45,6 @@ export default {
     await this.fetchFilterPresets();
   },
 
-  // watch: {
-  // page() {
-  //   const newSearch = window.location.search
-  //     .split('&')
-  //     .filter((query) => !query.includes('page'))
-  //     .join('&');
-  //   window.history.pushState(
-  //     {},
-  //     null,
-  //     `${window.location.pathname}?page=${this.page}${newSearch ? '&' : ''}${newSearch}`,
-  //   );
-  // },
   watch: {
     $route: {
       deep: true,
@@ -89,10 +73,6 @@ export default {
         //   });
         // }
       },
-    },
-
-    page() {
-      console.log('page change');
     },
   },
 
@@ -203,39 +183,121 @@ export default {
   // },
   // },
 
-  created() {
-    if (process.client) {
-      if (window.location.search.includes('page')) {
-        const newSearch = window.location.search
-          .split('&')
-          .filter((query) => !query.includes('page'))
-          .join('&');
-        this.page = Number(this.$route.query.page);
-        window.history.pushState(
-          {},
-          null,
-          `/catalog?page=${this.page}${newSearch ? '&' : ''}${newSearch ? newSearch.split('?')[1] : ''}`,
-        );
-      } else {
-        window.history.pushState(
-          {},
-          null,
-          `/catalog?page=1${window.location.search ? '&' : ''}${
-            window.location.search ? window.location.search.split('?')[1] : ''
-          }`,
-        );
-      }
-    }
-  },
+  // created() {
+  //   if (process.client) {
+  //     if (window.location.search.includes('page')) {
+  //       const newSearch = window.location.search
+  //         .split('&')
+  //         .filter((query) => !query.includes('page'))
+  //         .join('&');
+  //       this.page = Number(this.$route.query.page);
+  //       window.history.pushState(
+  //         {},
+  //         null,
+  //         `/catalog?page=${this.page}${newSearch ? '&' : ''}${newSearch ? newSearch.split('?')[1] : ''}`,
+  //       );
+  //     } else {
+  //       window.history.pushState(
+  //         {},
+  //         null,
+  //         `/catalog?page=1${window.location.search ? '&' : ''}${
+  //           window.location.search ? window.location.search.split('?')[1] : ''
+  //         }`,
+  //       );
+  //     }
+  //   }
+  // },
 
   methods: {
-    pageChangeHandler(page) {
-      this.page = page;
+    // pageChangeHandler(page) {
+    //   this.page = page;
+    // },
+    filterClickHandler(filtersIdsData, filterListData) {
+      Object.entries(filtersIdsData).forEach(([filterKey, filterIds]) => {
+        if (filterIds.length === 1) {
+          if (filterKey !== 'city_ids') {
+            const found = filterListData[filterKey].values.find((value) => value.id === Number(filterIds[0]));
+            if (!window.location.pathname.includes(found.slug)) {
+              // Сюда мы попадаем, если у нас только один слаг в фильтре и должны
+              // подчитстить ненужные квери, связанные с этим фильтром
+              // например слаг dizain и остался direction_ids=3
+              let newSearch = window.location.search
+                .split('&')
+                .filter((query) => !query.includes(filterKey))
+                .join('&');
+
+              if (!window.location.search.includes('page')) {
+                newSearch = `${newSearch}?page=1`;
+              }
+
+              window.history.pushState({}, null, `${window.location.pathname}/${found.slug}${newSearch}`);
+            }
+          }
+        } else if (filterIds.length > 1) {
+          let newPath = window.location.pathname;
+          const slugs = window.location.pathname.split('/');
+          slugs.splice(0, 2);
+
+          slugs.forEach((slug) => {
+            if (filterListData[filterKey].values.some((value) => value.slug === slug)) {
+              newPath = newPath.replace(`/${slug}`, '');
+            }
+          });
+
+          const queries = `${filterKey}=${typeof filterIds === 'string' ? filterIds : filterIds.join(',')}`;
+          const newSearch = window.location.search
+            .split('&')
+            .filter((query) => !query.includes(filterKey))
+            .join('&');
+
+          window.history.pushState({}, null, `${newPath}${newSearch}&${queries}`);
+        } else {
+          filterListData[filterKey].values.forEach((value) => {
+            if (window.location.pathname.includes(value.slug)) {
+              const freshPath = window.location.pathname.replace(`/${value.slug}`, '');
+              window.history.pushState({}, null, `${freshPath}${window.location.search}`);
+            }
+          });
+        }
+      });
+
+      // Логика для городов (надо будет заменить сепаратор)
+      if (filtersIdsData.city_ids.length) {
+        const newSearch = window.location.search
+          .split('&')
+          .filter((query) => !query.includes('city_ids'))
+          .join('&');
+        const queries = `city_ids=${
+          typeof filtersIdsData.city_ids === 'string' ? filtersIdsData.city_ids : filtersIdsData.city_ids.join(',')
+        }`;
+
+        window.history.pushState({}, null, `${window.location.pathname}${newSearch}&${queries}`);
+      } else {
+        const newSearch = window.location.search
+          .split('&')
+          .filter((query) => !query.includes('city_ids'))
+          .join('&');
+        window.history.pushState({}, null, `${window.location.pathname}${newSearch}`);
+      }
+
+      // Логика с добавлением значений чекбоков-свитчей в урл
+      // Object.entries(this.filtersCheckboxDataRequest).forEach(([key, checked]) => {
+      //   const newSearch = window.location.search
+      //     .split('&')
+      //     .filter((query) => !query.includes(key))
+      //     .join('&');
+      //   let queries = '';
+      //   if (checked) {
+      //     queries = `${key}`;
+      //     window.history.pushState({}, null, `${window.location.pathname}${newSearch}&${queries}`);
+      //   } else {
+      //     window.history.pushState({}, null, `${window.location.pathname}${newSearch}`);
+      //   }
+      // });
     },
 
     parseUrlToFilters() {
-      console.log('parse url', this.$route);
-
+      // Если есть слаги в руле при инициализации
       if (this.$route.params.pathMatch) {
         this.slugs = this.$route.params.pathMatch.split('/');
       }

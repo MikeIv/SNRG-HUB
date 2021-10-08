@@ -31,10 +31,10 @@
       <s-catalog-product-list
         :productList="productList"
         :totalProducts="totalProducts"
-        :page="pageMain"
+        :page="page"
         :productsPerPage="productsPerPage"
         :key="componentProductsKey"
-        @page="pageMain = $event"
+        @page="page = $event"
       >
         <s-catalog-tags
           :selectedFilters="selectedFilters"
@@ -63,7 +63,7 @@ import './s_catalog_main.scss';
 export default {
   name: 'SCatalogMain',
 
-  props: ['title', 'hasPresets', 'presets', 'pageInfo', 'category', 'defaultFilters', 'slugs', 'categoryId', 'page'],
+  props: ['title', 'hasPresets', 'presets', 'pageInfo', 'category', 'defaultFilters', 'slugs', 'categoryId'],
 
   components: {
     SCatalogTags,
@@ -88,6 +88,7 @@ export default {
       },
       filtersCheckboxDataRequest: {},
       filtersMenu: false,
+      page: 1,
       componentProductsKey: 10,
       componentFilterKey: 100,
       componentMenuKey: 1000,
@@ -126,7 +127,7 @@ export default {
       this.fetchProductsList();
     },
 
-    pageMain() {
+    page() {
       this.fetchProductsList();
     },
 
@@ -149,17 +150,6 @@ export default {
         this.pageMain = 1;
         this.componentProductsKey += 3;
         this.fetchProductsList();
-      },
-    },
-  },
-
-  computed: {
-    pageMain: {
-      get() {
-        return this.page;
-      },
-      set(page) {
-        this.$emit('page-change', page);
       },
     },
   },
@@ -280,6 +270,8 @@ export default {
         this.selectedFilters = this.selectedFilters.filter((filter) => filter.name !== item.name);
         this.filtersIdsData[key] = this.filtersIdsData[key].filter((id) => Number(id) !== item.id);
       }
+
+      this.$emit('on-filter-click', this.filtersIdsData, this.filterListData);
     },
 
     selectControlFilter(key, item, isChecked) {
@@ -323,7 +315,7 @@ export default {
         this.filterCheckboxData[checkboxData[0]].isChecked = false;
       });
 
-      this.pageMain = 1;
+      this.page = 1;
       this.componentFilterKey += 1;
       this.componentMenuKey += 1;
       this.$emit('clear-filters');

@@ -95,9 +95,7 @@
 </template>
 
 <script>
-import {
-  ATag, ATitle, AButton, AControl, MFilter,
-} from '@cwespb/synergyui';
+import { ATag, ATitle, AButton, AControl, MFilter } from '@cwespb/synergyui';
 import './s_catalog_menu.scss';
 
 export default {
@@ -143,7 +141,23 @@ export default {
     },
   },
 
+  watch: {
+    filtersMenu() {
+      this.hideYScroll();
+    },
+  },
+
   methods: {
+    hideYScroll() {
+      const htmlWrapper = document.querySelector('html');
+
+      if (this.filtersMenu === true) {
+        htmlWrapper.style.overflowY = 'hidden';
+      } else {
+        htmlWrapper.style.overflowY = 'visible';
+      }
+    },
+
     filtersMenuClose() {
       this.menu = false;
       this.isFilterExpanded = false;
