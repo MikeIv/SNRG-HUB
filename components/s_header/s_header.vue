@@ -7,10 +7,11 @@
           :type="bannerTop.banner_type"
           :backgroundColor="bannerTop.color_bg"
           :ImgSrc="baseUrl + bannerTop.image"
-          :href="bannerTop.link"
           :topTxt="bannerTop.name"
+          :href="quizHref"
           buttonLabel="Подобрать"
           color="default"
+          @onBannerClick="scrollTo(quizHref)"
         ></m-banner>
       </div>
       <div class="s-header__center">
@@ -84,6 +85,7 @@ export default {
       searchPlaceholder: 'Поиск по сайту',
       bannerTop: {},
       isVisible: false,
+      quizHref: '.m-quiz',
     };
   },
 
@@ -127,7 +129,7 @@ export default {
       const secondSection = sections[1].offsetTop;
       this.scrollTop = window.scrollY;
 
-      switch(true) {
+      switch (true) {
         case this.scrollTop > headerHeight:
           this.isScrolled = true;
           mainWrapper.classList.add('js-fixed');
@@ -137,19 +139,30 @@ export default {
           } else {
             this.isVisible = false;
           }
-          
-        break;
+
+          break;
         default:
           this.isScrolled = false;
           this.isVisible = false;
           mainWrapper.classList.remove('js-fixed');
-        break;
+          break;
       }
     },
 
     handleChange() {
       this.isOpen = !this.isOpen;
     },
+
+    scrollTo(link) {
+      const quiz = document.querySelector(link);
+      const headerHeight = document.querySelector('.s-header').offsetHeight;
+      const quizPosition = quiz.offsetTop - headerHeight;
+
+      window.scrollTo({
+        top: quizPosition,
+        behavior: "smooth"
+      });
+    }
   },
 };
 </script>
