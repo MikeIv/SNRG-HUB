@@ -1,6 +1,12 @@
 <template>
   <section class="m-quiz" v-if="dataQuiz">
-    <div class="l-wide">
+    <div
+      :class="
+        this.$route.name === 'index' || this.$route.name === 'catalog' || this.$route.name === 'catalog-all'
+          ? 'l-wide'
+          : 'l-default'
+      "
+    >
       <!-- banner -->
       <div
         v-if="banerFlag"
@@ -81,9 +87,7 @@
 </template>
 
 <script>
-import {
-  AButton, AInput, AControl, AProgressbar,
-} from '@cwespb/synergyui';
+import { AButton, AInput, AControl, AProgressbar } from '@cwespb/synergyui';
 
 import getQuizzesDetail from '~/api/quizzesDetail';
 
@@ -121,6 +125,8 @@ export default {
   props: {
     imageFon: String,
     image: String,
+    methods: Array,
+    quizId: Number,
   },
 
   computed: {
@@ -130,7 +136,16 @@ export default {
   },
 
   async fetch() {
-    const expandedMethod = this.methods;
+    let expandedMethod = {
+      filter: {},
+    };
+
+    if (this.methods) {
+      expandedMethod = this.methods[0].data;
+    } else {
+      expandedMethod.filter.id = this.quizId;
+    }
+
     const response = await getQuizzesDetail(expandedMethod);
     this.dataQuiz = response;
     this.dataQuestion = response.questions.filter((item) => item.answers.length > 0);

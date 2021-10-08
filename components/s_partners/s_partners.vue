@@ -1,9 +1,9 @@
 <template>
   <section class="s-partners">
-    <div :class="this.$route.name == 'index' ? 'l-wide' : 's-partners__wrapper'">
+    <div :class="this.$route.name === 'index' ? 'l-wide' : 's-partners__wrapper'">
       <h2
         class="s-partners__title s-program-timeline__title"
-        :class="this.$route.name == 'index' ? 'a-font_h5' : 'a-font_h2'"
+        :class="this.$route.name === 'index' ? 'a-font_h5' : 'a-font_h2'"
         v-html="title"
       ></h2>
       <div class="s-partners__items">

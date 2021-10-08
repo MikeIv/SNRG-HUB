@@ -1,25 +1,29 @@
 <template>
-  <div class="l-wide catalog-page">
-    <s-catalog-main
-      title="Программы обучения"
-      :hasPresets="presets.length"
-      :presets="presets"
-      :page-info="pageInfo"
-      category="default"
-      :defaultFilters="defaultFilters"
-      :slugs="slugs"
-      :categoryId="categoryId"
-      :key="mainCatalogKey"
-      @slug="parseSlugToUrl"
-      @clear-filters="clearAllFilters"
-      @on-filter-click="filterClickHandler"
-      @delete-filter-tag="filterClickHandler"
-    />
+  <div>
+    <div class="l-wide catalog-page">
+      <s-catalog-main
+        title="Программы обучения"
+        :hasPresets="presets.length"
+        :presets="presets"
+        :page-info="pageInfo"
+        category="default"
+        :defaultFilters="defaultFilters"
+        :slugs="slugs"
+        :categoryId="categoryId"
+        :key="mainCatalogKey"
+        @slug="parseSlugToUrl"
+        @clear-filters="clearAllFilters"
+        @on-filter-click="filterClickHandler"
+        @delete-filter-tag="filterClickHandler"
+      />
+    </div>
+    <SQuiz :quizId="2" class="catalog-page__quiz" />
   </div>
 </template>
 
 <script>
 import SCatalogMain from '~/components/s_catalog_main/s_catalog_main';
+import SQuiz from '~/components/s_quiz/s_quiz';
 import getFiltersProductPresets from '~/api/filtersProductsPresets';
 import './s_catalog.scss';
 
@@ -27,6 +31,7 @@ export default {
   name: 'SCatalog',
   components: {
     SCatalogMain,
+    SQuiz,
   },
   props: ['pageInfo'],
 
