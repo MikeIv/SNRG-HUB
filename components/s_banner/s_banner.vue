@@ -12,10 +12,11 @@
             class="s_banner"
             :type="item.banner_type"
             :bgColor="item.color_bg_list"
+            :backgroundColor="item.color_bg"
             :topTxt="item.description"
             :titleTxt="item.name"
             :secondTxt="item.name_second"
-            :color="item.color_text_list"
+            :customTextColor="item.color_text"
             :ImgSrc="`${baseURL}${item.image}`"
           />
         </nuxt-link>

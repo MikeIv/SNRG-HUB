@@ -3,26 +3,26 @@
 .catalog-product-list {
   flex: 1;
   &__wrapper {
-    display: flex;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
     gap: rem(20);
     margin-bottom: rem(48);
+
+    @media screen and (max-width: 1350px) {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    @media screen and (max-width: 575px) {
+      grid-template-columns: 1fr;
+    }
   }
 
   &__item {
     &-wrapper {
       display: flex;
       width: 100%;
-      max-width: calc((100% - rem(40)) / 3);
+      min-width: 0;
       text-decoration: none;
-
-      @media screen and (max-width: 1350px) {
-        max-width: calc((100% - rem(20)) / 2);
-      }
-
-      @media screen and (max-width: 575px) {
-        max-width: 100%;
-      }
     }
   }
 }

@@ -1,5 +1,5 @@
 <template>
-  <section class="s-program-teachers">
+  <section class="s-program-teachers" v-if="programTeachers.length">
     <h2 class="s-program-teachers__title a-font_h2" v-html="title"></h2>
     <div class="s-program-teachers__items s-program-teachers__items_horizontal" v-if="programTeachers.length < 4">
       <MCardSpeaker

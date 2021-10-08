@@ -11,6 +11,10 @@
     margin: rem(12) auto;
   }
 
+  .a-breadcrumbs-item__wrapper {
+    display: none;
+  }
+
   &__wrapper {
     padding: var(--layout-v-padding) var(--layout-h-padding);
   }
