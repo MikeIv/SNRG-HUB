@@ -2,7 +2,7 @@
   <header class="s-header" :class="{ open: isOpen, fixed: isScrolled }">
     <div class="shadow" v-if="isOpen" @click="isOpen = !isOpen"></div>
     <div class="s-header__wrapper">
-      <div class="s-header__top">
+      <div class="s-header__top" :class="{ hidden: !isVisible }">
         <m-banner
           :type="bannerTop.banner_type"
           :backgroundColor="bannerTop.color_bg"
@@ -10,6 +10,7 @@
           :href="bannerTop.link"
           :topTxt="bannerTop.name"
           buttonLabel="Подобрать"
+          color="default"
         ></m-banner>
       </div>
       <div class="s-header__center">
@@ -82,6 +83,7 @@ export default {
       phones: [],
       searchPlaceholder: 'Поиск по сайту',
       bannerTop: {},
+      isVisible: false,
     };
   },
 
@@ -121,14 +123,27 @@ export default {
     handleScroll() {
       const mainWrapper = document.querySelector('main');
       const headerHeight = document.querySelector('.s-header').offsetHeight;
-
+      const sections = document.querySelectorAll('section');
+      const secondSection = sections[1].offsetTop;
       this.scrollTop = window.scrollY;
-      if (this.scrollTop > headerHeight) {
-        this.isScrolled = true;
-        mainWrapper.classList.add('js-fixed');
-      } else {
-        this.isScrolled = false;
-        mainWrapper.classList.remove('js-fixed');
+
+      switch(true) {
+        case this.scrollTop > headerHeight:
+          this.isScrolled = true;
+          mainWrapper.classList.add('js-fixed');
+
+          if (this.scrollTop > secondSection) {
+            this.isVisible = true;
+          } else {
+            this.isVisible = false;
+          }
+          
+        break;
+        default:
+          this.isScrolled = false;
+          this.isVisible = false;
+          mainWrapper.classList.remove('js-fixed');
+        break;
       }
     },
 

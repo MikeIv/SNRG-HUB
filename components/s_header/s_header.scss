@@ -1,10 +1,5 @@
 @import '@/assets/styles/tools/mixins';
 
-body,
-html {
-  overflow-x: hidden;
-}
-
 .s-header {
   position: relative;
   z-index: 100;
@@ -48,6 +43,10 @@ html {
 
   &__top {
     width: 100%;
+
+    &.hidden {
+      display: none;
+    }
   }
 
   &__center {
@@ -282,11 +281,11 @@ html {
 }
 
 .js-fixed {
-  margin-top: rem(212);
+  margin-top: rem(156);
   @media screen and (max-width: 991px) {
-    margin-top: rem(164);
+    margin-top: rem(116);
   }
   @media screen and (max-width: 767px) {
-    margin-top: rem(189);
+    margin-top: rem(136);
   }
 }
