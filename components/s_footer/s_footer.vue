@@ -1,5 +1,5 @@
 <template>
-  <section class="s-footer__wrap">
+  <footer class="s-footer__wrap">
     <div class="l-wide">
       <s-footer
         socialsTitle="Мы в соцсетях"
@@ -13,7 +13,7 @@
         <MenuHorizontal />
       </s-footer>
     </div>
-  </section>
+  </footer>
 </template>
 
 <script>
