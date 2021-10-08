@@ -2,6 +2,7 @@
   <div class="organization-page">
     <SHeader />
     <Nuxt />
+    <SQuiz :quiz-id="2" />
     <SFooter />
   </div>
 </template>
@@ -9,6 +10,7 @@
 <script>
 import SHeader from '~/components/s_header/s_header';
 import SFooter from '~/components/s_footer/s_footer';
+import SQuiz from '~/components/s_quiz/s_quiz';
 
 export default {
   head() {
@@ -23,6 +25,7 @@ export default {
   },
 
   components: {
+    SQuiz,
     SHeader,
     SFooter,
   },

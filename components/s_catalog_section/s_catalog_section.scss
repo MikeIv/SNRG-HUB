@@ -1,0 +1,12 @@
+@import '/assets/styles/tools/mixins';
+
+.catalog-page {
+  &__header-total {
+    color: var(--a-color_active);
+    font-size: rem(16);
+
+    @media all and (max-width: 500px) {
+      display: flex;
+    }
+  }
+}

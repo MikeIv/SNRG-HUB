@@ -35,7 +35,7 @@
                       <div class="s-menu-main__link-text a-font_m" @click="changeIsOpen">{{ product.anchor }}</div>
                     </nuxt-link>
                   </div>
-                  <nuxt-link :to="linkItem.link" class="s-menu-main__link-more">
+                  <nuxt-link :to="`${buildFilterUrl(linkItem.link)}`" class="s-menu-main__link-more">
                     <div class="s-menu-main__link-more--text a-font_l">Смотреть все</div>
                     <div class="s-menu-main__link-more--icon si-chevron-right"></div>
                   </nuxt-link>
@@ -116,6 +116,10 @@ export default {
   },
 
   methods: {
+    buildFilterUrl(link) {
+      return `${link.split('?')[0]}?page=1&${link.split('?')[1]}`;
+    },
+
     getActive(id) {
       this.menuLinks.forEach((data, i) => {
         const element = data;

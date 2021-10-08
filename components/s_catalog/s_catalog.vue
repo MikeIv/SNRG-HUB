@@ -1,708 +1,195 @@
 <template>
-  <div class="l-wide catalog-page">
-    <h2 class="a-font_h2">
-      Программы обучения
-      <sup class="catalog-page__header-total a-font_L"> {{ totalProducts }} программ</sup>
-    </h2>
-    <swiper class="catalog-page__main-tags" :options="swiperOption">
-      <swiper-slide v-for="(preset, index) in presets" :key="index" class="catalog-page__swiper-slide">
-        <nuxt-link :to="`${buildPresetUrl(preset.filter)}`">
-          <a-tag :label="preset.name" :class="{ 'catalog-page__main-tags_active': isPresetMatched(preset.filter) }" />
-        </nuxt-link>
-      </swiper-slide>
-    </swiper>
-    <div v-if="filtersMenu">
-      <div class="catalog-page__menu" :key="componentMenuKey" v-if="filterListData">
-        <div v-show="!isFilterExpanded">
-          <a-title title="Фильтры" :showIcon="false" @clickClose="filtersMenuClose" class="catalog-page__menu-header" />
-          <div v-if="selectedFilters.length" class="catalog-page__menu-tags catalog-page__filters-tags">
-            <a-tag
-              v-for="tag in selectedFilters"
-              :key="`${tag.name}${tag.id}`"
-              :label="tag.key === 'organization_ids' ? tag.abbreviation_name : tag.name"
-              status="selected"
-              @aTagDelete="deleteTag(tag)"
-            />
-            <a-tag
-              v-if="selectedFilters.length"
-              label="Очистить все"
-              status="delete"
-              @aTagDelete="clearAllFilters"
-              @aTagClick="clearAllFilters"
-            />
-          </div>
-        </div>
-        <div class="catalog-page__menu-contents">
-          <div v-show="isFilterExpanded" :key="componentExpandedMenuKey">
-            <a-title
-              :title="filterListData[currentExpandedFilter].title"
-              :showIcon="true"
-              @clickClose="filtersMenuClose"
-              @click="isFilterExpanded = false"
-              class="catalog-page__menu-header"
-            />
-            <m-filter
-              title=""
-              passedBtnText=""
-              :hasSearch="filterListData[currentExpandedFilter].search"
-              :items="filterListData[currentExpandedFilter].values"
-              :visibleCount="1000"
-              class="catalog-page__menu-filter_mfilter"
-              @item-click="selectFilter(filterListData[currentExpandedFilter].filter_by, ...arguments)"
-            />
-          </div>
-
-          <div
-            v-show="!isFilterExpanded"
-            class="catalog-page__menu-filters"
-            v-for="filters in Object.entries(filterListData)"
-            :key="filters[0]"
-          >
-            <div
-              class="catalog-page__menu-filter"
-              :class="{ 'catalog-page__menu-filter-expanded': filters[1].values.length > $options.maxVisibleControls }"
-              @click="
-                filters[1].values.length > $options.maxVisibleControls ? expandedFilterClickHandler(filters[0]) : null
-              "
-            >
-              <h3 class="a-font_h7">{{ filters[1].title }}</h3>
-              <i
-                v-if="filters[1].values.length > $options.maxVisibleControls"
-                class="si-chevron-right catalog-page__menu-filter-icon"
-              />
-            </div>
-            <div
-              v-if="filters[1].values.length < $options.maxVisibleControls"
-              class="catalog-page__menu-filter_controls"
-            >
-              <a-control
-                v-for="filter in filters[1].values"
-                :title="filter.abbreviation_name ? filter.abbreviation_name : filter.name"
-                :key="`${filter.name}${filter.id}`"
-                :checked="filter.isChecked"
-                :labelText="filter.abbreviation_name ? filter.name : filter.abbreviation_name"
-                labelPosition="left"
-                class="catalog-page__menu-filter_control"
-                typeBtn="checkbox"
-                typeCtrl="checkbox"
-                @input="selectFilter(filters[0], filter, ...arguments)"
-              />
-            </div>
-          </div>
-          <div v-show="!isFilterExpanded">
-            <a-control
-              v-for="filter in filterCheckboxData"
-              class="catalog-page__menu-filter_control catalog-page__menu-filter_switch"
-              :key="filter.filter_by"
-              :title="filter.title"
-              typeBtn="checkbox"
-              typeCtrl="switch"
-              :checked="filter.isChecked"
-              labelPosition="left"
-              @input="switchClick(filter, ...arguments)"
-            />
-            <div class="catalog-page__menu-button">
-              <a-button :label="menuButtonLabel" bgColor="accent" @click="filtersMenuClose" />
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="catalog-page__menu-backdrop" @click="filtersMenuClose" />
-    </div>
-    <div class="catalog-page__content">
-      <s-catalog-filter
-        v-show="visibleFilters"
-        @select-filter="selectFilter"
-        @switch-click="switchClick"
-        :filterListData="Object.entries(filterListData)"
-        :filterCheckboxData="filterCheckboxData"
-        :filtersCheckboxDataRequest="filtersCheckboxDataRequest"
-        :key="componentFilterKey"
+  <div>
+    <div class="l-wide catalog-page">
+      <s-catalog-section
+        title="Программы обучения"
+        :hasPresets="presets.length"
+        :presets="presets"
+        :page-info="pageInfo"
+        category="default"
+        :defaultFilters="defaultFilters"
+        :slugs="slugs"
+        :categoryId="categoryId"
+        :key="mainCatalogKey"
+        @slug="parseSlugToUrl"
+        @clear-filters="clearAllFilters"
+        @on-filter-click="filterClickHandler"
+        @delete-filter-tag="filterClickHandler"
       />
-      <s-catalog-product-list
-        :productList="productList"
-        :totalProducts="totalProducts"
-        :page="page"
-        :productsPerPage="productsPerPage"
-        :windowWidth="windowWidth"
-        :selectedFilters="selectedFilters"
-        @page="pageChange"
-        @delete-tag="deleteTag"
-        :key="componentProductsKey"
-      >
-        <div class="catalog-page__filters">
-          <div class="catalog-page__filters-tags" v-if="!visibleFiltersIcon">
-            <a-tag
-              v-if="selectedFilters.length"
-              label="Очистить все"
-              status="delete"
-              @aTagDelete="clearAllFilters"
-              @aTagClick="clearAllFilters"
-            />
-            <a-tag
-              v-for="tag in selectedFilters"
-              :key="`${tag.name}${tag.id}`"
-              :label="tag.key === 'organization_ids' ? tag.abbreviation_name : tag.name"
-              status="selected"
-              @aTagDelete="deleteTag(tag)"
-            />
-          </div>
-          <template v-if="productList.length">
-            <a-select :options="options" class="catalog-page__select" @change="changeSortOption" />
-            <i
-              v-if="visibleFiltersIcon"
-              class="si-filter a-font_button catalog-page__filters-icon"
-              tabindex="0"
-              @click="filtersIconClickHandler"
-            >
-              <span class="a-font_button">Фильтры</span>
-            </i>
-          </template>
-        </div>
-      </s-catalog-product-list>
     </div>
+    <SQuiz :quizId="2" class="catalog-page__quiz" />
   </div>
 </template>
 
 <script>
-import {
-  ATag, ASelect, ATitle, AButton, AControl, MFilter,
-} from '@cwespb/synergyui';
-import { Swiper, SwiperSlide } from 'vue-awesome-swiper';
-import SCatalogFilter from '~/components/s_catalog_filter/s_catalog_filter';
-import SCatalogProductList from '~/components/s_catalog_product_list/s_catalog_product_list';
-import getProductsList from '~/api/products_list';
-import getFilterData from '~/api/filter_data';
+import SCatalogSection from '~/components/s_catalog_section/s_catalog_section';
+import SQuiz from '~/components/s_quiz/s_quiz';
 import getFiltersProductPresets from '~/api/filtersProductsPresets';
 import './s_catalog.scss';
 
 export default {
   name: 'SCatalog',
   components: {
-    SCatalogProductList,
-    SCatalogFilter,
-    ATag,
-    ASelect,
-    ATitle,
-    AButton,
-    AControl,
-    MFilter,
-    Swiper,
-    SwiperSlide,
+    SCatalogSection,
+    SQuiz,
   },
   props: ['pageInfo'],
 
-  productNumberOnDesktop: 24,
-  productNumberOnTablet: 16,
-  productNumberOnMobile: 8,
-  desktopEndpointResolution: 1200,
-  tabletEndpointResolution: 900,
-  mobileEndpointResolution: 650,
-  maxVisibleControls: 7,
-
   data() {
     return {
-      totalProducts: [],
-      productList: [],
-      selectedFilters: [],
-      page: 1,
-      productsPerPage: this.$options.productNumberOnDesktop,
-      windowWidth: null,
-      main_tags: [
-        { status: 'default', label: 'UX/UI  дизайнер' },
-        { status: 'default', label: 'JS-разработчик' },
-        { status: 'default', label: 'Верстальщик' },
-        { status: 'default', label: 'Проджект-менеджер' },
-        { status: 'default', label: 'Менеджер по продажам' },
-        { status: 'default', label: 'Веб-дизайнер' },
-        { status: 'default', label: 'Аналитик' },
-      ],
       presets: [],
-
-      currentOption: 'sort',
-      options: [
-        {
-          label: 'Популярные',
-          value: 'sort',
-        },
-        {
-          label: 'Новые',
-          value: '-id',
-        },
-        {
-          label: 'Старые',
-          value: 'id',
-        },
-        {
-          label: 'По алфавиту А-Я',
-          value: 'name',
-        },
-        {
-          label: 'По алфавиту Я-А',
-          value: '-name',
-        },
-      ],
-
-      filterListData: {},
-      filterCheckboxData: {},
-      filtersIdsData: {
-        direction_ids: [],
-        format_ids: [],
-        level_ids: [],
-        city_ids: [],
-        organization_ids: [],
-      },
-      filtersCheckboxDataRequest: {},
-      filtersMenu: false,
-      isFilterExpanded: false,
-      currentExpandedFilter: 'direction_ids',
-      componentFilterKey: 1,
-      componentProductsKey: 100,
-      componentExpandedMenuKey: 1000,
-      componentMenuKey: 3000,
-
-      swiperOption: {
-        slidesPerView: 'auto',
-        spaceBetween: 8,
-      },
-
       slugs: [],
-
       categories: null,
+      mainCatalogKey: 666,
+      categoryId: null,
+      defaultFilters: {},
     };
   },
 
   watch: {
-    currentOption() {
-      this.fetchProductsList();
-    },
-
-    page() {
-      const newSearch = window.location.search
-        .split('&')
-        .filter((query) => !query.includes('page'))
-        .join('&');
-      window.history.pushState(
-        {},
-        null,
-        `${window.location.pathname}?page=${this.page}${newSearch ? '&' : ''}${newSearch}`,
-      );
-
-      this.fetchProductsList();
-    },
-
-    productsPerPage() {
-      this.fetchProductsList();
-    },
-
     $route: {
       deep: true,
+      immediate: true,
       handler() {
-        this.clearRouteFilters();
-        this.parseQueryIntoFilters();
+        this.defaultFilters = {};
+        this.slugs = [];
+        this.categoryId = null;
+
+        this.parseUrlToFilters();
+        this.mainCatalogKey += 1;
       },
-    },
-
-    // Использую хак, чтобы watcher следил сразу за двумя объектами, чтобы не дублировать одинаковый код
-    // Из коробки Vue 3 будет изящное решение
-    allFiltersData: {
-      deep: true,
-      handler() {
-        Object.entries(this.filtersIdsData).forEach(([filterKey, filterIds]) => {
-          if (filterIds.length === 1) {
-            if (filterKey !== 'city_ids') {
-              const found = this.filterListData[filterKey].values.find((value) => value.id === Number(filterIds[0]));
-              if (!window.location.pathname.includes(found.slug)) {
-                // Сюда мы попадаем, если у нас только один слаг в фильтре и должны
-                // подчитстить ненужные квери, связанные с этим фильтром
-                // например слаг dizain и остался direction_ids=3
-                let newSearch = window.location.search
-                  .split('&')
-                  .filter((query) => !query.includes(filterKey))
-                  .join('&');
-
-                if (!window.location.search.includes('page')) {
-                  newSearch = `${newSearch}?page=1`;
-                }
-
-                window.history.pushState({}, null, `${window.location.pathname}/${found.slug}${newSearch}`);
-              }
-            }
-          } else if (filterIds.length > 1) {
-            let newPath = window.location.pathname;
-            const slugs = window.location.pathname.split('/');
-            slugs.splice(0, 2);
-
-            slugs.forEach((slug) => {
-              if (this.filterListData[filterKey].values.some((value) => value.slug === slug)) {
-                newPath = newPath.replace(`/${slug}`, '');
-              }
-            });
-
-            const queries = `${filterKey}=${typeof filterIds === 'string' ? filterIds : filterIds.join(',')}`;
-            const newSearch = window.location.search
-              .split('&')
-              .filter((query) => !query.includes(filterKey))
-              .join('&');
-
-            window.history.pushState({}, null, `${newPath}${newSearch}&${queries}`);
-          } else {
-            this.filterListData[filterKey].values.forEach((value) => {
-              if (window.location.pathname.includes(value.slug)) {
-                const freshPath = window.location.pathname.replace(`/${value.slug}`, '');
-                window.history.pushState({}, null, `${freshPath}${window.location.search}`);
-              }
-            });
-          }
-        });
-
-        // Логика для городов (надо будет заменить сепаратор)
-        if (this.filtersIdsData.city_ids.length) {
-          const newSearch = window.location.search
-            .split('&')
-            .filter((query) => !query.includes('city_ids'))
-            .join('&');
-          const queries = `city_ids=${
-            typeof this.filtersIdsData.city_ids === 'string'
-              ? this.filtersIdsData.city_ids
-              : this.filtersIdsData.city_ids.join(',')
-          }`;
-
-          window.history.pushState({}, null, `${window.location.pathname}${newSearch}&${queries}`);
-        } else {
-          const newSearch = window.location.search
-            .split('&')
-            .filter((query) => !query.includes('city_ids'))
-            .join('&');
-          window.history.pushState({}, null, `${window.location.pathname}${newSearch}`);
-        }
-
-        // Логика с добавлением значений чекбоков-свитчей в урл
-        Object.entries(this.filtersCheckboxDataRequest).forEach(([key, checked]) => {
-          const newSearch = window.location.search
-            .split('&')
-            .filter((query) => !query.includes(key))
-            .join('&');
-          let queries = '';
-          if (checked) {
-            queries = `${key}`;
-            window.history.pushState({}, null, `${window.location.pathname}${newSearch}&${queries}`);
-          } else {
-            window.history.pushState({}, null, `${window.location.pathname}${newSearch}`);
-          }
-        });
-
-        this.fetchProductsList();
-        this.componentProductsKey += 1;
-      },
-    },
-
-    filtersMenu() {
-      document.body.style.cssText = `
-        overflow: ${this.filtersMenu ? 'hidden' : ''};
-        height: ${this.filtersMenu ? '100vh' : ''};
-      `;
-    },
-
-    windowWidth() {
-      if (this.windowWidth > this.$options.desktopEndpointResolution) {
-        this.productsPerPage = this.$options.productNumberOnDesktop;
-      }
-
-      if (this.windowWidth < this.$options.desktopEndpointResolution) {
-        this.productsPerPage = this.$options.productNumberOnTablet;
-      }
-
-      if (this.windowWidth < this.$options.mobileEndpointResolution) {
-        this.productsPerPage = this.$options.productNumberOnMobile;
-      }
-    },
-  },
-
-  computed: {
-    // Создаю компьютед, чтобы watch следил сразу за двумя данными
-    allFiltersData() {
-      const { filtersIdsData, filtersCheckboxDataRequest } = this;
-      return {
-        filtersIdsData,
-        filtersCheckboxDataRequest,
-      };
-    },
-
-    visibleFilters() {
-      return this.windowWidth > this.$options.tabletEndpointResolution;
-    },
-
-    visibleFiltersIcon() {
-      return this.windowWidth < this.$options.tabletEndpointResolution;
-    },
-
-    menuButtonLabel() {
-      return `Показать ${this.totalProducts} предложений`;
     },
   },
 
   methods: {
-    buildPresetUrl(preset) {
-      let url = '/catalog?page=1';
-      Object.entries(preset).forEach(([key, ids]) => {
-        if (key !== 'published') {
-          url = url.concat(`&${key}=${ids}`);
-        }
-      });
-      return url;
-    },
+    filterClickHandler(filtersIdsData, filterListData) {
+      Object.entries(filtersIdsData).forEach(([filterKey, filterIds]) => {
+        if (filterIds.length === 1) {
+          if (filterKey !== 'city_ids') {
+            const found = filterListData[filterKey].values.find((value) => value.id === Number(filterIds[0]));
+            if (!window.location.pathname.includes(found.slug)) {
+              // Сюда мы попадаем, если у нас только один слаг в фильтре и должны
+              // подчитстить ненужные квери, связанные с этим фильтром
+              // например слаг dizain и остался direction_ids=3
+              let newSearch = window.location.search
+                .split('&')
+                .filter((query) => !query.includes(filterKey))
+                .join('&');
 
-    isPresetMatched(preset) {
-      const matchedArray = [];
-
-      Object.entries(this.filtersIdsData).forEach(([key, ids]) => {
-        if (Object.keys(preset).includes(key)) {
-          const filterIds = ids.map((id) => Number(id)).sort((a, b) => a - b);
-          if (filterIds.toString() === preset[key].toString()) {
-            matchedArray.push(true);
-          } else {
-            matchedArray.push(false);
-          }
-        } else if (ids.length) {
-          matchedArray.push(false);
-        }
-      });
-
-      return !matchedArray.includes(false);
-    },
-
-    // Todo sort ids in watch filters
-    parseQueryIntoFilters() {
-      if (this.$route.params.pathMatch) {
-        this.slugs = this.$route.params.pathMatch.split('/');
-        Object.values(this.filterListData).forEach((filterList) => {
-          filterList.values.forEach((value) => {
-            this.slugs.forEach((slug) => {
-              if (value.slug === slug) {
-                this.$set(value, 'isChecked', true);
-                this.filtersIdsData[filterList.filter_by].push(value.id);
-                const newFilter = { ...value, key: filterList.filter_by };
-                this.selectedFilters.push(newFilter);
+              if (!window.location.search.includes('page')) {
+                newSearch = `${newSearch}?page=1`;
               }
-            });
+
+              window.history.pushState({}, null, `${window.location.pathname}/${found.slug}${newSearch}`);
+            }
+          }
+        } else if (filterIds.length > 1) {
+          let newPath = window.location.pathname;
+          const slugs = window.location.pathname.split('/');
+          slugs.splice(0, 2);
+
+          slugs.forEach((slug) => {
+            if (filterListData[filterKey].values.some((value) => value.slug === slug)) {
+              newPath = newPath.replace(`/${slug}`, '');
+            }
           });
-        });
+
+          const queries = `${filterKey}=${typeof filterIds === 'string' ? filterIds : filterIds.join(',')}`;
+          const newSearch = window.location.search
+            .split('&')
+            .filter((query) => !query.includes(filterKey))
+            .join('&');
+
+          window.history.pushState({}, null, `${newPath}${newSearch}&${queries}`);
+        } else {
+          filterListData[filterKey].values.forEach((value) => {
+            if (window.location.pathname.includes(value.slug)) {
+              const freshPath = window.location.pathname.replace(`/${value.slug}`, '');
+              window.history.pushState({}, null, `${freshPath}${window.location.search}`);
+            }
+          });
+        }
+      });
+
+      // Логика для городов (надо будет заменить сепаратор)
+      // Логика другая, потому что у городов нет слагов
+      if (filtersIdsData.city_ids.length) {
+        let newSearch = window.location.search
+          .split('&')
+          .filter((query) => !query.includes('city_ids'))
+          .join('&');
+        const queries = `city_ids=${
+          typeof filtersIdsData.city_ids === 'string' ? filtersIdsData.city_ids : filtersIdsData.city_ids.join(',')
+        }`;
+
+        if (!window.location.search.includes('page')) {
+          newSearch = `${newSearch}?page=1`;
+        }
+
+        window.history.pushState({}, null, `${window.location.pathname}${newSearch}&${queries}`);
+      } else {
+        const newSearch = window.location.search
+          .split('&')
+          .filter((query) => !query.includes('city_ids'))
+          .join('&');
+        window.history.pushState({}, null, `${window.location.pathname}${newSearch}`);
       }
 
-      Object.entries(this.$route.query).forEach(([key, ids]) => {
-        if (key !== 'page' && key !== 'is_employment' && key !== 'is_installment' && key !== 'category_ids') {
-          this.filtersIdsData[key] = typeof ids === 'string' ? ids.split(',') : ids;
-
-          ids.split(',').forEach((id) => {
-            const found = this.filterListData[key].values.find((value) => value.id === Number(id));
-            this.$set(found, 'isChecked', true);
-            const newFilter = { ...found, key };
-            this.selectedFilters.push(newFilter);
-          });
-        } else if (key === 'is_employment' || key === 'is_installment') {
-          this.filtersCheckboxDataRequest[key] = true;
-          this.filterCheckboxData[key].isChecked = true;
-        }
-      });
+      // Логика с добавлением значений чекбоков-свитчей в урл (временно убрана, можнт быть убрана насовсем)
+      // Object.entries(this.filtersCheckboxDataRequest).forEach(([key, checked]) => {
+      //   const newSearch = window.location.search
+      //     .split('&')
+      //     .filter((query) => !query.includes(key))
+      //     .join('&');
+      //   let queries = '';
+      //   if (checked) {
+      //     queries = `${key}`;
+      //     window.history.pushState({}, null, `${window.location.pathname}${newSearch}&${queries}`);
+      //   } else {
+      //     window.history.pushState({}, null, `${window.location.pathname}${newSearch}`);
+      //   }
+      // });
     },
 
-    changeSortOption(option) {
-      this.options = [
-        { label: this.options.find((elem) => elem.value === option).label, value: option },
-        ...this.options.filter((elem) => elem.value !== option),
-      ];
-      this.currentOption = option;
+    parseUrlToFilters() {
+      // Если есть слаги в руле при инициализации
+      if (this.$route.params.pathMatch) {
+        this.slugs = this.$route.params.pathMatch.split('/');
+      }
+
+      // Если есть квери (direction_ids=1,2) в урле при инициализации
+      if (this.$route.query) {
+        Object.entries(this.$route.query).forEach(([key, ids]) => {
+          if (key === 'category_ids') {
+            this.categoryId = ids;
+          } else {
+            this.defaultFilters[key] = ids.split(',').map((id) => Number(id));
+          }
+        });
+      }
+    },
+
+    clearAllFilters() {
+      this.$router.push('/catalog');
     },
 
     async fetchFilterPresets() {
       this.presets = await getFiltersProductPresets();
     },
 
-    async fetchFilterData() {
-      const filtersResponse = await getFilterData(this.pageInfo.components[1].methods[0].data);
-      filtersResponse.forEach((filters) => {
-        if (filters.type === 'list') {
-          this.filterListData[filters.filter_by] = { ...filters };
-        }
-
-        if (filters.type === 'checkbox') {
-          this.filtersCheckboxDataRequest[filters.filter_by] = false;
-          this.filterCheckboxData[filters.filter_by] = { ...filters };
-        }
-      });
-
-      this.parseQueryIntoFilters();
-      this.componentFilterKey += 3;
-    },
-
-    async fetchProductsList() {
-      const expandedMethod = { ...this.pageInfo.components[0].methods[0].data };
-      expandedMethod.include = ['organization', 'levels', 'directions'];
-
-      Object.entries(this.filtersIdsData).forEach((filterData) => {
-        if (filterData[1].length === 0) {
-          delete expandedMethod.filter[filterData[0]];
-        } else {
-          const [key, value] = filterData;
-          expandedMethod.filter[key] = value;
-        }
-      });
-
-      Object.entries(this.filtersCheckboxDataRequest).forEach((checkboxData) => {
-        const [key, value] = checkboxData;
-        if (value) {
-          expandedMethod.filter[key] = value;
-        } else {
-          delete expandedMethod.filter[[key]];
-        }
-      });
-
-      if (process.browser && window.location.search.includes('category_ids')) {
-        const category = window.location.search
-          .split('&')
-          .filter((query) => query.includes('category_ids'))[0]
-          .split('=')[1];
-        this.categories = category;
-      }
-
-      if (this.categories) {
-        expandedMethod.filter.category_ids = this.categories;
-      } else {
-        delete expandedMethod.filter.category_ids;
-      }
-
-      expandedMethod.pagination = { page: this.page, page_size: this.productsPerPage };
-      expandedMethod.sort = this.currentOption;
-      const response = await getProductsList(expandedMethod);
-      this.totalProducts = response.count;
-      this.productList = response.data;
-    },
-
-    handleResize() {
-      this.windowWidth = window.innerWidth;
-    },
-
-    pageChange(page) {
-      this.page = page;
-    },
-
-    deleteTag(tag) {
-      this.selectedFilters = this.selectedFilters.filter((filter) => filter.name !== tag.name);
-      this.filtersIdsData[tag.key] = this.filtersIdsData[tag.key].filter((id) => Number(id) !== tag.id);
-      const found = this.filterListData[tag.key].values.find((value) => value.name === tag.name);
-      this.$set(found, 'isChecked', false);
-      // Меняяем уникальный ключ s-catalog-filter, заставляя его перерендерится
-      this.componentFilterKey += 1;
-    },
-
-    clearRouteFilters() {
-      this.selectedFilters.forEach((selected) => {
-        const found = this.filterListData[selected.key].values.find((value) => value.name === selected.name);
-        this.$set(found, 'isChecked', false);
-      });
-      this.$set(this.filtersCheckboxDataRequest, 'is_employment', false);
-      this.$set(this.filtersCheckboxDataRequest, 'is_installment', false);
-      this.selectedFilters = [];
-      Object.values(this.filtersIdsData).forEach((filterIds) => filterIds.splice(0, filterIds.length));
-      Object.entries(this.filterCheckboxData).forEach((checkboxData) => {
-        this.filterCheckboxData[checkboxData[0]].isChecked = false;
-      });
-
-      this.page = 1;
-    },
-
-    clearAllFilters() {
-      this.clearRouteFilters();
-
-      this.categories = null;
-      window.history.pushState({}, null, '/catalog?page=1');
-
-      this.componentFilterKey += 1;
-      this.componentMenuKey += 1;
-    },
-
-    switchClick(item, isChecked) {
-      const selectedSwitch = { ...item, isChecked };
-      this.page = 1;
-      this.filterCheckboxData[selectedSwitch.filter_by].isChecked = selectedSwitch.isChecked;
-      this.filtersCheckboxDataRequest[selectedSwitch.filter_by] = selectedSwitch.isChecked;
-    },
-
-    selectFilter(key, item, isChecked) {
-      this.page = 1;
-      const selectedItem = { ...item, key };
-      if (isChecked !== undefined) {
-        selectedItem.isChecked = isChecked;
-      }
-
-      if (selectedItem.isChecked) {
-        this.selectedFilters.push(selectedItem);
-        this.filtersIdsData[key].push(selectedItem.id);
-      } else {
-        this.selectedFilters = this.selectedFilters.filter((filter) => filter.name !== item.name);
-        this.filtersIdsData[key] = this.filtersIdsData[key].filter((id) => Number(id) !== item.id);
-      }
-    },
-
-    filtersIconClickHandler() {
-      this.filtersMenu = true;
-    },
-
-    filtersMenuClose() {
-      this.filtersMenu = false;
-      this.isFilterExpanded = false;
-    },
-
-    menuControlSelect(filter) {
-      this.selectedFilters.push(filter);
-    },
-
-    expandedFilterClickHandler(filterKey) {
-      this.componentExpandedMenuKey += 1;
-      this.currentExpandedFilter = filterKey;
-      this.isFilterExpanded = true;
-    },
-  },
-
-  created() {
-    if (process.client) {
-      if (window.location.search.includes('page')) {
+    parseSlugToUrl(filter) {
+      if (process.client) {
         const newSearch = window.location.search
           .split('&')
-          .filter((query) => !query.includes('page'))
+          .filter((query) => !query.includes(filter.key))
           .join('&');
-        this.page = Number(this.$route.query.page);
-        window.history.pushState(
-          {},
-          null,
-          `/catalog?page=${this.page}${newSearch ? '&' : ''}${newSearch ? newSearch.split('?')[1] : ''}`,
-        );
-      } else {
-        window.history.pushState(
-          {},
-          null,
-          `/catalog?page=1${window.location.search ? '&' : ''}${
-            window.location.search ? window.location.search.split('?')[1] : ''
-          }`,
-        );
+        window.history.pushState({}, null, `${window.location.pathname}/${filter.slug}${newSearch}`);
       }
-    }
+    },
   },
 
   async fetch() {
-    await this.fetchProductsList();
-    await this.fetchFilterData();
     await this.fetchFilterPresets();
-  },
-
-  mounted() {
-    this.windowWidth = window.innerWidth;
-    window.addEventListener('resize', this.handleResize);
-  },
-
-  beforeDestroy() {
-    window.removeEventListener('resize', this.handleResize);
   },
 };
 </script>
