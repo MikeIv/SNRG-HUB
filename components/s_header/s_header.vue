@@ -1,6 +1,5 @@
 <template>
   <header class="s-header" :class="{ open: isOpen, fixed: isScrolled }">
-    <s-loader></s-loader>
     <div class="shadow" v-if="isOpen" @click="isOpen = !isOpen"></div>
     <div class="s-header__wrapper">
       <div class="s-header__top" :class="{ hidden: !isVisible }">
@@ -69,7 +68,6 @@ import {
 } from '@cwespb/synergyui';
 import './s_header.scss';
 import SMenuMain from '../s_menu_main/s_menu_main';
-import SLoader from '../s_loader/s_loader';
 import MenuHorizontal from '../menu_horizontal/menu_horizontal';
 import getBannersDetail from '~/api/bannersDetail';
 
@@ -98,7 +96,6 @@ export default {
     MenuHorizontal,
     SMenuMain,
     MBanner,
-    SLoader,
   },
 
   async fetch() {
