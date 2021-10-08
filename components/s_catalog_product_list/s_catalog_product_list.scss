@@ -5,19 +5,27 @@
   &__wrapper {
     display: flex;
     flex-wrap: wrap;
-    gap: rem(20);
-    margin-bottom: rem(48);
+    margin: 0 rem(-10) rem(38);
+
+    @media screen and (max-width: 1200px) {
+      margin-bottom: rem(24);
+    }
+
+    @media screen and (max-width: 767px) {
+      margin-bottom: rem(10);
+    }
   }
 
   &__item {
     &-wrapper {
       display: flex;
       width: 100%;
-      max-width: calc((100% - rem(40)) / 3);
       text-decoration: none;
+      max-width: calc((100% / 3) - rem(20));
+      margin: 0 rem(10) rem(20);
 
       @media screen and (max-width: 1350px) {
-        max-width: calc((100% - rem(20)) / 2);
+        max-width: calc((100% / 2) - rem(20));
       }
 
       @media screen and (max-width: 970px) {
@@ -25,7 +33,8 @@
       }
 
       @media screen and (max-width: 767px) {
-        max-width: calc((100% - rem(20)) / 2);
+        max-width: calc((100% / 2) - rem(20));
+        margin-bottom: rem(16);
       }
 
       @media screen and (max-width: 650px) {

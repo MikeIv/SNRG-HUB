@@ -5,8 +5,12 @@
     display: flex;
     padding: rem(24) 0 rem(80) 0;
 
-    @media all and (max-width: 600px) {
+    @media all and (max-width: 1200px) {
       padding: rem(20) 0 rem(48) 0;
+    }
+
+    @media all and (max-width: 767px) {
+      padding: rem(20) 0 rem(24) 0;
     }
   }
 
