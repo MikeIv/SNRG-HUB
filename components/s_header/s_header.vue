@@ -61,9 +61,7 @@
 </template>
 
 <script>
-import {
-  ALogo, AInput, AButton, MBanner,
-} from '@cwespb/synergyui';
+import { ALogo, AInput, AButton, MBanner } from '@cwespb/synergyui';
 import './s_header.scss';
 import SMenuMain from '../s_menu_main/s_menu_main';
 import MenuHorizontal from '../menu_horizontal/menu_horizontal';
@@ -119,7 +117,7 @@ export default {
 
   methods: {
     handleScroll() {
-      const mainWrapper = document.querySelector('main');
+      const mainWrapper = document.querySelector('body');
       const headerHeight = document.querySelector('.s-header').offsetHeight;
 
       this.scrollTop = window.scrollY;
