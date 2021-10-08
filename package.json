@@ -15,7 +15,7 @@
     "prepare": "husky install"
   },
   "dependencies": {
-    "@cwespb/synergyui": "1.1.5",
+    "@cwespb/synergyui": "1.1.10",
     "@nuxtjs/axios": "^5.13.1",
     "@nuxtjs/pwa": "^3.3.5",
     "@vue/cli-service": "^4.5.13",
