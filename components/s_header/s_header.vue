@@ -8,10 +8,10 @@
           :backgroundColor="bannerTop.color_bg"
           :ImgSrc="baseUrl + bannerTop.image"
           :topTxt="bannerTop.name"
-          :href="quizHref"
+          :href="topBannerSmoothHref"
           buttonLabel="Подобрать"
           color="default"
-          @onBannerClick="scrollTo(quizHref)"
+          @onBannerClick="scrollTo(topBannerSmoothHref)"
         ></m-banner>
       </div>
       <div class="s-header__center">
@@ -85,7 +85,7 @@ export default {
       searchPlaceholder: 'Поиск по сайту',
       bannerTop: {},
       isVisible: false,
-      quizHref: '#quiz',
+      topBannerSmoothHref: '#quiz',
     };
   },
 
