@@ -1,5 +1,5 @@
 <template>
-  <section class="m-quiz" v-if="dataQuiz">
+  <section class="m-quiz" id="quiz" v-if="dataQuiz">
     <div class="l-wide">
       <!-- banner -->
       <div
