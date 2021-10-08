@@ -10,7 +10,7 @@
               :key="product.id"
               class="s-main-topics__slide m-card-vertical"
             >
-              <nuxt-link :to="`/catalog/${product.slug}`">
+              <nuxt-link :to="`/catalog/${product.slug}?page=1`">
                 <m-card :verticalImgSrc="`${baseUrl}${product.preview_image}`" :title="product.name" type="vertical" />
               </nuxt-link>
             </swiper-slide>
