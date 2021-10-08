@@ -119,7 +119,7 @@ export default {
 
   methods: {
     handleScroll() {
-      const mainWrapper = document.querySelector('main');
+      const mainWrapper = document.querySelector('body');
       const headerHeight = document.querySelector('.s-header').offsetHeight;
 
       this.scrollTop = window.scrollY;

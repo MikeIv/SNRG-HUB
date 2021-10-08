@@ -7,21 +7,25 @@
       typeBtn="checkbox"
       :title="title"
       :subtitle="subtitle"
-      :checked="checked"
+      :checked="true"
+      :submitDisabled="!validFlag"
       :btnText="buttonText"
       :checkboxText="checkboxText"
+      @submit-disabled="validFlag = $event"
       @click="sendForm"
     >
       <template v-slot:inputs>
-        <a-input class="m-form__input" @input="handlerSave" v-model="dataForm.name" placeholder="Имя" />
-        <a-input class="m-form__input" @input="handlerSave" v-model="dataForm.email" placeholder="Почта" />
         <a-input
-          class="m-form__input"
-          @input="handlerSave"
-          v-model="dataForm.question"
-          placeholder="Ваш вопрос"
-          type="textarea"
-        />
+        class="m-form__input"
+        @input="handlerSave(); validFormData();" v-model="fieldsData.name" placeholder="Имя" />
+
+        <a-input
+        class="m-form__input"
+        @input="handlerSave(); validFormData();" v-model="fieldsData.email" placeholder="Почта" />
+
+        <a-input
+        class="m-form__input" type="textarea"
+        @input="handlerSave(); validFormData();" v-model="fieldsData.question" placeholder="Ваш вопрос" />
       </template>
     </m-form>
   </section>
@@ -39,9 +43,9 @@ export default {
       title: 'Обратная связь',
       subtitle: 'Если у вас возник вопрос напишите нам в поддержку через форму обратной связи',
       buttonText: 'Отправить',
-      checked: true,
+      validFlag: false,
       checkboxText: 'Нажимая на кнопку, вы соглашаетсь с политикой конфиденциальности и на получение рассылок',
-      dataForm: {
+      fieldsData: {
         name: '',
         email: '',
         question: '',
@@ -49,19 +53,47 @@ export default {
     };
   },
   mounted() {
-    this.$emit('contactsform-ref', this.$refs.form);
+    this.$nextTick(function () {
+      this.$emit('contactsform-ref', this.$refs.form);
 
-    const loadDataForm = this.$lander.storage.load('contactsform');
-    if (loadDataForm) this.dataForm = loadDataForm;
+      const loadDataForm = this.$lander.storage.load('contactsform');
+      if (loadDataForm) this.fieldsData = loadDataForm;
+
+      const dataForm = [
+        { value: this.fieldsData.name },
+        { value: this.fieldsData.email },
+        { value: this.fieldsData.question },
+      ];
+      this.validFlag = this.$lander.valid(dataForm);
+    });
   },
   methods: {
     sendForm() {
-      this.$lander.send(this.dataForm).then(() => {});
+      this.$lander.send(this.fieldsData);
     },
     handlerSave() {
-      this.$lander.storage.save('contactsform', this.dataForm);
+      this.$lander.storage.save('contactsform', this.fieldsData);
+    },
+    validFormData() {
+      const dataForm = [
+        { value: this.fieldsData.name },
+        { value: this.fieldsData.email },
+        { value: this.fieldsData.question },
+      ];
+      this.validFlag = this.$lander.valid(dataForm);
     },
   },
+
+  watch: {
+    fieldsData: {
+      deep: true,
+      handler() {
+        this.validFormData();
+        console.log('validFlag', this.validFlag);
+      },
+    },
+  },
+
   components: {
     MForm,
     AInput,

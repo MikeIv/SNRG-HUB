@@ -7,19 +7,23 @@
       :typeCtrl="typeCtrl"
       :typeBtn="typeBtn"
       :checked="checked"
+      :submitDisabled="!validFlag"
+      @submit-disabled="validFlag = $event"
       @click="sendForm"
     >
       <template v-slot:inputs>
-        <a-input class="m-form__input" @input="handlerSave" v-model="dataForm.name" placeholder="Имя" />
+        <a-input class="m-form__input"
+        @input="handlerSave(); validFormData();" v-model="fieldsData.name" placeholder="Имя" />
         <a-input
           type="phone"
           class="m-form__input"
           @validate="validatePhone"
-          @input="handlerSave"
-          v-model="dataForm.phone"
+          @input="handlerSave(); validFormData();"
+          v-model="fieldsData.phone"
           placeholder="Телефон"
         />
-        <a-input class="m-form__input" @input="handlerSave" v-model="dataForm.email" placeholder="Почта" />
+        <a-input class="m-form__input"
+        @input="handlerSave(); validFormData();" v-model="fieldsData.email" placeholder="Почта" />
       </template>
     </m-form>
   </section>
@@ -44,8 +48,9 @@ export default {
     typeCtrl: 'checkbox',
     typeBtn: 'checkbox',
     checked: true,
+    validFlag: false,
 
-    dataForm: {
+    fieldsData: {
       name: '',
       phone: '',
       email: '',
@@ -58,18 +63,26 @@ export default {
     this.$emit('form-ref', this.$refs.form);
 
     const loadDataForm = this.$lander.storage.load('programform');
-    if (loadDataForm) this.dataForm = loadDataForm;
+    if (loadDataForm) this.fieldsData = loadDataForm;
   },
 
   methods: {
     sendForm() {
-      this.$lander.send(this.dataForm).then(() => {});
+      this.$lander.send(this.fieldsData).then(() => {});
     },
     handlerSave() {
-      this.$lander.storage.save('programform', this.dataForm);
+      this.$lander.storage.save('programform', this.fieldsData);
     },
     validatePhone(value) {
       this.validPhone = value.valid;
+    },
+    validFormData() {
+      const dataForm = [
+        { value: this.fieldsData.name },
+        { value: this.fieldsData.email },
+        { value: this.validPhone },
+      ];
+      this.validFlag = this.$lander.valid(dataForm);
     },
   },
 };
