@@ -58,10 +58,10 @@ import SCatalogTags from '~/components/s_catalog_tags/s_catalog_tags';
 import SCatalogMenu from '~/components/s_catalog_menu/s_catalog_menu';
 import getProductsList from '~/api/products_list';
 import getFilterData from '~/api/filter_data';
-import './s_catalog_main.scss';
+import './s_catalog_section.scss';
 
 export default {
-  name: 'SCatalogMain',
+  name: 'SCatalogSection',
 
   props: ['title', 'hasPresets', 'presets', 'pageInfo', 'category', 'defaultFilters', 'slugs', 'categoryId'],
 

@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="l-wide catalog-page">
-      <s-catalog-main
+      <s-catalog-section
         title="Программы обучения"
         :hasPresets="presets.length"
         :presets="presets"
@@ -22,7 +22,7 @@
 </template>
 
 <script>
-import SCatalogMain from '~/components/s_catalog_main/s_catalog_main';
+import SCatalogSection from '~/components/s_catalog_section/s_catalog_section';
 import SQuiz from '~/components/s_quiz/s_quiz';
 import getFiltersProductPresets from '~/api/filtersProductsPresets';
 import './s_catalog.scss';
@@ -30,7 +30,7 @@ import './s_catalog.scss';
 export default {
   name: 'SCatalog',
   components: {
-    SCatalogMain,
+    SCatalogSection,
     SQuiz,
   },
   props: ['pageInfo'],
