@@ -129,6 +129,15 @@ export default {
 
     page() {
       this.fetchProductsList();
+      if (window.location.search.includes('page')) {
+        let newSearch = window.location.search
+          .split('&')
+          .filter((query) => !query.includes('page'))
+          .join('&');
+        newSearch = `?page=${this.page}${newSearch ? '&' : ''}${newSearch}`;
+
+        window.history.pushState({}, null, `${window.location.pathname}${newSearch}`);
+      }
     },
 
     productsPerPage() {
@@ -218,8 +227,8 @@ export default {
       const expandedMethod = { ...this.pageInfo.components[0].methods[0].data };
       expandedMethod.include = ['organization', 'levels', 'directions'];
 
-      // Сюда будем вшивать категорию с пропа
-      // this.category
+      // Сюда будем вшивать категорию с пропа. Ждем бэк
+      // this.categoryId
 
       // Логика парсинга выбранных фильтров на бэк, для получения отфильрованный товаров
       Object.entries(this.filtersIdsData).forEach((filterData) => {
@@ -271,6 +280,7 @@ export default {
         this.filtersIdsData[key] = this.filtersIdsData[key].filter((id) => Number(id) !== item.id);
       }
 
+      this.page = 1;
       this.$emit('on-filter-click', this.filtersIdsData, this.filterListData);
     },
 
@@ -288,6 +298,9 @@ export default {
         const found = this.filterListData[selectedItem.key].values.find((value) => value.name === selectedItem.name);
         this.$set(found, 'isChecked', false);
       }
+
+      this.page = 1;
+      this.$emit('on-filter-click', this.filtersIdsData, this.filterListData);
     },
 
     menuToggle(value) {
@@ -328,6 +341,7 @@ export default {
       this.$set(found, 'isChecked', false);
 
       this.componentFilterKey += 1;
+      this.$emit('delete-filter-tag', this.filtersIdsData, this.filterListData);
     },
 
     filtersIconClickHandler() {
@@ -338,6 +352,12 @@ export default {
   async fetch() {
     await this.fetchProductsList();
     await this.fetchFilterData();
+  },
+
+  created() {
+    if (this.$route.query.page) {
+      this.page = Number(this.$route.query.page);
+    }
   },
 };
 </script>

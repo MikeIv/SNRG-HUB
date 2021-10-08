@@ -95,7 +95,9 @@
 </template>
 
 <script>
-import { ATag, ATitle, AButton, AControl, MFilter } from '@cwespb/synergyui';
+import {
+  ATag, ATitle, AButton, AControl, MFilter,
+} from '@cwespb/synergyui';
 import './s_catalog_menu.scss';
 
 export default {

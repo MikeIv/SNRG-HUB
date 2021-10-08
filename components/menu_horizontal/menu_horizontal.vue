@@ -4,7 +4,9 @@
       <template v-for="item in navLinks">
         <swiper-slide v-if="item.active" :key="item.id">
           <nuxt-link
-            :to="`/catalog?${Object.entries(item.filter_by)[0][0]}=${Object.entries(item.filter_by)[0][1].toString()}`"
+            :to="`/catalog?page=1&${Object.entries(item.filter_by)[0][0]}=${Object.entries(
+              item.filter_by,
+            )[0][1].toString()}`"
             class="a-font_m menu-horizontal__link"
           >
             {{ item.anchor }}
