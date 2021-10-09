@@ -10,7 +10,6 @@
           x="0px"
           y="0px"
           viewBox="0 0 279 278"
-          style="enable-background: new 0 0 279 278;"
           xml:space="preserve"
         >
           <polygon class="st0" points="167.3,55.8 84.1,139 167.3,222.2 167.3,166.8 139.5,139 167.3,111.2 " />
@@ -28,3 +27,11 @@ export default {
   name: 'SLoader',
 };
 </script>
+
+<style scoped lang="scss">
+.preloader__logo-wrapper {
+  svg {
+    enable-background: new 0 0 279 278;
+  }
+}
+</style>
