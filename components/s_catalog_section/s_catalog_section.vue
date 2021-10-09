@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div :class="this.$route.name === 'organization-slug' ? 'catalog-page__section' : ''">
     <h2 class="a-font_h2">
       {{ title }}
       <sup class="catalog-page__header-total a-font_L"> {{ totalProducts }} программ</sup>
@@ -58,12 +58,23 @@ import SCatalogTags from '~/components/s_catalog_tags/s_catalog_tags';
 import SCatalogMenu from '~/components/s_catalog_menu/s_catalog_menu';
 import getProductsList from '~/api/products_list';
 import getFilterData from '~/api/filter_data';
+import getOrganizationsDetail from '~/api/organizationsDetail';
 import './s_catalog_section.scss';
 
 export default {
   name: 'SCatalogSection',
 
-  props: ['title', 'hasPresets', 'presets', 'pageInfo', 'category', 'defaultFilters', 'slugs', 'categoryId'],
+  props: [
+    'title',
+    'hasPresets',
+    'presets',
+    'pageInfo',
+    'category',
+    'defaultFilters',
+    'slugs',
+    'categoryId',
+    'productsPerPage',
+  ],
 
   components: {
     SCatalogTags,
@@ -92,7 +103,6 @@ export default {
       componentProductsKey: 10,
       componentFilterKey: 100,
       componentMenuKey: 1000,
-      productsPerPage: 24,
 
       selectedFilters: [],
 
@@ -165,7 +175,7 @@ export default {
 
   methods: {
     async fetchFilterData() {
-      const filtersResponse = await getFilterData(this.pageInfo.components[1].methods[0].data);
+      const filtersResponse = await getFilterData();
 
       filtersResponse.forEach((filters) => {
         // Если мы передаем дефолтные фильтры, то мы выбираем фильтры, тэги и отправляем на бэк
@@ -224,11 +234,11 @@ export default {
     },
 
     async fetchProductsList() {
-      const expandedMethod = { ...this.pageInfo.components[0].methods[0].data };
-      expandedMethod.include = ['organization', 'levels', 'directions'];
+      const expandedMethod = {
+        filter: { published: true },
+      };
 
-      // Сюда будем вшивать категорию с пропа. Ждем бэк
-      // this.categoryId
+      expandedMethod.include = ['organization', 'levels', 'directions'];
 
       // Логика парсинга выбранных фильтров на бэк, для получения отфильрованный товаров
       Object.entries(this.filtersIdsData).forEach((filterData) => {
@@ -239,6 +249,18 @@ export default {
           expandedMethod.filter[key] = value;
         }
       });
+
+      if (this.$route.name === 'organization-slug') {
+        await this.getOrganizationsDetail().then((res) => {
+          expandedMethod.filter.organization_ids = [res.data.id];
+          const found = this.filterListData.organization_ids.values.find((value) => value.id === res.data.id);
+          this.$set(found, 'isChecked', true);
+          const newFilter = { ...found, key: 'organization_ids' };
+          if (!this.selectedFilters.some((filter) => filter.id === res.data.id)) {
+            this.selectedFilters.push(newFilter);
+          }
+        });
+      }
 
       // Логика парсинга чекбоксов, для получения отфильрованный товаров
       Object.entries(this.filtersCheckboxDataRequest).forEach((checkboxData) => {
@@ -261,6 +283,10 @@ export default {
       const response = await getProductsList(expandedMethod);
       this.totalProducts = response.count;
       this.productList = response.data;
+    },
+
+    async getOrganizationsDetail() {
+      return getOrganizationsDetail({ filter: { slug: this.$route.params.slug } });
     },
 
     switchClick(item, isChecked) {
@@ -350,8 +376,8 @@ export default {
   },
 
   async fetch() {
-    await this.fetchProductsList();
     await this.fetchFilterData();
+    await this.fetchProductsList();
   },
 
   created() {
