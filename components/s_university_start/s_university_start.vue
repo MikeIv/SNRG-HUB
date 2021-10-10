@@ -59,7 +59,6 @@ export default {
   props: ['methods', 'title'],
   async fetch() {
     const expandedMethod = this.methods[0].data;
-    expandedMethod.include = ['persons', 'city'];
     const preData = await getOrganizationsDetail(expandedMethod);
     this.university.city = preData.data.included.city.name;
     this.university.name = preData.data.name;

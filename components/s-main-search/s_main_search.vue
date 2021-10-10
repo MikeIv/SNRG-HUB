@@ -9,7 +9,7 @@
           <div class="s-main-search__items">
             <template v-for="item in row.items">
               <nuxt-link
-                :to="`catalog?${extractQueryParams(row, item)}`"
+                :to="`catalog?page=1&${extractQueryParams(row, item)}`"
                 class="s-main-search__item"
                 v-if="item.isActive"
                 :key="item.id"

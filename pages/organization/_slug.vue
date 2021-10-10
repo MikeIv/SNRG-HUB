@@ -6,6 +6,7 @@
       :key="id"
       :methods="methods"
       :title="title"
+      :products-per-page="8"
     ></component>
   </div>
 </template>

@@ -7,7 +7,11 @@
         v-for="product in productList"
         :to="`/product/${product.slug}`"
         :key="product.id"
-        class="catalog-product-list__item-wrapper"
+        :class="
+          $route.name === 'organization-slug'
+            ? 'catalog-product-list__item-wrapper-section'
+            : 'catalog-product-list__item-wrapper'
+        "
       >
         <m-card
           type="program"
@@ -29,8 +33,6 @@
       @prev="prevPage"
       :totalItems="Number(totalProducts)"
       :perPage="productsPerPage"
-      :prevText="prevText"
-      :nextText="nextText"
     />
   </div>
 </template>
@@ -42,7 +44,7 @@ import './s_catalog_product_list.scss';
 export default {
   name: 'SCatalogProductList',
 
-  props: ['productList', 'totalProducts', 'page', 'productsPerPage', 'windowWidth', 'selectedFilters'],
+  props: ['productList', 'totalProducts', 'page', 'productsPerPage'],
 
   components: {
     MCard,
@@ -56,14 +58,6 @@ export default {
   },
 
   computed: {
-    prevText() {
-      return this.windowWidth > 600 ? 'Предыдущая' : '<';
-    },
-
-    nextText() {
-      return this.windowWidth > 600 ? 'Следующая' : '>';
-    },
-
     pageInx: {
       get() {
         return this.page;

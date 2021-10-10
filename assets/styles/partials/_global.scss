@@ -1,3 +1,8 @@
+body,
+html {
+  overflow-x: hidden;
+}
+
 body {
   font-family: 'TT Norms', serif;
   font-size: 16px;
@@ -16,6 +21,7 @@ a {
   --layout-width: 81.25rem; // 1300px
   --layout-padding: 5rem; // 80px
   --layout-v-padding: 3.75rem; // 60px
+  --aspect-ratio: calc(16 / 9);
 }
 
 .l-default,

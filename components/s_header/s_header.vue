@@ -2,14 +2,16 @@
   <header class="s-header" :class="{ open: isOpen, fixed: isScrolled }">
     <div class="shadow" v-if="isOpen" @click="isOpen = !isOpen"></div>
     <div class="s-header__wrapper">
-      <div class="s-header__top">
+      <div class="s-header__top" :class="{ hidden: !isVisible }">
         <m-banner
           :type="bannerTop.banner_type"
           :backgroundColor="bannerTop.color_bg"
           :ImgSrc="baseUrl + bannerTop.image"
-          :href="bannerTop.link"
           :topTxt="bannerTop.name"
+          :href="topBannerSmoothHref"
           buttonLabel="Подобрать"
+          color="default"
+          @onBannerClick="scrollTo(topBannerSmoothHref)"
         ></m-banner>
       </div>
       <div class="s-header__center">
@@ -82,6 +84,8 @@ export default {
       phones: [],
       searchPlaceholder: 'Поиск по сайту',
       bannerTop: {},
+      isVisible: false,
+      topBannerSmoothHref: '#quiz',
     };
   },
 
@@ -119,21 +123,44 @@ export default {
 
   methods: {
     handleScroll() {
-      const mainWrapper = document.querySelector('main');
+      const mainWrapper = document.querySelector('body');
       const headerHeight = document.querySelector('.s-header').offsetHeight;
-
+      const startPos = window.innerHeight + window.innerHeight / 2;
       this.scrollTop = window.scrollY;
-      if (this.scrollTop > headerHeight) {
-        this.isScrolled = true;
-        mainWrapper.classList.add('js-fixed');
-      } else {
-        this.isScrolled = false;
-        mainWrapper.classList.remove('js-fixed');
+
+      switch (true) {
+        case this.scrollTop > headerHeight:
+          this.isScrolled = true;
+          mainWrapper.classList.add('js-fixed');
+
+          if (this.scrollTop > startPos) {
+            this.isVisible = true;
+          } else {
+            this.isVisible = false;
+          }
+
+          break;
+        default:
+          this.isScrolled = false;
+          this.isVisible = false;
+          mainWrapper.classList.remove('js-fixed');
+          break;
       }
     },
 
     handleChange() {
       this.isOpen = !this.isOpen;
+    },
+
+    scrollTo(link) {
+      const quiz = document.querySelector(link);
+      const headerHeight = document.querySelector('.s-header').offsetHeight;
+      const quizPosition = quiz.offsetTop - headerHeight;
+
+      window.scrollTo({
+        top: quizPosition,
+        behavior: 'smooth',
+      });
     },
   },
 };
