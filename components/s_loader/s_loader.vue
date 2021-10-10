@@ -1,5 +1,5 @@
 <template>
-  <div class="preloader">
+  <div class="preloader" v-if="loading">
     <div class="preloader__logo">
       <div class="preloader__logo-wrapper">
         <svg
@@ -25,6 +25,23 @@ import './s_loader.scss';
 
 export default {
   name: 'SLoader',
+
+  data() {
+    return {
+      loading: false,
+    };
+  },
+  methods: {
+    start() {
+      this.loading = true;
+    },
+
+    finish() {
+      setTimeout(() => {
+        this.loading = false;
+      }, 700);
+    },
+  },
 };
 </script>
 

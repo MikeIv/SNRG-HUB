@@ -76,6 +76,8 @@ export default {
     debug: true,
   },
 
+  loading: '~/components/s_loader/s_loader',
+
   // PWA module configuration: https://go.nuxtjs.dev/pwa
   pwa: {
     manifest: {
