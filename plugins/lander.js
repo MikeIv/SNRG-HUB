@@ -88,11 +88,11 @@ export default (context, inject) => {
   const url = getConfig();
   const setingSend = {
     version: '',
-    redirectUrl: '',
+    redirectUrl: landerConfig.redirectUrl,
   };
 
   function send(formData, setingsData) {
-    return new Promise((resolve, reject) => {
+    return new Promise(() => {
       const data = new FormData();
 
       // Получение и переназначение настроект
@@ -128,10 +128,12 @@ export default (context, inject) => {
         headers: { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8', Accept: '*/*' },
       })
         .then((response) => {
-          resolve(response);
+          if (response.status === 200) {
+            window.location.replace(setingSend.redirectUrl);
+          }
         })
         .catch((error) => {
-          reject(error);
+          console.log(error);
         });
     });
   }

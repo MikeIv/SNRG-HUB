@@ -39,7 +39,7 @@ export default {
     finish() {
       setTimeout(() => {
         this.loading = false;
-      }, 700);
+      }, 1000);
     },
   },
 };
