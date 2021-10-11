@@ -1,5 +1,3 @@
-process.env.DEBUG = 'nuxt:*';
-
 export default {
   debug: true,
   // Global page headers: https://go.nuxtjs.dev/config-head
@@ -35,6 +33,8 @@ export default {
       { rel: 'apple-touch-icon', sizes: '167x167', href: '/apple-touch-icon-167x167.png' },
       { rel: 'apple-touch-icon', sizes: '180x180', href: '/apple-touch-icon-180x180.png' },
       { rel: 'apple-touch-icon', sizes: '1024x102', href: '/apple-touch-icon-1024x1024.png' },
+      { rel: 'preconnect', href: 'https://mp.synergy.ru' },
+      { rel: 'preconnect', href: 'https://connect.facebook.net' },
     ],
   },
 
@@ -76,10 +76,12 @@ export default {
     debug: true,
   },
 
+  loading: '~/components/s_loader/s_loader',
+
   // PWA module configuration: https://go.nuxtjs.dev/pwa
   pwa: {
     manifest: {
-      lang: 'en',
+      lang: 'ru',
     },
   },
 

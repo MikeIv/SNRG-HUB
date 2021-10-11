@@ -5,6 +5,7 @@
 <script>
 export default {
   middleware: 'getPageInfo',
+
   data() {
     return {
       title: 'Catalog page',
@@ -15,6 +16,7 @@ export default {
     pageInfo() {
       return this.$store.state.pageInfo;
     },
+
     pageMeta() {
       return this.$store.state.pageMeta;
     },

@@ -54,7 +54,7 @@ export default {
 
   mounted() {
     window.addEventListener('resize', this.handleResize);
-    window.addEventListener('DOMContentLoaded', this.handleResize);
+    this.handleResize();
   },
 
   methods: {
@@ -78,7 +78,6 @@ export default {
 
   beforeDestroy() {
     window.removeEventListener('resize', this.handleResize);
-    window.removeEventListener('DOMContentLoaded', this.handleResize);
   },
 
   components: {

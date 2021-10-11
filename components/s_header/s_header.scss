@@ -1,10 +1,5 @@
 @import '@/assets/styles/tools/mixins';
 
-body,
-html {
-  overflow-x: hidden;
-}
-
 .s-header {
   position: relative;
   z-index: 100;
@@ -44,6 +39,14 @@ html {
     height: 100%;
     background: #000;
     opacity: 0.8;
+  }
+
+  &__top {
+    width: 100%;
+
+    &.hidden {
+      display: none;
+    }
   }
 
   &__center {
@@ -220,6 +223,11 @@ html {
     }
     .a-button {
       height: auto;
+
+      &__label {
+        font-size: rem(14);
+        line-height: rem(14);
+      }
     }
   }
 
@@ -273,14 +281,11 @@ html {
 }
 
 .js-fixed {
-  margin-top: rem(192);
-  @media screen and (max-width: 1499px) {
-    margin-top: rem(184);
-  }
+  margin-top: rem(156);
   @media screen and (max-width: 991px) {
-    margin-top: rem(120);
+    margin-top: rem(116);
   }
   @media screen and (max-width: 767px) {
-    margin-top: rem(172);
+    margin-top: rem(136);
   }
 }

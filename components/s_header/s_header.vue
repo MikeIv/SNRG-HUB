@@ -2,12 +2,24 @@
   <header class="s-header" :class="{ open: isOpen, fixed: isScrolled }">
     <div class="shadow" v-if="isOpen" @click="isOpen = !isOpen"></div>
     <div class="s-header__wrapper">
+      <div class="s-header__top" :class="{ hidden: !isVisible }">
+        <m-banner
+          :type="bannerTop.banner_type"
+          :backgroundColor="bannerTop.color_bg"
+          :ImgSrc="baseUrl + bannerTop.image"
+          :topTxt="bannerTop.name"
+          :href="topBannerSmoothHref"
+          buttonLabel="Подобрать"
+          color="default"
+          @onBannerClick="scrollTo(topBannerSmoothHref)"
+        ></m-banner>
+      </div>
       <div class="s-header__center">
         <div class="l-wide">
           <div class="s-header__center-wrapper">
             <div class="s-header__center-top">
               <div class="s-header__location">
-                <a-button label="Москва" bgColor="none" iconType="si-location"></a-button>
+                <a-button label="Москва" bgColor="none" iconType="si-location-city"></a-button>
               </div>
               <div class="s-header__phones">
                 <a
@@ -51,15 +63,19 @@
 </template>
 
 <script>
-import { ALogo, AInput, AButton } from '@cwespb/synergyui';
+import {
+  ALogo, AInput, AButton, MBanner,
+} from '@cwespb/synergyui';
 import './s_header.scss';
 import SMenuMain from '../s_menu_main/s_menu_main';
 import MenuHorizontal from '../menu_horizontal/menu_horizontal';
+import getBannersDetail from '~/api/bannersDetail';
 
 export default {
   name: 'SHeader',
   data() {
     return {
+      baseUrl: process.env.NUXT_ENV_S3BACKET,
       isOpen: false,
       logoURL: '',
       scrollTop: 0,
@@ -67,6 +83,9 @@ export default {
       btnText: 'Всё обучение',
       phones: [],
       searchPlaceholder: 'Поиск по сайту',
+      bannerTop: {},
+      isVisible: false,
+      topBannerSmoothHref: '#quiz',
     };
   },
 
@@ -76,6 +95,17 @@ export default {
     AButton,
     MenuHorizontal,
     SMenuMain,
+    MBanner,
+  },
+
+  async fetch() {
+    const request = {
+      filter: {
+        id: 7,
+      },
+    };
+
+    this.bannerTop = await getBannersDetail(request);
   },
 
   created() {
@@ -93,21 +123,44 @@ export default {
 
   methods: {
     handleScroll() {
-      const mainWrapper = document.querySelector('main');
+      const mainWrapper = document.querySelector('body');
       const headerHeight = document.querySelector('.s-header').offsetHeight;
-
+      const startPos = window.innerHeight + window.innerHeight / 2;
       this.scrollTop = window.scrollY;
-      if (this.scrollTop > headerHeight) {
-        this.isScrolled = true;
-        mainWrapper.classList.add('js-fixed');
-      } else {
-        this.isScrolled = false;
-        mainWrapper.classList.remove('js-fixed');
+
+      switch (true) {
+        case this.scrollTop > headerHeight:
+          this.isScrolled = true;
+          mainWrapper.classList.add('js-fixed');
+
+          if (this.scrollTop > startPos) {
+            this.isVisible = true;
+          } else {
+            this.isVisible = false;
+          }
+
+          break;
+        default:
+          this.isScrolled = false;
+          this.isVisible = false;
+          mainWrapper.classList.remove('js-fixed');
+          break;
       }
     },
 
     handleChange() {
       this.isOpen = !this.isOpen;
+    },
+
+    scrollTo(link) {
+      const quiz = document.querySelector(link);
+      const headerHeight = document.querySelector('.s-header').offsetHeight;
+      const quizPosition = quiz.offsetTop - headerHeight;
+
+      window.scrollTo({
+        top: quizPosition,
+        behavior: 'smooth',
+      });
     },
   },
 };

@@ -1,0 +1,22 @@
+@import '/assets/styles/tools/mixins';
+
+.catalog-presets {
+  &__tags {
+    border-bottom: 1px solid var(--a-color_thumbnail);
+
+    .swiper-slide {
+      width: fit-content;
+    }
+
+    .swiper-wrapper {
+      padding-top: rem(32);
+      padding-bottom: rem(14);
+    }
+
+    &_active {
+      color: #fff;
+      background-color: var(--a-color_link);
+      transition: 0.4s;
+    }
+  }
+}

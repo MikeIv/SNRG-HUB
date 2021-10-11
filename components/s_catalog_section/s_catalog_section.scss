@@ -1,0 +1,30 @@
+@import '/assets/styles/tools/mixins';
+
+.catalog-page {
+  &__section {
+    margin-bottom: rem(20);
+    padding: rem(60) rem(80) 0 rem(80);
+    background: var(--a-color_bg);
+
+    @media all and (max-width: 1300px) {
+      padding: rem(55) rem(60) 0 rem(60);
+    }
+
+    @media all and (max-width: 1000px) {
+      padding: rem(50) rem(40) 0 rem(40);
+    }
+
+    @media all and (max-width: 767px) {
+      padding: rem(46) rem(30) 0 rem(30);
+    }
+  }
+
+  &__header-total {
+    color: var(--a-color_active);
+    font-size: rem(16);
+
+    @media all and (max-width: 500px) {
+      display: flex;
+    }
+  }
+}
