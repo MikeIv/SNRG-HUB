@@ -1,10 +1,14 @@
 <template>
   <div class="l-default">
-    <component :is="section" v-for="section in sections" :key="section"></component>
+    <LazyHydrate v-for="section in sections" :key="section" when-visible>
+      <component :is="section"></component>
+    </LazyHydrate>
   </div>
 </template>
 
 <script>
+import LazyHydrate from 'vue-lazy-hydration';
+
 export default {
   head: {
     bodyAttrs: {
@@ -12,7 +16,7 @@ export default {
     },
   },
 
-  components: {},
+  components: { LazyHydrate },
 
   // middleware: 'getPageInfo',
 
