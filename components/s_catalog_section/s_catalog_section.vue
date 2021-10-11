@@ -256,7 +256,7 @@ export default {
         expandedMethod.filter[filterKey] = [this.entity_page.id];
         const found = this.filterListData.organization_ids.values.find((value) => value.id === this.entity_page.id);
         this.$set(found, 'isChecked', true);
-        const newFilter = { ...found, key: 'organization_ids' };
+        const newFilter = { ...found, key: filterKey };
         if (!this.selectedFilters.some((filter) => filter.id === this.entity_page.id)) {
           this.selectedFilters.push(newFilter);
         }
