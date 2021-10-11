@@ -1,16 +1,31 @@
 <template>
-  <SUniversityScore :title="title" :factoids="factoids" :imageSrc="imageSrc" />
+  <section class="s-university-score">
+    <h2 class="s-university-score__title a-font_h2" v-html="title"></h2>
+    <div class="s-university-score__items">
+      <a-factoid
+        v-for="item in factoids"
+        :key="item.id"
+        :type="item.type"
+        :title="item.title"
+        :lineNumber="item.lineNumber"
+        :color="item.colorLink"
+      />
+    </div>
+    <div class="s-university-score__image" v-if="imageSrc">
+      <img :src="imageSrc" alt="img" />
+    </div>
+  </section>
 </template>
 
 <script>
-import { SUniversityScore } from '@cwespb/synergyui';
+import { AFactoid } from '@cwespb/synergyui';
 import './s_university_score.scss';
 
 export default {
   name: 's_university_score',
 
   components: {
-    SUniversityScore,
+    AFactoid,
   },
 
   data() {
