@@ -1,18 +1,14 @@
 <template>
   <div class="l-default">
-    <component
-      :is="key"
-      v-for="{ key, methods, title, id } in pageInfo.components"
-      :key="id"
-      :methods="methods"
-      :title="title"
-      :entity_page="pageInfo.entity_page"
-      :products-per-page="16"
-    ></component>
+    <LazyHydrate :key="id" v-for="{ key, methods, title, id } in pageInfo.components" when-visible>
+      <component :is="key" :methods="methods" :title="title" :products-per-page="16"></component>
+    </LazyHydrate>
   </div>
 </template>
 
 <script>
+import LazyHydrate from 'vue-lazy-hydration';
+
 export default {
   layout: 'organization',
 
@@ -46,7 +42,7 @@ export default {
     };
   },
 
-  components: {},
+  components: { LazyHydrate },
 
   middleware: 'getPageInfo',
 };

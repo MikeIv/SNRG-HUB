@@ -2,15 +2,18 @@
   <div class="organization-page">
     <SHeader />
     <Nuxt />
-    <SQuiz :quiz-id="2" />
-    <SFooter />
+    <LazyHydrate when-visible>
+      <SQuiz :quiz-id="2" />
+    </LazyHydrate>
+    <LazyHydrate when-visible>
+      <SFooter />
+    </LazyHydrate>
   </div>
 </template>
 
 <script>
+import LazyHydrate from 'vue-lazy-hydration';
 import SHeader from '~/components/s_header/s_header';
-import SFooter from '~/components/s_footer/s_footer';
-import SQuiz from '~/components/s_quiz/s_quiz';
 
 export default {
   head() {
@@ -25,9 +28,10 @@ export default {
   },
 
   components: {
-    SQuiz,
+    SQuiz: () => import('~/components/s_quiz/s_quiz'),
+    SFooter: () => import('~/components/s_footer/s_footer'),
+    LazyHydrate,
     SHeader,
-    SFooter,
   },
 };
 </script>

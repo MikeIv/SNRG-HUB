@@ -2,13 +2,15 @@
   <div>
     <SHeader />
     <Nuxt />
-    <SFooter />
+    <LazyHydrate when-visible>
+      <SFooter />
+    </LazyHydrate>
   </div>
 </template>
 
 <script>
+import LazyHydrate from 'vue-lazy-hydration';
 import SHeader from '~/components/s_header/s_header';
-import SFooter from '~/components/s_footer/s_footer';
 
 export default {
   head() {
@@ -23,8 +25,9 @@ export default {
   },
 
   components: {
-    SFooter,
     SHeader,
+    SFooter: () => import('~/components/s_footer/s_footer'),
+    LazyHydrate,
   },
 };
 </script>
