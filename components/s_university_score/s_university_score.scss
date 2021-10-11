@@ -5,11 +5,96 @@
   overflow: hidden;
   width: 100%;
   margin: rem(20) auto;
-  padding: var(--layout-v-padding) var(--layout-h-padding);
+  padding: var(--layout-v-padding) rem(160) var(--layout-v-padding) var(--layout-h-padding);
   background-color: var(--a-color_bg);
   border-radius: var(--a-borderRadius--bg);
-
-  @media (max-width: 991px) {
+  @media screen and (max-width: 991px) {
     margin: rem(12) auto;
+    padding-right: rem(160);
+  }
+  @media screen and (max-width: 767px) {
+    flex-direction: column;
+    padding-right: 0;
+  }
+
+  .a-factoid {
+    &-line {
+      &__wrapper {
+        flex: 1;
+        max-width: rem(170);
+      }
+      &__wrapper + .a-factoid-line__wrapper {
+        margin-left: var(--a-padding--x5);
+      }
+    }
+  }
+
+  &__items {
+    @media screen and (max-width: 767px) {
+      max-width: rem(224);
+    }
+  }
+
+  &__title.a-font_h2 {
+    max-width: rem(456);
+
+    @media screen and (max-width: 1199px) {
+      margin-right: rem(45);
+    }
+    @media screen and (max-width: 991px) {
+      max-width: rem(300);
+      font-size: rem(26);
+      line-height: rem(30);
+    }
+    @media screen and (max-width: 767px) {
+      max-width: 70%;
+      margin-bottom: rem(20);
+    }
+    @media screen and (max-width: 575px) {
+      max-width: unset;
+      margin-right: 0;
+    }
+  }
+
+  &__image {
+    position: absolute;
+    top: 50%;
+    right: rem(-80);
+    overflow: hidden;
+    width: rem(264);
+    min-height: rem(216);
+    transform: translateY(-50%);
+
+    @media screen and (max-width: 991px) {
+      right: rem(-30);
+      width: rem(173);
+      min-height: rem(142);
+    }
+    @media screen and (max-width: 767px) {
+      right: 0;
+    }
+    @media screen and (max-width: 575px) {
+      display: none;
+    }
+
+    img {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+  &,
+  &__items {
+    display: flex;
+    flex: 1;
+    justify-content: center;
+    align-items: center;
+    @media screen and (max-width: 767px) {
+      justify-content: unset;
+      align-items: unset;
+    }
   }
 }

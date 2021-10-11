@@ -12,18 +12,35 @@
       @click="sendForm"
     >
       <template v-slot:inputs>
-        <a-input class="m-form__input"
-        @input="handlerSave(); validFormData();" v-model="fieldsData.name" placeholder="Имя" />
+        <a-input
+          class="m-form__input"
+          @input="
+            handlerSave();
+            validFormData();
+          "
+          v-model="fieldsData.name"
+          placeholder="Имя"
+        />
         <a-input
           type="phone"
           class="m-form__input"
           @validate="validatePhone"
           v-model="fieldsData.phone"
-          @input="handlerSave(); validFormData();"
+          @input="
+            handlerSave();
+            validFormData();
+          "
           placeholder="Телефон"
         />
-        <a-input class="m-form__input"
-        @input="handlerSave(); validFormData();" v-model="fieldsData.email" placeholder="Почта" />
+        <a-input
+          class="m-form__input"
+          @input="
+            handlerSave();
+            validFormData();
+          "
+          v-model="fieldsData.email"
+          placeholder="Почта"
+        />
       </template>
     </m-form>
   </section>
@@ -77,10 +94,7 @@ export default {
       this.validPhone = value.valid;
     },
     validFormData() {
-      const dataForm = [
-        { value: this.fieldsData.name },
-        { value: this.fieldsData.email, type: 'email' },
-      ];
+      const dataForm = [{ value: this.fieldsData.name }, { value: this.fieldsData.email, type: 'email' }];
       this.validFlag = this.$lander.valid(dataForm) && this.validPhone;
     },
   },
