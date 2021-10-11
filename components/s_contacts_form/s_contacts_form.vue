@@ -16,16 +16,35 @@
     >
       <template v-slot:inputs>
         <a-input
-        class="m-form__input"
-        @input="handlerSave(); validFormData();" v-model="fieldsData.name" placeholder="Имя" />
+          class="m-form__input"
+          @input="
+            handlerSave();
+            validFormData();
+          "
+          v-model="fieldsData.name"
+          placeholder="Имя"
+        />
 
         <a-input
-        class="m-form__input"
-        @input="handlerSave(); validFormData();" v-model="fieldsData.email" placeholder="Почта" />
+          class="m-form__input"
+          @input="
+            handlerSave();
+            validFormData();
+          "
+          v-model="fieldsData.email"
+          placeholder="Почта"
+        />
 
         <a-input
-        class="m-form__input" type="textarea"
-        @input="handlerSave(); validFormData();" v-model="fieldsData.question" placeholder="Ваш вопрос" />
+          class="m-form__input"
+          type="textarea"
+          @input="
+            handlerSave();
+            validFormData();
+          "
+          v-model="fieldsData.question"
+          placeholder="Ваш вопрос"
+        />
       </template>
     </m-form>
   </section>

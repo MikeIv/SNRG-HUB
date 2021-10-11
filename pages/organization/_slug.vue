@@ -6,6 +6,7 @@
       :key="id"
       :methods="methods"
       :title="title"
+      :entity_page="pageInfo.entity_page"
       :products-per-page="16"
     ></component>
   </div>
