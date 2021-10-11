@@ -1,5 +1,4 @@
 <template>
-  <!-- <SProgramQuestions v-if="questionsList.length" :title="title" :items="questionsList" /> -->
   <section class="s-program-questions" v-if="questionsList.length">
     <div class="s-program-questions__wrapper">
       <h2 class="s-program-questions__title a-font_h2" v-html="title"></h2>

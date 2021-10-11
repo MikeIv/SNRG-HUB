@@ -103,13 +103,9 @@
       display: flex;
       flex-wrap: wrap;
       & .a-factoid-default__wrapper {
-        width: calc(100% / 3);
-
-        @media (max-width: 767px) {
-          width: 50%;
-        }
-        & + .a-factoid-default__wrapper {
-          padding-left: rem(40);
+        width: auto;
+        &:first-child {
+          padding-right: rem(40);
         }
       }
 

@@ -1,10 +1,4 @@
 <template>
-  <!-- <SProgramAbout
-    v-if="programAboutList.length"
-    :title="title"
-    :description="programAboutDescription.value"
-    :items="programAboutList"
-  /> -->
   <section class="s-program-about" v-if="programAboutList.length">
     <div class="s-program-about__row">
       <h2 class="s-program-about__title a-font_h2" v-html="title"></h2>

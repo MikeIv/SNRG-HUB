@@ -1,11 +1,4 @@
 <template>
-  <!-- <SProgramContent
-    v-if="programContentList.length"
-    :direction="direction"
-    :factoids="programContentRightItems"
-    :items="programContentList"
-    :title="title"
-  /> -->
   <section class="s-program-content" v-if="programContentList.length">
     <div class="s-program-content__wrapper">
       <div class="s-program-content__top">

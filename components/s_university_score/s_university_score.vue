@@ -1,5 +1,4 @@
 <template>
-  <!-- <SUniversityScore :title="title" :factoids="factoids" :imageSrc="imageSrc" /> -->
   <section class="s-university-score">
     <h2 class="s-university-score__title a-font_h2" v-html="title"></h2>
     <div class="s-university-score__items">

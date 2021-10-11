@@ -1,5 +1,4 @@
 <template>
-  <!-- <SUniversityCareer :title="title" :factoids="factoids" /> -->
   <section class="s-university-career">
     <div class="s-university-career__wrap">
       <h2 class="s-university-career__title a-font_h2" v-html="title"></h2>

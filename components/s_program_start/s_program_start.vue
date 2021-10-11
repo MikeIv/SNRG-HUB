@@ -1,11 +1,5 @@
 <template>
   <section class="s-program-start">
-    <!-- <SProgramStart
-      :breadcrumbs="breadcrumbs"
-      :program="program"
-      @get-program-click="scrollToFormBlock"
-      @sign-up="scrollToFormBlock"
-    /> -->
     <div class="s-program-start__wrapper" :style="{ backgroundColor: program.color ? program.color : '#fff' }">
       <div class="s-program-start__header">
         <div class="s-program-start__header-breadcrumbs">
@@ -89,7 +83,9 @@
 </template>
 
 <script>
-import { ABreadcrumbsItem, AFactoid, AButton, MSocialShare, MCard } from '@cwespb/synergyui';
+import {
+  ABreadcrumbsItem, AFactoid, AButton, MSocialShare, MCard,
+} from '@cwespb/synergyui';
 import './s_program_start.scss';
 
 import getProductsDetail from '~/api/productsDetail';
@@ -130,11 +126,7 @@ export default {
         //   href: '/',
         // },
       ],
-      /* event: {
-        date: '22 июня в 15:00',
-        title: 'JAVA для новичков. Программируем вендинговый автомат',
-        link: '#',
-      }, */
+      event: null,
       program: {
         description: '',
         subtitle: '',

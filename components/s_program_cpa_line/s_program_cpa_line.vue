@@ -1,5 +1,4 @@
 <template>
-  <!-- <SProgramCpaLine :sale="sale" @get-discount-click="scrollToFormBlock" /> -->
   <div class="s-program-cpaLine">
     <span class="s-program-cpaLine__text a-font_xl">{{ sale.text }}</span>
     <a-button

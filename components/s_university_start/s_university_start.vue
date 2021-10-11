@@ -1,6 +1,5 @@
 <template>
   <section class="s-university-start">
-    <!-- <SUniversityStart :breadcrumbs="breadcrumbs" :university="university" :logoSrc="logoSrc" /> -->
     <div class="s-university-start__wrapper" :style="{ backgroundColor: university.color ? university.color : '#fff' }">
       <div class="s-university-start__header">
         <div class="s-university-start__header-breadcrumbs">
@@ -70,7 +69,9 @@
 </template>
 
 <script>
-import { ABreadcrumbsItem, AFactoid, ALogo, MCard, MSocialShare } from '@cwespb/synergyui';
+import {
+  ABreadcrumbsItem, AFactoid, ALogo, MCard, MSocialShare,
+} from '@cwespb/synergyui';
 import './s_university_start.scss';
 import getOrganizationsDetail from '~/api/organizationsDetail';
 
@@ -108,12 +109,7 @@ export default {
         },
       ],
       logoSrc: '',
-      event: ''/* {
-        date: '',
-        title: '',
-        description: '',
-        link: '#',
-      } */,
+      event: null,
       university: {
         city: '',
         name: '',
