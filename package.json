@@ -78,7 +78,7 @@
   },
   "lint-staged": {
     "**/*":"prettier --write",
-    "**/*.{vue,js,jsx,tsx,ts}":"eslint --ext --fix --quiet",
+    "**/*.{vue,js,jsx,tsx,ts}":"eslint --fix --quiet",
     "**/*.css": "stylelint",
     "**/*.scss": "stylelint --syntax=scss --fix"
   }
