@@ -251,8 +251,9 @@ export default {
       });
 
       // Ставим дефолтные фильтры на организации и города
-      if (this.entity_page && this.entity_page.type === 'organizations') {
-        expandedMethod.filter.organization_ids = [this.entity_page.id];
+      if (this.entity_page) {
+        const filterKey = `${this.entity_page.type}_ids`;
+        expandedMethod.filter[filterKey] = [this.entity_page.id];
         const found = this.filterListData.organization_ids.values.find((value) => value.id === this.entity_page.id);
         this.$set(found, 'isChecked', true);
         const newFilter = { ...found, key: 'organization_ids' };
