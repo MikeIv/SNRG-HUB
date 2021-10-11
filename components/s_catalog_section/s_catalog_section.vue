@@ -58,7 +58,6 @@ import SCatalogTags from '~/components/s_catalog_tags/s_catalog_tags';
 import SCatalogMenu from '~/components/s_catalog_menu/s_catalog_menu';
 import getProductsList from '~/api/products_list';
 import getFilterData from '~/api/filter_data';
-import getOrganizationsDetail from '~/api/organizationsDetail';
 import './s_catalog_section.scss';
 
 export default {
@@ -74,6 +73,7 @@ export default {
     'slugs',
     'categoryId',
     'productsPerPage',
+    'entity_page',
   ],
 
   components: {
@@ -250,16 +250,15 @@ export default {
         }
       });
 
-      if (this.$route.name === 'organization-slug') {
-        await this.getOrganizationsDetail().then((res) => {
-          expandedMethod.filter.organization_ids = [res.data.id];
-          const found = this.filterListData.organization_ids.values.find((value) => value.id === res.data.id);
-          this.$set(found, 'isChecked', true);
-          const newFilter = { ...found, key: 'organization_ids' };
-          if (!this.selectedFilters.some((filter) => filter.id === res.data.id)) {
-            this.selectedFilters.push(newFilter);
-          }
-        });
+      // Ставим дефолтные фильтры на организации и города
+      if (this.entity_page && this.entity_page.type === 'organizations') {
+        expandedMethod.filter.organization_ids = [this.entity_page.id];
+        const found = this.filterListData.organization_ids.values.find((value) => value.id === this.entity_page.id);
+        this.$set(found, 'isChecked', true);
+        const newFilter = { ...found, key: 'organization_ids' };
+        if (!this.selectedFilters.some((filter) => filter.id === this.entity_page.id)) {
+          this.selectedFilters.push(newFilter);
+        }
       }
 
       // Логика парсинга чекбоксов, для получения отфильрованный товаров
@@ -283,10 +282,6 @@ export default {
       const response = await getProductsList(expandedMethod);
       this.totalProducts = response.count;
       this.productList = response.data;
-    },
-
-    async getOrganizationsDetail() {
-      return getOrganizationsDetail({ filter: { slug: this.$route.params.slug } });
     },
 
     switchClick(item, isChecked) {
