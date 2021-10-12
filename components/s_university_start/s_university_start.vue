@@ -7,8 +7,12 @@
         </div>
         <div class="s-university-start__header-icons">
           <i class="si-share s-university-start__header-icon" @click.stop="toggleMenu" tabindex="0" />
-          <i class="si-bell s-university-start__header-icon" @click="onBellClickHandler" />
-          <i class="si-heart s-university-start__header-icon" @click="onHeartClickHandler" />
+          <i class="si-bell s-university-start__header-icon" :style="{ display: 'none' }" @click="onBellClickHandler" />
+          <i
+            class="si-heart s-university-start__header-icon"
+            :style="{ display: 'none' }"
+            @click="onHeartClickHandler"
+          />
         </div>
         <m-social-share
           :is-menu-open="isMenuOpen"
@@ -69,9 +73,7 @@
 </template>
 
 <script>
-import {
-  ABreadcrumbsItem, AFactoid, ALogo, MCard, MSocialShare,
-} from '@cwespb/synergyui';
+import { ABreadcrumbsItem, AFactoid, ALogo, MCard, MSocialShare } from '@cwespb/synergyui';
 import './s_university_start.scss';
 import getOrganizationsDetail from '~/api/organizationsDetail';
 
