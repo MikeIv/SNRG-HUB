@@ -7,7 +7,7 @@
         </div>
         <div class="s-program-start__header-icons">
           <i class="si-share s-program-start__header-icon" @click.stop="toggleMenu" tabindex="0" />
-          <i class="si-heart s-program-start__header-icon" @click="onHeartClickHandler" />
+          <i class="si-heart s-program-start__header-icon" :style="{ display: 'none' }" @click="onHeartClickHandler" />
         </div>
         <m-social-share
           :is-menu-open="isMenuOpen"
@@ -28,10 +28,20 @@
           </div>
           <div class="s-program-start__info-bottom">
             <div class="s-program-start__info-bottom-buttons">
-              <a-button @click="signUpClickHandler(); scrollToFormBlock();"
-              bg-color="accent" size="large" label="Записаться" />
               <a-button
-                @click="getProgramClickHandler(); scrollToFormBlock();"
+                @click="
+                  signUpClickHandler();
+                  scrollToFormBlock();
+                "
+                bg-color="accent"
+                size="large"
+                label="Записаться"
+              />
+              <a-button
+                @click="
+                  getProgramClickHandler();
+                  scrollToFormBlock();
+                "
                 bg-color="none"
                 size="large"
                 label="Получить программу"
@@ -83,9 +93,7 @@
 </template>
 
 <script>
-import {
-  ABreadcrumbsItem, AFactoid, AButton, MSocialShare, MCard,
-} from '@cwespb/synergyui';
+import { ABreadcrumbsItem, AFactoid, AButton, MSocialShare, MCard } from '@cwespb/synergyui';
 import './s_program_start.scss';
 
 import getProductsDetail from '~/api/productsDetail';
