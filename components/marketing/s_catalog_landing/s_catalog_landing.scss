@@ -3,19 +3,31 @@
 .catalog-page {
   &__section {
     margin-bottom: rem(20);
-    padding: rem(60) rem(80) 0 rem(80);
-    background: var(--a-color_bg);
+    padding: rem(60) 0 0 0;
 
-    @media all and (max-width: 1300px) {
-      padding: rem(55) rem(60) 0 rem(60);
-    }
+    //@media all and (max-width: 1300px) {
+    //  padding: rem(55) rem(60) 0 rem(60);
+    //}
+    //
+    //@media all and (max-width: 1000px) {
+    //  padding: rem(50) rem(40) 0 rem(40);
+    //}
+    //
+    //@media all and (max-width: 767px) {
+    //  padding: rem(46) rem(30) 0 rem(30);
+    //}
+  }
 
-    @media all and (max-width: 1000px) {
-      padding: rem(50) rem(40) 0 rem(40);
+  &__content {
+    display: flex;
+    padding: rem(24) 0 rem(30) 0;
+
+    @media all and (max-width: 1200px) {
+      padding: rem(20) 0 rem(20) 0;
     }
 
     @media all and (max-width: 767px) {
-      padding: rem(46) rem(30) 0 rem(30);
+      padding: rem(20) 0 rem(10) 0;
     }
   }
 

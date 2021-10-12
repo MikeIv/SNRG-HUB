@@ -5,18 +5,17 @@
       <div class="lp-banner__description">{{ landingDetailInfo.description }}</div>
     </div>
     <s-catalog-landing :products-per-page="10" :filters="landingDetailInfo.included" />
-    <pre>
-      {{ landingDetailInfo }}
-    </pre>
+    <s-program-form />
   </div>
 </template>
 
 <script>
 import getLandingDetail from '~/api/landingsDetail';
 import SCatalogLanding from '~/components/marketing/s_catalog_landing/s_catalog_landing';
+import SProgramForm from '~/components/s_program_form/s_program_form';
 
 export default {
-  components: { SCatalogLanding },
+  components: { SCatalogLanding, SProgramForm },
 
   data() {
     return {
