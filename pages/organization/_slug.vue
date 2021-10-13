@@ -25,15 +25,13 @@ export default {
       return this.$store.state.pageMeta;
     },
   },
-
   head() {
     return {
       title: this.pageMeta?.title,
       meta: [
         {
-          hid: 'description',
-          name: 'description',
-          content: 'Home page description',
+          keywords: this.pageMeta?.keywords,
+          description: this.pageMeta?.description,
         },
       ],
       bodyAttrs: {
