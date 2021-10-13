@@ -124,8 +124,11 @@ export default {
   methods: {
     handleScroll() {
       const mainWrapper = document.querySelector('body');
+      const quizTop = document.querySelector('#quiz').offsetTop;
       const headerHeight = document.querySelector('.s-header').offsetHeight;
       const startPos = window.innerHeight + window.innerHeight / 2;
+      const clientHeight = window.pageYOffset + window.innerHeight;
+
       this.scrollTop = window.scrollY;
 
       switch (true) {
@@ -133,7 +136,7 @@ export default {
           this.isScrolled = true;
           mainWrapper.classList.add('js-fixed');
 
-          if (this.scrollTop > startPos) {
+          if (this.scrollTop > startPos && clientHeight < quizTop) {
             this.isVisible = true;
           } else {
             this.isVisible = false;
