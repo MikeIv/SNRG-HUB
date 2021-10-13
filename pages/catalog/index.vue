@@ -11,12 +11,10 @@ export default {
       title: 'Catalog page',
     };
   },
-
   computed: {
     pageInfo() {
       return this.$store.state.pageInfo;
     },
-
     pageMeta() {
       return this.$store.state.pageMeta;
     },
@@ -26,9 +24,8 @@ export default {
       title: this.pageMeta?.title,
       meta: [
         {
-          hid: 'description',
-          name: 'description',
-          content: 'Home page description',
+          keywords: this.pageMeta?.keywords,
+          description: this.pageMeta?.description,
         },
       ],
     };
