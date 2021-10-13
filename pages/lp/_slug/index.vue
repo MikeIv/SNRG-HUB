@@ -4,7 +4,7 @@
       <h1 class="lp-banner__title">{{ landingDetailInfo.name }}</h1>
       <div class="lp-banner__description">{{ landingDetailInfo.description }}</div>
     </div>
-    <s-catalog-landing :products-per-page="10" :filters="landingDetailInfo.included" />
+    <s-catalog-landing :filters="landingDetailInfo.included" />
     <s-program-form />
   </div>
 </template>

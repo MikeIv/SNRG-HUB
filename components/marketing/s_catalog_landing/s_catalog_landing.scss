@@ -1,21 +1,28 @@
 @import '/assets/styles/tools/mixins';
+:root {
+  --layout-v-padding: 3.75rem;
+  --layout-h-padding: 5rem;
+
+  @media all and (max-width: 1199px) {
+    --layout-v-padding: 2.5rem;
+    --layout-h-padding: 1.875rem;
+  }
+
+  @media all and (max-width: 767px) {
+    --layout-v-padding: 1rem;
+  }
+}
 
 .catalog-page {
   &__section {
-    margin-bottom: rem(20);
-    padding: rem(60) 0 0 0;
+    &-lp {
+      margin-bottom: rem(20);
+      padding: rem(60) 0 0 0;
 
-    //@media all and (max-width: 1300px) {
-    //  padding: rem(55) rem(60) 0 rem(60);
-    //}
-    //
-    //@media all and (max-width: 1000px) {
-    //  padding: rem(50) rem(40) 0 rem(40);
-    //}
-    //
-    //@media all and (max-width: 767px) {
-    //  padding: rem(46) rem(30) 0 rem(30);
-    //}
+      &__popup {
+        max-width: rem(1300);
+      }
+    }
   }
 
   &__content {
@@ -31,6 +38,19 @@
     }
   }
 
+  &__filters-icon {
+    &-lp {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding-bottom: rem(15);
+
+      @media screen and (min-width: 767px) {
+        display: none;
+      }
+    }
+  }
+
   &__header-total {
     color: var(--a-color_active);
     font-size: rem(16);
@@ -43,10 +63,26 @@
 
 .catalog-product-list {
   flex: 1;
+  margin-bottom: rem(48);
+
+  &__button {
+    margin: 0 auto;
+  }
+
+  &__title {
+    margin-bottom: rem(16);
+  }
+  &-wrapper {
+    width: 100%;
+  }
   &__wrapper {
     display: flex;
     flex-wrap: wrap;
     margin: 0 rem(-10) rem(38);
+
+    &-sorry {
+      padding-left: rem(15);
+    }
 
     @media screen and (max-width: 1200px) {
       margin-bottom: rem(24);
@@ -80,26 +116,26 @@
       @media screen and (max-width: 650px) {
         max-width: 100%;
       }
+    }
 
-      &-section {
-        display: flex;
-        width: 100%;
+    &-section {
+      display: flex;
+      width: 100%;
+      max-width: calc((100% / 2) - rem(20));
+      margin: 0 rem(10) rem(20);
+      text-decoration: none;
+
+      @media screen and (max-width: 1200px) {
+        max-width: 100%;
+      }
+
+      @media screen and (max-width: 767px) {
         max-width: calc((100% / 2) - rem(20));
-        margin: 0 rem(10) rem(20);
-        text-decoration: none;
+        margin-bottom: rem(16);
+      }
 
-        @media screen and (max-width: 1200px) {
-          max-width: 100%;
-        }
-
-        @media screen and (max-width: 767px) {
-          max-width: calc((100% / 2) - rem(20));
-          margin-bottom: rem(16);
-        }
-
-        @media screen and (max-width: 650px) {
-          max-width: 100%;
-        }
+      @media screen and (max-width: 650px) {
+        max-width: 100%;
       }
     }
   }
