@@ -73,7 +73,9 @@
 </template>
 
 <script>
-import { ABreadcrumbsItem, AFactoid, ALogo, MCard, MSocialShare } from '@cwespb/synergyui';
+import {
+  ABreadcrumbsItem, AFactoid, ALogo, MCard, MSocialShare,
+} from '@cwespb/synergyui';
 import './s_university_start.scss';
 import getOrganizationsDetail from '~/api/organizationsDetail';
 
