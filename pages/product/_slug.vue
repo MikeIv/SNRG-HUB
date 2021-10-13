@@ -29,7 +29,6 @@ export default {
       title: this.pageMeta?.title,
       meta: [
         {
-          h1: this.pageMeta?.h1,
           keywords: this.pageMeta?.keywords,
           description: this.pageMeta?.description,
         },
