@@ -93,7 +93,9 @@
 </template>
 
 <script>
-import { ABreadcrumbsItem, AFactoid, AButton, MSocialShare, MCard } from '@cwespb/synergyui';
+import {
+  ABreadcrumbsItem, AFactoid, AButton, MSocialShare, MCard,
+} from '@cwespb/synergyui';
 import './s_program_start.scss';
 
 import getProductsDetail from '~/api/productsDetail';
