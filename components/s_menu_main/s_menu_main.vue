@@ -44,7 +44,7 @@
             </div>
           </template>
         </div>
-        <nuxt-link :to="banner.link">
+        <nuxt-link :to="banner.link" v-if="banner.type !== ''">
           <m-banner
             :type="banner.type"
             :titleTxt="banner.titleText"
@@ -102,18 +102,19 @@ export default {
   async fetch() {
     this.menu = await getMenuMain().then(async (data) => {
       const menuData = data.list;
-      const bannerData = {
-        filter: {
-          id: data.banner_id,
-        },
-      };
-
-      const bannerDetail = await getBannersDetail(bannerData);
-      this.banner.link = bannerDetail.link;
-      this.banner.type = bannerDetail.banner_type;
-      this.banner.titleText = bannerDetail.name;
-      this.banner.secondTxt = bannerDetail.name_second;
-      this.banner.ImgSrc = bannerDetail.image;
+      if (data.banner_id) {
+        const bannerData = {
+          filter: {
+            id: data.banner_id,
+          },
+        };
+        const bannerDetail = await getBannersDetail(bannerData);
+        this.banner.link = bannerDetail.link;
+        this.banner.type = bannerDetail.banner_type;
+        this.banner.titleText = bannerDetail.name;
+        this.banner.secondTxt = bannerDetail.name_second;
+        this.banner.ImgSrc = bannerDetail.image;
+      }
 
       this.menuAnchors = menuData;
       menuData.forEach((el, i) => {
