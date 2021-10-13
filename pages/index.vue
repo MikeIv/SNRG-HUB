@@ -15,7 +15,6 @@ export default {
   components: {
     LazyHydrate,
   },
-
   data() {
     return {
       title: 'Home page',
@@ -29,15 +28,14 @@ export default {
       return this.$store.state.pageMeta;
     },
   },
-
   head() {
     return {
       title: this.pageMeta?.title,
       meta: [
         {
-          hid: 'description',
-          name: 'description',
-          content: 'Home page description',
+          h1: this.pageMeta?.h1,
+          keywords: this.pageMeta?.keywords,
+          description: this.pageMeta?.description,
         },
       ],
     };
