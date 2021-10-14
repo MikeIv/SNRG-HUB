@@ -1,18 +1,16 @@
 <template>
   <div class="l-default">
-    <component :is="section" v-for="section in sections" :key="section"></component>
+    <LazyHydrate v-for="section in sections" :key="section" when-visible>
+      <component :is="section"></component>
+    </LazyHydrate>
   </div>
 </template>
 
 <script>
-export default {
-  head: {
-    bodyAttrs: {
-      class: 'bg-gray',
-    },
-  },
+import LazyHydrate from 'vue-lazy-hydration';
 
-  components: {},
+export default {
+  components: { LazyHydrate },
 
   // middleware: 'getPageInfo',
 
@@ -36,11 +34,27 @@ export default {
       sections,
     };
   },
-
   computed: {
     pageInfo() {
       return this.$store.state.pageInfo;
     },
+    pageMeta() {
+      return this.$store.state.pageMeta;
+    },
+  },
+  head() {
+    return {
+      title: this.pageMeta?.title,
+      meta: [
+        {
+          keywords: this.pageMeta?.keywords,
+          description: this.pageMeta?.description,
+        },
+      ],
+      bodyAttrs: {
+        class: 'bg-gray',
+      },
+    };
   },
 };
 </script>

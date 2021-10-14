@@ -140,6 +140,7 @@ test:prod:
 
   export WERF_RELEASES_HISTORY_MAX=2
   export WERF_ENABLE_PROCESS_EXTERMINATOR=1
+  export WERF_SYNCHRONIZATION=:local
 
   export DEVS=$( echo "${CI_COMMIT_REF_SLUG}" | grep '^ogm-*\|^release-*\|^hotfix-*' | wc -l)
   if [ ${DEVS} -eq 1 ]

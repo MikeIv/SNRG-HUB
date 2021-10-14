@@ -8,6 +8,7 @@
       display: flex;
       align-items: stretch;
       width: calc(50% - rem(10));
+      object-position: initial;
 
       @media screen and (max-width: 767px) {
         width: 100%;
@@ -31,5 +32,13 @@
   margin-top: rem(30);
   @media screen and (max-width: 767px) {
     flex-direction: column;
+  }
+}
+
+.m-banner__img {
+  object-position: right;
+
+  &-wrapper {
+    width: 100% !important;
   }
 }
