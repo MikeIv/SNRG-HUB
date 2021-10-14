@@ -135,6 +135,7 @@ export default {
   mounted() {
     window.addEventListener('resize', this.handleResize);
     window.addEventListener('DOMContentLoaded', this.handleResize);
+    this.getScrollBody();
   },
 
   methods: {
