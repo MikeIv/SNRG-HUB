@@ -1,5 +1,5 @@
 <template>
-  <section class="m-quiz" v-if="dataQuiz" id="quiz">
+  <section class="m-quiz" v-if="dataQuiz" id="quiz" ref="quiz">
     <div
       :class="
         this.$route.name === 'index' || this.$route.name === 'catalog' || this.$route.name === 'catalog-all'

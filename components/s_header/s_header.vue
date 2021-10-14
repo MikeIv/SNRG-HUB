@@ -124,10 +124,10 @@ export default {
   methods: {
     handleScroll() {
       const mainWrapper = document.querySelector('body');
-      const quizTop = document.querySelector('#quiz').offsetTop;
-      const quizHeight = document.querySelector('#quiz').offsetHeight;
-      const quizScrollTop = quizTop + quizHeight;
       const headerHeight = document.querySelector('.s-header').offsetHeight;
+      const quizHeight = document.querySelector('#quiz').offsetHeight;
+      const quizTop = document.querySelector('#quiz').offsetTop;
+      const quizScrollTop = quizTop + quizHeight;
       const startPos = window.innerHeight + window.innerHeight / 2;
       const clientHeight = window.pageYOffset + window.innerHeight;
 

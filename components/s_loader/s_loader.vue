@@ -33,11 +33,17 @@ export default {
   },
   methods: {
     start() {
+      const htmlWrapper = document.querySelector('html');
+      htmlWrapper.style.overflowY = 'hidden';
+
       this.loading = true;
     },
 
     finish() {
       setTimeout(() => {
+        const htmlWrapper = document.querySelector('html');
+        htmlWrapper.style.overflowY = 'visible';
+
         this.loading = false;
       }, 1000);
     },
