@@ -22,10 +22,22 @@
       &__popup {
         max-width: rem(1300);
 
+        & .a-popup__container {
+          padding: 0;
+          background: unset;
+        }
+
+        & .a-popup__close {
+          position: absolute;
+          z-index: 100;
+          top: 22px;
+          right: 10px;
+        }
+
         & .s-program-start__photo {
           @media all and (max-width: 700px) {
             width: 100%;
-            max-width: 28.125rem;
+            max-width: rem(450);
             margin: 0 auto rem(24);
           }
           &-top {
@@ -36,32 +48,26 @@
         }
 
         & .s-program-content {
-          padding-top: rem(15);
-          padding-bottom: rem(15);
           @media screen and (max-width: 767px) {
-            padding: 0 rem(5);
-          }
-
-          &__top {
-            margin-bottom: rem(20);
-            @media screen and (max-width: 767px) {
-              margin-bottom: rem(10);
-            }
+            margin: 0;
           }
         }
 
         & .s-program-skills {
-          padding-top: rem(10);
           @media screen and (max-width: 767px) {
-            padding: 0 rem(5);
+            margin: rem(12) 0;
           }
         }
+      }
 
-        & .s-program-teachers {
-          padding-top: rem(15);
-          @media screen and (max-width: 767px) {
-            padding: 0 rem(5);
-          }
+      &__mobile-btn {
+        position: fixed;
+        z-index: 10;
+        bottom: rem(14);
+        width: calc(100% - rem(32));
+
+        @media screen and (min-width: 575px) {
+          display: none;
         }
       }
     }

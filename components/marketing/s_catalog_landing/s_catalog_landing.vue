@@ -11,15 +11,75 @@
       </swiper-slide>
     </swiper>
 
-    <a-popup :visible="popup" @close="popup = false">
+    <div class="catalog-page__section-lp__popup">
+      <a-popup :visible="popup" @close="popup = false">
+        <div>
+          <s-program-start :methods="methodsStart" />
+          <s-program-content :methods="methodsContent" title="Программа обучения" />
+          <s-program-teachers :slug="productSlug" title="<span>Преподаватель</span> курса" />
+          <s-program-skills :methods="methodsSkills" title="Чему <span>вы научитесь</span>" />
+          <s-program-form />
+        </div>
+      </a-popup>
+    </div>
+
+    <a-popup :visible="applicationPopup" @close="applicationPopup = false">
       <div class="catalog-page__section-lp__popup">
-        <s-program-start :methods="methodsStart" />
-        <s-program-content :methods="methodsContent" title="Программа обучения" />
-        <s-program-teachers :slug="productSlug" title="<span>Преподаватель</span> курса" />
-        <s-program-skills :methods="methodsSkills" title="Чему <span>вы научитесь</span>" />
-        <s-program-form />
+        <section ref="form" id="form">
+          <m-form
+            title="Оставьте заявку и мы поможем вам выбрать профессию"
+            btnText="Оставить заявку"
+            typeBtn="checkbox"
+            typeCtrl="checkbox"
+            :checked="formChecked"
+            checkboxText="Нажимая на кнопку, я соглашаюсь с политикой конфиденциальности и на получение рассылок"
+            :submitDisabled="!validFlag"
+            @submit-disabled="validFlag = $event"
+            @click="sendForm"
+          >
+            <template v-slot:inputs>
+              <a-input
+                class="m-form__input"
+                @input="
+                  handlerSave();
+                  validFormData();
+                "
+                v-model="fieldsData.name"
+                placeholder="Имя"
+              />
+              <a-input
+                type="phone"
+                class="m-form__input"
+                @validate="validatePhone"
+                v-model="fieldsData.phone"
+                @input="
+                  handlerSave();
+                  validFormData();
+                "
+                placeholder="Телефон"
+              />
+              <a-input
+                class="m-form__input"
+                @input="
+                  handlerSave();
+                  validFormData();
+                "
+                v-model="fieldsData.email"
+                placeholder="Почта"
+              />
+            </template>
+          </m-form>
+        </section>
       </div>
     </a-popup>
+
+    <a-button
+      @click="applicationPopup = true"
+      class="catalog-page__section-lp__mobile-btn"
+      label="Заявка на обучение"
+      bgColor="accent"
+      size="large"
+    />
 
     <div v-if="filtersMenu">
       <div class="catalog-page__menu" v-if="filterListData">
@@ -57,7 +117,7 @@
               :class="{ 'catalog-page__menu-filter-expanded': filters[1].length > 7 }"
               @click="filters[1].length > 7 ? expandedFilterClickHandler(filters[0]) : null"
             >
-              <h3 class="a-font_h7">{{ filtersTitle[filters[0]] }}</h3>
+              <h3 class="a-font_h6">{{ filtersTitle[filters[0]] }}</h3>
               <i v-if="filters[1].length > 7" class="si-chevron-right catalog-page__menu-filter-icon" />
             </div>
             <div v-if="filters[1].length < 7" class="catalog-page__menu-filter_controls">
@@ -228,7 +288,7 @@
 <script>
 import { Swiper, SwiperSlide } from 'vue-awesome-swiper';
 import {
-  ATag, AButton, MFilter, MCard, ATitle, AControl, APopup,
+  ATag, AButton, MFilter, MForm, MCard, ATitle, AControl, APopup, AInput,
 } from '@cwespb/synergyui';
 import getProductsList from '~/api/products_list';
 import './s_catalog_landing.scss';
@@ -252,8 +312,10 @@ export default {
     ATag,
     ATitle,
     AControl,
+    AInput,
     AButton,
     MCard,
+    MForm,
     MFilter,
     APopup,
     Swiper,
@@ -268,6 +330,17 @@ export default {
   data() {
     return {
       popup: false,
+      applicationPopup: false,
+      formChecked: true,
+      validFlag: false,
+
+      fieldsData: {
+        name: '',
+        phone: '',
+        email: '',
+      },
+
+      validPhone: false,
       currentProduct: null,
       methodsStart: [{}],
       methodsContent: [{}],
@@ -347,6 +420,22 @@ export default {
   },
 
   methods: {
+    sendForm() {
+      this.$lander
+        .send(this.fieldsData, {}, this.$route.name === 'lp-slug' ? this.$route.path : undefined)
+        .then(() => {});
+    },
+    handlerSave() {
+      this.$lander.storage.save('programform', this.fieldsData);
+    },
+    validatePhone(value) {
+      this.validPhone = value.valid;
+    },
+    validFormData() {
+      const dataForm = [{ value: this.fieldsData.name }, { value: this.fieldsData.email, type: 'email' }];
+      this.validFlag = this.$lander.valid(dataForm) && this.validPhone;
+    },
+
     openPopupHandler(product) {
       this.productSlug = product.slug;
       this.methodsStart[0] = {
@@ -574,6 +663,13 @@ export default {
   async fetch() {
     await this.fetchFilterData();
     await this.fetchProductsList();
+  },
+
+  mounted() {
+    this.$emit('form-ref', this.$refs.form);
+
+    const loadDataForm = this.$lander.storage.load('programform');
+    if (loadDataForm) this.fieldsData = loadDataForm;
   },
 };
 </script>
