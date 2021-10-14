@@ -114,7 +114,11 @@ export default {
   },
 
   mounted() {
-    window.addEventListener('scroll', this.handleScroll);
+    if (process.client) {
+      setTimeout(function () {
+        window.addEventListener('scroll', this.handleScroll);
+      }, 700);
+    }
   },
 
   beforeDestroy() {
@@ -123,39 +127,37 @@ export default {
 
   methods: {
     handleScroll() {
-      setTimeout(function () {
-        const mainWrapper = document.querySelector('body');
-        const headerHeight = document.querySelector('.s-header').offsetHeight;
-        const quizHeight = document.querySelector('#quiz').offsetHeight;
-        const quizTop = document.querySelector('#quiz').offsetTop;
-        const quizScrollTop = quizTop + quizHeight;
-        const startPos = window.innerHeight + window.innerHeight / 2;
-        const clientHeight = window.pageYOffset + window.innerHeight;
+      const mainWrapper = document.querySelector('body');
+      const headerHeight = document.querySelector('.s-header').offsetHeight;
+      const quizHeight = document.querySelector('#quiz').offsetHeight;
+      const quizTop = document.querySelector('#quiz').offsetTop;
+      const quizScrollTop = quizTop + quizHeight;
+      const startPos = window.innerHeight + window.innerHeight / 2;
+      const clientHeight = window.pageYOffset + window.innerHeight;
 
-        this.scrollTop = window.scrollY;
+      this.scrollTop = window.scrollY;
 
-        switch (true) {
-          case this.scrollTop > headerHeight:
-            this.isScrolled = true;
-            mainWrapper.classList.add('js-fixed');
+      switch (true) {
+        case this.scrollTop > headerHeight:
+          this.isScrolled = true;
+          mainWrapper.classList.add('js-fixed');
 
-            if (
-              (this.scrollTop > startPos && clientHeight < quizTop)
-              || (this.scrollTop > startPos && this.scrollTop > quizScrollTop)
-            ) {
-              this.isVisible = true;
-            } else {
-              this.isVisible = false;
-            }
-
-            break;
-          default:
-            this.isScrolled = false;
+          if (
+            (this.scrollTop > startPos && clientHeight < quizTop)
+            || (this.scrollTop > startPos && this.scrollTop > quizScrollTop)
+          ) {
+            this.isVisible = true;
+          } else {
             this.isVisible = false;
-            mainWrapper.classList.remove('js-fixed');
-            break;
-        }
-      }, 700);
+          }
+
+          break;
+        default:
+          this.isScrolled = false;
+          this.isVisible = false;
+          mainWrapper.classList.remove('js-fixed');
+          break;
+      }
     },
 
     handleChange() {
