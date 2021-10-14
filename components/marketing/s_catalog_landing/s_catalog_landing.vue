@@ -15,8 +15,8 @@
       <div class="catalog-page__section-lp__popup">
         <s-program-start :methods="methodsStart" />
         <s-program-content :methods="methodsContent" title="Программа обучения" />
-        <s-program-teachers :slug="productSlug" title="Преподаватель курса" />
-        <s-program-skills :methods="methodsSkills" title="Чему вы научитесь" />
+        <s-program-teachers :slug="productSlug" title="<span>Преподаватель</span> курса" />
+        <s-program-skills :methods="methodsSkills" title="Чему <span>вы научитесь</span>" />
         <s-program-form />
       </div>
     </a-popup>
@@ -490,6 +490,8 @@ export default {
         this.totalProducts[preset.slug] = response.count;
         this.productList[preset.slug] = response.data;
       }
+
+      this.componentProductsKey += 3;
     },
 
     switchClick(item, isChecked) {
