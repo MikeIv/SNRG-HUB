@@ -21,6 +21,48 @@
 
       &__popup {
         max-width: rem(1300);
+
+        & .s-program-start__photo {
+          @media all and (max-width: 700px) {
+            width: 100%;
+            max-width: 28.125rem;
+            margin: 0 auto rem(24);
+          }
+          &-top {
+            @media all and (max-width: 767px) {
+              width: 45%;
+            }
+          }
+        }
+
+        & .s-program-content {
+          padding-top: rem(15);
+          padding-bottom: rem(15);
+          @media screen and (max-width: 767px) {
+            padding: 0 rem(5);
+          }
+
+          &__top {
+            margin-bottom: rem(20);
+            @media screen and (max-width: 767px) {
+              margin-bottom: rem(10);
+            }
+          }
+        }
+
+        & .s-program-skills {
+          padding-top: rem(10);
+          @media screen and (max-width: 767px) {
+            padding: 0 rem(5);
+          }
+        }
+
+        & .s-program-teachers {
+          padding-top: rem(15);
+          @media screen and (max-width: 767px) {
+            padding: 0 rem(5);
+          }
+        }
       }
     }
   }
@@ -94,6 +136,7 @@
   }
 
   &__item {
+    cursor: pointer;
     &-wrapper {
       display: flex;
       width: 100%;

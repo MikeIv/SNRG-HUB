@@ -38,6 +38,7 @@
             <m-filter
               title=""
               passedBtnText=""
+              :hasSearch="filterListData[currentExpandedFilter].search"
               :items="filterListData[currentExpandedFilter]"
               :visibleCount="1000"
               class="catalog-page__menu-filter_mfilter"
@@ -76,15 +77,15 @@
           </div>
           <div v-show="!isFilterExpanded">
             <a-control
-              v-for="filter in filterCheckboxData"
+              v-for="[key, filters] in Object.entries(filterCheckboxData)"
               class="catalog-page__menu-filter_control catalog-page__menu-filter_switch"
-              :key="filter.filter_by"
-              :title="filter.title"
+              :key="key"
+              :title="filters.name"
               typeBtn="checkbox"
               typeCtrl="switch"
-              :checked="filter.isChecked"
+              :checked="filters.isChecked"
               labelPosition="left"
-              @input="switchClick(filter, ...arguments)"
+              @input="switchClick(filters, ...arguments)"
             />
             <div class="catalog-page__menu-button">
               <a-button label="Показать предложения" bgColor="accent" @click="filtersMenuClose" />
@@ -99,23 +100,24 @@
         <m-filter
           v-for="[key, filters] in Object.entries(filterListData)"
           class="catalog-filter__filter"
+          :hasSearch="filters.search"
           :key="key"
           :title="filtersTitle[key]"
           :passedBtnText="filtersText[key]"
           :items="filters"
           @item-click="selectFilter(key, ...arguments)"
         />
-        <!--        <a-control-->
-        <!--          v-for="filter in filterCheckboxData"-->
-        <!--          class="catalog-filter__checkbox"-->
-        <!--          :key="filter.filter_by"-->
-        <!--          :title="filter.title"-->
-        <!--          :checked="filter.isChecked"-->
-        <!--          typeBtn="checkbox"-->
-        <!--          typeCtrl="switch"-->
-        <!--          labelPosition="left"-->
-        <!--          @input="switchClick(filter, ...arguments)"-->
-        <!--        />-->
+        <a-control
+          v-for="[key, filters] in Object.entries(filterCheckboxData)"
+          class="catalog-filter__checkbox"
+          :key="key"
+          :title="filters.name"
+          :checked="filters.isChecked"
+          typeBtn="checkbox"
+          typeCtrl="switch"
+          labelPosition="left"
+          @input="switchClick(filters, ...arguments)"
+        />
       </div>
       <div v-if="!activePreset" class="catalog-product-list-wrapper" :key="componentProductsKey">
         <template>
@@ -269,7 +271,6 @@ export default {
       currentProduct: null,
       methodsStart: [{}],
       methodsContent: [{}],
-      // methodsTeachers: [{}],
       methodsSkills: [{}],
       productSlug: null,
 
@@ -347,7 +348,6 @@ export default {
 
   methods: {
     openPopupHandler(product) {
-      console.log('@@', product);
       this.productSlug = product.slug;
       this.methodsStart[0] = {
         data: {
@@ -362,7 +362,7 @@ export default {
       this.methodsContent[0] = {
         data: {
           filter: {
-            entity_id: product.id, // хз какие данные сюда передавать
+            entity_id: product.id,
             entity_type: 'product',
             section_id: 12,
           },
@@ -372,7 +372,7 @@ export default {
       this.methodsSkills[0] = {
         data: {
           filter: {
-            entity_id: product.id, // хз какие данные сюда передавать
+            entity_id: product.id,
             entity_type: 'product',
             section_id: 10,
           },
@@ -422,29 +422,31 @@ export default {
 
     async fetchFilterData() {
       Object.entries(this.filters).forEach(([key, filterData]) => {
-        // Todo: убрать после изменения бэка
-        if (key !== 'cities') {
-          if (key === 'levels') {
-            this.presets = filterData;
-            this.presets.forEach((preset) => {
-              this.productsPerPage[preset.slug] = 10;
-            });
-          } else {
-            this.filterListData[`${key.slice(0, -1)}_ids`] = filterData;
-          }
+        if (key === 'level') {
+          this.presets = filterData;
+          this.presets.forEach((preset) => {
+            this.productsPerPage[preset.slug] = 10;
+          });
+        } else {
+          filterData.forEach((filter) => {
+            if (filter.type === 'list') {
+              if (this.filterListData[`${key}_ids`] === undefined) {
+                this.filterListData[`${key}_ids`] = [filter];
+              } else {
+                this.filterListData[`${key}_ids`] = [...this.filterListData[`${key}_ids`], filter];
+              }
+            }
+
+            if (filter.type === 'checkbox') {
+              if (this.filterCheckboxData[`${key}_ids`] === undefined) {
+                this.filterCheckboxData[`${key}_ids`] = [filter];
+              } else {
+                this.filterCheckboxData[`${key}_ids`] = [...this.filterCheckboxData[`${key}_ids`], filter];
+              }
+            }
+          });
         }
       });
-
-      console.log('@@', this.filterListData[this.currentExpandedFilter]);
-
-      //   if (filters.type === 'list') {
-      //     this.filterListData[filters.filter_by] = { ...filters };
-      //   }
-      //
-      //   if (filters.type === 'checkbox') {
-      //     this.filtersCheckboxDataRequest[filters.filter_by] = false;
-      //     this.filterCheckboxData[filters.filter_by] = { ...filters };
-      //   }
     },
 
     async fetchProductsList() {

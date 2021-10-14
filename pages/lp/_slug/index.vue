@@ -23,10 +23,10 @@ export default {
     };
   },
 
-  async asyncData() {
+  async asyncData({ route }) {
     const request = {
       filter: {
-        id: 1,
+        slug: route.params.slug,
       },
       include: ['formats', 'levels', 'directions', 'cities', 'organizations'],
     };

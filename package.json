@@ -16,7 +16,7 @@
     "pre-commit": "lint-staged"
   },
   "dependencies": {
-    "@cwespb/synergyui": "1.1.15",
+    "@cwespb/synergyui": "1.1.16",
     "@nuxtjs/axios": "^5.13.1",
     "@nuxtjs/gtm": "^2.4.0",
     "@nuxtjs/pwa": "^3.3.5",
@@ -80,7 +80,13 @@
   "lint-staged": {
     "**/*.css": "stylelint",
     "**/*.scss": "stylelint --syntax=scss --fix",
-    "**/*": ["prettier --write", "git add ."],
-    "**/*.{vue,js,jsx,tsx,ts}": ["eslint --fix --quiet", "git add ."]
+    "**/*": [
+      "prettier --write",
+      "git add ."
+    ],
+    "**/*.{vue,js,jsx,tsx,ts}": [
+      "eslint --fix --quiet",
+      "git add ."
+    ]
   }
 }
