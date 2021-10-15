@@ -14,8 +14,8 @@
         :style="`background-image: url(${baseUrl}${dataQuiz.background_image})`"
       >
         <div class="m-quiz__baner-img" :style="`background-image: url(${baseUrl}${dataQuiz.person_image})`"></div>
-        <h1 class="m-quiz__title a-font_h1">{{ dataQuiz.title }}</h1>
-        <div class="m-quiz__descript a-font_l-m">{{ dataQuiz.text }}</div>
+        <h1 class="m-quiz__title a-font_h1" v-html="dataQuiz.title"></h1>
+        <div class="m-quiz__descript a-font_l-m" v-html="dataQuiz.text"></div>
         <a-button bgColor="accent" :label="dataQuiz.button" @click="startQuiz"></a-button>
       </div>
       <!-- quiz -->

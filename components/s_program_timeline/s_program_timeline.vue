@@ -76,8 +76,8 @@ export default {
         : `https://synergymarket.ru/site/img/how/${index + 1}.png`,
     }));
     this.programTimelineRightItems = preData.json.rightItems.data.map((item) => ({
-      title: item.description && item.description.value ? item.title.value : '',
       subtitle: item.title && item.title.value ? item.title.value : '',
+      title: item.description && item.description.value ? item.description.value : '',
       type: 'default',
     }));
   },

@@ -44,14 +44,14 @@
             </div>
           </template>
         </div>
-
-        <m-banner
-          v-if="bannerImg"
-          type="side"
-          titleTxt="Разработка VR/AR"
-          secondTxt="Станьте редким востребованным специалистом"
-          :ImgSrc="bannerImg"
-        ></m-banner>
+        <nuxt-link :to="banner.link" v-if="banner.type !== ''">
+          <m-banner
+            :type="banner.type"
+            :titleTxt="banner.titleText"
+            :secondTxt="banner.secondTxt"
+            :ImgSrc="baseUrl + banner.ImgSrc"
+          ></m-banner>
+        </nuxt-link>
       </div>
     </div>
   </div>
@@ -60,6 +60,7 @@
 <script>
 import { ASidebarItem, MBanner, AButton } from '@cwespb/synergyui';
 import getMenuMain from '~/api/menuMain';
+import getBannersDetail from '~/api/bannersDetail';
 import './s_menu_main.scss';
 
 export default {
@@ -79,7 +80,14 @@ export default {
       isActive: false,
       windowWidth: 0,
       menuIsOpen: false,
-      bannerImg: '',
+      banner: {
+        type: '',
+        titleText: '',
+        secondTxt: '',
+        ImgSrc: '',
+        link: '',
+      },
+      baseUrl: process.env.NUXT_ENV_S3BACKET,
     };
   },
 
@@ -92,10 +100,24 @@ export default {
   },
 
   async fetch() {
-    this.menu = await getMenuMain().then((data) => {
-      this.menuAnchors = data;
+    this.menu = await getMenuMain().then(async (data) => {
+      const menuData = data.list;
+      if (data.banner_id) {
+        const bannerData = {
+          filter: {
+            id: data.banner_id,
+          },
+        };
+        const bannerDetail = await getBannersDetail(bannerData);
+        this.banner.link = bannerDetail.link;
+        this.banner.type = bannerDetail.banner_type;
+        this.banner.titleText = bannerDetail.name;
+        this.banner.secondTxt = bannerDetail.name_second;
+        this.banner.ImgSrc = bannerDetail.image;
+      }
 
-      data.forEach((el, i) => {
+      this.menuAnchors = menuData;
+      menuData.forEach((el, i) => {
         const element = el;
         if (i === 0) {
           element.isActive = true;
@@ -113,6 +135,7 @@ export default {
   mounted() {
     window.addEventListener('resize', this.handleResize);
     window.addEventListener('DOMContentLoaded', this.handleResize);
+    this.getScrollBody();
   },
 
   methods: {
