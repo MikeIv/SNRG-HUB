@@ -301,7 +301,7 @@ import SProgramForm from '~/components/s_program_form/s_program_form';
 export default {
   name: 'SCatalogSection',
 
-  props: ['filters'],
+  props: ['filters', 'menu'],
 
   components: {
     SProgramStart,
@@ -362,7 +362,7 @@ export default {
       },
       page: {},
       filtersCheckboxDataRequest: {},
-      filtersMenu: false,
+      // filtersMenu: false,
       componentProductsKey: 10,
       componentFilterKey: 100,
       componentMenuKey: 1000,
@@ -395,6 +395,18 @@ export default {
       currentExpandedFilter: 'direction_ids',
       componentExpandedMenuKey: 3000,
     };
+  },
+
+  computed: {
+    filtersMenu: {
+      get() {
+        return this.menu;
+      },
+
+      set(state) {
+        this.$emit('menu-change', state);
+      },
+    },
   },
 
   watch: {
