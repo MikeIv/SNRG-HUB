@@ -293,11 +293,12 @@ import {
 } from '@cwespb/synergyui';
 import getProductsList from '~/api/products_list';
 import '../../s_catalog/s_catalog.scss';
-import '../../s_catalog_tags/s_catalog_tags.scss';
 import '../../s_catalog_filter/s_catalog_filter.scss';
+import '../../s_catalog_menu/s_catalog_menu.scss';
+import '../../s_catalog_presets/s_catalog_presets.scss';
 import '../../s_catalog_product_list/s_catalog_product_list.scss';
 import '../../s_catalog_section/s_catalog_section.scss';
-import '../../s_catalog_presets/s_catalog_presets.scss';
+import '../../s_catalog_tags/s_catalog_tags.scss';
 import './s_catalog_landing.scss';
 import SProgramStart from '~/components/s_program_start/s_program_start';
 import SProgramContent from '~/components/s_program_content/s_program_content';
