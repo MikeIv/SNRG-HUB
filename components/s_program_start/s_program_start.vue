@@ -153,7 +153,22 @@ export default {
     };
   },
 
-  props: ['methods', 'title', 'favoriteIcon', 'shareIcon'],
+  props: {
+    methods: {
+      type: Array,
+    },
+    title: {
+      type: String,
+    },
+    shareIcon: {
+      type: Boolean,
+      default: true,
+    },
+    favoriteIcon: {
+      type: Boolean,
+      default: false,
+    },
+  },
 
   async fetch() {
     const expandedMethod = this.methods[0].data;

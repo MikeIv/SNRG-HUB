@@ -14,7 +14,7 @@
     <div class="catalog-page__section-lp__popup">
       <a-popup :visible="popup" @close="popup = false">
         <div>
-          <s-program-start :methods="methodsStart" />
+          <s-program-start :methods="methodsStart" :shareIcon="false" />
           <s-program-content :methods="methodsContent" title="Программа обучения" />
           <s-program-teachers :slug="productSlug" title="<span>Преподаватель</span> курса" />
           <s-program-skills :methods="methodsSkills" title="Чему <span>вы научитесь</span>" />
