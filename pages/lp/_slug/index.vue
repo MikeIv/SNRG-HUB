@@ -7,16 +7,24 @@
         </nuxt-link>
         <h3 class="a-font_XL">Образовательная платформа</h3>
       </div>
-      <div class="s-header-lp__phones">
-        <a
-          class="s-header-lp__phone"
-          v-for="(phone, idx) in phones"
-          :key="idx"
-          :href="`tel:${phone.replace(/[^+\d]/g, '')}`"
-        >
-          <div class="s-header-lp__phones-icon si-phone-filled"></div>
-          <div class="s-header-lp__phones-text a-font_m-s">{{ phone }}</div>
-        </a>
+      <div class="s-header-lp__right">
+        <i
+          class="si-filter s-header-lp__filters-icon"
+          :class="{ isVisible: !isIconInHeader }"
+          tabindex="0"
+          @click="menu = true"
+        />
+        <div class="s-header-lp__phones">
+          <a
+            class="s-header-lp__phone"
+            v-for="(phone, idx) in phones"
+            :key="idx"
+            :href="`tel:${phone.replace(/[^+\d]/g, '')}`"
+          >
+            <div class="s-header-lp__phones-icon si-phone-filled"></div>
+            <div class="s-header-lp__phones-text a-font_m-s">{{ phone }}</div>
+          </a>
+        </div>
       </div>
     </header>
 
@@ -56,6 +64,7 @@ export default {
       scrollTop: 0,
       isScrolled: false,
       phones: [],
+      isIconInHeader: false,
       menu: false,
     };
   },
@@ -78,27 +87,17 @@ export default {
     handleScroll() {
       const mainWrapper = document.querySelector('body');
       const headerHeight = document.querySelector('.s-header-lp').offsetHeight;
-      const startPos = window.innerHeight + window.innerHeight / 2;
       this.scrollTop = window.scrollY;
 
-      switch (true) {
-        case this.scrollTop > headerHeight:
-          this.isScrolled = true;
-          mainWrapper.classList.add('js-fixed');
-
-          if (this.scrollTop > startPos) {
-            this.isVisible = true;
-          } else {
-            this.isVisible = false;
-          }
-
-          break;
-        default:
-          this.isScrolled = false;
-          this.isVisible = false;
-          mainWrapper.classList.remove('js-fixed');
-          break;
+      if (this.scrollTop > headerHeight) {
+        this.isScrolled = true;
+        mainWrapper.classList.add('js-fixed');
+      } else {
+        this.isScrolled = false;
+        mainWrapper.classList.remove('js-fixed');
       }
+
+      this.isIconInHeader = this.scrollTop + 80 > document.getElementById('filtersIcon').offsetTop;
     },
   },
 
@@ -147,9 +146,15 @@ export default {
   position: relative;
   z-index: 100;
   display: flex;
+  justify-content: space-between;
   align-items: center;
   padding-top: rem(20);
   padding-bottom: rem(20);
+
+  @media screen and (max-width: 767px) {
+    align-items: flex-start;
+    padding-bottom: rem(16);
+  }
 
   &.fixed {
     position: fixed;
@@ -177,6 +182,10 @@ export default {
     }
   }
 
+  &__right {
+    display: flex;
+  }
+
   &__logo {
     padding-right: rem(40);
 
@@ -190,9 +199,11 @@ export default {
     display: flex;
     align-items: center;
     margin-left: auto;
+    padding-left: rem(8);
 
     @media screen and (max-width: 767px) {
       order: 2;
+      align-items: flex-start;
     }
     &-icon {
       display: none;
@@ -217,6 +228,25 @@ export default {
     }
   }
 
+  &__filters-icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 2.75rem;
+    height: 2.75rem;
+    border: 1px solid var(--a-color_thumbnail);
+    border-radius: 0.25rem;
+    cursor: pointer;
+
+    @media screen and (min-width: 768px) {
+      display: none;
+    }
+
+    &.isVisible {
+      display: none;
+    }
+  }
+
   &__phone {
     margin-right: rem(12);
     color: var(--a-color_text);
@@ -233,5 +263,9 @@ export default {
       margin-right: 0;
     }
   }
+}
+
+.js-fixed {
+  margin-top: rem(110);
 }
 </style>

@@ -10,6 +10,7 @@
 
   @media all and (max-width: 767px) {
     --layout-v-padding: 1rem;
+    --layout-h-padding: 1rem;
   }
 }
 
@@ -20,9 +21,8 @@
       padding: rem(32) 0 0 0;
 
       &__popup {
-        max-width: rem(1300);
-
         & .a-popup__container {
+          max-width: rem(1300);
           padding: 0;
           background: unset;
         }

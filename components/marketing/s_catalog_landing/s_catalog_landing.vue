@@ -182,6 +182,7 @@
       <div v-if="!activePreset" class="catalog-product-list-wrapper" :key="componentProductsKey">
         <template>
           <i
+            id="filtersIcon"
             class="si-filter a-font_button catalog-page__filters-icon catalog-page__filters-icon-lp"
             tabindex="0"
             @click="filtersIconClickHandler"
