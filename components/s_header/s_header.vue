@@ -27,6 +27,7 @@
                   v-for="(phone, idx) in phones"
                   :key="idx"
                   :href="`tel:${phone.replace(/[^+\d]/g, '')}`"
+                  aria-label="phone"
                 >
                   <div class="s-header__phones-icon si-phone-filled"></div>
                   <div class="s-header__phones-text a-font_m-s">{{ phone }}</div>
@@ -46,7 +47,7 @@
             <div class="s-header__search">
               <a-input icons="si-search" size="medium" :placeholder="searchPlaceholder"></a-input>
             </div>
-            <a href="//pass.synergy.ru" target="_blank" class="s-header__login">
+            <a href="//pass.synergy.ru" target="_blank" class="s-header__login" rel="noreferrer">
               <a-button label="Войти" bgColor="ghost-accept"></a-button>
             </a>
           </div>
@@ -63,9 +64,7 @@
 </template>
 
 <script>
-import {
-  ALogo, AInput, AButton, MBanner,
-} from '@cwespb/synergyui';
+import { ALogo, AInput, AButton, MBanner } from '@cwespb/synergyui';
 import './s_header.scss';
 import SMenuMain from '../s_menu_main/s_menu_main';
 import MenuHorizontal from '../menu_horizontal/menu_horizontal';
