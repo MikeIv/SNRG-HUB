@@ -98,6 +98,8 @@ export default {
     MBanner,
   },
 
+  props: ['refs'],
+
   async fetch() {
     const request = {
       filter: {
@@ -125,8 +127,8 @@ export default {
     handleScroll() {
       const mainWrapper = document.querySelector('body');
       const headerHeight = this.$el.offsetHeight;
-      const { quizHeight } = this.$store.state;
-      const { quizTop } = this.$store.state;
+      const quizHeight = this.refs ? this.refs[0].$children[0].$children[0].$el.offsetHeight : 0;
+      const quizTop = this.refs ? this.refs[0].$children[0].$children[0].$el.offsetTop : 0;
       const quizScrollTop = quizTop + quizHeight;
       const startPos = window.innerHeight + window.innerHeight / 2;
       const clientHeight = window.pageYOffset + window.innerHeight;
@@ -139,8 +141,8 @@ export default {
           mainWrapper.classList.add('js-fixed');
 
           if (
-            (this.scrollTop > startPos && clientHeight < quizTop && quizTop !== 0)
-            || (this.scrollTop > startPos && this.scrollTop > quizScrollTop && quizTop !== 0)
+            (this.scrollTop > startPos && clientHeight < quizTop)
+            || (this.scrollTop > startPos && this.scrollTop > quizScrollTop)
           ) {
             this.isVisible = true;
           } else {
@@ -162,7 +164,7 @@ export default {
 
     scrollTo(link) {
       const quiz = document.querySelector(link);
-      const headerHeight = document.querySelector('.s-header').offsetHeight;
+      const headerHeight = this.$el.offsetHeight;
       const quizPosition = quiz.offsetTop - headerHeight;
 
       window.scrollTo({
