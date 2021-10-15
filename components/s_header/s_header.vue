@@ -114,11 +114,7 @@ export default {
   },
 
   mounted() {
-    if (process.client) {
-      setTimeout(function () {
-        window.addEventListener('scroll', this.handleScroll);
-      }, 700);
-    }
+    window.addEventListener('scroll', this.handleScroll);
   },
 
   beforeDestroy() {
@@ -128,9 +124,9 @@ export default {
   methods: {
     handleScroll() {
       const mainWrapper = document.querySelector('body');
-      const headerHeight = document.querySelector('.s-header').offsetHeight;
-      const quizHeight = document.querySelector('#quiz').offsetHeight;
-      const quizTop = document.querySelector('#quiz').offsetTop;
+      const headerHeight = this.$el.offsetHeight;
+      const { quizHeight } = this.$store.state;
+      const { quizTop } = this.$store.state;
       const quizScrollTop = quizTop + quizHeight;
       const startPos = window.innerHeight + window.innerHeight / 2;
       const clientHeight = window.pageYOffset + window.innerHeight;
@@ -143,8 +139,8 @@ export default {
           mainWrapper.classList.add('js-fixed');
 
           if (
-            (this.scrollTop > startPos && clientHeight < quizTop)
-            || (this.scrollTop > startPos && this.scrollTop > quizScrollTop)
+            (this.scrollTop > startPos && clientHeight < quizTop && quizTop !== 0)
+            || (this.scrollTop > startPos && this.scrollTop > quizScrollTop && quizTop !== 0)
           ) {
             this.isVisible = true;
           } else {

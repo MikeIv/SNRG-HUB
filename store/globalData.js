@@ -4,6 +4,8 @@ const axios = axiosCreate();
 
 export const state = () => ({
   globalData: {},
+  quizTop: 0,
+  quizHeight: 0,
 });
 
 export const mutations = {

@@ -1,5 +1,5 @@
 <template>
-  <section class="m-quiz" v-if="dataQuiz" id="quiz">
+  <section class="m-quiz" v-if="dataQuiz" id="quiz" ref="quiz">
     <div
       :class="
         this.$route.name === 'index' || this.$route.name === 'catalog' || this.$route.name === 'catalog-all'
@@ -155,6 +155,9 @@ export default {
   },
 
   mounted() {
+    this.$store.state.quizTop = this.$el.offsetTop;
+    this.$store.state.quizHeight = this.$el.offsetHeight;
+
     this.$nextTick(function () {
       this.$lander.cookie.set('test1', 'test dev');
 
@@ -165,6 +168,8 @@ export default {
       this.validFlag = this.$lander.valid(dataForm);
     });
   },
+
+  created() {},
 
   methods: {
     validatePhone(value) {
