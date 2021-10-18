@@ -26,6 +26,7 @@
     }
   }
   .a-sidebarItem {
+    cursor: inherit;
     &.active {
       background: var(--a-color_bg--secondary);
       @media screen and (max-width: 767px) {
