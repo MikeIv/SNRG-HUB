@@ -6,8 +6,8 @@
           <a-breadcrumbs-item :breadcrumbs="breadcrumbs" />
         </div>
         <div class="s-program-start__header-icons">
-          <i class="si-share s-program-start__header-icon" @click.stop="toggleMenu" tabindex="0" />
-          <i class="si-heart s-program-start__header-icon" :style="{ display: 'none' }" @click="onHeartClickHandler" />
+          <i v-if="shareIcon" class="si-share s-program-start__header-icon" @click.stop="toggleMenu" tabindex="0" />
+          <i v-if="favoriteIcon" class="si-heart s-program-start__header-icon" @click="onHeartClickHandler" />
         </div>
         <m-social-share
           :is-menu-open="isMenuOpen"
@@ -153,7 +153,23 @@ export default {
     };
   },
 
-  props: ['methods', 'title'],
+  props: {
+    methods: {
+      type: Array,
+    },
+    title: {
+      type: String,
+    },
+    shareIcon: {
+      type: Boolean,
+      default: true,
+    },
+    favoriteIcon: {
+      type: Boolean,
+      default: false,
+    },
+  },
+
   async fetch() {
     const expandedMethod = this.methods[0].data;
     const preData = await getProductsDetail(expandedMethod);
