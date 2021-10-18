@@ -51,7 +51,7 @@
             :class="{ 'catalog-page__menu-filter-expanded': filters[1].values.length > maxVisibleControls }"
             @click="filters[1].values.length > maxVisibleControls ? expandedFilterClickHandler(filters[0]) : null"
           >
-            <h3 class="a-font_h7">{{ filters[1].title }}</h3>
+            <h3 class="a-font_h6">{{ filters[1].title }}</h3>
             <i
               v-if="filters[1].values.length > maxVisibleControls"
               class="si-chevron-right catalog-page__menu-filter-icon"

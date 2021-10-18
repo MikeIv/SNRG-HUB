@@ -57,12 +57,16 @@ export default {
     };
   },
 
-  props: ['methods', 'title'],
+  props: ['methods', 'title', 'slug'],
   async fetch() {
     const expandedMethod = { filter: {} };
     expandedMethod.include = ['persons'];
-    expandedMethod.filter.slug = this.$route.params.slug;
-    if (this.$route.name === 'product-slug') {
+    if (this.slug) {
+      expandedMethod.filter.slug = this.slug;
+    } else {
+      expandedMethod.filter.slug = this.$route.params.slug;
+    }
+    if (this.$route.name === 'product-slug' || this.$route.name === 'lp-slug') {
       const preData = await getProductsDetails(expandedMethod);
       this.programTeachers = preData.data.included.persons;
     } else {

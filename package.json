@@ -80,7 +80,13 @@
   "lint-staged": {
     "**/*.css": "stylelint",
     "**/*.scss": "stylelint --syntax=scss --fix",
-    "**/*": ["prettier --write", "git add ."],
-    "**/*.{vue,js,jsx,tsx,ts}": ["eslint --fix --quiet", "git add ."]
+    "**/*": [
+      "prettier --write",
+      "git add ."
+    ],
+    "**/*.{vue,js,jsx,tsx,ts}": [
+      "eslint --fix --quiet",
+      "git add ."
+    ]
   }
 }

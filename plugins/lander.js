@@ -86,12 +86,13 @@ export default (context, inject) => {
   }
 
   const url = getConfig();
-  const setingSend = {
-    version: '',
-    redirectUrl: landerConfig.redirectUrl,
-  };
 
-  function send(formData, setingsData) {
+  function send(formData, setingsData, route) {
+    const setingSend = {
+      version: '',
+      redirectUrl: route ? `${route}/thanks` : landerConfig.redirectUrl,
+    };
+
     return new Promise(() => {
       const data = new FormData();
 
