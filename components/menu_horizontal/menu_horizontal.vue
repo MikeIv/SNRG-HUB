@@ -8,6 +8,7 @@
               item.filter_by,
             )[0][1].toString()}`"
             class="a-font_m menu-horizontal__link"
+            @click.native="changeIsOpen"
           >
             {{ item.anchor }}
           </nuxt-link>
@@ -24,6 +25,8 @@ import './menu_horizontal.scss';
 
 export default {
   name: 'menuMain',
+
+  props: ['isOpen'],
 
   data() {
     return {
@@ -45,6 +48,14 @@ export default {
   },
   async fetch() {
     this.navLinks = await getMenuData();
+  },
+
+  methods: {
+    changeIsOpen() {
+      if (this.isOpen) {
+        this.$emit('change-is-open');
+      }
+    },
   },
 };
 </script>
