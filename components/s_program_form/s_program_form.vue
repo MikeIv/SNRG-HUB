@@ -85,7 +85,9 @@ export default {
 
   methods: {
     sendForm() {
-      this.$lander.send(this.fieldsData).then(() => {});
+      this.$lander
+        .send(this.fieldsData, {}, this.$route.name === 'lp-slug' ? this.$route.path : undefined)
+        .then(() => {});
     },
     handlerSave() {
       this.$lander.storage.save('programform', this.fieldsData);

@@ -5,7 +5,6 @@
         title="Программы обучения"
         :hasPresets="presets.length"
         :presets="presets"
-        :page-info="pageInfo"
         :products-per-page="24"
         category="default"
         :defaultFilters="defaultFilters"
