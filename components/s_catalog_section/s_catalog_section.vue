@@ -116,10 +116,6 @@ export default {
           value: '-id',
         },
         {
-          label: 'Старые',
-          value: 'id',
-        },
-        {
           label: 'По алфавиту А-Я',
           value: 'name',
         },
