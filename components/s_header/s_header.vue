@@ -87,10 +87,6 @@ export default {
       bannerTop: {},
       isVisible: false,
       topBannerSmoothHref: '#quiz',
-      quizInfo: {
-        top: 0,
-        height: 0,
-      },
     };
   },
 
@@ -103,8 +99,6 @@ export default {
     MBanner,
   },
 
-  props: ['refs'],
-
   async fetch() {
     const request = {
       filter: {
@@ -116,8 +110,6 @@ export default {
   },
 
   created() {
-    this.quizInfo.height = this.$store.state.quizInfo.height;
-    this.quizInfo.top = this.$store.state.quizInfo.top;
     this.isOpen = this.$store.state.globalData.isMenuOpen;
     this.phones = this.$store.state.globalData.globalData.data.contacts.phones;
     this.logoURL = this.$store.state.globalData.globalData.data.main.logo;
@@ -145,10 +137,8 @@ export default {
       const mainWrapper = document.querySelector('body');
       const headerHeight = this.$el.offsetHeight;
 
-      this.quizInfo.height = this.$store.state.quizInfo.height;
-      this.quizInfo.top = this.$store.state.quizInfo.top;
+      const quizScrollTop = this.$store.state.quizInfo.top + this.$store.state.quizInfo.height;
 
-      const quizScrollTop = this.quizInfo.top + this.quizInfo.height;
       const startPos = window.innerHeight + window.innerHeight / 2;
       const clientHeight = window.pageYOffset + window.innerHeight;
 
@@ -160,7 +150,7 @@ export default {
           mainWrapper.classList.add('js-fixed');
 
           if (
-            (this.scrollTop > startPos && clientHeight < this.quizInfo.top)
+            (this.scrollTop > startPos && clientHeight < this.$store.state.quizInfo.top)
             || (this.scrollTop > startPos && this.scrollTop > quizScrollTop)
           ) {
             this.isVisible = true;
@@ -191,6 +181,11 @@ export default {
         top: quizPosition,
         behavior: 'smooth',
       });
+    },
+
+    getQuiz() {
+      console.log(this.$store.state.quizInfo);
+      return this.$store.state.quizInfo;
     },
   },
 };

@@ -1,5 +1,5 @@
 <template>
-  <section class="m-quiz" v-if="dataQuiz" id="quiz" ref="quiz">
+  <section class="m-quiz" v-if="dataQuiz" id="quiz">
     <div
       :class="
         this.$route.name === 'index' || this.$route.name === 'catalog' || this.$route.name === 'catalog-all'
@@ -122,11 +122,6 @@ export default {
     sogl: true,
     validFlag: false,
     validPhone: false,
-
-    quizInfo: {
-      top: 0,
-      height: 0,
-    },
   }),
 
   props: {
@@ -168,7 +163,23 @@ export default {
 
       const dataForm = [{ value: this.send.name }, { value: this.send.tel }];
       this.validFlag = this.$lander.valid(dataForm);
+
+      if (this.dataQuiz) {
+        this.getQuizParameters();
+      }
     });
+
+    window.addEventListener('scroll', this.handleScroll);
+  },
+
+  updated() {
+    if (this.dataQuiz) {
+      this.getQuizParameters();
+    }
+  },
+
+  beforeDestroy() {
+    window.removeEventListener('scroll', this.handleScroll);
   },
 
   methods: {
@@ -213,11 +224,17 @@ export default {
       this.countPosition += 1;
     },
 
-    getQuizParameters() {
-      this.quizInfo.top = this.$el.offsetTop;
-      this.quizInfo.height = this.$el.offsetHeight;
+    handleScroll() {
+      this.getQuizParameters();
+    },
 
-      this.$store.commit('setQuizInfo', this.quizInfo);
+    getQuizParameters() {
+      const quiz = {
+        top: this.$el.offsetTop,
+        height: this.$el.offsetHeight,
+      };
+
+      this.$store.commit('setQuizInfo', quiz);
     },
   },
 };

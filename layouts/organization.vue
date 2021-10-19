@@ -1,6 +1,6 @@
 <template>
   <div class="organization-page">
-    <SHeader :refs="this.$children" />
+    <SHeader />
     <Nuxt />
     <LazyHydrate when-visible>
       <SQuiz :quiz-id="2" />

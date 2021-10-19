@@ -5,11 +5,8 @@ const axios = axiosCreate();
 export const state = () => ({
   pageInfo: {},
   pageMeta: {},
-  IsMenuOpen: false,
-  quizInfo: {
-    top: 0,
-    height: 0,
-  },
+  isMenuOpen: false,
+  quizInfo: {},
 });
 
 export const mutations = {
@@ -19,13 +16,11 @@ export const mutations = {
   setPageMeta(state, info) {
     state.pageMeta = info;
   },
-  changeIsOpen(state, IsMenuOpen) {
-    state.IsMenuOpen = IsMenuOpen;
+  changeIsOpen(state, isOpen) {
+    state.IsMenuOpen = isOpen;
   },
-  setQuizInfo(state, quizInfo) {
-    state.quizInfo = quizInfo;
-
-    console.log(quizInfo);
+  setQuizInfo(state, quiz) {
+    state.quizInfo = quiz;
   },
 };
 

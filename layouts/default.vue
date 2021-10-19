@@ -1,6 +1,6 @@
 <template>
   <div>
-    <SHeader :refs="this.$children" />
+    <SHeader />
     <Nuxt />
     <LazyHydrate when-visible>
       <SFooter />
