@@ -2,8 +2,11 @@
   <section class="s-program-about" v-if="programAboutList.length">
     <div class="s-program-about__row">
       <h2 class="s-program-about__title a-font_h2" v-html="title"></h2>
-      <p class="s-program-about__description a-font_xl" v-if="programAboutDescription.value"
-      v-html="programAboutDescription.value"></p>
+      <p
+        class="s-program-about__description a-font_xl"
+        v-if="programAboutDescription.value"
+        v-html="programAboutDescription.value"
+      ></p>
     </div>
     <div class="s-program-about__triggers">
       <AFactoid

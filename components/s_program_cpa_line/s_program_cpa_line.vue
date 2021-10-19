@@ -2,9 +2,14 @@
   <div class="s-program-cpaLine">
     <span class="s-program-cpaLine__text a-font_xl">{{ sale.text }}</span>
     <a-button
-    label="Получить скидку"
-    bg-color="custom" backgroundColor="#fff"
-    @click="scrollToFormBlock(); getDiscountClickHandler();" />
+      label="Получить скидку"
+      bg-color="custom"
+      backgroundColor="#fff"
+      @click="
+        scrollToFormBlock();
+        getDiscountClickHandler();
+      "
+    />
   </div>
 </template>
 

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <header class="s-header-lp l-wide" :class="{ fixed: isScrolled }">
+    <header class="s-header-lp l-wide" :class="{ fixed: isScrolled }" v-if="!isIconInHeader">
       <div class="s-header-lp__left">
         <nuxt-link to="/" class="s-header__logo-link">
           <a-logo class="s-header-lp__logo" type="standart" :link="logoURL"></a-logo>
@@ -10,7 +10,7 @@
       <div class="s-header-lp__right">
         <i
           class="si-filter s-header-lp__filters-icon"
-          :class="{ isVisible: !isIconInHeader }"
+          :class="{ isVisible: !tabletIconVisible }"
           tabindex="0"
           @click="menu = true"
         />
@@ -28,11 +28,32 @@
       </div>
     </header>
 
-    <div class="l-wide">
-      <div class="lp-banner" :style="`background-image: url(${baseURL}${landingDetailInfo.image_src})`">
-        <h1 class="lp-banner__title">{{ landingDetailInfo.name }}</h1>
-        <div class="lp-banner__description">{{ landingDetailInfo.description }}</div>
+    <header
+      class="s-header-lp l-wide"
+      :class="{ fixed: isScrolled, isVisible: isIconInHeader }"
+      v-show="isIconInHeader"
+    >
+      <div class="s-header-lp__content">
+        <a-select
+          class="catalog-page-lp__select"
+          :options="options"
+          placeholder="Все направления"
+          @change="changeSelectOption"
+        />
+
+        <i class="si-filter s-header-lp__filters-icon" tabindex="0" @click="menu = true" />
       </div>
+    </header>
+
+    <div class="l-wide">
+      <div class="lp__banner">
+        <div class="lp__banner-left" :style="`background-color: ${landingDetailInfo.color_bg}`">
+          <h1 class="lp__banner__title a-font_h1" v-html="landingDetailInfo.name" />
+          <div class="lp__banner__descript a-font_l-m" v-html="landingDetailInfo.description" />
+        </div>
+        <div class="lp__banner-img" :style="`background-image: url(${baseURL}${landingDetailInfo.image_src})`" />
+      </div>
+
       <s-catalog-landing :filters="landingDetailInfo.included" :menu="menu" @menu-change="menu = $event" />
       <s-program-form />
     </div>
@@ -41,7 +62,7 @@
 </template>
 
 <script>
-import { ALogo } from '@cwespb/synergyui';
+import { ALogo, ASelect } from '@cwespb/synergyui';
 import SCatalogLanding from '~/components/marketing/s_catalog_landing/s_catalog_landing';
 import SProgramForm from '~/components/s_program_form/s_program_form';
 import SFooter from '~/components/s_footer/s_footer';
@@ -53,6 +74,7 @@ export default {
     SProgramForm,
     SFooter,
     ALogo,
+    ASelect,
   },
 
   layout: 'empty',
@@ -65,6 +87,7 @@ export default {
       isScrolled: false,
       phones: [],
       isIconInHeader: false,
+      tabletIconVisible: false,
       menu: false,
     };
   },
@@ -78,12 +101,21 @@ export default {
     };
 
     const landingDetailInfo = await getLandingDetail(request);
+    const options = [];
+    landingDetailInfo.included.direction.forEach(({ name, slug }) => {
+      options.push({ label: name, value: slug });
+    });
     return {
       landingDetailInfo,
+      options,
     };
   },
 
   methods: {
+    changeSelectOption(option) {
+      this.$emit('change-option-from-parent', option);
+    },
+
     handleScroll() {
       const mainWrapper = document.querySelector('body');
       const headerHeight = document.querySelector('.s-header-lp').offsetHeight;
@@ -97,7 +129,12 @@ export default {
         mainWrapper.classList.remove('js-fixed');
       }
 
-      this.isIconInHeader = this.scrollTop + 80 > document.getElementById('filtersIcon').offsetTop;
+      this.tabletIconVisible = document.documentElement.clientWidth < 767
+        && this.scrollTop + 80 > document.getElementById('filtersIcon').offsetTop;
+
+      if (document.documentElement.clientWidth < 575) {
+        this.isIconInHeader = this.scrollTop + 80 > document.getElementById('filtersIcon').offsetTop;
+      }
     },
   },
 
@@ -119,25 +156,42 @@ export default {
 <style lang="scss">
 @import '@/assets/styles/tools/mixins';
 
-.lp-banner {
-  position: relative;
-  overflow: hidden;
-  padding: rem(50) rem(100);
-  background-repeat: no-repeat;
-  background-position: 50% 50%;
-  background-size: cover;
-  @media screen and (max-width: 991px) {
-    padding: var(--a-padding--x6) var(--a-padding--x8);
-  }
+.lp__banner {
+  display: flex;
+  justify-content: space-between;
+
   @media screen and (max-width: 767px) {
-    padding: var(--a-padding--x8) var(--a-padding--x4);
+    flex-direction: column;
+  }
+
+  &-left {
+    width: 50%;
+    padding: rem(50) rem(100);
+
+    @media screen and (max-width: 991px) {
+      padding: var(--a-padding--x6) var(--a-padding--x8);
+    }
+
+    @media screen and (max-width: 767px) {
+      width: 100%;
+      padding: var(--a-padding--x8) var(--a-padding--x4);
+    }
+  }
+  &-img {
+    width: 50%;
+    background-repeat: no-repeat;
+    background-position: 50% 50%;
+
+    @media screen and (max-width: 767px) {
+      width: 100%;
+      height: rem(200);
+    }
   }
 
   &__title {
     max-width: rem(380);
   }
-
-  &__description {
+  &__descript {
     padding: var(--a-padding--x4) 0 var(--a-padding--x5) 0;
   }
 }
@@ -248,6 +302,16 @@ export default {
 
     &.isVisible {
       display: none;
+    }
+  }
+
+  &__content {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+
+    & .catalog-page-lp__select {
+      width: 80%;
     }
   }
 
