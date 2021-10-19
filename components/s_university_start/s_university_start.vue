@@ -151,11 +151,23 @@ export default {
     },
 
     toggleMenu() {
-      this.isMenuOpen = !this.isMenuOpen;
-      if (this.isMenuOpen) {
-        this.$nextTick(() => {
-          document.addEventListener('click', this.hideMenu);
+      if (
+        /Android|webOS|iPhone|iPad|iPod|BlackBerry|BB|PlayBook|IEMobile|Windows Phone|Kindle|Silk|Opera Mini/i.test(
+          navigator.userAgent,
+        )
+        && navigator.share
+      ) {
+        navigator.share({
+          title: this.program.title,
+          url: document.location.href,
         });
+      } else {
+        this.isMenuOpen = !this.isMenuOpen;
+        if (this.isMenuOpen) {
+          this.$nextTick(() => {
+            document.addEventListener('click', this.hideMenu);
+          });
+        }
       }
     },
 
