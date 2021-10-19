@@ -8,7 +8,12 @@
           </div>
           <div class="s-menu-main__title a-font_h5">Всё обучение</div>
           <template v-for="(item, idx) in menuAnchors" :index="idx">
-            <div class="s-menu-main__item" @mouseover="getActive(idx)" @click="getActiveMenu" :key="idx">
+            <div
+              class="s-menu-main__item"
+              @mouseover="getActive(idx)"
+              @click="getActiveMenu(idx), getActive(idx)"
+              :key="idx"
+            >
               <a-sidebar-item :class="{ active: item.isActive }" :label="item.anchor" />
             </div>
           </template>
