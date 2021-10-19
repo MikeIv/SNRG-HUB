@@ -65,6 +65,10 @@ export default {
 
       set(page) {
         this.$emit('page', page);
+        window.scrollTo({
+          top: document.getElementsByClassName('catalog-page__content'),
+          behavior: 'smooth',
+        });
       },
     },
   },
