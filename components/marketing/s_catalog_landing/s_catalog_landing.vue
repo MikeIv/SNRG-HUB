@@ -286,7 +286,7 @@
                 :bottomText="product.included.organization.abbreviation_name"
                 :iconSrc="`${baseURL}${product.included.organization.logo}`"
                 @btn-click="onBtnClickHandler(product, ...arguments)"
-                @organization-click="onOrganizationClick()"
+                @organization-click="onOrganizationClick(product)"
               />
             </div>
           </div>
@@ -341,7 +341,7 @@
               :bottomText="product.included.organization.abbreviation_name"
               :iconSrc="`${baseURL}${product.included.organization.logo}`"
               @btn-click="onBtnClickHandler(product, ...arguments)"
-              @organization-click="onOrganizationClick()"
+              @organization-click="onOrganizationClick(product)"
             />
           </div>
         </div>
@@ -604,8 +604,8 @@ export default {
       this.popup = true;
     },
 
-    onOrganizationClick() {
-      this.popup = true;
+    onOrganizationClick(product) {
+      this.openPopupHandler(product);
     },
 
     expandedFilterClickHandler(filterKey) {
