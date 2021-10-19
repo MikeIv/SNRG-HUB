@@ -1,5 +1,5 @@
 <template>
-  <div class="catalog-product-list">
+  <div class="catalog-product-list" id="catalog-product-list">
     <div class="catalog-product-list__wrapper" v-if="productList">
       <slot />
       <h3 v-if="!productList.length">К сожалению, ничего нет</h3>
@@ -66,7 +66,7 @@ export default {
       set(page) {
         this.$emit('page', page);
         window.scrollTo({
-          top: document.getElementsByClassName('catalog-page__content'),
+          top: document.getElementsById('catalog-product-list'),
           behavior: 'smooth',
         });
       },
