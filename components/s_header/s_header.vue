@@ -1,6 +1,6 @@
 <template>
   <header class="s-header" :class="{ open: isOpen, fixed: isScrolled }">
-    <div class="shadow" v-if="isOpen" @click="isOpen = !isOpen"></div>
+    <div class="shadow" v-if="isOpen" @click="handleChange"></div>
     <div class="s-header__wrapper">
       <div class="s-header__top" :class="{ hidden: !isVisible }">
         <m-banner
@@ -37,7 +37,7 @@
             <nuxt-link to="/" class="s-header__logo-link">
               <a-logo type="standart" :link="logoURL"></a-logo>
             </nuxt-link>
-            <div class="s-header__burger" @click="isOpen = !isOpen">
+            <div class="s-header__burger" @click="handleChange">
               <div class="s-header__burger-icon">
                 <div class="si-menu" v-if="!isOpen"></div>
                 <div class="si-close" v-if="isOpen"></div>
@@ -54,7 +54,7 @@
         </div>
         <div class="s-header__bottom">
           <div class="l-wide">
-            <menu-horizontal></menu-horizontal>
+            <menu-horizontal :isOpen="isOpen" @change-is-open="handleChange"></menu-horizontal>
           </div>
         </div>
       </div>
@@ -64,7 +64,9 @@
 </template>
 
 <script>
-import { ALogo, AInput, AButton, MBanner } from '@cwespb/synergyui';
+import {
+  ALogo, AInput, AButton, MBanner,
+} from '@cwespb/synergyui';
 import './s_header.scss';
 import SMenuMain from '../s_menu_main/s_menu_main';
 import MenuHorizontal from '../menu_horizontal/menu_horizontal';
@@ -85,6 +87,10 @@ export default {
       bannerTop: {},
       isVisible: false,
       topBannerSmoothHref: '#quiz',
+      quizInfo: {
+        top: 0,
+        height: 0,
+      },
     };
   },
 
@@ -110,8 +116,20 @@ export default {
   },
 
   created() {
+    this.quizInfo.height = this.$store.state.quizInfo.height;
+    this.quizInfo.top = this.$store.state.quizInfo.top;
+    this.isOpen = this.$store.state.globalData.isMenuOpen;
     this.phones = this.$store.state.globalData.globalData.data.contacts.phones;
     this.logoURL = this.$store.state.globalData.globalData.data.main.logo;
+  },
+
+  computed: {
+    isMenuOpen() {
+      return this.$store.state.isMenuOpen;
+    },
+    quiz() {
+      return this.$store.state.quizInfo;
+    },
   },
 
   mounted() {
@@ -126,9 +144,11 @@ export default {
     handleScroll() {
       const mainWrapper = document.querySelector('body');
       const headerHeight = this.$el.offsetHeight;
-      const quizHeight = this.refs ? this.refs[0].$children[0].$children[0].$el.offsetHeight : 0;
-      const quizTop = this.refs ? this.refs[0].$children[0].$children[0].$el.offsetTop : 0;
-      const quizScrollTop = quizTop + quizHeight;
+
+      this.quizInfo.height = this.$store.state.quizInfo.height;
+      this.quizInfo.top = this.$store.state.quizInfo.top;
+
+      const quizScrollTop = this.quizInfo.top + this.quizInfo.height;
       const startPos = window.innerHeight + window.innerHeight / 2;
       const clientHeight = window.pageYOffset + window.innerHeight;
 
@@ -140,7 +160,7 @@ export default {
           mainWrapper.classList.add('js-fixed');
 
           if (
-            (this.scrollTop > startPos && clientHeight < quizTop)
+            (this.scrollTop > startPos && clientHeight < this.quizInfo.top)
             || (this.scrollTop > startPos && this.scrollTop > quizScrollTop)
           ) {
             this.isVisible = true;
@@ -159,6 +179,7 @@ export default {
 
     handleChange() {
       this.isOpen = !this.isOpen;
+      this.$store.commit('changeIsOpen', this.isOpen);
     },
 
     scrollTo(link) {

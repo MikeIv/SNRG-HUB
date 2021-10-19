@@ -122,6 +122,11 @@ export default {
     sogl: true,
     validFlag: false,
     validPhone: false,
+
+    quizInfo: {
+      top: 0,
+      height: 0,
+    },
   }),
 
   props: {
@@ -206,6 +211,13 @@ export default {
       };
       this.answer = '';
       this.countPosition += 1;
+    },
+
+    getQuizParameters() {
+      this.quizInfo.top = this.$el.offsetTop;
+      this.quizInfo.height = this.$el.offsetHeight;
+
+      this.$store.commit('setQuizInfo', this.quizInfo);
     },
   },
 };
