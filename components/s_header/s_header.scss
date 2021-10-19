@@ -43,6 +43,7 @@
 
   &__top {
     width: 100%;
+    animation: show 0.4s ease;
 
     &.hidden {
       display: none;
@@ -267,6 +268,15 @@
         color: var(--a-color_bg);
         background: var(--a-color_link);
       }
+    }
+  }
+
+  @keyframes show {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
     }
   }
 

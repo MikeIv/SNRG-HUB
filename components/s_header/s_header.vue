@@ -64,7 +64,9 @@
 </template>
 
 <script>
-import { ALogo, AInput, AButton, MBanner } from '@cwespb/synergyui';
+import {
+  ALogo, AInput, AButton, MBanner,
+} from '@cwespb/synergyui';
 import './s_header.scss';
 import SMenuMain from '../s_menu_main/s_menu_main';
 import MenuHorizontal from '../menu_horizontal/menu_horizontal';
@@ -117,6 +119,9 @@ export default {
     isMenuOpen() {
       return this.$store.state.isMenuOpen;
     },
+    quiz() {
+      return this.$store.state.quizInfo;
+    },
   },
 
   mounted() {
@@ -130,8 +135,13 @@ export default {
   methods: {
     handleScroll() {
       const mainWrapper = document.querySelector('body');
-      const headerHeight = document.querySelector('.s-header').offsetHeight;
+      const headerHeight = this.$el.offsetHeight;
+
+      const quizScrollTop = this.$store.state.quizInfo.top + this.$store.state.quizInfo.height;
+
       const startPos = window.innerHeight + window.innerHeight / 2;
+      const clientHeight = window.pageYOffset + window.innerHeight;
+
       this.scrollTop = window.scrollY;
 
       switch (true) {
@@ -139,7 +149,10 @@ export default {
           this.isScrolled = true;
           mainWrapper.classList.add('js-fixed');
 
-          if (this.scrollTop > startPos) {
+          if (
+            (this.scrollTop > startPos && clientHeight < this.$store.state.quizInfo.top)
+            || (this.scrollTop > startPos && this.scrollTop > quizScrollTop)
+          ) {
             this.isVisible = true;
           } else {
             this.isVisible = false;
@@ -161,13 +174,18 @@ export default {
 
     scrollTo(link) {
       const quiz = document.querySelector(link);
-      const headerHeight = document.querySelector('.s-header').offsetHeight;
+      const headerHeight = this.$el.offsetHeight;
       const quizPosition = quiz.offsetTop - headerHeight;
 
       window.scrollTo({
         top: quizPosition,
         behavior: 'smooth',
       });
+    },
+
+    getQuiz() {
+      console.log(this.$store.state.quizInfo);
+      return this.$store.state.quizInfo;
     },
   },
 };
