@@ -8,8 +8,13 @@
           </div>
           <div class="s-menu-main__title a-font_h5">Всё обучение</div>
           <template v-for="(item, idx) in menuAnchors" :index="idx">
-            <div class="s-menu-main__item" @mouseover="getActive(idx)" @click="getActiveMenu" :key="idx">
-              <a-sidebar-item :class="{ active: item.isActive }" :label="item.anchor" href="" />
+            <div
+              class="s-menu-main__item"
+              @mouseover="getActive(idx)"
+              @click="getActiveMenu(idx), getActive(idx)"
+              :key="idx"
+            >
+              <a-sidebar-item :class="{ active: item.isActive }" :label="item.anchor" />
             </div>
           </template>
         </div>
@@ -31,11 +36,20 @@
                 </div>
                 <div class="s-menu-main__link-list">
                   <div v-for="(product, idx) in linkItem.products" :index="idx" :key="idx">
-                    <nuxt-link v-if="idx < 5" :to="product.link" class="s-menu-main__link-product">
-                      <div class="s-menu-main__link-text a-font_m" @click="changeIsOpen">{{ product.anchor }}</div>
+                    <nuxt-link
+                      v-if="idx < 5"
+                      :to="product.link"
+                      @click.native="changeIsOpen"
+                      class="s-menu-main__link-product"
+                    >
+                      <div class="s-menu-main__link-text a-font_m">{{ product.anchor }}</div>
                     </nuxt-link>
                   </div>
-                  <nuxt-link :to="`${buildFilterUrl(linkItem.link)}`" class="s-menu-main__link-more">
+                  <nuxt-link
+                    :to="`${buildFilterUrl(linkItem.link)}`"
+                    @click.native="changeIsOpen"
+                    class="s-menu-main__link-more"
+                  >
                     <div class="s-menu-main__link-more--text a-font_l">Смотреть все</div>
                     <div class="s-menu-main__link-more--icon si-chevron-right"></div>
                   </nuxt-link>

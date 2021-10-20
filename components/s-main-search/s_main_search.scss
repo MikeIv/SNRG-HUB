@@ -104,15 +104,19 @@
       width: calc((100% - rem(8)) / 2);
     }
 
-    &-title span {
-      display: -webkit-box;
+    &-title {
       overflow: hidden;
       width: min-content;
+      white-space: nowrap;
       text-overflow: ellipsis;
       -webkit-line-clamp: 1;
       -webkit-box-orient: vertical;
-      @media screen and (max-width: 480px) {
-        max-width: rem(120);
+
+      span {
+        max-width: 100%;
+        @media screen and (max-width: 480px) {
+          max-width: rem(120);
+        }
       }
     }
 

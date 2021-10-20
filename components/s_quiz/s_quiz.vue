@@ -163,7 +163,23 @@ export default {
 
       const dataForm = [{ value: this.send.name }, { value: this.send.tel }];
       this.validFlag = this.$lander.valid(dataForm);
+
+      if (this.dataQuiz) {
+        this.getQuizParameters();
+      }
     });
+
+    window.addEventListener('scroll', this.handleScroll);
+  },
+
+  updated() {
+    if (this.dataQuiz) {
+      this.getQuizParameters();
+    }
+  },
+
+  beforeDestroy() {
+    window.removeEventListener('scroll', this.handleScroll);
   },
 
   methods: {
@@ -206,6 +222,19 @@ export default {
       };
       this.answer = '';
       this.countPosition += 1;
+    },
+
+    handleScroll() {
+      this.getQuizParameters();
+    },
+
+    getQuizParameters() {
+      const quiz = {
+        top: this.$el.offsetTop,
+        height: this.$el.offsetHeight,
+      };
+
+      this.$store.commit('setQuizInfo', quiz);
     },
   },
 };

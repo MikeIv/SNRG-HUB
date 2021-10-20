@@ -1,6 +1,6 @@
 <template>
   <div :class="this.$route.name === 'organization-slug' ? 'catalog-page__section' : ''">
-    <h2 class="a-font_h2">
+    <h2 class="a-font_h2" v-if="title">
       {{ title }}
       <sup class="catalog-page__header-total a-font_L"> {{ totalProducts }} программ</sup>
     </h2>
@@ -67,7 +67,6 @@ export default {
     'title',
     'hasPresets',
     'presets',
-    'pageInfo',
     'category',
     'defaultFilters',
     'slugs',
@@ -115,10 +114,6 @@ export default {
         {
           label: 'Новые',
           value: '-id',
-        },
-        {
-          label: 'Старые',
-          value: 'id',
         },
         {
           label: 'По алфавиту А-Я',
