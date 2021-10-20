@@ -37,6 +37,7 @@
         <a-select
           class="catalog-page-lp__select"
           :options="options"
+          :currentOption="currentOption"
           placeholder="Все направления"
           @change="changeSelectOption"
         />
@@ -46,15 +47,22 @@
     </header>
 
     <div class="l-wide">
-      <div class="lp__banner">
-        <div class="lp__banner-left" :style="`background-color: ${landingDetailInfo.color_bg}`">
+      <div class="lp__banner" :style="`background-color: ${landingDetailInfo.color_bg}`">
+        <div class="lp__banner-left">
           <h1 class="lp__banner__title a-font_h1" v-html="landingDetailInfo.name" />
           <div class="lp__banner__descript a-font_l-m" v-html="landingDetailInfo.description" />
         </div>
-        <div class="lp__banner-img" :style="`background-image: url(${baseURL}${landingDetailInfo.image_src})`" />
+        <div class="lp__banner-img">
+          <img :src="`${baseURL}${landingDetailInfo.image_src}`" alt="" />
+        </div>
       </div>
 
-      <s-catalog-landing :filters="landingDetailInfo.included" :menu="menu" @menu-change="menu = $event" />
+      <s-catalog-landing
+        :filters="landingDetailInfo.included"
+        :menu="menu"
+        :currentOption="currentOption"
+        @menu-change="menu = $event"
+      />
       <s-program-form />
     </div>
     <s-footer />
@@ -83,7 +91,9 @@ export default {
     return {
       baseURL: process.env.NUXT_ENV_S3BACKET,
       logoURL: '',
+      // selectOptionsKey: 1,
       scrollTop: 0,
+      currentOption: null,
       isScrolled: false,
       phones: [],
       isIconInHeader: false,
@@ -112,8 +122,14 @@ export default {
   },
 
   methods: {
+    changeSelectOptionTest(option) {
+      // this.selectOptionsKey += 2;
+      console.log('FROM CHILD', option);
+    },
+
     changeSelectOption(option) {
-      this.$emit('change-option-from-parent', option);
+      this.currentOption = option;
+      this.selectOptionsKey += 2;
     },
 
     handleScroll() {
@@ -160,31 +176,42 @@ export default {
   display: flex;
   justify-content: space-between;
 
-  @media screen and (max-width: 767px) {
+  @media screen and (max-width: 575px) {
     flex-direction: column;
   }
 
   &-left {
     width: 50%;
+    min-height: rem(430);
     padding: rem(50) rem(100);
 
     @media screen and (max-width: 991px) {
       padding: var(--a-padding--x6) var(--a-padding--x8);
     }
 
-    @media screen and (max-width: 767px) {
+    @media screen and (max-width: 575px) {
       width: 100%;
+      min-height: unset;
       padding: var(--a-padding--x8) var(--a-padding--x4);
     }
   }
   &-img {
+    position: relative;
+    display: flex;
     width: 50%;
-    background-repeat: no-repeat;
-    background-position: 50% 50%;
 
-    @media screen and (max-width: 767px) {
+    img {
+      position: absolute;
+      object-fit: cover;
+      top: 0;
+      left: 0;
       width: 100%;
-      height: rem(200);
+      height: 100%;
+    }
+
+    @media screen and (max-width: 575px) {
+      width: 100%;
+      min-height: rem(272);
     }
   }
 

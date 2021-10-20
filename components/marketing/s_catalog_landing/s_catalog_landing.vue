@@ -11,8 +11,10 @@
       />
     </div>
     <a-select
+      :key="selectOptionsKey"
       class="catalog-page-lp__select"
       :options="options"
+      :currentOption="currentOption"
       placeholder="Все направления"
       @change="changeSelectOption"
     />
@@ -387,7 +389,7 @@ import SProgramForm from '~/components/s_program_form/s_program_form';
 export default {
   name: 'SCatalogSection',
 
-  props: ['filters', 'menu', 'optionModel'],
+  props: ['filters', 'menu', 'currentOption'],
 
   components: {
     SProgramStart,
@@ -414,6 +416,8 @@ export default {
 
   data() {
     return {
+      selectOptionsKey: 123,
+
       popup: false,
       applicationPopup: false,
       signUpPopup: false,
@@ -426,7 +430,7 @@ export default {
         phone: '',
         email: '',
       },
-
+      // currentOption: null,
       totalPickedFilters: 0,
 
       btns: [
@@ -512,6 +516,11 @@ export default {
   },
 
   watch: {
+    currentOption() {
+      this.selectOptionsKey += 1;
+      console.log('watch', this.currentOption);
+    },
+
     filtersMenu() {
       this.hideYScroll();
     },
@@ -653,6 +662,8 @@ export default {
       this.filtersIdsData.direction_ids = [found.id];
 
       this.fetchProductsList();
+
+      // this.$emit('change-select-option', option);
     },
 
     async fetchFilterData() {
