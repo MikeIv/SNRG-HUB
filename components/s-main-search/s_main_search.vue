@@ -43,7 +43,7 @@
         </div>
 
         <nuxt-link to="/catalog" class="s-main-search__btn-link">
-          <AButton size="large" bgColor="accent" :label="`Показать предложения`" />
+          <AButton size="large" bgColor="accent" :label="`Показать предложения`" @click="onButtonMoreClick" />
         </nuxt-link>
       </div>
     </div>
@@ -148,6 +148,10 @@ export default {
 
     extractQueryParams(params, item) {
       return `${params.filter_by}=${item.id}`;
+    },
+
+    onButtonMoreClick() {
+      this.$router.push('/catalog');
     },
   },
 
