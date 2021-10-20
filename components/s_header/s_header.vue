@@ -182,7 +182,6 @@ export default {
     },
 
     scrollTo(link) {
-      console.log(link);
       const quiz = document.querySelector(link);
       const headerHeight = this.$el.offsetHeight;
       const quizPosition = quiz.offsetTop - headerHeight;
