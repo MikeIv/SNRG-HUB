@@ -703,14 +703,13 @@ export default {
         expandedMethod.include = ['organization', 'levels', 'directions'];
 
         if (this.selectedOption === 'all') {
-          const ids = this.filterListData.direction_ids.map((filter) => filter.id);
-          expandedMethod.filter.direction_ids = ids;
+          expandedMethod.filter.direction_ids = this.filterListData.direction_ids.map((filter) => filter.id);
         }
 
         // Логика парсинга выбранных фильтров на бэк, для получения отфильрованный товаров
         Object.entries(this.filtersIdsData).forEach((filterData) => {
           if (filterData[1].length === 0) {
-            delete expandedMethod.filter[filterData[0]];
+            expandedMethod.filter[filterData[0]] = this.filterListData[filterData[0]]?.map((filter) => filter.id);
           } else {
             const [key, value] = filterData;
             expandedMethod.filter[key] = value;
