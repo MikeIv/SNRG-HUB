@@ -43,6 +43,7 @@
 
   &__top {
     width: 100%;
+    cursor: pointer;
     animation: show 0.4s ease;
 
     &.hidden {

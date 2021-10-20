@@ -66,7 +66,7 @@ export default {
       set(page) {
         this.$emit('page', page);
         window.scrollTo({
-          top: document.getElementsById('catalog-product-list'),
+          top: document.getElementById('catalog-product-list'),
           behavior: 'smooth',
         });
       },

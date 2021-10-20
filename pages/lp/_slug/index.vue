@@ -1,6 +1,6 @@
 <template>
   <div>
-    <header class="s-header-lp l-wide" :class="{ fixed: isScrolled }">
+    <header class="s-header-lp l-wide" :class="{ fixed: isScrolled, fixedMobile: isIconInHeader }">
       <div class="s-header-lp__left">
         <nuxt-link to="/" class="s-header__logo-link">
           <a-logo class="s-header-lp__logo" type="standart" :link="logoURL"></a-logo>
@@ -10,7 +10,7 @@
       <div class="s-header-lp__right">
         <i
           class="si-filter s-header-lp__filters-icon"
-          :class="{ isVisible: !isIconInHeader }"
+          :class="{ isVisible: !tabletIconVisible }"
           tabindex="0"
           @click="menu = true"
         />
@@ -29,11 +29,22 @@
     </header>
 
     <div class="l-wide">
-      <div class="lp-banner" :style="`background-image: url(${baseURL}${landingDetailInfo.image_src})`">
-        <h1 class="lp-banner__title">{{ landingDetailInfo.name }}</h1>
-        <div class="lp-banner__description">{{ landingDetailInfo.description }}</div>
+      <div class="lp__banner" :style="`background-color: ${landingDetailInfo.color_bg}`">
+        <div class="lp__banner-left">
+          <h1 class="lp__banner__title a-font_h1" v-html="landingDetailInfo.name" />
+          <div class="lp__banner__descript a-font_l-m" v-html="landingDetailInfo.description" />
+        </div>
+        <div class="lp__banner-img">
+          <img :src="`${baseURL}${landingDetailInfo.image_src}`" alt="" />
+        </div>
       </div>
-      <s-catalog-landing :filters="landingDetailInfo.included" :menu="menu" @menu-change="menu = $event" />
+
+      <s-catalog-landing
+        :filters="landingDetailInfo.included"
+        :menu="menu"
+        :menuFixed="isIconInHeader"
+        @menu-change="menu = $event"
+      />
       <s-program-form />
     </div>
     <s-footer />
@@ -62,9 +73,11 @@ export default {
       baseURL: process.env.NUXT_ENV_S3BACKET,
       logoURL: '',
       scrollTop: 0,
+      currentOption: null,
       isScrolled: false,
       phones: [],
       isIconInHeader: false,
+      tabletIconVisible: false,
       menu: false,
     };
   },
@@ -78,15 +91,20 @@ export default {
     };
 
     const landingDetailInfo = await getLandingDetail(request);
+    const options = [];
+    landingDetailInfo.included.direction.forEach(({ name, slug }) => {
+      options.push({ label: name, value: slug });
+    });
     return {
       landingDetailInfo,
+      options,
     };
   },
 
   methods: {
     handleScroll() {
       const mainWrapper = document.querySelector('body');
-      const headerHeight = document.querySelector('.s-header-lp').offsetHeight;
+      const headerHeight = document.querySelector('.s-header-lp')?.offsetHeight;
       this.scrollTop = window.scrollY;
 
       if (this.scrollTop > headerHeight) {
@@ -97,7 +115,21 @@ export default {
         mainWrapper.classList.remove('js-fixed');
       }
 
-      this.isIconInHeader = this.scrollTop + 80 > document.getElementById('filtersIcon').offsetTop;
+      this.tabletIconVisible = document.documentElement.clientWidth < 767
+        && this.scrollTop + 80 > document.getElementById('filtersIcon').offsetTop;
+
+      if (document.documentElement.clientWidth < 575) {
+        if (
+          document.getElementById('filtersIcon').offsetTop
+          && this.scrollTop + 80 > document.getElementById('filtersIcon').offsetTop
+        ) {
+          this.isIconInHeader = true;
+          mainWrapper.classList.add('js-fixed-mobile');
+        } else {
+          this.isIconInHeader = false;
+          mainWrapper.classList.remove('js-fixed-mobile');
+        }
+      }
     },
   },
 
@@ -119,25 +151,53 @@ export default {
 <style lang="scss">
 @import '@/assets/styles/tools/mixins';
 
-.lp-banner {
-  position: relative;
-  overflow: hidden;
-  padding: rem(50) rem(100);
-  background-repeat: no-repeat;
-  background-position: 50% 50%;
-  background-size: cover;
-  @media screen and (max-width: 991px) {
-    padding: var(--a-padding--x6) var(--a-padding--x8);
+.lp__banner {
+  display: flex;
+  justify-content: space-between;
+
+  @media screen and (max-width: 575px) {
+    flex-direction: column;
   }
-  @media screen and (max-width: 767px) {
-    padding: var(--a-padding--x8) var(--a-padding--x4);
+
+  &-left {
+    width: 50%;
+    min-height: rem(430);
+    padding: rem(50) rem(100);
+
+    @media screen and (max-width: 991px) {
+      padding: var(--a-padding--x6) var(--a-padding--x8);
+    }
+
+    @media screen and (max-width: 575px) {
+      width: 100%;
+      min-height: unset;
+      padding: var(--a-padding--x8) var(--a-padding--x4);
+    }
+  }
+  &-img {
+    position: relative;
+    display: flex;
+    width: 50%;
+
+    img {
+      position: absolute;
+      object-fit: cover;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
+
+    @media screen and (max-width: 575px) {
+      width: 100%;
+      min-height: rem(272);
+    }
   }
 
   &__title {
     max-width: rem(380);
   }
-
-  &__description {
+  &__descript {
     padding: var(--a-padding--x4) 0 var(--a-padding--x5) 0;
   }
 }
@@ -171,6 +231,10 @@ export default {
         display: block;
       }
     }
+  }
+
+  &.fixedMobile {
+    display: none;
   }
 
   &__left {
@@ -251,6 +315,16 @@ export default {
     }
   }
 
+  &__content {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+
+    & .catalog-page-lp__select {
+      width: 80%;
+    }
+  }
+
   &__phone {
     margin-right: rem(12);
     color: var(--a-color_text);
@@ -270,6 +344,14 @@ export default {
 }
 
 .js-fixed {
-  margin-top: rem(110);
+  margin-top: rem(81);
+
+  @media screen and (max-width: 767px) {
+    margin-top: rem(103);
+  }
+}
+
+.js-fixed-mobile {
+  margin-top: rem(84);
 }
 </style>

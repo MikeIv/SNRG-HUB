@@ -28,7 +28,7 @@
       </div>
 
       <nuxt-link to="/catalog" class="s-main-programs__btn-link">
-        <a-button class="s-main-programs__btn" label="Показать все" bgColor="accent" />
+        <a-button class="s-main-programs__btn" label="Показать все" bgColor="accent" @click="onButtonMoreClick" />
       </nuxt-link>
     </div>
   </section>
@@ -64,6 +64,9 @@ export default {
 
     onOrganizationClick(product) {
       this.$router.push(`/organization/${product.included.organization.slug}`);
+    },
+    onButtonMoreClick() {
+      this.$router.push('/catalog');
     },
   },
   async fetch() {

@@ -2,7 +2,7 @@
   <header class="s-header" :class="{ open: isOpen, fixed: isScrolled }">
     <div class="shadow" v-if="isOpen" @click="handleChange"></div>
     <div class="s-header__wrapper">
-      <div class="s-header__top" :class="{ hidden: !isVisible }">
+      <div class="s-header__top" :class="{ hidden: !isVisible }" @click="scrollTo(topBannerSmoothHref)">
         <m-banner
           :type="bannerTop.banner_type"
           :backgroundColor="bannerTop.color_bg"
@@ -193,7 +193,6 @@ export default {
     },
 
     getQuiz() {
-      console.log(this.$store.state.quizInfo);
       return this.$store.state.quizInfo;
     },
   },
