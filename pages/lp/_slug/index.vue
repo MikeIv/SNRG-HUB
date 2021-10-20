@@ -344,7 +344,11 @@ export default {
 }
 
 .js-fixed {
-  margin-top: rem(102);
+  margin-top: rem(81);
+
+  @media screen and (max-width: 767px) {
+    margin-top: rem(103);
+  }
 }
 
 .js-fixed-mobile {
