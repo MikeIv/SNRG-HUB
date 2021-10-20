@@ -10,14 +10,16 @@
         :status="activePreset && activePreset.name === preset.name ? 'selected' : 'default'"
       />
     </div>
-    <a-select
-      :key="selectOptionsKey"
-      class="catalog-page-lp__select"
-      :options="options"
-      :currentOption="currentOption"
-      placeholder="Все направления"
-      @change="changeSelectOption"
-    />
+    <div class="" :class="{ 'fixed': menuFixed, 'catalog-page-lp__select-mobile': menuFixed }">
+      <a-select
+        :key="selectOptionsKey"
+        class="catalog-page-lp__select"
+        :options="options"
+        placeholder="Все направления"
+        @change="changeSelectOption"
+      />
+      <i v-if="menuFixed" class="si-filter s-header-lp__filters-icon" tabindex="0" @click="filtersMenu = true" />
+    </div>
 
     <div class="catalog-page__section-lp__popup">
       <a-popup :visible="popup" @close="popup = false">
@@ -389,7 +391,7 @@ import SProgramForm from '~/components/s_program_form/s_program_form';
 export default {
   name: 'SCatalogSection',
 
-  props: ['filters', 'menu', 'currentOption'],
+  props: ['filters', 'menu', 'menuFixed'],
 
   components: {
     SProgramStart,
@@ -430,7 +432,6 @@ export default {
         phone: '',
         email: '',
       },
-      // currentOption: null,
       totalPickedFilters: 0,
 
       btns: [
@@ -516,11 +517,6 @@ export default {
   },
 
   watch: {
-    currentOption() {
-      this.selectOptionsKey += 1;
-      console.log('watch', this.currentOption);
-    },
-
     filtersMenu() {
       this.hideYScroll();
     },
@@ -662,8 +658,6 @@ export default {
       this.filtersIdsData.direction_ids = [found.id];
 
       this.fetchProductsList();
-
-      // this.$emit('change-select-option', option);
     },
 
     async fetchFilterData() {

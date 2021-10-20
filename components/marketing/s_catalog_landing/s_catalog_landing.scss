@@ -236,5 +236,44 @@
   @media screen and (max-width: 575px) {
     z-index: 50;
     display: grid;
+    width: 100%;
+  }
+
+  &-mobile {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    padding: rem(20) rem(16);
+    background-color: var(--a-color_bg);
+
+    & .catalog-page-lp__select {
+      width: 80%;
+    }
+
+    &.fixed {
+      position: fixed;
+      z-index: 50;
+      top: 0;
+      right: 0;
+    }
+  }
+}
+
+.s-header-lp-mobile {
+  position: fixed;
+  z-index: 50;
+  top: 0;
+  right: 0;
+  width: 100%;
+  background: #fff;
+
+  &__content {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+
+    & .catalog-page-lp__select {
+      width: 80%;
+    }
   }
 }

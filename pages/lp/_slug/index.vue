@@ -1,6 +1,6 @@
 <template>
   <div>
-    <header class="s-header-lp l-wide" :class="{ fixed: isScrolled }" v-if="!isIconInHeader">
+    <header class="s-header-lp l-wide" :class="{ fixed: isScrolled, fixedMobile: isIconInHeader }">
       <div class="s-header-lp__left">
         <nuxt-link to="/" class="s-header__logo-link">
           <a-logo class="s-header-lp__logo" type="standart" :link="logoURL"></a-logo>
@@ -28,24 +28,6 @@
       </div>
     </header>
 
-    <header
-      class="s-header-lp l-wide"
-      :class="{ fixed: isScrolled, isVisible: isIconInHeader }"
-      v-show="isIconInHeader"
-    >
-      <div class="s-header-lp__content">
-        <a-select
-          class="catalog-page-lp__select"
-          :options="options"
-          :currentOption="currentOption"
-          placeholder="Все направления"
-          @change="changeSelectOption"
-        />
-
-        <i class="si-filter s-header-lp__filters-icon" tabindex="0" @click="menu = true" />
-      </div>
-    </header>
-
     <div class="l-wide">
       <div class="lp__banner" :style="`background-color: ${landingDetailInfo.color_bg}`">
         <div class="lp__banner-left">
@@ -60,7 +42,7 @@
       <s-catalog-landing
         :filters="landingDetailInfo.included"
         :menu="menu"
-        :currentOption="currentOption"
+        :menuFixed="isIconInHeader"
         @menu-change="menu = $event"
       />
       <s-program-form />
@@ -70,7 +52,7 @@
 </template>
 
 <script>
-import { ALogo, ASelect } from '@cwespb/synergyui';
+import { ALogo } from '@cwespb/synergyui';
 import SCatalogLanding from '~/components/marketing/s_catalog_landing/s_catalog_landing';
 import SProgramForm from '~/components/s_program_form/s_program_form';
 import SFooter from '~/components/s_footer/s_footer';
@@ -82,7 +64,6 @@ export default {
     SProgramForm,
     SFooter,
     ALogo,
-    ASelect,
   },
 
   layout: 'empty',
@@ -91,7 +72,6 @@ export default {
     return {
       baseURL: process.env.NUXT_ENV_S3BACKET,
       logoURL: '',
-      // selectOptionsKey: 1,
       scrollTop: 0,
       currentOption: null,
       isScrolled: false,
@@ -122,19 +102,9 @@ export default {
   },
 
   methods: {
-    changeSelectOptionTest(option) {
-      // this.selectOptionsKey += 2;
-      console.log('FROM CHILD', option);
-    },
-
-    changeSelectOption(option) {
-      this.currentOption = option;
-      this.selectOptionsKey += 2;
-    },
-
     handleScroll() {
       const mainWrapper = document.querySelector('body');
-      const headerHeight = document.querySelector('.s-header-lp').offsetHeight;
+      const headerHeight = document.querySelector('.s-header-lp')?.offsetHeight;
       this.scrollTop = window.scrollY;
 
       if (this.scrollTop > headerHeight) {
@@ -149,7 +119,16 @@ export default {
         && this.scrollTop + 80 > document.getElementById('filtersIcon').offsetTop;
 
       if (document.documentElement.clientWidth < 575) {
-        this.isIconInHeader = this.scrollTop + 80 > document.getElementById('filtersIcon').offsetTop;
+        if (
+          document.getElementById('filtersIcon').offsetTop
+          && this.scrollTop + 80 > document.getElementById('filtersIcon').offsetTop
+        ) {
+          this.isIconInHeader = true;
+          mainWrapper.classList.add('js-fixed-mobile');
+        } else {
+          this.isIconInHeader = false;
+          mainWrapper.classList.remove('js-fixed-mobile');
+        }
       }
     },
   },
@@ -252,6 +231,10 @@ export default {
         display: block;
       }
     }
+  }
+
+  &.fixedMobile {
+    display: none;
   }
 
   &__left {
@@ -361,6 +344,10 @@ export default {
 }
 
 .js-fixed {
-  margin-top: rem(110);
+  margin-top: rem(102);
+}
+
+.js-fixed-mobile {
+  margin-top: rem(84);
 }
 </style>
