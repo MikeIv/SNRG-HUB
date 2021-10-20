@@ -19,15 +19,21 @@
         <a-button bgColor="accent" :label="dataQuiz.button" @click="startQuiz"></a-button>
       </div>
       <!-- quiz -->
-      <div class="m-quiz__quiz" v-else-if="countPosition != count">
+      <div class="m-quiz__quiz" v-else-if="!isQuizOver">
         <div class="m-quiz__questions">
-          <div class="m-quiz__prev" v-if="countPosition > 0" @click="prevQuiz">
+          <div class="m-quiz__prev" v-if="currentQuestionId > 1" @click="prevQuiz">
             <i class="si-chevron-left"></i>К предыдущему вопросу
           </div>
-          <h5 class="m-quiz__question a-font_h5">{{ dataQuestion[countPosition].question }}</h5>
+          <h5 class="m-quiz__question a-font_h5">
+            {{ dataQuestion.find((question) => question.id === currentQuestionId).question }}
+          </h5>
         </div>
         <div class="m-quiz__answers">
-          <div class="m-quiz__control" v-for="(item, index) in dataQuestion[countPosition].answers" :key="index">
+          <div
+            class="m-quiz__control"
+            v-for="(item, index) in dataQuestion.find((question) => question.id === currentQuestionId).answers"
+            :key="index"
+          >
             <a-control
               :title="item.answer"
               typeBtn="radio"
@@ -80,16 +86,12 @@
           </div>
         </div>
       </div>
-
-      <a-progressbar :percent="progress" v-if="!banerFlag" />
     </div>
   </section>
 </template>
 
 <script>
-import {
-  AButton, AInput, AControl, AProgressbar,
-} from '@cwespb/synergyui';
+import { AButton, AInput, AControl } from '@cwespb/synergyui';
 
 import getQuizzesDetail from '~/api/quizzesDetail';
 
@@ -98,7 +100,6 @@ import './s_quiz.scss';
 export default {
   name: 's-quiz',
   components: {
-    AProgressbar,
     AControl,
     AButton,
     AInput,
@@ -111,7 +112,10 @@ export default {
     banerFlag: true,
     count: null,
     countPosition: 0,
+    currentQuestionId: 1,
 
+    isQuizOver: false,
+    prevQuestionId: null,
     listAnswers: [],
     answer: '',
 
@@ -131,12 +135,6 @@ export default {
     quizId: Number,
   },
 
-  computed: {
-    progress() {
-      return (this.countPosition / this.count) * 100;
-    },
-  },
-
   async fetch() {
     let expandedMethod = {
       filter: {},
@@ -151,6 +149,7 @@ export default {
     const response = await getQuizzesDetail(expandedMethod);
     this.dataQuiz = response;
     this.dataQuestion = response.questions.filter((item) => item.answers.length > 0);
+    this.currentQuestionId = this.dataQuestion[0].id;
     this.count = this.dataQuestion.length;
   },
 
@@ -168,7 +167,6 @@ export default {
         this.getQuizParameters();
       }
     });
-
     window.addEventListener('scroll', this.handleScroll);
   },
 
@@ -185,10 +183,6 @@ export default {
   methods: {
     validatePhone(value) {
       this.validPhone = value.valid;
-    },
-    prevQuiz() {
-      this.countPosition -= 1;
-      this.answer = this.listAnswers[this.countPosition].answer;
     },
 
     async startQuiz() {
@@ -215,13 +209,27 @@ export default {
       });
     },
 
-    changeQuiz(value) {
-      this.listAnswers[this.countPosition] = {
-        ...value,
-        question: this.dataQuestion[this.countPosition].question,
+    prevQuiz() {
+      const lastQuestion = this.listAnswers[this.listAnswers.length - 1];
+
+      this.answer = lastQuestion.answer;
+      this.currentQuestionId = lastQuestion.question_id;
+
+      this.listAnswers = this.listAnswers.slice(0, -1);
+    },
+
+    changeQuiz(answer) {
+      this.listAnswers[answer.question_id] = {
+        ...answer,
+        question: this.dataQuestion.find((question) => question.id === answer.question_id).question,
       };
+      this.listAnswers = this.listAnswers.filter((el) => el);
+      this.prevQuestionId = answer.question_id;
       this.answer = '';
-      this.countPosition += 1;
+      this.currentQuestionId = answer.next_question_id;
+      if (answer.next_question_id === 1) {
+        this.isQuizOver = true;
+      }
     },
 
     handleScroll() {
