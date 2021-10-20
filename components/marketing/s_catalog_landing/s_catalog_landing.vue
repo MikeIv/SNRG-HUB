@@ -521,6 +521,10 @@ export default {
       this.hideYScroll();
     },
 
+    popup() {
+      this.hideYScroll();
+    },
+
     filtersIdsData: {
       deep: true,
       handler() {
@@ -623,7 +627,7 @@ export default {
     hideYScroll() {
       const htmlWrapper = document.querySelector('html');
 
-      if (this.filtersMenu === true) {
+      if (this.filtersMenu === true || this.popup) {
         htmlWrapper.style.overflowY = 'hidden';
       } else {
         htmlWrapper.style.overflowY = 'visible';
