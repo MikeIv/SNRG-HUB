@@ -1,15 +1,25 @@
 <template>
   <div class="catalog-page__section catalog-page__section-lp">
-    <swiper class="catalog-presets__tags" :options="$options.swiperOption">
-      <swiper-slide v-for="preset in presets" :key="preset.id" class="catalog-presets__swiper-slide">
-        <a-tag
-          @aTagClick="selectPreset(preset)"
-          @aTagDelete="activePreset = null"
-          :label="preset.name"
-          :status="activePreset && activePreset.name === preset.name ? 'selected' : 'default'"
-        />
-      </swiper-slide>
-    </swiper>
+    <div class="catalog-presets-lp__tags">
+      <a-tag
+        v-for="preset in presets"
+        :key="preset.id"
+        @aTagClick="selectPreset(preset)"
+        @aTagDelete="activePreset = null"
+        :label="preset.name"
+        :status="activePreset && activePreset.name === preset.name ? 'selected' : 'default'"
+      />
+    </div>
+    <div class="" :class="{ 'fixed': menuFixed, 'catalog-page-lp__select-mobile': menuFixed }">
+      <a-select
+        :key="selectOptionsKey"
+        class="catalog-page-lp__select"
+        :options="options"
+        placeholder="Все направления"
+        @change="changeSelectOption"
+      />
+      <i v-if="menuFixed" class="si-filter s-header-lp__filters-icon" tabindex="0" @click="filtersMenu = true" />
+    </div>
 
     <div class="catalog-page__section-lp__popup">
       <a-popup :visible="popup" @close="popup = false">
@@ -19,6 +29,13 @@
           <s-program-teachers :slug="productSlug" title="<span>Преподаватель</span> курса" />
           <s-program-skills :methods="methodsSkills" title="Чему <span>вы научитесь</span>" />
           <s-program-form />
+          <a-button
+            @click="scrollToForm"
+            class="catalog-page__section-lp__mobile-btn catalog-page__section-lp__mobile-btn__sign"
+            label="Записаться"
+            bgColor="accent"
+            size="large"
+          />
         </div>
       </a-popup>
     </div>
@@ -28,6 +45,56 @@
         <section ref="form" id="form">
           <m-form
             title="Оставьте заявку и мы поможем вам выбрать профессию"
+            btnText="Оставить заявку"
+            typeBtn="checkbox"
+            typeCtrl="checkbox"
+            :checked="formChecked"
+            checkboxText="Нажимая на кнопку, я соглашаюсь с политикой конфиденциальности и на получение рассылок"
+            :submitDisabled="!validFlag"
+            @submit-disabled="validFlag = $event"
+            @click="sendForm"
+          >
+            <template v-slot:inputs>
+              <a-input
+                class="m-form__input"
+                @input="
+                  handlerSave();
+                  validFormData();
+                "
+                v-model="fieldsData.name"
+                placeholder="Имя"
+              />
+              <a-input
+                type="phone"
+                class="m-form__input"
+                @validate="validatePhone"
+                v-model="fieldsData.phone"
+                @input="
+                  handlerSave();
+                  validFormData();
+                "
+                placeholder="Телефон"
+              />
+              <a-input
+                class="m-form__input"
+                @input="
+                  handlerSave();
+                  validFormData();
+                "
+                v-model="fieldsData.email"
+                placeholder="Почта"
+              />
+            </template>
+          </m-form>
+        </section>
+      </div>
+    </a-popup>
+
+    <a-popup :visible="signUpPopup" @close="signUpPopup = false">
+      <div class="catalog-page__section-lp__popup">
+        <section ref="form" id="form">
+          <m-form
+            :title="`Оставить заявку на программу: ${selectedProductTitle}`"
             btnText="Оставить заявку"
             typeBtn="checkbox"
             typeCtrl="checkbox"
@@ -84,7 +151,12 @@
     <div v-if="filtersMenu">
       <div class="catalog-page__menu" v-if="filterListData">
         <div v-show="!isFilterExpanded">
-          <a-title title="Фильтры" :showIcon="false" @clickClose="filtersMenuClose" class="catalog-page__menu-header" />
+          <a-title
+            :title="`Фильтры (${totalPickedFilters})`"
+            :showIcon="false"
+            @clickClose="filtersMenuClose"
+            class="catalog-page__menu-header"
+          />
         </div>
         <div class="catalog-page__menu-contents" ref="menuContent">
           <div v-show="isFilterExpanded" :key="componentExpandedMenuKey">
@@ -179,7 +251,11 @@
           @input="switchClick(filters, ...arguments)"
         />
       </div>
-      <div v-if="!activePreset" class="catalog-product-list-wrapper" :key="componentProductsKey">
+      <div
+        v-if="!activePreset"
+        class="catalog-product-list-wrapper catalog-product-list-wrapper-lp"
+        :key="componentProductsKey"
+      >
         <template>
           <i
             id="filtersIcon"
@@ -187,7 +263,7 @@
             tabindex="0"
             @click="filtersIconClickHandler"
           >
-            <span class="a-font_button">Фильтры</span>
+            <span class="a-font_button">Фильтры ({{ totalPickedFilters }})</span>
           </i>
         </template>
         <div class="catalog-product-list" v-for="preset in presets" :key="preset.id">
@@ -207,11 +283,13 @@
             >
               <m-card
                 type="program"
+                :btns="btns"
                 :description="product.included.levels[0].name"
                 :title="product.name"
                 :verticalImgSrc="`${baseURL}/${product.preview_image}`"
                 :bottomText="product.included.organization.abbreviation_name"
                 :iconSrc="`${baseURL}${product.included.organization.logo}`"
+                @btn-click="onBtnClickHandler(product, ...arguments)"
                 @organization-click="onOrganizationClick(product)"
               />
             </div>
@@ -238,14 +316,17 @@
             tabindex="0"
             @click="filtersIconClickHandler"
           >
-            <span class="a-font_button">Фильтры</span>
+            <span class="a-font_button">Фильтры ({{ totalPickedFilters }})</span>
           </i>
         </template>
         <h2 class="a-font_h2 catalog-product-list__title">
           {{ activePreset.name }}
           <sup class="catalog-page__header-total a-font_L"> {{ totalProducts[activePreset.slug] }} программ</sup>
         </h2>
-        <div class="catalog-product-list__wrapper" v-if="productList[activePreset.slug]">
+        <div
+          class="catalog-product-list__wrapper catalog-product-list-wrapper-lp"
+          v-if="productList[activePreset.slug]"
+        >
           <h3 class="catalog-product-list__wrapper-sorry" v-if="!productList[activePreset.slug].length">
             К сожалению, ничего нет
           </h3>
@@ -257,11 +338,13 @@
           >
             <m-card
               type="program"
+              :btns="btns"
               :description="product.included.levels[0].name"
               :title="product.name"
               :verticalImgSrc="`${baseURL}/${product.preview_image}`"
               :bottomText="product.included.organization.abbreviation_name"
               :iconSrc="`${baseURL}${product.included.organization.logo}`"
+              @btn-click="onBtnClickHandler(product, ...arguments)"
               @organization-click="onOrganizationClick(product)"
             />
           </div>
@@ -287,9 +370,8 @@
 </template>
 
 <script>
-import { Swiper, SwiperSlide } from 'vue-awesome-swiper';
 import {
-  ATag, AButton, MFilter, MForm, MCard, ATitle, AControl, APopup, AInput,
+  AButton, AControl, AInput, APopup, ASelect, ATag, ATitle, MCard, MFilter, MForm,
 } from '@cwespb/synergyui';
 import getProductsList from '~/api/products_list';
 import '../../s_catalog/s_catalog.scss';
@@ -309,7 +391,7 @@ import SProgramForm from '~/components/s_program_form/s_program_form';
 export default {
   name: 'SCatalogSection',
 
-  props: ['filters', 'menu'],
+  props: ['filters', 'menu', 'menuFixed'],
 
   components: {
     SProgramStart,
@@ -318,6 +400,7 @@ export default {
     SProgramSkills,
     SProgramForm,
     ATag,
+    ASelect,
     ATitle,
     AControl,
     AInput,
@@ -326,8 +409,6 @@ export default {
     MForm,
     MFilter,
     APopup,
-    Swiper,
-    SwiperSlide,
   },
 
   swiperOption: {
@@ -337,8 +418,12 @@ export default {
 
   data() {
     return {
+      selectOptionsKey: 123,
+
       popup: false,
       applicationPopup: false,
+      signUpPopup: false,
+      selectedProductTitle: null,
       formChecked: true,
       validFlag: false,
 
@@ -347,6 +432,22 @@ export default {
         phone: '',
         email: '',
       },
+      totalPickedFilters: 0,
+
+      btns: [
+        {
+          bgColor: 'ghost-accept',
+          label: 'Записаться',
+        },
+        {
+          bgColor: 'none',
+          label: 'Подробнее',
+        },
+      ],
+
+      options: [],
+
+      selectedOption: null,
 
       validPhone: false,
       currentProduct: null,
@@ -354,7 +455,6 @@ export default {
       methodsContent: [{}],
       methodsSkills: [{}],
       productSlug: null,
-
       baseURL: process.env.NUXT_ENV_S3BACKET,
       totalProducts: {},
       productList: {},
@@ -370,7 +470,6 @@ export default {
       },
       page: {},
       filtersCheckboxDataRequest: {},
-      // filtersMenu: false,
       componentProductsKey: 10,
       componentFilterKey: 100,
       componentMenuKey: 1000,
@@ -422,11 +521,20 @@ export default {
       this.hideYScroll();
     },
 
+    popup() {
+      this.hideYScroll();
+    },
+
     filtersIdsData: {
       deep: true,
       handler() {
         this.componentProductsKey += 3;
         this.fetchProductsList();
+        // eslint-disable-next-line max-len
+        this.totalPickedFilters = Object.values(this.filtersIdsData).reduce(
+          (prevValue, currentValue) => prevValue + currentValue.length,
+          0,
+        );
       },
     },
 
@@ -440,6 +548,20 @@ export default {
   },
 
   methods: {
+    onBtnClickHandler(product, btn) {
+      if (btn === 'Записаться') {
+        this.selectedProductTitle = product.name;
+        this.signUpPopup = true;
+      } else {
+        this.openPopupHandler(product);
+      }
+    },
+
+    scrollToForm() {
+      const formBlock = document.getElementById('form');
+      formBlock.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'nearest' });
+    },
+
     sendForm() {
       this.$lander
         .send(this.fieldsData, {}, this.$route.name === 'lp-slug' ? this.$route.path : undefined)
@@ -492,7 +614,7 @@ export default {
     },
 
     onOrganizationClick(product) {
-      this.$router.push(`/organization/${product.included.organization.slug}`);
+      this.openPopupHandler(product);
     },
 
     expandedFilterClickHandler(filterKey) {
@@ -505,7 +627,7 @@ export default {
     hideYScroll() {
       const htmlWrapper = document.querySelector('html');
 
-      if (this.filtersMenu === true) {
+      if (this.filtersMenu === true || this.popup) {
         htmlWrapper.style.overflowY = 'hidden';
       } else {
         htmlWrapper.style.overflowY = 'visible';
@@ -527,6 +649,19 @@ export default {
 
     selectPreset(preset) {
       this.activePreset = preset;
+    },
+
+    changeSelectOption(option) {
+      this.selectedOption = option;
+
+      this.filterListData.direction_ids.forEach((filter) => {
+        this.$set(filter, 'isChecked', false);
+      });
+      const found = this.filterListData.direction_ids.find((filter) => filter.slug === option);
+      this.$set(found, 'isChecked', true);
+      this.filtersIdsData.direction_ids = [found.id];
+
+      this.fetchProductsList();
     },
 
     async fetchFilterData() {
@@ -556,6 +691,10 @@ export default {
           });
         }
       });
+
+      this.filterListData.direction_ids.forEach(({ name, slug }) => {
+        this.options.push({ label: name, value: slug });
+      });
     },
 
     async fetchProductsList() {
@@ -567,10 +706,14 @@ export default {
 
         expandedMethod.include = ['organization', 'levels', 'directions'];
 
+        if (this.selectedOption === 'all') {
+          expandedMethod.filter.direction_ids = this.filterListData.direction_ids.map((filter) => filter.id);
+        }
+
         // Логика парсинга выбранных фильтров на бэк, для получения отфильрованный товаров
         Object.entries(this.filtersIdsData).forEach((filterData) => {
           if (filterData[1].length === 0) {
-            delete expandedMethod.filter[filterData[0]];
+            expandedMethod.filter[filterData[0]] = this.filterListData[filterData[0]]?.map((filter) => filter.id);
           } else {
             const [key, value] = filterData;
             expandedMethod.filter[key] = value;
@@ -683,6 +826,10 @@ export default {
   async fetch() {
     await this.fetchFilterData();
     await this.fetchProductsList();
+  },
+
+  created() {
+    this.$parent.$on('change-option-from-parent', this.changeSelectOption);
   },
 
   mounted() {
