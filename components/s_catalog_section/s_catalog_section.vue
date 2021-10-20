@@ -197,7 +197,13 @@ export default {
         }
 
         if (filters.type === 'list') {
-          this.filterListData[filters.filter_by] = { ...filters };
+          if (this.entity_page) {
+            if (`${this.entity_page.type}_ids` !== filters.filter_by) {
+              this.filterListData[filters.filter_by] = { ...filters };
+            }
+          } else {
+            this.filterListData[filters.filter_by] = { ...filters };
+          }
         }
 
         if (filters.type === 'checkbox') {
@@ -249,12 +255,6 @@ export default {
       if (this.entity_page) {
         const filterKey = `${this.entity_page.type}_ids`;
         expandedMethod.filter[filterKey] = [this.entity_page.id];
-        const found = this.filterListData.organization_ids.values.find((value) => value.id === this.entity_page.id);
-        this.$set(found, 'isChecked', true);
-        const newFilter = { ...found, key: filterKey };
-        if (!this.selectedFilters.some((filter) => filter.id === this.entity_page.id)) {
-          this.selectedFilters.push(newFilter);
-        }
       }
 
       // Логика парсинга чекбоксов, для получения отфильрованный товаров
