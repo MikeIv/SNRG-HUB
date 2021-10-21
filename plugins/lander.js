@@ -86,14 +86,13 @@ export default (context, inject) => {
   }
 
   const url = getConfig();
+  const setingSend = {
+    version: '',
+    redirectUrl: '',
+  };
 
-  function send(formData, setingsData, route) {
-    const setingSend = {
-      version: '',
-      redirectUrl: route ? `${route}/thanks` : landerConfig.redirectUrl,
-    };
-
-    return new Promise(() => {
+  function send(formData, setingsData) {
+    return new Promise((resolve, reject) => {
       const data = new FormData();
 
       // Получение и переназначение настроект
@@ -129,12 +128,10 @@ export default (context, inject) => {
         headers: { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8', Accept: '*/*' },
       })
         .then((response) => {
-          if (response.status === 200) {
-            window.location.replace(setingSend.redirectUrl);
-          }
+          resolve(response);
         })
         .catch((error) => {
-          console.log(error);
+          reject(error);
         });
     });
   }
