@@ -1,7 +1,7 @@
 <template>
   <div class="l-default">
     <LazyHydrate :key="id" v-for="{ key, methods, title, id } in pageInfo.components" when-visible>
-      <component :is="key" :methods="methods" :title="title"></component>
+      <component :is="key" :methods="methods" :title="title" :productIds="pageInfo.entity_page.id"></component>
     </LazyHydrate>
   </div>
 </template>
