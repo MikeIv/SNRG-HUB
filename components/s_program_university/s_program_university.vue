@@ -12,7 +12,7 @@
       <div class="s-program-university__factoids-item" v-for="(item, idx) in getAllItem" :key="idx">
         <AFactoid :title="item.description" :number="item.name" color="color_link" type="number" />
       </div>
-      <div class="s-program-university__factoids-more" v-if="!flag && getAllItem.length < 6">
+      <div class="s-program-university__factoids-more" v-if="!flag && getAllItem.length > 6">
         <AButton size="large" bgColor="accent" label="Показать ещё" @click="flag = true"></AButton>
       </div>
     </div>
@@ -54,7 +54,7 @@ export default {
   async fetch() {
     const expandedMethod = {
       filter: {
-        product_id: this.productIds,
+        product_id: this.productIds.id,
       },
       include: ['persons', 'city', 'triggers'],
     };
