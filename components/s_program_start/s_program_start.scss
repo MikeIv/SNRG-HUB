@@ -35,6 +35,7 @@
     }
 
     &-icon {
+      display: block;
       padding: rem(5) rem(3) rem(5) rem(2);
       background: var(--a-color_bg);
       border-radius: 100%;
