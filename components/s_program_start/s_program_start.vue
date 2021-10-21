@@ -3,7 +3,7 @@
     <div class="s-program-start__wrapper" :style="{ backgroundColor: program.color ? program.color : '#fff' }">
       <div class="s-program-start__header">
         <div class="s-program-start__header-breadcrumbs">
-          <a-breadcrumbs-item :breadcrumbs="breadcrumbs" />
+          <a-breadcrumbs :breadcrumbs="breadcrumbs" />
         </div>
         <div class="s-program-start__header-icons">
           <i v-if="shareIcon" class="si-share s-program-start__header-icon" @click.stop="toggleMenu" tabindex="0" />
@@ -99,21 +99,22 @@
 
 <script>
 import {
-  ABreadcrumbsItem, AFactoid, AButton, MSocialShare, MCard,
+  AFactoid, AButton, MSocialShare, MCard,
 } from '@cwespb/synergyui';
 import './s_program_start.scss';
 
 import getProductsDetail from '~/api/productsDetail';
 import getParseDate from '~/assets/js/getParseDate';
 import getDateFromDatesObj from '~/assets/js/getDateFromDatesObj';
+import ABreadcrumbs from '~/components/a_breadcrumbs/a_breadcrums';
 
 export default {
   name: 's-program-start',
 
   components: {
-    ABreadcrumbsItem,
     AFactoid,
     AButton,
+    ABreadcrumbs,
     MSocialShare,
     MCard,
   },
@@ -124,23 +125,16 @@ export default {
       isMenuOpen: false,
 
       breadcrumbs: [
-        // {
-        //   label: 'Учебные заведения',
-        //   href: '/',
-        // },
-        // {
-        //   label: 'Универститеты',
-        //   href: '/',
-        // },
-        // {
-        //   label: 'Москва',
-        //   href: '/',
-        // },
-        // {
-        //   label: 'Онлайн-курсы',
-        //   href: '/',
-        // },
+        {
+          label: 'Главная',
+          href: '/',
+        },
+        {
+          label: 'Каталог',
+          href: '/catalog',
+        },
       ],
+
       event: null,
       program: {
         description: '',
@@ -155,6 +149,8 @@ export default {
         photo: '',
         link: '',
       },
+      directions: {},
+      city: {},
     };
   },
 
@@ -188,6 +184,38 @@ export default {
     this.program.start_date = getData.start_date;
     this.program.form = getData.included.formats[0].name;
     this.program.photo = `${this.baseURL}${getData.digital_image}`;
+
+    this.directions = getData.included.directions;
+    this.city = getData.included.organization.included.city;
+
+    if (this.city) {
+      const breadcrumb = {
+        label: this.city.name,
+        href: `/catalog?&city_ids=${this.city.id}`,
+      };
+
+      console.log(breadcrumb.href);
+
+      this.breadcrumbs.push(breadcrumb);
+    }
+
+    if (this.directions) {
+      const breadcrumb = {
+        label: this.directions[0].name,
+        href: `/catalog/${this.directions[0].slug}`,
+      };
+
+      this.breadcrumbs.push(breadcrumb);
+    }
+
+    if (this.program.title) {
+      const breadcrumb = {
+        label: this.program.title,
+        href: '',
+      };
+
+      this.breadcrumbs.push(breadcrumb);
+    }
 
     // Перевод строки в виде "4y-6m-5d" и возврат даты в нужном формате (4 года 6 месяцев 5 дней)
     this.program.duration = getDateFromDatesObj(getParseDate(getData.duration_format_value));
