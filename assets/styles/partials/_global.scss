@@ -1,5 +1,14 @@
+body,
+html {
+  overflow-x: hidden;
+}
+
 body {
+  font-family: 'TT Norms', serif;
   font-size: 16px;
+  &.bg-gray {
+    background-color: var(--a-color_bg--secondary);
+  }
 }
 
 a {
@@ -11,6 +20,7 @@ a {
   --layout-width: 81.25rem; // 1300px
   --layout-padding: 5rem; // 80px
   --layout-v-padding: 3.75rem; // 60px
+  --aspect-ratio: calc(16 / 9);
 }
 
 .l-default,
@@ -41,5 +51,18 @@ a {
 
   @media all and (max-width: 767px) {
     --layout-padding: 1rem; // 16px
+  }
+}
+
+.s-padding {
+  padding: var(--a-padding--x12) 0;
+  @media screen and (max-width: 767px) {
+    padding: var(--a-padding--x6) 0;
+  }
+  &--smallTop {
+    padding: var(--a-padding--x6) 0 var(--a-padding--x12);
+    @media screen and (max-width: 767px) {
+      padding: var(--a-padding--x2) 0 var(--a-padding--x8);
+    }
   }
 }

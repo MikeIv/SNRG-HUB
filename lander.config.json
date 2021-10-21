@@ -1,5 +1,6 @@
 {
-  "unit": "",
-  "type": "",
-  "land": ""
+  "unit": "synergy_marketplace",
+  "type": "marketplace",
+  "land": "KD_market",
+  "redirectUrl": "/thanks"
 }
