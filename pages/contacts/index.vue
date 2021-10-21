@@ -59,7 +59,7 @@ export default {
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 section {
   padding: var(--a-padding--x15) var(--a-padding--x20);
   @media screen and (max-width: 991px) {

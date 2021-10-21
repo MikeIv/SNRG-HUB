@@ -124,11 +124,10 @@
 
       &-additional {
         display: flex;
-        gap: 40px;
+        white-space: nowrap;
 
         @media screen and (max-width: 1119px) {
           flex-wrap: wrap;
-          gap: 20px;
         }
 
         @media screen and (max-width: 620px) {
@@ -137,7 +136,14 @@
 
         .a-factoid-default {
           &__wrapper {
-            width: 25%;
+            flex: 1;
+            margin-right: 40px;
+            @media screen and (max-width: 1119px) {
+              margin-right: 20px;
+            }
+            &:last-child {
+              margin-right: 0;
+            }
 
             @media screen and (max-width: 991px) {
               width: 40%;
