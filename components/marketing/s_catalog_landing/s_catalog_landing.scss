@@ -21,7 +21,13 @@
       padding: rem(32) 0 0 0;
 
       &__popup {
+        & .a-popup {
+          height: unset;
+        }
+
         & .a-popup__container {
+          position: relative;
+          width: 100%;
           max-width: rem(1300);
           padding: 0;
           background: unset;
@@ -32,6 +38,11 @@
           z-index: 100;
           top: rem(30);
           right: rem(8);
+          padding: rem(12);
+          background: #fff;
+          border-radius: 100%;
+          box-shadow: 0 rem(8) rem(10) rgb(140 140 140 / 10%);
+          font-size: rem(14);
 
           @media all and (max-width: 991px) {
             top: rem(20);
@@ -41,6 +52,13 @@
           @media all and (max-width: 767px) {
             top: rem(22);
             right: rem(10);
+          }
+
+          @media all and (max-width: 575px) {
+            position: fixed;
+            top: rem(48);
+            right: rem(30);
+            padding: rem(8);
           }
         }
 
@@ -73,7 +91,7 @@
       &__mobile-btn {
         position: fixed;
         z-index: 10;
-        bottom: rem(14);
+        bottom: rem(14); // Todo: должна ли кнопка закрывать футер, не понятно
         width: calc(100% - rem(32));
 
         @media screen and (min-width: 575px) {
@@ -82,6 +100,10 @@
 
         &__sign {
           width: 100%;
+
+          &.invisible {
+            display: none;
+          }
         }
       }
     }
@@ -233,10 +255,21 @@
 
 .catalog-page-lp__select {
   display: none;
+
   @media screen and (max-width: 575px) {
     z-index: 50;
     display: grid;
     width: 100%;
+  }
+
+  .a-select__list {
+    width: calc(100% + rem(2)); // Todo: при большом количестве элементов скрол ведет себя не оч
+  }
+
+  input {
+    font-size: 1rem;
+    font-weight: 600;
+    line-height: 1rem;
   }
 
   &-mobile {

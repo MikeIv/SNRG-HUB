@@ -17,12 +17,13 @@
         :options="options"
         placeholder="Все направления"
         @change="changeSelectOption"
+        @options-visibility-change="changeListVisibility"
       />
       <i v-if="menuFixed" class="si-filter s-header-lp__filters-icon" tabindex="0" @click="filtersMenu = true" />
     </div>
 
     <div class="catalog-page__section-lp__popup">
-      <a-popup :visible="popup" @close="popup = false">
+      <a-popup :visible="popup" @close="popup = false" ref="popup">
         <div>
           <s-program-start :methods="methodsStart" :shareIcon="false" />
           <s-program-content :methods="methodsContent" title="Программа обучения" />
@@ -32,6 +33,7 @@
           <a-button
             @click="scrollToForm"
             class="catalog-page__section-lp__mobile-btn catalog-page__section-lp__mobile-btn__sign"
+            :class="{ invisible: !visibleBtn }"
             label="Записаться"
             bgColor="accent"
             size="large"
@@ -232,7 +234,7 @@
         <m-filter
           v-for="[key, filters] in Object.entries(filterListData)"
           class="catalog-filter__filter"
-          :hasSearch="filters.search"
+          :hasSearch="key === 'city_ids'"
           :key="key"
           :title="filtersTitle[key]"
           :passedBtnText="filtersText[key]"
@@ -312,6 +314,7 @@
       <div v-if="activePreset" class="catalog-product-list" :key="componentProductsKey">
         <template>
           <i
+            id="filtersIcon"
             class="si-filter a-font_button catalog-page__filters-icon catalog-page__filters-icon-lp"
             tabindex="0"
             @click="filtersIconClickHandler"
@@ -411,13 +414,9 @@ export default {
     APopup,
   },
 
-  swiperOption: {
-    slidesPerView: 'auto',
-    spaceBetween: 8,
-  },
-
   data() {
     return {
+      visibleBtn: true,
       selectOptionsKey: 123,
 
       popup: false,
@@ -426,6 +425,7 @@ export default {
       selectedProductTitle: null,
       formChecked: true,
       validFlag: false,
+      blockYScroll: false,
 
       fieldsData: {
         name: '',
@@ -517,11 +517,23 @@ export default {
   },
 
   watch: {
+    blockYScroll() {
+      this.hideYScroll();
+    },
+
+    signUpPopup() {
+      this.hideYScroll();
+    },
+
     filtersMenu() {
       this.hideYScroll();
     },
 
     popup() {
+      this.hideYScroll();
+    },
+
+    applicationPopup() {
       this.hideYScroll();
     },
 
@@ -580,6 +592,7 @@ export default {
 
     openPopupHandler(product) {
       this.productSlug = product.slug;
+      console.log(product.slug);
       this.methodsStart[0] = {
         data: {
           filter: {
@@ -611,6 +624,17 @@ export default {
       };
 
       this.popup = true;
+      this.$nextTick(() => {
+        const popup = document.querySelector('.a-popup');
+        const formElement = document.querySelector('#form');
+        popup.addEventListener('scroll', () => {
+          if (popup.scrollTop >= popup.scrollHeight - (formElement.offsetHeight + popup.offsetHeight)) {
+            this.visibleBtn = false;
+          } else {
+            this.visibleBtn = true;
+          }
+        });
+      });
     },
 
     onOrganizationClick(product) {
@@ -627,7 +651,7 @@ export default {
     hideYScroll() {
       const htmlWrapper = document.querySelector('html');
 
-      if (this.filtersMenu === true || this.popup) {
+      if (this.filtersMenu === true || this.popup || this.applicationPopup || this.signUpPopup || this.blockYScroll) {
         htmlWrapper.style.overflowY = 'hidden';
       } else {
         htmlWrapper.style.overflowY = 'visible';
@@ -666,6 +690,7 @@ export default {
 
     async fetchFilterData() {
       Object.entries(this.filters).forEach(([key, filterData]) => {
+        console.log(key, filterData);
         if (key === 'level') {
           this.presets = filterData;
           this.presets.forEach((preset) => {
@@ -695,6 +720,8 @@ export default {
       this.filterListData.direction_ids.forEach(({ name, slug }) => {
         this.options.push({ label: name, value: slug });
       });
+
+      console.log('here', this.filterListData);
     },
 
     async fetchProductsList() {
@@ -788,6 +815,10 @@ export default {
 
     menuToggle(value) {
       this.filtersMenu = value;
+    },
+
+    changeListVisibility(visibility) {
+      this.blockYScroll = visibility;
     },
 
     clearAllFilters() {
