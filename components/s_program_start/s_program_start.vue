@@ -51,10 +51,10 @@
             <div class="s-program-start__info-bottom-additional">
               <a-factoid
                 type="default"
-                :title="program.city"
-                subtitle="Город"
+                :title="program.start_date !== null ? program.start_date : program.city"
+                :subtitle="program.start_date !== null ? 'Дата начала' : 'Город'"
                 class="s-program-start__info-bottom-additional_factoid"
-                v-if="program.city"
+                v-if="program.city || program.start_date"
               />
               <a-factoid
                 type="default"
@@ -70,7 +70,12 @@
                 class="s-program-start__info-bottom-additional_factoid"
                 v-if="program.duration"
               />
-              <a-factoid type="default" :title="program.form" subtitle="Форма обучения" />
+              <a-factoid
+                type="default"
+                :title="program.form"
+                subtitle="Форма обучения"
+                class="s-program-start__info-bottom-additional_factoid"
+              />
             </div>
           </div>
         </div>
@@ -180,6 +185,7 @@ export default {
     this.program.description = getData.description;
     this.program.document = getData.document;
     this.program.city = getData.included.organization.included.city.name;
+    this.program.start_date = getData.start_date;
     this.program.form = getData.included.formats[0].name;
     this.program.photo = `${this.baseURL}${getData.digital_image}`;
 

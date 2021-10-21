@@ -56,6 +56,7 @@
     }
 
     span {
+      display: block;
       color: var(--a-color_link);
       @media screen and (max-width: 767px) {
         color: inherit;

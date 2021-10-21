@@ -1,29 +1,36 @@
 <template>
-  <SProgramSkills :title="title" :items="universityAboutList" />
+  <section class="s-program-skills">
+    <h2 class="s-program-skills__title a-font_h2" v-html="title"></h2>
+    <div class="s-program-skills__items">
+      <AListElement v-for="(item, index) in programSkillsList" :key="index" :type="item.type" :label="item.value" />
+    </div>
+  </section>
 </template>
 
 <script>
-import { SProgramSkills } from '@cwespb/synergyui';
-import './s_university_about.scss';
+import { AListElement } from '@cwespb/synergyui';
+import '../s_program_skills/s_program_skills.scss';
 import getEntitiesSectionsDetail from '~/api/entitiesSectionsDetail';
 
 export default {
-  name: 's_university_about',
+  name: 'SProgramSkills',
 
   components: {
-    SProgramSkills,
+    AListElement,
   },
 
   data() {
     return {
-      universityAboutList: [],
+      programSkillsList: [],
     };
   },
+
   props: ['methods', 'title'],
   async fetch() {
     const expandedMethod = this.methods[0].data;
     const preData = await getEntitiesSectionsDetail(expandedMethod);
-    this.universityAboutList = preData.json.top.data.map(({ description }) => {
+    // eslint-disable-next-line no-param-reassign
+    this.programSkillsList = preData.json.top.data.map(({ description }) => {
       // eslint-disable-next-line no-param-reassign
       description.type = 'icon';
       return description;
