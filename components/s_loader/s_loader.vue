@@ -17,7 +17,7 @@ export default {
 
   data() {
     return {
-      loading: false,
+      loading: true,
     };
   },
   methods: {
@@ -36,6 +36,13 @@ export default {
         this.loading = false;
       }, 1000);
     },
+  },
+  mounted() {
+    this.$nextTick(() => {
+      this.$nuxt.$loading.start();
+
+      setTimeout(() => this.$nuxt.$loading.finish(), 500);
+    });
   },
 };
 </script>
