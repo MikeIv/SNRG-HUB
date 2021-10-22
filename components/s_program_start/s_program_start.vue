@@ -198,9 +198,17 @@ export default {
     }
 
     if (this.directions) {
+      let breadcrumbHref = '/catalog';
+
+      if (this.city) {
+        breadcrumbHref = `/catalog/${this.directions[0].slug}?&city_ids=${this.city.id}`;
+      } else {
+        breadcrumbHref = `/catalog/${this.directions[0].slug}`;
+      }
+
       const breadcrumb = {
         label: this.directions[0].name,
-        href: `/catalog/${this.directions[0].slug}`,
+        href: breadcrumbHref,
       };
 
       this.breadcrumbs.push(breadcrumb);
