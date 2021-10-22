@@ -194,8 +194,6 @@ export default {
         href: `/catalog?&city_ids=${this.city.id}`,
       };
 
-      console.log(breadcrumb.href);
-
       this.breadcrumbs.push(breadcrumb);
     }
 
