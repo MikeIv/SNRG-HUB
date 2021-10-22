@@ -1,9 +1,8 @@
 @import '@/assets/styles/tools/mixins';
 
 .a-breadcrumbs {
-  &__wrapper {
-    display: flex;
-  }
+  display: flex;
+  flex-wrap: wrap;
 
   &-item {
     display: flex;
@@ -47,21 +46,26 @@
         order: 0;
       }
     }
-
-    &:last-child {
-      .si-chevron-right {
-        display: none;
-      }
-    }
   }
 
   span {
     order: 1;
   }
 
-  &:not(:last-child) {
-    @media screen and (max-width: 730px) {
-      display: none;
+  &__wrapper {
+    display: flex;
+
+    &:last-child {
+      .a-breadcrumbs-item {
+        .si-chevron-right {
+          display: none;
+        }
+      }
+    }
+    &:not(:last-child) {
+      @media screen and (max-width: 730px) {
+        display: none;
+      }
     }
   }
 }
