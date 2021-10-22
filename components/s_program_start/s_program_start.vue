@@ -106,7 +106,7 @@ import './s_program_start.scss';
 import getProductsDetail from '~/api/productsDetail';
 import getParseDate from '~/assets/js/getParseDate';
 import getDateFromDatesObj from '~/assets/js/getDateFromDatesObj';
-import ABreadcrumbs from '~/components/a_breadcrumbs/a_breadcrums';
+import ABreadcrumbs from '~/components/a_breadcrumbs/a_breadcrumbs';
 
 export default {
   name: 's-program-start',

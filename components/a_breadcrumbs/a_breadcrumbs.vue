@@ -18,7 +18,7 @@
 import './a_breadcrumbs.scss';
 
 export default {
-  name: 'ABreacrumbs',
+  name: 'ABreadcrumbs',
 
   props: {
     breadcrumbs: {

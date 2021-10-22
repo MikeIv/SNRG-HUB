@@ -78,7 +78,7 @@ import {
 } from '@cwespb/synergyui';
 import './s_university_start.scss';
 import getOrganizationsDetail from '~/api/organizationsDetail';
-import ABreadcrumbs from '~/components/a_breadcrumbs/a_breadcrums';
+import ABreadcrumbs from '~/components/a_breadcrumbs/a_breadcrumbs';
 
 export default {
   name: 's_university_start',
@@ -132,8 +132,6 @@ export default {
     this.university.hostel = 'есть';
     this.university.photo = this.baseURL + preData.data.digital_image;
     this.logoSrc = this.baseURL + preData.data.logo;
-
-    console.log(preData);
 
     // this.directions = preData.included.directions;
     this.city = preData.data.included.city;
