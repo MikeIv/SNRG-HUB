@@ -47,7 +47,34 @@
       />
       <s-program-form />
     </div>
-    <s-footer />
+
+    <footer class="footer-lp s-footer__wrap">
+      <div class="l-wide">
+        <div class="s-footer__row">
+          <div class="s-footer__accord a-font_m">
+            © <span>{{ year }}</span> Synergy. Все права защищены
+          </div>
+          <a
+            target="_blank"
+            class="s-footer__accord a-font_m"
+            rel="noreferrer"
+            :href="policy.href"
+            v-if="policy.text !== ''"
+          >
+            {{ policy.text }}
+          </a>
+          <a
+            target="_blank"
+            class="s-footer__accord a-font_m"
+            rel="noreferrer"
+            :href="terms.href"
+            v-if="terms.text !== ''"
+          >
+            {{ terms.text }}
+          </a>
+        </div>
+      </div>
+    </footer>
   </div>
 </template>
 
@@ -55,14 +82,12 @@
 import { ALogo } from '@cwespb/synergyui';
 import SCatalogLanding from '~/components/marketing/s_catalog_landing/s_catalog_landing';
 import SProgramForm from '~/components/s_program_form/s_program_form';
-import SFooter from '~/components/s_footer/s_footer';
 import getLandingDetail from '~/api/landingsDetail';
 
 export default {
   components: {
     SCatalogLanding,
     SProgramForm,
-    SFooter,
     ALogo,
   },
 
@@ -72,6 +97,15 @@ export default {
     return {
       baseURL: process.env.NUXT_ENV_S3BACKET,
       logoURL: '',
+      year: '',
+      policy: {
+        href: '',
+        text: '',
+      },
+      terms: {
+        href: '',
+        text: '',
+      },
       scrollTop: 0,
       currentOption: null,
       isScrolled: false,
@@ -92,6 +126,7 @@ export default {
 
     const landingDetailInfo = await getLandingDetail(request);
     const options = [];
+    console.log('landingDetailInfo', landingDetailInfo);
     landingDetailInfo.included.direction.forEach(({ name, slug }) => {
       options.push({ label: name, value: slug });
     });
@@ -107,7 +142,7 @@ export default {
       const headerHeight = document.querySelector('.s-header-lp')?.offsetHeight;
       this.scrollTop = window.scrollY;
 
-      if (this.scrollTop > headerHeight) {
+      if (this.scrollTop > headerHeight && document.documentElement.clientWidth > 575) {
         this.isScrolled = true;
         mainWrapper.classList.add('js-fixed');
       } else {
@@ -121,19 +156,21 @@ export default {
       if (document.documentElement.clientWidth < 575) {
         if (
           document.getElementById('filtersIcon').offsetTop
-          && this.scrollTop + 80 > document.getElementById('filtersIcon').offsetTop
+          && this.scrollTop > document.getElementById('filtersIcon').offsetTop
         ) {
           this.isIconInHeader = true;
-          mainWrapper.classList.add('js-fixed-mobile');
         } else {
           this.isIconInHeader = false;
-          mainWrapper.classList.remove('js-fixed-mobile');
         }
       }
     },
   },
 
   created() {
+    const date = new Date();
+    this.year = date.getFullYear();
+    this.policy.href = this.$store.state.globalData.globalData.data.privacy_policy.link;
+    this.policy.text = this.$store.state.globalData.globalData.data.privacy_policy.text;
     this.phones = this.$store.state.globalData.globalData.data.contacts.phones;
     this.logoURL = this.$store.state.globalData.globalData.data.main.logo;
   },
@@ -150,6 +187,17 @@ export default {
 
 <style lang="scss">
 @import '@/assets/styles/tools/mixins';
+
+.footer-lp {
+  &.s-footer__wrap {
+    padding-top: var(--a-padding--x3);
+    padding-bottom: var(--a-padding--x3);
+
+    @media screen and (max-width: 575px) {
+      padding-bottom: rem(75);
+    }
+  }
+}
 
 .lp__banner {
   display: flex;

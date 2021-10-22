@@ -1,7 +1,7 @@
 <template>
   <div class="l-default">
     <LazyHydrate :key="id" v-for="{ key, methods, title, id } in pageInfo.components" when-visible>
-      <component :is="key" :methods="methods" :title="title"></component>
+      <component :is="key" :methods="methods" :title="title" :productIds="pageInfo.entity_page"></component>
     </LazyHydrate>
   </div>
 </template>
@@ -29,8 +29,34 @@ export default {
       title: this.pageMeta?.title,
       meta: [
         {
-          keywords: this.pageMeta?.keywords,
-          description: this.pageMeta?.description,
+          hid: 'keywords',
+          name: 'keywords',
+          content: this.pageMeta?.keywords,
+        },
+        {
+          hid: 'description',
+          name: 'description',
+          content: this.pageMeta?.description,
+        },
+        {
+          hid: 'og:type',
+          name: 'og:type',
+          content: 'website',
+        },
+        {
+          hid: 'og:title',
+          name: 'og:title',
+          content: this.pageMeta?.title,
+        },
+        {
+          hid: 'og:site_name',
+          name: 'og:site_name',
+          content: 'Synergyeducation',
+        },
+        {
+          hid: 'og:description',
+          name: 'og:description',
+          content: this.pageMeta?.description,
         },
       ],
       bodyAttrs: {

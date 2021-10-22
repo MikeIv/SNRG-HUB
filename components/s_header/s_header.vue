@@ -44,10 +44,10 @@
               </div>
               <div class="s-header__burger-text a-font_l a-color_link">{{ btnText }}</div>
             </div>
-            <div class="s-header__search">
+            <div class="s-header__search" v-if="false">
               <a-input icons="si-search" size="medium" :placeholder="searchPlaceholder"></a-input>
             </div>
-            <a href="//pass.synergy.ru" target="_blank" class="s-header__login" rel="noreferrer">
+            <a href="//pass.synergy.ru" target="_blank" class="s-header__login" rel="noreferrer" v-if="false">
               <a-button label="Войти" bgColor="ghost-accept"></a-button>
             </a>
           </div>
@@ -64,9 +64,7 @@
 </template>
 
 <script>
-import {
-  ALogo, AInput, AButton, MBanner,
-} from '@cwespb/synergyui';
+import { ALogo, AInput, AButton, MBanner } from '@cwespb/synergyui';
 import './s_header.scss';
 import SMenuMain from '../s_menu_main/s_menu_main';
 import MenuHorizontal from '../menu_horizontal/menu_horizontal';
@@ -159,8 +157,8 @@ export default {
           mainWrapper.classList.add('js-fixed');
 
           if (
-            (this.scrollTop > startPos && clientHeight < this.$store.state.quizInfo.top)
-            || (this.scrollTop > startPos && this.scrollTop > quizScrollTop)
+            (this.scrollTop > startPos && clientHeight < this.$store.state.quizInfo.top) ||
+            (this.scrollTop > startPos && this.scrollTop > quizScrollTop)
           ) {
             this.isVisible = true;
           } else {

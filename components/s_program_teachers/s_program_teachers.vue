@@ -30,7 +30,6 @@ import { Swiper, SwiperSlide } from 'vue-awesome-swiper';
 import { MCardSpeaker, MCardLanding } from '@cwespb/synergyui';
 import getProductsDetails from '~/api/productsDetail';
 import getOrganizationsDetails from '~/api/organizationsDetail';
-
 import './s_program_teachers.scss';
 
 export default {
@@ -53,6 +52,7 @@ export default {
         spaceBetween: 20,
         resistance: true,
         resistanceRatio: 0,
+        observer: true,
       },
     };
   },

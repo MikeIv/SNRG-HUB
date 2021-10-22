@@ -16,6 +16,7 @@
     bottom: rem(18);
     max-height: fit-content;
   }
+
   &__wrapper {
     padding: var(--layout-v-padding) var(--layout-h-padding);
   }
@@ -32,6 +33,7 @@
     }
 
     &-icon {
+      display: block;
       font-size: rem(22);
       cursor: pointer;
       & + .s-university-start__header-icon {
