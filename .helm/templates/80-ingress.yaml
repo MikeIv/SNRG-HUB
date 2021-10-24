@@ -1,3 +1,4 @@
+{{- $ci_path := printf "/%s" ((default "/" .Values.global.ci_path) | trim | trimAll "/") -}}
 {{- $globals := ternary .Values.global.prod .Values.global.dev (eq .Values.global.env_name "prod") -}}
 apiVersion: networking.k8s.io/v1
 kind: Ingress
