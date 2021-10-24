@@ -21,6 +21,8 @@ export const mutations = {
   },
   setQuizInfo(state, quiz) {
     state.quizInfo = quiz;
+
+    console.log(quiz.top);
   },
 };
 
