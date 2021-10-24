@@ -168,6 +168,7 @@ export default {
       }
     });
     window.addEventListener('scroll', this.handleScroll);
+    window.addEventListener('DOMContentLoaded', this.getQuizParameters);
   },
 
   updated() {
@@ -176,8 +177,15 @@ export default {
     }
   },
 
+  created() {
+    if (this.dataQuiz) {
+      this.getQuizParameters();
+    }
+  },
+
   beforeDestroy() {
     window.removeEventListener('scroll', this.handleScroll);
+    window.removeEventListener('DOMContentLoaded', this.getQuizParameters);
   },
 
   methods: {
