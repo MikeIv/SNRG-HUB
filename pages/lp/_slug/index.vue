@@ -126,7 +126,6 @@ export default {
 
     const landingDetailInfo = await getLandingDetail(request);
     const options = [];
-    console.log('landingDetailInfo', landingDetailInfo);
     landingDetailInfo.included.direction.forEach(({ name, slug }) => {
       options.push({ label: name, value: slug });
     });

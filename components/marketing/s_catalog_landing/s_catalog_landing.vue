@@ -599,7 +599,6 @@ export default {
     openPopupHandler(product) {
       this.mainBtnVisible = false;
       this.productSlug = product.slug;
-      console.log(product.slug);
       this.methodsStart[0] = {
         data: {
           filter: {
@@ -700,7 +699,6 @@ export default {
 
     async fetchFilterData() {
       Object.entries(this.filters).forEach(([key, filterData]) => {
-        console.log(key, filterData);
         if (key === 'level') {
           this.presets = filterData;
           this.presets.forEach((preset) => {
@@ -730,8 +728,6 @@ export default {
       this.filterListData.direction_ids.forEach(({ name, slug }) => {
         this.options.push({ label: name, value: slug });
       });
-
-      console.log('here', this.filterListData);
     },
 
     async fetchProductsList() {
