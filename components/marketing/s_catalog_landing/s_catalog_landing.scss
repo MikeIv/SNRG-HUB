@@ -21,8 +21,13 @@
       padding: rem(32) 0 0 0;
 
       &__popup {
+        .s-program-form {
+          margin-bottom: 0;
+        }
+
         & .a-popup {
           height: unset;
+          padding: rem(20) 0 0 0;
         }
 
         & .a-popup__container {

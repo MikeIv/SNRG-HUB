@@ -53,13 +53,20 @@ import './s_program_form.scss';
 export default {
   name: 's_program_form',
 
+  props: {
+    title: {
+      type: String,
+      required: false,
+      default: 'Записаться на курс или получить бесплатную консультацию',
+    },
+  },
+
   components: {
     MForm,
     AInput,
   },
 
   data: () => ({
-    title: 'Записаться на курс или получить бесплатную консультацию',
     checkboxText: 'Нажимая на кнопку, вы соглашаетсь с политикой конфиденциальности и на получение рассылок',
     btnText: 'Записаться',
     typeCtrl: 'checkbox',

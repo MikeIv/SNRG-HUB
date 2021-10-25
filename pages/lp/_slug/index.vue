@@ -45,7 +45,7 @@
         :menuFixed="isIconInHeader"
         @menu-change="menu = $event"
       />
-      <s-program-form />
+      <s-program-form title="Записаться на программу или получить бесплатную консультацию" />
     </div>
 
     <footer class="footer-lp s-footer__wrap">
