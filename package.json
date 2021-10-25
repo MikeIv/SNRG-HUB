@@ -1,6 +1,6 @@
 {
   "name": "marketplace-vue",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "private": true,
   "scripts": {
     "dev": "nuxt",
@@ -19,7 +19,6 @@
     "@cwespb/synergyui": "1.1.23",
     "@nuxtjs/axios": "^5.13.1",
     "@nuxtjs/gtm": "^2.4.0",
-    "@nuxtjs/pwa": "^3.3.5",
     "@nuxtjs/robots": "^2.5.0",
     "@vue/cli-service": "^4.5.13",
     "axios": "^0.21.4",
