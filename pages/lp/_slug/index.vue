@@ -1,6 +1,6 @@
 <template>
   <div>
-    <header class="s-header-lp l-wide" :class="{ fixed: isScrolled }">
+    <header class="s-header-lp l-wide" :class="{ fixed: isScrolled, fixedMobile: isIconInHeader }">
       <div class="s-header-lp__left">
         <nuxt-link to="/" class="s-header__logo-link">
           <a-logo class="s-header-lp__logo" type="standart" :link="logoURL"></a-logo>
@@ -142,7 +142,7 @@ export default {
       const headerHeight = document.querySelector('.s-header-lp')?.offsetHeight;
       this.scrollTop = window.scrollY;
 
-      if (this.scrollTop > headerHeight && document.documentElement.clientWidth > 550) {
+      if (this.scrollTop > headerHeight && document.documentElement.clientWidth > 575) {
         this.isScrolled = true;
         mainWrapper.classList.add('js-fixed');
       } else {
@@ -281,9 +281,9 @@ export default {
     }
   }
 
-  //&.fixedMobile {
-  //  display: none;
-  //}
+  &.fixedMobile {
+    margin-top: rem(35);
+  }
 
   &__left {
     display: flex;
@@ -393,7 +393,6 @@ export default {
 
 .js-fixed {
   margin-top: rem(81);
-
   @media screen and (max-width: 767px) {
     margin-top: rem(103);
   }
