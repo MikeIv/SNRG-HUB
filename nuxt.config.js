@@ -2,7 +2,7 @@ export default {
   debug: true,
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    title: 'marketplace-vue',
+    title: 'Образовательный маркетплейс',
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0' },
