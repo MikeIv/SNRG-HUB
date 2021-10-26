@@ -75,19 +75,29 @@ export default (context, inject) => {
   // formData - объект из данных формы
   // setings = объект переопределения настроек
 
-  function getConfig() {
+  function getConfig(unit, type, land) {
     let url = '';
     if (landerConfig) {
-      const { unit, type, land } = landerConfig;
       // eslint-disable-next-line max-len
-      url = `https://syn.su/lander.php?r=land/index&unit=${unit}&type=${type}&land=${land}&ignore-thanksall=1`;
+      url = `https://syn.su/lander.php?r=land/index&unit=${unit}${
+        type ? `&type=${type}` : ''
+      }&land=${land}&ignore-thanksall=1`;
     }
+    console.log('URL', url);
     return url;
   }
 
-  const url = getConfig();
-
   function send(formData, setingsData, route) {
+    let { unit, type } = landerConfig;
+    const { land } = landerConfig;
+
+    if (route) {
+      unit = 'edu_platform';
+      type = undefined;
+    }
+
+    const url = getConfig(unit, type, land);
+
     const setingSend = {
       version: '',
       redirectUrl: route ? `${route}/thanks` : landerConfig.redirectUrl,
@@ -130,7 +140,8 @@ export default (context, inject) => {
       })
         .then((response) => {
           if (response.status === 200) {
-            window.location.replace(setingSend.redirectUrl);
+            console.log('lander', response);
+            // window.location.replace(setingSend.redirectUrl);
           }
         })
         .catch((error) => {

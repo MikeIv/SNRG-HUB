@@ -93,7 +93,7 @@ export default {
   methods: {
     sendForm() {
       this.$lander
-        .send(this.fieldsData, {}, this.$route.name === 'lp-slug' ? this.$route.path : undefined)
+        .send(this.fieldsData, {}, this.$route.name === 'edu-platform-slug' ? this.$route.path : undefined)
         .then(() => {});
     },
     handlerSave() {
