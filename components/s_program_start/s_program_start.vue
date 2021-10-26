@@ -152,6 +152,7 @@ export default {
       directions: {},
       city: {},
       organization: {},
+      level: {},
     };
   },
 
@@ -187,41 +188,52 @@ export default {
     this.program.photo = `${this.baseURL}${getData.digital_image}`;
     this.organization = getData.included.organization;
 
-    this.directions = getData.included.levels;
+    this.directions = getData.included.directions;
     this.city = getData.included.organization.included.city;
+    this.level = getData.included.levels;
 
-    console.log(getData);
+    let globalHref = '/catalog/';
+    let citylHref = '';
 
     if (this.city) {
+      citylHref += `?&city_ids=${this.city.id}`;
+
       const breadcrumb = {
         label: this.city.name,
-        href: `/catalog?&city_ids=${this.city.id}`,
+        href: globalHref + citylHref,
+      };
+
+      this.breadcrumbs.push(breadcrumb);
+    }
+
+    if (this.level) {
+      globalHref += `/${this.level[0].slug}`;
+
+      const breadcrumb = {
+        label: this.level[0].name,
+        href: globalHref + citylHref,
       };
 
       this.breadcrumbs.push(breadcrumb);
     }
 
     if (this.directions) {
-      let breadcrumbHref = '/catalog';
-
-      if (this.city) {
-        breadcrumbHref = `/catalog/${this.directions[0].slug}?&city_ids=${this.city.id}`;
-      } else {
-        breadcrumbHref = `/catalog/${this.directions[0].slug}`;
-      }
+      globalHref += `/${this.directions[0].slug}`;
 
       const breadcrumb = {
         label: this.directions[0].name,
-        href: breadcrumbHref,
+        href: globalHref + citylHref,
       };
 
       this.breadcrumbs.push(breadcrumb);
     }
 
     if (this.organization) {
+      globalHref += `/${this.organization.slug}`;
+
       const breadcrumb = {
         label: this.organization.abbreviation_name,
-        href: `/catalog/${this.organization.slug}`,
+        href: globalHref + citylHref,
       };
 
       this.breadcrumbs.push(breadcrumb);
