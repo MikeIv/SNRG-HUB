@@ -659,11 +659,11 @@ export default {
       const bodyWrapper = document.querySelector('body');
 
       if (this.filtersMenu === true || this.popup || this.applicationPopup || this.signUpPopup || this.blockYScroll) {
-        htmlWrapper.style.overflowY = 'hidden';
-        bodyWrapper.style.overflowY = 'hidden';
+        htmlWrapper.style.overflow = 'hidden';
+        bodyWrapper.style.overflow = 'hidden';
       } else {
-        htmlWrapper.style.overflowY = 'inherit';
-        bodyWrapper.style.overflowY = 'inherit';
+        htmlWrapper.style.overflow = 'initial';
+        bodyWrapper.style.overflow = 'initial';
       }
     },
 
