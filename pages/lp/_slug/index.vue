@@ -45,7 +45,7 @@
         :menuFixed="isIconInHeader"
         @menu-change="menu = $event"
       />
-      <s-program-form />
+      <s-program-form title="Записаться на программу или получить бесплатную консультацию" />
     </div>
 
     <footer class="footer-lp s-footer__wrap">
@@ -126,7 +126,6 @@ export default {
 
     const landingDetailInfo = await getLandingDetail(request);
     const options = [];
-    console.log('landingDetailInfo', landingDetailInfo);
     landingDetailInfo.included.direction.forEach(({ name, slug }) => {
       options.push({ label: name, value: slug });
     });
@@ -282,7 +281,7 @@ export default {
   }
 
   &.fixedMobile {
-    display: none;
+    margin-top: rem(35);
   }
 
   &__left {
@@ -393,7 +392,6 @@ export default {
 
 .js-fixed {
   margin-top: rem(81);
-
   @media screen and (max-width: 767px) {
     margin-top: rem(103);
   }

@@ -23,13 +23,13 @@
     </div>
 
     <div class="catalog-page__section-lp__popup">
-      <a-popup :visible="popup" @close="popup = false" ref="popup">
+      <a-popup :visible="popup" @close="closeMainPopup" ref="popup">
         <div>
           <s-program-start :methods="methodsStart" :shareIcon="false" />
           <s-program-content :methods="methodsContent" title="Программа обучения" />
           <s-program-teachers :slug="productSlug" title="<span>Преподаватель</span> курса" />
           <s-program-skills :methods="methodsSkills" title="Чему <span>вы научитесь</span>" />
-          <s-program-form />
+          <s-program-form title="Записаться на программу или получить бесплатную консультацию" />
           <a-button
             @click="scrollToForm"
             class="catalog-page__section-lp__mobile-btn catalog-page__section-lp__mobile-btn__sign"
@@ -143,6 +143,7 @@
     </a-popup>
 
     <a-button
+      v-if="mainBtnVisible"
       @click="applicationPopup = true"
       class="catalog-page__section-lp__mobile-btn"
       label="Заявка на обучение"
@@ -448,7 +449,7 @@ export default {
       options: [],
 
       selectedOption: null,
-
+      mainBtnVisible: true,
       validPhone: false,
       currentProduct: null,
       methodsStart: [{}],
@@ -574,6 +575,11 @@ export default {
       formBlock.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'nearest' });
     },
 
+    closeMainPopup() {
+      this.popup = false;
+      this.mainBtnVisible = true;
+    },
+
     sendForm() {
       this.$lander
         .send(this.fieldsData, {}, this.$route.name === 'lp-slug' ? this.$route.path : undefined)
@@ -591,8 +597,8 @@ export default {
     },
 
     openPopupHandler(product) {
+      this.mainBtnVisible = false;
       this.productSlug = product.slug;
-      console.log(product.slug);
       this.methodsStart[0] = {
         data: {
           filter: {
@@ -650,11 +656,14 @@ export default {
 
     hideYScroll() {
       const htmlWrapper = document.querySelector('html');
+      const bodyWrapper = document.querySelector('body');
 
       if (this.filtersMenu === true || this.popup || this.applicationPopup || this.signUpPopup || this.blockYScroll) {
-        htmlWrapper.style.overflowY = 'hidden';
+        htmlWrapper.style.overflow = 'hidden';
+        bodyWrapper.style.overflow = 'hidden';
       } else {
-        htmlWrapper.style.overflowY = 'visible';
+        htmlWrapper.style.overflow = 'initial';
+        bodyWrapper.style.overflow = 'initial';
       }
     },
 
@@ -690,7 +699,6 @@ export default {
 
     async fetchFilterData() {
       Object.entries(this.filters).forEach(([key, filterData]) => {
-        console.log(key, filterData);
         if (key === 'level') {
           this.presets = filterData;
           this.presets.forEach((preset) => {
@@ -720,8 +728,6 @@ export default {
       this.filterListData.direction_ids.forEach(({ name, slug }) => {
         this.options.push({ label: name, value: slug });
       });
-
-      console.log('here', this.filterListData);
     },
 
     async fetchProductsList() {
