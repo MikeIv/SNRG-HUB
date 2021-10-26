@@ -2,7 +2,7 @@ export default {
   debug: true,
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    title: 'marketplace-vue',
+    title: 'Образовательный маркетплейс',
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0' },
@@ -60,8 +60,6 @@ export default {
   modules: [
     // https://go.nuxtjs.dev/axios
     '@nuxtjs/axios',
-    // https://go.nuxtjs.dev/pwa
-    '@nuxtjs/pwa',
     // https://github.com/nuxt-community/robots-module
     '@nuxtjs/robots',
     // https://github.com/nuxt-community/gtm-module
@@ -77,14 +75,6 @@ export default {
   },
 
   loading: '~/components/s_loader/s_loader',
-
-  // PWA module configuration: https://go.nuxtjs.dev/pwa
-  pwa: {
-    manifest: {
-      lang: 'ru',
-      theme_color: '#ffffff',
-    },
-  },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {},
