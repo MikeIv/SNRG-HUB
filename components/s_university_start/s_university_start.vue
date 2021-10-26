@@ -26,7 +26,7 @@
       <div class="s-university-start__content">
         <div class="s-university-start__info">
           <span class="s-university-start__info-subtitle a-font_l">{{ university.city }}</span>
-          <h1 class="s-university-start__info-name a-font_h1">{{ university.name }}</h1>
+          <h2 class="s-university-start__info-name a-font_h1">{{ university.name }}</h2>
           <p class="s-university-start__info-description a-font_xl">{{ university.description }}</p>
           <div class="s-university-start__photo s-university-start__photo-bottom">
             <img :src="university.photo" :alt="university.title" class="s-university-start__photo-img" />

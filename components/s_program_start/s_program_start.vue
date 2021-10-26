@@ -21,7 +21,7 @@
       <div class="s-program-start__content">
         <div class="s-program-start__info-top">
           <span class="s-program-start__info-top-subtitle a-font_l">{{ program.subtitle }}</span>
-          <h1 class="s-program-start__info-top-name a-font_h1">{{ program.title }}</h1>
+          <h2 class="s-program-start__info-top-name a-font_h1">{{ program.title }}</h2>
           <p class="s-program-start__info-top-description a-font_xl">{{ program.description }}</p>
           <div class="s-program-start__photo s-program-start__photo-bottom">
             <img :src="program.photo" :alt="program.title" class="s-program-start__photo-img" />
@@ -151,6 +151,7 @@ export default {
       },
       directions: {},
       city: {},
+      organization: {},
     };
   },
 
@@ -184,9 +185,12 @@ export default {
     this.program.start_date = getData.start_date;
     this.program.form = getData.included.formats[0].name;
     this.program.photo = `${this.baseURL}${getData.digital_image}`;
+    this.organization = getData.included.organization;
 
-    this.directions = getData.included.directions;
+    this.directions = getData.included.levels;
     this.city = getData.included.organization.included.city;
+
+    console.log(getData);
 
     if (this.city) {
       const breadcrumb = {
@@ -209,6 +213,15 @@ export default {
       const breadcrumb = {
         label: this.directions[0].name,
         href: breadcrumbHref,
+      };
+
+      this.breadcrumbs.push(breadcrumb);
+    }
+
+    if (this.organization) {
+      const breadcrumb = {
+        label: this.organization.abbreviation_name,
+        href: `/catalog/${this.organization.slug}`,
       };
 
       this.breadcrumbs.push(breadcrumb);

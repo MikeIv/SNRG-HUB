@@ -2,12 +2,12 @@
   <div class="a-breadcrumbs">
     <div class="a-breadcrumbs__wrapper" v-for="(item, index) in breadcrumbsArray" :key="index">
       <nuxt-link v-if="item.href" :to="item.href" :class="classes" class="a-breadcrumbs-item">
-        <span class="a-breadcrumbs-item__label a-font_m-s"> {{ item.label }} </span>
+        <h1 class="a-breadcrumbs-item__label a-font_m-s">{{ item.label }}</h1>
         <i class="si-chevron-right"></i>
       </nuxt-link>
 
       <div v-else :class="classes" class="a-breadcrumbs-item">
-        <span class="a-breadcrumbs-item__label a-font_m-s"> {{ item.label }} </span>
+        <h1 class="a-breadcrumbs-item__label a-font_m-s">{{ item.label }}</h1>
         <i class="si-chevron-right"></i>
       </div>
     </div>

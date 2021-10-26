@@ -4,6 +4,12 @@
   display: flex;
   flex-wrap: wrap;
 
+  h1 {
+    color: var(--a-color_text--secondary) !important;
+    font-weight: 500 !important;
+    order: 1;
+  }
+
   &-item {
     display: flex;
     justify-content: space-between;
@@ -42,14 +48,10 @@
         order: 1;
       }
 
-      span {
+      h1 {
         order: 0;
       }
     }
-  }
-
-  span {
-    order: 1;
   }
 
   &__wrapper {
