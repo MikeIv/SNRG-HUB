@@ -64,7 +64,9 @@
 </template>
 
 <script>
-import { ALogo, AInput, AButton, MBanner } from '@cwespb/synergyui';
+import {
+  ALogo, AInput, AButton, MBanner,
+} from '@cwespb/synergyui';
 import './s_header.scss';
 import SMenuMain from '../s_menu_main/s_menu_main';
 import MenuHorizontal from '../menu_horizontal/menu_horizontal';
@@ -157,8 +159,8 @@ export default {
           mainWrapper.classList.add('js-fixed');
 
           if (
-            (this.scrollTop > startPos && clientHeight < this.$store.state.quizInfo.top) ||
-            (this.scrollTop > startPos && this.scrollTop > quizScrollTop)
+            (this.scrollTop > startPos && clientHeight < this.$store.state.quizInfo.top)
+            || (this.scrollTop > startPos && this.scrollTop > quizScrollTop)
           ) {
             this.isVisible = true;
           } else {

@@ -3,7 +3,7 @@
     <div class="s-university-start__wrapper" :style="{ backgroundColor: university.color ? university.color : '#fff' }">
       <div class="s-university-start__header">
         <div class="s-university-start__header-breadcrumbs">
-          <a-breadcrumbs-item :breadcrumbs="breadcrumbs" />
+          <a-breadcrumbs :breadcrumbs="breadcrumbs" />
         </div>
         <div class="s-university-start__header-icons">
           <i class="si-share s-university-start__header-icon" @click.stop="toggleMenu" tabindex="0" />
@@ -26,7 +26,7 @@
       <div class="s-university-start__content">
         <div class="s-university-start__info">
           <span class="s-university-start__info-subtitle a-font_l">{{ university.city }}</span>
-          <h1 class="s-university-start__info-name a-font_h1">{{ university.name }}</h1>
+          <h2 class="s-university-start__info-name a-font_h1">{{ university.name }}</h2>
           <p class="s-university-start__info-description a-font_xl">{{ university.description }}</p>
           <div class="s-university-start__photo s-university-start__photo-bottom">
             <img :src="university.photo" :alt="university.title" class="s-university-start__photo-img" />
@@ -74,16 +74,17 @@
 
 <script>
 import {
-  ABreadcrumbsItem, AFactoid, ALogo, MCard, MSocialShare,
+  AFactoid, ALogo, MCard, MSocialShare,
 } from '@cwespb/synergyui';
 import './s_university_start.scss';
 import getOrganizationsDetail from '~/api/organizationsDetail';
+import ABreadcrumbs from '~/components/a_breadcrumbs/a_breadcrumbs';
 
 export default {
   name: 's_university_start',
 
   components: {
-    ABreadcrumbsItem,
+    ABreadcrumbs,
     AFactoid,
     ALogo,
     MCard,
@@ -96,22 +97,15 @@ export default {
       isMenuOpen: false,
       breadcrumbs: [
         {
-          label: 'Учебные заведения',
+          label: 'Главная',
           href: '/',
         },
         {
-          label: 'Универститеты',
-          href: '/',
-        },
-        {
-          label: 'Москва',
-          href: '/',
-        },
-        {
-          label: 'МОИ',
-          href: '/',
+          label: 'Каталог',
+          href: '/catalog',
         },
       ],
+
       logoSrc: '',
       event: null,
       university: {
@@ -124,6 +118,7 @@ export default {
         link: '#',
         photo: '',
       },
+      city: {},
     };
   },
   props: ['methods', 'title'],
@@ -137,6 +132,27 @@ export default {
     this.university.hostel = 'есть';
     this.university.photo = this.baseURL + preData.data.digital_image;
     this.logoSrc = this.baseURL + preData.data.logo;
+
+    // this.directions = preData.included.directions;
+    this.city = preData.data.included.city;
+
+    if (this.city) {
+      const breadcrumb = {
+        label: this.city.name,
+        href: `/catalog?&city_ids=${this.city.id}`,
+      };
+
+      this.breadcrumbs.push(breadcrumb);
+    }
+
+    if (this.university.name) {
+      const breadcrumb = {
+        label: this.university.name,
+        href: '',
+      };
+
+      this.breadcrumbs.push(breadcrumb);
+    }
   },
 
   computed: {
