@@ -20,3 +20,6 @@ global:
     fbPixel: "641239533512669"
     gtm: "W9PTKQ6"
     s3UrlBacket: "https://sys3.ru/marketplace/"
+redirects:
+  - host: synergyedu.ru
+    path: /
