@@ -1,4 +1,10 @@
 export default async function ({ route, store }) {
-  store.commit('setUtms', route.query);
+  const utms = {};
+  Object.entries(route.query).forEach(([key, value]) => {
+    if (key.includes('utm')) {
+      utms[key] = value;
+    }
+  });
+  store.commit('setUtms', utms);
   store.commit('setFollowedLink', route.path);
 }

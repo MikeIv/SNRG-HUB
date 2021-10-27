@@ -140,7 +140,7 @@ export default {
   methods: {
     handleScroll() {
       const mainWrapper = document.querySelector('body');
-      const headerHeight = document.querySelector('.s-header-edu-platform')?.offsetHeight;
+      const headerHeight = document.querySelector('.s-header-lp')?.offsetHeight;
       this.scrollTop = window.scrollY;
 
       if (this.scrollTop > headerHeight && document.documentElement.clientWidth > 575) {
