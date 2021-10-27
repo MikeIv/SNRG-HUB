@@ -75,15 +75,21 @@ export default (context, inject) => {
   // formData - объект из данных формы
   // setings = объект переопределения настроек
 
-  function getConfig(unit, type, land) {
+  function getConfig(unit, type, land, utms) {
     let url = '';
     if (landerConfig) {
       // eslint-disable-next-line max-len
       url = `https://syn.su/lander.php?r=land/index&unit=${unit}${
         type ? `&type=${type}` : ''
       }&land=${land}&ignore-thanksall=1`;
+
+      // Если есть utm метки, то передаем их в урл
+      if (Object.keys(utms).length) {
+        Object.entries(utms).forEach(([key, value]) => {
+          url += `&${key}=${value}`;
+        });
+      }
     }
-    console.log('URL', url);
     return url;
   }
 
@@ -96,7 +102,7 @@ export default (context, inject) => {
       type = undefined;
     }
 
-    const url = getConfig(unit, type, land);
+    const url = getConfig(unit, type, land, context.store.state.utms);
 
     const setingSend = {
       version: '',
@@ -118,7 +124,19 @@ export default (context, inject) => {
       }
 
       // Обработка и подготовка данных для отправки
+
+      if (Object.keys(context.store.state.utms).length) {
+        if (formData.comment) {
+          // eslint-disable-next-line no-param-reassign
+          formData.comment = `${formData.comment} \nUtm-метки получены по ссылке: ${context.store.state.followedLink}`;
+        } else {
+          // eslint-disable-next-line no-param-reassign
+          formData.comment = `Utm-метки получены по ссылке: ${context.store.state.followedLink}`;
+        }
+      }
+
       const formDataKeys = Object.keys(formData);
+
       for (let i = 0; i < formDataKeys.length; i += 1) {
         data.append(formDataKeys[i], formData[formDataKeys[i]]);
       }
@@ -130,7 +148,6 @@ export default (context, inject) => {
       data.append('url_location', document.location.href);
       data.append('entry_point', document.location.host);
       data.append('analytics_id', cookie.get('_ga'));
-
       // Отправка данных
       axios({
         method: 'post',
@@ -140,8 +157,7 @@ export default (context, inject) => {
       })
         .then((response) => {
           if (response.status === 200) {
-            console.log('lander', response);
-            // window.location.replace(setingSend.redirectUrl);
+            window.location.replace(setingSend.redirectUrl);
           }
         })
         .catch((error) => {

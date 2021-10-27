@@ -29,7 +29,10 @@
           <s-program-content :methods="methodsContent" title="Программа обучения" />
           <s-program-teachers :slug="productSlug" title="<span>Преподаватель</span> курса" />
           <s-program-skills :methods="methodsSkills" title="Чему <span>вы научитесь</span>" />
-          <s-program-form title="Записаться на программу или получить бесплатную консультацию" />
+          <s-program-form
+            title="Записаться на программу или получить бесплатную консультацию"
+            :formProduct="popupProduct"
+          />
           <a-button
             @click="scrollToForm"
             class="catalog-page__section-lp__mobile-btn catalog-page__section-lp__mobile-btn__sign"
@@ -421,6 +424,8 @@ export default {
       selectOptionsKey: 123,
 
       popup: false,
+      popupProduct: {},
+
       applicationPopup: false,
       signUpPopup: false,
       selectedProductTitle: null,
@@ -598,6 +603,7 @@ export default {
 
     openPopupHandler(product) {
       this.mainBtnVisible = false;
+      this.popupProduct = product;
       this.productSlug = product.slug;
       this.methodsStart[0] = {
         data: {
