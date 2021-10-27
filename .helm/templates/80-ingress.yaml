@@ -83,7 +83,7 @@ spec:
             pathType: Prefix
             backend:
               service:
-                name: {{ .Values.global.appName }}
+                name: {{ $.Values.global.appName }}
                 port:
                   name: http
 ---
@@ -119,7 +119,7 @@ spec:
             pathType: Prefix
             backend:
               service:
-                name: {{ .Values.global.appName }}
+                name: {{ $.Values.global.appName }}
                 port:
                   name: http
 ---
@@ -161,7 +161,7 @@ spec:
             pathType: Prefix
             backend:
               service:
-                name: {{ .Values.global.appName }}
+                name: {{ $.Values.global.appName }}
                 port:
                   name: http
 ---
