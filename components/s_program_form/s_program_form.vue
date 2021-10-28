@@ -98,7 +98,7 @@ export default {
   methods: {
     sendForm() {
       if (this.formProduct) {
-        this.fieldsData.comment = `Клик из формы попапа продукта: ${this.formProduct.name}`;
+        this.fieldsData.comments = `Клик из формы попапа продукта: ${this.formProduct.name}`;
       }
 
       this.$lander
