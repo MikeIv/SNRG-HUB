@@ -80,7 +80,7 @@ export default {
                 newSearch = `${newSearch}?page=1`;
               }
 
-              window.history.pushState({}, null, `${window.location.pathname}/${found.slug}${newSearch}`);
+              window.history.pushState({}, null, `${window.location.pathname}${found.slug}/${newSearch}`);
             }
           }
         } else if (filterIds.length > 1) {
@@ -100,7 +100,7 @@ export default {
             .filter((query) => !query.includes(filterKey))
             .join('&');
 
-          window.history.pushState({}, null, `${newPath}${newSearch}&${queries}`);
+          window.history.pushState({}, null, `${newPath}${newSearch || '?'}${newSearch ? '&' : ''}${queries}`);
         } else {
           filterListData[filterKey].values.forEach((value) => {
             if (window.location.pathname.includes(value.slug)) {
@@ -183,7 +183,7 @@ export default {
           .split('&')
           .filter((query) => !query.includes(filter.key))
           .join('&');
-        window.history.pushState({}, null, `${window.location.pathname}/${filter.slug}${newSearch}`);
+        window.history.pushState({}, null, `${window.location.pathname}${filter.slug}/${newSearch}`);
       }
     },
   },

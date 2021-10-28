@@ -106,7 +106,7 @@ export default (context, inject) => {
 
     const setingSend = {
       version: '',
-      redirectUrl: route ? `${route}/thanks` : landerConfig.redirectUrl,
+      redirectUrl: route ? `${route}thanks` : landerConfig.redirectUrl,
     };
 
     return new Promise(() => {
@@ -126,12 +126,12 @@ export default (context, inject) => {
       // Обработка и подготовка данных для отправки
 
       if (Object.keys(context.store.state.utms).length) {
-        if (formData.comment) {
+        if (formData.comments) {
           // eslint-disable-next-line no-param-reassign
-          formData.comment = `${formData.comment} \nUtm-метки получены по ссылке: ${context.store.state.followedLink}`;
+          formData.comments = `${formData.comments}. Utm-метки получены по ссылке: ${context.store.state.followedLink}`;
         } else {
           // eslint-disable-next-line no-param-reassign
-          formData.comment = `Utm-метки получены по ссылке: ${context.store.state.followedLink}`;
+          formData.comments = `Utm-метки получены по ссылке: ${context.store.state.followedLink}`;
         }
       }
 

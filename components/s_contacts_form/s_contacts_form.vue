@@ -88,7 +88,9 @@ export default {
       this.$lander.send(this.fieldsData);
     },
     handlerSave() {
-      this.$lander.storage.save('contactsform', this.fieldsData);
+      const dataToSend = { ...this.fieldsData };
+      delete dataToSend.comments;
+      this.$lander.storage.save('contactsform', dataToSend);
     },
     validFormData() {
       const dataForm = [

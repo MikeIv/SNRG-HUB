@@ -45,6 +45,18 @@ export default {
     { src: '@/plugins/lander.js', mode: 'client' },
   ],
 
+  redirect: [
+    {
+      from: '^(\\/[^\\?]*[^\\/])(\\?.*)?$',
+      to: '$1/$2',
+    },
+  ],
+
+  router: {
+    middleware: 'trailingSlashRedirect',
+    trailingSlash: true,
+  },
+
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,
 
@@ -64,6 +76,7 @@ export default {
     '@nuxtjs/gtm',
     // https://www.npmjs.com/package/nuxt-facebook-pixel-module
     'nuxt-facebook-pixel-module',
+    '@nuxtjs/redirect-module',
   ],
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
