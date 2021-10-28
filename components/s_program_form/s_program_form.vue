@@ -98,7 +98,7 @@ export default {
   methods: {
     sendForm() {
       if (this.formProduct) {
-        this.fieldsData.comment = `Клик из формы попапа продукта: ${this.formProduct.name}`;
+        this.fieldsData.comments = `Клик из формы попапа продукта: ${this.formProduct.name}`;
       }
 
       this.$lander
@@ -106,7 +106,9 @@ export default {
         .then(() => {});
     },
     handlerSave() {
-      this.$lander.storage.save('programform', this.fieldsData);
+      const dataToSend = { ...this.fieldsData };
+      delete dataToSend.comments;
+      this.$lander.storage.save('programform', dataToSend);
     },
     validatePhone(value) {
       this.validPhone = value.valid;
