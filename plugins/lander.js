@@ -126,12 +126,12 @@ export default (context, inject) => {
       // Обработка и подготовка данных для отправки
 
       if (Object.keys(context.store.state.utms).length) {
-        if (formData.comment) {
+        if (formData.comments) {
           // eslint-disable-next-line no-param-reassign
-          formData.comment = `${formData.comment} \nUtm-метки получены по ссылке: ${context.store.state.followedLink}`;
+          formData.comments = `${formData.comments} \nUTM получены по ссылке: ${context.store.state.followedLink}`;
         } else {
           // eslint-disable-next-line no-param-reassign
-          formData.comment = `Utm-метки получены по ссылке: ${context.store.state.followedLink}`;
+          formData.comments = `UTM получены по ссылке: ${context.store.state.followedLink}`;
         }
       }
 
