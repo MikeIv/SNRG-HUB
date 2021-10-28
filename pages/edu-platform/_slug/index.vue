@@ -93,6 +93,8 @@ export default {
 
   layout: 'empty',
 
+  middleware: 'parseUtms',
+
   data() {
     return {
       baseURL: process.env.NUXT_ENV_S3BACKET,

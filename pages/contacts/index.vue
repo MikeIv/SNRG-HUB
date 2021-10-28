@@ -13,6 +13,7 @@ export default {
   components: { LazyHydrate },
 
   // middleware: 'getPageInfo',
+  middleware: 'parseUtms',
 
   data() {
     return {};

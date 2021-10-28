@@ -59,6 +59,11 @@ export default {
       required: false,
       default: 'Записаться на курс или получить бесплатную консультацию',
     },
+
+    formProduct: {
+      type: Object,
+      required: false,
+    },
   },
 
   components: {
@@ -92,8 +97,12 @@ export default {
 
   methods: {
     sendForm() {
+      if (this.formProduct) {
+        this.fieldsData.comment = `Клик из формы попапа продукта: ${this.formProduct.name}`;
+      }
+
       this.$lander
-        .send(this.fieldsData, {}, this.$route.name === 'lp-slug' ? this.$route.path : undefined)
+        .send(this.fieldsData, {}, this.$route.name === 'edu-platform-slug' ? this.$route.path : undefined)
         .then(() => {});
     },
     handlerSave() {

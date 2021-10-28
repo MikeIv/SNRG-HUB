@@ -4,7 +4,7 @@
 
 <script>
 export default {
-  middleware: 'getPageInfo',
+  middleware: ['getPageInfo', 'parseUtms'],
 
   data() {
     return {
