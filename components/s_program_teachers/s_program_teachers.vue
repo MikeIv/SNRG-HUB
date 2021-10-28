@@ -66,7 +66,7 @@ export default {
     } else {
       expandedMethod.filter.slug = this.$route.params.slug;
     }
-    if (this.$route.name === 'product-slug' || this.$route.name === 'lp-slug') {
+    if (this.$route.name === 'product-slug' || this.$route.name === 'edu-platform-slug') {
       const preData = await getProductsDetails(expandedMethod);
       this.programTeachers = preData.data.included.persons;
     } else {

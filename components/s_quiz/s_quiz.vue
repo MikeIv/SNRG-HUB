@@ -194,7 +194,6 @@ export default {
     },
 
     async startQuiz() {
-      console.log(this.$lander.cookie.get('test1'));
       this.banerFlag = false;
     },
 

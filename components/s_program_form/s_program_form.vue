@@ -53,13 +53,25 @@ import './s_program_form.scss';
 export default {
   name: 's_program_form',
 
+  props: {
+    title: {
+      type: String,
+      required: false,
+      default: 'Записаться на курс или получить бесплатную консультацию',
+    },
+
+    formProduct: {
+      type: Object,
+      required: false,
+    },
+  },
+
   components: {
     MForm,
     AInput,
   },
 
   data: () => ({
-    title: 'Записаться на курс или получить бесплатную консультацию',
     checkboxText: 'Нажимая на кнопку, вы соглашаетсь с политикой конфиденциальности и на получение рассылок',
     btnText: 'Записаться',
     typeCtrl: 'checkbox',
@@ -85,8 +97,12 @@ export default {
 
   methods: {
     sendForm() {
+      if (this.formProduct) {
+        this.fieldsData.comment = `Клик из формы попапа продукта: ${this.formProduct.name}`;
+      }
+
       this.$lander
-        .send(this.fieldsData, {}, this.$route.name === 'lp-slug' ? this.$route.path : undefined)
+        .send(this.fieldsData, {}, this.$route.name === 'edu-platform-slug' ? this.$route.path : undefined)
         .then(() => {});
     },
     handlerSave() {

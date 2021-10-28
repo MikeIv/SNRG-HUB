@@ -75,19 +75,35 @@ export default (context, inject) => {
   // formData - объект из данных формы
   // setings = объект переопределения настроек
 
-  function getConfig() {
+  function getConfig(unit, type, land, utms) {
     let url = '';
     if (landerConfig) {
-      const { unit, type, land } = landerConfig;
       // eslint-disable-next-line max-len
-      url = `https://syn.su/lander.php?r=land/index&unit=${unit}&type=${type}&land=${land}&ignore-thanksall=1`;
+      url = `https://syn.su/lander.php?r=land/index&unit=${unit}${
+        type ? `&type=${type}` : ''
+      }&land=${land}&ignore-thanksall=1`;
+
+      // Если есть utm метки, то передаем их в урл
+      if (Object.keys(utms).length) {
+        Object.entries(utms).forEach(([key, value]) => {
+          url += `&${key}=${value}`;
+        });
+      }
     }
     return url;
   }
 
-  const url = getConfig();
-
   function send(formData, setingsData, route) {
+    let { unit, type } = landerConfig;
+    const { land } = landerConfig;
+
+    if (route) {
+      unit = 'edu_platform';
+      type = undefined;
+    }
+
+    const url = getConfig(unit, type, land, context.store.state.utms);
+
     const setingSend = {
       version: '',
       redirectUrl: route ? `${route}/thanks` : landerConfig.redirectUrl,
@@ -108,7 +124,19 @@ export default (context, inject) => {
       }
 
       // Обработка и подготовка данных для отправки
+
+      if (Object.keys(context.store.state.utms).length) {
+        if (formData.comment) {
+          // eslint-disable-next-line no-param-reassign
+          formData.comment = `${formData.comment} \nUtm-метки получены по ссылке: ${context.store.state.followedLink}`;
+        } else {
+          // eslint-disable-next-line no-param-reassign
+          formData.comment = `Utm-метки получены по ссылке: ${context.store.state.followedLink}`;
+        }
+      }
+
       const formDataKeys = Object.keys(formData);
+
       for (let i = 0; i < formDataKeys.length; i += 1) {
         data.append(formDataKeys[i], formData[formDataKeys[i]]);
       }
@@ -120,7 +148,6 @@ export default (context, inject) => {
       data.append('url_location', document.location.href);
       data.append('entry_point', document.location.host);
       data.append('analytics_id', cookie.get('_ga'));
-
       // Отправка данных
       axios({
         method: 'post',

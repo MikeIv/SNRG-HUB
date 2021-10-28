@@ -10,7 +10,7 @@
 import LazyHydrate from 'vue-lazy-hydration';
 
 export default {
-  middleware: 'getPageInfo',
+  middleware: ['getPageInfo', 'parseUtms'],
 
   components: {
     LazyHydrate,

@@ -14,7 +14,7 @@ export default {
 
   components: { LazyHydrate },
 
-  middleware: 'getPageInfo',
+  middleware: ['getPageInfo', 'parseUtms'],
 
   computed: {
     pageInfo() {

@@ -41,7 +41,7 @@ export default {
 
   methods: {
     goBack() {
-      this.$router.push({ name: 'lp-slug' });
+      this.$router.push({ name: 'edu-platform-slug' });
     },
   },
 };

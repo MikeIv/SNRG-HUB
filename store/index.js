@@ -7,6 +7,8 @@ export const state = () => ({
   pageMeta: {},
   isMenuOpen: false,
   quizInfo: {},
+  utms: {},
+  followedLink: '',
 });
 
 export const mutations = {
@@ -21,8 +23,12 @@ export const mutations = {
   },
   setQuizInfo(state, quiz) {
     state.quizInfo = quiz;
-
-    console.log(quiz.top);
+  },
+  setUtms(state, utms) {
+    state.utms = utms;
+  },
+  setFollowedLink(state, link) {
+    state.followedLink = link;
   },
 };
 
