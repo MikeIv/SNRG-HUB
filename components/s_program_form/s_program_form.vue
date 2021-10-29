@@ -106,7 +106,9 @@ export default {
         .then(() => {});
     },
     handlerSave() {
-      this.$lander.storage.save('programform', this.fieldsData);
+      const dataToSend = { ...this.fieldsData };
+      delete dataToSend.comments;
+      this.$lander.storage.save('programform', dataToSend);
     },
     validatePhone(value) {
       this.validPhone = value.valid;

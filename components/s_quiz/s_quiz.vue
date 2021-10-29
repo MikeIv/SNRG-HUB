@@ -201,7 +201,9 @@ export default {
       const dataForm = [{ value: this.send.name }, { value: this.send.tel }];
       this.validFlag = this.$lander.valid(dataForm);
 
-      this.$lander.storage.save('quiz', this.send);
+      const dataToSend = { ...this.send };
+      delete dataToSend.comments;
+      this.$lander.storage.save('quiz', dataToSend);
     },
 
     sendQuiz() {
@@ -210,7 +212,7 @@ export default {
       for (let i = 0; i < dataQuiz.length; i += 1) {
         quizString = `${quizString} Вопрос: ${dataQuiz[i].question} - Ответ:  ${dataQuiz[i].answer} \n`;
       }
-      this.send.comment = quizString;
+      this.send.comments = quizString;
       this.$lander.send(this.send).then((response) => {
         console.log(response);
       });
