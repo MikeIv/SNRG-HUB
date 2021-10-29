@@ -8,7 +8,7 @@ global:
       port: '12201'
     
     fbPixel: "641239533512669"
-    gtm: "W9PTKQ6"
+    gtm: "WPTVBRG"
     s3UrlBacket: "https://dev.sys3.ru/marketplace/"
 
   prod:
@@ -18,7 +18,7 @@ global:
       port: '12201'
     
     fbPixel: "641239533512669"
-    gtm: "W9PTKQ6"
+    gtm: "WPTVBRG"
     s3UrlBacket: "https://sys3.ru/marketplace/"
 redirects:
   - host: synergyedu.ru
