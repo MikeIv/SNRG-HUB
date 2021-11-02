@@ -109,6 +109,7 @@ export default {
   // GTM
   gtm: {
     id: process.env.SITE_GTM,
+    pageTracking: true,
   },
 
   // Facebook pixel
