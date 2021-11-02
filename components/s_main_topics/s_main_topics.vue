@@ -1,5 +1,5 @@
 <template>
-  <section class="s-main-topics s-padding">
+  <section class="s-main-topics">
     <div class="l-wide">
       <div class="s-main-topics__wrapper">
         <h2 class="s-main-topics__title a-font_h5">{{ title }}</h2>
