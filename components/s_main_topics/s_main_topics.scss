@@ -28,18 +28,51 @@
       content: none;
     }
   }
-  &__title {
-    margin-bottom: rem(24);
-  }
-
   &__swiper {
     position: relative;
+    display: none;
+
+    @media screen and (max-width: 395px) {
+      display: block;
+    }
+  }
+  &__title {
+    margin-bottom: rem(24);
+
+    @media screen and (max-width: 970px) {
+      margin-bottom: rem(16);
+    }
   }
 
   &__slide {
     width: rem(160);
     a {
       text-decoration: none;
+    }
+  }
+
+  &__cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: rem(16);
+
+    @media screen and (max-width: 395px) {
+      display: none;
+    }
+
+    @media screen and (max-width: 970px) {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  &__btn {
+    margin: 0 auto;
+    margin-top: rem(24);
+    color: var(--a-color_bg);
+    background-color: var(--a-color_link);
+
+    @media screen and (max-width: 395px) {
+      display: none;
     }
   }
 }

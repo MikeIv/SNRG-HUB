@@ -1,0 +1,67 @@
+@import '@/assets/styles/tools/mixins';
+
+.m-card-gorizontal {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--a-padding--x6); // в дизайне 28px
+  background-color: var(--a-color_bg);
+  border-radius: rem(10);
+
+  @media screen and (max-width: 767px) {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: var(--a-padding--x3);
+  }
+
+  &:hover {
+    color: var(--a-color_link);
+  }
+
+  &__title {
+    display: -webkit-box;
+    overflow: hidden;
+    max-width: 100%;
+    height: 100%;
+    max-height: rem(48);
+    margin-bottom: rem(12);
+    color: var(--a-color_text);
+    text-overflow: ellipsis;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+
+    @media screen and (max-width: 767px) {
+      margin-bottom: rem(4);
+    }
+  }
+
+  &__description {
+    color: var(--a-color_active);
+
+    @media screen and (max-width: 767px) {
+      margin-bottom: rem(28);
+    }
+  }
+
+  &__icon {
+    position: relative;
+    overflow: hidden;
+    width: rem(60);
+    height: rem(60);
+    border-radius: 50%;
+
+    i {
+      font-size: rem(32);
+    }
+
+    img {
+      width: 100%;
+      height: auto;
+    }
+
+    .m-card-gorizontal:hover & {
+      background-color: transparent;
+      border: rem(1) solid var(--a-color_bg--secondary);
+    }
+  }
+}
