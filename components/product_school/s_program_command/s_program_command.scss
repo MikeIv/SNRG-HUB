@@ -1,0 +1,55 @@
+@import '@/assets/styles/tools/mixins';
+
+.s-program-command {
+  padding: var(--layout-v-padding) var(--layout-h-padding);
+  background: var(--a-color_bg);
+
+  &__title {
+    margin-bottom: rem(24);
+    span {
+      color: var(--a-color_link);
+    }
+  }
+
+  &__subtitle {
+    max-width: rem(936);
+    margin-bottom: rem(40);
+    font-weight: 500;
+  }
+
+  &__items {
+    display: flex;
+    margin: 0 rem(-12);
+    flex-wrap: wrap;
+
+    @media screen and (max-width: 767px) {
+      margin: 0;
+      flex-wrap: nowrap;
+    }
+  }
+
+  &__item {
+    width: calc(50% - rem(24));
+    margin: 0 rem(12) rem(40);
+
+    @media screen and (max-width: 767px) {
+      width: rem(310);
+      margin: 0;
+      flex-wrap: nowrap;
+    }
+    &-icon {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: rem(40);
+      height: rem(40);
+      margin-bottom: rem(16);
+      background: var(--a-color_corporate--blue);
+      border-radius: var(--a-borderRadius--default);
+    }
+
+    &-title {
+      margin-bottom: rem(8);
+    }
+  }
+}

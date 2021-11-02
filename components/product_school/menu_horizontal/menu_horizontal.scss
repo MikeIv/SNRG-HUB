@@ -1,0 +1,15 @@
+@import '@/assets/styles/tools/mixins';
+
+.menu-horizontal {
+  width: 100%;
+  .swiper-slide {
+    width: fit-content;
+  }
+
+  &__link {
+    color: var(--a-color_text);
+    font-weight: 600;
+    white-space: nowrap;
+    text-decoration: none;
+  }
+}
