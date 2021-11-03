@@ -4,7 +4,8 @@
       class="a-breadcrumbs__wrapper"
       v-for="(item, index) in breadcrumbsArray"
       :key="index"
-      itemprop="itemListElement" itemscope
+      itemprop="itemListElement"
+      itemscope
       itemtype="https://schema.org/ListItem"
     >
       <nuxt-link v-if="item.href" :to="item.href" :class="classes" class="a-breadcrumbs-item" itemprop="item">

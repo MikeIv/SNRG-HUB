@@ -7,24 +7,24 @@
         <div class="s-contacts-about__item-pretitle a-font_xxl">{{ item.pretitle }}</div>
         <div class="s-contacts-about__item-title a-font_h4">{{ item.title }}</div>
       </div>
-      <meta itemprop="@id" :content="localBusinessUrl">
-      <meta itemprop="name" :content="localBusinessName">
-      <meta itemprop="description" :content="localBusinessDescription">
-      <meta itemprop="telephone" :content="localBusinessPhone">
-      <meta itemprop="telephone" :content="localBusinessPhone2">
-      <meta itemprop="email" :content="localBusinessEmail">
-      <meta itemprop="email" :content="localBusinessEmail2">
-      <meta itemprop="email" :content="localBusinessEmail3">
-      <meta itemprop="email" :content="localBusinessEmail4">
-      <meta itemprop="url" :content="localBusinessUrl">
-      <meta itemprop="image" :content="localBusinessLogo">
-      <meta itemprop="openingHours" :content="localBusinessOpeningHours">
+      <meta itemprop="@id" :content="localBusinessUrl" />
+      <meta itemprop="name" :content="localBusinessName" />
+      <meta itemprop="description" :content="localBusinessDescription" />
+      <meta itemprop="telephone" :content="localBusinessPhone" />
+      <meta itemprop="telephone" :content="localBusinessPhone2" />
+      <meta itemprop="email" :content="localBusinessEmail" />
+      <meta itemprop="email" :content="localBusinessEmail2" />
+      <meta itemprop="email" :content="localBusinessEmail3" />
+      <meta itemprop="email" :content="localBusinessEmail4" />
+      <meta itemprop="url" :content="localBusinessUrl" />
+      <meta itemprop="image" :content="localBusinessLogo" />
+      <meta itemprop="openingHours" :content="localBusinessOpeningHours" />
       <span itemprop="address" itemscope itemtype="https://schema.org/PostalAddress" style="display: none;">
-        <meta itemprop="postalCode" :content="localBusinessPostalCode">
-        <meta itemprop="addressCountry" :content="localBusinessAddressCountry">
-        <meta itemprop="addressRegion" :content="localBusinessAddressRegion">
-        <meta itemprop="addressLocality" :content="localBusinessAddressLocality">
-        <meta itemprop="streetAddress" :content="localBusinessStreetAddress">
+        <meta itemprop="postalCode" :content="localBusinessPostalCode" />
+        <meta itemprop="addressCountry" :content="localBusinessAddressCountry" />
+        <meta itemprop="addressRegion" :content="localBusinessAddressRegion" />
+        <meta itemprop="addressLocality" :content="localBusinessAddressLocality" />
+        <meta itemprop="streetAddress" :content="localBusinessStreetAddress" />
       </span>
       <span itemprop="geo" itemscope itemtype="https://schema.org/GeoCoordinates" style="display: none;">
         <meta itemprop="latitude" content="57.700742" />
