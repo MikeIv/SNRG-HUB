@@ -1,5 +1,8 @@
 <template>
   <div class="product-page">
+    <noscript
+      ><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-WPTVBRG" height="0" width="0"></iframe
+    ></noscript>
     <SHeader />
     <Nuxt />
     <LazyHydrate when-visible>
@@ -35,3 +38,9 @@ export default {
   },
 };
 </script>
+<style lang="scss" scoped>
+iframe {
+  display: none;
+  visibility: hidden;
+}
+</style>

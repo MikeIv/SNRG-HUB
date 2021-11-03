@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 export default {
   debug: true,
   // Global page headers: https://go.nuxtjs.dev/config-head
@@ -34,6 +35,14 @@ export default {
       { rel: 'preconnect', href: 'https://mp.synergy.ru' },
       { rel: 'preconnect', href: 'https://connect.facebook.net' },
     ],
+    script: [
+      {
+        type: 'text/javascript',
+        // eslint-disable-next-line quotes
+        innerHTML: `(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({"gtm.start": new Date().getTime(),event:"gtm.js"});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!="dataLayer"?"&l="+l:"";j.async=true;j.src="https://www.googletagmanager.com/gtm.js?id="+i+dl;f.parentNode.insertBefore(j,f);})(window,document,"script","dataLayer","GTM-WPTVBRG");`,
+      },
+    ],
+    __dangerouslyDisableSanitizers: ['script'],
   },
 
   // Global CSS: https://go.nuxtjs.dev/config-css
@@ -73,9 +82,9 @@ export default {
     // https://github.com/nuxt-community/robots-module
     '@nuxtjs/robots',
     // https://github.com/nuxt-community/gtm-module
-    '@nuxtjs/gtm',
+    // '@nuxtjs/gtm',
     // https://www.npmjs.com/package/nuxt-facebook-pixel-module
-    'nuxt-facebook-pixel-module',
+    // 'nuxt-facebook-pixel-module',
     '@nuxtjs/redirect-module',
   ],
 
@@ -107,17 +116,17 @@ export default {
   },
 
   // GTM
-  gtm: {
-    id: process.env.SITE_GTM,
-    pageTracking: true,
-  },
+  // gtm: {
+  //   id: process.env.SITE_GTM,
+  //   pageTracking: true,
+  // },
 
   // Facebook pixel
-  facebook: {
-    /* module options */
-    track: 'PageView',
-    pixelId: process.env.SITE_FB_PIXEL,
-    autoPageView: true,
-    disabled: false,
-  },
+  // facebook: {
+  //   /* module options */
+  //   track: 'PageView',
+  //   pixelId: process.env.SITE_FB_PIXEL,
+  //   autoPageView: true,
+  //   disabled: false,
+  // },
 };
