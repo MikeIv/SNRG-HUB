@@ -7,6 +7,7 @@
         <div class="s-contacts-about__item-pretitle a-font_xxl">{{ item.pretitle }}</div>
         <div class="s-contacts-about__item-title a-font_h4">{{ item.title }}</div>
       </div>
+      <meta itemprop="@id" :content="localBusinessUrl">
       <meta itemprop="name" :content="localBusinessName">
       <meta itemprop="description" :content="localBusinessDescription">
       <meta itemprop="telephone" :content="localBusinessPhone">
@@ -48,7 +49,7 @@ export default {
         { id: 3, pretitle: 'ОГРН', title: '121700233002' },
       ],
       localBusinessName: 'ООО «Синерджи Юниверсити»',
-      localBusinesDescription: 'ООО «Синерджи Юниверсити»',
+      localBusinessDescription: 'ООО «Синерджи Юниверсити»',
       localBusinessPhone: '+7 (495) 800-10-01',
       localBusinessPhone2: '+7 (800) 100-00-11',
       localBusinessEmail: 'sales@synergyeducation.ru',
