@@ -45,8 +45,13 @@
   }
 
   &__text {
+    display: none;
     width: 100%;
     max-width: rem(820);
     margin-top: rem(16);
+
+    &._show {
+      display: block;
+    }
   }
 }

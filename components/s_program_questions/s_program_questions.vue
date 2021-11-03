@@ -1,15 +1,22 @@
 <template>
   <section class="s-program-questions" v-if="questionsList.length">
-    <div class="s-program-questions__wrapper">
+    <div class="s-program-questions__wrapper" itemscope itemtype="http://schema.org/Question">
       <h2 class="s-program-questions__title a-font_h2" v-html="title"></h2>
       <div class="s-program-questions__body">
         <div class="s-program-questions__row" v-for="item in questionsList" :key="item.id" @click="showMore(item)">
           <div class="s-program-questions__top">
-            <div class="title a-font_xxl">{{ item.title }}</div>
+            <div class="title a-font_xxl" itemprop="name">{{ item.title }}</div>
+            <meta itemprop="answerCount" content="1">
             <i class="s-program-content__icon" :class="`si-chevron-${item.isActive ? 'down' : 'up'}`"> </i>
           </div>
-          <div class="s-program-questions__text a-font_xl" v-if="item.isActive">
-            {{ item.text }}
+          <div
+            class="s-program-questions__text a-font_xl"
+            :class="item.isActive == true ? '_show' : ''"
+            itemprop="suggestedAnswer acceptedAnswer"
+            itemscope
+            itemtype="https://schema.org/Answer"
+          >
+            <div itemprop="text">{{ item.text }}</div>
           </div>
         </div>
       </div>

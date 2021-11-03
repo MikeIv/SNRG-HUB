@@ -18,13 +18,21 @@
           @changeMenuState="changeMenuState"
         />
       </div>
-      <div class="s-program-start__content">
+      <div class="s-program-start__content" itemscope itemtype="https://schema.org/Product">
         <div class="s-program-start__info-top">
           <span class="s-program-start__info-top-subtitle a-font_l">{{ program.subtitle }}</span>
-          <h2 class="s-program-start__info-top-name a-font_h1">{{ program.title }}</h2>
-          <p class="s-program-start__info-top-description a-font_xl">{{ program.description }}</p>
+          <h2 class="s-program-start__info-top-name a-font_h1" itemprop="name">{{ program.title }}</h2>
+          <p class="s-program-start__info-top-description a-font_xl" itemprop="description">
+            {{ program.description }}
+          </p>
           <div class="s-program-start__photo s-program-start__photo-bottom">
-            <img :src="program.photo" :alt="program.title" class="s-program-start__photo-img" />
+            <img :src="program.photo" :alt="program.title" class="s-program-start__photo-img" itemprop="image" />
+          </div>
+          <div
+            itemprop="aggregateRating" itemscope itemtype="https://schema.org/AggregateRating"
+            style="display: none;">
+            <meta itemprop="ratingValue" content="5" />
+            <meta itemprop="reviewCount" content="5" />
           </div>
           <div class="s-program-start__info-bottom">
             <div class="s-program-start__info-bottom-buttons">

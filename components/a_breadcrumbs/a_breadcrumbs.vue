@@ -1,17 +1,25 @@
 <template>
-  <div class="a-breadcrumbs">
-    <div class="a-breadcrumbs__wrapper" v-for="(item, index) in breadcrumbsArray" :key="index">
-      <nuxt-link v-if="item.href" :to="item.href" :class="classes" class="a-breadcrumbs-item">
-        <h1 class="a-breadcrumbs-item__label a-font_m-s">{{ item.label }}</h1>
+  <ul class="a-breadcrumbs" itemscope itemtype="https://schema.org/BreadcrumbList">
+    <li
+      class="a-breadcrumbs__wrapper"
+      v-for="(item, index) in breadcrumbsArray"
+      :key="index"
+      itemprop="itemListElement"
+      itemscope
+      itemtype="https://schema.org/ListItem"
+    >
+      <nuxt-link v-if="item.href" :to="item.href" :class="classes" class="a-breadcrumbs-item" itemprop="item">
+        <h1 class="a-breadcrumbs-item__label a-font_m-s" itemprop="name">{{ item.label }}</h1>
         <i class="si-chevron-right"></i>
+        <meta itemprop="position" :content="index" />
       </nuxt-link>
-
-      <div v-else :class="classes" class="a-breadcrumbs-item">
-        <h1 class="a-breadcrumbs-item__label a-font_m-s">{{ item.label }}</h1>
+      <div v-else :class="classes" class="a-breadcrumbs-item" itemprop="item">
+        <h1 class="a-breadcrumbs-item__label a-font_m-s" itemprop="name">{{ item.label }}</h1>
         <i class="si-chevron-right"></i>
+        <meta itemprop="position" :content="index" />
       </div>
-    </div>
-  </div>
+    </li>
+  </ul>
 </template>
 
 <script>
