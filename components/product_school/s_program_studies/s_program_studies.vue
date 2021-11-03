@@ -30,6 +30,8 @@
         :isVertical="popupOptions.form.isVertical"
         :btnText="popupOptions.form.btnText"
         :checkboxText="popupOptions.form.checkboxText"
+        :checked="popupOptions.form.checked"
+        typeCtrl="checkbox"
         ref="form"
       >
         <template v-slot:inputs>
@@ -118,6 +120,7 @@ export default {
           isVertical: true,
           btnText: 'Записаться',
           checkboxText: 'Нажимая на кнопку, я соглашаюсь с политикой конфиденциальности и на получение рассылок',
+          checked: true,
         },
       },
     };
