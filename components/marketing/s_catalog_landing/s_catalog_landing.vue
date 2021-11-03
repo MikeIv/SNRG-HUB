@@ -570,6 +570,7 @@ export default {
       if (btn === 'Записаться') {
         this.selectedProductTitle = product.name;
         this.signUpPopup = true;
+        this.popupProduct = product;
       } else {
         this.openPopupHandler(product);
       }
@@ -586,12 +587,18 @@ export default {
     },
 
     sendForm() {
+      if (this.popupProduct) {
+        this.fieldsData.comments = `Клик из формы попапа продукта: ${this.popupProduct.name}`;
+      }
+
       this.$lander
         .send(this.fieldsData, {}, this.$route.name === 'edu-platform-slug' ? this.$route.path : undefined)
         .then(() => {});
     },
     handlerSave() {
-      this.$lander.storage.save('programform', this.fieldsData);
+      const dataToSend = { ...this.fieldsData };
+      delete dataToSend.comments;
+      this.$lander.storage.save('programform', dataToSend);
     },
     validatePhone(value) {
       this.validPhone = value.valid;

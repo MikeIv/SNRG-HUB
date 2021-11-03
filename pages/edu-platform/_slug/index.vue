@@ -3,7 +3,7 @@
     <header class="s-header-lp l-wide" :class="{ fixed: isScrolled, fixedMobile: isIconInHeader }">
       <div class="s-header-lp__left">
         <nuxt-link to="/" class="s-header__logo-link">
-          <a-logo class="s-header-lp__logo" type="standart" :link="logoURL"></a-logo>
+          <img class="s-header-lp__logo" :src="logoURL" />
         </nuxt-link>
         <h3 class="a-font_XL s-header-lp__left-text">Образовательная платформа</h3>
       </div>
@@ -79,7 +79,6 @@
 </template>
 
 <script>
-import { ALogo } from '@cwespb/synergyui';
 import SCatalogLanding from '~/components/marketing/s_catalog_landing/s_catalog_landing';
 import SProgramForm from '~/components/s_program_form/s_program_form';
 import getLandingDetail from '~/api/landingsDetail';
@@ -88,7 +87,6 @@ export default {
   components: {
     SCatalogLanding,
     SProgramForm,
-    ALogo,
   },
 
   layout: 'empty',

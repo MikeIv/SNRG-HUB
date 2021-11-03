@@ -34,15 +34,16 @@
                     <div class="s-menu-main__link-icon si-chevron-down"></div>
                   </div>
                 </div>
-                <div class="s-menu-main__link-list">
+                <div class="s-menu-main__link-list" itemscope itemtype="http://schema.org/SiteNavigationElement">
                   <div v-for="(product, idx) in linkItem.products" :index="idx" :key="idx">
                     <nuxt-link
                       v-if="idx < 5"
                       :to="product.link"
                       @click.native="changeIsOpen"
                       class="s-menu-main__link-product"
+                      itemprop="url"
                     >
-                      <div class="s-menu-main__link-text a-font_m">{{ product.anchor }}</div>
+                      <div class="s-menu-main__link-text a-font_m" itemprop="name">{{ product.anchor }}</div>
                     </nuxt-link>
                   </div>
                   <nuxt-link

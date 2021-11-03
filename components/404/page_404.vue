@@ -8,9 +8,13 @@
             Возможно, она была перемещена,<br />
             или вы просто неверно указали адрес страницы.
           </div>
-          <nuxt-link to="/" class="page-404__button-wrap">
-            <a-button label="Перейти на главную" size="large" bgColor="accent" />
-          </nuxt-link>
+          <a-button
+            class="page-404__button-wrap"
+            label="Перейти на главную"
+            size="large"
+            bgColor="accent"
+            @click="goToMainPage"
+          />
         </div>
         <div class="page-404__img">
           <svg viewBox="0 0 572 229" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -94,6 +98,12 @@ export default {
 
   components: {
     AButton,
+  },
+
+  methods: {
+    goToMainPage() {
+      this.$router.push('/');
+    },
   },
 };
 </script>
