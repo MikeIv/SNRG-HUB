@@ -6,6 +6,7 @@
         <div class="s-program-questions__row" v-for="item in questionsList" :key="item.id" @click="showMore(item)">
           <div class="s-program-questions__top">
             <div class="title a-font_xxl" itemprop="name">{{ item.title }}</div>
+            <meta itemprop="answerCount" content="1">
             <i class="s-program-content__icon" :class="`si-chevron-${item.isActive ? 'down' : 'up'}`"> </i>
           </div>
           <div
