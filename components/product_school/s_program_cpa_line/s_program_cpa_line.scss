@@ -1,0 +1,48 @@
+@import '@/assets/styles/tools/mixins';
+
+.s-program-cpaLine {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  max-width: var(--layout-width);
+  margin: rem(20) auto;
+  padding: rem(20) rem(10) rem(20) rem(93);
+  background: var(--a-color_link);
+  border-radius: var(--a-borderRadius--bg);
+
+  @media screen and (max-width: 1000px) {
+    padding: rem(15) rem(15) rem(15) rem(50);
+    border-radius: rem(6);
+  }
+
+  @media (max-width: 991px) {
+    margin: rem(12) auto;
+  }
+
+  @media screen and (max-width: 830px) {
+    padding: rem(10) rem(10) rem(10) rem(30);
+    border-radius: var(--a-borderRadius--default);
+  }
+
+  @media screen and (max-width: 550px) {
+    flex-direction: column;
+    padding: rem(16) rem(15);
+    border-radius: var(--a-borderRadius--bg);
+  }
+
+  &__text {
+    padding-right: rem(40);
+    color: var(--a-color_bg);
+
+    @media screen and (max-width: 550px) {
+      margin-bottom: rem(12);
+      padding-right: 0;
+    }
+  }
+
+  & .a-button {
+    @media screen and (max-width: 550px) {
+      width: 100%;
+    }
+  }
+}

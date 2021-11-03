@@ -156,8 +156,8 @@ export default {
           mainWrapper.classList.add('js-fixed');
 
           if (
-            (this.scrollTop > startPos && clientHeight < this.$store.state.quizInfo.top) ||
-            (this.scrollTop > startPos && this.scrollTop > quizScrollTop)
+            (this.scrollTop > startPos && clientHeight < this.$store.state.quizInfo.top)
+            || (this.scrollTop > startPos && this.scrollTop > quizScrollTop)
           ) {
             this.isVisible = true;
           } else {
