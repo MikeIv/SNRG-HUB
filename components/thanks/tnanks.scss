@@ -14,11 +14,8 @@
     align-items: flex-start;
     padding-bottom: 0;
   }
-  .l-wide,
-  .a-button {
-    width: 100%;
-  }
   .l-wide {
+    width: 100%;
     margin: auto;
     @media screen and (max-width: 600px) {
       margin: unset;
@@ -85,7 +82,6 @@
     }
   }
   &__button-wrap {
-    text-decoration: none;
     @media screen and (max-width: 600px) {
       width: 100%;
     }

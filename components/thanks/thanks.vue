@@ -5,9 +5,13 @@
         <div class="thanks__info">
           <h1 class="thanks__title a-font_h1">Спасибо за заявку!</h1>
           <div class="thanks__subtitle a-font_xl-m">В ближайшее время наш менеджер свяжется с Вами.</div>
-          <nuxt-link to="/" class="thanks__button-wrap">
-            <a-button label="Перейти на главную" size="large" bgColor="accent" />
-          </nuxt-link>
+          <a-button
+            class="thanks__button-wrap"
+            label="Перейти на главную"
+            size="large"
+            bgColor="accent"
+            @click="goToMainPage"
+          />
         </div>
       </div>
       <div class="thanks__img">
@@ -131,6 +135,12 @@ export default {
 
   components: {
     AButton,
+  },
+
+  methods: {
+    goToMainPage() {
+      this.$router.push('/');
+    },
   },
 };
 </script>
