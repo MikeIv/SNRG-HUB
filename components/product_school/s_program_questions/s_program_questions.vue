@@ -89,12 +89,15 @@ export default {
     showMore(elem) {
       const question = elem;
 
-      this.questionsList.forEach((el) => {
-        const item = el;
-        item.isActive = false;
-      });
-
-      question.isActive = true;
+      if (elem.isActive === false) {
+        this.questionsList.forEach((el) => {
+          const item = el;
+          item.isActive = false;
+        });
+        question.isActive = true;
+      } else {
+        question.isActive = false;
+      }
     },
   },
 };

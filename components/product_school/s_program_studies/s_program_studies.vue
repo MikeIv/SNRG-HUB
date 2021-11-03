@@ -19,17 +19,62 @@
               <span class="s-program-studies__icon">!</span>
               <span class="s-program-studies__message a-font_m">{{ item.message }}</span>
             </div>
-            <AButton label="Поступить в школу" bgColor="accent" />
+            <AButton label="Поступить в школу" bgColor="accent" @click="togglePopup" />
           </div>
         </div>
       </swiper-slide>
     </swiper>
+    <APopup @close="popupOptions.visible = false" :visible="popupOptions.visible">
+      <MForm
+        :title="popupOptions.form.title"
+        :isVertical="popupOptions.form.isVertical"
+        :btnText="popupOptions.form.btnText"
+        :checkboxText="popupOptions.form.checkboxText"
+        ref="form"
+      >
+        <template v-slot:inputs>
+          <AInput
+            class="m-form__input"
+            @input="
+              handlerSave();
+              validFormData();
+            "
+            v-model="fieldsData.name"
+            placeholder="Имя"
+          />
+
+          <AInput
+            type="phone"
+            class="m-form__input"
+            @validate="validatePhone"
+            v-model="fieldsData.phone"
+            @input="
+              handlerSave();
+              validFormData();
+            "
+            placeholder="Телефон"
+          />
+
+          <AInput
+            class="m-form__input"
+            @input="
+              handlerSave();
+              validFormData();
+            "
+            v-model="fieldsData.email"
+            placeholder="Почта"
+          />
+        </template>
+      </MForm>
+    </APopup>
   </section>
 </template>
 
 <script>
 import './s_program_studies.scss';
-import { AListElement, AButton } from '@cwespb/synergyui';
+import {
+  AListElement, AButton, APopup, MForm, AInput,
+} from '@cwespb/synergyui';
 import { Swiper, SwiperSlide } from 'vue-awesome-swiper';
 
 export default {
@@ -42,6 +87,9 @@ export default {
     AButton,
     Swiper,
     SwiperSlide,
+    APopup,
+    MForm,
+    AInput,
   },
 
   data() {
@@ -63,13 +111,49 @@ export default {
           },
         },
       },
+      popupOptions: {
+        visible: false,
+        form: {
+          title: 'Поступить в онлайн-школу «Синергия»',
+          isVertical: true,
+          btnText: 'Записаться',
+          checkboxText: 'Нажимая на кнопку, я соглашаюсь с политикой конфиденциальности и на получение рассылок',
+        },
+      },
     };
   },
 
   mounted() {
+    this.$emit('form-ref', this.$refs.form);
+
+    const loadDataForm = this.$lander.storage.load('programform');
+
+    if (loadDataForm) this.fieldsData = loadDataForm;
+
     this.title = this.dataObject.title;
     this.subtitle = this.dataObject.subtitle;
     this.items = this.dataObject.items;
+  },
+
+  methods: {
+    togglePopup() {
+      this.popupOptions.visible = true;
+    },
+    sendForm() {
+      this.$lander
+        .send(this.fieldsData, {}, this.$route.name === 'edu-platform-slug' ? this.$route.path : undefined)
+        .then(() => {});
+    },
+    handlerSave() {
+      this.$lander.storage.save('programform', this.fieldsData);
+    },
+    validatePhone(value) {
+      this.validPhone = value.valid;
+    },
+    validFormData() {
+      const dataForm = [{ value: this.fieldsData.name }, { value: this.fieldsData.email, type: 'email' }];
+      this.validFlag = this.$lander.valid(dataForm) && this.validPhone;
+    },
   },
 };
 </script>

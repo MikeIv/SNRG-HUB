@@ -10,6 +10,31 @@
     width: rem(206);
   }
 
+  .a-popup__container {
+    max-width: rem(415);
+    padding: rem(32);
+  }
+
+  .m-form--vertical {
+    flex-direction: column;
+    padding: 0;
+  }
+
+  .m-form__inputs {
+    width: 100%;
+    margin: 0;
+  }
+
+  .m-form--vertical .m-form__submit {
+    width: 100% !important;
+    max-width: 100%;
+    margin-bottom: rem(20);
+  }
+
+  .m-form--vertical .m-form__checkbox {
+    order: 9;
+  }
+
   &__items {
     display: flex;
   }
