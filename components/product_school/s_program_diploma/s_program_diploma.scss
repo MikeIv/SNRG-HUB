@@ -25,7 +25,9 @@
   }
 
   &__slide {
-    width: rem(364);
+    &-product {
+      width: rem(270) !important;
+    }
   }
 
   &__title {

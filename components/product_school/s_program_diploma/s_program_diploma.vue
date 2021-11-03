@@ -3,7 +3,11 @@
     <h2 class="s-program-diploma__title a-font_h2">{{ title }}</h2>
     <div class="s-program-diploma__items">
       <swiper :options="swiperOptionProgramDiploma">
-        <swiper-slide v-for="(diploma, idx) in diplomaList" :key="idx" class="s-program-diploma__slide">
+        <swiper-slide
+          v-for="(diploma, idx) in diplomaList"
+          :key="idx"
+          class="s-program-diploma__slide s-program-diploma__slide-product"
+        >
           <MCardLanding :title="diploma.title" :image="diploma.img" />
         </swiper-slide>
       </swiper>
