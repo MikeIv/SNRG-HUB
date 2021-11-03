@@ -3,15 +3,10 @@
     <div class="s-program-questions__wrapper">
       <h2 class="s-program-questions__title a-font_h2" v-html="title"></h2>
       <div class="s-program-questions__body">
-        <div class="s-program-questions__row" v-for="(item, id) in questionsList" :key="id">
+        <div class="s-program-questions__row" v-for="(item, id) in questionsList" :key="id" @click="showMore(item, id)">
           <div class="s-program-questions__top">
             <div class="title a-font_xxl">{{ item.title }}</div>
-            <i
-              class="s-program-content__icon"
-              :class="`si-chevron-${item.isActive ? 'down' : 'up'}`"
-              @click="showMore(item)"
-            >
-            </i>
+            <i class="s-program-content__icon" :class="`si-chevron-${item.isActive ? 'down' : 'up'}`"> </i>
           </div>
           <div class="s-program-questions__text a-font_xl" v-if="item.isActive">
             <div class="s-program-questions__text-wrap">
@@ -92,13 +87,14 @@ export default {
 
   methods: {
     showMore(elem) {
-      this.questionsList.forEach((item, i) => {
-        if (item === elem) {
-          this.questionsList[i].isActive = !this.questionsList[i].isActive;
-        } else {
-          this.questionsList[i].isActive = false;
-        }
+      const question = elem;
+
+      this.questionsList.forEach((el) => {
+        const item = el;
+        item.isActive = false;
       });
+
+      question.isActive = true;
     },
   },
 };

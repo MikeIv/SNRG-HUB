@@ -17,17 +17,6 @@
     font-weight: 500;
   }
 
-  &__items {
-    display: flex;
-    margin: 0 rem(-12);
-    flex-wrap: wrap;
-
-    @media screen and (max-width: 767px) {
-      margin: 0;
-      flex-wrap: nowrap;
-    }
-  }
-
   &__item {
     width: calc(50% - rem(24));
     margin: 0 rem(12) rem(40);
@@ -50,6 +39,37 @@
 
     &-title {
       margin-bottom: rem(8);
+    }
+  }
+
+  &__items {
+    display: flex;
+    margin: 0 rem(-12);
+    flex-wrap: wrap;
+
+    @media screen and (max-width: 767px) {
+      margin: 0;
+      flex-wrap: nowrap;
+    }
+
+    &.item_3 {
+      margin: 0 rem(-10);
+
+      @media screen and (max-width: 767px) {
+        margin: 0;
+      }
+
+      .s-program-command {
+        &__item {
+          width: calc(33.3333% - rem(20));
+          margin: 0 rem(10) rem(40);
+
+          @media screen and (max-width: 767px) {
+            width: rem(310);
+            margin: 0;
+          }
+        }
+      }
     }
   }
 }

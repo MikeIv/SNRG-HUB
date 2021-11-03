@@ -36,6 +36,7 @@
     &-day,
     &-time {
       box-sizing: border-box;
+      min-height: rem(468);
       margin-right: rem(9);
       padding: rem(28) rem(10);
       border-radius: var(--a-borderRadius--default);
