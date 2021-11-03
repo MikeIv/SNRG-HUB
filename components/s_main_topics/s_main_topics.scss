@@ -4,7 +4,7 @@
   padding: rem(24) 0;
   background: var(--a-color_bg--secondary);
 
-  @media screen and (max-width: 395px) {
+  @media screen and (max-width: 767px) {
     padding: rem(8) 0;
   }
 
@@ -42,13 +42,13 @@
     position: relative;
     display: none;
 
-    @media screen and (max-width: 395px) {
+    @media screen and (max-width: 767px) {
       display: block;
     }
   }
   &__wrapper {
     padding: 0 var(--layout-padding);
-    @media screen and (max-width: 395px) {
+    @media screen and (max-width: 767px) {
       padding: rem(24) var(--layout-padding);
       background-color: var(--a-color_bg);
       border-radius: rem(10);
@@ -74,12 +74,22 @@
     grid-template-columns: repeat(3, 1fr);
     grid-gap: rem(16);
 
-    @media screen and (max-width: 395px) {
+    @media screen and (max-width: 767px) {
       display: none;
     }
 
     @media screen and (max-width: 970px) {
       grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  &__card {
+    &:hover {
+      .m-card-gorizontal {
+        &__title {
+          color: var(--a-color_link);
+        }
+      }
     }
   }
 
@@ -89,7 +99,7 @@
     color: var(--a-color_bg);
     background-color: var(--a-color_link);
 
-    @media screen and (max-width: 395px) {
+    @media screen and (max-width: 767px) {
       display: none;
     }
   }

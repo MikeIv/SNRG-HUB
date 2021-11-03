@@ -111,7 +111,7 @@ export default {
   props: ['methods', 'title'],
   computed: {
     directionsList() {
-      if (this.flag || this.windowWidth <= 395) {
+      if (this.flag || this.windowWidth <= 768) {
         return this.directionsFullList;
       }
       return this.directionsFullList.slice(0, this.maxCardsCount);
@@ -120,7 +120,6 @@ export default {
   async fetch() {
     const expandedMethod = this.methods[0].data;
     this.directionsFullList = await getDirectionsList(expandedMethod);
-    console.log(this.directionsFullList);
   },
   methods: {
     showMoreCards() {

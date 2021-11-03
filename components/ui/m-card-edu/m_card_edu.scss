@@ -13,11 +13,6 @@
     align-items: flex-start;
     padding: var(--a-padding--x3);
   }
-
-  &:hover {
-    color: var(--a-color_link);
-  }
-
   &__title {
     display: -webkit-box;
     overflow: hidden;
