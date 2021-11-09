@@ -1,0 +1,82 @@
+@import '@/assets/styles/tools/mixins';
+
+.s-program-people {
+  width: 100%;
+  margin: rem(20) auto;
+  padding: var(--layout-v-padding) var(--layout-h-padding);
+  background-color: var(--a-color_bg);
+  border-radius: var(--a-borderRadius--bg);
+
+  .m-card-landing {
+    width: 100%;
+
+    @media (max-width: 767px) {
+      margin-bottom: rem(16);
+    }
+
+    &__image {
+      img {
+        display: block;
+        width: auto;
+        border-radius: var(--a-borderRadius--default);
+        object-fit: cover;
+      }
+      &-wrapper {
+        display: flex;
+        align-items: center;
+        min-height: rem(256);
+        @media (max-width: 767px) {
+          height: rem(128);
+        }
+      }
+    }
+  }
+
+  &__slide {
+    width: rem(364);
+
+    @media (max-width: 767px) {
+      width: 100%;
+    }
+  }
+
+  &__title {
+    margin-bottom: rem(40);
+    color: var(--a-color_text);
+
+    @media (max-width: 991px) {
+      margin-bottom: rem(24);
+      font-size: rem(20);
+    }
+
+    @media (max-width: 575px) {
+      margin-bottom: rem(20);
+    }
+
+    span {
+      color: var(--a-color_link);
+    }
+  }
+
+  a {
+    text-decoration: none;
+  }
+}
+
+.product-ege {
+  .s-program-people {
+    .m-card-landing {
+      &__image {
+        &-wrapper {
+          justify-content: flex-start;
+        }
+      }
+    }
+
+    .swiper-slide {
+      @media screen and (max-width: 991px) {
+        width: rem(270);
+      }
+    }
+  }
+}

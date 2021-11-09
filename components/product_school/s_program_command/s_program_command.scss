@@ -68,6 +68,14 @@
             width: rem(310);
             margin: 0;
           }
+
+          &-title,
+          &-text {
+            @media screen and (max-width: 991px) {
+              font-size: rem(16);
+              line-height: rem(24);
+            }
+          }
         }
       }
     }

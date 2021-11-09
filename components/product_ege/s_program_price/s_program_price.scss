@@ -16,10 +16,6 @@
     margin: rem(12) auto;
   }
 
-  @media screen and (max-width: 767px) {
-    padding: 0;
-  }
-
   .m-form {
     display: flex;
     flex-direction: column;
@@ -148,13 +144,116 @@
   }
 }
 
-.product-school {
+.product-ege {
   .s-program-price {
     @media screen and (max-width: 767px) {
       padding: var(--a-padding--x8) var(--a-padding--x4);
     }
     &__info {
-      border-radius: var(--a-borderRadius--default);
+      &-wrapper {
+        display: flex;
+        padding: var(--a-padding--x8) var(--a-padding--x5);
+        background: var(--a-color_bg);
+        border-radius: var(--a-borderRadius--default);
+
+        @media screen and (max-width: 767px) {
+          flex-direction: column;
+          padding: var(--a-padding--x6) var(--a-padding--x4);
+        }
+      }
+    }
+    &__right {
+      margin-left: auto;
+
+      @media screen and (max-width: 767px) {
+        margin-left: 0;
+      }
+
+      &-item {
+        margin-bottom: rem(57);
+
+        @media screen and (max-width: 767px) {
+          margin-bottom: rem(40);
+        }
+
+        &:last-child {
+          margin-bottom: 0;
+        }
+      }
+    }
+
+    &__time {
+      font-weight: 600;
+    }
+
+    &__old {
+      position: relative;
+      max-width: fit-content;
+      color: var(--a-color_active);
+
+      &::after {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 0;
+        width: 100%;
+        height: 1px;
+        background: var(--a-color_active);
+        transform: translateY(-50%);
+      }
+    }
+
+    &__new {
+      color: var(--a-color_link);
+      white-space: nowrap;
+    }
+
+    &__course {
+      margin-bottom: rem(40);
+
+      &:last-child {
+        margin-bottom: 0;
+
+        @media screen and (max-width: 767px) {
+          margin-bottom: rem(24);
+        }
+      }
+      &-title {
+        margin-bottom: rem(12);
+        font-weight: 500;
+      }
+      &-items {
+        display: flex;
+        align-items: flex-start;
+        flex-wrap: wrap;
+        max-width: rem(420);
+      }
+      &-item {
+        margin-right: rem(8);
+        margin-bottom: rem(16);
+        padding: var(--a-padding--x2) var(--a-padding--x5);
+        background: var(--a-color_bg--secondary);
+        border-radius: rem(30);
+
+        @media screen and (max-width: 991px) {
+          padding: rem(6) var(--a-padding--x3);
+        }
+
+        &:last-child {
+          margin-bottom: 0;
+        }
+
+        &.active {
+          color: var(--a-color_bg);
+          background: var(--a-color_link);
+        }
+      }
+    }
+    &__item {
+      &-title {
+        margin-bottom: rem(8);
+        font-weight: 500;
+      }
     }
   }
 }
