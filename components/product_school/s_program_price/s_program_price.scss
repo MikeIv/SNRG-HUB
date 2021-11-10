@@ -28,7 +28,7 @@
     min-height: rem(564);
     background: var(--a-color_bg--secondary);
 
-    @media screen and (max-width: 991px) {
+    @media screen and (max-width: 1099px) {
       flex-direction: row;
       max-width: 100%;
       min-height: 0;
@@ -74,7 +74,7 @@
     padding: var(--a-padding--x8) var(--a-padding--x10);
     background: var(--a-color_bg--secondary);
 
-    @media screen and (max-width: 991px) {
+    @media screen and (max-width: 1099px) {
       width: 100%;
       min-height: 0;
       margin-right: 0;
@@ -139,5 +139,11 @@
     &-price {
       color: var(--a-color_link);
     }
+  }
+
+  &.bg--blue {
+    background-image: url('/school/form-bg-blue.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
   }
 }
