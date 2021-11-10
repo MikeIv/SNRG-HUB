@@ -44,8 +44,8 @@
               </div>
               <div class="s-header__burger-text a-font_l a-color_link">{{ btnText }}</div>
             </div>
-            <div class="s-header__search" v-if="false">
-              <a-input icons="si-search" size="medium" :placeholder="searchPlaceholder"></a-input>
+            <div class="s-header__search">
+              <a-input id="search" icons="si-search" size="medium" :placeholder="searchPlaceholder" v-model="search" />
             </div>
             <a href="//pass.synergy.ru" target="_blank" class="s-header__login" rel="noreferrer" v-if="false">
               <a-button label="Войти" bgColor="ghost-accept"></a-button>
@@ -82,6 +82,7 @@ export default {
       btnText: 'Всё обучение',
       phones: [],
       searchPlaceholder: 'Поиск по сайту',
+      search: '',
       bannerTop: {},
       isVisible: false,
       topBannerSmoothHref: '#quiz',
@@ -132,13 +133,22 @@ export default {
         document.documentElement.style.setProperty('--vh', `${vhr}px`);
       });
     });
+
+    document.getElementById('search').addEventListener('keypress', this.handleSearch);
   },
 
   beforeDestroy() {
     window.removeEventListener('scroll', this.handleScroll);
+    window.removeEventListener('keypress', this.handleSearch);
   },
 
   methods: {
+    handleSearch(e) {
+      if (e.key === 'Enter' && this.search.trim()) {
+        this.$emit('search', this.search);
+      }
+    },
+
     handleScroll() {
       const mainWrapper = document.querySelector('body');
       const headerHeight = this.$el.offsetHeight;
