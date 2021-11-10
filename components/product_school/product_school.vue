@@ -104,6 +104,7 @@ export default {
         },
       },
       process: {
+        class: 'process',
         // eslint-disable-next-line max-len
         title: 'Как устроен <span>образовательный процесс</span>',
         list: [
@@ -133,7 +134,7 @@ export default {
             description:
               // eslint-disable-next-line max-len
               'Совместная с классом работа над задачами, вопросами и материалом. Возможность в любой момент задать вопрос учителю.',
-            image: '/school/process/3.jpg',
+            image: '/school/process/4.jpg',
           },
         ],
         swiperOptions: {
