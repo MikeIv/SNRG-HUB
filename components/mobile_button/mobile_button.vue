@@ -1,5 +1,5 @@
 <template>
-  <div class="mobile-button" v-if="isScroll">
+  <div class="mobile-button" v-if="isScroll && windowWidth < 767">
     <a-button
       bgColor="accent"
       label="Подобрать программу"
@@ -77,6 +77,7 @@ export default {
       scrollPosition: null,
       startPosition: null,
       menuOpen: false,
+      windowWidth: 0,
       popupOptions: {
         visible: false,
         form: {
@@ -92,6 +93,10 @@ export default {
 
   mounted() {
     window.addEventListener('scroll', this.handleScroll);
+    window.addEventListener('resize', this.handleResize);
+    window.addEventListener('DOMContentLoaded', this.handleResize);
+
+    this.handleResize();
 
     this.$emit('form-ref', this.$refs.form);
 
@@ -102,6 +107,8 @@ export default {
 
   beforeDestroy() {
     window.removeEventListener('scroll', this.handleScroll);
+    window.removeEventListener('resize', this.handleResize);
+    window.removeEventListener('DOMContentLoaded', this.handleResize);
   },
 
   methods: {
@@ -132,6 +139,9 @@ export default {
     validFormData() {
       const dataForm = [{ value: this.fieldsData.name }, { value: this.fieldsData.email, type: 'email' }];
       this.validFlag = this.$lander.valid(dataForm) && this.validPhone;
+    },
+    handleResize() {
+      this.windowWidth = window.innerWidth;
     },
   },
 };
