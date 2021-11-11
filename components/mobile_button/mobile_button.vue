@@ -4,7 +4,7 @@
       bgColor="accent"
       label="Подобрать программу"
       class="a-font_button mobile-button__btn"
-      @click="togglePopup"
+      @onClickBtn="togglePopup"
     ></a-button>
 
     <APopup @close="popupOptions.visible = false" :visible="popupOptions.visible">
