@@ -144,6 +144,7 @@ export default {
     },
 
     async fetchSearchData() {
+      this.selectedPreset = 'Все';
       this.productsList = [];
       this.categories = [];
 

@@ -1,7 +1,7 @@
 <template>
   <div class="page-404__wrapper">
     <SHeader @search="search = $event" />
-    <SProductSearch v-if="search" :search="search" @search-clear="test" />
+    <SProductSearch v-if="search" :search="search" @search-clear="clearSearch" />
     <Page404 v-else />
     <SFooter />
   </div>
