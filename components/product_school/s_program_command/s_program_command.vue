@@ -19,7 +19,7 @@
     <swiper class="s-program-command__items" :options="swiperOptions" v-if="isMobile">
       <swiper-slide class="s-program-command__item" v-for="(item, id) in items" :key="id">
         <div class="s-program-command__item-icon">
-          <i></i>
+          <img :src="item.icon" />
         </div>
         <div class="s-program-command__item-title a-font_xxl">
           {{ item.title }}
