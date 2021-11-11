@@ -28,7 +28,12 @@
           <div class="s-program-start__photo s-program-start__photo-bottom">
             <img :src="program.photo" :alt="program.title" class="s-program-start__photo-img" itemprop="image" />
           </div>
-          <div itemprop="aggregateRating" itemscope itemtype="https://schema.org/AggregateRating" style="display: none">
+          <div
+            itemprop="aggregateRating"
+            itemscope
+            itemtype="https://schema.org/AggregateRating"
+            class="s-program-start__rating"
+          >
             <meta itemprop="ratingValue" content="5" />
             <meta itemprop="reviewCount" content="5" />
           </div>
