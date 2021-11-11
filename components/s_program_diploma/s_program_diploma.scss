@@ -31,6 +31,10 @@
     margin-bottom: rem(40);
     color: var(--a-color_text);
 
+    span {
+      color: var(--a-color_link);
+    }
+
     @media (max-width: 991px) {
       margin-bottom: rem(24);
       font-size: rem(20);

@@ -1,0 +1,109 @@
+@import '@/assets/styles/tools/mixins';
+
+.product-ege {
+  .s-program-content {
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    margin: rem(20) auto;
+    padding: var(--layout-v-padding) var(--layout-h-padding);
+    background-color: var(--a-color_bg);
+    border-radius: var(--a-borderRadius--bg);
+
+    @media (max-width: 991px) {
+      margin-bottom: rem(12);
+    }
+
+    .a-factoid-number {
+      &__wrapper {
+        margin-left: rem(50);
+        @media screen and (max-width: 767px) {
+          margin-left: 0;
+        }
+      }
+    }
+    .a-listElement {
+      &__wrapper {
+        margin-bottom: rem(16);
+        &:last-child {
+          margin-bottom: 0;
+        }
+      }
+    }
+    &__head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: var(--a-padding--x8) 0;
+      cursor: pointer;
+
+      @media screen and (max-width: 767px) {
+        padding: var(--a-padding--x6) 0;
+      }
+    }
+
+    &__row {
+      &:not(:first-child) {
+        .s-program-content__head {
+          border-top: 1px solid var(--a-color_thumbnail);
+        }
+      }
+    }
+
+    &__top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: rem(40);
+      @media screen and (max-width: 991px) {
+        margin-bottom: rem(24);
+      }
+      @media screen and (max-width: 767px) {
+        margin-bottom: rem(20);
+        flex-wrap: wrap;
+      }
+    }
+    &__info {
+      padding-bottom: var(--a-padding--x8);
+
+      @media screen and (max-width: 767px) {
+        padding-bottom: var(--a-padding--x6);
+      }
+    }
+    &__title {
+      margin-bottom: rem(20);
+    }
+    &__icon {
+      font-size: rem(24);
+    }
+    &__numbs {
+      display: flex;
+      @media screen and (max-width: 767px) {
+        width: 100%;
+
+        .a-factoid-number__wrapper {
+          margin-right: rem(20);
+        }
+      }
+    }
+    &__body {
+      padding: 0 var(--a-padding--x10) 0;
+      border: 1px solid var(--a-color_thumbnail);
+      border-radius: var(--a-borderRadius--bg);
+      @media screen and (max-width: 767px) {
+        padding: 0 var(--a-padding--x8) 0;
+      }
+    }
+  }
+
+  .fadeHeight-enter-active,
+  .fadeHeight-leave-active {
+    max-height: 30000px;
+    transition: all 0.3s ease-in;
+  }
+  .fadeHeight-enter,
+  .fadeHeight-leave-to {
+    max-height: 0;
+    opacity: 0;
+  }
+}

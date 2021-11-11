@@ -31,8 +31,11 @@
         :btnText="popupOptions.form.btnText"
         :checkboxText="popupOptions.form.checkboxText"
         :checked="popupOptions.form.checked"
+        :submitDisabled="!validFlag"
+        @submit-disabled="validFlag = $event"
         typeCtrl="checkbox"
         ref="form"
+        @click="sendForm"
       >
         <template v-slot:inputs>
           <AInput
@@ -113,6 +116,12 @@ export default {
           },
         },
       },
+      validFlag: false,
+      fieldsData: {
+        name: '',
+        phone: '',
+        email: '',
+      },
       popupOptions: {
         visible: false,
         form: {
@@ -132,6 +141,7 @@ export default {
     const loadDataForm = this.$lander.storage.load('programform');
 
     if (loadDataForm) this.fieldsData = loadDataForm;
+    this.validFlag = this.$lander.valid(loadDataForm);
 
     this.title = this.dataObject.title;
     this.subtitle = this.dataObject.subtitle;
