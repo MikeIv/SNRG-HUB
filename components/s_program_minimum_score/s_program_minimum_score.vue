@@ -25,7 +25,13 @@
         <swiper-slide v-for="(exam, idx) in tab.exams" :key="exam.id" class="s-program-minimum-score__item">
           <h5 class="s-program-minimum-score__item-caption a-font_h5">{{ slideCaption[idx] }}</h5>
           <div class="s-program-minimum-score__item-factoids">
-            <AFactoid v-for="item in exam" :key="item.id" :type="item.type" :title="item.title" :number="item.number" />
+            <AFactoids
+              v-for="item in exam"
+              :key="item.id"
+              :type="item.type"
+              :title="item.title"
+              :number="item.number"
+            />
           </div>
         </swiper-slide>
       </swiper>
@@ -35,8 +41,8 @@
 
 <script>
 import { Swiper, SwiperSlide } from 'vue-awesome-swiper';
-
-import { ATag, AFactoid } from '@cwespb/synergyui';
+import { ATag } from '@cwespb/synergyui';
+import AFactoids from '@/components/_ui/A-factoids/A-factoids';
 import './s_program_minimum_score.scss';
 
 export default {
@@ -44,7 +50,7 @@ export default {
 
   components: {
     ATag,
-    AFactoid,
+    AFactoids,
     Swiper,
     SwiperSlide,
   },

@@ -1,14 +1,39 @@
 <template>
-  <div class="a-factoids">
-    <div class="a-factoids__img-wrapper" :class="{ active: getImage }">
-      <img :src="image" alt="" class="a-factoids__img" />
-    </div>
-    <div class="a-factoids__info">
-      <h2 class="a-font_h2">
-        {{ number }}
-      </h2>
-      <div class="a-factoids__title a-font_xl" v-html="title"></div>
-    </div>
+  <div :class="{ ...factoidWrapperClasses, 'a-factoid-horizontal__wrapper': type === 'number-horizontal' }">
+    <template v-if="type === 'default'">
+      <div class="a-factoids__default-subtitle a-font_xl">{{ subtitle }}</div>
+      <div class="a-factoids__default-title a-font_xxl" v-html="title"></div>
+    </template>
+
+    <template v-if="type === 'line'">
+      <h3 class="a-font_h3" :class="{ ...factoidTextClasses }">
+        {{ lineNumber }}
+      </h3>
+      <div class="a-factoids__line-title a-font_l" v-html="title"></div>
+    </template>
+
+    <template
+      v-if="type === 'image' || type === 'number'"
+      :class="{ 'a-factoid-horizontal__wrapper': type === 'number-horizontal' }"
+    >
+      <div class="a-factoids">
+        <div class="a-factoids__img-wrapper" :class="{ active: getImage }">
+          <img :src="image" alt="" class="a-factoids__img" />
+        </div>
+        <div class="a-factoids__info">
+          <h2
+            class="a-font_h2"
+            :class="{
+              ...factoidTextClasses,
+              'a-factoid-horizontal__number': type === 'number-horizontal',
+            }"
+          >
+            {{ number }}
+          </h2>
+          <div class="a-factoids__title a-font_xl" v-html="title"></div>
+        </div>
+      </div>
+    </template>
   </div>
 </template>
 

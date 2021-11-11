@@ -3,7 +3,7 @@
     <div class="s-program-timeline__header">
       <h2 class="s-program-timeline__title a-font_h2" v-html="title"></h2>
       <div class="s-program-timeline__factoids" v-if="programTimelineRightItems">
-        <AFactoid
+        <AFactoids
           v-for="timelineItem in programTimelineRightItems"
           :key="timelineItem.id"
           :type="timelineItem.type"
@@ -28,8 +28,8 @@
 
 <script>
 import { Swiper, SwiperSlide } from 'vue-awesome-swiper';
-
-import { AFactoid, MCardLanding } from '@cwespb/synergyui';
+import { MCardLanding } from '@cwespb/synergyui';
+import AFactoids from '@/components/_ui/A-factoids/A-factoids';
 import './s_program_timeline.scss';
 
 import getEntitiesSectionsDetail from '~/api/entitiesSectionsDetail';
@@ -38,7 +38,7 @@ export default {
   name: 's_program_timeline',
 
   components: {
-    AFactoid,
+    AFactoids,
     MCardLanding,
     Swiper,
     SwiperSlide,
