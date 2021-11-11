@@ -18,39 +18,21 @@
         @submit-disabled="validFlag = $event"
         typeCtrl="checkbox"
         @click="sendForm"
+        ref="popupform-ref"
       >
         <template v-slot:inputs>
-          <AInput
-            class="m-form__input"
-            @input="
-              handlerSave();
-              validFormData();
-            "
-            v-model="fieldsData.name"
-            placeholder="Имя"
-          />
+          <AInput class="m-form__input" @input="validFormData" v-model="fieldsData.name" placeholder="Имя" />
 
           <AInput
             type="phone"
             class="m-form__input"
             @validate="validatePhone"
             v-model="fieldsData.phone"
-            @input="
-              handlerSave();
-              validFormData();
-            "
+            @input="validFormData"
             placeholder="Телефон"
           />
 
-          <AInput
-            class="m-form__input"
-            @input="
-              handlerSave();
-              validFormData();
-            "
-            v-model="fieldsData.email"
-            placeholder="Почта"
-          />
+          <AInput class="m-form__input" @input="validFormData" v-model="fieldsData.email" placeholder="Почта" />
         </template>
       </MForm>
     </APopup>
@@ -80,6 +62,7 @@ export default {
       startPosition: null,
       menuOpen: false,
       validFlag: false,
+      validPhone: false,
       windowWidth: 0,
       popupOptions: {
         visible: false,
@@ -106,19 +89,13 @@ export default {
 
     this.handleResize();
 
-    this.$emit('form-ref', this.$refs.form);
-
-    const dataForm = [
-      { value: this.fieldsData.name },
-      { value: this.fieldsData.email },
-      { value: this.fieldsData.question },
-    ];
+    this.$emit('popupform-ref', this.$refs.form);
 
     const loadDataForm = this.$lander.storage.load('popupform');
 
     if (loadDataForm) this.fieldsData = loadDataForm;
 
-    this.validFlag = this.$lander.valid(dataForm);
+    this.validFormData();
   },
 
   beforeDestroy() {
@@ -146,15 +123,14 @@ export default {
         .send(this.fieldsData, {}, this.$route.name === 'edu-platform-slug' ? this.$route.path : undefined)
         .then(() => {});
     },
-    handlerSave() {
-      this.$lander.storage.save('popupform', this.fieldsData);
-    },
     validatePhone(value) {
       this.validPhone = value.valid;
     },
     validFormData() {
       const dataForm = [{ value: this.fieldsData.name }, { value: this.fieldsData.email, type: 'email' }];
       this.validFlag = this.$lander.valid(dataForm) && this.validPhone;
+
+      this.$lander.storage.save('popupform-reg', this.fieldsData);
     },
     handleResize() {
       this.windowWidth = window.innerWidth;
