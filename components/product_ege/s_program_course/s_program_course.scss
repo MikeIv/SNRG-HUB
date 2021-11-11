@@ -1,61 +1,63 @@
 @import '@/assets/styles/tools/mixins';
 
-.s-program-course {
-  padding: var(--layout-v-padding) var(--layout-h-padding);
-  background-color: var(--a-color_bg);
-  border-radius: var(--a-borderRadius--bg);
-
-  .a-listElement__wrapper {
-    margin-bottom: rem(20);
-
-    @media screen and (max-width: 767px) {
-      margin-bottom: rem(27);
-    }
-  }
-
-  .a-factoid-number__wrapper {
-    @media screen and (max-width: 767px) {
-      margin-bottom: rem(20);
-
-      &:last-child {
-        margin-bottom: 0;
-      }
-    }
-  }
-
-  &__title {
-    margin-bottom: rem(40);
-
-    @media screen and (max-width: 991px) {
-      margin-bottom: rem(25);
-    }
-  }
-
-  &__top {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: rem(40);
-
-    @media screen and (max-width: 767px) {
-      flex-direction: column;
-    }
-  }
-
-  &__list {
-    margin-bottom: rem(40);
-
-    @media screen and (max-width: 767px) {
-      margin-bottom: rem(56);
-    }
-  }
-
-  &__text {
-    padding: rem(28) rem(22) rem(33);
-    border: 1px solid var(--a-color_text--secondary);
+.product-ege {
+  .s-program-course {
+    padding: var(--layout-v-padding) var(--layout-h-padding);
+    background-color: var(--a-color_bg);
     border-radius: var(--a-borderRadius--bg);
 
-    @media screen and (max-width: 767px) {
-      padding: rem(20) rem(10);
+    .a-listElement__wrapper {
+      margin-bottom: rem(20);
+
+      @media screen and (max-width: 767px) {
+        margin-bottom: rem(27);
+      }
+    }
+
+    .a-factoid-number__wrapper {
+      @media screen and (max-width: 767px) {
+        margin-bottom: rem(20);
+
+        &:last-child {
+          margin-bottom: 0;
+        }
+      }
+    }
+
+    &__title {
+      margin-bottom: rem(40);
+
+      @media screen and (max-width: 991px) {
+        margin-bottom: rem(25);
+      }
+    }
+
+    &__top {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: rem(40);
+
+      @media screen and (max-width: 767px) {
+        flex-direction: column;
+      }
+    }
+
+    &__list {
+      margin-bottom: rem(40);
+
+      @media screen and (max-width: 767px) {
+        margin-bottom: rem(56);
+      }
+    }
+
+    &__text {
+      padding: rem(28) rem(22) rem(33);
+      border: 1px solid var(--a-color_text--secondary);
+      border-radius: var(--a-borderRadius--bg);
+
+      @media screen and (max-width: 767px) {
+        padding: rem(20) rem(10);
+      }
     }
   }
 }

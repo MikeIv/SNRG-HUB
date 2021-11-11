@@ -1,56 +1,58 @@
 @import '@/assets/styles/tools/mixins';
 
-.s-program-banner {
-  display: flex;
-  align-items: center;
-  margin-bottom: rem(20);
-  padding: 0 var(--layout-h-padding);
-  background: #d8eeff;
-  border-radius: var(--a-borderRadius--bg);
-
-  @media screen and (max-width: 991px) {
-    padding-right: 0;
-
-    .a-font_h3 {
-      font-size: rem(22);
-      line-height: rem(28);
-    }
-  }
-
-  @media screen and (max-width: 767px) {
-    flex-direction: column;
-    padding: var(--a-padding--x8) var(--layout-h-padding);
-  }
-
-  &__title,
-  &__description {
-    span {
-      color: var(--a-color_link);
-    }
-  }
-
-  &__title {
-    margin-bottom: rem(12);
-  }
-
-  &__img {
-    min-width: rem(379);
-    min-height: rem(299);
+.product-ege {
+  .s-program-banner {
+    display: flex;
+    align-items: center;
+    margin-bottom: rem(20);
+    padding: 0 var(--layout-h-padding);
+    background: #d8eeff;
+    border-radius: var(--a-borderRadius--bg);
 
     @media screen and (max-width: 991px) {
-      min-width: rem(276);
-      min-height: rem(207);
+      padding-right: 0;
+
+      .a-font_h3 {
+        font-size: rem(22);
+        line-height: rem(28);
+      }
     }
 
-    @media screen and (max-width: 991px) {
-      min-width: 0;
+    @media screen and (max-width: 767px) {
+      flex-direction: column;
+      padding: var(--a-padding--x8) var(--layout-h-padding);
     }
 
-    img {
-      display: block;
-      width: auto;
-      height: 100%;
-      object-fit: cover;
+    &__title,
+    &__description {
+      span {
+        color: var(--a-color_link);
+      }
+    }
+
+    &__title {
+      margin-bottom: rem(12);
+    }
+
+    &__img {
+      min-width: rem(379);
+      min-height: rem(299);
+
+      @media screen and (max-width: 991px) {
+        min-width: rem(276);
+        min-height: rem(207);
+      }
+
+      @media screen and (max-width: 991px) {
+        min-width: 0;
+      }
+
+      img {
+        display: block;
+        width: auto;
+        height: 100%;
+        object-fit: cover;
+      }
     }
   }
 }
