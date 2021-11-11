@@ -88,6 +88,11 @@ export default {
           checked: true,
         },
       },
+      fieldsData: {
+        name: '',
+        phone: '',
+        email: '',
+      },
     };
   },
 
