@@ -1,55 +1,61 @@
 <template>
   <div>
     <div class="l-default s-product-search">
-      <h2 class="a-font_h2">
+      <h2 class="a-font_h2" v-if="categories.length">
         Найдено {{ totalItems }} результатов в {{ categories.length }} категориях
         <sup class="s-product-search__total a-font_l"> {{ totalItems }} </sup>
       </h2>
+      <h2 v-else class="a-font_h2">По вашему запросу ничего не найдено</h2>
 
-      <swiper class="s-product-search__presets" :options="$options.swiperOption">
+      <swiper class="s-product-search__presets" :options="$options.swiperOption" v-if="categories.length">
         <swiper-slide v-for="(preset, index) in presets" :key="index" class="catalog-presets__swiper-slide">
-          <nuxt-link to="/catalog">
-            <a-tag :label="`${preset.name} ${preset.count}`" :class="{ active: preset.name === 'Все' }" />
-          </nuxt-link>
+          <a-tag
+            :label="`${preset.name} ${preset.count}`"
+            :class="{ active: preset.name === selectedPreset }"
+            @aTagClick="onTagClickHandler(preset)"
+          />
         </swiper-slide>
       </swiper>
 
-      <div class="s-product-search__categories">
-        <div class="s-product-search__category" v-for="(category, index) in categories" :key="index">
-          <h2 class="a-font_h2 s-product-search__category-title">
-            {{ category.name }} <sup class="s-product-search__total a-font_l"> {{ category.count }} </sup>
-          </h2>
-          <div class="s-product-search__cards">
-            <template v-for="(product, index) in productsList">
-              <nuxt-link
-                :to="`/product/${product.slug}`"
-                class="s-product-search__wrapper"
-                :key="product.id"
-                v-if="index < 9"
-              >
-                <m-card
-                  :title="product.name"
-                  :bottomText="product.included.organization.name"
-                  :name="product.name"
-                  :description="product.included.levels[0].name"
-                  :iconSrc="`${baseURL}${product.included.organization.logo}`"
-                  :verticalImgSrc="`${baseURL}${product.digital_image}`"
-                  type="program"
-                  @organization-click="onOrganizationClick(product)"
-                />
-              </nuxt-link>
-            </template>
-          </div>
+      <div class="s-product-search__categories" v-if="categories.length">
+        <div
+          class="s-product-search__category"
+          v-for="(product, index) in productsList"
+          :key="product.name + index"
+          :class="{ hidden: product.name !== selectedPreset && selectedPreset !== 'Все' }"
+        >
+          <template v-if="product.name === selectedPreset || selectedPreset === 'Все'">
+            <h2 class="a-font_h2 s-product-search__category-title">
+              {{ product.name }} <sup class="s-product-search__total a-font_l"> {{ product.count }} </sup>
+            </h2>
+            <div class="s-product-search__cards">
+              <template v-for="(product, index) in product.products">
+                <nuxt-link :to="`/product/${product.slug}`" class="s-product-search__wrapper" :key="product.id + index">
+                  <m-card
+                    :title="product.name"
+                    :bottomText="product.included.organization.name"
+                    :name="product.name"
+                    :description="product.included.levels[0].name"
+                    :iconSrc="`${baseURL}${product.included.organization.logo}`"
+                    :verticalImgSrc="`${baseURL}${product.digital_image}`"
+                    type="program"
+                    @organization-click="onOrganizationClick(product)"
+                  />
+                </nuxt-link>
+              </template>
+            </div>
 
-          <nuxt-link to="/catalog" class="s-product-search__btn-link">
-            <a-button
-              class="s-product-search__btn"
-              label="Смотреть все"
-              size="large"
-              bgColor="ghost-primary"
-              @click="onMoreButtonClick"
-            />
-          </nuxt-link>
+            <nuxt-link to="/catalog" class="s-product-search__btn-link">
+              <a-button
+                v-if="product.count > productsPerPage && product.products.length < product.count"
+                class="s-product-search__btn"
+                label="Показать еще"
+                size="large"
+                bgColor="ghost-primary"
+                @click="onMoreButtonClick(product)"
+              />
+            </nuxt-link>
+          </template>
         </div>
       </div>
     </div>
@@ -63,6 +69,7 @@ import { ATag, MCard, AButton } from '@cwespb/synergyui';
 import SQuiz from '~/components/s_quiz/s_quiz';
 import './s_product_search.scss';
 import getSearchProducts from '~/api/productsSearch';
+import getProductsList from '~/api/products_list';
 
 export default {
   name: 'SProductSearch',
@@ -100,28 +107,46 @@ export default {
       totalItems: 1204,
       totalCategories: 5,
       presets: [{ name: 'Все', count: 28 }],
+      selectedPreset: 'Все',
       baseURL: process.env.NUXT_ENV_S3BACKET,
       categories: [],
       productsList: [],
+      productsPerPage: 9,
+      perPage: {},
+      ids: {},
+      totalIds: {},
+      windowWidth: null,
     };
   },
 
   watch: {
-    $route: {
-      deep: true,
-      handler() {
-        console.log('watch route changes');
-        this.$emit('search-clear');
-      },
+    search() {
+      this.fetchSearchData();
     },
   },
 
   methods: {
-    onMoreButtonClick() {
-      console.log('more');
+    onOrganizationClick(product) {
+      this.$router.push(`/organization/${product.included.organization.slug}`);
     },
 
-    async fetchProductsList() {
+    onTagClickHandler(preset) {
+      this.selectedPreset = preset.name;
+    },
+
+    onMoreButtonClick(category) {
+      this.ids[category.name] = this.totalIds[category.name].slice(
+        this.perPage[category.name],
+        this.perPage[category.name] + this.productsPerPage,
+      );
+      this.perPage[category.name] += this.productsPerPage;
+      this.fetchProductsList(category.name);
+    },
+
+    async fetchSearchData() {
+      this.productsList = [];
+      this.categories = [];
+
       const expandedMethod = {
         filter: {
           query: this.search,
@@ -129,17 +154,61 @@ export default {
       };
 
       const searchedData = await getSearchProducts(expandedMethod);
-      console.log('here', searchedData);
       this.totalItems = searchedData.total;
       this.categories = searchedData.data.search_results;
-      this.presets = [{ name: 'Все', count: searchedData.total }, ...searchedData.data.search_results];
 
-      this.productsList = [];
+      this.presets = [{ name: 'Все', count: searchedData.total }, ...searchedData.data.search_results];
+      this.categories.forEach((category) => {
+        this.perPage[category.name] = this.productsPerPage;
+        this.totalIds[category.name] = category.product_ids;
+      });
+      await this.fetchProductsList();
+    },
+
+    async fetchProductsList(categoryName) {
+      if (categoryName) {
+        const expandedProductsMoreMethod = {
+          filter: {
+            ids: this.ids[categoryName],
+          },
+          include: ['levels', 'organization'],
+        };
+
+        const newCards = await getProductsList(expandedProductsMoreMethod);
+        const selectedProducts = this.productsList.find((products) => products.name === categoryName);
+        this.$set(selectedProducts, 'products', [...selectedProducts.products, ...newCards.data]);
+      } else {
+        this.categories.forEach(async (category) => {
+          this.ids[category.name] = category.product_ids.slice(0, this.productsPerPage);
+
+          const expandedProductsMethod = {
+            filter: {
+              ids: this.ids[category.name],
+            },
+            include: ['levels', 'organization'],
+          };
+
+          const cards = await getProductsList(expandedProductsMethod);
+          this.productsList.push({ products: cards.data, name: category.name, count: category.count });
+        });
+      }
     },
   },
 
   async fetch() {
-    await this.fetchProductsList();
+    await this.fetchSearchData();
+  },
+
+  mounted() {
+    this.windowWidth = window.innerWidth;
+
+    if (this.windowWidth > 991) {
+      this.productsPerPage = 9;
+    } else if (this.windowWidth < 992 && this.windowWidth > 767) {
+      this.productsPerPage = 6;
+    } else {
+      this.productsPerPage = 3;
+    }
   },
 };
 </script>

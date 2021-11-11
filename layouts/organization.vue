@@ -3,9 +3,10 @@
     <noscript
       ><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-WPTVBRG" height="0" width="0"></iframe
     ></noscript>
-    <SHeader />
-    <Nuxt />
-    <LazyHydrate when-visible>
+    <SHeader @search="search = $event" />
+    <SProductSearch v-if="search" :search="search" @search-clear="test" />
+    <Nuxt v-else />
+    <LazyHydrate when-visible v-if="!search">
       <SQuiz :quiz-id="2" />
     </LazyHydrate>
     <LazyHydrate when-visible>
@@ -17,6 +18,7 @@
 <script>
 import LazyHydrate from 'vue-lazy-hydration';
 import SHeader from '~/components/s_header/s_header';
+import SProductSearch from '~/components/s_product_search/s_product_search';
 
 export default {
   head() {
@@ -34,7 +36,20 @@ export default {
     SQuiz: () => import('~/components/s_quiz/s_quiz'),
     SFooter: () => import('~/components/s_footer/s_footer'),
     LazyHydrate,
+    SProductSearch,
     SHeader,
+  },
+
+  data() {
+    return {
+      search: '',
+    };
+  },
+
+  methods: {
+    clearSearch() {
+      this.search = '';
+    },
   },
 };
 </script>

@@ -4,7 +4,7 @@
       ><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-WPTVBRG" height="0" width="0"></iframe
     ></noscript>
     <SHeader @search="search = $event" />
-    <SProductSearch v-if="search" :search="search" @search-clear="test" />
+    <SProductSearch v-if="search" :search="search" @search-clear="clearSearch" />
     <Nuxt v-else />
     <LazyHydrate when-visible>
       <SFooter />
@@ -43,8 +43,8 @@ export default {
   },
 
   methods: {
-    test() {
-      console.log('test');
+    clearSearch() {
+      this.search = '';
     },
   },
 };

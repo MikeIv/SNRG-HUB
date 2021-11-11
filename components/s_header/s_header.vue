@@ -144,8 +144,8 @@ export default {
 
   methods: {
     handleSearch(e) {
-      if (e.key === 'Enter' && this.search.trim()) {
-        this.$emit('search', this.search);
+      if (e.key === 'Enter') {
+        this.$emit('search', this.search.trim());
       }
     },
 
@@ -165,14 +165,8 @@ export default {
           this.isScrolled = true;
           mainWrapper.classList.add('js-fixed');
 
-          if (
-            (this.scrollTop > startPos && clientHeight < this.$store.state.quizInfo.top)
-            || (this.scrollTop > startPos && this.scrollTop > quizScrollTop)
-          ) {
-            this.isVisible = true;
-          } else {
-            this.isVisible = false;
-          }
+          this.isVisible = (this.scrollTop > startPos && clientHeight < this.$store.state.quizInfo.top)
+            || (this.scrollTop > startPos && this.scrollTop > quizScrollTop);
 
           break;
         default:
