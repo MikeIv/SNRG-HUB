@@ -17,7 +17,6 @@
         :submitDisabled="!validFlag"
         @submit-disabled="validFlag = $event"
         typeCtrl="checkbox"
-        ref="form"
         @click="sendForm"
       >
         <template v-slot:inputs>
@@ -109,10 +108,17 @@ export default {
 
     this.$emit('form-ref', this.$refs.form);
 
-    const loadDataForm = this.$lander.storage.load('programform');
+    const dataForm = [
+      { value: this.fieldsData.name },
+      { value: this.fieldsData.email },
+      { value: this.fieldsData.question },
+    ];
+
+    const loadDataForm = this.$lander.storage.load('popupform');
 
     if (loadDataForm) this.fieldsData = loadDataForm;
-    this.validFlag = this.$lander.valid(loadDataForm);
+
+    this.validFlag = this.$lander.valid(dataForm);
   },
 
   beforeDestroy() {
@@ -141,7 +147,7 @@ export default {
         .then(() => {});
     },
     handlerSave() {
-      this.$lander.storage.save('programform', this.fieldsData);
+      this.$lander.storage.save('popupform', this.fieldsData);
     },
     validatePhone(value) {
       this.validPhone = value.valid;
