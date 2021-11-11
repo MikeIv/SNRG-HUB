@@ -7,7 +7,7 @@
       </h2>
 
       <swiper class="s-product-search__presets" :options="$options.swiperOption">
-        <swiper-slide v-for="(preset, index) in categories" :key="index" class="catalog-presets__swiper-slide">
+        <swiper-slide v-for="(preset, index) in presets" :key="index" class="catalog-presets__swiper-slide">
           <nuxt-link to="/catalog">
             <a-tag :label="`${preset.name} ${preset.count}`" :class="{ active: preset.name === 'Все' }" />
           </nuxt-link>
@@ -99,15 +99,21 @@ export default {
     return {
       totalItems: 1204,
       totalCategories: 5,
-      presets: [
-        { name: 'Все', count: 28 },
-        { name: 'Программы', count: 14 },
-        { name: 'Курсы', count: 24 },
-      ],
+      presets: [{ name: 'Все', count: 28 }],
       baseURL: process.env.NUXT_ENV_S3BACKET,
       categories: [],
       productsList: [],
     };
+  },
+
+  watch: {
+    $route: {
+      deep: true,
+      handler() {
+        console.log('watch route changes');
+        this.$emit('search-clear');
+      },
+    },
   },
 
   methods: {
@@ -126,6 +132,7 @@ export default {
       console.log('here', searchedData);
       this.totalItems = searchedData.total;
       this.categories = searchedData.data.search_results;
+      this.presets = [{ name: 'Все', count: searchedData.total }, ...searchedData.data.search_results];
 
       this.productsList = [];
     },
