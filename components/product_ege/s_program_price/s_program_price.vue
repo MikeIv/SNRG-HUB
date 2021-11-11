@@ -1,5 +1,5 @@
 <template>
-  <section class="s-program-price" ref="form" id="form" :class="formClass">
+  <section class="s-program-price" ref="form" id="form-price" :class="formClass">
     <div class="s-program-price__info">
       <h3 class="s-program-price__title a-font_h5">{{ title }}</h3>
       <div class="s-program-price__info-wrapper">

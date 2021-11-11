@@ -51,22 +51,22 @@
             <div class="s-program-start__info-bottom-additional">
               <a-factoid
                 type="default"
-                title="+ 25 баллов"
-                subtitle="к результату на экзамене"
+                title="к результату на экзамене"
+                subtitle="+ 25 баллов"
                 class="s-program-start__info-bottom-additional_factoid"
                 v-if="program.city || program.start_date"
               />
               <a-factoid
                 type="default"
-                title="Полная подготовка"
-                subtitle="всего за 8 месяцев"
+                title="всего за 8 месяцев"
+                subtitle="Полная подготовка"
                 class="s-program-start__info-bottom-additional_factoid"
                 v-if="program.language"
               />
               <a-factoid
                 type="default"
-                title="Пробные тесты"
-                subtitle="от методистов ФИПИ"
+                title="от методистов ФИПИ"
+                subtitle="Пробные тесты"
                 class="s-program-start__info-bottom-additional_factoid"
                 v-if="program.duration"
               />
