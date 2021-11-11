@@ -1,7 +1,8 @@
 @import '@/assets/styles/tools/mixins';
 
-.product-school {
+.product-ege {
   .s-program-command {
+    margin-bottom: rem(20);
     padding: var(--layout-v-padding) var(--layout-h-padding);
     background: var(--a-color_bg);
 
@@ -68,14 +69,6 @@
             @media screen and (max-width: 767px) {
               width: rem(310);
               margin: 0;
-            }
-          }
-
-          &-title,
-          &-text {
-            @media screen and (max-width: 991px) {
-              font-size: rem(16);
-              line-height: rem(24);
             }
           }
         }

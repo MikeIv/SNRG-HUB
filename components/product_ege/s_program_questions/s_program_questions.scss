@@ -1,6 +1,6 @@
 @import '@/assets/styles/tools/mixins';
 
-.product-school {
+.product-ege {
   .s-program-questions {
     margin-bottom: rem(20);
     background: var(--a-color_bg);
@@ -120,14 +120,6 @@
         align-items: flex-start;
         width: auto !important;
       }
-    }
-  }
-}
-
-.product-school {
-  .s-program-questions {
-    &__text {
-      display: block;
     }
   }
 }
