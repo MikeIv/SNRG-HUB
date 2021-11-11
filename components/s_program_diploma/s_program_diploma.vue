@@ -1,6 +1,6 @@
 <template>
   <section class="s-program-diploma">
-    <h2 class="s-program-diploma__title a-font_h2">{{ title }}</h2>
+    <h2 class="s-program-diploma__title a-font_h2" v-html="title"></h2>
     <div class="s-program-diploma__items">
       <swiper :options="swiperOptionProgramDiploma">
         <swiper-slide v-for="(diploma, idx) in diplomaList.data" :key="idx" class="s-program-diploma__slide">

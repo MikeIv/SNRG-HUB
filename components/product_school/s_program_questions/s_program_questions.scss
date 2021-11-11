@@ -83,7 +83,9 @@
 
     &__title {
       margin-bottom: rem(20);
-
+      span {
+        color: var(--a-color_link);
+      }
       @media screen and (max-width: 767px) {
         margin-bottom: rem(16);
       }
@@ -120,14 +122,6 @@
         align-items: flex-start;
         width: auto !important;
       }
-    }
-  }
-}
-
-.product-school {
-  .s-program-questions {
-    &__text {
-      display: block;
     }
   }
 }
