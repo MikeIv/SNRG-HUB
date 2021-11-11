@@ -805,37 +805,37 @@ export default {
         subtitle: '',
         items: [
           {
-            icon: '',
+            icon: '/school/schoolAt/1.png',
             title: 'Онлайн-уроки',
             // eslint-disable-next-line max-len
             text: 'Проходят в формате вебинаров и остаются в записи. Живое общение учителя с классом',
           },
           {
-            icon: '',
+            icon: '/school/schoolAt/2.png',
             title: 'Лучшие преподаватели',
             // eslint-disable-next-line max-len
             text: 'Преподаватели лучших школ и вузов России. Методическая поддержка ФИПИ и университета «Синергия»',
           },
           {
-            icon: '',
+            icon: '/school/schoolAt/3.png',
             title: 'Мониторинг обучения',
             // eslint-disable-next-line max-len
             text: 'Отчеты успеваемости для детей и родителей. Электронный журнал и дневник',
           },
           {
-            icon: '',
+            icon: '/school/schoolAt/4.png',
             title: 'Команда поддержки',
             // eslint-disable-next-line max-len
             text: 'Персональный куратор, наставники, модераторы, психолог',
           },
           {
-            icon: '',
+            icon: '/school/schoolAt/5.png',
             title: 'Поступление в ВУЗ мечты',
             // eslint-disable-next-line max-len
             text: 'Эффективный путь к поступлению в лучшие вузы, полный цикл подготовки ',
           },
           {
-            icon: '',
+            icon: '/school/schoolAt/6.png',
             title: 'Гибкий график',
             // eslint-disable-next-line max-len
             text: 'Учитесь когда вам удобно. Записи прошедших уроков и контент доступны 24/7',
