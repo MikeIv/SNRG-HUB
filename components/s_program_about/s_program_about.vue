@@ -55,7 +55,6 @@ export default {
       image: item.icon ? this.baseUrl + item.icon.value : '',
       type: item.icon && item.icon.value ? 'image' : 'number',
     }));
-    console.log(this.programAboutList);
   },
 };
 </script>
