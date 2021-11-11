@@ -34,9 +34,16 @@ export default {
 
   methods: {
     scrollToFormBlock() {
-      const formBlock = document.getElementById('form');
+      const formBlock = document.getElementById('form-price');
+      const headerHeight = document.querySelector('.s-header');
+
+      const position = formBlock.offsetTop - headerHeight.offsetHeight;
+
       if (formBlock) {
-        formBlock.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'nearest' });
+        window.scrollTo({
+          top: position,
+          behavior: 'smooth',
+        });
       }
     },
     getDiscountClickHandler() {
