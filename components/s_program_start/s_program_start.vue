@@ -28,7 +28,7 @@
           <div class="s-program-start__photo s-program-start__photo-bottom">
             <img :src="program.photo" :alt="program.title" class="s-program-start__photo-img" itemprop="image" />
           </div>
-          <div itemprop="aggregateRating" itemscope itemtype="https://schema.org/AggregateRating" style="display: none">
+          <div itemprop="aggregateRating" itemscope itemtype="https://schema.org/AggregateRating">
             <meta itemprop="ratingValue" content="5" />
             <meta itemprop="reviewCount" content="5" />
           </div>
@@ -108,7 +108,6 @@ import {
   AFactoid, AButton, MSocialShare, MCard,
 } from '@cwespb/synergyui';
 import './s_program_start.scss';
-
 import getProductsDetail from '~/api/productsDetail';
 import getParseDate from '~/assets/js/getParseDate';
 import getDateFromDatesObj from '~/assets/js/getDateFromDatesObj';
@@ -312,3 +311,9 @@ export default {
   },
 };
 </script>
+
+<style lang="scss" scoped>
+[itemprop='aggregateRating'] {
+  display: none;
+}
+</style>

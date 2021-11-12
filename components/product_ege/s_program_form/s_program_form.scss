@@ -1,0 +1,28 @@
+@import '@/assets/styles/tools/mixins';
+
+.product-ege {
+  .s-program-form {
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    margin: rem(20) auto;
+    padding: var(--layout-v-padding) var(--layout-h-padding);
+    border-radius: var(--a-borderRadius--bg);
+
+    @media screen and (max-width: 991px) {
+      margin: rem(12) auto;
+    }
+
+    &.bg--red {
+      background-image: url('/school/form-bg-red.jpg');
+      background-repeat: no-repeat;
+      background-size: cover;
+    }
+
+    &.bg--blue {
+      background-image: url('/school/form-bg-blue.jpg');
+      background-repeat: no-repeat;
+      background-size: cover;
+    }
+  }
+}

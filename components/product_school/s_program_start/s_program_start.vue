@@ -51,22 +51,22 @@
             <div class="s-program-start__info-bottom-additional">
               <a-factoid
                 type="default"
-                title="Аттестат"
-                subtitle="госсударствееного образца"
+                title="государственного образца"
+                subtitle="Аттестат"
                 class="s-program-start__info-bottom-additional_factoid"
                 v-if="program.city || program.start_date"
               />
               <a-factoid
                 type="default"
-                title="Подготовка"
-                subtitle="к ЕГЭ и ОГЭ"
+                title="к ЕГЭ и ОГЭ"
+                subtitle="Подготовка"
                 class="s-program-start__info-bottom-additional_factoid"
                 v-if="program.language"
               />
               <a-factoid
                 type="default"
-                title="Льготные условия"
-                subtitle="для поступления в ВУЗ"
+                title="для поступления в ВУЗ"
+                subtitle="Льготные условия"
                 class="s-program-start__info-bottom-additional_factoid"
                 v-if="program.duration"
               />

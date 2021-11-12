@@ -1,6 +1,6 @@
 <template>
   <section class="s-program-diploma">
-    <h2 class="s-program-diploma__title a-font_h2">{{ title }}</h2>
+    <h2 class="s-program-diploma__title a-font_h2" v-html="title"></h2>
     <div class="s-program-diploma__items">
       <swiper :options="swiperOptionProgramDiploma">
         <swiper-slide
@@ -35,22 +35,22 @@ export default {
       diplomaList: [
         {
           img: '/school/documents/1.png',
-          title: 'Свидетельство о госсударсвенной аккредитации',
+          title: 'Свидетельство о государственной аккредитации',
           description: '',
         },
         {
           img: '/school/documents/2.png',
-          title: 'Лицензия на право оказывать образовательные услугиитации',
+          title: 'Лицензия на право оказывать образовательные услуги',
           description: '',
         },
         {
           img: '/school/documents/3.png',
-          title: 'Приложение к лицензии на осуществнление образовательной деятельности',
+          title: 'Приложение к лицензии на осуществление образовательной деятельности',
           description: '',
         },
         {
           img: '/school/documents/4.png',
-          title: 'Приложение к свидетельству о госсударсвенной аккредитации',
+          title: 'Приложение к свидетельству о государственной аккредитации',
           description: '',
         },
       ],
