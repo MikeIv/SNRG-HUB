@@ -1,25 +1,23 @@
 <template>
-  <div class="preloader" v-if="loading">
-    <div class="lds-ellipsis">
-      <div></div>
-      <div></div>
-      <div></div>
-      <div></div>
-    </div>
-  </div>
+  <m-loader v-if="loading" />
 </template>
 
 <script>
-import './s_loader.scss';
+import MLoader from '~/components/ui/m_loader/m_loader';
 
 export default {
   name: 'SLoader',
+
+  components: {
+    MLoader,
+  },
 
   data() {
     return {
       loading: true,
     };
   },
+
   methods: {
     start() {
       const htmlWrapper = document.querySelector('html');
@@ -46,11 +44,3 @@ export default {
   },
 };
 </script>
-
-<style scoped lang="scss">
-.preloader__logo-wrapper {
-  svg {
-    enable-background: new 0 0 279 278;
-  }
-}
-</style>
