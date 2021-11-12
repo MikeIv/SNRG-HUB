@@ -53,6 +53,15 @@ export default {
     };
   },
 
+  watch: {
+    $route: {
+      deep: true,
+      handler() {
+        this.$emit('search', '');
+      },
+    },
+  },
+
   created() {
     const socialsItems = this.$store.state.globalData.globalData.data.contacts.social_networks;
     this.logoURL = this.$store.state.globalData.globalData.data.main.logo;
