@@ -1,0 +1,30 @@
+@import '/assets/styles/tools/mixins';
+
+.mobile-button {
+  position: fixed;
+  z-index: 100;
+  left: 0;
+  bottom: 20px;
+  display: block;
+  width: 100%;
+  height: rem(46);
+  padding: 0 var(--a-padding--x4);
+
+  @media screen and (max-width: 767px) {
+    display: block;
+  }
+
+  .m-form__checkbox {
+    order: 9;
+    margin-top: rem(20);
+  }
+
+  .m-form .a-control__label {
+    align-items: flex-start;
+  }
+
+  &__btn {
+    width: 100%;
+    height: 100%;
+  }
+}
