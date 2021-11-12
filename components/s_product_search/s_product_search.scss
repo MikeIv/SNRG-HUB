@@ -11,6 +11,10 @@
     padding: rem(32) rem(16) rem(24) rem(16);
   }
 
+  &__loader {
+    height: calc(100vh - rem(155) - rem(140));
+  }
+
   &__total {
     color: var(--a-color_active);
     font-size: rem(16);
@@ -108,33 +112,6 @@
   &__wrapper {
     text-decoration: none;
     cursor: pointer;
-
-    //@media screen and (max-width: 991px) {
-    //  display: none;
-    //}
-
-    //&:nth-child(1),
-    //&:nth-child(2),
-    //&:nth-child(3),
-    //&:nth-child(4),
-    //&:nth-child(5),
-    //&:nth-child(6) {
-    //  @media screen and (max-width: 991px) {
-    //    display: block;
-    //  }
-    //
-    //  @media screen and (max-width: 767px) {
-    //    display: none;
-    //  }
-    //}
-
-    //&:nth-child(1),
-    //&:nth-child(2),
-    //&:nth-child(3) {
-    //  @media screen and (max-width: 767px) {
-    //    display: block;
-    //  }
-    //}
   }
 
   &__btn {

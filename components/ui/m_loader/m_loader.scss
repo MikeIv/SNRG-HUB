@@ -1,16 +1,24 @@
 @import '@/assets/styles/tools/mixins';
 
 .preloader {
-  position: fixed;
-  z-index: 9000;
-  top: 0;
-  left: 0;
   display: flex;
   justify-content: center;
   align-items: center;
-  min-width: 100%;
-  min-height: 100vh;
   background: #fff;
+
+  &.fullscreen {
+    position: fixed;
+    z-index: 9000;
+    top: 0;
+    left: 0;
+    min-width: 100%;
+    min-height: 100vh;
+  }
+
+  &.basic {
+    position: unset;
+    height: 100%;
+  }
 }
 .lds-ellipsis {
   position: relative;

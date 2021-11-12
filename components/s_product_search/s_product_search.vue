@@ -1,65 +1,74 @@
 <template>
   <div>
-    <div class="l-default s-product-search">
-      <h2 class="a-font_h2" v-if="categories.length">
-        Найдено {{ totalItems }} результатов в {{ categories.length }} категориях
-        <sup class="s-product-search__total a-font_l"> {{ totalItems }} </sup>
-      </h2>
-      <h2 v-else class="a-font_h2">По вашему запросу ничего не найдено</h2>
+    <div v-if="!loading" class="s-product-search__loader">
+      <m-loader type="basic" />
+    </div>
+    <div v-else>
+      <div class="l-default s-product-search">
+        <h2 class="a-font_h2" v-if="categories.length">
+          Найдено {{ totalItems }} результатов в {{ categories.length }} категориях
+          <sup class="s-product-search__total a-font_l"> {{ totalItems }} </sup>
+        </h2>
+        <h2 v-else class="a-font_h2">По вашему запросу ничего не найдено</h2>
 
-      <swiper class="s-product-search__presets" :options="$options.swiperOption" v-if="categories.length">
-        <swiper-slide v-for="(preset, index) in presets" :key="index" class="catalog-presets__swiper-slide">
-          <a-tag
-            :label="`${preset.name} ${preset.count}`"
-            :class="{ active: preset.name === selectedPreset }"
-            @aTagClick="onTagClickHandler(preset)"
-          />
-        </swiper-slide>
-      </swiper>
+        <swiper class="s-product-search__presets" :options="$options.swiperOption" v-if="categories.length">
+          <swiper-slide v-for="(preset, index) in presets" :key="index" class="catalog-presets__swiper-slide">
+            <a-tag
+              :label="`${preset.name} ${preset.count}`"
+              :class="{ active: preset.name === selectedPreset }"
+              @aTagClick="onTagClickHandler(preset)"
+            />
+          </swiper-slide>
+        </swiper>
 
-      <div class="s-product-search__categories" v-if="categories.length">
-        <div
-          class="s-product-search__category"
-          v-for="(product, index) in productsList"
-          :key="product.name + index"
-          :class="{ hidden: product.name !== selectedPreset && selectedPreset !== 'Все' }"
-        >
-          <template v-if="product.name === selectedPreset || selectedPreset === 'Все'">
-            <h2 class="a-font_h2 s-product-search__category-title">
-              {{ product.name }} <sup class="s-product-search__total a-font_l"> {{ product.count }} </sup>
-            </h2>
-            <div class="s-product-search__cards">
-              <template v-for="(product, index) in product.products">
-                <nuxt-link :to="`/product/${product.slug}`" class="s-product-search__wrapper" :key="product.id + index">
-                  <m-card
-                    :title="product.name"
-                    :bottomText="product.included.organization.name"
-                    :name="product.name"
-                    :description="product.included.levels[0].name"
-                    :iconSrc="`${baseURL}${product.included.organization.logo}`"
-                    :verticalImgSrc="`${baseURL}${product.digital_image}`"
-                    type="program"
-                    @organization-click="onOrganizationClick(product)"
-                  />
-                </nuxt-link>
-              </template>
-            </div>
+        <div class="s-product-search__categories" v-if="categories.length">
+          <div
+            class="s-product-search__category"
+            v-for="(product, index) in productsList"
+            :key="product.name + index"
+            :class="{ hidden: product.name !== selectedPreset && selectedPreset !== 'Все' }"
+          >
+            <template v-if="product.name === selectedPreset || selectedPreset === 'Все'">
+              <h2 class="a-font_h2 s-product-search__category-title">
+                {{ product.name }} <sup class="s-product-search__total a-font_l"> {{ product.count }} </sup>
+              </h2>
+              <div class="s-product-search__cards">
+                <template v-for="(product, index) in product.products">
+                  <nuxt-link
+                    :to="`/product/${product.slug}`"
+                    class="s-product-search__wrapper"
+                    :key="product.id + index"
+                  >
+                    <m-card
+                      :title="product.name"
+                      :bottomText="product.included.organization.name"
+                      :name="product.name"
+                      :description="product.included.levels[0].name"
+                      :iconSrc="`${baseURL}${product.included.organization.logo}`"
+                      :verticalImgSrc="`${baseURL}${product.digital_image}`"
+                      type="program"
+                      @organization-click="onOrganizationClick(product)"
+                    />
+                  </nuxt-link>
+                </template>
+              </div>
 
-            <nuxt-link to="/catalog" class="s-product-search__btn-link">
-              <a-button
-                v-if="product.count > productsPerPage && product.products.length < product.count"
-                class="s-product-search__btn"
-                label="Показать еще"
-                size="large"
-                bgColor="ghost-primary"
-                @click="onMoreButtonClick(product)"
-              />
-            </nuxt-link>
-          </template>
+              <nuxt-link to="/catalog" class="s-product-search__btn-link">
+                <a-button
+                  v-if="product.count > productsPerPage && product.products.length < product.count"
+                  class="s-product-search__btn"
+                  label="Показать еще"
+                  size="large"
+                  bgColor="ghost-primary"
+                  @click="onMoreButtonClick(product)"
+                />
+              </nuxt-link>
+            </template>
+          </div>
         </div>
       </div>
+      <SQuiz :quiz-id="2" />
     </div>
-    <SQuiz :quiz-id="2" />
   </div>
 </template>
 
@@ -67,6 +76,7 @@
 import { Swiper, SwiperSlide } from 'vue-awesome-swiper';
 import { ATag, MCard, AButton } from '@cwespb/synergyui';
 import SQuiz from '~/components/s_quiz/s_quiz';
+import MLoader from '~/components/ui/m_loader/m_loader';
 import './s_product_search.scss';
 import getSearchProducts from '~/api/productsSearch';
 import getProductsList from '~/api/products_list';
@@ -89,6 +99,7 @@ export default {
     ATag,
     MCard,
     AButton,
+    MLoader,
   },
 
   props: {
@@ -116,6 +127,7 @@ export default {
       ids: {},
       totalIds: {},
       windowWidth: null,
+      loading: false,
     };
   },
 
@@ -144,6 +156,7 @@ export default {
     },
 
     async fetchSearchData() {
+      this.loading = true;
       this.selectedPreset = 'Все';
       this.productsList = [];
       this.categories = [];
@@ -178,6 +191,8 @@ export default {
         const newCards = await getProductsList(expandedProductsMoreMethod);
         const selectedProducts = this.productsList.find((products) => products.name === categoryName);
         this.$set(selectedProducts, 'products', [...selectedProducts.products, ...newCards.data]);
+
+        this.loading = false;
       } else {
         this.categories.forEach(async (category) => {
           this.ids[category.name] = category.product_ids.slice(0, this.productsPerPage);
@@ -192,6 +207,8 @@ export default {
           const cards = await getProductsList(expandedProductsMethod);
           this.productsList.push({ products: cards.data, name: category.name, count: category.count });
         });
+
+        this.loading = false;
       }
     },
   },
