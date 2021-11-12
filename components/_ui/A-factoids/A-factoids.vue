@@ -1,12 +1,17 @@
 <template>
-  <div :class="{ ...factoidWrapperClasses, 'a-factoid-horizontal__wrapper': type === 'number-horizontal' }">
+  <div
+    :class="{
+      [`a-factoid-${this.type}__wrapper`]: true,
+      'a-factoid-horizontal__wrapper': type === 'number-horizontal',
+    }"
+  >
     <template v-if="type === 'default'">
       <div class="a-factoids__default-subtitle a-font_xl">{{ subtitle }}</div>
       <div class="a-factoids__default-title a-font_xxl" v-html="title"></div>
     </template>
 
     <template v-if="type === 'line'">
-      <h3 class="a-font_h3" :class="{ ...factoidTextClasses }">
+      <h3 class="a-font_h3" :class="{ [`a-factoid__${this.color}`]: true }">
         {{ lineNumber }}
       </h3>
       <div class="a-factoids__line-title a-font_l" v-html="title"></div>
@@ -24,7 +29,7 @@
           <h2
             class="a-font_h2"
             :class="{
-              ...factoidTextClasses,
+              [`a-factoid__${this.color}`]: true,
               'a-factoid-horizontal__number': type === 'number-horizontal',
             }"
           >
@@ -77,17 +82,6 @@ export default {
     },
   },
   computed: {
-    factoidTextClasses() {
-      return {
-        [`a-factoid__${this.color}`]: true,
-      };
-    },
-
-    factoidWrapperClasses() {
-      return {
-        [`a-factoid-${this.type}__wrapper`]: true,
-      };
-    },
     getImage() {
       if (this.image !== '') return true;
       return false;
