@@ -49,7 +49,6 @@ export default {
   },
   async fetch() {
     this.navLinks = await getMenuData();
-    console.log('LINKS', this.navLinks);
   },
 
   methods: {

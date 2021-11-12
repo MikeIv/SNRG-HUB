@@ -22,7 +22,7 @@
       :class="{ 'a-factoid-horizontal__wrapper': type === 'number-horizontal' }"
     >
       <div class="a-factoids">
-        <div class="a-factoids__img-wrapper" :class="{ active: getImage }">
+        <div class="a-factoids__img-wrapper" :class="{ active: this.image }">
           <img :src="image" alt="" class="a-factoids__img" />
         </div>
         <div class="a-factoids__info">
@@ -79,12 +79,6 @@ export default {
 
     image: {
       type: String,
-    },
-  },
-  computed: {
-    getImage() {
-      if (this.image !== '') return true;
-      return false;
     },
   },
 };
