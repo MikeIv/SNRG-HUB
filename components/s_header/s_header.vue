@@ -35,7 +35,7 @@
               </div>
             </div>
             <nuxt-link to="/" class="s-header__logo-link">
-              <img :src="logoURL" alt="" />
+              <img :src="logoURL" alt="" @click="onLogoClickHandler" />
             </nuxt-link>
             <div class="s-header__burger" @click="handleChange">
               <div class="s-header__burger-icon">
@@ -122,6 +122,23 @@ export default {
     },
   },
 
+  watch: {
+    $route: {
+      deep: true,
+      handler() {
+        this.search = '';
+        this.$emit('search', '');
+      },
+    },
+
+    search() {
+      if (!this.search) {
+        this.search = '';
+        this.$emit('search', '');
+      }
+    },
+  },
+
   mounted() {
     window.addEventListener('scroll', this.handleScroll);
 
@@ -143,6 +160,11 @@ export default {
   },
 
   methods: {
+    onLogoClickHandler() {
+      this.search = '';
+      this.$emit('search', '');
+    },
+
     handleSearch(e) {
       if (e.key === 'Enter') {
         this.$emit('search', this.search.trim());

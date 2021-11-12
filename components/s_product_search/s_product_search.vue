@@ -135,6 +135,13 @@ export default {
     search() {
       this.fetchSearchData();
     },
+
+    $route: {
+      deep: true,
+      handler() {
+        this.$emit('search-clear');
+      },
+    },
   },
 
   methods: {
