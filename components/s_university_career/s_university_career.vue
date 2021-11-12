@@ -3,7 +3,7 @@
     <div class="s-university-career__wrap">
       <h2 class="s-university-career__title a-font_h2" v-html="title"></h2>
       <div class="s-university-career__items">
-        <AFactoid
+        <AFactoids
           v-for="factoid in factoids"
           :key="factoid.id"
           :type="factoid.type"
@@ -16,14 +16,14 @@
 </template>
 
 <script>
-import { AFactoid } from '@cwespb/synergyui';
+import AFactoids from '@/components/_ui/A-factoids/A-factoids';
 import './s_university_career.scss';
 
 export default {
   name: 's_university_career',
 
   components: {
-    AFactoid,
+    AFactoids,
   },
 
   data() {

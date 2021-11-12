@@ -10,7 +10,7 @@
     </div>
     <div class="s-program-university__factoids">
       <div class="s-program-university__factoids-item" v-for="(item, idx) in getAllItem" :key="idx">
-        <AFactoid :title="item.description" :number="item.name" color="color_link" type="number" />
+        <AFactoids :title="item.description" :number="item.name" color="color_link" type="number" />
       </div>
       <div class="s-program-university__factoids-more" v-if="!flag && getAllItem.length > 6">
         <AButton size="large" bgColor="accent" label="Показать ещё" @click="flag = true"></AButton>
@@ -20,7 +20,8 @@
 </template>
 
 <script>
-import { AFactoid, AButton } from '@cwespb/synergyui';
+import { AButton } from '@cwespb/synergyui';
+import AFactoids from '@/components/_ui/A-factoids/A-factoids';
 import './s_program_university.scss';
 import getOrganizationsDetail from '~/api/organizationsDetail';
 
@@ -28,7 +29,7 @@ export default {
   name: 'SProgramUniversity',
 
   components: {
-    AFactoid,
+    AFactoids,
     AButton,
   },
   computed: {
