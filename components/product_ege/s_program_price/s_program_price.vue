@@ -9,7 +9,6 @@
             <div class="s-program-price__course-items">
               <div
                 class="s-program-price__course-item a-font_l"
-                :class="{ active: course.isActive }"
                 v-for="(course, id) in priceInfo.courses.items"
                 :key="id"
               >
@@ -22,7 +21,6 @@
             <div class="s-program-price__course-items">
               <div
                 class="s-program-price__course-item a-font_l"
-                :class="{ active: subject.isActive }"
                 v-for="(subject, id) in priceInfo.subjects.items"
                 :key="id"
               >
