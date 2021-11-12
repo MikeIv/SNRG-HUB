@@ -32,9 +32,6 @@ export default {
           href: `${this.$config.SITE_URL}${this.$route.path}`,
         },
       ],
-      bodyAttrs: {
-        class: `${'body--search' ? this.search : ''}`,
-      },
     };
   },
 
@@ -56,21 +53,5 @@ export default {
 iframe {
   display: none;
   visibility: hidden;
-}
-
-body.body--search {
-  #__nuxt,
-  #__layout,
-  #__layout > div:only-child {
-    display: flex;
-    flex: 1;
-    align-items: stretch;
-  }
-
-  .screen-height > .l-default {
-    display: flex;
-    flex-direction: column;
-    flex-grow: 1;
-  }
 }
 </style>

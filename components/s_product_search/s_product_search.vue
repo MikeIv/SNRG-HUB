@@ -1,10 +1,10 @@
 <template>
   <div>
-    <div v-if="!loading" class="s-product-search__loader">
+    <div v-if="loading" class="s-product-search__loader">
       <m-loader type="basic" />
     </div>
     <div v-else>
-      <div class="l-default s-product-search">
+      <div class="s-product-search">
         <h2 class="a-font_h2" v-if="categories.length">
           Найдено {{ totalItems }} результатов в {{ categories.length }} категориях
           <sup class="s-product-search__total a-font_l"> {{ totalItems }} </sup>
