@@ -288,6 +288,7 @@
   }
 
   &.open {
+    z-index: 101;
     .s-header {
       &__burger {
         color: var(--a-color_bg);

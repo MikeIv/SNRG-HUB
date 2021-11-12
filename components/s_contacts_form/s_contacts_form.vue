@@ -81,6 +81,7 @@ export default {
       { value: this.fieldsData.email },
       { value: this.fieldsData.question },
     ];
+
     this.validFlag = this.$lander.valid(dataForm);
   },
   methods: {
