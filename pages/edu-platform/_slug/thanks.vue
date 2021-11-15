@@ -39,10 +39,23 @@ export default {
     SFooter,
   },
 
+  data() {
+    return {
+      prevRoute: '',
+    };
+  },
+
   methods: {
     goBack() {
-      this.$router.push({ name: 'edu-platform-slug', params: this.$route.params });
+      this.$router.push({ path: this.prevRoute });
     },
+  },
+
+  beforeRouteEnter(to, from, next) {
+    next((vm) => {
+      // eslint-disable-next-line no-param-reassign
+      vm.prevRoute = from.fullPath;
+    });
   },
 };
 </script>

@@ -157,7 +157,7 @@ export default (context, inject) => {
       })
         .then((response) => {
           if (response.status === 200) {
-            window.location.replace(setingSend.redirectUrl);
+            context.app.router.push({ path: setingSend.redirectUrl });
           }
         })
         .catch((error) => {
