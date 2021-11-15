@@ -26,7 +26,7 @@
         <meta itemprop="addressLocality" :content="localBusinessAddressLocality" />
         <meta itemprop="streetAddress" :content="localBusinessStreetAddress" />
       </span>
-      <span itemprop="geo" itemscope itemtype="https://schema.org/GeoCoordinates" >
+      <span itemprop="geo" itemscope itemtype="https://schema.org/GeoCoordinates">
         <meta itemprop="latitude" content="57.700742" />
         <meta itemprop="longitude" content="39.761752" />
       </span>
