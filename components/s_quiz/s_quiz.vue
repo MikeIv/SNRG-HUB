@@ -59,13 +59,6 @@
         <div class="m-quiz__finish-inputs">
           <div class="m-quiz__finish-data">
             <a-input placeholder="Имя" v-model="send.name" @input="validQuizData"></a-input>
-            <!-- <a-input
-              type="phone"
-              placeholder="Телефон"
-              @validate="validatePhone"
-              v-model="send.phone"
-              @input="validQuizData"
-            ></a-input> -->
             <vue-tel-input
               v-bind="vueTelOpts"
               type="phone"
@@ -105,7 +98,6 @@ import { AButton, AInput, AControl } from '@cwespb/synergyui';
 
 import getQuizzesDetail from '~/api/quizzesDetail';
 
-import 'vue-tel-input/dist/vue-tel-input.css';
 import './s_quiz.scss';
 
 export default {
