@@ -79,7 +79,7 @@
         </div>
       </a-popup>
 
-      <div class="banner-lp__wrapper">
+      <div class="banner-lp__wrapper" v-if="bannerTitleH1">
         <div class="banner-lp__content">
           <div class="banner-lp__info">
             <div class="banner-lp__title">
