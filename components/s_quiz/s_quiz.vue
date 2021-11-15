@@ -28,7 +28,10 @@
             {{ dataQuestion.find((question) => question.id === currentQuestionId).question }}
           </h5>
         </div>
-        <div class="m-quiz__answers">
+        <div
+          class="m-quiz__answers"
+          :class="{ column: dataQuestion.find((question) => question.id === currentQuestionId).answers.length < 4 }"
+        >
           <div
             class="m-quiz__control"
             v-for="(item, index) in dataQuestion.find((question) => question.id === currentQuestionId).answers"
