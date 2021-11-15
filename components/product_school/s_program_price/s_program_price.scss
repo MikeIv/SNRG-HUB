@@ -16,6 +16,9 @@
     @media screen and (max-width: 991px) {
       margin: rem(12) auto;
     }
+    @media screen and (max-width: 767px) {
+      padding: var(--a-padding--x8) var(--a-padding--x4);
+    }
 
     .m-form {
       display: flex;
@@ -152,16 +155,5 @@
     background: url('/school/form-bg-blue.jpg');
     background-repeat: no-repeat;
     background-size: cover;
-  }
-}
-
-.product-school {
-  .s-program-price {
-    @media screen and (max-width: 767px) {
-      padding: var(--a-padding--x8) var(--a-padding--x4);
-    }
-    &__info {
-      border-radius: var(--a-borderRadius--default);
-    }
   }
 }

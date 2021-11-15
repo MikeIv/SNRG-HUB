@@ -19,13 +19,16 @@
 </template>
 
 <script>
-import { SFooter } from '@cwespb/synergyui';
-import MenuHorizontal from '../menu_horizontal/menu_horizontal';
+import MenuHorizontal from '@/components/menu_horizontal/menu_horizontal';
+import SFooter from '@/components/_ui/S-Footer/S-footer';
 import './s_footer.scss';
 
 export default {
   name: 'Footer',
-
+  components: {
+    SFooter,
+    MenuHorizontal,
+  },
   data() {
     return {
       socials: [],
@@ -77,11 +80,6 @@ export default {
       };
       this.socials.push(social);
     }
-  },
-
-  components: {
-    SFooter,
-    MenuHorizontal,
   },
 };
 </script>
