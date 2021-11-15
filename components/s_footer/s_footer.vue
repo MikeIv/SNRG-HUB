@@ -19,8 +19,8 @@
 </template>
 
 <script>
-import MenuHorizontal from '../menu_horizontal/menu_horizontal';
-import SFooter from '../_ui/S-Footer/S-footer';
+import MenuHorizontal from '@/components/menu_horizontal/menu_horizontal';
+import SFooter from '@/components/_ui/S-Footer/S-footer';
 import './s_footer.scss';
 
 export default {
