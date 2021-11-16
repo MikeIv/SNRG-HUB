@@ -1,14 +1,20 @@
 <template>
   <div class="catalog-page__section catalog-page__section-lp">
     <div class="catalog-presets-lp__tags">
-      <a-tag
-        v-for="preset in presets"
-        :key="preset.id"
-        @aTagClick="selectPreset(preset)"
-        @aTagDelete="activePreset = null"
-        :label="preset.name"
-        :status="activePreset && activePreset.name === preset.name ? 'selected' : 'default'"
-      />
+      <template v-for="[slug, list] in Object.entries(productList)">
+        <a-tag
+          v-if="list.length"
+          :key="slug"
+          @aTagClick="selectPreset(presets.find((preset) => slug === preset.slug))"
+          @aTagDelete="activePreset = null"
+          :label="presets.find((preset) => slug === preset.slug).name"
+          :status="
+            activePreset && activePreset.name === presets.find((preset) => slug === preset.slug).name
+              ? 'selected'
+              : 'default'
+          "
+        />
+      </template>
     </div>
     <div class="" :class="{ 'fixed': menuFixed, 'catalog-page-lp__select-mobile': menuFixed }">
       <a-select
@@ -712,6 +718,7 @@ export default {
     async fetchFilterData() {
       Object.entries(this.filters).forEach(([key, filterData]) => {
         if (key === 'level') {
+          console.log('!!!', filterData);
           this.presets = filterData;
           this.presets.forEach((preset) => {
             this.productsPerPage[preset.slug] = 10;
