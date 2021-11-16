@@ -127,7 +127,6 @@ export default {
     let landingDetailInfo = {};
     await getLandingDetail(request)
       .then((response) => {
-        console.log('here', response);
         landingDetailInfo = response;
       })
       .catch(() => {

@@ -253,7 +253,6 @@ export default {
 
   methods: {
     sendForm() {
-      console.log('HERE', this.$route);
       this.$lander.send(this.fieldsData, {}, this.$route.path).then(() => {});
     },
 

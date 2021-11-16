@@ -102,16 +102,12 @@ export default (context, inject) => {
       type = undefined;
     }
 
-    console.log('route', route);
-
     const url = getConfig(unit, type, land, context.store.state.utms);
 
     const setingSend = {
       version: '',
       redirectUrl: route ? `${route}thanks` : landerConfig.redirectUrl,
     };
-
-    console.log('setingSend', setingSend);
 
     return new Promise(() => {
       const data = new FormData();
