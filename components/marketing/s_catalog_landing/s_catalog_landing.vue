@@ -279,7 +279,11 @@
           </i>
         </template>
         <template v-for="preset in presets">
-          <div v-if="productList[preset.slug].length" class="catalog-product-list" :key="preset.id">
+          <div
+            v-if="productList[preset.slug] && productList[preset.slug].length"
+            class="catalog-product-list"
+            :key="preset.id"
+          >
             <h2 class="a-font_h2 catalog-product-list__title">
               {{ preset.name }}
               <sup class="catalog-page__header-total a-font_L"> {{ totalProducts[preset.slug] }} программ</sup>
@@ -552,6 +556,7 @@ export default {
       deep: true,
       handler() {
         this.componentProductsKey += 3;
+        this.activePreset = null;
         this.fetchProductsList();
         // eslint-disable-next-line max-len
         this.totalPickedFilters = Object.values(this.filtersIdsData).reduce(
@@ -718,7 +723,6 @@ export default {
     async fetchFilterData() {
       Object.entries(this.filters).forEach(([key, filterData]) => {
         if (key === 'level') {
-          console.log('!!!', filterData);
           this.presets = filterData;
           this.presets.forEach((preset) => {
             this.productsPerPage[preset.slug] = 10;
