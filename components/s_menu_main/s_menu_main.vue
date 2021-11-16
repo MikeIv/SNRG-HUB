@@ -47,6 +47,7 @@
                     </nuxt-link>
                   </div>
                   <nuxt-link
+                    v-if="linkItem.products.length > 5"
                     :to="`${buildFilterUrl(linkItem.link)}`"
                     @click.native="changeIsOpen"
                     class="s-menu-main__link-more"
