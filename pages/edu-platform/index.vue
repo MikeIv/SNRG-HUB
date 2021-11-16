@@ -29,15 +29,6 @@
     </header>
 
     <div class="l-wide">
-      <!--      <div class="lp__banner" :style="`background-color: ${landingDetailInfo.color_bg}`">-->
-      <!--        <div class="lp__banner-left">-->
-      <!--          <h1 class="lp__banner__title a-font_h1" v-html="landingDetailInfo.name" />-->
-      <!--          <div class="lp__banner__descript a-font_l-m" v-html="landingDetailInfo.description" />-->
-      <!--        </div>-->
-      <!--        <div class="lp__banner-img">-->
-      <!--          <img :src="`${baseURL}${landingDetailInfo.image_src}`" alt="" />-->
-      <!--        </div>-->
-      <!--      </div>-->
       <a-popup :visible="applicationPopup" @close="applicationPopup = false">
         <div class="catalog-page__section-lp__popup">
           <section ref="form" id="form">
@@ -262,6 +253,7 @@ export default {
 
   methods: {
     sendForm() {
+      console.log('HERE', this.$route);
       this.$lander.send(this.fieldsData, {}, this.$route.path).then(() => {});
     },
 
