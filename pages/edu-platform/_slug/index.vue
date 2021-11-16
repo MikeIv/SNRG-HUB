@@ -116,7 +116,7 @@ export default {
     };
   },
 
-  async asyncData({ route }) {
+  async asyncData({ route, redirect }) {
     const request = {
       filter: {
         slug: route.params.slug,
@@ -124,7 +124,16 @@ export default {
       include: ['formats', 'levels', 'directions', 'cities', 'organizations'],
     };
 
-    const landingDetailInfo = await getLandingDetail(request);
+    let landingDetailInfo = {};
+    await getLandingDetail(request)
+      .then((response) => {
+        console.log('here', response);
+        landingDetailInfo = response;
+      })
+      .catch(() => {
+        redirect({ name: 'edu-platform' });
+      });
+
     const options = [];
     landingDetailInfo.included.direction.forEach(({ name, slug }) => {
       options.push({ label: name, value: slug });
