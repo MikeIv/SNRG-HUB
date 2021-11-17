@@ -208,45 +208,6 @@
   }
 
   div.vue-tel-input {
-    display: flex;
-    width: 100%;
-    height: rem(48);
     margin-right: var(--a-padding--x2);
-    padding: 0;
-    color: var(--a-color_text);
-    background-color: var(--a-color_bg);
-    border: rem(1) solid var(--a-color_thumbnail);
-    border-radius: var(--a-borderRadius--default);
-    outline: none;
-    font-size: rem(14);
-    @media screen and (max-width: 991px) {
-      margin-right: 0;
-      margin-bottom: var(--a-padding--x3);
-    }
-    &:focus {
-      border: rem(1) solid var(--a-color_text--secondary);
-    }
-    &:invalid {
-      color: var(--a-color_link);
-      border: rem(1) solid var(--a-color_link);
-    }
-    &:disabled {
-      color: var(--a-color_text--secondary);
-      background-color: var(--a-color_bg--secondary);
-      border: rem(1) solid var(--a-color_bg--secondary);
-      cursor: auto;
-    }
-    &:focus-within {
-      border-color: var(--a-color_text--secondary);
-      box-shadow: none;
-    }
-    .a-input {
-      border: none;
-    }
-    .vti__input {
-      width: 100%;
-      border: none;
-      box-shadow: none;
-    }
   }
 }
