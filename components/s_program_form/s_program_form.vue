@@ -102,7 +102,13 @@ export default {
       }
 
       this.$lander
-        .send(this.fieldsData, {}, this.$route.name === 'edu-platform-slug' ? this.$route.path : undefined)
+        .send(
+          this.fieldsData,
+          {},
+          this.$route.name === 'edu-platform-slug' || this.$route.name === 'edu-platform'
+            ? this.$route.path
+            : undefined,
+        )
         .then(() => {});
     },
     handlerSave() {

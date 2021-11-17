@@ -1,14 +1,20 @@
 <template>
   <div class="catalog-page__section catalog-page__section-lp">
     <div class="catalog-presets-lp__tags">
-      <a-tag
-        v-for="preset in presets"
-        :key="preset.id"
-        @aTagClick="selectPreset(preset)"
-        @aTagDelete="activePreset = null"
-        :label="preset.name"
-        :status="activePreset && activePreset.name === preset.name ? 'selected' : 'default'"
-      />
+      <template v-for="[slug, list] in Object.entries(productList)">
+        <a-tag
+          v-if="list.length"
+          :key="slug"
+          @aTagClick="selectPreset(presets.find((preset) => slug === preset.slug))"
+          @aTagDelete="activePreset = null"
+          :label="presets.find((preset) => slug === preset.slug).name"
+          :status="
+            activePreset && activePreset.name === presets.find((preset) => slug === preset.slug).name
+              ? 'selected'
+              : 'default'
+          "
+        />
+      </template>
     </div>
     <div class="" :class="{ 'fixed': menuFixed, 'catalog-page-lp__select-mobile': menuFixed }">
       <a-select
@@ -272,47 +278,50 @@
             <span class="a-font_button">Фильтры ({{ totalPickedFilters }})</span>
           </i>
         </template>
-        <div class="catalog-product-list" v-for="preset in presets" :key="preset.id">
-          <h2 class="a-font_h2 catalog-product-list__title">
-            {{ preset.name }}
-            <sup class="catalog-page__header-total a-font_L"> {{ totalProducts[preset.slug] }} программ</sup>
-          </h2>
-          <div class="catalog-product-list__wrapper" v-if="productList[preset.slug]">
-            <h3 class="catalog-product-list__wrapper-sorry" v-if="!productList[preset.slug].length">
-              К сожалению, ничего нет
-            </h3>
-            <div
-              class="catalog-product-list__item-wrapper-section catalog-product-list__item"
-              v-for="product in productList[preset.slug]"
-              :key="product.id"
-              @click="openPopupHandler(product)"
-            >
-              <m-card
-                type="program"
-                :btns="btns"
-                :description="product.included.levels[0].name"
-                :title="product.name"
-                :verticalImgSrc="`${baseURL}/${product.preview_image}`"
-                :bottomText="product.included.organization.abbreviation_name"
-                :iconSrc="`${baseURL}${product.included.organization.logo}`"
-                @btn-click="onBtnClickHandler(product, ...arguments)"
-                @organization-click="onOrganizationClick(product)"
-              />
+        <template v-for="preset in presets">
+          <div
+            v-if="productList[preset.slug] && productList[preset.slug].length"
+            class="catalog-product-list"
+            :key="preset.id"
+          >
+            <h2 class="a-font_h2 catalog-product-list__title">
+              {{ preset.name }}
+              <sup class="catalog-page__header-total a-font_L"> {{ totalProducts[preset.slug] }} программ</sup>
+            </h2>
+            <div class="catalog-product-list__wrapper" v-if="productList[preset.slug]">
+              <div
+                class="catalog-product-list__item-wrapper-section catalog-product-list__item"
+                v-for="product in productList[preset.slug]"
+                :key="product.id"
+                @click="openPopupHandler(product)"
+              >
+                <m-card
+                  type="program"
+                  :btns="btns"
+                  :description="product.included.levels[0].name"
+                  :title="product.name"
+                  :verticalImgSrc="`${baseURL}/${product.preview_image}`"
+                  :bottomText="product.included.organization.abbreviation_name"
+                  :iconSrc="`${baseURL}${product.included.organization.logo}`"
+                  @btn-click="onBtnClickHandler(product, ...arguments)"
+                  @organization-click="onOrganizationClick(product)"
+                />
+              </div>
             </div>
+            <a-button
+              class="catalog-product-list__button"
+              v-if="totalProducts[preset.slug] > 10 && productsPerPage[preset.slug] < totalProducts[preset.slug]"
+              bgColor="ghost-primary"
+              :label="`Показать еще ${
+                totalProducts[preset.slug] - productsPerPage[preset.slug] < 10
+                  ? totalProducts[preset.slug] - productsPerPage[preset.slug]
+                  : 10
+              } программ из ${totalProducts[preset.slug] - productsPerPage[preset.slug]}`"
+              size="large"
+              @click="onMoreProductsClickHandler(preset)"
+            />
           </div>
-          <a-button
-            class="catalog-product-list__button"
-            v-if="totalProducts[preset.slug] > 10 && productsPerPage[preset.slug] < totalProducts[preset.slug]"
-            bgColor="ghost-primary"
-            :label="`Показать еще ${
-              totalProducts[preset.slug] - productsPerPage[preset.slug] < 10
-                ? totalProducts[preset.slug] - productsPerPage[preset.slug]
-                : 10
-            } программ из ${totalProducts[preset.slug] - productsPerPage[preset.slug]}`"
-            size="large"
-            @click="onMoreProductsClickHandler(preset)"
-          />
-        </div>
+        </template>
       </div>
 
       <div v-if="activePreset" class="catalog-product-list" :key="componentProductsKey">
@@ -547,6 +556,7 @@ export default {
       deep: true,
       handler() {
         this.componentProductsKey += 3;
+        this.activePreset = null;
         this.fetchProductsList();
         // eslint-disable-next-line max-len
         this.totalPickedFilters = Object.values(this.filtersIdsData).reduce(
@@ -592,7 +602,13 @@ export default {
       }
 
       this.$lander
-        .send(this.fieldsData, {}, this.$route.name === 'edu-platform-slug' ? this.$route.path : undefined)
+        .send(
+          this.fieldsData,
+          {},
+          this.$route.name === 'edu-platform-slug' || this.$route.name === 'edu-platform'
+            ? this.$route.path
+            : undefined,
+        )
         .then(() => {});
     },
     handlerSave() {
