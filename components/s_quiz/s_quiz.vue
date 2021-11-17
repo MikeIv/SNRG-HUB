@@ -63,6 +63,7 @@
           <div class="m-quiz__finish-data">
             <a-input placeholder="Имя" v-model="send.name" @input="validQuizData"></a-input>
             <vue-tel-input
+              class="a-input__row"
               v-bind="vueTelOpts"
               type="phone"
               placeholder="Телефон"
@@ -223,6 +224,8 @@ export default {
       if (valid) {
         telOpts.mode = isLocalCode ? 'auto' : 'international';
         inputOpts.maxlength = isLocalCode ? 11 : number.length;
+      } else {
+        inputOpts.maxlength = 16;
       }
       console.log(valid);
 

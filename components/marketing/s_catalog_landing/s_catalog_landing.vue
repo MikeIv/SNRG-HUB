@@ -75,7 +75,7 @@
                 v-model="fieldsData.name"
                 placeholder="Имя"
               />
-              <a-input
+              <!-- <a-input
                 type="phone"
                 class="m-form__input"
                 @validate="validatePhone"
@@ -85,7 +85,17 @@
                   validFormData();
                 "
                 placeholder="Телефон"
-              />
+              /> -->
+              <vue-tel-input
+                class="m-form__input"
+                v-bind="vueTelOpts"
+                type="phone"
+                placeholder="Телефон"
+                @validate="validFormData"
+                v-model="fieldsData.phone"
+                @input="validatePhone"
+              >
+              </vue-tel-input>
               <a-input
                 class="m-form__input"
                 @input="
@@ -125,7 +135,7 @@
                 v-model="fieldsData.name"
                 placeholder="Имя"
               />
-              <a-input
+              <!-- <a-input
                 type="phone"
                 class="m-form__input"
                 @validate="validatePhone"
@@ -135,7 +145,17 @@
                   validFormData();
                 "
                 placeholder="Телефон"
-              />
+              /> -->
+              <vue-tel-input
+                class="m-form__input"
+                v-bind="vueTelOpts"
+                type="phone"
+                placeholder="Телефон"
+                @validate="validFormData"
+                v-model="fieldsData.phone"
+                @input="validatePhone"
+              >
+              </vue-tel-input>
               <a-input
                 class="m-form__input"
                 @input="
@@ -386,6 +406,7 @@
 </template>
 
 <script>
+import { VueTelInput } from 'vue-tel-input';
 import {
   AButton, AControl, AInput, APopup, ASelect, ATag, ATitle, MCard, MFilter, MForm,
 } from '@cwespb/synergyui';
@@ -425,6 +446,7 @@ export default {
     MForm,
     MFilter,
     APopup,
+    VueTelInput,
   },
 
   data() {
@@ -442,6 +464,19 @@ export default {
       validFlag: false,
       blockYScroll: false,
 
+      vueTelOpts: {
+        mode: 'international',
+        preferredCountries: ['RU', 'US'],
+        wrapperClasses: '',
+        inputClasses: '',
+        autoFormat: true,
+        inputOptions: {
+          inputClasses: 'a-input a-input--large a-input--base',
+          showDialCode: false,
+          placeholder: 'Телефон',
+          maxlength: 14,
+        },
+      },
       fieldsData: {
         name: '',
         phone: '',
@@ -616,8 +651,24 @@ export default {
       delete dataToSend.comments;
       this.$lander.storage.save('programform', dataToSend);
     },
-    validatePhone(value) {
-      this.validPhone = value.valid;
+    validatePhone(phone, { valid, number }) {
+      const telOpts = this.vueTelOpts;
+      const inputOpts = telOpts.inputOptions;
+      const isLocalCode = phone[0] === '8';
+
+      inputOpts.maxlength = this.maxPhoneLength;
+      telOpts.autoFormat = !isLocalCode;
+
+      this.validPhone = valid && isLocalCode ? phone.length === 11 : valid;
+
+      if (valid) {
+        telOpts.mode = isLocalCode ? 'auto' : 'international';
+        inputOpts.maxlength = isLocalCode ? 11 : number.length;
+      } else {
+        inputOpts.maxlength = 16;
+      }
+
+      this.validFormData();
     },
     validFormData() {
       const dataForm = [{ value: this.fieldsData.name }, { value: this.fieldsData.email, type: 'email' }];

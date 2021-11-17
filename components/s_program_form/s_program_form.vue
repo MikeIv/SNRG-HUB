@@ -21,17 +21,16 @@
           v-model="fieldsData.name"
           placeholder="Имя"
         />
-        <a-input
-          type="phone"
+        <vue-tel-input
           class="m-form__input"
-          @validate="validatePhone"
-          v-model="fieldsData.phone"
-          @input="
-            handlerSave();
-            validFormData();
-          "
+          v-bind="vueTelOpts"
+          type="phone"
           placeholder="Телефон"
-        />
+          @validate="validFormData"
+          v-model="fieldsData.phone"
+          @input="validatePhone"
+        >
+        </vue-tel-input>
         <a-input
           class="m-form__input"
           @input="
@@ -47,6 +46,7 @@
 </template>
 
 <script>
+import { VueTelInput } from 'vue-tel-input';
 import { MForm, AInput } from '@cwespb/synergyui';
 import './s_program_form.scss';
 
@@ -69,6 +69,7 @@ export default {
   components: {
     MForm,
     AInput,
+    VueTelInput,
   },
 
   data: () => ({
@@ -84,6 +85,19 @@ export default {
       phone: '',
       email: '',
     },
+    vueTelOpts: {
+      mode: 'international',
+      preferredCountries: ['RU', 'US'],
+      wrapperClasses: '',
+      inputClasses: '',
+      autoFormat: true,
+      inputOptions: {
+        inputClasses: 'a-input a-input--large a-input--base',
+        showDialCode: false,
+        placeholder: 'Телефон',
+        maxlength: 14,
+      },
+    },
 
     validPhone: false,
   }),
@@ -91,7 +105,7 @@ export default {
   mounted() {
     this.$emit('form-ref', this.$refs.form);
 
-    const loadDataForm = this.$lander.storage.load('programform');
+    const loadDataForm = this.$lander.storage.load('sprogramform');
     if (loadDataForm) this.fieldsData = loadDataForm;
   },
 
@@ -114,10 +128,26 @@ export default {
     handlerSave() {
       const dataToSend = { ...this.fieldsData };
       delete dataToSend.comments;
-      this.$lander.storage.save('programform', dataToSend);
+      this.$lander.storage.save('sprogramform', dataToSend);
     },
-    validatePhone(value) {
-      this.validPhone = value.valid;
+    validatePhone(phone, { valid, number }) {
+      const telOpts = this.vueTelOpts;
+      const inputOpts = telOpts.inputOptions;
+      const isLocalCode = phone[0] === '8';
+
+      inputOpts.maxlength = this.maxPhoneLength;
+      telOpts.autoFormat = !isLocalCode;
+
+      this.validPhone = valid && isLocalCode ? phone.length === 11 : valid;
+
+      if (valid) {
+        telOpts.mode = isLocalCode ? 'auto' : 'international';
+        inputOpts.maxlength = isLocalCode ? 11 : number.length;
+      } else {
+        inputOpts.maxlength = 16;
+      }
+
+      this.validFormData();
     },
     validFormData() {
       const dataForm = [{ value: this.fieldsData.name }, { value: this.fieldsData.email, type: 'email' }];
