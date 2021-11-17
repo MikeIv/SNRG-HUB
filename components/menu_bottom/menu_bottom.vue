@@ -41,7 +41,7 @@ export default {
     },
   },
   data: () => ({
-    navBottomLinks: [{ href: 'https://synergyeducation.ru/contacts/', text: 'Контакты' }],
+    navBottomLinks: [{ href: '/contacts/', text: 'Контакты' }],
   }),
 };
 </script>
