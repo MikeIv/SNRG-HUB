@@ -224,6 +224,8 @@ export default {
       if (valid) {
         telOpts.mode = isLocalCode ? 'auto' : 'international';
         inputOpts.maxlength = isLocalCode ? 11 : number.length;
+      } else {
+        inputOpts.maxlength = 16;
       }
       console.log(valid);
 
