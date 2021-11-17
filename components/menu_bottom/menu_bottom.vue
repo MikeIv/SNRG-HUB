@@ -16,7 +16,6 @@
       <nuxt-link
         class="menu_bottom__accord a-font_m"
         :key="navItem.text"
-        target="_blank"
         rel="noreferrer"
         :to="navItem.href"
         v-if="navItem.text !== ''"
