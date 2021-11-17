@@ -77,11 +77,6 @@
     }
   }
 
-  &__answers {
-    flex-basis: 60%;
-    display: flex;
-    flex-wrap: wrap;
-  }
   &__control {
     flex-basis: calc(50% - 20px);
     margin: 0 rem(20) rem(12) 0;
@@ -95,6 +90,28 @@
       padding: var(--a-padding--x3) var(--a-padding--x10) var(--a-padding--x3) var(--a-padding--x5);
       @media screen and (max-width: 767px) {
         padding: var(--a-padding--x2) var(--a-padding--x4);
+      }
+    }
+  }
+
+  &__answers {
+    flex-basis: 60%;
+    display: flex;
+    flex-wrap: wrap;
+
+    &.column {
+      flex-basis: 30%;
+      flex-direction: column;
+
+      @media screen and (max-width: 991px) {
+        width: 50%;
+        flex-basis: 50%;
+      }
+
+      @media screen and (max-width: 767px) {
+        flex-direction: row;
+        width: 100%;
+        flex-basis: 100%;
       }
     }
   }
@@ -130,7 +147,7 @@
     padding-bottom: var(--a-padding--x5);
   }
   &__finish-inputs {
-    width: 80%;
+    width: 90%;
     @media screen and (max-width: 991px) {
       width: 50%;
     }
@@ -188,5 +205,9 @@
         }
       }
     }
+  }
+
+  div.vue-tel-input {
+    margin-right: var(--a-padding--x2);
   }
 }

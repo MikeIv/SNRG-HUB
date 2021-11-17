@@ -1,0 +1,33 @@
+@import '@/assets/styles/tools/mixins';
+
+.menu_bottom {
+  display: flex;
+  align-items: center;
+  width: 100%;
+
+  @media screen and (max-width: 767px) {
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+  }
+
+  &__accord {
+    margin-right: rem(40);
+    color: var(--a-color_active);
+    text-decoration: none;
+    cursor: pointer;
+    user-select: none;
+
+    @media screen and (max-width: 767px) {
+      margin-bottom: rem(8);
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+
+    &:hover {
+      color: hsl(var(--a-color_activeHSL), calc(66% - 5%));
+    }
+  }
+}

@@ -19,14 +19,14 @@
       <meta itemprop="url" :content="localBusinessUrl" />
       <meta itemprop="image" :content="localBusinessLogo" />
       <meta itemprop="openingHours" :content="localBusinessOpeningHours" />
-      <span itemprop="address" itemscope itemtype="https://schema.org/PostalAddress" style="display: none;">
+      <span itemprop="address" itemscope itemtype="https://schema.org/PostalAddress">
         <meta itemprop="postalCode" :content="localBusinessPostalCode" />
         <meta itemprop="addressCountry" :content="localBusinessAddressCountry" />
         <meta itemprop="addressRegion" :content="localBusinessAddressRegion" />
         <meta itemprop="addressLocality" :content="localBusinessAddressLocality" />
         <meta itemprop="streetAddress" :content="localBusinessStreetAddress" />
       </span>
-      <span itemprop="geo" itemscope itemtype="https://schema.org/GeoCoordinates" style="display: none;">
+      <span itemprop="geo" itemscope itemtype="https://schema.org/GeoCoordinates">
         <meta itemprop="latitude" content="57.700742" />
         <meta itemprop="longitude" content="39.761752" />
       </span>

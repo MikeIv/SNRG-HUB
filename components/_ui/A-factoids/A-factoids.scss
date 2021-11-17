@@ -1,0 +1,39 @@
+@import '@/assets/styles/tools/mixins';
+
+.a-factoids {
+  display: flex;
+  align-items: center;
+
+  &__default-subtitle {
+    margin-bottom: rem(4);
+    color: var(--a-color_text--secondary);
+  }
+  &__default-title {
+    color: var(--a-color_text);
+  }
+  &__line-title {
+    padding-bottom: rem(12);
+    color: var(--a-color_text);
+    border-bottom: rem(1) solid var(--a-color_text);
+
+    @media screen and (max-width: 767px) {
+      padding-bottom: rem(8);
+    }
+  }
+
+  &__img-wrapper {
+    max-width: rem(40);
+    &.active {
+      margin-right: rem(12);
+    }
+    @media screen and (max-width: 767px) {
+      width: rem(40);
+      margin-right: rem(12);
+    }
+  }
+
+  &__info {
+    display: flex;
+    flex-direction: column;
+  }
+}

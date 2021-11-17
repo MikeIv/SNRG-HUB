@@ -66,3 +66,41 @@ a {
     }
   }
 }
+
+div.vue-tel-input {
+  display: flex;
+  height: 3rem;
+  padding: 0;
+  color: var(--a-color_text);
+  background-color: var(--a-color_bg);
+  border: 0.0625rem solid var(--a-color_thumbnail);
+  border-radius: var(--a-borderRadius--default);
+  outline: none;
+  font-size: 0.875rem;
+  @media screen and (max-width: 991px) {
+    margin-right: 0;
+    margin-bottom: var(--a-padding--x3);
+  }
+  &:focus {
+    border: 0.0625rem solid var(--a-color_text--secondary);
+  }
+  &:invalid {
+    color: var(--a-color_link);
+    border: 0.0625rem solid var(--a-color_link);
+  }
+  &:disabled {
+    color: var(--a-color_text--secondary);
+    background-color: var(--a-color_bg--secondary);
+    border: 0.0625rem solid var(--a-color_bg--secondary);
+    cursor: auto;
+  }
+  &:focus-within {
+    border-color: var(--a-color_text--secondary);
+    box-shadow: none;
+  }
+  .vti__input {
+    width: 100%;
+    border: none;
+    box-shadow: none;
+  }
+}

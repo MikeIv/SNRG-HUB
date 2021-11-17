@@ -28,7 +28,10 @@
             {{ dataQuestion.find((question) => question.id === currentQuestionId).question }}
           </h5>
         </div>
-        <div class="m-quiz__answers">
+        <div
+          class="m-quiz__answers"
+          :class="{ column: dataQuestion.find((question) => question.id === currentQuestionId).answers.length < 4 }"
+        >
           <div
             class="m-quiz__control"
             v-for="(item, index) in dataQuestion.find((question) => question.id === currentQuestionId).answers"
@@ -59,13 +62,16 @@
         <div class="m-quiz__finish-inputs">
           <div class="m-quiz__finish-data">
             <a-input placeholder="Имя" v-model="send.name" @input="validQuizData"></a-input>
-            <a-input
+            <vue-tel-input
+              class="a-input__row"
+              v-bind="vueTelOpts"
               type="phone"
               placeholder="Телефон"
-              @validate="validatePhone"
+              @validate="validQuizData"
               v-model="send.phone"
-              @input="validQuizData"
-            ></a-input>
+              @input="validatePhone"
+            >
+            </vue-tel-input>
             <a-button
               bgColor="accent"
               size="large"
@@ -91,6 +97,7 @@
 </template>
 
 <script>
+import { VueTelInput } from 'vue-tel-input';
 import { AButton, AInput, AControl } from '@cwespb/synergyui';
 
 import getQuizzesDetail from '~/api/quizzesDetail';
@@ -103,6 +110,7 @@ export default {
     AControl,
     AButton,
     AInput,
+    VueTelInput,
   },
 
   data: () => ({
@@ -118,7 +126,19 @@ export default {
     prevQuestionId: null,
     listAnswers: [],
     answer: '',
-
+    vueTelOpts: {
+      mode: 'international',
+      preferredCountries: ['RU', 'US'],
+      wrapperClasses: '',
+      inputClasses: '',
+      autoFormat: true,
+      inputOptions: {
+        inputClasses: 'a-input a-input--large a-input--base',
+        showDialCode: false,
+        placeholder: 'Телефон',
+        maxlength: 14,
+      },
+    },
     send: {
       name: '',
       phone: '',
@@ -190,8 +210,26 @@ export default {
   },
 
   methods: {
-    validatePhone(value) {
-      this.validPhone = value.valid;
+    validatePhone(phone, { valid, number }) {
+      // this.validPhone = value.valid;
+      const telOpts = this.vueTelOpts;
+      const inputOpts = telOpts.inputOptions;
+      const isLocalCode = phone[0] === '8';
+
+      inputOpts.maxlength = this.maxPhoneLength;
+      telOpts.autoFormat = !isLocalCode;
+
+      this.validPhone = valid && isLocalCode ? phone.length === 11 : valid;
+
+      if (valid) {
+        telOpts.mode = isLocalCode ? 'auto' : 'international';
+        inputOpts.maxlength = isLocalCode ? 11 : number.length;
+      } else {
+        inputOpts.maxlength = 16;
+      }
+      console.log(valid);
+
+      this.validQuizData();
     },
 
     async startQuiz() {
@@ -200,7 +238,7 @@ export default {
 
     validQuizData() {
       const dataForm = [{ value: this.send.name }, { value: this.send.tel }];
-      this.validFlag = this.$lander.valid(dataForm);
+      this.validFlag = this.$lander.valid(dataForm) && this.validPhone;
 
       const dataToSend = { ...this.send };
       delete dataToSend.comments;

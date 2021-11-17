@@ -35,7 +35,7 @@
               </div>
             </div>
             <nuxt-link to="/" class="s-header__logo-link">
-              <img :src="logoURL" alt="" />
+              <img :src="logoURL" alt="" @click="onLogoClickHandler" />
             </nuxt-link>
             <div class="s-header__burger" @click="handleChange">
               <div class="s-header__burger-icon">
@@ -44,8 +44,8 @@
               </div>
               <div class="s-header__burger-text a-font_l a-color_link">{{ btnText }}</div>
             </div>
-            <div class="s-header__search" v-if="false">
-              <a-input icons="si-search" size="medium" :placeholder="searchPlaceholder"></a-input>
+            <div class="s-header__search">
+              <a-input id="search" icons="si-search" size="medium" :placeholder="searchPlaceholder" v-model="search" />
             </div>
             <a href="//pass.synergy.ru" target="_blank" class="s-header__login" rel="noreferrer" v-if="false">
               <a-button label="Войти" bgColor="ghost-accept"></a-button>
@@ -82,6 +82,7 @@ export default {
       btnText: 'Всё обучение',
       phones: [],
       searchPlaceholder: 'Поиск по сайту',
+      search: '',
       bannerTop: {},
       isVisible: false,
       topBannerSmoothHref: '#quiz',
@@ -121,6 +122,23 @@ export default {
     },
   },
 
+  watch: {
+    $route: {
+      deep: true,
+      handler() {
+        this.search = '';
+        this.$emit('search', '');
+      },
+    },
+
+    search() {
+      if (!this.search) {
+        this.search = '';
+        this.$emit('search', '');
+      }
+    },
+  },
+
   mounted() {
     window.addEventListener('scroll', this.handleScroll);
 
@@ -132,13 +150,27 @@ export default {
         document.documentElement.style.setProperty('--vh', `${vhr}px`);
       });
     });
+
+    document.getElementById('search').addEventListener('keypress', this.handleSearch);
   },
 
   beforeDestroy() {
     window.removeEventListener('scroll', this.handleScroll);
+    window.removeEventListener('keypress', this.handleSearch);
   },
 
   methods: {
+    onLogoClickHandler() {
+      this.search = '';
+      this.$emit('search', '');
+    },
+
+    handleSearch(e) {
+      if (e.key === 'Enter') {
+        this.$emit('search', this.search.trim());
+      }
+    },
+
     handleScroll() {
       const mainWrapper = document.querySelector('body');
       const headerHeight = this.$el.offsetHeight;
@@ -155,14 +187,8 @@ export default {
           this.isScrolled = true;
           mainWrapper.classList.add('js-fixed');
 
-          if (
-            (this.scrollTop > startPos && clientHeight < this.$store.state.quizInfo.top)
-            || (this.scrollTop > startPos && this.scrollTop > quizScrollTop)
-          ) {
-            this.isVisible = true;
-          } else {
-            this.isVisible = false;
-          }
+          this.isVisible = (this.scrollTop > startPos && clientHeight < this.$store.state.quizInfo.top)
+            || (this.scrollTop > startPos && this.scrollTop > quizScrollTop);
 
           break;
         default:

@@ -1,14 +1,20 @@
 <template>
   <div class="catalog-page__section catalog-page__section-lp">
     <div class="catalog-presets-lp__tags">
-      <a-tag
-        v-for="preset in presets"
-        :key="preset.id"
-        @aTagClick="selectPreset(preset)"
-        @aTagDelete="activePreset = null"
-        :label="preset.name"
-        :status="activePreset && activePreset.name === preset.name ? 'selected' : 'default'"
-      />
+      <template v-for="[slug, list] in Object.entries(productList)">
+        <a-tag
+          v-if="list.length"
+          :key="slug"
+          @aTagClick="selectPreset(presets.find((preset) => slug === preset.slug))"
+          @aTagDelete="activePreset = null"
+          :label="presets.find((preset) => slug === preset.slug).name"
+          :status="
+            activePreset && activePreset.name === presets.find((preset) => slug === preset.slug).name
+              ? 'selected'
+              : 'default'
+          "
+        />
+      </template>
     </div>
     <div class="" :class="{ 'fixed': menuFixed, 'catalog-page-lp__select-mobile': menuFixed }">
       <a-select
@@ -69,7 +75,7 @@
                 v-model="fieldsData.name"
                 placeholder="Имя"
               />
-              <a-input
+              <!-- <a-input
                 type="phone"
                 class="m-form__input"
                 @validate="validatePhone"
@@ -79,7 +85,17 @@
                   validFormData();
                 "
                 placeholder="Телефон"
-              />
+              /> -->
+              <vue-tel-input
+                class="m-form__input"
+                v-bind="vueTelOpts"
+                type="phone"
+                placeholder="Телефон"
+                @validate="validFormData"
+                v-model="fieldsData.phone"
+                @input="validatePhone"
+              >
+              </vue-tel-input>
               <a-input
                 class="m-form__input"
                 @input="
@@ -119,7 +135,7 @@
                 v-model="fieldsData.name"
                 placeholder="Имя"
               />
-              <a-input
+              <!-- <a-input
                 type="phone"
                 class="m-form__input"
                 @validate="validatePhone"
@@ -129,7 +145,17 @@
                   validFormData();
                 "
                 placeholder="Телефон"
-              />
+              /> -->
+              <vue-tel-input
+                class="m-form__input"
+                v-bind="vueTelOpts"
+                type="phone"
+                placeholder="Телефон"
+                @validate="validFormData"
+                v-model="fieldsData.phone"
+                @input="validatePhone"
+              >
+              </vue-tel-input>
               <a-input
                 class="m-form__input"
                 @input="
@@ -272,47 +298,50 @@
             <span class="a-font_button">Фильтры ({{ totalPickedFilters }})</span>
           </i>
         </template>
-        <div class="catalog-product-list" v-for="preset in presets" :key="preset.id">
-          <h2 class="a-font_h2 catalog-product-list__title">
-            {{ preset.name }}
-            <sup class="catalog-page__header-total a-font_L"> {{ totalProducts[preset.slug] }} программ</sup>
-          </h2>
-          <div class="catalog-product-list__wrapper" v-if="productList[preset.slug]">
-            <h3 class="catalog-product-list__wrapper-sorry" v-if="!productList[preset.slug].length">
-              К сожалению, ничего нет
-            </h3>
-            <div
-              class="catalog-product-list__item-wrapper-section catalog-product-list__item"
-              v-for="product in productList[preset.slug]"
-              :key="product.id"
-              @click="openPopupHandler(product)"
-            >
-              <m-card
-                type="program"
-                :btns="btns"
-                :description="product.included.levels[0].name"
-                :title="product.name"
-                :verticalImgSrc="`${baseURL}/${product.preview_image}`"
-                :bottomText="product.included.organization.abbreviation_name"
-                :iconSrc="`${baseURL}${product.included.organization.logo}`"
-                @btn-click="onBtnClickHandler(product, ...arguments)"
-                @organization-click="onOrganizationClick(product)"
-              />
+        <template v-for="preset in presets">
+          <div
+            v-if="productList[preset.slug] && productList[preset.slug].length"
+            class="catalog-product-list"
+            :key="preset.id"
+          >
+            <h2 class="a-font_h2 catalog-product-list__title">
+              {{ preset.name }}
+              <sup class="catalog-page__header-total a-font_L"> {{ totalProducts[preset.slug] }} программ</sup>
+            </h2>
+            <div class="catalog-product-list__wrapper" v-if="productList[preset.slug]">
+              <div
+                class="catalog-product-list__item-wrapper-section catalog-product-list__item"
+                v-for="product in productList[preset.slug]"
+                :key="product.id"
+                @click="openPopupHandler(product)"
+              >
+                <m-card
+                  type="program"
+                  :btns="btns"
+                  :description="product.included.levels[0].name"
+                  :title="product.name"
+                  :verticalImgSrc="`${baseURL}/${product.preview_image}`"
+                  :bottomText="product.included.organization.abbreviation_name"
+                  :iconSrc="`${baseURL}${product.included.organization.logo}`"
+                  @btn-click="onBtnClickHandler(product, ...arguments)"
+                  @organization-click="onOrganizationClick(product)"
+                />
+              </div>
             </div>
+            <a-button
+              class="catalog-product-list__button"
+              v-if="totalProducts[preset.slug] > 10 && productsPerPage[preset.slug] < totalProducts[preset.slug]"
+              bgColor="ghost-primary"
+              :label="`Показать еще ${
+                totalProducts[preset.slug] - productsPerPage[preset.slug] < 10
+                  ? totalProducts[preset.slug] - productsPerPage[preset.slug]
+                  : 10
+              } программ из ${totalProducts[preset.slug] - productsPerPage[preset.slug]}`"
+              size="large"
+              @click="onMoreProductsClickHandler(preset)"
+            />
           </div>
-          <a-button
-            class="catalog-product-list__button"
-            v-if="totalProducts[preset.slug] > 10 && productsPerPage[preset.slug] < totalProducts[preset.slug]"
-            bgColor="ghost-primary"
-            :label="`Показать еще ${
-              totalProducts[preset.slug] - productsPerPage[preset.slug] < 10
-                ? totalProducts[preset.slug] - productsPerPage[preset.slug]
-                : 10
-            } программ из ${totalProducts[preset.slug] - productsPerPage[preset.slug]}`"
-            size="large"
-            @click="onMoreProductsClickHandler(preset)"
-          />
-        </div>
+        </template>
       </div>
 
       <div v-if="activePreset" class="catalog-product-list" :key="componentProductsKey">
@@ -377,6 +406,7 @@
 </template>
 
 <script>
+import { VueTelInput } from 'vue-tel-input';
 import {
   AButton, AControl, AInput, APopup, ASelect, ATag, ATitle, MCard, MFilter, MForm,
 } from '@cwespb/synergyui';
@@ -416,6 +446,7 @@ export default {
     MForm,
     MFilter,
     APopup,
+    VueTelInput,
   },
 
   data() {
@@ -433,6 +464,19 @@ export default {
       validFlag: false,
       blockYScroll: false,
 
+      vueTelOpts: {
+        mode: 'international',
+        preferredCountries: ['RU', 'US'],
+        wrapperClasses: '',
+        inputClasses: '',
+        autoFormat: true,
+        inputOptions: {
+          inputClasses: 'a-input a-input--large a-input--base',
+          showDialCode: false,
+          placeholder: 'Телефон',
+          maxlength: 14,
+        },
+      },
       fieldsData: {
         name: '',
         phone: '',
@@ -547,6 +591,7 @@ export default {
       deep: true,
       handler() {
         this.componentProductsKey += 3;
+        this.activePreset = null;
         this.fetchProductsList();
         // eslint-disable-next-line max-len
         this.totalPickedFilters = Object.values(this.filtersIdsData).reduce(
@@ -592,7 +637,13 @@ export default {
       }
 
       this.$lander
-        .send(this.fieldsData, {}, this.$route.name === 'edu-platform-slug' ? this.$route.path : undefined)
+        .send(
+          this.fieldsData,
+          {},
+          this.$route.name === 'edu-platform-slug' || this.$route.name === 'edu-platform'
+            ? this.$route.path
+            : undefined,
+        )
         .then(() => {});
     },
     handlerSave() {
@@ -600,8 +651,24 @@ export default {
       delete dataToSend.comments;
       this.$lander.storage.save('programform', dataToSend);
     },
-    validatePhone(value) {
-      this.validPhone = value.valid;
+    validatePhone(phone, { valid, number }) {
+      const telOpts = this.vueTelOpts;
+      const inputOpts = telOpts.inputOptions;
+      const isLocalCode = phone[0] === '8';
+
+      inputOpts.maxlength = this.maxPhoneLength;
+      telOpts.autoFormat = !isLocalCode;
+
+      this.validPhone = valid && isLocalCode ? phone.length === 11 : valid;
+
+      if (valid) {
+        telOpts.mode = isLocalCode ? 'auto' : 'international';
+        inputOpts.maxlength = isLocalCode ? 11 : number.length;
+      } else {
+        inputOpts.maxlength = 16;
+      }
+
+      this.validFormData();
     },
     validFormData() {
       const dataForm = [{ value: this.fieldsData.name }, { value: this.fieldsData.email, type: 'email' }];

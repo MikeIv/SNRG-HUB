@@ -1,7 +1,8 @@
 <template>
   <div class="thanks__wrapper">
-    <SHeader />
-    <Thanks />
+    <SHeader @search="search = $event" />
+    <SProductSearch v-if="search" :search="search" @search-clear="clearSearch" />
+    <Thanks v-else />
     <SFooter />
   </div>
 </template>
@@ -10,6 +11,7 @@
 import thanks from '~/components/thanks/thanks';
 import SHeader from '~/components/s_header/s_header';
 import SFooter from '~/components/s_footer/s_footer';
+import SProductSearch from '~/components/s_product_search/s_product_search';
 
 export default {
   layout: 'empty',
@@ -17,6 +19,19 @@ export default {
     thanks,
     SHeader,
     SFooter,
+    SProductSearch,
+  },
+
+  data() {
+    return {
+      search: '',
+    };
+  },
+
+  methods: {
+    clearSearch() {
+      this.search = '';
+    },
   },
 };
 </script>

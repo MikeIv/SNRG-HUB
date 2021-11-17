@@ -23,9 +23,6 @@
   .a-listElement {
     &__wrapper {
       margin-bottom: rem(16);
-      &:last-child {
-        margin-bottom: 0;
-      }
     }
   }
   &__head {
@@ -59,13 +56,6 @@
     @media screen and (max-width: 767px) {
       margin-bottom: rem(20);
       flex-wrap: wrap;
-    }
-  }
-  &__info {
-    padding-bottom: var(--a-padding--x8);
-
-    @media screen and (max-width: 767px) {
-      padding-bottom: var(--a-padding--x6);
     }
   }
   &__title {

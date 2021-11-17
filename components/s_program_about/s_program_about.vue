@@ -9,7 +9,7 @@
       ></p>
     </div>
     <div class="s-program-about__triggers">
-      <AFactoid
+      <AFactoids
         v-for="item in programAboutList"
         :key="item.id"
         :type="item.type"
@@ -23,7 +23,7 @@
 </template>
 
 <script>
-import { AFactoid } from '@cwespb/synergyui';
+import AFactoids from '@/components/_ui/A-factoids/A-factoids';
 import './s_program_about.scss';
 
 import getEntitiesSectionsDetail from '~/api/entitiesSectionsDetail';
@@ -32,7 +32,7 @@ export default {
   name: 's_program_about',
 
   components: {
-    AFactoid,
+    AFactoids,
   },
 
   data() {

@@ -4,7 +4,7 @@
       <div class="s-program-infoblock__items">
         <swiper :options="swiperOptionProgramInfo">
           <swiper-slide v-for="item in items" :key="item.id" class="s-program-infoblock__item">
-            <AFactoid :type="item.type" :title="item.title" :lineNumber="item.lineNumber" class="swiper-slide" />
+            <AFactoids :type="item.type" :title="item.title" :lineNumber="item.lineNumber" class="swiper-slide" />
           </swiper-slide>
         </swiper>
       </div>
@@ -22,14 +22,14 @@
 
 <script>
 import { Swiper, SwiperSlide } from 'vue-awesome-swiper';
-import { AFactoid } from '@cwespb/synergyui';
+import AFactoids from '@/components/_ui/A-factoids/A-factoids';
 import './s_program_infoblock.scss';
 
 export default {
   name: 's_program_infoblock',
 
   components: {
-    AFactoid,
+    AFactoids,
     Swiper,
     SwiperSlide,
   },

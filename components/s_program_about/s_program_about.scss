@@ -87,7 +87,8 @@
       grid-gap: 0 rem(40);
     }
     @media screen and (max-width: 767px) {
-      display: block;
+      display: flex;
+      flex-direction: column;
     }
 
     &-item {
@@ -95,7 +96,6 @@
       flex: 1;
       min-width: 0;
       margin-bottom: rem(20);
-      flex-wrap: wrap;
       @media screen and (max-width: 767px) {
         position: relative;
       }

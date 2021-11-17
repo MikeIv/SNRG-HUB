@@ -29,13 +29,126 @@
     </header>
 
     <div class="l-wide">
-      <div class="lp__banner" :style="`background-color: ${landingDetailInfo.color_bg}`">
-        <div class="lp__banner-left">
-          <h1 class="lp__banner__title a-font_h1" v-html="landingDetailInfo.name" />
-          <div class="lp__banner__descript a-font_l-m" v-html="landingDetailInfo.description" />
+      <a-popup :visible="applicationPopup" @close="applicationPopup = false">
+        <div class="catalog-page__section-lp__popup">
+          <section ref="form" id="form">
+            <m-form
+              title="Оставьте заявку на программу"
+              btnText="Оставить заявку"
+              typeBtn="checkbox"
+              typeCtrl="checkbox"
+              :checked="true"
+              checkboxText="Нажимая на кнопку, я соглашаюсь с политикой конфиденциальности и на получение рассылок"
+              :submitDisabled="!validFlag"
+              @submit-disabled="validFlag = $event"
+              @click="sendForm"
+            >
+              <template v-slot:inputs>
+                <a-input
+                  class="m-form__input"
+                  @input="
+                    handlerSave();
+                    validFormData();
+                  "
+                  v-model="fieldsData.name"
+                  placeholder="Имя"
+                />
+                <!-- <a-input
+                  type="phone"
+                  class="m-form__input"
+                  @validate="validatePhone"
+                  v-model="fieldsData.phone"
+                  @input="
+                    handlerSave();
+                    validFormData();
+                  "
+                  placeholder="Телефон"
+                /> -->
+                <vue-tel-input
+                  class="m-form__input"
+                  v-bind="vueTelOpts"
+                  type="phone"
+                  placeholder="Телефон"
+                  @validate="validFormData"
+                  v-model="fieldsData.phone"
+                  @input="validatePhone"
+                >
+                </vue-tel-input>
+              </template>
+            </m-form>
+          </section>
         </div>
-        <div class="lp__banner-img">
-          <img :src="`${baseURL}${landingDetailInfo.image_src}`" alt="" />
+      </a-popup>
+
+      <div class="banner-lp__wrapper" v-if="bannerTitleH1">
+        <div class="banner-lp__content">
+          <div class="banner-lp__info">
+            <div class="banner-lp__title">
+              <h1 class="a-font_promo">{{ bannerTitleH1 }}</h1>
+              <h2 class="a-font_promo banner-lp__title-h2">{{ bannerTitleH2 }}</h2>
+              <h3 class="a-font_promo">{{ bannerTitleH3 }}</h3>
+            </div>
+            <a-button
+              label="Оставить заявку"
+              size="xlarge"
+              bgColor="accent"
+              class="banner-lp__button"
+              @click="applicationPopup = true"
+            />
+            <div class="banner-lp__content-mobile">
+              <a-input
+                placeholder="Имя"
+                class="banner-lp__content-mobile_input"
+                @input="
+                  handlerSave();
+                  validFormData();
+                "
+                v-model="fieldsData.name"
+              />
+              <!-- <a-input
+                type="phone"
+                placeholder="Телефон"
+                class="banner-lp__content-mobile_input"
+                @validate="validatePhone"
+                v-model="fieldsData.phone"
+                @input="
+                  handlerSave();
+                  validFormData();
+                "
+              /> -->
+              <vue-tel-input
+                class="m-form__input"
+                v-bind="vueTelOpts"
+                type="phone"
+                placeholder="Телефон"
+                @validate="validFormData"
+                v-model="fieldsData.phone"
+                @input="validatePhone"
+              >
+              </vue-tel-input>
+              <a-button
+                label="Оставить заявку"
+                bgColor="accent"
+                size="large"
+                class="banner-lp__content-mobile_button"
+                :disabled="!isChecked || !validFlag"
+                @click="sendForm"
+              />
+              <a-control
+                :checked="isChecked"
+                @change="isChecked = !isChecked"
+                typeBtn="checkbox"
+                typeCtrl="checkbox"
+                title="Я даю согласие на обработку..."
+                labelPosition="right"
+              />
+            </div>
+          </div>
+          <div class="banner-lp__img">
+            <svg width="194" height="360" viewBox="0 0 140 260" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M140 190.82L74.514 130.007L140 69.1965V0L0 129.993L140 260V190.82Z" fill="#FF0040" />
+            </svg>
+          </div>
         </div>
       </div>
 
@@ -79,6 +192,10 @@
 </template>
 
 <script>
+import { VueTelInput } from 'vue-tel-input';
+import {
+  AButton, AInput, AControl, APopup, MForm,
+} from '@cwespb/synergyui';
 import SCatalogLanding from '~/components/marketing/s_catalog_landing/s_catalog_landing';
 import SProgramForm from '~/components/s_program_form/s_program_form';
 import getLandingDetail from '~/api/landingsDetail';
@@ -87,6 +204,12 @@ export default {
   components: {
     SCatalogLanding,
     SProgramForm,
+    AButton,
+    AInput,
+    AControl,
+    APopup,
+    MForm,
+    VueTelInput,
   },
 
   layout: 'empty',
@@ -106,6 +229,19 @@ export default {
         href: '',
         text: '',
       },
+      vueTelOpts: {
+        mode: 'international',
+        preferredCountries: ['RU', 'US'],
+        wrapperClasses: '',
+        inputClasses: '',
+        autoFormat: true,
+        inputOptions: {
+          inputClasses: 'a-input a-input--large a-input--base',
+          showDialCode: false,
+          placeholder: 'Телефон',
+          maxlength: 14,
+        },
+      },
       scrollTop: 0,
       currentOption: null,
       isScrolled: false,
@@ -113,26 +249,33 @@ export default {
       isIconInHeader: false,
       tabletIconVisible: false,
       menu: false,
+
+      bannerTitleH1: null,
+      bannerTitleH2: null,
+      bannerTitleH3: null,
+      validFlag: false,
+
+      fieldsData: {
+        name: '',
+        phone: '',
+      },
+
+      validPhone: false,
+      isChecked: false,
+
+      applicationPopup: false,
     };
   },
 
-  async asyncData({ route, redirect }) {
+  async asyncData() {
     const request = {
       filter: {
-        slug: route.params.slug,
+        slug: 'all',
       },
       include: ['formats', 'levels', 'directions', 'cities', 'organizations'],
     };
 
-    let landingDetailInfo = {};
-    await getLandingDetail(request)
-      .then((response) => {
-        landingDetailInfo = response;
-      })
-      .catch(() => {
-        redirect({ name: 'edu-platform' });
-      });
-
+    const landingDetailInfo = await getLandingDetail(request);
     const options = [];
     landingDetailInfo.included.direction.forEach(({ name, slug }) => {
       options.push({ label: name, value: slug });
@@ -144,6 +287,41 @@ export default {
   },
 
   methods: {
+    sendForm() {
+      this.$lander.send(this.fieldsData, {}, this.$route.path).then(() => {});
+    },
+
+    handlerSave() {
+      const dataToSend = { ...this.fieldsData };
+      delete dataToSend.comments;
+      this.$lander.storage.save('programform', dataToSend);
+    },
+
+    validatePhone(phone, { valid, number }) {
+      const telOpts = this.vueTelOpts;
+      const inputOpts = telOpts.inputOptions;
+      const isLocalCode = phone[0] === '8';
+
+      inputOpts.maxlength = this.maxPhoneLength;
+      telOpts.autoFormat = !isLocalCode;
+
+      this.validPhone = valid && isLocalCode ? phone.length === 11 : valid;
+
+      if (valid) {
+        telOpts.mode = isLocalCode ? 'auto' : 'international';
+        inputOpts.maxlength = isLocalCode ? 11 : number.length;
+      } else {
+        inputOpts.maxlength = 16;
+      }
+
+      this.validFormData();
+    },
+
+    validFormData() {
+      const dataForm = [{ value: this.fieldsData.name }];
+      this.validFlag = this.$lander.valid(dataForm) && this.validPhone;
+    },
+
     handleScroll() {
       const mainWrapper = document.querySelector('body');
       const headerHeight = document.querySelector('.s-header-lp')?.offsetHeight;
@@ -183,6 +361,11 @@ export default {
   },
 
   mounted() {
+    this.bannerTitleH1 = this.$route.query.h1;
+    this.bannerTitleH2 = this.$route.query.h2;
+    this.bannerTitleH3 = this.$route.query.h3;
+    const loadDataForm = this.$lander.storage.load('programform');
+    if (loadDataForm) this.fieldsData = loadDataForm;
     window.addEventListener('scroll', this.handleScroll);
   },
 
@@ -394,6 +577,99 @@ export default {
     }
     @media screen and (max-width: 991px) {
       margin-right: 0;
+    }
+  }
+}
+
+.banner-lp {
+  &__wrapper {
+    padding-bottom: rem(56);
+
+    @media screen and (max-width: 575px) {
+      padding-bottom: rem(12);
+    }
+  }
+
+  &__info {
+    @media screen and (max-width: 575px) {
+      width: 100%;
+    }
+  }
+
+  &__content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: rem(39) 0;
+
+    @media screen and (max-width: 575px) {
+      flex-direction: column;
+    }
+
+    &-mobile {
+      display: none;
+      width: 100%;
+
+      @media screen and (max-width: 575px) {
+        display: block;
+      }
+
+      .a-input__row {
+        width: 100%;
+      }
+
+      .a-control__label-box {
+        padding: 0;
+      }
+
+      &_input {
+        margin-bottom: rem(12);
+      }
+
+      &_button {
+        width: 100%;
+        margin-bottom: rem(12);
+      }
+    }
+  }
+
+  &__title {
+    max-width: rem(570);
+    margin-bottom: rem(40);
+    padding-right: rem(30);
+
+    &-h2 {
+      color: var(--a-color_link);
+    }
+
+    @media screen and (max-width: 767px) {
+      max-width: rem(357);
+    }
+
+    @media screen and (max-width: 575px) {
+      width: 100%;
+      max-width: unset;
+      padding-right: 0;
+    }
+  }
+
+  &__button {
+    @media screen and (max-width: 575px) {
+      display: none;
+      width: 100%;
+    }
+  }
+
+  &__img {
+    @media screen and (max-width: 575px) {
+      display: none;
+    }
+
+    svg {
+      @media screen and (max-width: 900px) {
+        width: rem(136);
+        height: rem(251);
+      }
     }
   }
 }

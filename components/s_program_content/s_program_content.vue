@@ -4,7 +4,7 @@
       <div class="s-program-content__top">
         <h2 class="s-program-content__title a-font_h2" v-html="title"></h2>
         <div class="s-program-content__numbs" v-if="programContentRightItems">
-          <AFactoid
+          <AFactoids
             v-for="factoid in programContentRightItems"
             :key="factoid.id"
             :type="factoid.type"
@@ -40,7 +40,8 @@
 </template>
 
 <script>
-import { AFactoid, AListElement } from '@cwespb/synergyui';
+import { AListElement } from '@cwespb/synergyui';
+import AFactoids from '@/components/_ui/A-factoids/A-factoids';
 import './s_program_content.scss';
 
 import getEntitiesSectionsDetail from '~/api/entitiesSectionsDetail';
@@ -49,7 +50,7 @@ export default {
   name: 's_program_content',
 
   components: {
-    AFactoid,
+    AFactoids,
     AListElement,
   },
 
