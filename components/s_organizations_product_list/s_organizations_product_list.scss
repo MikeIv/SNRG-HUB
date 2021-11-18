@@ -1,0 +1,9 @@
+@import '/assets/styles/tools/mixins';
+
+.catalog-product-list {
+  &__item {
+    .m-card-program__label {
+      color: var(--a-color_text--secondary);
+    }
+  }
+}

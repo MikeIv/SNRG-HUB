@@ -197,7 +197,7 @@ export default {
     this.city = getData.included.organization.included.city;
     this.level = getData.included.levels;
 
-    let globalHref = '/catalog/';
+    let globalHref = '/catalog';
     let citylHref = '';
 
     if (this.city) {

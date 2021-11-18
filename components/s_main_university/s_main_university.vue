@@ -18,20 +18,23 @@
         </template>
       </div>
 
-      <!-- <nuxt-link to="/catalog" class="a-button__wrapper">
-        <a-button label="Показать все" size="large" bgColor="accent" />
-      </nuxt-link> -->
+      <a-button label="Показать все" size="large" bgColor="accent" @click="goToOrganizations" />
     </div>
   </section>
 </template>
 
 <script>
-import { MCard } from '@cwespb/synergyui';
+import { MCard, AButton } from '@cwespb/synergyui';
 import getOrganizationsList from '~/api/organizationsList';
 import './s_main_university.scss';
 
 export default {
   name: 'SMainUniversity',
+
+  components: {
+    MCard,
+    AButton,
+  },
 
   data() {
     return {
@@ -49,7 +52,8 @@ export default {
     let [expandedMethod] = this.methods;
     expandedMethod = { ...expandedMethod.data };
     expandedMethod.include = ['city'];
-    this.cards = await getOrganizationsList(expandedMethod);
+    const response = await getOrganizationsList(expandedMethod);
+    this.cards = response.data;
   },
 
   mounted() {
@@ -58,6 +62,10 @@ export default {
   },
 
   methods: {
+    goToOrganizations() {
+      this.$router.push('/organizations/');
+    },
+
     onOrganizationClick(product) {
       this.$router.push(`/organization/${product.slug}`);
     },
@@ -78,10 +86,6 @@ export default {
 
   beforeDestroy() {
     window.removeEventListener('resize', this.handleResize);
-  },
-
-  components: {
-    MCard,
   },
 };
 </script>
