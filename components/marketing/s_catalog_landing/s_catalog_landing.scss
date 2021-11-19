@@ -136,7 +136,7 @@
 
       &__mobile-btn {
         position: fixed;
-        z-index: 10;
+        z-index: 100;
         bottom: rem(14); // Todo: должна ли кнопка закрывать футер, не понятно
         width: calc(100% - rem(32));
 
