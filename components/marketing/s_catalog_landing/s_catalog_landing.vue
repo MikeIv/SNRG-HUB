@@ -385,7 +385,9 @@
 
 <script>
 import { VueTelInput } from 'vue-tel-input';
-import { AButton, AControl, AInput, APopup, ASelect, ATag, ATitle, MCard, MFilter, MForm } from '@cwespb/synergyui';
+import {
+  AButton, AControl, AInput, APopup, ASelect, ATag, ATitle, MCard, MFilter, MForm,
+} from '@cwespb/synergyui';
 import getProductsList from '~/api/products_list';
 import '../../s_catalog/s_catalog.scss';
 import '../../s_catalog_filter/s_catalog_filter.scss';
@@ -447,6 +449,7 @@ export default {
         wrapperClasses: '',
         inputClasses: '',
         autoFormat: true,
+        defaultCountry: 'RU',
         inputOptions: {
           inputClasses: 'a-input a-input--large a-input--base',
           showDialCode: false,
