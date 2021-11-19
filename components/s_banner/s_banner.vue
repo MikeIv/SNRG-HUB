@@ -1,5 +1,5 @@
 <template>
-  <section class="s-banner s-padding--smallTop" v-if="bannersDetail.length">
+  <section class="s-banner s-banner__test s-padding--smallTop" v-if="bannersDetail.length">
     <div class="l-wide" :class="{ banners: bannersDetail.length > 1 }">
       <template v-for="item in bannersDetail">
         <nuxt-link
@@ -43,7 +43,7 @@ export default {
       baseURL: process.env.NUXT_ENV_S3BACKET,
     };
   },
-  props: ['methods'],
+  props: ['methods', 'title'],
 
   async fetch() {
     this.methods.forEach((item) => {
