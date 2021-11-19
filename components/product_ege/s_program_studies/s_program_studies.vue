@@ -30,9 +30,12 @@
         :isVertical="popupOptions.form.isVertical"
         :btnText="popupOptions.form.btnText"
         :checkboxText="popupOptions.form.checkboxText"
-        :checked="popupOptions.form.checked"
+        :checked="formChecked"
         typeCtrl="checkbox"
         ref="form"
+        :submitDisabled="!validFlag"
+        @submit-disabled="validFlag = $event"
+        @click="sendForm"
       >
         <template v-slot:inputs>
           <AInput
@@ -45,17 +48,16 @@
             placeholder="Имя"
           />
 
-          <AInput
-            type="phone"
+          <vue-tel-input
             class="m-form__input"
-            @validate="validatePhone"
-            v-model="fieldsData.phone"
-            @input="
-              handlerSave();
-              validFormData();
-            "
+            v-bind="vueTelOpts"
+            type="phone"
             placeholder="Телефон"
-          />
+            @validate="validFormData"
+            v-model="fieldsData.phone"
+            @input="validatePhone"
+          >
+          </vue-tel-input>
 
           <AInput
             class="m-form__input"
@@ -74,6 +76,7 @@
 
 <script>
 import './s_program_studies.scss';
+import { VueTelInput } from 'vue-tel-input';
 import {
   AListElement, AButton, APopup, MForm, AInput,
 } from '@cwespb/synergyui';
@@ -92,6 +95,7 @@ export default {
     APopup,
     MForm,
     AInput,
+    VueTelInput,
   },
 
   data() {
@@ -112,6 +116,28 @@ export default {
             slidesPerView: 2,
           },
         },
+      },
+      vueTelOpts: {
+        mode: 'international',
+        preferredCountries: ['RU', 'US'],
+        wrapperClasses: '',
+        inputClasses: '',
+        autoFormat: true,
+        defaultCountry: 'RU',
+        inputOptions: {
+          inputClasses: 'a-input a-input--large a-input--base',
+          showDialCode: false,
+          placeholder: 'Телефон',
+          maxlength: 14,
+        },
+      },
+      formChecked: true,
+      validFlag: false,
+      maxPhoneLength: 16,
+      fieldsData: {
+        name: '',
+        phone: '',
+        email: '',
       },
       popupOptions: {
         visible: false,
@@ -150,8 +176,24 @@ export default {
     handlerSave() {
       this.$lander.storage.save('programform', this.fieldsData);
     },
-    validatePhone(value) {
-      this.validPhone = value.valid;
+    validatePhone(phone, { valid, number }) {
+      const telOpts = this.vueTelOpts;
+      const inputOpts = telOpts.inputOptions;
+      const isLocalCode = phone[0] === '8';
+
+      inputOpts.maxlength = this.maxPhoneLength;
+      telOpts.autoFormat = !isLocalCode;
+
+      this.validPhone = valid && isLocalCode ? phone.length === 11 : valid;
+
+      if (valid) {
+        telOpts.mode = isLocalCode ? 'auto' : 'international';
+        inputOpts.maxlength = isLocalCode ? 11 : number.length;
+      } else {
+        inputOpts.maxlength = 16;
+      }
+
+      this.validFormData();
     },
     validFormData() {
       const dataForm = [{ value: this.fieldsData.name }, { value: this.fieldsData.email, type: 'email' }];

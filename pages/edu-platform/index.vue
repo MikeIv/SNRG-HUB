@@ -52,17 +52,6 @@
                   v-model="fieldsData.name"
                   placeholder="Имя"
                 />
-                <!-- <a-input
-                  type="phone"
-                  class="m-form__input"
-                  @validate="validatePhone"
-                  v-model="fieldsData.phone"
-                  @input="
-                    handlerSave();
-                    validFormData();
-                  "
-                  placeholder="Телефон"
-                /> -->
                 <vue-tel-input
                   class="m-form__input"
                   v-bind="vueTelOpts"
@@ -104,17 +93,6 @@
                 "
                 v-model="fieldsData.name"
               />
-              <!-- <a-input
-                type="phone"
-                placeholder="Телефон"
-                class="banner-lp__content-mobile_input"
-                @validate="validatePhone"
-                v-model="fieldsData.phone"
-                @input="
-                  handlerSave();
-                  validFormData();
-                "
-              /> -->
               <vue-tel-input
                 class="m-form__input"
                 v-bind="vueTelOpts"
@@ -192,7 +170,9 @@
 
 <script>
 import { VueTelInput } from 'vue-tel-input';
-import { AButton, AInput, AControl, APopup, MForm } from '@cwespb/synergyui';
+import {
+  AButton, AInput, AControl, APopup, MForm,
+} from '@cwespb/synergyui';
 import SCatalogLanding from '~/components/marketing/s_catalog_landing/s_catalog_landing';
 import SProgramForm from '~/components/s_program_form/s_program_form';
 import getLandingDetail from '~/api/landingsDetail';
@@ -226,12 +206,14 @@ export default {
         href: '',
         text: '',
       },
+      maxPhoneLength: 16,
       vueTelOpts: {
         mode: 'international',
         preferredCountries: ['RU', 'US'],
         wrapperClasses: '',
         inputClasses: '',
         autoFormat: true,
+        defaultCountry: 'RU',
         inputOptions: {
           inputClasses: 'a-input a-input--large a-input--base',
           showDialCode: false,
@@ -332,14 +314,13 @@ export default {
         mainWrapper.classList.remove('js-fixed');
       }
 
-      this.tabletIconVisible =
-        document.documentElement.clientWidth < 767 &&
-        this.scrollTop + 80 > document.getElementById('filtersIcon').offsetTop;
+      this.tabletIconVisible = document.documentElement.clientWidth < 767
+        && this.scrollTop + 80 > document.getElementById('filtersIcon').offsetTop;
 
       if (document.documentElement.clientWidth < 575) {
         if (
-          document.getElementById('filtersIcon').offsetTop &&
-          this.scrollTop > document.getElementById('filtersIcon').offsetTop
+          document.getElementById('filtersIcon').offsetTop
+          && this.scrollTop > document.getElementById('filtersIcon').offsetTop
         ) {
           this.isIconInHeader = true;
         } else {
