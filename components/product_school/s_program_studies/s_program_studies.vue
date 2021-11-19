@@ -40,14 +40,6 @@
         <template v-slot:inputs>
           <AInput class="m-form__input" @input="validFormData()" v-model="fieldsData.name" placeholder="Имя" />
 
-          <!-- <AInput
-            type="phone"
-            class="m-form__input"
-            @validate="validatePhone"
-            v-model="fieldsData.phone"
-            @input="validFormData()"
-            placeholder="Телефон"
-          /> -->
           <vue-tel-input
             class="m-form__input"
             v-bind="vueTelOpts"

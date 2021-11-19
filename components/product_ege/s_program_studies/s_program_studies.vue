@@ -48,17 +48,6 @@
             placeholder="Имя"
           />
 
-          <!-- <AInput
-            type="phone"
-            class="m-form__input"
-            @validate="validatePhone"
-            v-model="fieldsData.phone"
-            @input="
-              handlerSave();
-              validFormData();
-            "
-            placeholder="Телефон"
-          /> -->
           <vue-tel-input
             class="m-form__input"
             v-bind="vueTelOpts"
