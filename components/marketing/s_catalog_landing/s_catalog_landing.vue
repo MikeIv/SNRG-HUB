@@ -75,17 +75,6 @@
                 v-model="fieldsData.name"
                 placeholder="Имя"
               />
-              <!-- <a-input
-                type="phone"
-                class="m-form__input"
-                @validate="validatePhone"
-                v-model="fieldsData.phone"
-                @input="
-                  handlerSave();
-                  validFormData();
-                "
-                placeholder="Телефон"
-              /> -->
               <vue-tel-input
                 class="m-form__input"
                 v-bind="vueTelOpts"
@@ -135,17 +124,6 @@
                 v-model="fieldsData.name"
                 placeholder="Имя"
               />
-              <!-- <a-input
-                type="phone"
-                class="m-form__input"
-                @validate="validatePhone"
-                v-model="fieldsData.phone"
-                @input="
-                  handlerSave();
-                  validFormData();
-                "
-                placeholder="Телефон"
-              /> -->
               <vue-tel-input
                 class="m-form__input"
                 v-bind="vueTelOpts"
@@ -407,9 +385,7 @@
 
 <script>
 import { VueTelInput } from 'vue-tel-input';
-import {
-  AButton, AControl, AInput, APopup, ASelect, ATag, ATitle, MCard, MFilter, MForm,
-} from '@cwespb/synergyui';
+import { AButton, AControl, AInput, APopup, ASelect, ATag, ATitle, MCard, MFilter, MForm } from '@cwespb/synergyui';
 import getProductsList from '~/api/products_list';
 import '../../s_catalog/s_catalog.scss';
 import '../../s_catalog_filter/s_catalog_filter.scss';
@@ -464,6 +440,7 @@ export default {
       validFlag: false,
       blockYScroll: false,
 
+      maxPhoneLength: 16,
       vueTelOpts: {
         mode: 'international',
         preferredCountries: ['RU', 'US'],
