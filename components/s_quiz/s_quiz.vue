@@ -126,12 +126,14 @@ export default {
     prevQuestionId: null,
     listAnswers: [],
     answer: '',
+    maxPhoneLength: 16,
     vueTelOpts: {
       mode: 'international',
       preferredCountries: ['RU', 'US'],
       wrapperClasses: '',
       inputClasses: '',
       autoFormat: true,
+      defaultCountry: 'RU',
       inputOptions: {
         inputClasses: 'a-input a-input--large a-input--base',
         showDialCode: false,

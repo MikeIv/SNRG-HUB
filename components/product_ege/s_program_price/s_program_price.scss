@@ -45,6 +45,10 @@
       @media screen and (max-width: 767px) {
         flex-direction: column;
       }
+
+      .vue-tel-input {
+        flex-direction: row;
+      }
     }
 
     .m-form__box,
