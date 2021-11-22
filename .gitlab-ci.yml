@@ -24,7 +24,7 @@ deploy:dev:
   stage: deploy
   environment:
     name: ${CI_COMMIT_REF_SLUG}
-    url: 'https://${CI_COMMIT_REF_SLUG}-${CI_PROJECT_PATH_SLUG}.${DEV_DOMAIN}${PRODUCTION_PATH}'
+    url: 'https://${CI_COMMIT_REF_SLUG}-${CI_PROJECT_ID}.${DEV_DOMAIN}${PRODUCTION_PATH}'
     on_stop: destroy:dev
   variables:
     CI_DEBUG_TRACE: 'false'
@@ -149,7 +149,7 @@ test:prod:
     export ENV_NAME_FULL="development"
     export KUBE_CONTEXT="${KUBE_CONTEXT_DEV}"
     export APP_NAMESPACE="${CI_COMMIT_REF_SLUG}-${CI_PROJECT_PATH_SLUG}"
-    export APP_URL="https://${CI_COMMIT_REF_SLUG}-${CI_PROJECT_PATH_SLUG}.${DEV_DOMAIN}"
+    export APP_URL="https://${CI_COMMIT_REF_SLUG}-${CI_PROJECT_ID}.${DEV_DOMAIN}"
     export WERF_REPO="${REGISTRY_NAME_DEV}/${CI_PROJECT_PATH_SLUG}"
     export REPOSITORY_NAME="${REPOSITORY_NAME_DEV}"
   else

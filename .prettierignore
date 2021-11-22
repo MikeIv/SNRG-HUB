@@ -30,4 +30,3 @@ static
 .gitignore
 CHANGELOG.md
 .gitlab
-.env
