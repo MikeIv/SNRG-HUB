@@ -5,7 +5,6 @@
         <nuxt-link to="/" class="s-header__logo-link">
           <img class="s-header-lp__logo" :src="logoURL" />
         </nuxt-link>
-        <h3 class="a-font_XL s-header-lp__left-text">Образовательная платформа</h3>
       </div>
       <div class="s-header-lp__right">
         <i
