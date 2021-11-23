@@ -55,8 +55,8 @@
       <div class="catalog-page__section-lp__popup">
         <section ref="form" id="form">
           <m-form
-            title="Оставьте заявку и мы поможем вам выбрать профессию"
-            btnText="Оставить заявку"
+            title="Оставьте заявку и мы поможем вам подобрать программу"
+            btnText="Подобрать"
             typeBtn="checkbox"
             typeCtrl="checkbox"
             :checked="formChecked"
@@ -153,7 +153,7 @@
       v-if="mainBtnVisible"
       @click="applicationPopup = true"
       class="catalog-page__section-lp__mobile-btn"
-      label="Заявка на обучение"
+      label="Подобрать программу"
       bgColor="accent"
       size="large"
     />
