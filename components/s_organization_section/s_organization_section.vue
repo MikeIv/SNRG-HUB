@@ -56,7 +56,7 @@ import SCatalogPresets from '~/components/s_catalog_presets/s_catalog_presets';
 import SCatalogTags from '~/components/s_catalog_tags/s_catalog_tags';
 import SCatalogMenu from '~/components/s_catalog_menu/s_catalog_menu';
 import getOrganizationsList from '~/api/organizationsList';
-import getFilterData from '~/api/filter_data';
+import getOrganizationsCatalogFilter from '~/api/organizationsCatalogFilter';
 import '../s_catalog_section/s_catalog_section.scss';
 import './s_organization_section.scss';
 import SOrganizationsProductList from '~/components/s_organizations_product_list/s_organizations_product_list';
@@ -91,13 +91,15 @@ export default {
       filterListData: {},
       filterCheckboxData: {},
       filtersIdsData: {
-        direction_ids: [],
-        format_ids: [],
-        level_ids: [],
         city_ids: [],
-        organization_ids: [],
+        direction_ids: [],
+        level_ids: [],
+        format_ids: [],
       },
-      filtersCheckboxDataRequest: {},
+      filtersCheckboxDataRequest: {
+        is_military_center: false,
+        is_hostel: false,
+      },
       filtersMenu: false,
       page: 1,
       componentProductsKey: 10,
@@ -164,18 +166,18 @@ export default {
     },
 
     filtersCheckboxDataRequest: {
-      deep: true,
       handler() {
         this.pageMain = 1;
         this.componentProductsKey += 3;
         this.fetchProductsList();
       },
+      deep: true,
     },
   },
 
   methods: {
     async fetchFilterData() {
-      const filtersResponse = await getFilterData();
+      const filtersResponse = await getOrganizationsCatalogFilter();
 
       filtersResponse.forEach((filters) => {
         // Если мы передаем дефолтные фильтры, то мы выбираем фильтры, тэги и отправляем на бэк
@@ -212,7 +214,6 @@ export default {
         }
 
         if (filters.type === 'checkbox') {
-          this.filtersCheckboxDataRequest[filters.filter_by] = false;
           this.filterCheckboxData[filters.filter_by] = { ...filters };
         }
 
@@ -280,7 +281,6 @@ export default {
       expandedMethod.sort = this.currentOption;
 
       const response = await getOrganizationsList(expandedMethod);
-      console.log('here', response);
 
       this.totalProducts = response.count;
       this.productList = response.data;

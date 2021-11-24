@@ -96,7 +96,10 @@ export default {
         city_ids: [],
         organization_ids: [],
       },
-      filtersCheckboxDataRequest: {},
+      filtersCheckboxDataRequest: {
+        is_employment: false,
+        is_installment: false,
+      },
       filtersMenu: false,
       page: 1,
       componentProductsKey: 10,
@@ -207,7 +210,6 @@ export default {
         }
 
         if (filters.type === 'checkbox') {
-          this.filtersCheckboxDataRequest[filters.filter_by] = false;
           this.filterCheckboxData[filters.filter_by] = { ...filters };
         }
 
