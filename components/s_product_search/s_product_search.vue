@@ -111,6 +111,7 @@ export default {
   swiperOption: {
     slidesPerView: 'auto',
     spaceBetween: 8,
+    speed: 600,
   },
 
   data() {
