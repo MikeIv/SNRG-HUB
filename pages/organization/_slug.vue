@@ -9,13 +9,11 @@
         :entity_page="pageInfo.entity_page"
       ></component>
     </LazyHydrate>
-    <MobileButton />
   </div>
 </template>
 
 <script>
 import LazyHydrate from 'vue-lazy-hydration';
-import MobileButton from '~/components/mobile_button/mobile_button';
 
 export default {
   layout: 'organization',
@@ -76,7 +74,6 @@ export default {
 
   components: {
     LazyHydrate,
-    MobileButton,
   },
 
   middleware: ['getPageInfo', 'parseUtms'],
