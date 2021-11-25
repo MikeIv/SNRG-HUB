@@ -1,0 +1,84 @@
+@import '@/assets/styles/tools/mixins';
+
+.s-proftest {
+  &__wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    margin-top: rem(20);
+    margin-bottom: rem(32);
+    padding: rem(48) rem(118) rem(48) rem(80);
+    background-color: var(--a-color_bg);
+    border-radius: var(--a-borderRadius--bg);
+  }
+
+  &__content {
+    display: flex;
+    justify-content: space-between;
+    align-content: stretch;
+    width: 100%;
+    margin-bottom: rem(18);
+  }
+
+  &__left-col {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    max-width: 50%;
+  }
+  &__right-col {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    max-width: 40%;
+  }
+
+  &__subtitle {
+    margin-top: rem(16);
+    margin-bottom: rem(16);
+    color: var(--a-color_text);
+    font-size: rem(16);
+    line-height: rem(24);
+  }
+  &__title {
+    margin-bottom: rem(16);
+    color: var(--a-color_text);
+    font-size: rem(44);
+    line-height: rem(52);
+  }
+  &__description {
+    margin-bottom: rem(24);
+    color: var(--a-color_text);
+    font-size: rem(18);
+    line-height: rem(28);
+  }
+  &__btn {
+    margin-top: auto;
+    margin-right: auto;
+  }
+  &__img-block {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  &__img {
+    width: 100%;
+    object-fit: cover;
+  }
+
+  &__info {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    min-height: rem(68);
+    padding-left: rem(68);
+    border: 1px solid var(--a-color_link);
+    border-radius: rem(8);
+    font-size: rem(18);
+  }
+  &__link {
+    margin: 0 rem(5);
+    color: var(--a-color_link);
+    cursor: pointer;
+  }
+}
