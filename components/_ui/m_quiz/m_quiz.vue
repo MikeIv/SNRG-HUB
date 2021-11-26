@@ -41,7 +41,6 @@
       <template v-else-if="view">
         <SAccountTestsResult @bannerBtnClick="resultBtnClickHandle" :hideTitle="true" />
       </template>
-
       <a-progressbar v-if="toggleProgressbar" :percent="progress" />
     </div>
   </div>
@@ -230,6 +229,14 @@ export default {
       this.$emit('onSendQuizForm');
     },
 
+    getAnswer() {
+      let resultPoint = 0;
+      this.listAnswers.forEach((val) => {
+        resultPoint += Number(val.point);
+      });
+      console.log('RESULT', resultPoint);
+    },
+
     changeQuiz(current, variants, { checkbox, maxSelectCount } = {}) {
       const answer = [];
 
@@ -239,15 +246,23 @@ export default {
           if (!checkbox && item !== current) itemLink.checked = false;
           return item.checked;
         })
-        .forEach((item) => answer.push(item.answer));
-
+        .forEach((item) => answer.push(item));
+      console.log('variants', variants);
       if (checkbox && !maxSelectCount) this.btnNextDisabled = answer.length < 1;
 
       this.listAnswers[this.countPosition] = {
-        answer,
+        id: this.dataQuestion[this.countPosition].id,
+        point: answer[0].point,
         disabled: this.btnNextDisabled,
         question: this.dataQuestion[this.countPosition].question,
       };
+      console.log('LOGG', this.listAnswers);
+
+      let resultPoint = 0;
+      this.listAnswers.forEach((val) => {
+        resultPoint += Number(val.point);
+      });
+      console.log('RESULT', resultPoint);
 
       if (!checkbox || (maxSelectCount && maxSelectCount === answer.length)) this.nextQuiz();
     },
