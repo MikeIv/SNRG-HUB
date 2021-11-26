@@ -41,55 +41,14 @@
       <template v-else-if="view">
         <SAccountTestsResult @bannerBtnClick="resultBtnClickHandle" :hideTitle="true" />
       </template>
-      <div v-else class="m-quiz__finish">
-        <div class="m-quiz__finish-text">
-          <h5 class="m-quiz__finish-title a-font_h5">Зарегистрируйся, чтобы узнать результат</h5>
-          <div class="m-quiz__finish-desc a-font_l-m">
-            После регистрации мы создадим для тебя профиль, где тебя ждет много интересного.
-          </div>
-        </div>
-        <div class="m-quiz__finish-inputs">
-          <div class="m-quiz__finish-data">
-            <a-input placeholder="Имя" v-model="send.name" @input="validFormData"></a-input>
-            <a-input placeholder="Фамилия" v-model="send.surname" @input="validFormData"></a-input>
-            <vue-tel-input
-              placeholder="Телефон"
-              type="phone"
-              v-bind="vueTelOpts"
-              @input="validatePhone"
-              @change="validFormData"
-              v-model="send.phone"
-            >
-            </vue-tel-input>
-            <a-input placeholder="Почта" type="email" @input="validFormData" v-model="send.email" />
-            <a-button
-              bgColor="accent"
-              size="large"
-              label="Зарегистрироваться"
-              :disabled="!sogl || !validFlag || !validPhone"
-              @click="sendQuiz"
-            ></a-button>
-          </div>
-          <div class="m-quiz__finish-sogl">
-            <a-control
-              typeBtn="checkbox"
-              typeCtrl="checkbox"
-              v-model="sogl"
-              labelPosition="right"
-              title="Нажимая на кнопку, вы соглашаетсь с политикой конфиденциальности и на получение рассылок"
-            >
-            </a-control>
-          </div>
-        </div>
-      </div>
+
       <a-progressbar v-if="toggleProgressbar" :percent="progress" />
     </div>
   </div>
 </template>
 
 <script>
-import { VueTelInput } from 'vue-tel-input';
-import { AButton, AInput, AControl, AProgressbar } from '@cwespb/synergyui';
+import { AButton, AControl, AProgressbar } from '@cwespb/synergyui';
 import './m_quiz.scss';
 
 export default {
@@ -98,8 +57,6 @@ export default {
     AProgressbar,
     AControl,
     AButton,
-    AInput,
-    VueTelInput,
   },
 
   data: () => ({
