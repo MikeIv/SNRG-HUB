@@ -78,6 +78,7 @@ export default {
     maxPhoneLength: 16,
     localRuPhoneLength: 11,
     listAnswers: [],
+    sumAnswers: [],
     answer: '',
 
     send: {
@@ -258,11 +259,41 @@ export default {
       };
       console.log('LOGG', this.listAnswers);
 
+      function isExistValue(value) {
+        let result = false;
+        if (typeof value !== 'undefined' && value !== '' && value != null) {
+          result = true;
+        }
+        return result;
+      }
+
       let resultPoint = 0;
-      this.listAnswers.forEach((val) => {
-        resultPoint += Number(val.point);
+      const sumAnswers = [];
+      this.listAnswers.forEach((item) => {
+        resultPoint += Number(item.point); // Сумма всех point
+        if (!isExistValue(sumAnswers[item.id])) {
+          // Сумма point по id
+          sumAnswers[item.id] = item.point;
+        } else if (sumAnswers[item.id] !== 0) {
+          sumAnswers[item.id] += item.point;
+        }
       });
       console.log('RESULT', resultPoint);
+      console.log('sumAnswers', sumAnswers);
+
+      let maxId = '';
+      const addId = 7;
+      let maxPoint = 0;
+      sumAnswers.forEach((val, id) => {
+        if (maxPoint < val) {
+          maxPoint = val;
+          maxId = id;
+        } else if (maxPoint === val) {
+          maxId = addId;
+        }
+      });
+      console.log('maxPoint', maxPoint);
+      console.log('maxId', maxId);
 
       if (!checkbox || (maxSelectCount && maxSelectCount === answer.length)) this.nextQuiz();
     },
