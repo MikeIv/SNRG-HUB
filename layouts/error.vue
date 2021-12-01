@@ -47,5 +47,11 @@ export default {
       this.search = '';
     },
   },
+
+  mounted() {
+    if (this.$route.query.search) {
+      this.search = this.$route.query.search;
+    }
+  },
 };
 </script>

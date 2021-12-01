@@ -135,6 +135,13 @@ export default {
       if (!this.search) {
         this.search = '';
         this.$emit('search', '');
+        window.history.pushState({}, null, `${window.location.pathname}`);
+      }
+      if (this.search.length >= 5) {
+        this.$emit('search', this.search.trim());
+        window.history.pushState({}, null, `${window.location.pathname}?search=${this.search.trim()}`);
+      } else if (this.search.length < 5) {
+        window.history.pushState({}, null, `${window.location.pathname}`);
       }
     },
   },
@@ -152,6 +159,8 @@ export default {
     });
 
     document.getElementById('search').addEventListener('keypress', this.handleSearch);
+
+    this.search = this.$route.query.search;
   },
 
   beforeDestroy() {
@@ -168,6 +177,7 @@ export default {
     handleSearch(e) {
       if (e.key === 'Enter') {
         this.$emit('search', this.search.trim());
+        window.history.pushState({}, null, `${window.location.pathname}?search=${this.search.trim()}`);
       }
     },
 

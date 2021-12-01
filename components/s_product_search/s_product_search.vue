@@ -178,8 +178,19 @@ export default {
       const searchedData = await getSearchProducts(expandedMethod);
       this.totalItems = searchedData.total;
       this.categories = searchedData.data.search_results;
+      const searchResults = searchedData.data.search_results;
+      searchResults.sort((a, b) => {
+        if (a.name < b.name) {
+          return -1;
+        }
+        if (a.name > b.name) {
+          return 1;
+        }
+        return 0;
+      });
 
-      this.presets = [{ name: 'Все', count: searchedData.total }, ...searchedData.data.search_results];
+      this.presets = [{ name: 'Все', count: searchedData.total }, ...searchResults];
+
       this.categories.forEach((category) => {
         this.perPage[category.name] = this.productsPerPage;
         this.totalIds[category.name] = category.product_ids;
@@ -214,6 +225,15 @@ export default {
 
           const cards = await getProductsList(expandedProductsMethod);
           this.productsList.push({ products: cards.data, name: category.name, count: category.count });
+          this.productsList.sort((a, b) => {
+            if (a.name < b.name) {
+              return -1;
+            }
+            if (a.name > b.name) {
+              return 1;
+            }
+            return 0;
+          });
         });
 
         this.loading = false;
