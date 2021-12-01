@@ -116,7 +116,7 @@
                 @change="isChecked = !isChecked"
                 typeBtn="checkbox"
                 typeCtrl="checkbox"
-                title="Я даю согласие на обработку..."
+                title="Нажимая на кнопку, я соглашаюсь с политикой конфиденциальности и на получение рассылок"
                 labelPosition="right"
               />
             </div>
@@ -240,7 +240,7 @@ export default {
       },
 
       validPhone: false,
-      isChecked: false,
+      isChecked: true,
 
       applicationPopup: false,
     };
