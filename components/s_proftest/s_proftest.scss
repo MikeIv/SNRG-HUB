@@ -21,6 +21,14 @@
     @media screen and (max-width: 767px) {
       padding: rem(32) rem(16);
     }
+
+    .swiper-slide {
+      width: auto;
+    }
+
+    .m-card-program {
+      min-width: rem(400);
+    }
   }
 
   &__content {
@@ -110,8 +118,7 @@
       height: rem(263);
     }
     @media screen and (max-width: 767px) {
-      width: 100%;
-      margin: 0;
+      display: none;
     }
   }
   &__img {
@@ -169,6 +176,22 @@
       display: block;
       flex: none;
       width: rem(355);
+      @media screen and (max-width: 991px) {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+      }
+      @media screen and (max-width: 767px) {
+        width: 100%;
+      }
+    }
+    .m-quiz__control {
+      @media screen and (max-width: 991px) {
+        width: rem(300);
+      }
+      @media screen and (max-width: 767px) {
+        width: 100%;
+      }
     }
     .m-quiz__box {
       padding: 0;

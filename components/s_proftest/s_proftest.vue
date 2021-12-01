@@ -8,7 +8,7 @@
             <p class="s-proftest__subtitle">{{ subtitle }}</p>
             <h2 class="s-proftest__title">{{ title }}</h2>
             <p class="s-proftest__description">{{ description }}</p>
-            <AButton class="s-proftest__btn" label="Пройти тест" bgColor="accent" v-if="!quizeShow" @click="getQuize" />
+            <AButton class="s-proftest__btn" label="Пройти тест" bgColor="accent" v-if="!quizeShow" @click="getQuiz" />
           </div>
           <div class="s-proftest__right-col">
             <div class="s-proftest__img-block">
@@ -24,7 +24,7 @@
         </div>
       </div>
 
-      <div class="s-proftest__wrapper" v-if="quizeShow">
+      <div class="s-proftest__wrapper" v-if="quizeShow && !quizComplete">
         <MQuiz
           class="s-proftest__quiz"
           :questions="questions"
@@ -33,23 +33,23 @@
         />
       </div>
 
-      <div class="s-proftest__wrapper">
+      <div class="s-proftest__wrapper" v-if="quizComplete">
         <div class="s-proftest__content">
           <div class="s-proftest__left-col">
             <p class="s-proftest__subtitle">{{ resultSubtitle }}</p>
-            <h2 class="s-proftest__title">{{ resultTitle }}</h2>
-            <p class="s-proftest__description">{{ resultDescription }}</p>
-            <AButton class="s-proftest__btn" label="Пройти еще раз" />
+            <h2 class="s-proftest__title">{{ mindType.title }}</h2>
+            <p class="s-proftest__description" v-html="mindType.description"></p>
+            <AButton class="s-proftest__btn" label="Пройти еще раз" @click="getReQuiz" />
           </div>
           <div class="s-proftest__right-col">
             <div class="s-proftest__img-block">
-              <img :src="require(`~/assets/images/${resultImg}`)" alt="Тест" class="s-proftest__img" />
+              <img :src="require(`~/assets/images/${mindType.resultImg}`)" alt="Тест" class="s-proftest__img" />
             </div>
           </div>
         </div>
       </div>
 
-      <div class="s-proftest__wrapper">
+      <div class="s-proftest__wrapper" v-if="quizComplete">
         <swiper ref="awesomeSwiper" :options="swiperOptionA">
           <swiper-slide v-for="product in productsList" :key="product.id">
             <nuxt-link :to="'/'" class="s-main-programs__wrapper" v-if="productsList && productsList.length > 0">
@@ -92,6 +92,9 @@ export default {
   data: () => ({
     baseURL: process.env.NUXT_ENV_S3BACKET,
     quizeShow: false,
+    quizComplete: false, // Скрытие  Quiz при true
+    getAnswers: [],
+    mindType: {},
     swiperOptionA: {
       slidesPerView: 'auto',
       spaceBetween: 20,
@@ -126,15 +129,62 @@ export default {
     Img: 'proftest_img-01.png',
     subtitle: '30 вопросов',
     title: 'Тест на выбор профессии',
+
+    answers: [
+      {
+        id: 1,
+        title: 'Предметно-действенное мышление1',
+        description:
+          // eslint-disable-next-line max-len
+          'Предметно-действенное мышление свойственно людям дела. Они усваивают информацию через движения. Обычно они обладают хорошей координацией движений. Их руками создан весь окружающий нас предметный мир. Они водят машины, стоят у станков, собирают компьютеры. Без них невозможно реализовать самую блестящую идею. Этим мышление важно для спортсменов, танцоров, артистов.',
+        resultImg: 'proftest_img-02.png',
+      },
+      {
+        id: 2,
+        title: 'Предметно-действенное мышление2',
+        description:
+          // eslint-disable-next-line max-len
+          'Предметно-действенное мышление свойственно людям дела. Они усваивают информацию через движения. Обычно они обладают хорошей координацией движений. Их руками создан весь окружающий нас предметный мир. Они водят машины, стоят у станков, собирают компьютеры. Без них невозможно реализовать самую блестящую идею. Этим мышление важно для спортсменов, танцоров, артистов.',
+        resultImg: 'proftest_img-02.png',
+      },
+      {
+        id: 3,
+        title: 'Предметно-действенное мышление3',
+        description:
+          // eslint-disable-next-line max-len
+          'Предметно-действенное мышление свойственно людям дела. Они усваивают информацию через движения. Обычно они обладают хорошей координацией движений. Их руками создан весь окружающий нас предметный мир. Они водят машины, стоят у станков, собирают компьютеры. Без них невозможно реализовать самую блестящую идею. Этим мышление важно для спортсменов, танцоров, артистов.',
+        resultImg: 'proftest_img-02.png',
+      },
+      {
+        id: 4,
+        title: 'Предметно-действенное мышление4',
+        description:
+          // eslint-disable-next-line max-len
+          'Предметно-действенное мышление свойственно людям дела. Они усваивают информацию через движения. Обычно они обладают хорошей координацией движений. Их руками создан весь окружающий нас предметный мир. Они водят машины, стоят у станков, собирают компьютеры. Без них невозможно реализовать самую блестящую идею. Этим мышление важно для спортсменов, танцоров, артистов.',
+        resultImg: 'proftest_img-02.png',
+      },
+      {
+        id: 5,
+        title: 'Предметно-действенное мышление5',
+        description:
+          // eslint-disable-next-line max-len
+          'Предметно-действенное мышление свойственно людям дела. Они усваивают информацию через движения. Обычно они обладают хорошей координацией движений. Их руками создан весь окружающий нас предметный мир. Они водят машины, стоят у станков, собирают компьютеры. Без них невозможно реализовать самую блестящую идею. Этим мышление важно для спортсменов, танцоров, артистов.',
+        resultImg: 'proftest_img-02.png',
+      },
+      {
+        id: 6,
+        unique: true,
+        title: 'Универсальный',
+        description:
+          // eslint-disable-next-line max-len
+          'Предметно-действенное мышление свойственно людям дела. Они усваивают информацию через движения. Обычно они обладают хорошей координацией движений. Их руками создан весь окружающий нас предметный мир. Они водят машины, стоят у станков, собирают компьютеры. Без них невозможно реализовать самую блестящую идею. Этим мышление важно для спортсменов, танцоров, артистов.',
+        resultImg: 'proftest_img-02.png',
+      },
+    ],
     description:
       // eslint-disable-next-line max-len
       'Многие абитуриенты испытывают трудности в выборе профессии. Чтобы узнать, какая профессия подходит именно вам, мы предлагаем пройти тест на выбор профессии, который поможет вам уточнить свой выбор, узнать будущую профессию, увидеть новые варианты. ',
-    resultImg: 'proftest_img-02.png',
     resultSubtitle: 'Ваш результат',
-    resultTitle: 'Предметно-действенное мышление ',
-    resultDescription:
-      // eslint-disable-next-line max-len
-      'Предметно-действенное мышление свойственно людям дела. Они усваивают информацию через движения. Обычно они обладают хорошей координацией движений. Их руками создан весь окружающий нас предметный мир. Они водят машины, стоят у станков, собирают компьютеры. Без них невозможно реализовать самую блестящую идею. Этим мышление важно для спортсменов, танцоров, артистов.',
     infoAdd: 'Для прохождения теста необходимо',
     linkSign: 'войти',
     linkReg: 'зарегистрироваться',
@@ -272,10 +322,14 @@ export default {
       },
     ],
   }),
-
   methods: {
-    getQuize() {
+    getQuiz() {
       this.quizeShow = !this.quizeShow;
+    },
+    getReQuiz() {
+      this.quizeShow = !this.quizeShow;
+      this.quizComplete = false;
+      this.maxId = null;
     },
     sendRouteParams() {
       this.$router.push({
@@ -285,8 +339,9 @@ export default {
         },
       });
     },
-    isQuizComplete() {
-      this.$emit('isQuizComplete');
+    isQuizComplete(id) {
+      this.mindType = this.answers.find((answer) => answer.id === Number(id));
+      this.quizComplete = true;
     },
   },
 };

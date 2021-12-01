@@ -63,6 +63,7 @@ export default {
     baseUrl: process.env.NUXT_ENV_S3BACKET,
     banerFlag: true,
     btnNextDisabled: true,
+    maxId: 0,
     count: null,
     countPosition: 0,
     vueTelOpts: {
@@ -104,7 +105,7 @@ export default {
 
   watch: {
     countPosition() {
-      if (this.countPosition === this.dataQuestion.length) this.$emit('isQuizComplete');
+      if (this.countPosition === this.dataQuestion.length) this.$emit('isQuizComplete', this.maxId);
     },
   },
   computed: {
@@ -230,14 +231,6 @@ export default {
       this.$emit('onSendQuizForm');
     },
 
-    getAnswer() {
-      let resultPoint = 0;
-      this.listAnswers.forEach((val) => {
-        resultPoint += Number(val.point);
-      });
-      console.log('RESULT', resultPoint);
-    },
-
     changeQuiz(current, variants, { checkbox, maxSelectCount } = {}) {
       const answer = [];
 
@@ -248,7 +241,6 @@ export default {
           return item.checked;
         })
         .forEach((item) => answer.push(item));
-      console.log('variants', variants);
       if (checkbox && !maxSelectCount) this.btnNextDisabled = answer.length < 1;
 
       this.listAnswers[this.countPosition] = {
@@ -257,43 +249,32 @@ export default {
         disabled: this.btnNextDisabled,
         question: this.dataQuestion[this.countPosition].question,
       };
-      console.log('LOGG', this.listAnswers);
+      console.log('listAnswers', this.listAnswers);
 
-      function isExistValue(value) {
-        let result = false;
-        if (typeof value !== 'undefined' && value !== '' && value != null) {
-          result = true;
-        }
-        return result;
+      /**
+       * Обработка теста и вывод результата
+       * ****
+       */
+
+      /**
+       * Получение объекта, где ключом является id, а значением сумма point'ов из массива того же id
+       */
+      let objAnswers = {};
+      objAnswers = this.listAnswers.reduce((acc, it) => ({ ...acc, [it.id]: (acc[it.id] || 0) + it.point }), {});
+
+      /**
+       * Получение id, где значение point максимальное
+       */
+      const maxAnswerPoin = Math.max(...Object.values(objAnswers));
+      let maxAnswerId = null;
+      // eslint-disable-next-line no-restricted-syntax
+      for (const [key, value] of Object.entries(objAnswers)) {
+        if (value === maxAnswerPoin) maxAnswerId = key;
       }
+      const maxAnswersCount = Object.values(objAnswers).filter((item) => item === maxAnswerPoin).length;
+      if (maxAnswersCount > 1) maxAnswerId = Object.keys(objAnswers).length + 1;
 
-      let resultPoint = 0;
-      const sumAnswers = [];
-      this.listAnswers.forEach((item) => {
-        resultPoint += Number(item.point); // Сумма всех point
-        if (!isExistValue(sumAnswers[item.id])) {
-          // Сумма point по id
-          sumAnswers[item.id] = item.point;
-        } else if (sumAnswers[item.id] !== 0) {
-          sumAnswers[item.id] += item.point;
-        }
-      });
-      console.log('RESULT', resultPoint);
-      console.log('sumAnswers', sumAnswers);
-
-      let maxId = '';
-      const addId = 7;
-      let maxPoint = 0;
-      sumAnswers.forEach((val, id) => {
-        if (maxPoint < val) {
-          maxPoint = val;
-          maxId = id;
-        } else if (maxPoint === val) {
-          maxId = addId;
-        }
-      });
-      console.log('maxPoint', maxPoint);
-      console.log('maxId', maxId);
+      this.maxId = maxAnswerId;
 
       if (!checkbox || (maxSelectCount && maxSelectCount === answer.length)) this.nextQuiz();
     },
