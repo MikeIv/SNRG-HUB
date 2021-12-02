@@ -74,6 +74,9 @@ export default {
     'categoryId',
     'productsPerPage',
     'entity_page',
+    'currentOption',
+    'options',
+    'filtersMenu',
   ],
 
   components: {
@@ -100,37 +103,12 @@ export default {
         is_military_center: false,
         is_hostel: false,
       },
-      filtersMenu: false,
       page: 1,
       componentProductsKey: 10,
       componentFilterKey: 100,
       componentMenuKey: 1000,
 
       selectedFilters: [],
-
-      currentOption: '-id',
-      options: [
-        {
-          label: 'Новые',
-          value: '-id',
-        },
-        {
-          label: 'По алфавиту А-Я',
-          value: 'name',
-        },
-        {
-          label: 'По алфавиту Я-А',
-          value: '-name',
-        },
-        {
-          label: 'По адресу +',
-          value: 'address',
-        },
-        {
-          label: 'По адресу -',
-          value: '-address',
-        },
-      ],
     };
   },
 
@@ -327,15 +305,15 @@ export default {
     },
 
     menuToggle(value) {
-      this.filtersMenu = value;
+      this.$emit('menu-toggle', value);
     },
 
     changeSortOption(option) {
-      this.options = [
+      const options = [
         { label: this.options.find((elem) => elem.value === option).label, value: option },
         ...this.options.filter((elem) => elem.value !== option),
       ];
-      this.currentOption = option;
+      this.$emit('change-sort-options', options, option);
     },
 
     clearAllFilters() {
@@ -368,7 +346,7 @@ export default {
     },
 
     filtersIconClickHandler() {
-      this.filtersMenu = true;
+      this.$emit('menu-toggle', true);
     },
   },
 
