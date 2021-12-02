@@ -12,7 +12,7 @@
         <m-card
           type="program"
           class="catalog-product-list__item"
-          description="Бюджет: от 48 баллов • Платное: от 40 баллов"
+          :description="getProductDescription(product.budget_points, product.contract_points)"
           :title="product.name"
           :verticalImgSrc="`${baseURL}/${product.preview_image}`"
           :bottomText="product.abbreviation_name"
@@ -71,6 +71,12 @@ export default {
   },
 
   methods: {
+    getProductDescription(budget, contract) {
+      const budgetStr = budget ? `Бюджет: от ${budget} баллов ${contract ? ' • ' : ''}` : '';
+      const contractStr = contract ? `Платное: от ${contract} баллов` : '';
+      return budgetStr + contractStr;
+    },
+
     changeCurrentPage(page) {
       this.pageInx = page;
     },
