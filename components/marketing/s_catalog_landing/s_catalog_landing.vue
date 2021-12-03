@@ -491,15 +491,9 @@ export default {
       productsPerPage: {},
       filterListData: {},
       filterCheckboxData: {},
-      filtersIdsData: {
-        direction_ids: [],
-        format_ids: [],
-        level_ids: [],
-        city_ids: [],
-        organization_ids: [],
-      },
+      filtersIdsData: null,
+      filtersCheckboxDataRequest: null,
       page: {},
-      filtersCheckboxDataRequest: {},
       componentProductsKey: 10,
       componentFilterKey: 100,
       componentMenuKey: 1000,
@@ -569,23 +563,27 @@ export default {
 
     filtersIdsData: {
       deep: true,
-      handler() {
-        this.componentProductsKey += 3;
-        this.activePreset = null;
-        this.fetchProductsList();
-        // eslint-disable-next-line max-len
-        this.totalPickedFilters = Object.values(this.filtersIdsData).reduce(
-          (prevValue, currentValue) => prevValue + currentValue.length,
-          0,
-        );
+      handler(newVal, oldVal) {
+        if (oldVal !== null) {
+          this.componentProductsKey += 3;
+          this.activePreset = null;
+          this.fetchProductsList();
+          // eslint-disable-next-line max-len
+          this.totalPickedFilters = Object.values(this.filtersIdsData).reduce(
+            (prevValue, currentValue) => prevValue + currentValue.length,
+            0,
+          );
+        }
       },
     },
 
     filtersCheckboxDataRequest: {
       deep: true,
-      handler() {
-        this.componentProductsKey += 3;
-        this.fetchProductsList();
+      handler(newVal, oldVal) {
+        if (oldVal !== null) {
+          this.componentProductsKey += 3;
+          this.fetchProductsList();
+        }
       },
     },
   },
@@ -737,7 +735,7 @@ export default {
         ? this.productsPerPage[preset.slug] + 10
         : 20;
 
-      this.fetchProductsList();
+      this.fetchProductsList(preset);
     },
 
     selectPreset(preset) {
@@ -790,53 +788,106 @@ export default {
       });
     },
 
-    async fetchProductsList() {
-      // eslint-disable-next-line no-restricted-syntax
-      for (const preset of this.presets) {
-        const expandedMethod = {
+    async fetchProductsList(presetName) {
+      if (presetName) {
+        const expandedMoreMethod = {
           filter: { published: true },
         };
 
-        expandedMethod.include = ['organization', 'levels', 'directions'];
+        expandedMoreMethod.include = ['organization', 'levels', 'directions'];
 
         if (this.selectedOption === 'all') {
-          expandedMethod.filter.direction_ids = this.filterListData.direction_ids.map((filter) => filter.id);
+          expandedMoreMethod.filter.direction_ids = this.filterListData.direction_ids.map((filter) => filter.id);
         }
 
-        // Логика парсинга выбранных фильтров на бэк, для получения отфильрованный товаров
-        Object.entries(this.filtersIdsData).forEach((filterData) => {
-          if (filterData[1].length === 0) {
-            expandedMethod.filter[filterData[0]] = this.filterListData[filterData[0]]?.map((filter) => filter.id);
-          } else {
-            const [key, value] = filterData;
-            expandedMethod.filter[key] = value;
-          }
-        });
+        if (this.filtersIdsData) {
+          // Логика парсинга выбранных фильтров на бэк, для получения отфильрованный товаров
+          Object.entries(this.filtersIdsData).forEach((filterData) => {
+            if (filterData[1].length === 0) {
+              expandedMoreMethod.filter[filterData[0]] = this.filterListData[filterData[0]]?.map((filter) => filter.id);
+            } else {
+              const [key, value] = filterData;
+              expandedMoreMethod.filter[key] = value;
+            }
+          });
+        }
 
-        expandedMethod.filter.level_ids = [preset.id];
+        expandedMoreMethod.filter.level_ids = [presetName.id];
 
         // Логика парсинга чекбоксов, для получения отфильрованный товаров
-        Object.entries(this.filtersCheckboxDataRequest).forEach((checkboxData) => {
-          const [key, value] = checkboxData;
-          if (value) {
-            expandedMethod.filter[key] = value;
-          } else {
-            delete expandedMethod.filter[[key]];
-          }
-        });
+        if (this.filtersCheckboxDataRequest) {
+          Object.entries(this.filtersCheckboxDataRequest).forEach((checkboxData) => {
+            const [key, value] = checkboxData;
+            if (value) {
+              expandedMoreMethod.filter[key] = value;
+            } else {
+              delete expandedMoreMethod.filter[[key]];
+            }
+          });
+        }
 
-        expandedMethod.pagination = {
+        expandedMoreMethod.pagination = {
           page: 1,
-          page_size: this.productsPerPage[preset.slug] === undefined ? 10 : this.productsPerPage[preset.slug],
+          page_size: this.productsPerPage[presetName.slug] === undefined ? 10 : this.productsPerPage[presetName.slug],
         };
 
         // eslint-disable-next-line no-await-in-loop
-        const response = await getProductsList(expandedMethod);
-        this.totalProducts[preset.slug] = response.count;
-        this.productList[preset.slug] = response.data;
-      }
+        const response = await getProductsList(expandedMoreMethod);
+        this.totalProducts[presetName.slug] = response.count;
+        this.productList[presetName.slug] = response.data;
+        this.componentProductsKey += 3;
+      } else {
+        // eslint-disable-next-line no-restricted-syntax
+        for (const preset of this.presets) {
+          const expandedMethod = {
+            filter: { published: true },
+          };
 
-      this.componentProductsKey += 3;
+          expandedMethod.include = ['organization', 'levels', 'directions'];
+
+          if (this.selectedOption === 'all') {
+            expandedMethod.filter.direction_ids = this.filterListData.direction_ids.map((filter) => filter.id);
+          }
+
+          if (this.filtersIdsData) {
+            // Логика парсинга выбранных фильтров на бэк, для получения отфильрованный товаров
+            Object.entries(this.filtersIdsData).forEach((filterData) => {
+              if (filterData[1].length === 0) {
+                expandedMethod.filter[filterData[0]] = this.filterListData[filterData[0]]?.map((filter) => filter.id);
+              } else {
+                const [key, value] = filterData;
+                expandedMethod.filter[key] = value;
+              }
+            });
+          }
+
+          expandedMethod.filter.level_ids = [preset.id];
+
+          if (this.filtersCheckboxDataRequest) {
+            // Логика парсинга чекбоксов, для получения отфильрованный товаров
+            Object.entries(this.filtersCheckboxDataRequest).forEach((checkboxData) => {
+              const [key, value] = checkboxData;
+              if (value) {
+                expandedMethod.filter[key] = value;
+              } else {
+                delete expandedMethod.filter[[key]];
+              }
+            });
+          }
+
+          expandedMethod.pagination = {
+            page: 1,
+            page_size: this.productsPerPage[preset.slug] === undefined ? 10 : this.productsPerPage[preset.slug],
+          };
+
+          // eslint-disable-next-line no-await-in-loop
+          const response = await getProductsList(expandedMethod);
+          this.totalProducts[preset.slug] = response.count;
+          this.productList[preset.slug] = response.data;
+
+          this.componentProductsKey += 3;
+        }
+      }
     },
 
     switchClick(item, isChecked) {
@@ -925,12 +976,18 @@ export default {
     await this.fetchProductsList();
   },
 
-  created() {
-    this.$parent.$on('change-option-from-parent', this.changeSelectOption);
-  },
-
   mounted() {
     this.$emit('form-ref', this.$refs.form);
+
+    this.filtersIdsData = {
+      direction_ids: [],
+      format_ids: [],
+      level_ids: [],
+      city_ids: [],
+      organization_ids: [],
+    };
+
+    this.filtersCheckboxDataRequest = {};
 
     const loadDataForm = this.$lander.storage.load('programform');
     if (loadDataForm) this.fieldsData = loadDataForm;
