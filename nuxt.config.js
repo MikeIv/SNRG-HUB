@@ -1,5 +1,3 @@
-// import shrinkRay from 'shrink-ray-current'
-
 /* eslint-disable max-len */
 export default {
   debug: true,
@@ -76,11 +74,6 @@ export default {
 
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,
-
-  //
-  // render: {
-  //   compressor: shrinkRay(),
-  // },
 
   // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
   buildModules: [
