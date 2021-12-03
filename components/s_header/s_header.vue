@@ -69,6 +69,7 @@ import './s_header.scss';
 import SMenuMain from '../s_menu_main/s_menu_main';
 import MenuHorizontal from '../menu_horizontal/menu_horizontal';
 import getBannersDetail from '~/api/bannersDetail';
+import { debounce } from '~/assets/js/debounce';
 
 export default {
   name: 'SHeader',
@@ -132,17 +133,7 @@ export default {
     },
 
     search() {
-      if (!this.search) {
-        this.search = '';
-        this.$emit('search', '');
-        window.history.pushState({}, null, `${window.location.pathname}`);
-      }
-      if (this.search.length >= 5) {
-        this.$emit('search', this.search.trim());
-        window.history.pushState({}, null, `${window.location.pathname}?search=${this.search.trim()}`);
-      } else if (this.search.length < 5) {
-        window.history.pushState({}, null, `${window.location.pathname}`);
-      }
+      this.debounceSearchListener();
     },
   },
 
@@ -169,6 +160,19 @@ export default {
   },
 
   methods: {
+    debounceSearchListener: debounce(function debounceHandler() {
+      if (!this.search) {
+        this.search = '';
+        this.$emit('search', '');
+        window.history.pushState({}, null, `${window.location.pathname}`);
+      }
+      if (this.search.length >= 5) {
+        this.$emit('search', this.search.trim());
+        window.history.pushState({}, null, `${window.location.pathname}?search=${this.search.trim()}`);
+      } else if (this.search.length < 5) {
+        window.history.pushState({}, null, `${window.location.pathname}`);
+      }
+    }, 500),
     onLogoClickHandler() {
       this.search = '';
       this.$emit('search', '');

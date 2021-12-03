@@ -155,13 +155,7 @@ export default {
     },
 
     onMoreButtonClick(category) {
-      // this.ids[category.name] = this.totalIds[category.name].slice(
-      //   this.perPage[category.name],
-      //   this.perPage[category.name] + this.productsPerPage,
-      // );
-      // this.perPage[category.name] += this.productsPerPage;
       this.perPage[category.name] += 50;
-      // this.productsPerPage += 50;
       this.fetchProductsList(category.name);
     },
 
