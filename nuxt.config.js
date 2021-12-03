@@ -1,3 +1,5 @@
+// import shrinkRay from 'shrink-ray-current'
+
 /* eslint-disable max-len */
 export default {
   debug: true,
@@ -36,14 +38,6 @@ export default {
       { rel: 'preconnect', href: 'https://mp.synergy.ru' },
       { rel: 'preconnect', href: 'https://connect.facebook.net' },
     ],
-    script: [
-      {
-        type: 'text/javascript',
-        // eslint-disable-next-line quotes
-        innerHTML: `(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({"gtm.start": new Date().getTime(),event:"gtm.js"});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!="dataLayer"?"&l="+l:"";j.async=true;j.src="https://www.googletagmanager.com/gtm.js?id="+i+dl;f.parentNode.insertBefore(j,f);})(window,document,"script","dataLayer","GTM-WPTVBRG");`,
-      },
-    ],
-    __dangerouslyDisableSanitizers: ['script'],
   },
 
   // Global CSS: https://go.nuxtjs.dev/config-css
@@ -75,10 +69,16 @@ export default {
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,
 
+  //
+  // render: {
+  //   compressor: shrinkRay(),
+  // },
+
   // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
   buildModules: [
     // https://go.nuxtjs.dev/stylelint
     '@nuxtjs/stylelint-module',
+    'nuxt-compress',
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules

@@ -2,9 +2,9 @@
   <div>
     <header class="s-header-lp l-wide" :class="{ fixed: isScrolled, fixedMobile: isIconInHeader }">
       <div class="s-header-lp__left">
-        <nuxt-link to="/" class="s-header__logo-link">
+        <div class="s-header__logo-link">
           <img class="s-header-lp__logo" src="/logo-with-text.svg" />
-        </nuxt-link>
+        </div>
       </div>
       <div class="s-header-lp__right">
         <i
