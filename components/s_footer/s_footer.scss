@@ -9,5 +9,8 @@
       padding-top: var(--a-padding--x5);
       padding-bottom: var(--a-padding--x5);
     }
+    @media screen and (max-width: 767px) {
+      padding-bottom: rem(80);
+    }
   }
 }

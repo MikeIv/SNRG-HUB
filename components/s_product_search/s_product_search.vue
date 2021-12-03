@@ -155,11 +155,7 @@ export default {
     },
 
     onMoreButtonClick(category) {
-      this.ids[category.name] = this.totalIds[category.name].slice(
-        this.perPage[category.name],
-        this.perPage[category.name] + this.productsPerPage,
-      );
-      this.perPage[category.name] += this.productsPerPage;
+      this.perPage[category.name] += 50;
       this.fetchProductsList(category.name);
     },
 
@@ -178,12 +174,24 @@ export default {
       const searchedData = await getSearchProducts(expandedMethod);
       this.totalItems = searchedData.total;
       this.categories = searchedData.data.search_results;
+      const searchResults = searchedData.data.search_results;
+      searchResults.sort((a, b) => {
+        if (a.name < b.name) {
+          return -1;
+        }
+        if (a.name > b.name) {
+          return 1;
+        }
+        return 0;
+      });
 
-      this.presets = [{ name: 'Все', count: searchedData.total }, ...searchedData.data.search_results];
+      this.presets = [{ name: 'Все', count: searchedData.total }, ...searchResults];
+
       this.categories.forEach((category) => {
         this.perPage[category.name] = this.productsPerPage;
         this.totalIds[category.name] = category.product_ids;
       });
+      console.log('this.totalIds', this.totalIds);
       await this.fetchProductsList();
     },
 
@@ -191,14 +199,15 @@ export default {
       if (categoryName) {
         const expandedProductsMoreMethod = {
           filter: {
-            ids: this.ids[categoryName],
+            ids: this.totalIds[categoryName],
           },
           include: ['levels', 'organization'],
+          pagination: { page_size: this.perPage[categoryName], page: 1 },
         };
 
         const newCards = await getProductsList(expandedProductsMoreMethod);
         const selectedProducts = this.productsList.find((products) => products.name === categoryName);
-        this.$set(selectedProducts, 'products', [...selectedProducts.products, ...newCards.data]);
+        this.$set(selectedProducts, 'products', [...newCards.data]);
 
         this.loading = false;
       } else {
@@ -207,13 +216,23 @@ export default {
 
           const expandedProductsMethod = {
             filter: {
-              ids: this.ids[category.name],
+              ids: this.totalIds[category.name],
             },
             include: ['levels', 'organization'],
+            pagination: { page_size: this.productsPerPage, page: 1 },
           };
 
           const cards = await getProductsList(expandedProductsMethod);
           this.productsList.push({ products: cards.data, name: category.name, count: category.count });
+          this.productsList.sort((a, b) => {
+            if (a.name < b.name) {
+              return -1;
+            }
+            if (a.name > b.name) {
+              return 1;
+            }
+            return 0;
+          });
         });
 
         this.loading = false;
