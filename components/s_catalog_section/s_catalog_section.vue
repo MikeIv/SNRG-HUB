@@ -73,6 +73,9 @@ export default {
     'categoryId',
     'productsPerPage',
     'entity_page',
+    'currentOption',
+    'options',
+    'filtersMenu',
   ],
 
   components: {
@@ -100,7 +103,7 @@ export default {
         is_employment: false,
         is_installment: false,
       },
-      filtersMenu: false,
+      // filtersMenu: false,
       page: 1,
       componentProductsKey: 10,
       componentFilterKey: 100,
@@ -108,25 +111,25 @@ export default {
 
       selectedFilters: [],
 
-      currentOption: 'sort',
-      options: [
-        {
-          label: 'Популярные',
-          value: 'sort',
-        },
-        {
-          label: 'Новые',
-          value: '-id',
-        },
-        {
-          label: 'По алфавиту А-Я',
-          value: 'name',
-        },
-        {
-          label: 'По алфавиту Я-А',
-          value: '-name',
-        },
-      ],
+      // currentOption: 'sort',
+      // options: [
+      //   {
+      //     label: 'Популярные',
+      //     value: 'sort',
+      //   },
+      //   {
+      //     label: 'Новые',
+      //     value: '-id',
+      //   },
+      //   {
+      //     label: 'По алфавиту А-Я',
+      //     value: 'name',
+      //   },
+      //   {
+      //     label: 'По алфавиту Я-А',
+      //     value: '-name',
+      //   },
+      // ],
     };
   },
 
@@ -323,15 +326,15 @@ export default {
     },
 
     menuToggle(value) {
-      this.filtersMenu = value;
+      this.$emit('menu-toggle', value);
     },
 
     changeSortOption(option) {
-      this.options = [
+      const options = [
         { label: this.options.find((elem) => elem.value === option).label, value: option },
         ...this.options.filter((elem) => elem.value !== option),
       ];
-      this.currentOption = option;
+      this.$emit('change-sort-options', options, option);
     },
 
     clearAllFilters() {
@@ -364,7 +367,7 @@ export default {
     },
 
     filtersIconClickHandler() {
-      this.filtersMenu = true;
+      this.$emit('menu-toggle', true);
     },
   },
 

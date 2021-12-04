@@ -11,10 +11,15 @@
         :slugs="slugs"
         :categoryId="categoryId"
         :key="mainCatalogKey"
+        :currentOption="currentOption"
+        :options="options"
+        :filtersMenu="filtersMenu"
         @slug="parseSlugToUrl"
         @clear-filters="clearAllFilters"
         @on-filter-click="filterClickHandler"
         @delete-filter-tag="filterClickHandler"
+        @change-sort-options="changeSortOptions"
+        @menu-toggle="menuToggle"
       />
     </div>
     <SQuiz :quizId="2" class="catalog-page__quiz" />
@@ -33,7 +38,7 @@ export default {
     SCatalogSection,
     SQuiz,
   },
-  props: ['pageInfo'],
+  props: ['pageInfo', 'currentOption', 'options', 'filtersMenu'],
 
   data() {
     return {
@@ -62,6 +67,14 @@ export default {
   },
 
   methods: {
+    menuToggle(value) {
+      this.$emit('menu-toggle', value);
+    },
+
+    changeSortOptions(options, option) {
+      this.$emit('change-sort-options', options, option);
+    },
+
     filterClickHandler(filtersIdsData, filterListData) {
       Object.entries(filtersIdsData).forEach(([filterKey, filterIds]) => {
         if (filterIds.length === 1) {
