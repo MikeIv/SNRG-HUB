@@ -2,7 +2,7 @@
   <div :class="this.$route.name === 'organization-slug' ? 'catalog-page__section' : ''">
     <h2 class="a-font_h2" v-if="title">
       {{ title }}
-      <sup class="catalog-page__header-total a-font_L"> {{ totalProducts }} программ</sup>
+      <sup class="catalog-page__header-total a-font_L"> {{ totalProducts }} заведений</sup>
     </h2>
     <s-catalog-presets :presets="presets" :has-presets="hasPresets" :filters-ids-data="filtersIdsData" />
     <s-catalog-menu
@@ -28,7 +28,7 @@
         @select-filter="selectFilter"
         @switch-click="switchClick"
       />
-      <s-catalog-product-list
+      <s-organizations-product-list
         :productList="productList"
         :totalProducts="totalProducts"
         :page="page"
@@ -45,23 +45,23 @@
           @filters-icon-click="filtersIconClickHandler"
           @change-sort-option="changeSortOption"
         />
-      </s-catalog-product-list>
+      </s-organizations-product-list>
     </div>
   </div>
 </template>
 
 <script>
 import SCatalogFilter from '~/components/s_catalog_filter/s_catalog_filter';
-import SCatalogProductList from '~/components/s_catalog_product_list/s_catalog_product_list';
 import SCatalogPresets from '~/components/s_catalog_presets/s_catalog_presets';
 import SCatalogTags from '~/components/s_catalog_tags/s_catalog_tags';
 import SCatalogMenu from '~/components/s_catalog_menu/s_catalog_menu';
-import getProductsList from '~/api/products_list';
-import getFilterData from '~/api/filter_data';
-import './s_catalog_section.scss';
+import getOrganizationsList from '~/api/organizationsList';
+import getOrganizationsCatalogFilter from '~/api/organizationsCatalogFilter';
+import '../s_catalog_section/s_catalog_section.scss';
+import SOrganizationsProductList from '~/components/s_organizations_product_list/s_organizations_product_list';
 
 export default {
-  name: 'SCatalogSection',
+  name: 'SOrganizationSection',
 
   props: [
     'title',
@@ -81,7 +81,7 @@ export default {
   components: {
     SCatalogTags,
     SCatalogPresets,
-    SCatalogProductList,
+    SOrganizationsProductList,
     SCatalogFilter,
     SCatalogMenu,
   },
@@ -93,15 +93,14 @@ export default {
       filterListData: {},
       filterCheckboxData: {},
       filtersIdsData: {
-        direction_ids: [],
-        format_ids: [],
-        level_ids: [],
         city_ids: [],
-        organization_ids: [],
+        direction_ids: [],
+        level_ids: [],
+        format_ids: [],
       },
       filtersCheckboxDataRequest: {
-        is_employment: false,
-        is_installment: false,
+        is_military_center: false,
+        is_hostel: false,
       },
       page: 1,
       componentProductsKey: 10,
@@ -144,18 +143,18 @@ export default {
     },
 
     filtersCheckboxDataRequest: {
-      deep: true,
       handler() {
         this.pageMain = 1;
         this.componentProductsKey += 3;
         this.fetchProductsList();
       },
+      deep: true,
     },
   },
 
   methods: {
     async fetchFilterData() {
-      const filtersResponse = await getFilterData();
+      const filtersResponse = await getOrganizationsCatalogFilter();
 
       filtersResponse.forEach((filters) => {
         // Если мы передаем дефолтные фильтры, то мы выбираем фильтры, тэги и отправляем на бэк
@@ -223,8 +222,6 @@ export default {
         filter: { published: true },
       };
 
-      expandedMethod.include = ['organization', 'levels', 'directions'];
-
       // Логика парсинга выбранных фильтров на бэк, для получения отфильрованный товаров
       Object.entries(this.filtersIdsData).forEach((filterData) => {
         if (filterData[1].length === 0) {
@@ -259,7 +256,9 @@ export default {
 
       expandedMethod.pagination = { page: this.page, page_size: this.productsPerPage };
       expandedMethod.sort = this.currentOption;
-      const response = await getProductsList(expandedMethod);
+
+      const response = await getOrganizationsList(expandedMethod);
+
       this.totalProducts = response.count;
       this.productList = response.data;
     },

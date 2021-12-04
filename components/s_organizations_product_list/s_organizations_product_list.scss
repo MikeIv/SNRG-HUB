@@ -1,0 +1,30 @@
+@import '/assets/styles/tools/mixins';
+
+.catalog-product-list {
+  &__item {
+    .m-card-program__label {
+      color: var(--a-color_text--secondary);
+    }
+  }
+}
+
+.organizations-product-list__item-wrapper {
+  display: flex;
+  width: 100%;
+  max-width: calc((100% / 2) - rem(20));
+  margin: 0 rem(10) rem(20);
+  text-decoration: none;
+
+  @media screen and (max-width: 1200px) {
+    max-width: 100%;
+  }
+
+  @media screen and (max-width: 767px) {
+    max-width: calc((100% / 2) - rem(20));
+    margin-bottom: rem(16);
+  }
+
+  @media screen and (max-width: 650px) {
+    max-width: 100%;
+  }
+}

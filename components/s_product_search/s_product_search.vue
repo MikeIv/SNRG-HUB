@@ -191,7 +191,6 @@ export default {
         this.perPage[category.name] = this.productsPerPage;
         this.totalIds[category.name] = category.product_ids;
       });
-      console.log('this.totalIds', this.totalIds);
       await this.fetchProductsList();
     },
 
