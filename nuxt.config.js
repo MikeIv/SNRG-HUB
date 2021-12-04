@@ -11,6 +11,7 @@ export default {
       { hid: 'keywords', name: 'keywords', content: '' },
       { name: 'theme-color', content: '#fff' },
       { name: 'apple-mobile-web-app-status-bar-style', content: 'black-translucent' },
+      { name: 'facebook-domain-verification', content: 'atdvtw6d85otyx0d40jrqjmjjr1iq3' },
     ],
     link: [
       { rel: 'shortcut icon', type: 'image/x-icon', href: '/favicon.ico' },
@@ -78,6 +79,7 @@ export default {
   buildModules: [
     // https://go.nuxtjs.dev/stylelint
     '@nuxtjs/stylelint-module',
+    'nuxt-compress',
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules

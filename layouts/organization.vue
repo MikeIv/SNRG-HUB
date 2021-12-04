@@ -12,6 +12,7 @@
     <LazyHydrate when-visible>
       <SFooter />
     </LazyHydrate>
+    <MobileButton />
   </div>
 </template>
 
@@ -19,6 +20,7 @@
 import LazyHydrate from 'vue-lazy-hydration';
 import SHeader from '~/components/s_header/s_header';
 import SProductSearch from '~/components/s_product_search/s_product_search';
+import MobileButton from '~/components/mobile_button/mobile_button';
 
 export default {
   head() {
@@ -38,6 +40,7 @@ export default {
     LazyHydrate,
     SProductSearch,
     SHeader,
+    MobileButton,
   },
 
   data() {
@@ -50,6 +53,12 @@ export default {
     clearSearch() {
       this.search = '';
     },
+  },
+
+  mounted() {
+    if (this.$route.query.search) {
+      this.search = this.$route.query.search;
+    }
   },
 };
 </script>

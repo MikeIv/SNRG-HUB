@@ -6,7 +6,7 @@ export default (context, inject) => {
   // Объект набора валидаторов
   const typesValid = {
     email(value) {
-      return /^([a-z0-9_-]+\.)*[a-z0-9_-]+@[a-z0-9_-]+(\.[a-z0-9_-]+)*\.[a-z]{2,6}$/.test(value);
+      return /^([a-z0-9_-]+\.)*[a-z0-9_-]+@[a-z0-9_-]+(\.[a-z0-9_-]+)*\.[a-z]{2,6}$/.test(value.toLowerCase());
     },
   };
 

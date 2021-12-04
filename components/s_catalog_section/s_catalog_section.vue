@@ -103,33 +103,12 @@ export default {
         is_employment: false,
         is_installment: false,
       },
-      // filtersMenu: false,
       page: 1,
       componentProductsKey: 10,
       componentFilterKey: 100,
       componentMenuKey: 1000,
 
       selectedFilters: [],
-
-      // currentOption: 'sort',
-      // options: [
-      //   {
-      //     label: 'Популярные',
-      //     value: 'sort',
-      //   },
-      //   {
-      //     label: 'Новые',
-      //     value: '-id',
-      //   },
-      //   {
-      //     label: 'По алфавиту А-Я',
-      //     value: 'name',
-      //   },
-      //   {
-      //     label: 'По алфавиту Я-А',
-      //     value: '-name',
-      //   },
-      // ],
     };
   },
 

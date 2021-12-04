@@ -52,6 +52,8 @@
 
 <script>
 import { MForm, AInput } from '@cwespb/synergyui';
+import sendContactForm from '~/api/sendContactForm';
+
 import './s_contacts_form.scss';
 
 export default {
@@ -84,10 +86,19 @@ export default {
 
     this.validFlag = this.$lander.valid(dataForm);
   },
+
   methods: {
-    sendForm() {
-      this.$lander.send(this.fieldsData);
+    async sendForm() {
+      const requestData = {
+        name: this.fieldsData.name,
+        email: this.fieldsData.email,
+        message: this.fieldsData.question,
+      };
+
+      await sendContactForm(requestData);
+      await this.$router.push('/thanks');
     },
+
     handlerSave() {
       const dataToSend = { ...this.fieldsData };
       delete dataToSend.comments;

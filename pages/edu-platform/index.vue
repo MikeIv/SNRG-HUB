@@ -2,10 +2,9 @@
   <div>
     <header class="s-header-lp l-wide" :class="{ fixed: isScrolled, fixedMobile: isIconInHeader }">
       <div class="s-header-lp__left">
-        <nuxt-link to="/" class="s-header__logo-link">
-          <img class="s-header-lp__logo" :src="logoURL" />
+        <nuxt-link to="/" class="s-header__logo-link" no-prefetch>
+          <img class="s-header-lp__logo" src="/logo-with-text.svg" />
         </nuxt-link>
-        <h3 class="a-font_XL s-header-lp__left-text">Образовательная платформа</h3>
       </div>
       <div class="s-header-lp__right">
         <i
@@ -53,17 +52,6 @@
                   v-model="fieldsData.name"
                   placeholder="Имя"
                 />
-                <!-- <a-input
-                  type="phone"
-                  class="m-form__input"
-                  @validate="validatePhone"
-                  v-model="fieldsData.phone"
-                  @input="
-                    handlerSave();
-                    validFormData();
-                  "
-                  placeholder="Телефон"
-                /> -->
                 <vue-tel-input
                   class="m-form__input"
                   v-bind="vueTelOpts"
@@ -105,17 +93,6 @@
                 "
                 v-model="fieldsData.name"
               />
-              <!-- <a-input
-                type="phone"
-                placeholder="Телефон"
-                class="banner-lp__content-mobile_input"
-                @validate="validatePhone"
-                v-model="fieldsData.phone"
-                @input="
-                  handlerSave();
-                  validFormData();
-                "
-              /> -->
               <vue-tel-input
                 class="m-form__input"
                 v-bind="vueTelOpts"
@@ -139,7 +116,7 @@
                 @change="isChecked = !isChecked"
                 typeBtn="checkbox"
                 typeCtrl="checkbox"
-                title="Я даю согласие на обработку..."
+                title="Нажимая на кнопку, я соглашаюсь с политикой конфиденциальности и на получение рассылок"
                 labelPosition="right"
               />
             </div>
@@ -229,12 +206,14 @@ export default {
         href: '',
         text: '',
       },
+      maxPhoneLength: 16,
       vueTelOpts: {
         mode: 'international',
         preferredCountries: ['RU', 'US'],
         wrapperClasses: '',
         inputClasses: '',
         autoFormat: true,
+        defaultCountry: 'RU',
         inputOptions: {
           inputClasses: 'a-input a-input--large a-input--base',
           showDialCode: false,
@@ -261,7 +240,7 @@ export default {
       },
 
       validPhone: false,
-      isChecked: false,
+      isChecked: true,
 
       applicationPopup: false,
     };

@@ -43,7 +43,7 @@ export default {
       baseURL: process.env.NUXT_ENV_S3BACKET,
     };
   },
-  props: ['methods'],
+  props: ['methods', 'title'],
 
   async fetch() {
     this.methods.forEach((item) => {
