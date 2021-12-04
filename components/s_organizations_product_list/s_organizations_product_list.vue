@@ -7,7 +7,7 @@
         v-for="product in productList"
         :to="`/organization/${product.slug}`"
         :key="product.id"
-        class="catalog-product-list__item-wrapper"
+        class="catalog-product-list__item-wrapper organizations-product-list__item-wrapper"
       >
         <m-card
           type="program"

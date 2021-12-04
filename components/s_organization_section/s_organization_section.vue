@@ -2,7 +2,7 @@
   <div :class="this.$route.name === 'organization-slug' ? 'catalog-page__section' : ''">
     <h2 class="a-font_h2" v-if="title">
       {{ title }}
-      <sup class="catalog-page__header-total a-font_L"> {{ totalProducts }}</sup>
+      <sup class="catalog-page__header-total a-font_L"> {{ totalProducts }} заведений</sup>
     </h2>
     <s-catalog-presets :presets="presets" :has-presets="hasPresets" :filters-ids-data="filtersIdsData" />
     <s-catalog-menu
@@ -58,7 +58,6 @@ import SCatalogMenu from '~/components/s_catalog_menu/s_catalog_menu';
 import getOrganizationsList from '~/api/organizationsList';
 import getOrganizationsCatalogFilter from '~/api/organizationsCatalogFilter';
 import '../s_catalog_section/s_catalog_section.scss';
-import './s_organization_section.scss';
 import SOrganizationsProductList from '~/components/s_organizations_product_list/s_organizations_product_list';
 
 export default {

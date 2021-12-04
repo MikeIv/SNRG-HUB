@@ -29,8 +29,8 @@
 <script>
 import SOrganizationSection from '~/components/s_organization_section/s_organization_section';
 import SQuiz from '~/components/s_quiz/s_quiz';
+import '../s_catalog/s_catalog.scss';
 import getFiltersProductPresets from '~/api/filtersProductsPresets';
-import './s_organizations.scss';
 
 export default {
   name: 'SOrganizations',
