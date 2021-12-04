@@ -1,5 +1,8 @@
 <template>
   <div>
+    <noscript
+      ><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-WPTVBRG" height="0" width="0"></iframe
+    ></noscript>
     <SHeader
       @search="search = $event"
       :catalog="true"
@@ -8,9 +11,8 @@
       @menu-toggle="menuToggle"
     />
     <SProductSearch v-if="search" :search="search" @search-clear="clearSearch" />
-    <s-catalog
+    <s-organizations
       v-else
-      :pageInfo="pageInfo"
       :currentOption="currentOption"
       :options="options"
       :filtersMenu="filtersMenu"
@@ -20,42 +22,24 @@
     <LazyHydrate when-visible>
       <SFooter />
     </LazyHydrate>
-    <MobileButton />
   </div>
 </template>
 
 <script>
 import LazyHydrate from 'vue-lazy-hydration';
+import SOrganizations from '~/components/s_organizations/s_organizations';
 import SHeader from '~/components/s_header/s_header';
-import SCatalog from '~/components/s_catalog/s_catalog';
-import MobileButton from '~/components/mobile_button/mobile_button';
 import SProductSearch from '~/components/s_product_search/s_product_search';
 
 export default {
-  middleware: ['getPageInfo', 'parseUtms'],
-
   layout: 'empty',
-
-  components: {
-    MobileButton,
-    SHeader,
-    SProductSearch,
-    SCatalog,
-    SFooter: () => import('~/components/s_footer/s_footer'),
-    LazyHydrate,
-  },
 
   data() {
     return {
-      title: 'Catalog page',
       search: '',
       filtersMenu: false,
-      currentOption: 'sort',
+      currentOption: '-id',
       options: [
-        {
-          label: 'Популярные',
-          value: 'sort',
-        },
         {
           label: 'Новые',
           value: '-id',
@@ -68,55 +52,35 @@ export default {
           label: 'По алфавиту Я-А',
           value: '-name',
         },
+        {
+          label: 'По адресу +',
+          value: 'address',
+        },
+        {
+          label: 'По адресу -',
+          value: '-address',
+        },
       ],
     };
-  },
-
-  computed: {
-    pageInfo() {
-      return this.$store.state.pageInfo;
-    },
-    pageMeta() {
-      return this.$store.state.pageMeta;
-    },
   },
 
   head() {
     return {
-      title: this.pageMeta?.title,
-      meta: [
+      link: [
         {
-          hid: 'keywords',
-          name: 'keywords',
-          content: this.pageMeta?.keywords,
-        },
-        {
-          hid: 'description',
-          name: 'description',
-          content: this.pageMeta?.description,
-        },
-        {
-          hid: 'og:type',
-          name: 'og:type',
-          content: 'website',
-        },
-        {
-          hid: 'og:title',
-          name: 'og:title',
-          content: this.pageMeta?.title,
-        },
-        {
-          hid: 'og:site_name',
-          name: 'og:site_name',
-          content: 'Synergyeducation',
-        },
-        {
-          hid: 'og:description',
-          name: 'og:description',
-          content: this.pageMeta?.description,
+          rel: 'canonical',
+          href: `${this.$config.SITE_URL}${this.$route.path}`,
         },
       ],
     };
+  },
+
+  components: {
+    SHeader,
+    SProductSearch,
+    SFooter: () => import('~/components/s_footer/s_footer'),
+    LazyHydrate,
+    SOrganizations,
   },
 
   methods: {

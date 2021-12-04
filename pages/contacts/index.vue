@@ -3,18 +3,15 @@
     <LazyHydrate v-for="section in sections" :key="section" when-visible>
       <component :is="section"></component>
     </LazyHydrate>
-    <MobileButton />
   </div>
 </template>
 
 <script>
 import LazyHydrate from 'vue-lazy-hydration';
-import MobileButton from '~/components/mobile_button/mobile_button';
 
 export default {
   components: {
     LazyHydrate,
-    MobileButton,
   },
 
   // middleware: 'getPageInfo',

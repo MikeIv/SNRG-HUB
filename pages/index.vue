@@ -3,20 +3,17 @@
     <LazyHydrate :key="id" v-for="{ key, methods, title, id, view_type } in pageInfo.components" when-visible>
       <component :is="key" :methods="methods" :title="title" :viewType="view_type"></component>
     </LazyHydrate>
-    <MobileButton />
   </main>
 </template>
 
 <script>
 import LazyHydrate from 'vue-lazy-hydration';
-import MobileButton from '~/components/mobile_button/mobile_button';
 
 export default {
   middleware: ['getPageInfo', 'parseUtms'],
 
   components: {
     LazyHydrate,
-    MobileButton,
   },
   data() {
     return {

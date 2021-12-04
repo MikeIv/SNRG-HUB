@@ -2,7 +2,7 @@
   <div>
     <header class="s-header-lp l-wide" :class="{ fixed: isScrolled, fixedMobile: isIconInHeader }">
       <div class="s-header-lp__left">
-        <nuxt-link to="/" class="s-header__logo-link">
+        <nuxt-link to="/" class="s-header__logo-link" no-prefetch>
           <img class="s-header-lp__logo" src="/logo-with-text.svg" />
         </nuxt-link>
       </div>
@@ -116,7 +116,7 @@
                 @change="isChecked = !isChecked"
                 typeBtn="checkbox"
                 typeCtrl="checkbox"
-                title="Я даю согласие на обработку..."
+                title="Нажимая на кнопку, я соглашаюсь с политикой конфиденциальности и на получение рассылок"
                 labelPosition="right"
               />
             </div>
@@ -240,7 +240,7 @@ export default {
       },
 
       validPhone: false,
-      isChecked: false,
+      isChecked: true,
 
       applicationPopup: false,
     };

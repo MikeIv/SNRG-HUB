@@ -77,6 +77,7 @@ export default {
           nextEl: '.s-main-topics__next',
           prevEl: '.s-main-topics__prev',
         },
+        speed: 600,
         breakpoints: {
           767: {
             spaceBetween: 20,

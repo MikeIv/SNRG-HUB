@@ -47,10 +47,6 @@ export default {
         city_ids: 'Все города',
         organization_ids: 'Все заведения',
       },
-      switchControl: {
-        is_employment: false,
-        is_installment: false,
-      },
     };
   },
 

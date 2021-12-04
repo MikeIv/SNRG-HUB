@@ -1,8 +1,8 @@
 <template>
   <div>
-    <div class="l-wide catalog-page">
-      <s-catalog-section
-        title="Программы обучения"
+    <div class="l-wide catalog-page organizations-page">
+      <s-organization-section
+        title="Учебные заведения"
         :hasPresets="presets.length"
         :presets="presets"
         :products-per-page="24"
@@ -27,15 +27,15 @@
 </template>
 
 <script>
-import SCatalogSection from '~/components/s_catalog_section/s_catalog_section';
+import SOrganizationSection from '~/components/s_organization_section/s_organization_section';
 import SQuiz from '~/components/s_quiz/s_quiz';
+import '../s_catalog/s_catalog.scss';
 import getFiltersProductPresets from '~/api/filtersProductsPresets';
-import './s_catalog.scss';
 
 export default {
-  name: 'SCatalog',
+  name: 'SOrganizations',
   components: {
-    SCatalogSection,
+    SOrganizationSection,
     SQuiz,
   },
   props: ['pageInfo', 'currentOption', 'options', 'filtersMenu'],
@@ -183,7 +183,7 @@ export default {
     },
 
     clearAllFilters() {
-      this.$router.push('/catalog');
+      this.$router.push('/organizations');
     },
 
     async fetchFilterPresets() {

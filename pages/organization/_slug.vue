@@ -7,15 +7,18 @@
         :title="title"
         :products-per-page="16"
         :entity_page="pageInfo.entity_page"
+        :options="options"
+        :filtersMenu="filtersMenu"
+        :currentOption="currentOption"
+        @change-sort-options="changeSortOptions"
+        @menu-toggle="menuToggle"
       ></component>
     </LazyHydrate>
-    <MobileButton />
   </div>
 </template>
 
 <script>
 import LazyHydrate from 'vue-lazy-hydration';
-import MobileButton from '~/components/mobile_button/mobile_button';
 
 export default {
   layout: 'organization',
@@ -23,8 +26,29 @@ export default {
   data() {
     return {
       title: 'Organization page',
+      filtersMenu: false,
+      currentOption: 'sort',
+      options: [
+        {
+          label: 'Популярные',
+          value: 'sort',
+        },
+        {
+          label: 'Новые',
+          value: '-id',
+        },
+        {
+          label: 'По алфавиту А-Я',
+          value: 'name',
+        },
+        {
+          label: 'По алфавиту Я-А',
+          value: '-name',
+        },
+      ],
     };
   },
+
   computed: {
     pageInfo() {
       return this.$store.state.pageInfo;
@@ -33,6 +57,18 @@ export default {
       return this.$store.state.pageMeta;
     },
   },
+
+  methods: {
+    menuToggle(value) {
+      this.filtersMenu = value;
+    },
+
+    changeSortOptions(options, option) {
+      this.options = options;
+      this.currentOption = option;
+    },
+  },
+
   head() {
     return {
       title: this.pageMeta?.title,
@@ -76,7 +112,6 @@ export default {
 
   components: {
     LazyHydrate,
-    MobileButton,
   },
 
   middleware: ['getPageInfo', 'parseUtms'],

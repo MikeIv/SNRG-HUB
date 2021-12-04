@@ -6,5 +6,5 @@ const axios = axiosCreate();
 
 export default async function getOrganizationsList(requestData) {
   const response = await axios.post('api/v1/organizations/list', requestData);
-  return response.data.data;
+  return response.data;
 }

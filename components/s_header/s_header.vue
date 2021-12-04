@@ -51,6 +51,18 @@
               <a-button label="Войти" bgColor="ghost-accept"></a-button>
             </a>
           </div>
+          <template v-if="catalog && isScrolled">
+            <div class="s-header__catalog-icons">
+              <a-select :options="options" class="catalog-page__select" @change="changeSortOption" />
+              <i
+                class="si-filter a-font_button catalog-page__filters-icon"
+                tabindex="0"
+                @click="filtersIconClickHandler"
+              >
+                <span class="a-font_button">Фильтры</span>
+              </i>
+            </div>
+          </template>
         </div>
         <div class="s-header__bottom">
           <div class="l-wide">
@@ -64,14 +76,29 @@
 </template>
 
 <script>
-import { AInput, AButton, MBanner } from '@cwespb/synergyui';
+import {
+  AInput, AButton, MBanner, ASelect,
+} from '@cwespb/synergyui';
 import './s_header.scss';
 import SMenuMain from '../s_menu_main/s_menu_main';
 import MenuHorizontal from '../menu_horizontal/menu_horizontal';
 import getBannersDetail from '~/api/bannersDetail';
+import { debounce } from '~/assets/js/debounce';
 
 export default {
   name: 'SHeader',
+
+  props: {
+    catalog: {
+      type: Boolean,
+      default: false,
+    },
+
+    options: {
+      type: Array,
+    },
+  },
+
   data() {
     return {
       baseUrl: process.env.NUXT_ENV_S3BACKET,
@@ -95,6 +122,7 @@ export default {
     MenuHorizontal,
     SMenuMain,
     MBanner,
+    ASelect,
   },
 
   async fetch() {
@@ -132,16 +160,12 @@ export default {
     },
 
     search() {
-      if (!this.search) {
-        this.search = '';
-        this.$emit('search', '');
-      }
+      this.debounceSearchListener();
     },
   },
 
   mounted() {
     window.addEventListener('scroll', this.handleScroll);
-
     this.$nextTick(() => {
       const vh = window.innerHeight * 0.01;
       document.documentElement.style.setProperty('--vh', `${vh}px`);
@@ -152,6 +176,9 @@ export default {
     });
 
     document.getElementById('search').addEventListener('keypress', this.handleSearch);
+
+    this.search = this.$route.query.search;
+    this.handleScroll();
   },
 
   beforeDestroy() {
@@ -160,6 +187,32 @@ export default {
   },
 
   methods: {
+    changeSortOption(option) {
+      const options = [
+        { label: this.options.find((elem) => elem.value === option).label, value: option },
+        ...this.options.filter((elem) => elem.value !== option),
+      ];
+
+      this.$emit('change-sort-option', options, option);
+    },
+
+    filtersIconClickHandler() {
+      this.$emit('menu-toggle', true);
+    },
+
+    debounceSearchListener: debounce(function debounceHandler() {
+      if (!this.search) {
+        this.search = '';
+        this.$emit('search', '');
+        window.history.pushState({}, null, `${window.location.pathname}`);
+      }
+      if (this.search.length >= 5) {
+        this.$emit('search', this.search.trim());
+        window.history.pushState({}, null, `${window.location.pathname}?search=${this.search.trim()}`);
+      } else if (this.search.length < 5) {
+        window.history.pushState({}, null, `${window.location.pathname}`);
+      }
+    }, 500),
     onLogoClickHandler() {
       this.search = '';
       this.$emit('search', '');
@@ -168,6 +221,7 @@ export default {
     handleSearch(e) {
       if (e.key === 'Enter') {
         this.$emit('search', this.search.trim());
+        window.history.pushState({}, null, `${window.location.pathname}?search=${this.search.trim()}`);
       }
     },
 
@@ -185,7 +239,11 @@ export default {
       switch (true) {
         case this.scrollTop > headerHeight:
           this.isScrolled = true;
-          mainWrapper.classList.add('js-fixed');
+          if (this.catalog) {
+            mainWrapper.classList.add('js-fixed-catalog');
+          } else {
+            mainWrapper.classList.add('js-fixed');
+          }
 
           this.isVisible = (this.scrollTop > startPos && clientHeight < this.$store.state.quizInfo.top)
             || (this.scrollTop > startPos && this.scrollTop > quizScrollTop);
@@ -194,7 +252,7 @@ export default {
         default:
           this.isScrolled = false;
           this.isVisible = false;
-          mainWrapper.classList.remove('js-fixed');
+          mainWrapper.classList.remove('js-fixed', 'js-fixed-catalog');
           break;
       }
     },

@@ -43,6 +43,7 @@
 
   &__select {
     z-index: 2;
+    min-width: rem(200);
     @media screen and (max-width: 767px) {
       margin-right: auto;
     }
