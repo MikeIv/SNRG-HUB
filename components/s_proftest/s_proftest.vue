@@ -15,7 +15,7 @@
               <img :src="require(`~/assets/images/${Img}`)" alt="Тест" class="s-proftest__img" />
             </div>
           </div>
-          <div class="s-proftest__info" v-if="!quizeShow">
+          <div class="s-proftest__info" v-if="authorization">
             <p class="s-proftest__info-description" v-html="infoAdd"></p>
             <a href="#" class="s-proftest__link" v-html="linkSign"></a>
             <p class="s-proftest__info-description">или</p>
@@ -30,6 +30,7 @@
           :questions="questions"
           @onSendQuizForm="sendRouteParams"
           @isQuizComplete="isQuizComplete"
+          @set-question="changeHandler"
         />
       </div>
 
@@ -37,34 +38,30 @@
         <div class="s-proftest__content">
           <div class="s-proftest__left-col">
             <p class="s-proftest__subtitle">{{ resultSubtitle }}</p>
-            <h2 class="s-proftest__title">{{ mindType.title }}</h2>
+            <h2 class="s-proftest__title">{{ mindType.name }}</h2>
             <p class="s-proftest__description" v-html="mindType.description"></p>
             <AButton class="s-proftest__btn" label="Пройти еще раз" @click="getReQuiz" />
           </div>
           <div class="s-proftest__right-col">
             <div class="s-proftest__img-block">
-              <img :src="require(`~/assets/images/${mindType.resultImg}`)" alt="Тест" class="s-proftest__img" />
+              <img :src="`${baseURL}${mindType.image}`" alt="Тест" class="s-proftest__img" />
             </div>
           </div>
         </div>
       </div>
 
       <div class="s-proftest__wrapper" v-if="quizComplete">
-        <swiper ref="awesomeSwiper" :options="swiperOptionA">
-          <swiper-slide v-for="product in productsList" :key="product.id">
-            <nuxt-link :to="'/'" class="s-main-programs__wrapper" v-if="productsList && productsList.length > 0">
-              <m-card
-                :title="product.title"
-                :bottomText="product.bottomText"
-                :name="product.name"
-                :description="product.description"
-                :iconSrc="require(`~/static/${product.iconSrc}`)"
-                :verticalImgSrc="require(`~/assets/images/${product.verticalImgSrc}`)"
-                type="program"
+        <div class="s-proftest__cards">
+          <div class="s-proftest__card" v-for="product in productsList" :key="product.id">
+            <nuxt-link :to="`/catalog/${product.slug}?page=1`">
+              <m-card-edu
+                :title="product.name"
+                :description="`${product.product_count} программ`"
+                :iconClasses="`${baseURL}${product.preview_image}`"
               />
             </nuxt-link>
-          </swiper-slide>
-        </swiper>
+          </div>
+        </div>
       </div>
     </div>
   </section>
@@ -72,10 +69,11 @@
 
 <script>
 import { AButton } from '@cwespb/synergyui';
-import { Swiper, SwiperSlide } from 'vue-awesome-swiper';
 import ABreadcrumbs from '~/components/a_breadcrumbs/a_breadcrumbs';
 import MQuiz from '~/components/_ui/m_quiz/m_quiz';
-import MCard from '~/components/_ui/M-card/M-card';
+import MCardEdu from '~/components/ui/m-card-edu/m_card_edu';
+import getQuestionsList from '~/api/proftestList';
+
 import './s_proftest.scss';
 
 export default {
@@ -84,16 +82,14 @@ export default {
     ABreadcrumbs,
     AButton,
     MQuiz,
-    MCard,
-    Swiper,
-    SwiperSlide,
+    MCardEdu,
   },
 
   data: () => ({
     baseURL: process.env.NUXT_ENV_S3BACKET,
+    authorization: false,
     quizeShow: false,
     quizComplete: false, // Скрытие  Quiz при true
-    getAnswers: [],
     mindType: {},
     swiperOptionA: {
       slidesPerView: 'auto',
@@ -129,58 +125,6 @@ export default {
     Img: 'proftest_img-01.png',
     subtitle: '30 вопросов',
     title: 'Тест на выбор профессии',
-
-    answers: [
-      {
-        id: 1,
-        title: 'Предметно-действенное мышление1',
-        description:
-          // eslint-disable-next-line max-len
-          'Предметно-действенное мышление свойственно людям дела. Они усваивают информацию через движения. Обычно они обладают хорошей координацией движений. Их руками создан весь окружающий нас предметный мир. Они водят машины, стоят у станков, собирают компьютеры. Без них невозможно реализовать самую блестящую идею. Этим мышление важно для спортсменов, танцоров, артистов.',
-        resultImg: 'proftest_img-02.png',
-      },
-      {
-        id: 2,
-        title: 'Предметно-действенное мышление2',
-        description:
-          // eslint-disable-next-line max-len
-          'Предметно-действенное мышление свойственно людям дела. Они усваивают информацию через движения. Обычно они обладают хорошей координацией движений. Их руками создан весь окружающий нас предметный мир. Они водят машины, стоят у станков, собирают компьютеры. Без них невозможно реализовать самую блестящую идею. Этим мышление важно для спортсменов, танцоров, артистов.',
-        resultImg: 'proftest_img-02.png',
-      },
-      {
-        id: 3,
-        title: 'Предметно-действенное мышление3',
-        description:
-          // eslint-disable-next-line max-len
-          'Предметно-действенное мышление свойственно людям дела. Они усваивают информацию через движения. Обычно они обладают хорошей координацией движений. Их руками создан весь окружающий нас предметный мир. Они водят машины, стоят у станков, собирают компьютеры. Без них невозможно реализовать самую блестящую идею. Этим мышление важно для спортсменов, танцоров, артистов.',
-        resultImg: 'proftest_img-02.png',
-      },
-      {
-        id: 4,
-        title: 'Предметно-действенное мышление4',
-        description:
-          // eslint-disable-next-line max-len
-          'Предметно-действенное мышление свойственно людям дела. Они усваивают информацию через движения. Обычно они обладают хорошей координацией движений. Их руками создан весь окружающий нас предметный мир. Они водят машины, стоят у станков, собирают компьютеры. Без них невозможно реализовать самую блестящую идею. Этим мышление важно для спортсменов, танцоров, артистов.',
-        resultImg: 'proftest_img-02.png',
-      },
-      {
-        id: 5,
-        title: 'Предметно-действенное мышление5',
-        description:
-          // eslint-disable-next-line max-len
-          'Предметно-действенное мышление свойственно людям дела. Они усваивают информацию через движения. Обычно они обладают хорошей координацией движений. Их руками создан весь окружающий нас предметный мир. Они водят машины, стоят у станков, собирают компьютеры. Без них невозможно реализовать самую блестящую идею. Этим мышление важно для спортсменов, танцоров, артистов.',
-        resultImg: 'proftest_img-02.png',
-      },
-      {
-        id: 6,
-        unique: true,
-        title: 'Универсальный',
-        description:
-          // eslint-disable-next-line max-len
-          'Предметно-действенное мышление свойственно людям дела. Они усваивают информацию через движения. Обычно они обладают хорошей координацией движений. Их руками создан весь окружающий нас предметный мир. Они водят машины, стоят у станков, собирают компьютеры. Без них невозможно реализовать самую блестящую идею. Этим мышление важно для спортсменов, танцоров, артистов.',
-        resultImg: 'proftest_img-02.png',
-      },
-    ],
     description:
       // eslint-disable-next-line max-len
       'Многие абитуриенты испытывают трудности в выборе профессии. Чтобы узнать, какая профессия подходит именно вам, мы предлагаем пройти тест на выбор профессии, который поможет вам уточнить свой выбор, узнать будущую профессию, увидеть новые варианты. ',
@@ -188,141 +132,58 @@ export default {
     infoAdd: 'Для прохождения теста необходимо',
     linkSign: 'войти',
     linkReg: 'зарегистрироваться',
-
-    productsList: [
-      {
-        id: 1,
-        title: 'Разработка Web-проектов',
-        bottomText: 'Университет «Синергия»',
-        name: 'name',
-        description: 'Дополнительное образование',
-        iconSrc: 'ms-icon-70x70.png',
-        verticalImgSrc: 'proftest_card-img-01.png',
-      },
-      {
-        id: 2,
-        title: 'Разработка Web-проектов',
-        bottomText: 'Университет «Синергия»',
-        name: 'name',
-        description: 'Дополнительное образование',
-        iconSrc: 'ms-icon-70x70.png',
-        verticalImgSrc: 'proftest_card-img-01.png',
-      },
-      {
-        id: 3,
-        title: 'Разработка Web-проектов',
-        bottomText: 'Университет «Синергия»',
-        name: 'name',
-        description: 'Дополнительное образование',
-        iconSrc: 'ms-icon-70x70.png',
-        verticalImgSrc: 'proftest_card-img-01.png',
-      },
-      {
-        id: 4,
-        title: 'Разработка Web-проектов',
-        bottomText: 'Университет «Синергия»',
-        name: 'name',
-        description: 'Дополнительное образование',
-        iconSrc: 'ms-icon-70x70.png',
-        verticalImgSrc: 'proftest_card-img-01.png',
-      },
-    ],
-
     dataQuiz: true,
-    questions: [
-      {
-        id: 1,
-        question: 'Мне легче что-либо сделать самому, чем объяснить другому',
-        answers: [
-          { answer: 'да, всегда', point: 3 },
-          { answer: 'иногда', point: 2 },
-          { answer: 'нет', point: 1 },
-        ],
-      },
-      {
-        id: 2,
-        question: 'Я люблю читать книги',
-        answers: [
-          { answer: 'да, всегда', point: 3 },
-          { answer: 'иногда', point: 2 },
-          { answer: 'нет', point: 1 },
-        ],
-      },
-      {
-        id: 3,
-        question: 'Мне нравится живопись, скульптура, архитектура',
-        answers: [
-          { answer: 'да, всегда', point: 3 },
-          { answer: 'иногда', point: 2 },
-          { answer: 'нет', point: 1 },
-        ],
-      },
-      {
-        id: 4,
-        question: 'Даже в отлаженном деле я стараюсь что-то улучшить',
-        answers: [
-          { answer: 'да, всегда', point: 3 },
-          { answer: 'иногда', point: 2 },
-          { answer: 'нет', point: 1 },
-        ],
-      },
-      {
-        id: 5,
-        question: 'Я лучше понимаю, если мне объясняют на предметах или рисунках',
-        answers: [
-          { answer: 'да, всегда', point: 3 },
-          { answer: 'иногда', point: 2 },
-          { answer: 'нет', point: 1 },
-        ],
-      },
-      {
-        id: 1,
-        question: 'Я люблю играть в стратегические игры',
-        answers: [
-          { answer: 'да, всегда', point: 3 },
-          { answer: 'иногда', point: 2 },
-          { answer: 'нет', point: 1 },
-        ],
-      },
-      {
-        id: 2,
-        question: 'Я легко излагаю свои мысли как в устной, так и в письменной форме',
-        answers: [
-          { answer: 'да, всегда', point: 3 },
-          { answer: 'иногда', point: 2 },
-          { answer: 'нет', point: 1 },
-        ],
-      },
-      {
-        id: 3,
-        question: 'Я отчетливо могу представить героев и описываемые события, когда читаю книгу',
-        answers: [
-          { answer: 'да, всегда', point: 3 },
-          { answer: 'иногда', point: 2 },
-          { answer: 'нет', point: 1 },
-        ],
-      },
-      {
-        id: 4,
-        question: 'Я предпочитаю самостоятельно планировать свою работу',
-        answers: [
-          { answer: 'да, всегда', point: 3 },
-          { answer: 'иногда', point: 2 },
-          { answer: 'нет', point: 1 },
-        ],
-      },
-      {
-        id: 5,
-        question: 'Мне нравится все делать своими руками',
-        answers: [
-          { answer: 'да, всегда', point: 3 },
-          { answer: 'иногда', point: 2 },
-          { answer: 'нет', point: 1 },
-        ],
-      },
-    ],
+    questions: [],
+    answers: [],
+    productsList: [],
   }),
+
+  props: {
+    methods: {
+      type: Array,
+    },
+  },
+
+  async fetch() {
+    let expandedMethod = {
+      filter: {
+        id: 1,
+      },
+      include: ['test_questions', 'directions'],
+    };
+
+    if (this.methods) {
+      expandedMethod = this.methods[0].data;
+    } else {
+      expandedMethod.filter.id = this.quizId;
+    }
+
+    const response = await getQuestionsList(expandedMethod);
+    this.answers = response;
+    let questions = [];
+    response.forEach((item, idx) => {
+      const linkItem = item;
+      if (idx > 0) {
+        linkItem.included.test_questions.forEach((obj) => {
+          const answers = [
+            { answer: 'да, всегда', point: 3 },
+            { answer: 'иногда', point: 2 },
+            { answer: 'нет', point: 1 },
+          ];
+          const linkObj = obj;
+          linkObj.answers = answers;
+        });
+        questions = [...questions, ...linkItem.included.test_questions];
+        this.questions = questions;
+      }
+    });
+  },
+
   methods: {
+    changeHandler(value) {
+      this.dataQuestion = value;
+    },
+
     getQuiz() {
       this.quizeShow = !this.quizeShow;
     },
@@ -340,6 +201,11 @@ export default {
       });
     },
     isQuizComplete(id) {
+      this.answers.forEach((item, idx) => {
+        if (idx > 0 && +item.id === +id) {
+          this.productsList = item.included.directions;
+        }
+      });
       this.mindType = this.answers.find((answer) => answer.id === Number(id));
       this.quizComplete = true;
     },

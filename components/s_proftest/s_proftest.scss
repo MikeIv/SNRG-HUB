@@ -7,9 +7,9 @@
     }
   }
   &__wrapper {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: flex-start;
+    //display: flex;
+    //flex-wrap: wrap;
+    //align-items: flex-start;
     margin-top: rem(20);
     margin-bottom: rem(32);
     padding: rem(48) rem(80);
@@ -28,6 +28,30 @@
 
     .m-card-program {
       min-width: rem(400);
+    }
+  }
+
+  &__cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: rem(16);
+
+    @media screen and (max-width: 767px) {
+      display: none;
+    }
+
+    @media screen and (max-width: 970px) {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  &__card {
+    &:hover {
+      .m-card-gorizontal {
+        &__title {
+          color: var(--a-color_link);
+        }
+      }
     }
   }
 

@@ -8,12 +8,13 @@
           <div class="m-quiz__prev" v-if="countPosition > 0" @click="prevQuiz">
             <i class="si-chevron-left"></i>Предыдущий вопрос
           </div>
-          <h5 class="m-quiz__question a-font_h5">{{ dataQuestion[countPosition].question }}</h5>
+          <h5 class="m-quiz__question a-font_h5">{{ dataQuestion[countPosition].name }}</h5>
           <span v-if="isMultiAnswer">выберите несколько вариантов ответа</span>
         </div>
         <div :class="['m-quiz__answers', { 'm-quiz__answers--f-wrap': isMultiAnswer }]">
           <div class="m-quiz__control" v-for="(item, index) in dataQuestion[countPosition].answers" :key="index">
             <a-control
+              :keyRender="keyRender"
               :title="item.answer"
               :typeBtn="isMultiAnswer ? 'checkbox' : 'radio'"
               :typeCtrl="isMultiAnswer ? 'checkbox' : 'radiobutton'"
@@ -48,6 +49,7 @@
 
 <script>
 import { AButton, AControl, AProgressbar } from '@cwespb/synergyui';
+
 import './m_quiz.scss';
 
 export default {
@@ -64,7 +66,8 @@ export default {
     banerFlag: true,
     btnNextDisabled: true,
     maxId: 0,
-    count: null,
+    count: 0,
+    keyRender: 0,
     countPosition: 0,
     vueTelOpts: {
       mode: 'international',
@@ -79,7 +82,6 @@ export default {
     maxPhoneLength: 16,
     localRuPhoneLength: 11,
     listAnswers: [],
-    sumAnswers: [],
     answer: '',
 
     send: {
@@ -110,6 +112,7 @@ export default {
   },
   computed: {
     progress() {
+      if (this.countPosition === 0) return 0;
       return (this.countPosition / this.count) * 100;
     },
     isMultiAnswer() {
@@ -133,25 +136,17 @@ export default {
     toggleProgressbar() {
       return this.view ? this.countPosition !== this.dataQuestion.length : true;
     },
-    dataQuestion() {
-      return [...this.questions];
+    dataQuestion: {
+      get() {
+        return [...this.questions];
+      },
+      set(value) {
+        this.$emit('change-data-question', value);
+      },
     },
   },
 
   async fetch() {
-    /* let expandedMethod = {
-      filter: {},
-    };
-
-    if (this.methods) {
-      expandedMethod = this.methods[0].data;
-    } else {
-      expandedMethod.filter.id = this.quizId;
-    }
-
-    const response = await getQuizzesDetail(expandedMethod);
-    this.dataQuiz = response;
-    this.dataQuestion = response.questions.filter((item) => item.answers.length > 0); */
     this.count = this.dataQuestion.length;
   },
 
@@ -225,15 +220,13 @@ export default {
         quizString = `${quizString} Вопрос: ${dataQuiz[i].question} - Ответ:  ${dataQuiz[i].answer} \n`;
       }
       this.send.comment = quizString;
-      this.$lander.send(this.send).then((response) => {
-        console.log(response);
-      });
+      // this.$lander.send(this.send).then((response) => {});
       this.$emit('onSendQuizForm');
     },
 
     changeQuiz(current, variants, { checkbox, maxSelectCount } = {}) {
       const answer = [];
-
+      this.keyRender += 1;
       variants
         .filter((item) => {
           const itemLink = item;
@@ -244,12 +237,11 @@ export default {
       if (checkbox && !maxSelectCount) this.btnNextDisabled = answer.length < 1;
 
       this.listAnswers[this.countPosition] = {
-        id: this.dataQuestion[this.countPosition].id,
+        id: this.dataQuestion[this.countPosition].type_thinking_id,
         point: answer[0].point,
         disabled: this.btnNextDisabled,
-        question: this.dataQuestion[this.countPosition].question,
+        question: this.dataQuestion[this.countPosition].name,
       };
-      console.log('listAnswers', this.listAnswers);
 
       /**
        * Обработка теста и вывод результата
