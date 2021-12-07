@@ -385,7 +385,9 @@
 
 <script>
 import { VueTelInput } from 'vue-tel-input';
-import { AButton, AControl, AInput, APopup, ASelect, ATag, ATitle, MCard, MFilter, MForm } from '@cwespb/synergyui';
+import {
+  AButton, AControl, AInput, APopup, ASelect, ATag, ATitle, MCard, MFilter, MForm,
+} from '@cwespb/synergyui';
 import getProductsList from '~/api/products_list';
 import '../../s_catalog/s_catalog.scss';
 import '../../s_catalog_filter/s_catalog_filter.scss';
@@ -851,6 +853,7 @@ export default {
             // Логика парсинга выбранных фильтров на бэк, для получения отфильрованный товаров
             Object.entries(this.filtersIdsData).forEach((filterData) => {
               if (filterData[1].length === 0) {
+                console.log('here');
                 expandedMethod.filter[filterData[0]] = this.filterListData[filterData[0]]?.map((filter) => filter.id);
               } else {
                 const [key, value] = filterData;
@@ -969,11 +972,6 @@ export default {
     },
   },
 
-  async fetch() {
-    await this.fetchFilterData();
-    await this.fetchProductsList();
-  },
-
   mounted() {
     this.$emit('form-ref', this.$refs.form);
 
@@ -986,6 +984,9 @@ export default {
     };
 
     this.filtersCheckboxDataRequest = {};
+
+    this.fetchFilterData();
+    this.fetchProductsList();
 
     const loadDataForm = this.$lander.storage.load('programform');
     if (loadDataForm) this.fieldsData = loadDataForm;
