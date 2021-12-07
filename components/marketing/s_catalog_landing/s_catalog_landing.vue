@@ -853,7 +853,6 @@ export default {
             // Логика парсинга выбранных фильтров на бэк, для получения отфильрованный товаров
             Object.entries(this.filtersIdsData).forEach((filterData) => {
               if (filterData[1].length === 0) {
-                console.log('here');
                 expandedMethod.filter[filterData[0]] = this.filterListData[filterData[0]]?.map((filter) => filter.id);
               } else {
                 const [key, value] = filterData;
