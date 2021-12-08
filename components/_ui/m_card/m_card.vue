@@ -92,7 +92,7 @@
 
 <script>
 import { AButton, ANote, ASticker } from '@cwespb/synergyui';
-import './M-card.scss';
+import './m_card.scss';
 
 export default {
   name: 'MCard',

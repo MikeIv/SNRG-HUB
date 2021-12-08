@@ -6,7 +6,7 @@
         <div class="s-proftest__content">
           <div class="s-proftest__left-col">
             <p class="s-proftest__subtitle">{{ subtitle }}</p>
-            <h2 class="s-proftest__title">{{ title }}</h2>
+            <h1 class="s-proftest__title">{{ title }}</h1>
             <p class="s-proftest__description">{{ description }}</p>
             <AButton class="s-proftest__btn" label="Пройти тест" bgColor="accent" v-if="!quizeShow" @click="getQuiz" />
           </div>
@@ -52,12 +52,12 @@
 
       <div class="s-proftest__wrapper" v-if="quizComplete">
         <div class="s-proftest__cards">
-          <div class="s-proftest__card" v-for="product in productsList" :key="product.id">
-            <nuxt-link :to="`/catalog/${product.slug}?page=1`">
+          <div class="s-proftest__card" v-for="directions in directionsList" :key="directions.id">
+            <nuxt-link :to="`/catalog/${directions.slug}?page=1`">
               <m-card-edu
-                :title="product.name"
-                :description="`${product.product_count} программ`"
-                :iconClasses="`${baseURL}${product.preview_image}`"
+                :title="directions.name"
+                :description="`${directions.product_count} программ`"
+                :iconClasses="`${baseURL}${directions.preview_image}`"
               />
             </nuxt-link>
           </div>
@@ -122,7 +122,7 @@ export default {
         href: '/catalog',
       },
     ],
-    Img: 'proftest_img-01.png',
+    Img: 'proftest_img-01.jpg',
     subtitle: '30 вопросов',
     title: 'Тест на выбор профессии',
     description:
@@ -135,7 +135,7 @@ export default {
     dataQuiz: true,
     questions: [],
     answers: [],
-    productsList: [],
+    directionsList: [],
   }),
 
   props: {
@@ -203,7 +203,7 @@ export default {
     isQuizComplete(id) {
       this.answers.forEach((item, idx) => {
         if (idx > 0 && +item.id === +id) {
-          this.productsList = item.included.directions;
+          this.directionsList = item.included.directions;
         }
       });
       this.mindType = this.answers.find((answer) => answer.id === Number(id));
