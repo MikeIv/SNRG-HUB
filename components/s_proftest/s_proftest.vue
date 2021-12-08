@@ -2,7 +2,7 @@
   <section class="s-proftest">
     <div class="l-wide">
       <div class="s-proftest__wrapper">
-        <a-breadcrumbs :breadcrumbs="breadcrumbs" />
+        <!-- <a-breadcrumbs :breadcrumbs="breadcrumbs" /> -->
         <div class="s-proftest__content">
           <div class="s-proftest__left-col">
             <p class="s-proftest__subtitle">{{ subtitle }}</p>
@@ -68,7 +68,7 @@
 
 <script>
 import { AButton } from '@cwespb/synergyui';
-import ABreadcrumbs from '~/components/a_breadcrumbs/a_breadcrumbs';
+// import ABreadcrumbs from '~/components/a_breadcrumbs/a_breadcrumbs';
 import MQuiz from '~/components/_ui/m_quiz/m_quiz';
 import MCardEdu from '~/components/ui/m-card-edu/m_card_edu';
 import getQuestionsList from '~/api/proftestList';
@@ -78,7 +78,7 @@ import './s_proftest.scss';
 export default {
   name: 'SProftest',
   components: {
-    ABreadcrumbs,
+    // ABreadcrumbs,
     AButton,
     MQuiz,
     MCardEdu,
