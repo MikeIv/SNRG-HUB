@@ -2,7 +2,7 @@
   <header class="s-header" :class="{ open: isOpen, fixed: isScrolled }">
     <div class="shadow" v-if="isOpen" @click="handleChange"></div>
     <div class="s-header__wrapper">
-      <div class="s-header__top" :class="{ hidden: !isVisible }" @click="scrollTo(topBannerSmoothHref)">
+      <div class="s-header__top" :class="{ hidden: !isVisible }" @click="topBannerClick()">
         <m-banner
           :type="bannerTop.banner_type"
           :backgroundColor="bannerTop.color_bg"
@@ -11,7 +11,7 @@
           :href="topBannerSmoothHref"
           buttonLabel="Подобрать"
           color="default"
-          @onBannerClick="scrollTo(topBannerSmoothHref)"
+          @onBannerClick="topBannerClick()"
         ></m-banner>
       </div>
       <div class="s-header__center">
@@ -76,9 +76,7 @@
 </template>
 
 <script>
-import {
-  AInput, AButton, MBanner, ASelect,
-} from '@cwespb/synergyui';
+import { AInput, AButton, MBanner, ASelect } from '@cwespb/synergyui';
 import './s_header.scss';
 import SMenuMain from '../s_menu_main/s_menu_main';
 import MenuHorizontal from '../menu_horizontal/menu_horizontal';
@@ -245,8 +243,9 @@ export default {
             mainWrapper.classList.add('js-fixed');
           }
 
-          this.isVisible = (this.scrollTop > startPos && clientHeight < this.$store.state.quizInfo.top)
-            || (this.scrollTop > startPos && this.scrollTop > quizScrollTop);
+          this.isVisible =
+            (this.scrollTop > startPos && clientHeight < this.$store.state.quizInfo.top) ||
+            (this.scrollTop > startPos && this.scrollTop > quizScrollTop);
 
           break;
         default:
@@ -275,6 +274,9 @@ export default {
 
     getQuiz() {
       return this.$store.state.quizInfo;
+    },
+    topBannerClick() {
+      this.$router.push('/proftest');
     },
   },
 };

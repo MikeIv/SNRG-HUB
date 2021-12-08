@@ -27,16 +27,18 @@ export default {
     },
 
     finish() {
-      const htmlWrapper = document.querySelector('html');
-      htmlWrapper.style.overflowY = 'visible';
+      setTimeout(() => {
+        const htmlWrapper = document.querySelector('html');
+        htmlWrapper.style.overflowY = 'visible';
 
-      this.loading = false;
+        this.loading = false;
+      }, 500);
     },
   },
   mounted() {
     this.$nextTick(() => {
       this.$nuxt.$loading.start();
-      this.$nuxt.$loading.finish();
+      setTimeout(() => this.$nuxt.$loading.finish(), 500);
     });
   },
 };
