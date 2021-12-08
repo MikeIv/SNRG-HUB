@@ -55,6 +55,10 @@ export default {
     if (this.$route.query.search) {
       this.search = this.$route.query.search;
     }
+
+    setTimeout(() => {
+      this.$gtm();
+    }, 2500);
   },
 };
 </script>
