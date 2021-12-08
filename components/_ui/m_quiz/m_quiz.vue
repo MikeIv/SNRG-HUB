@@ -14,7 +14,6 @@
         <div :class="['m-quiz__answers', { 'm-quiz__answers--f-wrap': isMultiAnswer }]">
           <div class="m-quiz__control" v-for="(item, index) in dataQuestion[countPosition].answers" :key="index">
             <a-control
-              :keyRender="keyRender"
               :title="item.answer"
               :typeBtn="isMultiAnswer ? 'checkbox' : 'radio'"
               :typeCtrl="isMultiAnswer ? 'checkbox' : 'radiobutton'"
@@ -39,9 +38,6 @@
       </div>
 
       <!-- finish form -->
-      <template v-else-if="view">
-        <SAccountTestsResult @bannerBtnClick="resultBtnClickHandle" :hideTitle="true" />
-      </template>
       <a-progressbar v-if="toggleProgressbar" :percent="progress" />
     </div>
   </div>
@@ -63,11 +59,9 @@ export default {
   data: () => ({
     dataQuiz: true,
     baseUrl: process.env.NUXT_ENV_S3BACKET,
-    banerFlag: true,
     btnNextDisabled: true,
     maxId: 0,
     count: 0,
-    keyRender: 0,
     countPosition: 0,
     vueTelOpts: {
       mode: 'international',
@@ -90,13 +84,9 @@ export default {
       surname: '',
       email: '',
     },
-    sogl: true,
-    validFlag: false,
-    validPhone: false,
   }),
 
   props: {
-    methods: Array,
     quizId: Number,
     view: String,
     questions: {
@@ -151,17 +141,6 @@ export default {
   },
 
   mounted() {
-    this.$nextTick(function () {
-      const loadDataForm = this.$lander.storage.load('quizform');
-      if (loadDataForm) this.send = loadDataForm;
-      const dataForm = [
-        { value: this.send.name },
-        { value: this.send.surname },
-        { value: this.send.email, type: 'email' },
-      ];
-      this.validFlag = this.$lander.valid(dataForm);
-    });
-
     this.dataQuestion.forEach(({ answers }) => {
       if (answers) {
         answers.forEach((item) => this.$set(item, 'checked', false));
@@ -170,32 +149,6 @@ export default {
   },
 
   methods: {
-    validatePhone(phone, { valid, number }) {
-      const telOpts = this.vueTelOpts;
-      const inputOpts = telOpts.inputOptions;
-      const isLocalCode = phone[0] === '8';
-
-      inputOpts.maxlength = this.maxPhoneLength;
-      telOpts.autoFormat = !isLocalCode;
-
-      this.validPhone = valid && isLocalCode ? phone.length === this.localRuPhoneLength : valid;
-
-      if (valid) {
-        telOpts.mode = isLocalCode ? 'auto' : 'international';
-        inputOpts.maxlength = isLocalCode ? this.localRuPhoneLength : number.length;
-      }
-
-      this.validFormData();
-    },
-    validFormData() {
-      const dataForm = [
-        { value: this.send.name },
-        { value: this.send.surname },
-        { value: this.send.email, type: 'email' },
-      ];
-      this.validFlag = this.$lander.valid(dataForm) && this.validPhone;
-      this.$lander.storage.save('quizform', this.send);
-    },
     prevQuiz() {
       this.countPosition -= 1;
       this.setBtnNextState();
@@ -209,10 +162,6 @@ export default {
       this.btnNextDisabled = btnNextState === undefined || btnNextState;
     },
 
-    async startQuiz() {
-      this.banerFlag = false;
-    },
-
     sendQuiz() {
       const dataQuiz = this.listAnswers.map((item) => ({ question: item.question, answer: item.answer }));
       let quizString = '';
@@ -221,12 +170,10 @@ export default {
       }
       this.send.comment = quizString;
       // this.$lander.send(this.send).then((response) => {});
-      this.$emit('onSendQuizForm');
     },
 
     changeQuiz(current, variants, { checkbox, maxSelectCount } = {}) {
       const answer = [];
-      this.keyRender += 1;
       variants
         .filter((item) => {
           const itemLink = item;

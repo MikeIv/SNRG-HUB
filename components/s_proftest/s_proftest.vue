@@ -28,7 +28,6 @@
         <MQuiz
           class="s-proftest__quiz"
           :questions="questions"
-          @onSendQuizForm="sendRouteParams"
           @isQuizComplete="isQuizComplete"
           @set-question="changeHandler"
         />
@@ -191,14 +190,6 @@ export default {
       this.quizeShow = !this.quizeShow;
       this.quizComplete = false;
       this.maxId = null;
-    },
-    sendRouteParams() {
-      this.$router.push({
-        name: 'account',
-        params: {
-          formName: this.formName,
-        },
-      });
     },
     isQuizComplete(id) {
       this.answers.forEach((item, idx) => {
