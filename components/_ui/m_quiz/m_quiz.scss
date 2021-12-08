@@ -1,0 +1,304 @@
+@import '@/assets/styles/tools/mixins';
+.m-quiz {
+  overflow: hidden;
+  background: var(--a-color_bg--secondary);
+  border-radius: var(--a-borderRadius--bg);
+  &__baner {
+    position: relative;
+    overflow: hidden;
+    padding: rem(50) rem(100);
+    background-repeat: no-repeat;
+    background-position: 50% 50%;
+    background-size: cover;
+    @media screen and (max-width: 991px) {
+      padding: var(--a-padding--x6) var(--a-padding--x8);
+    }
+    @media screen and (max-width: 767px) {
+      padding: var(--a-padding--x8) var(--a-padding--x4);
+    }
+  }
+  &__baner-img {
+    position: absolute;
+    right: rem(100);
+    bottom: 0;
+    width: rem(310);
+    height: 100%;
+    background-repeat: no-repeat;
+    background-position: 50% 50%;
+    background-size: contain;
+    @media screen and (max-width: 991px) {
+      right: rem(25);
+    }
+    @media screen and (max-width: 580px) {
+      right: rem(-100);
+    }
+  }
+  &__title {
+    max-width: rem(380);
+  }
+  &__descript {
+    padding: var(--a-padding--x4) 0 var(--a-padding--x5) 0;
+  }
+
+  // block quiz
+  &__box {
+    padding: var(--a-padding--x10);
+    background-color: var(--a-color_bg);
+    @media screen and (max-width: 991px) {
+      padding: rem(30);
+    }
+    @media screen and (max-width: 575px) {
+      padding: rem(16);
+    }
+  }
+  &__quiz {
+    display: flex;
+    align-items: center;
+    min-height: rem(222);
+    padding: rem(22) rem(40);
+    background: var(--a-color_banner--lightcyan);
+    border-radius: var(--a-borderRadius--bg) var(--a-borderRadius--bg) 0 0;
+    @media screen and (max-width: 1140px) {
+      padding: var(--a-padding--x12) var(--a-padding--x15);
+    }
+    @media screen and (max-width: 991px) {
+      flex-direction: column;
+      align-items: flex-start;
+      padding: var(--a-padding--x8);
+    }
+    @media screen and (max-width: 767px) {
+      padding: var(--a-padding--x5) var(--a-padding--x4);
+    }
+  }
+
+  &__questions {
+    padding-right: rem(20);
+    @media screen and (max-width: 991px) {
+      max-width: unset;
+      margin-bottom: rem(40);
+    }
+
+    &-count {
+      margin-bottom: rem(12);
+      color: var(--a-color_text--secondary);
+      @media screen and (max-width: 991px) {
+        font-size: rem(18);
+        line-height: rem(24);
+      }
+      @media screen and (max-width: 767px) {
+        margin-bottom: rem(10);
+      }
+    }
+  }
+  &__prev {
+    margin-bottom: var(--a-padding--x5);
+    color: var(--a-color_text--secondary);
+    cursor: pointer;
+    & i {
+      color: var(--a-color_active);
+      font-size: rem(18);
+    }
+  }
+  &__question {
+    max-width: rem(500);
+    @media screen and (max-width: 991px) {
+      max-width: unset;
+      margin-bottom: rem(3);
+    }
+    @media screen and (max-width: 767px) {
+      padding-right: 0;
+    }
+  }
+
+  &__answers {
+    flex: 1;
+    max-width: rem(355);
+    margin-left: auto;
+    @media screen and (max-width: 991px) {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      width: 100%;
+      max-width: 100%;
+    }
+
+    &--f-wrap {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      max-width: unset;
+      @media screen and (max-width: 1199px) {
+        flex: auto;
+      }
+    }
+  }
+  &__control {
+    display: flex;
+    flex-basis: calc(50% - rem(6));
+    margin: 0 0 rem(12) 0;
+    background: var(--a-color_bg);
+    border-radius: var(--a-borderRadius--default);
+    @media screen and (max-width: 575px) {
+      flex-basis: 100%;
+      margin: 0 0 var(--a-padding--x3) 0;
+    }
+    .m-quiz__answers--f-wrap & {
+      width: calc(50% - 0.375rem);
+      @media screen and (max-width: 991px) {
+        width: 100%;
+      }
+    }
+    label {
+      padding: var(--a-padding--x3) var(--a-padding--x10) var(--a-padding--x3) var(--a-padding--x5);
+      @media screen and (max-width: 767px) {
+        padding: var(--a-padding--x2) var(--a-padding--x4);
+      }
+    }
+  }
+  &__button {
+    margin: rem(25) 0 0 auto;
+    @media screen and (max-width: 991px) {
+      margin: rem(25) auto 0 0;
+    }
+    @media screen and (max-width: 767px) {
+      height: rem(40);
+    }
+    @media screen and (max-width: 575px) {
+      width: 100%;
+      margin-top: rem(13);
+    }
+
+    &-wrap {
+      width: 100%;
+    }
+
+    .a-button {
+      &__label {
+        padding: 0 rem(50);
+      }
+    }
+  }
+
+  // block finish
+  &__finish {
+    padding: rem(50);
+    background: var(--a-color_banner--lightcyan);
+    border-radius: var(--a-borderRadius--bg) var(--a-borderRadius--bg) 0 0;
+    @media screen and (max-width: 1199px) {
+      display: flex;
+      align-items: center;
+      padding: var(--a-padding--x6) var(--a-padding--x8);
+    }
+    @media screen and (max-width: 575px) {
+      display: block;
+      padding: var(--a-padding--x5) var(--a-padding--x4);
+    }
+  }
+  &__finish-text {
+    @media screen and (max-width: 1199px) {
+      width: 50%;
+      padding-right: var(--a-padding--x4);
+    }
+    @media screen and (max-width: 575px) {
+      width: 100%;
+      padding-right: 0;
+    }
+  }
+  &__finish-title {
+    padding-bottom: var(--a-padding--x2);
+  }
+  &__finish-desc {
+    padding-bottom: var(--a-padding--x5);
+  }
+  &__finish-inputs {
+    @media screen and (max-width: 1199px) {
+      width: 50%;
+    }
+    @media screen and (max-width: 575px) {
+      width: 100%;
+    }
+  }
+  &__finish-data {
+    display: flex;
+    padding-bottom: var(--a-padding--x5);
+
+    @media screen and (max-width: 1199px) {
+      flex-flow: column;
+    }
+    & .vue-tel-input {
+      margin-right: var(--a-padding--x2);
+      @media screen and (max-width: 1199px) {
+        margin-bottom: var(--a-padding--x3);
+      }
+    }
+    & .a-input {
+      width: 100%;
+      margin-right: var(--a-padding--x2);
+      flex-grow: 1;
+      @media screen and (max-width: 1199px) {
+        max-width: 100%;
+        margin-right: 0;
+        margin-bottom: var(--a-padding--x3);
+      }
+    }
+    & .a-input__wrapper {
+      width: 100%;
+    }
+    & .a-input__row {
+      width: 100%;
+    }
+
+    & .a-button {
+      width: 100%;
+      max-width: rem(330);
+      @media screen and (max-width: 1199px) {
+        max-width: 100%;
+      }
+    }
+  }
+  &__finish-sogl {
+    display: flex;
+    color: var(--a-color_text--secondary);
+    & label {
+      padding: 0;
+    }
+    @media screen and (max-width: 767px) {
+      padding-right: 0;
+      label {
+        p {
+          font-size: rem(12);
+          line-height: 1.2;
+        }
+      }
+    }
+  }
+
+  &--vertical {
+    height: 100%;
+    border-radius: 0;
+    .m-quiz {
+      &__box {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        padding: 0;
+      }
+      &__quiz {
+        display: block;
+        flex: 1;
+        @media screen and (max-width: 1140px) {
+          padding: rem(60) rem(40);
+        }
+        @media screen and (max-width: 767px) {
+          padding: rem(16);
+        }
+      }
+      &__questions {
+        margin-bottom: rem(24);
+      }
+      &__answers {
+        margin-left: unset;
+      }
+    }
+  }
+}
