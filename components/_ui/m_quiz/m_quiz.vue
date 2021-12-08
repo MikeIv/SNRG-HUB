@@ -217,9 +217,6 @@ export default {
 
       if (!checkbox || (maxSelectCount && maxSelectCount === answer.length)) this.nextQuiz();
     },
-    resultBtnClickHandle(key) {
-      this.$emit('bannerBtnClick', key);
-    },
   },
 };
 </script>
