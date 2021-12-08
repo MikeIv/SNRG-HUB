@@ -56,6 +56,10 @@ export default {
   },
 
   mounted() {
+    setTimeout(() => {
+      this.$gtm();
+    }, 2500);
+
     if (this.$route.query.search) {
       this.search = this.$route.query.search;
     }
