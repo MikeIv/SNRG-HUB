@@ -27,6 +27,7 @@ README.md
 commitlint.config.js
 commitlint.js
 static
+assets/images
 .gitignore
 CHANGELOG.md
 .gitlab
