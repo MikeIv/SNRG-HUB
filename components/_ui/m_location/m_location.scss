@@ -1,0 +1,196 @@
+@import '@/assets/styles/tools/mixins';
+
+.city-dialog-opened {
+  overflow: hidden !important;
+  height: 100%;
+}
+
+.m-location {
+  &__city {
+    display: none;
+    @media screen and (min-width: 992px) {
+      display: block;
+    }
+
+    .a-button {
+      height: auto;
+
+      &__label {
+        font-size: rem(14);
+        line-height: rem(14);
+      }
+    }
+  }
+
+  &__dialog {
+    position: fixed;
+    z-index: 100;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    transition: opacity 0.2s;
+    transform: scale(0);
+
+    @media screen and (min-width: 992px) {
+      align-items: center;
+    }
+
+    &.active {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    &-bg {
+      position: absolute;
+      z-index: 1;
+      top: 0;
+      right: 0;
+      left: 0;
+      bottom: 0;
+      background-color: rgba(17, 37, 61, 0.5);
+    }
+
+    &-modal {
+      position: relative;
+      z-index: 100;
+      width: 100%;
+      padding: rem(24) rem(15);
+      background-color: var(--a-color_bg);
+      border-radius: var(--a-borderRadius--bg) var(--a-borderRadius--bg) 0 0;
+      @media screen and (min-width: 992px) {
+        max-width: rem(628);
+        padding: rem(40);
+        border-radius: var(--a-borderRadius--bg);
+      }
+    }
+
+    &-title {
+      margin: 0 0 rem(20);
+      span {
+        color: var(--a-color_link);
+      }
+    }
+
+    & .a-input {
+      &__row {
+        width: 100%;
+      }
+    }
+
+    &-list {
+      display: flex;
+      flex-direction: column;
+      @media screen and (min-width: 768px) {
+        flex-direction: row;
+        margin: rem(18) rem(-4) 0;
+        flex-wrap: wrap;
+      }
+
+      &-item {
+        position: relative;
+        display: flex;
+        align-items: center;
+        height: rem(48);
+        line-height: 1;
+        @media screen and (min-width: 768px) {
+          overflow: hidden;
+          height: unset;
+          margin: rem(6) rem(4);
+          border-radius: var(--a-borderRadius--default);
+        }
+
+        span {
+          display: flex;
+          align-items: center;
+          height: 100%;
+          transition: 0.2s;
+          @media screen and (min-width: 768px) {
+            padding: rem(12) rem(24);
+            background-color: var(--a-color_banner--lightcyan);
+          }
+        }
+        &:hover span {
+          color: var(--a-color_link);
+          @media screen and (min-width: 768px) {
+            color: var(--a-color_bg);
+            background-color: var(--a-color_banner--blue);
+          }
+        }
+
+        input {
+          position: absolute;
+          top: 0;
+          right: 0;
+          left: 0;
+          bottom: 0;
+          width: 100%;
+          height: 100%;
+          opacity: 0;
+          cursor: pointer;
+          &:checked ~ span {
+            @media screen and (min-width: 768px) {
+              color: var(--a-color_bg);
+              background-color: var(--a-color_banner--blue);
+            }
+          }
+        }
+      }
+    }
+
+    &-checkbox {
+      margin: rem(12) 0 rem(16);
+      & .a-control {
+        &__label {
+          padding: 0;
+        }
+      }
+    }
+
+    &-bottom {
+      display: flex;
+      justify-content: space-between;
+
+      & .a-button {
+        flex: 1;
+        margin-left: rem(8);
+        &:first-child {
+          margin-left: 0;
+        }
+      }
+    }
+    &-modal_choose &-bottom {
+      display: none;
+      @media screen and (min-width: 768px) {
+        display: flex;
+        justify-content: flex-end;
+        & .a-button {
+          flex: none;
+        }
+      }
+    }
+
+    &-close {
+      position: absolute;
+      top: 0;
+      right: 0;
+      left: auto;
+      width: rem(40);
+      height: rem(40);
+      background: none;
+      border: none;
+      font-size: rem(24);
+      cursor: pointer;
+      transition: 0.2s;
+      &:hover {
+        color: var(--a-color_link);
+      }
+    }
+  }
+}

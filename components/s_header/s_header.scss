@@ -2,7 +2,7 @@
 
 .s-header {
   position: relative;
-  z-index: 100;
+  z-index: 110;
   .a-logo__wrapper {
     min-width: rem(195);
     margin-right: rem(60);
@@ -252,20 +252,6 @@
     }
     @media screen and (max-width: 991px) {
       margin-right: 0;
-    }
-  }
-
-  &__location {
-    @media screen and (max-width: 991px) {
-      display: none;
-    }
-    .a-button {
-      height: auto;
-
-      &__label {
-        font-size: rem(14);
-        line-height: rem(14);
-      }
     }
   }
 
