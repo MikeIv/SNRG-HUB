@@ -166,8 +166,12 @@ export default {
     },
 
     saveCity(city) {
-      this.city = city;
-      localStorage.city = city;
+      if (city) {
+        this.city = city;
+        localStorage.city = city;
+      } else {
+        this.hideDialog();
+      }
     },
   },
 };
