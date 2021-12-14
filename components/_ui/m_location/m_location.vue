@@ -16,7 +16,7 @@
             :key="btn.index"
             :label="btn.name"
             :bgColor="btn.bgColor"
-            @click="toggleDialog(btn.click)"
+            @click="toggleDialog(btn.click, city)"
           ></a-button>
         </div>
         <button class="m-location__dialog-close si-close" type="button" @click="hideDialog"></button>
@@ -24,11 +24,11 @@
 
       <div class="m-location__dialog-modal m-location__dialog-modal_choose" v-show="cityDialogOpen == 'choose'">
         <h6 class="m-location__dialog-title a-font_h6" v-html="dialogTitle"></h6>
-        <a-input id="search" icons="si-search" size="medium" :placeholder="searchPlaceholder" />
-        <div class="m-location__dialog-list" ref="citiez">
-          <span class="m-location__dialog-list-item" v-for="city in citiesPopular" :key="city.index">
-            <input type="radio" name="cityDialog" :value="city" v-model="cityPicked" />
-            <span>{{ city }}</span>
+        <a-input id="search" icons="si-search" size="medium" :placeholder="searchPlaceholder" v-model="searchCity" />
+        <div class="m-location__dialog-list" ref="cities">
+          <span class="m-location__dialog-list-item" v-for="city in citiesList" :key="city.index">
+            <input type="radio" name="cityDialog" :value="city.name" v-model="cityPicked" />
+            <span>{{ city.name }}</span>
           </span>
         </div>
         <div class="m-location__dialog-checkbox">
@@ -53,6 +53,7 @@
 
 <script>
 import { AInput, AButton, AControl } from '@cwespb/synergyui';
+import getCitiesList from '~/api/citiesList';
 import './m_location.scss';
 
 export default {
@@ -66,32 +67,37 @@ export default {
 
   data() {
     return {
-      city: 'Москва',
-      cityPicked: null,
       cityDialogOpen: false,
+
+      city: 'Москва', // Город, который определился
+      cityPicked: null, // Город, который выбрал пользователь
+
+      citiesFullList: [],
       citiesPopular: [
-        'Москва',
-        'Санкт-Петербург',
-        'Екатеринбург',
-        'Уфа',
-        'Краснодар',
-        'Тюмень',
-        'Казань',
-        'Нижний Новгород',
+        { name: 'Москва' },
+        { name: 'Санкт-Петербург' },
+        { name: 'Екатеринбург' },
+        { name: 'Уфа' },
+        { name: 'Краснодар' },
+        { name: 'Тюмень' },
+        { name: 'Казань' },
+        { name: 'Нижний Новгород' },
       ],
+
       questionTitle: 'Ваш город для поиска',
       questionBtns: [
         {
           name: 'Да',
           bgColor: 'accent',
-          click: 'hideDialog',
+          click: 'saveCity',
         },
         {
           name: 'Выбрать город',
-          bgColor: 'secondary',
+          bgColor: 'ghost-primary',
           click: 'showDialog',
         },
       ],
+
       dialogTitle: 'Выбор города',
       dialogCheckbox: 'Определять автоматически',
       dialogBtns: [
@@ -107,14 +113,31 @@ export default {
         },
       ],
       searchPlaceholder: 'Введите название города',
-      dialogShow: false,
+      searchCity: '',
     };
+  },
+
+  computed: {
+    citiesList() {
+      const searchCity = this.searchCity.toLowerCase();
+      let searchedCities = this.citiesPopular;
+      if (searchCity.length) {
+        searchedCities = this.citiesFullList.filter((c) => c.name.toLowerCase().indexOf(searchCity) > -1);
+      }
+
+      if (!searchedCities.length) searchedCities = this.citiesPopular;
+      return searchedCities;
+    },
   },
 
   mounted() {
     if (localStorage.city) {
       this.city = localStorage.city;
     }
+  },
+
+  async fetch() {
+    this.citiesFullList = await getCitiesList();
   },
 
   methods: {
@@ -125,6 +148,7 @@ export default {
 
     hideDialog() {
       this.cityDialogOpen = false;
+      this.cityPicked = null;
       document.documentElement.classList.remove('city-dialog-opened');
     },
 
@@ -136,10 +160,14 @@ export default {
         this.showDialog('choose');
       }
       if (e === 'saveCity') {
-        this.city = city;
-        localStorage.city = city;
+        this.saveCity(city);
         this.hideDialog();
       }
+    },
+
+    saveCity(city) {
+      this.city = city;
+      localStorage.city = city;
     },
   },
 };
