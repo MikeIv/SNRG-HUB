@@ -28,9 +28,6 @@ export default {
       return this.$store.state.pageMeta;
     },
   },
-  mounted() {
-    console.log(this.pageInfo);
-  },
   head() {
     return {
       title: this.pageMeta?.title,
