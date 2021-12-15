@@ -27,7 +27,7 @@
         <s-banner v-if="viewType === 'product_list_banner'" :methods="[...this.methods[1]]" />
       </div>
 
-      <nuxt-link to="/catalog" class="s-main-programs__btn-link">
+      <nuxt-link :to="urlToCatalog" class="s-main-programs__btn-link">
         <a-button class="s-main-programs__btn" label="Показать все" bgColor="accent" @click="onButtonMoreClick" />
       </nuxt-link>
     </div>
@@ -56,7 +56,7 @@ export default {
       windowWidth: 0,
     };
   },
-  props: ['methods', 'title', 'viewType'],
+  props: ['methods', 'title', 'viewType', 'options'],
   methods: {
     getWindowWidth() {
       this.windowWidth = document.documentElement.clientWidth;
@@ -66,7 +66,7 @@ export default {
       this.$router.push(`/organization/${product.included.organization.slug}`);
     },
     onButtonMoreClick() {
-      this.$router.push('/catalog');
+      this.$router.push(this.urlToCatalog);
     },
   },
   async fetch() {
@@ -97,6 +97,10 @@ export default {
         cardsList = 4;
       }
       return cardsList;
+    },
+
+    urlToCatalog() {
+      return this.options.find((item) => item.code === 'show_all').value;
     },
   },
 };

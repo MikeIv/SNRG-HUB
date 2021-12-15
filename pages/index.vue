@@ -1,7 +1,7 @@
 <template>
   <main>
-    <LazyHydrate :key="id" v-for="{ key, methods, title, id, view_type } in pageInfo.components" when-visible>
-      <component :is="key" :methods="methods" :title="title" :viewType="view_type"></component>
+    <LazyHydrate :key="id" v-for="{ key, methods, options, title, id, view_type } in pageInfo.components" when-visible>
+      <component :is="key" :methods="methods" :options="options" :title="title" :viewType="view_type"></component>
     </LazyHydrate>
   </main>
 </template>
@@ -27,6 +27,9 @@ export default {
     pageMeta() {
       return this.$store.state.pageMeta;
     },
+  },
+  mounted() {
+    console.log(this.pageInfo);
   },
   head() {
     return {
