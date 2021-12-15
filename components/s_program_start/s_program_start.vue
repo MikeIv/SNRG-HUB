@@ -2,7 +2,10 @@
   <section class="s-program-start">
     <div class="s-program-start__wrapper" :style="{ backgroundColor: program.color ? program.color : '#fff' }">
       <div class="s-program-start__header">
-        <div class="s-program-start__header-breadcrumbs">
+        <div
+          v-if="$route.name !== 'edu-platform' && $route.name !== 'edu-platform-slug'"
+          class="s-program-start__header-breadcrumbs"
+        >
           <a-breadcrumbs :breadcrumbs="breadcrumbs" />
         </div>
         <div class="s-program-start__header-icons">
@@ -159,6 +162,10 @@ export default {
       organization: {},
       level: {},
     };
+  },
+
+  mounted() {
+    console.log(this.$route);
   },
 
   props: {
