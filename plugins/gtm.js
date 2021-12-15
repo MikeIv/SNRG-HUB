@@ -11,4 +11,9 @@ export default ({}, inject) => {
     j.src = `https://www.googletagmanager.com/gtm.js?id=${i}${dl}`;
     f.parentNode.insertBefore(j, f);
   }(window, document, 'script', 'dataLayer', 'GTM-WPTVBRG')));
+  // Вставка noscript
+  const gtmScript = window.document.createElement('noscript');
+  // eslint-disable-next-line max-len
+  gtmScript.innerHTML = '<iframe src="https://www.googletagmanager.com/ns.html?id=GTM-WPTVBRG" height="0" width="0"></iframe>';
+  window.document.body.appendChild(gtmScript);
 };
