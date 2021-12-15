@@ -2,7 +2,6 @@
   <section class="s-proftest">
     <div class="l-wide">
       <div class="s-proftest__wrapper">
-        <!-- <a-breadcrumbs :breadcrumbs="breadcrumbs" /> -->
         <div class="s-proftest__content">
           <div class="s-proftest__left-col">
             <p class="s-proftest__subtitle">{{ subtitle }}</p>
@@ -37,13 +36,13 @@
         <div class="s-proftest__content">
           <div class="s-proftest__left-col">
             <p class="s-proftest__subtitle">{{ resultSubtitle }}</p>
-            <h2 class="s-proftest__title">{{ mindType.name }}</h2>
-            <p class="s-proftest__description" v-html="mindType.description"></p>
+            <h2 class="s-proftest__title">{{ getMindType.name }}</h2>
+            <p class="s-proftest__description" v-html="getMindType.description"></p>
             <AButton class="s-proftest__btn" label="Пройти еще раз" @click="getReQuiz" />
           </div>
           <div class="s-proftest__right-col">
             <div class="s-proftest__img-block">
-              <img :src="`${baseURL}${mindType.image}`" alt="Тест" class="s-proftest__img" />
+              <img :src="`${baseURL}${getMindType.image}`" alt="Тест" class="s-proftest__img" />
             </div>
           </div>
         </div>
@@ -68,17 +67,16 @@
 
 <script>
 import { AButton } from '@cwespb/synergyui';
-// import ABreadcrumbs from '~/components/a_breadcrumbs/a_breadcrumbs';
 import MQuiz from '~/components/_ui/m_quiz/m_quiz';
 import MCardEdu from '~/components/ui/m-card-edu/m_card_edu';
-import getQuestionsList from '~/api/proftestList';
+import getMindList from '~/api/proftestList';
+import getQuestionsList from '~/api/proftestDetail';
 
 import './s_proftest.scss';
 
 export default {
   name: 'SProftest',
   components: {
-    // ABreadcrumbs,
     AButton,
     MQuiz,
     MCardEdu,
@@ -89,7 +87,6 @@ export default {
     authorization: false,
     quizeShow: false,
     quizComplete: false, // Скрытие  Quiz при true
-    mindType: {},
     swiperOptionA: {
       slidesPerView: 'auto',
       spaceBetween: 20,
@@ -134,7 +131,9 @@ export default {
     dataQuiz: true,
     questions: [],
     answers: [],
+    mindType: [],
     directionsList: [],
+    getMindType: {},
   }),
 
   props: {
@@ -144,38 +143,34 @@ export default {
   },
 
   async fetch() {
-    let expandedMethod = {
-      filter: {
-        id: 1,
-      },
+    // Типы мышления и их описание
+    const expandedMethod = {
+      filter: { id: 1 },
       include: ['test_questions', 'directions'],
     };
+    const resp = await getMindList(expandedMethod);
+    this.mindType = resp;
 
-    if (this.methods) {
-      expandedMethod = this.methods[0].data;
-    } else {
-      expandedMethod.filter.id = this.quizId;
-    }
+    // Список вопросов
+    const expandedMethod2 = {
+      filter: { id: 2 },
+      include: ['test_questions'],
+    };
 
-    const response = await getQuestionsList(expandedMethod);
-    this.answers = response;
+    const response = await getQuestionsList(expandedMethod2);
+    this.answers = response.included.test_questions;
     let questions = [];
-    response.forEach((item, idx) => {
-      const linkItem = item;
-      if (idx > 0) {
-        linkItem.included.test_questions.forEach((obj) => {
-          const answers = [
-            { answer: 'да, всегда', point: 3 },
-            { answer: 'иногда', point: 2 },
-            { answer: 'нет', point: 1 },
-          ];
-          const linkObj = obj;
-          linkObj.answers = answers;
-        });
-        questions = [...questions, ...linkItem.included.test_questions];
-        this.questions = questions;
-      }
+    this.answers.forEach((item) => {
+      const answers = [
+        { answer: 'да, всегда', point: 3 },
+        { answer: 'иногда', point: 2 },
+        { answer: 'нет', point: 1 },
+      ];
+      // eslint-disable-next-line no-param-reassign
+      item.answers = answers;
     });
+    questions = [...this.answers, ...questions];
+    this.questions = questions;
   },
 
   methods: {
@@ -192,12 +187,12 @@ export default {
       this.maxId = null;
     },
     isQuizComplete(id) {
-      this.answers.forEach((item, idx) => {
+      this.mindType.forEach((item, idx) => {
         if (idx > 0 && +item.id === +id) {
           this.directionsList = item.included.directions;
         }
       });
-      this.mindType = this.answers.find((answer) => answer.id === Number(id));
+      this.getMindType = this.mindType.find((answer) => answer.id === Number(id));
       this.quizComplete = true;
     },
   },
