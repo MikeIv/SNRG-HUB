@@ -1,8 +1,5 @@
 <template>
   <div class="product-page">
-    <noscript
-      ><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-WPTVBRG" height="0" width="0"></iframe
-    ></noscript>
     <SHeader @search="search = $event" />
     <SProductSearch v-if="search" :search="search" @search-clear="clearSearch" />
     <Nuxt v-else />
