@@ -3,7 +3,7 @@
     <!-- quiz -->
     <div class="m-quiz__box">
       <div class="m-quiz__questions-count a-font_h6">{{ questionsCountText }}</div>
-      <div class="m-quiz__quiz" v-if="countPosition !== count">
+      <div class="m-quiz__quiz" v-if="countPosition !== count" :key="countPosition">
         <div class="m-quiz__questions">
           <div class="m-quiz__prev" v-if="countPosition > 0" @click="prevQuiz">
             <i class="si-chevron-left"></i>Предыдущий вопрос
@@ -35,7 +35,6 @@
 
 <script>
 import { AControl, AProgressbar } from '@cwespb/synergyui';
-import './m_quiz.scss';
 
 export default {
   name: 'm-quiz',
@@ -163,3 +162,6 @@ export default {
   },
 };
 </script>
+<style lang="scss" scoped>
+@import '@/components/_ui/m_quiz/m_quiz.scss';
+</style>
