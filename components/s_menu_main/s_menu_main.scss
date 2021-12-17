@@ -327,6 +327,15 @@
     }
   }
 
+  &__location {
+    display: none;
+    @media screen and (max-width: 991px) {
+      display: block;
+      margin: rem(13) 0;
+      padding: 0 var(--a-padding--x4);
+    }
+  }
+
   @keyframes show {
     0% {
       opacity: 0;

@@ -1,0 +1,47 @@
+@import '@/assets/styles/tools/mixins';
+
+.popup-animated {
+  width: 100%;
+
+  .a-popup__container {
+    position: absolute;
+    top: auto;
+    overflow: auto;
+    width: 100%;
+    max-height: 100%;
+    transition: 0.2s;
+  }
+
+  &__title {
+    margin: 0 0 rem(20);
+    span {
+      color: var(--a-color_link);
+    }
+  }
+
+  // Animations
+  &.slideToTop {
+    @media screen and (max-width: 991px) {
+      .a-popup__container {
+        bottom: 0;
+        border-radius: var(--a-borderRadius--bg) var(--a-borderRadius--bg) 0 0;
+      }
+      &-leave-active .a-popup__container,
+      &-enter-active .a-popup__container {
+        transition: 0.2s;
+      }
+      &-enter .a-popup__container {
+        opacity: 0;
+        transform: translate(0, 100vh);
+      }
+      &-leave-to .a-popup__container {
+        opacity: 1;
+        transform: translate(0);
+      }
+      &-enter-active .a-popup__container {
+        transition: 0.2s;
+        transform: translate(0, 100vh);
+      }
+    }
+  }
+}

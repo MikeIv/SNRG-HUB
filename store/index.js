@@ -6,6 +6,7 @@ export const state = () => ({
   pageInfo: {},
   pageMeta: {},
   isMenuOpen: false,
+  isPopupSelectCity: false,
   quizInfo: {},
   utms: {},
   followedLink: '',
@@ -23,6 +24,9 @@ export const mutations = {
   },
   setQuizInfo(state, quiz) {
     state.quizInfo = quiz;
+  },
+  changeIsPopupSelectCity(state, isOpen) {
+    state.isPopupSelectCity = isOpen;
   },
   setUtms(state, utms) {
     state.utms = utms;
