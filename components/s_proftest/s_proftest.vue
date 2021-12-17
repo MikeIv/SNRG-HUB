@@ -7,7 +7,7 @@
             <p class="s-proftest__subtitle">{{ subtitle }}</p>
             <h1 class="s-proftest__title">{{ title }}</h1>
             <p class="s-proftest__description">{{ description }}</p>
-            <AButton class="s-proftest__btn" label="Пройти тест" bgColor="accent" v-if="!quizeShow" @click="getQuiz" />
+            <AButton @click="getQuize" class="s-proftest__btn" label="Пройти тест" bgColor="accent" v-if="!quizeShow" />
           </div>
           <div class="s-proftest__right-col">
             <div class="s-proftest__img-block">
@@ -23,7 +23,7 @@
         </div>
       </div>
 
-      <div class="s-proftest__wrapper" v-if="quizeShow && !quizComplete">
+      <div class="s-proftest__wrapper" v-if="quizeShow && !quizComplete" ref="test" id="test">
         <MQuiz
           class="s-proftest__quiz"
           :questions="questions"
@@ -179,9 +179,12 @@ export default {
     changeHandler(value) {
       this.dataQuestion = value;
     },
-
-    getQuiz() {
+    getQuize() {
       this.quizeShow = !this.quizeShow;
+      this.$nextTick(() => {
+        const testBlock = document.getElementById('test');
+        testBlock.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      });
     },
     getReQuiz() {
       this.quizeShow = !this.quizeShow;
