@@ -1,56 +1,40 @@
 <template>
-  <div class="popup-location__wrapper">
-    {{ IsPopupSelectCity }}
-    <div class="l-wide">
-      <PopupAnimated
-        class="popup-location__dialog popup-location__dialog_question"
-        :visible="isPopupQuestionCity"
-        @close="hidePopup"
-        :title="`Ваш город для поиска <span>${city}</span>?`"
-        transition="slideToTop"
-      >
-        <div class="popup-location__dialog-bottom">
-          <a-button label="Да" bgColor="accent" @click="saveCity(city)"></a-button>
-          <a-button
-            label="Выбрать город"
-            bgColor="ghost-primary"
-            @click="
-              hidePopup();
-              isPopupSelectCity = true;
-            "
-          ></a-button>
-        </div>
-      </PopupAnimated>
+  <div class="l-wide">
+    <PopupAnimated
+      class="popup-location__dialog popup-location__dialog_question"
+      :visible="isPopupQuestionCity"
+      @close="hidePopups"
+      :title="`Ваш город для поиска <span>${city}</span>?`"
+      transition="slideToTop"
+    >
+      <div class="popup-location__dialog-bottom">
+        <a-button label="Да" bgColor="accent" @click="saveCity(city)"></a-button>
+        <a-button label="Выбрать город" bgColor="ghost-primary" @changeIsPopupSelectCity="true"></a-button>
+      </div>
+    </PopupAnimated>
 
-      <PopupAnimated
-        class="popup-location__dialog popup-location__dialog_choose"
-        :visible="isPopupQuestionCity"
-        @close="hidePopup"
-        title="Выбор города"
-        transition="slideToTop"
-      >
-        <a-input
-          id="search"
-          icons="si-search"
-          size="medium"
-          placeholder="Введите название города"
-          v-model="searchCity"
-        />
-        <div class="popup-location__dialog-list" ref="cities">
-          <span class="popup-location__dialog-list-item" v-for="city in citiesList.slice(0, 8)" :key="city.index">
-            <input type="radio" name="cityDialog" :value="city.name" v-model="cityPicked" />
-            <span>{{ city.name }}</span>
-          </span>
-        </div>
-        <div class="popup-location__dialog-checkbox">
-          <AControl typeBtn="checkbox" typeCtrl="checkbox" title="Определять автоматически" labelPosition="right" />
-        </div>
-        <div class="popup-location__dialog-bottom">
-          <a-button label="Сохранить" bgColor="accent" @click="saveCity(cityPicked)"></a-button>
-          <a-button label="Отмена" bgColor="ghost-primary" @click="hidePopup"></a-button>
-        </div>
-      </PopupAnimated>
-    </div>
+    <PopupAnimated
+      class="popup-location__dialog popup-location__dialog_choose"
+      :visible="isPopupSelectCity"
+      @close="hidePopups"
+      title="Выбор города"
+      transition="slideToTop"
+    >
+      <a-input id="search" icons="si-search" size="medium" placeholder="Введите название города" v-model="searchCity" />
+      <div class="popup-location__dialog-list" ref="cities">
+        <span class="popup-location__dialog-list-item" v-for="city in citiesList.slice(0, 8)" :key="city.index">
+          <input type="radio" name="cityDialog" :value="city.name" v-model="cityPicked" />
+          <span>{{ city.name }}</span>
+        </span>
+      </div>
+      <div class="popup-location__dialog-checkbox">
+        <AControl typeBtn="checkbox" typeCtrl="checkbox" title="Определять автоматически" labelPosition="right" />
+      </div>
+      <div class="popup-location__dialog-bottom">
+        <a-button label="Сохранить" bgColor="accent" @click="saveCity(cityPicked)"></a-button>
+        <a-button label="Отмена" bgColor="ghost-primary" @click="hidePopups"></a-button>
+      </div>
+    </PopupAnimated>
   </div>
 </template>
 
@@ -76,7 +60,6 @@ export default {
       searchCity: '',
       cityPicked: [], // Город, который выбрал пользователь
       citiesFullList: [],
-      isPopupSelectCity: false,
       isPopupQuestionCity: false,
     };
   },
@@ -86,9 +69,10 @@ export default {
   },
 
   computed: {
-    IsPopupSelectCity() {
-      return this.isPopupSelectCity;
+    isPopupSelectCity() {
+      return this.$store.state.isPopupSelectCity;
     },
+
     citiesList() {
       const searchCity = this.searchCity.toLowerCase();
       let searchedCities = this.citiesFullList;
@@ -102,16 +86,15 @@ export default {
   },
 
   mounted() {
-    console.log('mounted', this.isPopupSelectCity, this.$store.state.isPopupSelectCity);
     this.$nextTick(() => {
       this.isCityConfirmed();
     });
   },
 
   methods: {
-    hidePopup() {
+    hidePopups() {
       this.isPopupQuestionCity = false;
-      this.isPopupSelectCity = false;
+      this.$store.commit('changeIsPopupSelectCity', false);
       this.cityPicked = [];
     },
 
@@ -127,8 +110,9 @@ export default {
       if (city) {
         this.city = city;
         localStorage.city = city;
+        this.$store.commit('setCity', city);
       }
-      this.hidePopup();
+      this.hidePopups();
     },
   },
 };

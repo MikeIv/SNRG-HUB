@@ -1,6 +1,6 @@
 <template>
   <div class="m-location">
-    <a-button :label="city" bgColor="none" iconType="si-location-city" @click="openPopup"></a-button>
+    <a-button :label="isCity" bgColor="none" iconType="si-location-city" @click="openPopup"></a-button>
   </div>
 </template>
 
@@ -15,29 +15,21 @@ export default {
     AButton,
   },
 
-  data() {
-    return {
-      city: 'Москва',
-    };
+  computed: {
+    isCity() {
+      return this.$store.state.city;
+    },
   },
 
   mounted() {
     if (localStorage.city) {
-      this.city = localStorage.city;
+      this.$store.commit('setCity', localStorage.city);
     }
-  },
-
-  watch: {
-    city(newCity) {
-      localStorage.city = newCity;
-      this.city = newCity;
-    },
   },
 
   methods: {
     openPopup() {
       this.$store.commit('changeIsPopupSelectCity', true);
-      console.log('openPopup', this.$store.state.isPopupSelectCity);
     },
   },
 };

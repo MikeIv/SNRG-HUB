@@ -1,14 +1,6 @@
 @import '@/assets/styles/tools/mixins';
 
 .popup-location {
-  &__wrapper {
-    position: fixed;
-    z-index: 100;
-    top: 0;
-    left: 0;
-    width: 100%;
-  }
-
   &__dialog {
     &.a-popup {
       width: 100%;
@@ -54,9 +46,13 @@
 
     &-list {
       display: flex;
+      overflow: auto;
       flex-direction: column;
+      max-height: rem(288);
       @media screen and (min-width: 768px) {
+        overflow: unset;
         flex-direction: row;
+        max-height: unset;
         margin: rem(18) rem(-4) 0;
         flex-wrap: wrap;
       }
@@ -64,6 +60,7 @@
       &-item {
         position: relative;
         display: flex;
+        flex: none;
         align-items: center;
         height: rem(48);
         line-height: 1;
@@ -113,7 +110,11 @@
     }
 
     &-checkbox {
+      display: none;
       margin: rem(12) 0 rem(16);
+      @media screen and (min-width: 768px) {
+        display: block;
+      }
       & .a-control {
         &__label {
           padding: 0;
