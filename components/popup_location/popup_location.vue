@@ -9,7 +9,7 @@
     >
       <div class="popup-location__dialog-bottom">
         <a-button label="Да" bgColor="accent" @click="saveCity(city)"></a-button>
-        <a-button label="Выбрать город" bgColor="ghost-primary" @changeIsPopupSelectCity="true"></a-button>
+        <a-button label="Выбрать город" bgColor="ghost-primary" @click="openSelectCity"></a-button>
       </div>
     </PopupAnimated>
 
@@ -56,7 +56,6 @@ export default {
 
   data() {
     return {
-      city: 'Москва', // Город, который определился
       searchCity: '',
       cityPicked: [], // Город, который выбрал пользователь
       citiesFullList: [],
@@ -68,7 +67,17 @@ export default {
     this.citiesFullList = await getCitiesList();
   },
 
+  watch: {
+    cityPicked(val) {
+      this.saveCityMobile(val);
+    },
+  },
+
   computed: {
+    city() {
+      return this.$store.state.city;
+    },
+
     isPopupSelectCity() {
       return this.$store.state.isPopupSelectCity;
     },
@@ -98,21 +107,30 @@ export default {
       this.cityPicked = [];
     },
 
+    openSelectCity() {
+      this.isPopupQuestionCity = false;
+      this.$store.commit('changeIsPopupSelectCity', true);
+      this.cityPicked = [];
+    },
+
     isCityConfirmed() {
-      if (localStorage.city) {
-        this.city = localStorage.city;
-      } else {
+      if (!localStorage.city) {
         this.isPopupQuestionCity = true;
       }
     },
 
     saveCity(city) {
       if (city) {
-        this.city = city;
         localStorage.city = city;
         this.$store.commit('setCity', city);
       }
       this.hidePopups();
+    },
+
+    saveCityMobile(city) {
+      if (city.length && window.innerWidth < 768) {
+        this.saveCity(city);
+      }
     },
   },
 };
