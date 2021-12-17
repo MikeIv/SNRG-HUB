@@ -55,7 +55,7 @@ export default {
   async fetch() {
     const expandedMethod = {
       filter: {
-        product_id: this.productIds.id,
+        product_id: this.productIds?.id,
       },
       include: ['persons', 'city', 'triggers'],
     };

@@ -63,9 +63,3 @@ export default {
   },
 };
 </script>
-<style lang="scss" scoped>
-iframe {
-  display: none;
-  visibility: hidden;
-}
-</style>
