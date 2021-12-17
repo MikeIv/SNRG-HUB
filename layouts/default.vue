@@ -1,7 +1,7 @@
 <template>
   <div>
     <SHeader @search="search = $event" />
-    <SProductSearch v-if="search" :search="search" @search-clear="clearSearch" />
+    <SProductSearch v-if="search" :search="search" />
     <Nuxt v-else />
     <LazyHydrate when-visible>
       <SFooter />
@@ -22,7 +22,6 @@ export default {
       search: '',
     };
   },
-
   head() {
     return {
       link: [
@@ -42,17 +41,7 @@ export default {
     MobileButton,
   },
 
-  methods: {
-    clearSearch() {
-      this.search = '';
-    },
-  },
-
   mounted() {
-    if (this.$route.query.search) {
-      this.search = this.$route.query.search;
-    }
-
     setTimeout(() => {
       this.$gtm();
     }, 2500);
