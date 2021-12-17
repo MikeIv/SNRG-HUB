@@ -229,8 +229,6 @@ export default {
       } else {
         inputOpts.maxlength = 16;
       }
-      console.log(valid);
-
       this.validQuizData();
     },
 
@@ -254,9 +252,7 @@ export default {
         quizString = `${quizString} Вопрос: ${dataQuiz[i].question} - Ответ:  ${dataQuiz[i].answer} \n`;
       }
       this.send.comments = quizString;
-      this.$lander.send(this.send).then((response) => {
-        console.log(response);
-      });
+      this.$lander.send(this.send);
     },
 
     prevQuiz() {

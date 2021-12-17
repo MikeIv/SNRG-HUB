@@ -27,6 +27,5 @@ export default async function ({ route, store }) {
     requestData.filter.slug = 'organization';
     requestData.params.slug = route.params.slug;
   }
-
   await store.dispatch('getPageInfo', requestData);
 }
