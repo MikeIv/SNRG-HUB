@@ -7,7 +7,7 @@
             <p class="s-proftest__subtitle">{{ subtitle }}</p>
             <h1 class="s-proftest__title">{{ title }}</h1>
             <p class="s-proftest__description">{{ description }}</p>
-            <AButton class="s-proftest__btn" label="Пройти тест" bgColor="accent" v-if="!quizeShow" @click="getQuiz" />
+            <AButton @click="getQuize" class="s-proftest__btn" label="Пройти тест" bgColor="accent" v-if="!quizeShow" />
           </div>
           <div class="s-proftest__right-col">
             <div class="s-proftest__img-block">
@@ -23,7 +23,7 @@
         </div>
       </div>
 
-      <div class="s-proftest__wrapper" v-if="quizeShow && !quizComplete">
+      <div class="s-proftest__wrapper" v-if="quizeShow && !quizComplete" ref="test" id="test">
         <MQuiz
           class="s-proftest__quiz"
           :questions="questions"
@@ -38,17 +38,18 @@
             <p class="s-proftest__subtitle">{{ resultSubtitle }}</p>
             <h2 class="s-proftest__title">{{ getMindType.name }}</h2>
             <p class="s-proftest__description" v-html="getMindType.description"></p>
-            <AButton class="s-proftest__btn" label="Пройти еще раз" @click="getReQuiz" />
           </div>
           <div class="s-proftest__right-col">
-            <div class="s-proftest__img-block">
+            <div class="s-proftest__img-block mb">
               <img :src="`${baseURL}${getMindType.image}`" alt="Тест" class="s-proftest__img" />
             </div>
           </div>
+          <AButton class="s-proftest__btn order" label="Пройти еще раз" @click="getReQuiz" />
         </div>
       </div>
 
       <div class="s-proftest__wrapper" v-if="quizComplete">
+        <h1 class="s-proftest__title">{{ titleCards }}</h1>
         <div class="s-proftest__cards">
           <div class="s-proftest__card" v-for="directions in directionsList" :key="directions.id">
             <nuxt-link :to="`/catalog/${directions.slug}?page=1`">
@@ -121,6 +122,7 @@ export default {
     Img: 'proftest_img-01.jpg',
     subtitle: '30 вопросов',
     title: 'Тест на выбор профессии',
+    titleCards: 'Рекомендуемые направления обучения',
     description:
       // eslint-disable-next-line max-len
       'Многие абитуриенты испытывают трудности в выборе профессии. Чтобы узнать, какая профессия подходит именно вам, мы предлагаем пройти тест на выбор профессии, который поможет вам уточнить свой выбор, узнать будущую профессию, увидеть новые варианты. ',
@@ -177,9 +179,12 @@ export default {
     changeHandler(value) {
       this.dataQuestion = value;
     },
-
-    getQuiz() {
+    getQuize() {
       this.quizeShow = !this.quizeShow;
+      this.$nextTick(() => {
+        const testBlock = document.getElementById('test');
+        testBlock.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      });
     },
     getReQuiz() {
       this.quizeShow = !this.quizeShow;

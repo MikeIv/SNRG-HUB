@@ -27,7 +27,7 @@
         <s-banner v-if="viewType === 'product_list_banner'" :methods="[...this.methods[1]]" />
       </div>
 
-      <nuxt-link :to="urlToCatalog" class="s-main-programs__btn-link">
+      <nuxt-link v-if="options" :to="urlToCatalog" class="s-main-programs__btn-link">
         <a-button class="s-main-programs__btn" label="Показать все" bgColor="accent" @click="onButtonMoreClick" />
       </nuxt-link>
     </div>
