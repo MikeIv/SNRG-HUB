@@ -10,7 +10,7 @@
       @change-sort-option="changeSortOptions"
       @menu-toggle="menuToggle"
     />
-    <SProductSearch v-if="search" :search="search" @search-clear="clearSearch" />
+    <SProductSearch v-if="search" :search="search" />
     <s-organizations
       v-else
       :currentOption="currentOption"
@@ -92,16 +92,6 @@ export default {
       this.options = options;
       this.currentOption = option;
     },
-
-    clearSearch() {
-      this.search = '';
-    },
   },
 };
 </script>
-<style lang="scss" scoped>
-iframe {
-  display: none;
-  visibility: hidden;
-}
-</style>

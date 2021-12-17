@@ -1,7 +1,7 @@
 <template>
   <div class="organization-page">
     <SHeader @search="search = $event" />
-    <SProductSearch v-if="search" :search="search" @search-clear="clearSearch" />
+    <SProductSearch v-if="search" :search="search" />
     <Nuxt v-else />
     <LazyHydrate when-visible v-if="!search">
       <SQuiz :quiz-id="2" />
@@ -46,17 +46,7 @@ export default {
     };
   },
 
-  methods: {
-    clearSearch() {
-      this.search = '';
-    },
-  },
-
   mounted() {
-    if (this.$route.query.search) {
-      this.search = this.$route.query.search;
-    }
-
     setTimeout(() => {
       this.$gtm();
     }, 2500);
