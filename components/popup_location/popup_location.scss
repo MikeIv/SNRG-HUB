@@ -23,12 +23,6 @@
     }
 
     &_choose .a-popup__container {
-      @media screen and (max-width: 767px) {
-        .cityPopupFocused & {
-          top: 0;
-          bottom: auto;
-        }
-      }
       @media screen and (min-width: 992px) {
         position: relative;
         width: rem(628);
