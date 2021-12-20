@@ -1,23 +1,14 @@
 @import '@/assets/styles/tools/mixins';
 
+.cityPopupOpened {
+  overflow: hidden !important;
+  height: 100%;
+}
+
 .popup-location {
   &__dialog {
     &.a-popup {
       width: 100%;
-    }
-
-    &__container {
-      position: absolute;
-      top: auto;
-      bottom: 0;
-      overflow: auto;
-      width: 100%;
-      max-height: 100%;
-      border-radius: var(--a-borderRadius--bg) var(--a-borderRadius--bg) 0 0;
-      @media screen and (min-width: 992px) {
-        bottom: auto;
-        border-radius: var(--a-borderRadius--bg);
-      }
     }
 
     &_question .a-popup__container {
@@ -32,6 +23,12 @@
     }
 
     &_choose .a-popup__container {
+      @media screen and (max-width: 767px) {
+        .cityPopupFocused & {
+          top: 0;
+          bottom: auto;
+        }
+      }
       @media screen and (min-width: 992px) {
         position: relative;
         width: rem(628);

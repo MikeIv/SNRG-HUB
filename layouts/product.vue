@@ -10,6 +10,7 @@
       <SFooter />
     </LazyHydrate>
     <MobileButton />
+    <Popups />
   </div>
 </template>
 
@@ -18,6 +19,7 @@ import LazyHydrate from 'vue-lazy-hydration';
 import SHeader from '~/components/s_header/s_header';
 import SProductSearch from '~/components/s_product_search/s_product_search';
 import MobileButton from '~/components/mobile_button/mobile_button';
+import Popups from '~/components/popups/popups';
 
 export default {
   head() {
@@ -38,6 +40,7 @@ export default {
     SProductSearch,
     LazyHydrate,
     MobileButton,
+    Popups,
   },
 
   data() {

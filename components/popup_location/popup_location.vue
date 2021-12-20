@@ -20,7 +20,15 @@
       title="Выбор города"
       transition="slideToTop"
     >
-      <a-input id="search" icons="si-search" size="medium" placeholder="Введите название города" v-model="searchCity" />
+      <a-input
+        id="search"
+        icons="si-search"
+        size="medium"
+        placeholder="Введите название города"
+        @focus="focused = true"
+        @blur="focused = false"
+        v-model="searchCity"
+      />
       <div class="popup-location__dialog-list" ref="cities">
         <span class="popup-location__dialog-list-item" v-for="city in citiesList.slice(0, 8)" :key="city.index">
           <input type="radio" name="cityDialog" :value="city.name" v-model="cityPicked" />
@@ -57,9 +65,11 @@ export default {
   data() {
     return {
       searchCity: '',
+      focused: false,
       cityPicked: '', // Город, который выбрал пользователь
       citiesFullList: [],
       isPopupQuestionCity: false,
+      isPopup: false,
     };
   },
 
@@ -68,8 +78,30 @@ export default {
   },
 
   watch: {
+    focused(val) {
+      if (val) {
+        document.documentElement.classList.add('cityPopupFocused');
+      } else {
+        document.documentElement.classList.remove('cityPopupFocused');
+      }
+    },
+
     cityPicked(val) {
       this.saveCityMobile(val);
+    },
+
+    isPopup(val) {
+      if (val) {
+        document.documentElement.classList.add('cityPopupOpened');
+      } else {
+        document.documentElement.classList.remove('cityPopupOpened');
+      }
+    },
+
+    isPopupSelectCity(val) {
+      if (val) {
+        this.isPopup = val;
+      }
     },
   },
 
@@ -105,17 +137,20 @@ export default {
       this.isPopupQuestionCity = false;
       this.$store.commit('changeIsPopupSelectCity', false);
       this.cityPicked = '';
+      this.isPopup = false;
     },
 
     openSelectCity() {
       this.isPopupQuestionCity = false;
       this.$store.commit('changeIsPopupSelectCity', true);
       this.cityPicked = '';
+      this.isPopup = true;
     },
 
     isCityConfirmed() {
       if (!localStorage.city) {
         this.isPopupQuestionCity = true;
+        this.isPopup = true;
       }
     },
 
