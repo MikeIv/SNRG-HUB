@@ -57,7 +57,7 @@ export default {
   data() {
     return {
       searchCity: '',
-      cityPicked: [], // Город, который выбрал пользователь
+      cityPicked: '', // Город, который выбрал пользователь
       citiesFullList: [],
       isPopupQuestionCity: false,
     };
@@ -104,13 +104,13 @@ export default {
     hidePopups() {
       this.isPopupQuestionCity = false;
       this.$store.commit('changeIsPopupSelectCity', false);
-      this.cityPicked = [];
+      this.cityPicked = '';
     },
 
     openSelectCity() {
       this.isPopupQuestionCity = false;
       this.$store.commit('changeIsPopupSelectCity', true);
-      this.cityPicked = [];
+      this.cityPicked = '';
     },
 
     isCityConfirmed() {
