@@ -1,7 +1,7 @@
 <template>
   <div class="page-404__wrapper">
     <SHeader @search="search = $event" />
-    <SProductSearch v-if="search" :search="search" @search-clear="clearSearch" />
+    <SProductSearch v-if="search" :search="search" />
     <Page404 v-else />
     <SFooter />
   </div>
@@ -42,16 +42,10 @@ export default {
     SProductSearch,
   },
 
-  methods: {
-    clearSearch() {
-      this.search = '';
-    },
-  },
-
   mounted() {
-    if (this.$route.query.search) {
-      this.search = this.$route.query.search;
-    }
+    setTimeout(() => {
+      this.$gtm();
+    }, 2500);
   },
 };
 </script>

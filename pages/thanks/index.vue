@@ -1,7 +1,7 @@
 <template>
   <div class="thanks__wrapper">
     <SHeader @search="search = $event" />
-    <SProductSearch v-if="search" :search="search" @search-clear="clearSearch" />
+    <SProductSearch v-if="search" :search="search" />
     <Thanks v-else />
     <SFooter />
   </div>
@@ -26,12 +26,6 @@ export default {
     return {
       search: '',
     };
-  },
-
-  methods: {
-    clearSearch() {
-      this.search = '';
-    },
   },
 };
 </script>

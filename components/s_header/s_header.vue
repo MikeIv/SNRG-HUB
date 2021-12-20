@@ -156,8 +156,12 @@ export default {
     $route: {
       deep: true,
       handler() {
-        this.search = '';
-        this.$emit('search', '');
+        if (!this.$route.query.search) {
+          this.search = '';
+          this.$emit('search', '');
+        } else {
+          this.search = this.$route.query.search;
+        }
       },
     },
 
@@ -177,15 +181,14 @@ export default {
       });
     });
 
-    document.getElementById('search').addEventListener('keypress', this.handleSearch);
-
-    this.search = this.$route.query.search;
+    if (this.$route.query.search) {
+      this.search = this.$route.query.search;
+    }
     this.handleScroll();
   },
 
   beforeDestroy() {
     window.removeEventListener('scroll', this.handleScroll);
-    window.removeEventListener('keypress', this.handleSearch);
   },
 
   methods: {
@@ -206,27 +209,22 @@ export default {
       if (!this.search) {
         this.search = '';
         this.$emit('search', '');
-        window.history.pushState({}, null, `${window.location.pathname}`);
-      }
-      if (this.search.length >= 5) {
+        this.$router.push({
+          query: {},
+        });
+      } else {
         this.$emit('search', this.search.trim());
-        window.history.pushState({}, null, `${window.location.pathname}?search=${this.search.trim()}`);
-      } else if (this.search.length < 5) {
-        window.history.pushState({}, null, `${window.location.pathname}`);
+        this.$router.push({
+          query: {
+            search: this.search.trim(),
+          },
+        });
       }
     }, 500),
     onLogoClickHandler() {
       this.search = '';
       this.$emit('search', '');
     },
-
-    handleSearch(e) {
-      if (e.key === 'Enter') {
-        this.$emit('search', this.search.trim());
-        window.history.pushState({}, null, `${window.location.pathname}?search=${this.search.trim()}`);
-      }
-    },
-
     handleScroll() {
       const mainWrapper = document.querySelector('body');
       const headerHeight = this.$el.offsetHeight;
