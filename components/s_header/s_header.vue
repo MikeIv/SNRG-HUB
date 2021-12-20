@@ -2,7 +2,7 @@
   <header class="s-header" :class="{ open: isOpen, fixed: isScrolled }">
     <div class="shadow" v-if="isOpen" @click="handleChange"></div>
     <div class="s-header__wrapper">
-      <div class="s-header__top" :class="{ hidden: !isVisible }" @click="topBannerClick()">
+      <div class="s-header__top" :class="{ hidden: !isVisible }" @click="scrollTo(topBannerSmoothHref)">
         <m-banner
           :type="bannerTop.banner_type"
           :backgroundColor="bannerTop.color_bg"
@@ -11,7 +11,7 @@
           :href="topBannerSmoothHref"
           buttonLabel="Подобрать"
           color="default"
-          @onBannerClick="topBannerClick()"
+          @onBannerClick="scrollTo(topBannerSmoothHref)"
         ></m-banner>
       </div>
       <div class="s-header__center">
@@ -231,11 +231,10 @@ export default {
 
       const quizScrollTop = this.$store.state.quizInfo.top + this.$store.state.quizInfo.height;
 
-      const startPos = window.innerHeight + window.innerHeight / 2;
+      const startPos = window.innerHeight;
       const clientHeight = window.pageYOffset + window.innerHeight;
 
       this.scrollTop = window.scrollY;
-
       switch (true) {
         case this.scrollTop > headerHeight:
           this.isScrolled = true;
@@ -275,9 +274,6 @@ export default {
 
     getQuiz() {
       return this.$store.state.quizInfo;
-    },
-    topBannerClick() {
-      this.$router.push('/proftest');
     },
   },
 };
