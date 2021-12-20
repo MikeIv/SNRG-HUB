@@ -27,7 +27,7 @@
         <s-banner v-if="viewType === 'product_list_banner'" :methods="[...this.methods[1]]" />
       </div>
 
-      <nuxt-link v-if="options" :to="urlToCatalog" class="s-main-programs__btn-link">
+      <nuxt-link v-if="optionsSection" :to="urlToCatalog" class="s-main-programs__btn-link">
         <a-button class="s-main-programs__btn" label="Показать все" bgColor="accent" @click="onButtonMoreClick" />
       </nuxt-link>
     </div>
@@ -56,7 +56,7 @@ export default {
       windowWidth: 0,
     };
   },
-  props: ['methods', 'title', 'viewType', 'options'],
+  props: ['methods', 'title', 'viewType', 'optionsSection'],
   methods: {
     getWindowWidth() {
       this.windowWidth = document.documentElement.clientWidth;
@@ -100,7 +100,7 @@ export default {
     },
 
     urlToCatalog() {
-      return this.options.find((item) => item.code === 'show_all').value;
+      return this.optionsSection?.find((item) => item.code === 'show_all').value;
     },
   },
 };
