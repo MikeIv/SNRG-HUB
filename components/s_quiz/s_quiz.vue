@@ -46,6 +46,7 @@
               v-model="answer"
               name="quiz"
               @change="changeQuiz(item)"
+              @handleClick="nextQuizClick(item)"
             >
             </a-control>
           </div>
@@ -121,6 +122,7 @@ export default {
     count: null,
     countPosition: 0,
     currentQuestionId: 1,
+    startListAnswer: [],
 
     isQuizOver: false,
     prevQuestionId: null,
@@ -256,12 +258,20 @@ export default {
     },
 
     prevQuiz() {
-      const lastQuestion = this.listAnswers[this.listAnswers.length - 1];
+      if (this.listAnswers.length >= 1) {
+        const lastQuestion = this.listAnswers[this.listAnswers.length - 1];
+        this.answer = lastQuestion.answer;
+        this.currentQuestionId = lastQuestion.question_id;
 
-      this.answer = lastQuestion.answer;
-      this.currentQuestionId = lastQuestion.question_id;
-
-      this.listAnswers = this.listAnswers.slice(0, -1);
+        this.listAnswers = this.listAnswers.slice(0, -1);
+        // eslint-disable-next-line prefer-destructuring
+        if (this.listAnswers.length === 1) {
+          this.startListAnswer = this.listAnswers;
+        }
+      }
+      if (this.listAnswers.length < 1) {
+        this.listAnswers = this.startListAnswer;
+      }
     },
 
     changeQuiz(answer) {
@@ -275,6 +285,12 @@ export default {
       this.currentQuestionId = answer.next_question_id;
       if (answer.next_question_id === 1) {
         this.isQuizOver = true;
+      }
+    },
+
+    nextQuizClick(current) {
+      if (current.answer === this.answer) {
+        this.currentQuestionId = current.next_question_id;
       }
     },
 
