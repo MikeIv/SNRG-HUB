@@ -122,6 +122,7 @@ export default {
     count: null,
     countPosition: 0,
     currentQuestionId: 1,
+    startListAnswer: [],
 
     isQuizOver: false,
     prevQuestionId: null,
@@ -173,8 +174,10 @@ export default {
     const response = await getQuizzesDetail(expandedMethod);
     this.dataQuiz = response;
     this.dataQuestion = response.questions?.filter((item) => item.answers.length > 0);
+    console.log('this.dataQuestion', this.dataQuestion);
     this.currentQuestionId = this.dataQuestion[0].id;
     this.count = this.dataQuestion.length;
+    console.log('this.count', this.count);
   },
 
   mounted() {
@@ -257,11 +260,24 @@ export default {
     },
 
     prevQuiz() {
-      const lastQuestion = this.listAnswers[this.listAnswers.length - 1];
-      this.answer = lastQuestion.answer;
-      this.currentQuestionId = lastQuestion.question_id;
+      if (this.listAnswers.length >= 1) {
+        const lastQuestion = this.listAnswers[this.listAnswers.length - 1];
+        this.answer = lastQuestion.answer;
+        console.log('this.answer-prev', this.answer);
+        this.currentQuestionId = lastQuestion.question_id;
+        console.log('this.currentQuestionId-prev', this.currentQuestionId);
 
-      this.listAnswers = this.listAnswers.slice(0, -1);
+        this.listAnswers = this.listAnswers.slice(0, -1);
+        console.log('this.listAnswers', this.listAnswers);
+        // eslint-disable-next-line prefer-destructuring
+        if (this.listAnswers.length === 1) {
+          this.startListAnswer = this.listAnswers;
+          console.log('this.startListAnswer', this.startListAnswer);
+        }
+      }
+      if (this.listAnswers.length < 1) {
+        this.listAnswers = this.startListAnswer;
+      }
     },
 
     changeQuiz(answer) {
@@ -270,9 +286,12 @@ export default {
         question: this.dataQuestion.find((question) => question.id === answer.question_id).question,
       };
       this.listAnswers = this.listAnswers.filter((el) => el);
+      console.log('this.listAnswers', this.listAnswers);
       this.prevQuestionId = answer.question_id;
+      console.log('this.prevQuestionId', this.prevQuestionId);
       this.answer = '';
       this.currentQuestionId = answer.next_question_id;
+      console.log('this.currentQuestionId', this.currentQuestionId);
       if (answer.next_question_id === 1) {
         this.isQuizOver = true;
       }
