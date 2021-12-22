@@ -45,6 +45,13 @@
     a {
       text-decoration: none;
     }
+    & .m-card--clickable {
+      cursor: unset;
+    }
+
+    & .m-card-vertical__box {
+      cursor: pointer;
+    }
   }
 }
 
