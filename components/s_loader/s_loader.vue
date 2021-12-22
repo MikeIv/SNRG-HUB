@@ -20,25 +20,22 @@ export default {
 
   methods: {
     start() {
-      const htmlWrapper = document.querySelector('html');
+      let htmlWrapper = document.querySelector('html');
       htmlWrapper.style.overflowY = 'hidden';
 
       this.loading = true;
-    },
 
-    finish() {
       setTimeout(() => {
-        const htmlWrapper = document.querySelector('html');
+        htmlWrapper = document.querySelector('html');
         htmlWrapper.style.overflowY = 'visible';
 
         this.loading = false;
-      }, 500);
+      }, 1000);
     },
   },
   mounted() {
     this.$nextTick(() => {
       this.$nuxt.$loading.start();
-      setTimeout(() => this.$nuxt.$loading.finish(), 500);
     });
   },
 };
