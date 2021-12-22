@@ -62,9 +62,15 @@
         </div>
         <div class="m-quiz__finish-inputs">
           <div class="m-quiz__finish-data">
-            <a-input placeholder="Имя" v-model="send.name" @input="validQuizData"></a-input>
+            <a-input
+              placeholder="Имя"
+              v-model="send.name"
+              @input="validQuizData"
+              :class="{ error: !this.validName }"
+            ></a-input>
             <vue-tel-input
               class="a-input__row"
+              :class="{ error: !this.validFlag }"
               v-bind="vueTelOpts"
               type="phone"
               placeholder="Телефон"
@@ -149,6 +155,7 @@ export default {
     },
     sogl: true,
     validFlag: false,
+    validName: false,
     validPhone: false,
   }),
 
@@ -240,8 +247,17 @@ export default {
 
     validQuizData() {
       const dataForm = [{ value: this.send.name }, { value: this.send.tel }];
-      this.validFlag = this.$lander.valid(dataForm) && this.validPhone;
+      console.log('this.send.name', this.send.name);
+      console.log('dataForm', dataForm);
 
+      this.validFlag = this.$lander.valid(dataForm) && this.validPhone;
+      console.log('this.validFlag', this.validFlag);
+      if (/[0-9]/.test(this.send.name)) {
+        this.validName = false;
+        console.log('this.validFlag', this.validFlag);
+      } else {
+        this.validName = true;
+      }
       const dataToSend = { ...this.send };
       delete dataToSend.comments;
       this.$lander.storage.save('quiz', dataToSend);
