@@ -24,5 +24,15 @@
       background-repeat: no-repeat;
       background-size: cover;
     }
+
+    .m-form__input.error-name input,
+    .m-form__input.error-mail input {
+      &:focus {
+        border: 2px solid var(--a-color_link);
+      }
+    }
+    & .vue-tel-input.error {
+      border: 2px solid var(--a-color_link);
+    }
   }
 }
