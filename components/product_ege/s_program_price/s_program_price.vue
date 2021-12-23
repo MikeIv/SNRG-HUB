@@ -57,6 +57,7 @@
         <template v-slot:inputs>
           <a-input
             class="m-form__input"
+            :class="{ 'error-name': !validName }"
             @input="
               handlerSave();
               validFormData();
@@ -66,6 +67,7 @@
           />
           <vue-tel-input
             class="m-form__input a-input__wrapper"
+            :class="{ error: !validPhone }"
             v-bind="vueTelOpts"
             type="phone"
             placeholder="Телефон"
@@ -76,6 +78,7 @@
           </vue-tel-input>
           <a-input
             class="m-form__input"
+            :class="{ 'error-mail': !validFlag }"
             @input="
               handlerSave();
               validFormData();
@@ -170,6 +173,7 @@ export default {
     typeBtn: 'checkbox',
     checked: true,
     validFlag: false,
+    validName: false,
     formTitle: 'Поступить в онлайн-школу «Синергия»',
 
     maxPhoneLength: 16,
@@ -241,6 +245,11 @@ export default {
     validFormData() {
       const dataForm = [{ value: this.fieldsData.name }, { value: this.fieldsData.email, type: 'email' }];
       this.validFlag = this.$lander.valid(dataForm) && this.validPhone;
+      if (/[0-9]/.test(this.fieldsData.name)) {
+        this.validName = false;
+      } else {
+        this.validName = true;
+      }
     },
 
     getActiveCourse(id) {

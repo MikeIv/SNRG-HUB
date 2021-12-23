@@ -79,6 +79,13 @@
       align-items: flex-start;
     }
 
+    .m-form__input.error-name input,
+    .m-form__input.error-mail input {
+      &:focus {
+        border: 2px solid var(--a-color_link);
+      }
+    }
+
     &__title {
       margin-bottom: rem(20);
     }
@@ -133,12 +140,6 @@
       &-price {
         color: var(--a-color_link);
       }
-    }
-
-    &.bg--blue {
-      background: url('/school/form-bg-blue.jpg');
-      background-repeat: no-repeat;
-      background-size: cover;
     }
 
     &__info {
@@ -255,6 +256,20 @@
         &.active {
           color: var(--a-color_bg);
           background: var(--a-color_link);
+        }
+      }
+    }
+
+    &.bg--blue {
+      background: url('/school/form-bg-blue.jpg');
+      background-repeat: no-repeat;
+      background-size: cover;
+    }
+    & .vue-tel-input.error {
+      border: 2px solid var(--a-color_link);
+      .vue-tel-input.error input {
+        &:focus {
+          border: none;
         }
       }
     }
