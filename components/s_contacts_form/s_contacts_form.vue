@@ -17,6 +17,7 @@
       <template v-slot:inputs>
         <a-input
           class="m-form__input"
+          :class="{ 'error-name': !validName }"
           @input="
             handlerSave();
             validFormData();
@@ -27,6 +28,7 @@
 
         <a-input
           class="m-form__input"
+          :class="{ 'error-mail': !validFlag }"
           @input="
             handlerSave();
             validFormData();
@@ -65,6 +67,7 @@ export default {
       subtitle: 'Если у вас возник вопрос напишите нам в поддержку через форму обратной связи',
       buttonText: 'Отправить',
       validFlag: false,
+      validName: false,
       checkboxText: 'Нажимая на кнопку, вы соглашаетсь с политикой конфиденциальности и на получение рассылок',
       fieldsData: {
         name: '',
@@ -111,6 +114,11 @@ export default {
         { value: this.fieldsData.question },
       ];
       this.validFlag = this.$lander.valid(dataForm);
+      if (/[0-9]/.test(this.fieldsData.name)) {
+        this.validName = false;
+      } else {
+        this.validName = true;
+      }
     },
   },
 
