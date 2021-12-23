@@ -210,4 +210,13 @@
   div.vue-tel-input {
     margin-right: var(--a-padding--x2);
   }
+
+  & .a-input__wrapper.error input {
+    &:focus {
+      border: 2px solid var(--a-color_link);
+    }
+  }
+  & .vue-tel-input.error {
+    border: 2px solid var(--a-color_link);
+  }
 }
