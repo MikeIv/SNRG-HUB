@@ -34,18 +34,30 @@
         >
           <div
             class="m-quiz__control"
-            v-for="(item, index) in dataQuestion.find((question) => question.id === currentQuestionId).answers"
+            v-for="(questionAnswer, index) in dataQuestion.find((question) => question.id === currentQuestionId)
+              .answers"
             :key="index"
           >
             <a-control
-              :title="item.answer"
+              :title="questionAnswer.answer"
               typeBtn="radio"
               typeCtrl="radiobutton"
               labelPosition="right"
-              :valueControl="item.answer"
+              :valueControl="questionAnswer.answer"
               v-model="answer"
               name="quiz"
-              @change="changeQuiz(item)"
+              @change="
+                changeQuiz(
+                  dataQuestion.find((question) => question.id === currentQuestionId),
+                  questionAnswer,
+                )
+              "
+              @handleClick="
+                nextQuizClick(
+                  dataQuestion.find((question) => question.id === currentQuestionId),
+                  questionAnswer,
+                )
+              "
             >
             </a-control>
           </div>
@@ -61,9 +73,15 @@
         </div>
         <div class="m-quiz__finish-inputs">
           <div class="m-quiz__finish-data">
-            <a-input placeholder="Имя" v-model="send.name" @input="validQuizData"></a-input>
+            <a-input
+              placeholder="Имя"
+              v-model="send.name"
+              @input="validQuizData"
+              :class="{ error: !this.validName }"
+            ></a-input>
             <vue-tel-input
               class="a-input__row"
+              :class="{ error: !this.validFlag }"
               v-bind="vueTelOpts"
               type="phone"
               placeholder="Телефон"
@@ -121,10 +139,11 @@ export default {
     count: null,
     countPosition: 0,
     currentQuestionId: 1,
+    startListAnswer: {},
 
     isQuizOver: false,
     prevQuestionId: null,
-    listAnswers: [],
+    listAnswers: {},
     answer: '',
     maxPhoneLength: 16,
     vueTelOpts: {
@@ -147,6 +166,7 @@ export default {
     },
     sogl: true,
     validFlag: false,
+    validName: false,
     validPhone: false,
   }),
 
@@ -238,8 +258,14 @@ export default {
 
     validQuizData() {
       const dataForm = [{ value: this.send.name }, { value: this.send.tel }];
-      this.validFlag = this.$lander.valid(dataForm) && this.validPhone;
 
+      this.validFlag = this.$lander.valid(dataForm) && this.validPhone;
+      if (/[0-9]/.test(this.send.name)) {
+        this.validName = false;
+        console.log('this.validFlag', this.validFlag);
+      } else {
+        this.validName = true;
+      }
       const dataToSend = { ...this.send };
       delete dataToSend.comments;
       this.$lander.storage.save('quiz', dataToSend);
@@ -256,25 +282,34 @@ export default {
     },
 
     prevQuiz() {
-      const lastQuestion = this.listAnswers[this.listAnswers.length - 1];
+      if (Object.keys(this.listAnswers).length >= 1) {
+        const lastQuestion = Object.entries(this.listAnswers)[Object.keys(this.listAnswers).length - 1][1];
+        this.answer = lastQuestion.answer;
+        this.currentQuestionId = lastQuestion.question_id;
 
-      this.answer = lastQuestion.answer;
-      this.currentQuestionId = lastQuestion.question_id;
-
-      this.listAnswers = this.listAnswers.slice(0, -1);
+        if (Object.keys(this.listAnswers).length !== 1) {
+          delete this.listAnswers[lastQuestion.question_id];
+        }
+      }
     },
 
-    changeQuiz(answer) {
-      this.listAnswers[answer.question_id] = {
+    changeQuiz(question, answer) {
+      this.listAnswers[question.id] = {
         ...answer,
-        question: this.dataQuestion.find((question) => question.id === answer.question_id).question,
+        question: question.question,
       };
-      this.listAnswers = this.listAnswers.filter((el) => el);
+
       this.prevQuestionId = answer.question_id;
       this.answer = '';
       this.currentQuestionId = answer.next_question_id;
       if (answer.next_question_id === 1) {
         this.isQuizOver = true;
+      }
+    },
+
+    nextQuizClick(question, answer) {
+      if (answer.answer === this.answer) {
+        this.changeQuiz(question, answer);
       }
     },
 

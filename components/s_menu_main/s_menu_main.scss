@@ -172,6 +172,10 @@
       @media screen and (max-width: 767px) {
         margin-bottom: 0;
       }
+
+      &:hover {
+        color: var(--a-color_link);
+      }
     }
 
     &-product {
@@ -179,9 +183,14 @@
       margin-bottom: rem(8);
       color: var(--a-color_text);
       text-decoration: none;
+
       @media screen and (max-width: 767px) {
         padding: var(--a-padding--x3) 0;
         border-bottom: 1px solid var(--a-color_bg--secondary);
+      }
+
+      &:hover {
+        color: var(--a-color_link);
       }
 
       .si-chevron-right {
@@ -205,6 +214,9 @@
       margin-top: rem(12);
       color: var(--a-color_text--secondary);
       text-decoration: none;
+      &:hover {
+        color: var(--a-color_link);
+      }
       &--icon {
         &::before {
           width: auto;
