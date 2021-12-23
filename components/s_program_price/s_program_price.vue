@@ -29,7 +29,8 @@
             validFormData();
           "
           v-model="dataForm.name"
-          placeholder="Имя" />
+          placeholder="Имя"
+        />
         <a-input
           type="phone"
           class="m-form__input"
@@ -47,7 +48,8 @@
             handlerSave();
             validFormData();
           "
-          placeholder="Почта" />
+          placeholder="Почта"
+        />
       </template>
     </m-form-pay>
   </section>
@@ -113,7 +115,11 @@ export default {
     },
     validFormData() {
       // eslint-disable-next-line max-len
-      const dataForm = [{ value: this.dataForm.name }, { value: this.dataForm.phone }, { value: this.dataForm.email, type: 'email' }];
+      const dataForm = [
+        { value: this.dataForm.name },
+        { value: this.dataForm.phone },
+        { value: this.dataForm.email, type: 'email' },
+      ];
       this.validFlag = this.$lander.valid(dataForm) && this.validPhone;
       if (/[0-9]/.test(this.dataForm.name)) {
         this.validName = false;

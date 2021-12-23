@@ -267,10 +267,8 @@
     }
     & .vue-tel-input.error {
       border: 2px solid var(--a-color_link);
-      .vue-tel-input.error input {
-        &:focus {
-          border: none;
-        }
+      input:focus {
+        border: none;
       }
     }
   }
