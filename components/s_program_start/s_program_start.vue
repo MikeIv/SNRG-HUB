@@ -107,7 +107,9 @@
 </template>
 
 <script>
-import { AFactoid, AButton, MSocialShare, MCard } from '@cwespb/synergyui';
+import {
+  AFactoid, AButton, MSocialShare, MCard,
+} from '@cwespb/synergyui';
 import './s_program_start.scss';
 import getProductsDetail from '~/api/productsDetail';
 import getParseDate from '~/assets/js/getParseDate';
@@ -185,12 +187,12 @@ export default {
     const getData = preData.data;
     this.program.color = getData.color;
     this.program.title = getData.name;
-    this.program.subtitle = getData.included.levels[0].name;
+    this.program.subtitle = getData.included.levels[0]?.name;
     this.program.description = getData.description;
     this.program.document = getData.document;
-    this.program.city = getData.included.organization.included.city.name;
+    this.program.city = getData.included.organization.included.city?.name;
     this.program.start_date = getData.start_date;
-    this.program.form = getData.included.formats[0].name;
+    this.program.form = getData.included.formats[0]?.name;
     this.program.photo = `${this.baseURL}${getData.digital_image}`;
     this.organization = getData.included.organization;
 
@@ -272,8 +274,8 @@ export default {
       if (
         /Android|webOS|iPhone|iPad|iPod|BlackBerry|BB|PlayBook|IEMobile|Windows Phone|Kindle|Silk|Opera Mini/i.test(
           navigator.userAgent,
-        ) &&
-        navigator.share
+        )
+        && navigator.share
       ) {
         navigator.share({
           title: this.program.title,
