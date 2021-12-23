@@ -1,6 +1,5 @@
 <template>
   <section class="s-program-form" ref="form" id="form">
-    <pre>{{ this.validName }}</pre>
     <m-form
       :title="title"
       :checkboxText="checkboxText"
@@ -140,7 +139,6 @@ export default {
     validatePhone(phone, { valid, number }) {
       const telOpts = this.vueTelOpts;
       const inputOpts = telOpts.inputOptions;
-      console.log('inputOpts', inputOpts);
       const isLocalCode = phone[0] === '8';
 
       inputOpts.maxlength = this.maxPhoneLength;
@@ -160,13 +158,10 @@ export default {
     validFormData() {
       const dataForm = [{ value: this.fieldsData.name }, { value: this.fieldsData.email, type: 'email' }];
       this.validFlag = this.$lander.valid(dataForm) && this.validPhone;
-      console.log('this.validFlag', this.validFlag);
       if (/[0-9]/.test(this.fieldsData.name)) {
         this.validName = false;
-        console.log('this.validName', this.validName);
       } else {
         this.validName = true;
-        console.log('this.validName', this.validName);
       }
     },
   },

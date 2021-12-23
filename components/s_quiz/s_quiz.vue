@@ -247,11 +247,8 @@ export default {
 
     validQuizData() {
       const dataForm = [{ value: this.send.name }, { value: this.send.tel }];
-      console.log('this.send.name', this.send.name);
-      console.log('dataForm', dataForm);
 
       this.validFlag = this.$lander.valid(dataForm) && this.validPhone;
-      console.log('this.validFlag', this.validFlag);
       if (/[0-9]/.test(this.send.name)) {
         this.validName = false;
         console.log('this.validFlag', this.validFlag);
