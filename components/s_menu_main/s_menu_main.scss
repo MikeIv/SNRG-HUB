@@ -214,6 +214,9 @@
       margin-top: rem(12);
       color: var(--a-color_text--secondary);
       text-decoration: none;
+      &:hover {
+        color: var(--a-color_link);
+      }
       &--icon {
         &::before {
           width: auto;
