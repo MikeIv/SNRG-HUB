@@ -39,6 +39,7 @@
       @media screen and (max-width: 767px) {
         flex-direction: column;
       }
+
       .vue-tel-input {
         flex-direction: row;
       }
@@ -90,73 +91,87 @@
       @media screen and (max-width: 767px) {
         padding: var(--a-padding--x6) var(--a-padding--x4);
       }
-    }
 
-    &__title {
-      margin-bottom: rem(20);
-    }
-
-    &__item {
-      display: flex;
-      margin-bottom: rem(16);
-      padding: var(--a-padding--x4);
-      background: var(--a-color_bg);
-
-      &:last-child {
-        margin-bottom: 0;
+      .m-form__input.error-name input,
+      .m-form__input.error-mail input {
+        &:focus {
+          border: 2px solid var(--a-color_link);
+        }
       }
 
-      &-column {
-        margin-right: rem(44);
+      &__title {
+        margin-bottom: rem(20);
+      }
 
-        @media screen and (max-width: 991px) {
-          margin-right: rem(24);
-        }
+      &__item {
+        display: flex;
+        margin-bottom: rem(16);
+        padding: var(--a-padding--x4);
+        background: var(--a-color_bg);
 
         &:last-child {
-          margin-right: 0;
+          margin-bottom: 0;
+        }
+
+        &-column {
+          margin-right: rem(44);
+
+          @media screen and (max-width: 991px) {
+            margin-right: rem(24);
+          }
+
+          &:last-child {
+            margin-right: 0;
+          }
+        }
+
+        &-title {
+          margin-bottom: rem(8);
         }
       }
 
-      &-title {
-        margin-bottom: rem(8);
-      }
-    }
+      &__year {
+        &-oldprice {
+          position: relative;
+          max-width: fit-content;
+          margin-bottom: rem(8);
+          color: var(--a-color_active);
 
-    &__year {
-      &-oldprice {
-        position: relative;
-        max-width: fit-content;
-        margin-bottom: rem(8);
-        color: var(--a-color_active);
+          &::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            width: 100%;
+            height: 1px;
+            background: var(--a-color_active);
+            transform: translateY(-50%);
+          }
+        }
 
-        &::after {
-          content: '';
-          position: absolute;
-          top: 50%;
-          left: 0;
-          width: 100%;
-          height: 1px;
-          background: var(--a-color_active);
-          transform: translateY(-50%);
+        &-price {
+          color: var(--a-color_link);
         }
       }
 
-      &-price {
-        color: var(--a-color_link);
+      &.bg--blue {
+        background-image: url('/school/form-bg-blue.jpg');
+        background-repeat: no-repeat;
+        background-size: cover;
       }
     }
 
     &.bg--blue {
-      background-image: url('/school/form-bg-blue.jpg');
+      background: url('/school/form-bg-blue.jpg');
       background-repeat: no-repeat;
       background-size: cover;
     }
-  }
 
-  &.bg--blue {
-    background: url('/school/form-bg-blue.jpg');
-    background-repeat: no-repeat;
-    background-size: cover;
+    & .vue-tel-input.error {
+      border: 2px solid var(--a-color_link);
+      input:focus {
+        border: none;
+      }
+    }
   }
 }
