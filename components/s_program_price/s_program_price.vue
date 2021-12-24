@@ -121,10 +121,10 @@ export default {
         { value: this.dataForm.email, type: 'email' },
       ];
       this.validFlag = this.$lander.valid(dataForm) && this.validPhone;
-      if (/[0-9]/.test(this.dataForm.name)) {
-        this.validName = false;
-      } else {
+      if (/^[A-ZА-ЯЁ]+$/i.test(this.fieldsData.name)) {
         this.validName = true;
+      } else {
+        this.validName = false;
       }
     },
   },
