@@ -271,7 +271,10 @@ export default {
     },
 
     sendQuiz() {
-      const dataQuiz = this.listAnswers.map((item) => ({ question: item.question, answer: item.answer }));
+      const dataQuiz = Object.values(this.listAnswers).map((item) => ({
+        question: item.question,
+        answer: item.answer,
+      }));
       let quizString = '';
       for (let i = 0; i < dataQuiz.length; i += 1) {
         quizString = `${quizString} Вопрос: ${dataQuiz[i].question} - Ответ:  ${dataQuiz[i].answer} \n`;
