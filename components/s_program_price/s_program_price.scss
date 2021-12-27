@@ -23,11 +23,19 @@
   }
 
   .m-form__input.error-name input,
-  .m-form__input.error-mail input,
-  .m-form__input.error input {
+  .m-form__input.error-mail input {
     border: 2px solid var(--a-color_link);
     &:focus {
       border: 2px solid var(--a-color_link);
+    }
+  }
+  .m-form__input.vue-tel-input.error {
+    border: 2px solid var(--a-color_link);
+  }
+  .m-form__input.vue-tel-input.error input {
+    border: none;
+    &:focus {
+      border: none;
     }
   }
 }

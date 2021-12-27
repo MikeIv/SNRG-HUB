@@ -86,6 +86,15 @@
         border: 2px solid var(--a-color_link);
       }
     }
+    .m-form__input.vue-tel-input.error {
+      border: 2px solid var(--a-color_link);
+    }
+    .m-form__input.vue-tel-input.error input {
+      border: none;
+      &:focus {
+        border: none;
+      }
+    }
 
     &__title {
       margin-bottom: rem(20);
@@ -265,12 +274,6 @@
       background: url('/school/form-bg-blue.jpg');
       background-repeat: no-repeat;
       background-size: cover;
-    }
-    & .vue-tel-input.error {
-      border: 2px solid var(--a-color_link);
-      input:focus {
-        border: none;
-      }
     }
   }
 }
