@@ -24,6 +24,7 @@
       <s-catalog-filter
         :filterListData="Object.entries(filterListData)"
         :filterCheckboxData="filterCheckboxData"
+        :subjects="subjects"
         :key="componentFilterKey"
         @select-filter="selectFilter"
         @switch-click="switchClick"
@@ -98,6 +99,7 @@ export default {
         level_ids: [],
         city_ids: [],
         organization_ids: [],
+        subject_ids: [],
       },
       filtersCheckboxDataRequest: {
         is_employment: false,
@@ -109,6 +111,7 @@ export default {
       componentMenuKey: 1000,
 
       selectedFilters: [],
+      subjects: [],
     };
   },
 
@@ -156,6 +159,7 @@ export default {
   methods: {
     async fetchFilterData() {
       const filtersResponse = await getFilterData();
+      console.log('filtersResponse', filtersResponse);
 
       filtersResponse.forEach((filters) => {
         // Если мы передаем дефолтные фильтры, то мы выбираем фильтры, тэги и отправляем на бэк
@@ -185,6 +189,7 @@ export default {
           if (this.entity_page) {
             if (`${this.entity_page.type}_ids` !== filters.filter_by) {
               this.filterListData[filters.filter_by] = { ...filters };
+              console.log('here', ...filters);
             }
           } else {
             this.filterListData[filters.filter_by] = { ...filters };
@@ -272,15 +277,34 @@ export default {
 
     selectFilter(key, item) {
       const selectedItem = { ...item, key };
-
       if (selectedItem.isChecked) {
         this.selectedFilters.push(selectedItem);
         this.filtersIdsData[key].push(selectedItem.id);
+
+        if (selectedItem.key === 'direction_ids') {
+          this.selectedFilters = this.selectedFilters.filter((selectedFilter) => selectedFilter.key !== 'subject_ids');
+          this.filtersIdsData.subject_ids = [];
+
+          selectedItem.subjects.forEach((subject) => {
+            this.subjects.push(subject.id);
+          });
+
+          this.filterListData.subject_ids.values.forEach((value) => {
+            this.$set(value, 'isChecked', false);
+          });
+        }
       } else {
         this.selectedFilters = this.selectedFilters.filter((filter) => filter.name !== item.name);
         this.filtersIdsData[key] = this.filtersIdsData[key].filter((id) => Number(id) !== item.id);
+
+        if (selectedItem.key === 'direction_ids') {
+          selectedItem.subjects.forEach((subject) => {
+            this.subjects = this.subjects.filter((sub) => sub !== subject.id);
+          });
+        }
       }
 
+      this.componentFilterKey += 1;
       this.page = 1;
       this.$emit('on-filter-click', this.filtersIdsData, this.filterListData);
     },
@@ -340,6 +364,12 @@ export default {
       this.filtersIdsData[tag.key] = this.filtersIdsData[tag.key].filter((id) => Number(id) !== tag.id);
       const found = this.filterListData[tag.key].values.find((value) => value.name === tag.name);
       this.$set(found, 'isChecked', false);
+
+      if (tag.key === 'direction_ids') {
+        tag.subjects.forEach((subject) => {
+          this.subjects = this.subjects.filter((sub) => sub !== subject.id);
+        });
+      }
 
       this.componentFilterKey += 1;
       this.$emit('delete-filter-tag', this.filtersIdsData, this.filterListData);
