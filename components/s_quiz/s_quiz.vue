@@ -34,19 +34,30 @@
         >
           <div
             class="m-quiz__control"
-            v-for="(item, index) in dataQuestion.find((question) => question.id === currentQuestionId).answers"
+            v-for="(questionAnswer, index) in dataQuestion.find((question) => question.id === currentQuestionId)
+              .answers"
             :key="index"
           >
             <a-control
-              :title="item.answer"
+              :title="questionAnswer.answer"
               typeBtn="radio"
               typeCtrl="radiobutton"
               labelPosition="right"
-              :valueControl="item.answer"
+              :valueControl="questionAnswer.answer"
               v-model="answer"
               name="quiz"
-              @change="changeQuiz(item)"
-              @handleClick="nextQuizClick(item)"
+              @change="
+                changeQuiz(
+                  dataQuestion.find((question) => question.id === currentQuestionId),
+                  questionAnswer,
+                )
+              "
+              @handleClick="
+                nextQuizClick(
+                  dataQuestion.find((question) => question.id === currentQuestionId),
+                  questionAnswer,
+                )
+              "
             >
             </a-control>
           </div>
@@ -128,11 +139,11 @@ export default {
     count: null,
     countPosition: 0,
     currentQuestionId: 1,
-    startListAnswer: [],
+    startListAnswer: {},
 
     isQuizOver: false,
     prevQuestionId: null,
-    listAnswers: [],
+    listAnswers: {},
     answer: '',
     maxPhoneLength: 16,
     vueTelOpts: {
@@ -270,28 +281,23 @@ export default {
     },
 
     prevQuiz() {
-      if (this.listAnswers.length >= 1) {
-        const lastQuestion = this.listAnswers[this.listAnswers.length - 1];
+      if (Object.keys(this.listAnswers).length >= 1) {
+        const lastQuestion = Object.entries(this.listAnswers)[Object.keys(this.listAnswers).length - 1][1];
         this.answer = lastQuestion.answer;
         this.currentQuestionId = lastQuestion.question_id;
 
-        this.listAnswers = this.listAnswers.slice(0, -1);
-        // eslint-disable-next-line prefer-destructuring
-        if (this.listAnswers.length === 1) {
-          this.startListAnswer = this.listAnswers;
+        if (Object.keys(this.listAnswers).length !== 1) {
+          delete this.listAnswers[lastQuestion.question_id];
         }
-      }
-      if (this.listAnswers.length < 1) {
-        this.listAnswers = this.startListAnswer;
       }
     },
 
-    changeQuiz(answer) {
-      this.listAnswers[answer.question_id] = {
+    changeQuiz(question, answer) {
+      this.listAnswers[question.id] = {
         ...answer,
-        question: this.dataQuestion.find((question) => question.id === answer.question_id).question,
+        question: question.question,
       };
-      this.listAnswers = this.listAnswers.filter((el) => el);
+
       this.prevQuestionId = answer.question_id;
       this.answer = '';
       this.currentQuestionId = answer.next_question_id;
@@ -300,9 +306,9 @@ export default {
       }
     },
 
-    nextQuizClick(current) {
-      if (current.answer === this.answer) {
-        this.currentQuestionId = current.next_question_id;
+    nextQuizClick(question, answer) {
+      if (answer.answer === this.answer) {
+        this.changeQuiz(question, answer);
       }
     },
 
