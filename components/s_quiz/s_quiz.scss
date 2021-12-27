@@ -212,6 +212,7 @@
   }
 
   & .a-input__wrapper.error input {
+    border: 2px solid var(--a-color_link);
     &:focus {
       border: 2px solid var(--a-color_link);
     }

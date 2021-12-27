@@ -43,6 +43,14 @@
       order: 9;
     }
 
+    .m-form__input.error-name input,
+    .m-form__input.error-mail input {
+      border: 2px solid var(--a-color_link);
+      &:focus {
+        border: 2px solid var(--a-color_link);
+      }
+    }
+
     &__items {
       display: flex;
     }
@@ -132,6 +140,9 @@
 
     &__message {
       color: var(--a-color_text--secondary);
+    }
+    & .vue-tel-input.error {
+      border: 2px solid var(--a-color_link);
     }
   }
 }

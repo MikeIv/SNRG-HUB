@@ -260,11 +260,10 @@ export default {
       const dataForm = [{ value: this.send.name }, { value: this.send.tel }];
 
       this.validFlag = this.$lander.valid(dataForm) && this.validPhone;
-      if (/[0-9]/.test(this.send.name)) {
-        this.validName = false;
-        console.log('this.validFlag', this.validFlag);
-      } else {
+      if (/^[A-ZА-ЯЁ]+$/i.test(this.send.name)) {
         this.validName = true;
+      } else {
+        this.validName = false;
       }
       const dataToSend = { ...this.send };
       delete dataToSend.comments;
