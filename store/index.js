@@ -5,7 +5,7 @@ const axios = axiosCreate();
 export const state = () => ({
   pageInfo: {},
   pageMeta: {},
-  city: 'Москва',
+  cityInfo: {},
   isMenuOpen: false,
   isPopupSelectCity: false,
   quizInfo: {},
@@ -29,8 +29,8 @@ export const mutations = {
   changeIsPopupSelectCity(state, val) {
     state.isPopupSelectCity = val;
   },
-  setCity(state, newCity) {
-    state.city = newCity;
+  setCityInfo(state, info) {
+    state.cityInfo = info;
   },
   setUtms(state, utms) {
     state.utms = utms;

@@ -1,25 +1,9 @@
 <template>
-  <div class="l-wide">
-    <PopupAnimated
-      class="popup-location__dialog popup-location__dialog_question"
-      :visible="isPopupQuestionCity"
-      @close="hidePopups"
-      :title="`Ваш город для поиска <span>${city}</span>?`"
-      transition="slideToTop"
-    >
-      <div class="popup-location__dialog-bottom">
-        <a-button label="Да" bgColor="accent" @click="saveCity(city)"></a-button>
-        <a-button label="Выбрать город" bgColor="ghost-primary" @click="openSelectCity"></a-button>
-      </div>
-    </PopupAnimated>
-
-    <PopupAnimated
-      class="popup-location__dialog popup-location__dialog_choose"
-      :visible="isPopupSelectCity"
-      @close="hidePopups"
-      title="Выбор города"
-      transition="slideToTop"
-    >
+  <div class="popup-location__dialog">
+    <PopupAnimated :visible="isPopupSelectCity" @close="hidePopups" title="Выбор города" transition="slideToTop">
+      <p class="popup-location__dialog-note a-font_xl">
+        Каталог образовательных программ будет отфильтрован по&nbsp;выбранному Вами городу
+      </p>
       <a-input
         id="search"
         icons="si-search"
@@ -30,7 +14,7 @@
         v-model="searchCity"
       />
       <div class="popup-location__dialog-list" ref="cities">
-        <span class="popup-location__dialog-list-item" v-for="city in citiesList.slice(0, 8)" :key="city.index">
+        <span class="popup-location__dialog-list-item" v-for="city in cities.slice(0, 8)" :key="city.index">
           <input type="radio" name="cityDialog" :value="city.name" v-model="cityPicked" />
           <span>{{ city.name }}</span>
         </span>
@@ -48,9 +32,11 @@
 
 <script>
 import { AInput, AButton, AControl } from '@cwespb/synergyui';
+import { debounce } from '~/assets/js/debounce';
 import PopupAnimated from '~/components/popup_animated/popup_animated';
 import './popup_location.scss';
 import getCitiesList from '~/api/citiesList';
+import getPersonalIP from '~/api/personalIP';
 
 export default {
   name: 'PopupLocation',
@@ -66,18 +52,26 @@ export default {
     return {
       searchCity: '',
       focused: false,
-      cityPicked: '', // Город, который выбрал пользователь
-      citiesFullList: [],
-      isPopupQuestionCity: false,
+      cityPicked: {}, // Город, который выбрал пользователь
+      cityObj: {},
+      cities: [], // Сюда записываю города из поиска, либо города из нашего АПИ
+      synergyCities: [],
+      personalIP: '',
       isPopup: false,
+      dadataKey: process.env.DADATA_KEY,
     };
   },
 
   async fetch() {
-    this.citiesFullList = await getCitiesList();
+    this.synergyCities = await getCitiesList();
+    this.personalIP = await getPersonalIP();
   },
 
   watch: {
+    searchCity() {
+      this.debounceSearchListener();
+    },
+
     focused(val) {
       if (val) {
         document.documentElement.classList.add('cityPopupFocused');
@@ -87,12 +81,25 @@ export default {
     },
 
     cityPicked(val) {
-      this.saveCityMobile(val);
+      if (val) {
+        this.saveCityMobile(val);
+      }
     },
 
     isPopup(val) {
       if (val) {
         document.documentElement.classList.add('cityPopupOpened');
+
+        if (!this.cityPicked) {
+          this.cityPicked = this.$store.state.cityInfo.city;
+        }
+
+        if (!this.cityObj) {
+          this.cityObj = this.$store.state.cityInfo;
+        }
+
+        this.getCityInfo();
+        this.sortSynergyCities();
       } else {
         document.documentElement.classList.remove('cityPopupOpened');
       }
@@ -106,65 +113,165 @@ export default {
   },
 
   computed: {
-    city() {
-      return this.$store.state.city;
-    },
-
     isPopupSelectCity() {
       return this.$store.state.isPopupSelectCity;
     },
-
-    citiesList() {
-      const searchCity = this.searchCity.toLowerCase();
-      let searchedCities = this.citiesFullList;
-
-      if (searchCity.trim().length) {
-        searchedCities = this.citiesFullList.filter((c) => c.name.toLowerCase().indexOf(searchCity) > -1);
-      }
-
-      return searchedCities;
-    },
-  },
-
-  mounted() {
-    this.$nextTick(() => {
-      this.isCityConfirmed();
-    });
   },
 
   methods: {
     hidePopups() {
-      this.isPopupQuestionCity = false;
       this.$store.commit('changeIsPopupSelectCity', false);
-      this.cityPicked = '';
       this.isPopup = false;
     },
 
-    openSelectCity() {
-      this.isPopupQuestionCity = false;
-      this.$store.commit('changeIsPopupSelectCity', true);
-      this.cityPicked = '';
-      this.isPopup = true;
-    },
+    saveCity(val) {
+      if (this.cityObj.city !== val) {
+        const url = 'https://suggestions.dadata.ru/suggestions/api/4_1/rs/suggest/address';
+        const token = this.dadataKey;
+        const query = val;
 
-    isCityConfirmed() {
-      if (!localStorage.city) {
-        this.isPopupQuestionCity = true;
-        this.isPopup = true;
-      }
-    },
+        const options = {
+          method: 'POST',
+          mode: 'cors',
+          count: 1,
+          from_bound: { value: 'city' },
+          to_bound: { value: 'city' },
+          restrict_value: true,
+          headers: {
+            'Content-Type': 'application/json',
+            Accept: 'application/json',
+            Authorization: `Token ${token}`,
+          },
+          body: JSON.stringify({ query }),
+        };
 
-    saveCity(city) {
-      if (city) {
-        localStorage.city = city;
-        this.$store.commit('setCity', city);
+        fetch(url, options)
+          .then((response) => response.text())
+          .then((result) => {
+            const resultObj = JSON.parse(result);
+            const resultData = resultObj.suggestions[0].data;
+
+            if (resultData) {
+              this.cityObj = {
+                city: resultData.city,
+                geoname_id: resultData.geoname_id,
+                city_kladr_id: resultData.city_kladr_id,
+              };
+              this.$store.commit('setCityInfo', this.cityObj);
+              console.log(this.$store.state.cityInfo.city);
+            }
+          })
+          .catch((error) => console.log('error', error));
+        localStorage.city = val;
       }
+
       this.hidePopups();
     },
 
-    saveCityMobile(city) {
-      if (city.length && window.innerWidth < 768) {
-        this.saveCity(city);
+    saveCityMobile(val) {
+      if (val.length && window.innerWidth < 768) {
+        this.saveCity(val);
+      }
+    },
+
+    sortSynergyCities() {
+      // В массив городов первым ставлю город пользователя
+      if (this.cityPicked) {
+        const cityPickedIndex = this.synergyCities.findIndex((el) => el.name === this.cityPicked);
+        const cityPickedObj = this.synergyCities[cityPickedIndex];
+
+        if (cityPickedIndex >= 0) {
+          this.synergyCities.splice(cityPickedIndex, 1);
+          this.synergyCities.unshift(cityPickedObj);
+        }
+      }
+      this.cities = this.synergyCities;
+    },
+
+    // Поиск города по строке поиска
+    debounceSearchListener: debounce(function debounceHandler() {
+      if (this.searchCity.trim().length) {
+        const url = 'https://suggestions.dadata.ru/suggestions/api/4_1/rs/suggest/address';
+        const token = this.dadataKey;
+        const query = this.searchCity;
+
+        const options = {
+          method: 'POST',
+          mode: 'cors',
+          count: 8,
+          from_bound: { value: 'city' },
+          to_bound: { value: 'city' },
+          restrict_value: true,
+          headers: {
+            'Content-Type': 'application/json',
+            Accept: 'application/json',
+            Authorization: `Token ${token}`,
+          },
+          body: JSON.stringify({ query }),
+        };
+
+        fetch(url, options)
+          .then((response) => response.text())
+          .then((result) => {
+            const resultObj = JSON.parse(result);
+            const resultData = resultObj.suggestions;
+
+            this.cities = [];
+            if (resultData.length) {
+              Object.values(resultData).forEach((val) => {
+                if (!val.data.city) return;
+
+                this.cities.push({
+                  name: val.data.city,
+                  geoname_id: val.data.geoname_id,
+                  city_kladr_id: val.data.city_kladr_id,
+                });
+              });
+            } else {
+              this.cities = this.synergyCities;
+            }
+          })
+          .catch((error) => console.log('error', error));
+      } else {
+        this.cities = this.synergyCities;
+      }
+    }, 700),
+
+    // Поиск города по ip
+    getCityInfo() {
+      if (!this.cityPicked && this.personalIP.ip) {
+        const url = 'https://suggestions.dadata.ru/suggestions/api/4_1/rs/iplocate/address?ip=';
+        const token = this.dadataKey;
+        const query = this.personalIP.ip;
+
+        const options = {
+          method: 'GET',
+          mode: 'cors',
+          headers: {
+            'Content-Type': 'application/json',
+            Accept: 'application/json',
+            Authorization: `Token ${token}`,
+          },
+        };
+
+        fetch(url + query, options)
+          .then((response) => response.text())
+          .then((result) => {
+            const resultObj = JSON.parse(result);
+            const resultData = resultObj.location.data;
+
+            if (resultData) {
+              this.cityObj = {
+                ip: this.personalIP.ip,
+                city: resultData.city,
+                geoname_id: resultData.geoname_id,
+                city_kladr_id: resultData.city_kladr_id,
+              };
+              this.$store.commit('setCityInfo', this.cityObj);
+              this.cityPicked = resultData.city;
+            }
+          })
+          .catch((error) => console.log('dadata-error', error));
       }
     },
   },

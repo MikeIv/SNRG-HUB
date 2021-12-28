@@ -15,15 +15,21 @@ export default {
     AButton,
   },
 
+  data() {
+    return {
+      personalIP: '',
+    };
+  },
+
   computed: {
     isCity() {
-      return this.$store.state.city;
+      return this.$store.state.cityInfo.city || 'Настроить по городу';
     },
   },
 
   mounted() {
     if (localStorage.city) {
-      this.$store.commit('setCity', localStorage.city);
+      this.$store.commit('setCityInfo', { city: localStorage.city });
     }
   },
 

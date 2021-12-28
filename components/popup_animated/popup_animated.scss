@@ -43,10 +43,6 @@
         transition: 0.2s;
         transform: translate(0, 100vh);
       }
-
-      &.popup-location__dialog_question .a-popup__container {
-        transition-delay: 1s;
-      }
     }
   }
 }
