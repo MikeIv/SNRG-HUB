@@ -13,6 +13,7 @@
       :totalProducts="totalProducts"
       :maxVisibleControls="7"
       :key="componentMenuKey"
+      :subjects="subjects"
       @menu-toggle="menuToggle"
       @delete-tag="deleteTag"
       @clear-all-filters="clearAllFilters"
@@ -159,7 +160,6 @@ export default {
   methods: {
     async fetchFilterData() {
       const filtersResponse = await getFilterData();
-      console.log('filtersResponse', filtersResponse);
 
       filtersResponse.forEach((filters) => {
         // Если мы передаем дефолтные фильтры, то мы выбираем фильтры, тэги и отправляем на бэк
@@ -189,7 +189,6 @@ export default {
           if (this.entity_page) {
             if (`${this.entity_page.type}_ids` !== filters.filter_by) {
               this.filterListData[filters.filter_by] = { ...filters };
-              console.log('here', ...filters);
             }
           } else {
             this.filterListData[filters.filter_by] = { ...filters };

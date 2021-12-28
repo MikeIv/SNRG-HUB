@@ -77,14 +77,10 @@ export default {
 
     filterClickHandler(filtersIdsData, filterListData) {
       Object.entries(filtersIdsData).forEach(([filterKey, filterIds]) => {
-        console.log(filtersIdsData);
         if (filterIds.length === 1) {
           if (filterKey !== 'city_ids') {
             const found = filterListData[filterKey].values.find((value) => value.id === Number(filterIds[0]));
-            console.log('found', found);
-            const slugs = window.location.pathname.split('/').filter((slug) => slug);
-            console.log('HERE@@', window.location.pathname);
-            if (slugs.findIndex((slug) => slug === found.slug) === -1) {
+            if (!window.location.pathname.includes(found.slug)) {
               // Сюда мы попадаем, если у нас только один слаг в фильтре и должны
               // подчитстить ненужные квери, связанные с этим фильтром
               // например слаг dizain и остался direction_ids=3
@@ -96,6 +92,7 @@ export default {
               if (!window.location.search.includes('page')) {
                 newSearch = `${newSearch}?page=1`;
               }
+
               window.history.pushState({}, null, `${window.location.pathname}${found.slug}/${newSearch}`);
             }
           }
@@ -109,6 +106,7 @@ export default {
               newPath = newPath.replace(`/${slug}`, '');
             }
           });
+
           const queries = `${filterKey}=${typeof filterIds === 'string' ? filterIds : filterIds.join(',')}`;
           const newSearch = window.location.search
             .split('&')
@@ -118,16 +116,13 @@ export default {
           window.history.pushState({}, null, `${newPath}${newSearch || '?'}${newSearch ? '&' : ''}${queries}`);
         } else {
           filterListData[filterKey].values.forEach((value) => {
-            const slugs = window.location.pathname.split('/').filter((slug) => slug);
-            console.log('HERE slugs!!!!!!', slugs);
-            slugs.forEach((slug) => {
-              if (slug === value.slug) {
-                // Todo заменить replace на что-то другое, а то он заменяет строку каталога на с
-                const freshPath = window.location.pathname.replace(`/${value.slug}`, '');
-                console.log('freshPath', freshPath);
-                window.history.pushState({}, null, `${freshPath}${window.location.search}`);
-              }
-            });
+            let slugs = window.location.pathname.split('/');
+            slugs.splice(0, 1);
+            slugs = slugs.filter((slug) => slug);
+            if (slugs.includes(value.slug)) {
+              const freshPath = window.location.pathname.replace(`/${value.slug}`, '');
+              window.history.pushState({}, null, `${freshPath}${window.location.search}`);
+            }
           });
         }
       });
@@ -155,32 +150,6 @@ export default {
           .join('&');
         window.history.pushState({}, null, `${window.location.pathname}${newSearch}`);
       }
-
-      // Логика для тематик
-      // Логика другая, потому что в тематиках много повторяющихся слагов
-      // if (filtersIdsData.subject_ids.length) {
-      //   let newSearch = window.location.search
-      //     .split('&')
-      //     .filter((query) => !query.includes('subject_ids'))
-      //     .join('&');
-      //   const queries = `subject_ids=${
-      //     typeof filtersIdsData.subject_ids === 'string'
-      //       ? filtersIdsData.subject_ids
-      //       : filtersIdsData.subject_ids.join(',')
-      //   }`;
-      //
-      //   if (!window.location.search.includes('page')) {
-      //     newSearch = `${newSearch}?page=1`;
-      //   }
-      //
-      //   window.history.pushState({}, null, `${window.location.pathname}${newSearch}&${queries}`);
-      // } else {
-      //   const newSearch = window.location.search
-      //     .split('&')
-      //     .filter((query) => !query.includes('subject_ids'))
-      //     .join('&');
-      //   window.history.pushState({}, null, `${window.location.pathname}${newSearch}`);
-      // }
 
       // Логика с добавлением значений чекбоков-свитчей в урл (временно убрана, можнт быть убрана насовсем)
       // Object.entries(this.filtersCheckboxDataRequest).forEach(([key, checked]) => {
