@@ -16,19 +16,40 @@
       :typeCtrl="typeCtrl"
       :typeBtn="typeBtn"
       :checked="checked"
+      :submitDisabled="!validFlag"
+      @submit-disabled="validFlag = $event"
       @click="sendForm"
     >
       <template v-slot:inputs>
-        <a-input class="m-form__input" v-model="dataForm.name" @input="handlerSave" placeholder="Имя" />
+        <a-input
+          class="m-form__input"
+          :class="{ 'error-name': !validName }"
+          @input="
+            handlerSave();
+            validFormData();
+          "
+          v-model="dataForm.name"
+          placeholder="Имя"
+        />
         <a-input
           type="phone"
           class="m-form__input"
+          :class="{ error: !validPhone }"
           v-model="dataForm.phone"
           @validate="validatePhone"
           @input="handlerSave"
           placeholder="Телефон"
         />
-        <a-input class="m-form__input" v-model="dataForm.email" @input="handlerSave" placeholder="Почта" />
+        <a-input
+          class="m-form__input"
+          :class="{ 'error-mail': !validFlag }"
+          v-model="dataForm.email"
+          @input="
+            handlerSave();
+            validFormData();
+          "
+          placeholder="Почта"
+        />
       </template>
     </m-form-pay>
   </section>
@@ -54,6 +75,8 @@ export default {
     typeCtrl: 'checkbox',
     typeBtn: 'checkbox',
     checked: true,
+    validFlag: false,
+    validName: false,
     disabled: 'false',
     courseName: 'Информатика и вычислительная техника. Автоматизированное управление бизнес-процессами и финансами',
     years: '4 года 6 месяцев',
@@ -89,6 +112,20 @@ export default {
     },
     validatePhone(value) {
       this.validPhone = value.valid;
+    },
+    validFormData() {
+      // eslint-disable-next-line max-len
+      const dataForm = [
+        { value: this.dataForm.name },
+        { value: this.dataForm.phone },
+        { value: this.dataForm.email, type: 'email' },
+      ];
+      this.validFlag = this.$lander.valid(dataForm) && this.validPhone;
+      if (/^[A-ZА-ЯЁ]+$/i.test(this.fieldsData.name)) {
+        this.validName = true;
+      } else {
+        this.validName = false;
+      }
     },
   },
 };

@@ -79,6 +79,23 @@
       align-items: flex-start;
     }
 
+    .m-form__input.error-name input,
+    .m-form__input.error-mail input {
+      border: 2px solid var(--a-color_link);
+      &:focus {
+        border: 2px solid var(--a-color_link);
+      }
+    }
+    .m-form__input.vue-tel-input.error {
+      border: 2px solid var(--a-color_link);
+    }
+    .m-form__input.vue-tel-input.error input {
+      border: none;
+      &:focus {
+        border: none;
+      }
+    }
+
     &__title {
       margin-bottom: rem(20);
     }
@@ -133,12 +150,6 @@
       &-price {
         color: var(--a-color_link);
       }
-    }
-
-    &.bg--blue {
-      background: url('/school/form-bg-blue.jpg');
-      background-repeat: no-repeat;
-      background-size: cover;
     }
 
     &__info {
@@ -257,6 +268,12 @@
           background: var(--a-color_link);
         }
       }
+    }
+
+    &.bg--blue {
+      background: url('/school/form-bg-blue.jpg');
+      background-repeat: no-repeat;
+      background-size: cover;
     }
   }
 }
