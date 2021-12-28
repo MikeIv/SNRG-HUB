@@ -180,10 +180,13 @@ export default {
 
     // Поиск города по ip
     async getCity() {
-      if (!this.cityPicked && this.personalIP.ip) {
+      if (!this.cityPicked) {
         const response = await getCityByIp(this.personalIP.ip);
-        const { data } = response.location;
-        this.cityObj = this.getCityObj(data.city, data.geoname_id, data.city_kladr_id);
+        console.log(this.personalIP.ip, response);
+        if (response.location) {
+          const { data } = response.location;
+          this.cityObj = this.getCityObj(data.city, data.geoname_id, data.city_kladr_id);
+        }
       }
     },
 
