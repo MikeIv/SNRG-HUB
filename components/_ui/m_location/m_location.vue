@@ -23,7 +23,7 @@ export default {
 
   computed: {
     isCity() {
-      return this.$store.state.cityInfo.city || 'Настроить по городу';
+      return this.$store.state.cityInfo.name || 'Настроить по городу';
     },
   },
 
