@@ -21,6 +21,7 @@
       <SFooter />
     </LazyHydrate>
     <MobileButton />
+    <Popups />
   </div>
 </template>
 
@@ -30,6 +31,7 @@ import SHeader from '~/components/s_header/s_header';
 import SCatalog from '~/components/s_catalog/s_catalog';
 import MobileButton from '~/components/mobile_button/mobile_button';
 import SProductSearch from '~/components/s_product_search/s_product_search';
+import Popups from '~/components/popups/popups';
 
 export default {
   middleware: ['getPageInfo', 'parseUtms'],
@@ -43,6 +45,7 @@ export default {
     SCatalog,
     SFooter: () => import('~/components/s_footer/s_footer'),
     LazyHydrate,
+    Popups,
   },
 
   data() {
