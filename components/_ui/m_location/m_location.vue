@@ -28,8 +28,8 @@ export default {
   },
 
   mounted() {
-    if (localStorage.city) {
-      this.$store.commit('setCityInfo', { city: localStorage.city });
+    if (localStorage.cityInfo) {
+      this.$store.commit('setCityInfo', JSON.parse(localStorage.cityInfo));
     }
   },
 

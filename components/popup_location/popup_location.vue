@@ -11,12 +11,12 @@
         placeholder="Введите название города"
         @focus="focused = true"
         @blur="focused = false"
-        v-model="searchCity"
+        v-model.trim="searchCity"
       />
       <div class="popup-location__dialog-list" ref="cities">
         <span class="popup-location__dialog-list-item" v-for="city in cities.slice(0, 8)" :key="city.index">
-          <input type="radio" name="cityDialog" :value="city.name" v-model="cityPicked" />
-          <span>{{ city.name }}</span>
+          <input type="radio" name="cityDialog" :value="city.name || city.city" v-model="cityPicked" />
+          <span>{{ city.name || city.city }}</span>
         </span>
       </div>
       <div class="popup-location__dialog-checkbox">
@@ -52,7 +52,7 @@ export default {
     return {
       searchCity: '',
       focused: false,
-      cityPicked: {}, // Город, который выбрал пользователь
+      cityPicked: '', // Город, который выбрал пользователь
       cityObj: {},
       cities: [], // Сюда записываю города из поиска, либо города из нашего АПИ
       synergyCities: [],
@@ -89,16 +89,16 @@ export default {
     isPopup(val) {
       if (val) {
         document.documentElement.classList.add('cityPopupOpened');
-
         if (!this.cityPicked) {
           this.cityPicked = this.$store.state.cityInfo.city;
         }
 
-        if (!this.cityObj) {
+        this.getCityInfo();
+
+        if (!this.cityObj.city) {
           this.cityObj = this.$store.state.cityInfo;
         }
 
-        this.getCityInfo();
         this.sortSynergyCities();
       } else {
         document.documentElement.classList.remove('cityPopupOpened');
@@ -122,49 +122,18 @@ export default {
     hidePopups() {
       this.$store.commit('changeIsPopupSelectCity', false);
       this.isPopup = false;
+      this.searchCity = '';
     },
 
     saveCity(val) {
       if (this.cityObj.city !== val) {
-        const url = 'https://suggestions.dadata.ru/suggestions/api/4_1/rs/suggest/address';
-        const token = this.dadataKey;
-        const query = val;
+        const cityObjIndex = this.cities.findIndex((el) => el.name === val);
+        const cityObj = this.cities[cityObjIndex];
+        this.cityObj = this.getCityObj(cityObj.name, cityObj.geoname_id, cityObj.city_kladr_id);
 
-        const options = {
-          method: 'POST',
-          mode: 'cors',
-          count: 1,
-          from_bound: { value: 'city' },
-          to_bound: { value: 'city' },
-          restrict_value: true,
-          headers: {
-            'Content-Type': 'application/json',
-            Accept: 'application/json',
-            Authorization: `Token ${token}`,
-          },
-          body: JSON.stringify({ query }),
-        };
-
-        fetch(url, options)
-          .then((response) => response.text())
-          .then((result) => {
-            const resultObj = JSON.parse(result);
-            const resultData = resultObj.suggestions[0].data;
-
-            if (resultData) {
-              this.cityObj = {
-                city: resultData.city,
-                geoname_id: resultData.geoname_id,
-                city_kladr_id: resultData.city_kladr_id,
-              };
-              this.$store.commit('setCityInfo', this.cityObj);
-              console.log(this.$store.state.cityInfo.city);
-            }
-          })
-          .catch((error) => console.log('error', error));
-        localStorage.city = val;
+        this.$store.commit('setCityInfo', this.cityObj);
+        localStorage.cityInfo = JSON.stringify(this.cityObj);
       }
-
       this.hidePopups();
     },
 
@@ -176,21 +145,24 @@ export default {
 
     sortSynergyCities() {
       // В массив городов первым ставлю город пользователя
+      const cities = this.synergyCities;
       if (this.cityPicked) {
-        const cityPickedIndex = this.synergyCities.findIndex((el) => el.name === this.cityPicked);
-        const cityPickedObj = this.synergyCities[cityPickedIndex];
+        const cityPickedIndex = cities.findIndex((el) => el.name === this.cityPicked);
+        const cityPickedObj = cities[cityPickedIndex];
 
         if (cityPickedIndex >= 0) {
-          this.synergyCities.splice(cityPickedIndex, 1);
-          this.synergyCities.unshift(cityPickedObj);
+          cities.splice(cityPickedIndex, 1);
+          cities.unshift(cityPickedObj);
+        } else {
+          cities.unshift(this.cityObj);
         }
       }
-      this.cities = this.synergyCities;
+      this.cities = cities;
     },
 
     // Поиск города по строке поиска
     debounceSearchListener: debounce(function debounceHandler() {
-      if (this.searchCity.trim().length) {
+      if (this.searchCity.length) {
         const url = 'https://suggestions.dadata.ru/suggestions/api/4_1/rs/suggest/address';
         const token = this.dadataKey;
         const query = this.searchCity;
@@ -198,16 +170,17 @@ export default {
         const options = {
           method: 'POST',
           mode: 'cors',
-          count: 8,
-          from_bound: { value: 'city' },
-          to_bound: { value: 'city' },
-          restrict_value: true,
           headers: {
             'Content-Type': 'application/json',
             Accept: 'application/json',
             Authorization: `Token ${token}`,
           },
           body: JSON.stringify({ query }),
+          data: {
+            count: 8,
+            from_bound: { value: 'city' },
+            to_bound: { value: 'city' },
+          },
         };
 
         fetch(url, options)
@@ -261,18 +234,21 @@ export default {
             const resultData = resultObj.location.data;
 
             if (resultData) {
-              this.cityObj = {
-                ip: this.personalIP.ip,
-                city: resultData.city,
-                geoname_id: resultData.geoname_id,
-                city_kladr_id: resultData.city_kladr_id,
-              };
+              this.cityObj = this.getCityObj(resultData.city, resultData.geoname_id, resultData.city_kladr_id);
               this.$store.commit('setCityInfo', this.cityObj);
               this.cityPicked = resultData.city;
             }
           })
           .catch((error) => console.log('dadata-error', error));
       }
+    },
+
+    getCityObj(city, geonameId, cityKladrId) {
+      return {
+        city,
+        geoname_id: geonameId,
+        city_kladr_id: cityKladrId,
+      };
     },
   },
 };
