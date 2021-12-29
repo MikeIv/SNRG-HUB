@@ -32,10 +32,17 @@
         font-size: rem(12);
       }
     }
+
+    ul {
+      display: flex;
+      flex-direction: column;
+    }
     p,
     li {
+      width: 100%;
       margin-bottom: rem(8);
       font-size: rem(12);
+      text-align: left;
       @media screen and (max-width: 767px) {
         font-size: rem(10);
       }
