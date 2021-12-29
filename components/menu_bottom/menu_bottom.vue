@@ -3,15 +3,13 @@
     <div class="menu_bottom__accord a-font_m">
       © <span>{{ year }}</span> Synergy. Все права защищены
     </div>
-    <a
-      target="_blank"
-      class="menu_bottom__accord a-font_m"
-      rel="noreferrer"
-      :href="policy.href"
-      v-if="policy.text !== ''"
-    >
+    <div class="menu_bottom__accord a-font_m" v-if="policy.text !== ''" @click="togglePopup">
       {{ policy.text }}
-    </a>
+    </div>
+    <APopup @close="popupOptions = false" :visible="popupOptions">
+      <div class="menu_bottom__popup" v-html="policy.text_full"></div>
+    </APopup>
+
     <template v-for="navItem in navBottomLinks">
       <nuxt-link
         class="menu_bottom__accord a-font_m"
@@ -27,6 +25,7 @@
 </template>
 
 <script>
+import { APopup } from '@cwespb/synergyui';
 import './menu_bottom.scss';
 
 export default {
@@ -39,8 +38,16 @@ export default {
       type: Object,
     },
   },
+  components: { APopup },
   data: () => ({
     navBottomLinks: [{ href: '/contacts/', text: 'Контакты' }],
+    popupOptions: false,
   }),
+
+  methods: {
+    togglePopup() {
+      this.popupOptions = true;
+    },
+  },
 };
 </script>

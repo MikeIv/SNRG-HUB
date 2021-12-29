@@ -71,6 +71,7 @@ export default {
 
     this.policy.href = this.$store.state.globalData.globalData.data.privacy_policy.link;
     this.policy.text = this.$store.state.globalData.globalData.data.privacy_policy.text;
+    this.policy.text_full = this.$store.state.globalData.globalData.data.privacy_policy.text_full;
 
     for (let i = 0; i < socialsItems.length; i += 1) {
       const item = socialsItems[i];
