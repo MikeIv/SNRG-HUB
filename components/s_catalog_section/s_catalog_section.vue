@@ -298,8 +298,6 @@ export default {
             this.subjects.push(subject.id);
           });
 
-          console.log('subjects', this.subjects);
-
           this.filterListData.subject_ids.values.forEach((value) => {
             this.$set(value, 'isChecked', false);
           });
@@ -319,8 +317,6 @@ export default {
         this.filtersIdsData.subject_ids = [];
         this.selectedFilters = this.selectedFilters.filter((selectedFilter) => selectedFilter.key !== 'subject_ids');
       }
-      console.log('filtersIdsData', this.filtersIdsData);
-      console.log('selectedFilters', this.selectedFilters);
 
       this.componentFilterKey += 1;
       this.page = 1;
