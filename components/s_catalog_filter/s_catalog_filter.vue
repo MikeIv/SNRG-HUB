@@ -1,17 +1,20 @@
 <template>
   <div class="catalog-filter__wrapper">
-    <m-filter
-      v-for="filters in filterListData"
-      class="catalog-filter__filter"
-      :key="filters[0]"
-      :title="filters[1].title"
-      :hasSearch="
-        filters[0] === 'subject_ids' ? renderSubjects(filters[1].values).length > 15 : filters[1].values.length > 15
-      "
-      :passedBtnText="filtersText[filters[0]]"
-      :items="filters[0] === 'subject_ids' ? renderSubjects(filters[1].values) : filters[1].values"
-      @item-click="controlClick(filters[1].filter_by, ...arguments)"
-    />
+    <template v-for="filters in filterListData">
+      <m-filter
+        v-if="isFilterRendered(filters[0])"
+        class="catalog-filter__filter"
+        :key="filters[0]"
+        :title="filters[1].title"
+        :hasSearch="
+          filters[0] === 'subject_ids' ? renderSubjects(filters[1].values).length > 15 : filters[1].values.length > 15
+        "
+        :passedBtnText="filtersText[filters[0]]"
+        :items="filters[0] === 'subject_ids' ? renderSubjects(filters[1].values) : filters[1].values"
+        @item-click="controlClick(filters[1].filter_by, ...arguments)"
+      />
+    </template>
+
     <a-control
       v-for="filter in filterCheckboxData"
       class="catalog-filter__checkbox"
@@ -54,6 +57,10 @@ export default {
   },
 
   methods: {
+    isFilterRendered(key) {
+      return key === 'subject_ids' ? this.subjects.length : true;
+    },
+
     renderSubjects(values) {
       return this.subjects.length ? values.filter((value) => this.subjects.includes(value.id)) : values;
     },
