@@ -133,14 +133,13 @@ export default {
     },
 
     saveCity(val) {
-      if (this.cityObj.name !== val) {
-        const cityObjIndex = this.cities.findIndex((el) => el.name === val);
-        const cityObj = this.cities[cityObjIndex];
-        this.cityObj = this.getCityObj(cityObj.name, cityObj.geoname_id, cityObj.city_kladr_id);
+      const cityObjIndex = this.cities.findIndex((el) => el.name === val);
+      const cityObj = this.cities[cityObjIndex];
+      this.cityObj = this.getCityObj(cityObj.name, cityObj.geoname_id, cityObj.city_kladr_id);
 
-        this.$store.commit('setCityInfo', this.cityObj);
-        localStorage.cityInfo = JSON.stringify(this.cityObj);
-      }
+      this.$store.commit('setCityInfo', this.cityObj);
+      localStorage.cityInfo = JSON.stringify(this.cityObj);
+
       this.hidePopups();
     },
 
