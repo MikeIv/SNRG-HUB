@@ -93,14 +93,13 @@ export default {
         document.documentElement.classList.add('cityPopupOpened');
 
         if (!this.cityPicked) {
-          this.cityPicked = this.$store.state.cityInfo.name;
+          this.cityPicked = this.cityObj.name;
         }
 
         if (!this.cityObj.name) {
           this.cityObj = this.$store.state.cityInfo;
         }
 
-        this.getCity();
         this.sortSynergyCities();
       } else {
         document.documentElement.classList.remove('cityPopupOpened');
@@ -118,6 +117,12 @@ export default {
     isPopupSelectCity() {
       return this.$store.state.isPopupSelectCity;
     },
+  },
+
+  mounted() {
+    this.$nextTick(() => {
+      this.getCity();
+    });
   },
 
   methods: {
