@@ -32,8 +32,16 @@
           <m-filter
             title=""
             passedBtnText=""
-            :hasSearch="filterListData[currentExpandedFilter].search"
-            :items="filterListData[currentExpandedFilter].values"
+            :hasSearch="
+              filterListData[currentExpandedFilter].filter_by === 'subject_ids'
+                ? renderSubjects(filterListData[currentExpandedFilter].values).length > 15
+                : filterListData[currentExpandedFilter].values.length > 15
+            "
+            :items="
+              filterListData[currentExpandedFilter].filter_by === 'subject_ids'
+                ? renderSubjects(filterListData[currentExpandedFilter].values)
+                : filterListData[currentExpandedFilter].values
+            "
             :visibleCount="1000"
             class="catalog-page__menu-filter_mfilter"
             @item-click="selectFilter(filterListData[currentExpandedFilter].filter_by, ...arguments)"
@@ -110,6 +118,7 @@ export default {
     'filtersMenu',
     'totalProducts',
     'maxVisibleControls',
+    'subjects',
   ],
 
   components: {
@@ -150,6 +159,10 @@ export default {
   },
 
   methods: {
+    renderSubjects(values) {
+      return this.subjects.length ? values.filter((value) => this.subjects.includes(value.id)) : values;
+    },
+
     hideYScroll() {
       const htmlWrapper = document.querySelector('html');
 

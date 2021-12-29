@@ -116,7 +116,10 @@ export default {
           window.history.pushState({}, null, `${newPath}${newSearch || '?'}${newSearch ? '&' : ''}${queries}`);
         } else {
           filterListData[filterKey].values.forEach((value) => {
-            if (window.location.pathname.includes(value.slug)) {
+            let slugs = window.location.pathname.split('/');
+            slugs.splice(0, 1);
+            slugs = slugs.filter((slug) => slug);
+            if (slugs.includes(value.slug)) {
               const freshPath = window.location.pathname.replace(`/${value.slug}`, '');
               window.history.pushState({}, null, `${freshPath}${window.location.search}`);
             }
