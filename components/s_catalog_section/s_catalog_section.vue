@@ -206,16 +206,26 @@ export default {
       // Если нам приходят слаги с урла, то тоже находим их фильтры, выбираем и отправляем на бэк
       if (this.slugs) {
         Object.values(this.filterListData).forEach((filterList) => {
-          filterList.values.forEach((value) => {
-            this.slugs.forEach((slug) => {
-              if (value.slug === slug) {
-                this.$set(value, 'isChecked', true);
-                this.filtersIdsData[filterList.filter_by].push(value.id);
-                const newFilter = { ...value, key: filterList.filter_by };
-                this.selectedFilters.push(newFilter);
-              }
+          if (filterList.filter_by !== 'subject_ids') {
+            filterList.values.forEach((value) => {
+              this.slugs.forEach((slug) => {
+                if (value.slug === slug) {
+                  this.$set(value, 'isChecked', true);
+                  this.filtersIdsData[filterList.filter_by].push(value.id);
+                  const newFilter = { ...value, key: filterList.filter_by };
+                  this.selectedFilters.push(newFilter);
+                  if (this.filtersIdsData.direction_ids.length) {
+                    const found = this.filterListData.direction_ids.values.find(
+                      (val) => val.id === this.filtersIdsData.direction_ids[0],
+                    );
+                    found.subjects.forEach((subject) => {
+                      this.subjects.push(subject.id);
+                    });
+                  }
+                }
+              });
             });
-          });
+          }
         });
       }
 
@@ -288,6 +298,8 @@ export default {
             this.subjects.push(subject.id);
           });
 
+          console.log('subjects', this.subjects);
+
           this.filterListData.subject_ids.values.forEach((value) => {
             this.$set(value, 'isChecked', false);
           });
@@ -302,6 +314,13 @@ export default {
           });
         }
       }
+
+      if (this.filtersIdsData.direction_ids.length === 0) {
+        this.filtersIdsData.subject_ids = [];
+        this.selectedFilters = this.selectedFilters.filter((selectedFilter) => selectedFilter.key !== 'subject_ids');
+      }
+      console.log('filtersIdsData', this.filtersIdsData);
+      console.log('selectedFilters', this.selectedFilters);
 
       this.componentFilterKey += 1;
       this.page = 1;
@@ -368,6 +387,11 @@ export default {
         tag.subjects.forEach((subject) => {
           this.subjects = this.subjects.filter((sub) => sub !== subject.id);
         });
+      }
+
+      if (this.filtersIdsData.direction_ids.length === 0) {
+        this.filtersIdsData.subject_ids = [];
+        this.selectedFilters = this.selectedFilters.filter((selectedFilter) => selectedFilter.key !== 'subject_ids');
       }
 
       this.componentFilterKey += 1;
