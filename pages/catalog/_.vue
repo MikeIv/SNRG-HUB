@@ -16,6 +16,7 @@
       :filtersMenu="filtersMenu"
       @change-sort-options="changeSortOptions"
       @menu-toggle="menuToggle"
+      @clear-filters="clearFilters"
     />
     <LazyHydrate when-visible>
       <SFooter />
@@ -123,6 +124,10 @@ export default {
   },
 
   methods: {
+    clearFilters() {
+      this.filtersMenu = false;
+    },
+
     menuToggle(value) {
       this.filtersMenu = value;
     },

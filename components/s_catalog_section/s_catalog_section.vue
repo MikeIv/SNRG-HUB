@@ -413,7 +413,7 @@ export default {
           if (onlineFormatFilter) {
             this.$set(onlineFormatFilter, 'isChecked', true);
             this.selectedFilters.push({ ...onlineFormatFilter, key: 'format_ids' });
-            this.filtersIdsData.city_ids.push(onlineFormatFilter.id);
+            this.filtersIdsData.format_ids.push(onlineFormatFilter.id);
           }
         }
       }

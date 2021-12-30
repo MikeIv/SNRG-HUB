@@ -191,6 +191,8 @@ export default {
 
     clearAllFilters() {
       this.$emit('clear-all-filters');
+      this.isFilterExpanded = false;
+      this.currentExpandedFilter = 'direction_ids';
     },
 
     selectFilter(key, item) {
