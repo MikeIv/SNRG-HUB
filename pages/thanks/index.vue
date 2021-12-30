@@ -4,6 +4,7 @@
     <SProductSearch v-if="search" :search="search" />
     <Thanks v-else />
     <SFooter />
+    <Popups />
   </div>
 </template>
 
@@ -12,6 +13,7 @@ import thanks from '~/components/thanks/thanks';
 import SHeader from '~/components/s_header/s_header';
 import SFooter from '~/components/s_footer/s_footer';
 import SProductSearch from '~/components/s_product_search/s_product_search';
+import Popups from '~/components/popups/popups';
 
 export default {
   layout: 'empty',
@@ -20,6 +22,7 @@ export default {
     SHeader,
     SFooter,
     SProductSearch,
+    Popups,
   },
 
   data() {

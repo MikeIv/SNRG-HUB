@@ -19,7 +19,7 @@
           <div class="s-header__center-wrapper">
             <div class="s-header__center-top">
               <div class="s-header__location">
-                <a-button label="Москва" bgColor="none" iconType="si-location-city"></a-button>
+                <MLocation />
               </div>
               <div class="s-header__phones">
                 <a
@@ -80,6 +80,7 @@ import {
   AInput, AButton, MBanner, ASelect,
 } from '@cwespb/synergyui';
 import './s_header.scss';
+import MLocation from '../_ui/m_location/m_location';
 import SMenuMain from '../s_menu_main/s_menu_main';
 import MenuHorizontal from '../menu_horizontal/menu_horizontal';
 import getBannersDetail from '~/api/bannersDetail';
@@ -119,6 +120,7 @@ export default {
   components: {
     AInput,
     AButton,
+    MLocation,
     MenuHorizontal,
     SMenuMain,
     MBanner,

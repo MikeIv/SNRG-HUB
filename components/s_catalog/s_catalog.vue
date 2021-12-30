@@ -187,6 +187,7 @@ export default {
 
     clearAllFilters() {
       this.$router.push('/catalog');
+      this.$emit('clear-filters');
     },
 
     async fetchFilterPresets() {

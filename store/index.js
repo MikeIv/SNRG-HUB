@@ -5,7 +5,9 @@ const axios = axiosCreate();
 export const state = () => ({
   pageInfo: {},
   pageMeta: {},
+  cityInfo: {},
   isMenuOpen: false,
+  isPopupSelectCity: false,
   quizInfo: {},
   utms: {},
   followedLink: '',
@@ -23,6 +25,12 @@ export const mutations = {
   },
   setQuizInfo(state, quiz) {
     state.quizInfo = quiz;
+  },
+  changeIsPopupSelectCity(state, val) {
+    state.isPopupSelectCity = val;
+  },
+  setCityInfo(state, info) {
+    state.cityInfo = info;
   },
   setUtms(state, utms) {
     state.utms = utms;

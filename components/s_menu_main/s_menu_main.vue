@@ -3,6 +3,9 @@
     <div class="l-default">
       <div class="s-menu-main__box">
         <div class="s-menu-main__items">
+          <div class="s-menu-main__location">
+            <MLocation />
+          </div>
           <div class="s-menu-main__login">
             <a-button label="Войти в аккаунт" backgroundColor="#F5F5F5" bgColor="ghost-accept"></a-button>
           </div>
@@ -77,6 +80,7 @@
 import { ASidebarItem, MBanner, AButton } from '@cwespb/synergyui';
 import getMenuMain from '~/api/menuMain';
 import getBannersDetail from '~/api/bannersDetail';
+import MLocation from '../_ui/m_location/m_location';
 import './s_menu_main.scss';
 
 export default {
@@ -86,6 +90,7 @@ export default {
     ASidebarItem,
     MBanner,
     AButton,
+    MLocation,
   },
 
   data() {
