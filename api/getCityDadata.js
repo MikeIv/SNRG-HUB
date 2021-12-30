@@ -1,8 +1,7 @@
 import { axiosCreate } from '~/axios/axios';
 
 const axios = axiosCreate();
-const token = '2fb147f4c25d2e615e58b408079f888fcdca7cd3';
-// const token = process.env.DADATA_KEY;
+const token = process.env.DADATA_KEY;
 
 export default async function getCityByStr(str) {
   const response = await axios({
