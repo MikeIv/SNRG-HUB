@@ -181,13 +181,18 @@ export default {
     }, 700),
 
     // Поиск города по ip
-    async getCity() {
+    getCity() {
       if (!this.cityPicked) {
-        const response = await getCityByIp(this.personalIP.ip);
-        if (response.location) {
-          const { data } = response.location;
-          this.cityObj = this.getCityObj(data.city, data.geoname_id, data.city_kladr_id);
-        }
+        fetch('https://api.ipify.org?format=json')
+          .then((x) => x.json())
+          .then(({ ip }) => {
+            getCityByIp(ip).then((response) => {
+              if (response.location) {
+                const { data } = response.location;
+                this.cityObj = this.getCityObj(data.city, data.geoname_id, data.city_kladr_id);
+              }
+            });
+          });
       }
     },
 
