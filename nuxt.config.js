@@ -111,6 +111,7 @@ export default {
     NUXT_ENV_S3BACKET: process.env.NUXT_ENV_S3BACKET,
     SITE_FB_PIXEL: process.env.SITE_FB_PIXEL,
     SITE_GTM: process.env.SITE_GTM,
+    DADATA_KEY: process.env.DADATA_KEY,
   },
 
   publicRuntimeConfig: {

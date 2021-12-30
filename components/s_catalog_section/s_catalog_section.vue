@@ -229,6 +229,8 @@ export default {
         });
       }
 
+      this.getCityInfo();
+
       this.componentFilterKey += 3;
     },
 
@@ -397,6 +399,29 @@ export default {
     filtersIconClickHandler() {
       this.$emit('menu-toggle', true);
     },
+
+    getCityInfo() {
+      if (process.client) {
+        const city = JSON.parse(window.localStorage.getItem('cityInfo'));
+        const foundCity = this.filterListData?.city_ids?.values?.find((value) => value.name === city.name);
+        if (foundCity) {
+          this.$set(foundCity, 'isChecked', true);
+          if (!this.selectedFilters.filter((selectedFilter) => selectedFilter.id === foundCity.id).length) {
+            this.selectedFilters.push({ ...foundCity, key: 'city_ids' });
+            this.filtersIdsData.city_ids.push(foundCity.id);
+          }
+        } else {
+          const onlineFormatFilter = this.filterListData?.format_ids?.values?.find((value) => value.name === 'Онлайн');
+          if (onlineFormatFilter) {
+            this.$set(onlineFormatFilter, 'isChecked', true);
+            if (!this.selectedFilters.filter((selectedFilter) => selectedFilter.id === onlineFormatFilter.id).length) {
+              this.selectedFilters.push({ ...onlineFormatFilter, key: 'format_ids' });
+              this.filtersIdsData.format_ids.push(onlineFormatFilter.id);
+            }
+          }
+        }
+      }
+    },
   },
 
   async fetch() {
@@ -408,6 +433,10 @@ export default {
     if (this.$route.query.page) {
       this.page = Number(this.$route.query.page);
     }
+  },
+
+  mounted() {
+    this.getCityInfo();
   },
 };
 </script>

@@ -16,8 +16,8 @@
         @aTagDelete="deleteTag(tag)"
       />
     </div>
-    <template v-if="productList.length">
-      <a-select :options="options" class="catalog-page__select" @change="changeSortOption" />
+    <template>
+      <a-select v-if="productList.length" :options="options" class="catalog-page__select" @change="changeSortOption" />
       <i class="si-filter a-font_button catalog-page__filters-icon" tabindex="0" @click="filtersIconClickHandler">
         <span class="a-font_button">Фильтры</span>
       </i>
