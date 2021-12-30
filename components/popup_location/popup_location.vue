@@ -120,9 +120,7 @@ export default {
   },
 
   mounted() {
-    this.$nextTick(() => {
-      this.getCity();
-    });
+    this.getCity();
   },
 
   methods: {
