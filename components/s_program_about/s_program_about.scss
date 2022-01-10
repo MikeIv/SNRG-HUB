@@ -98,11 +98,11 @@
       margin-bottom: rem(20);
       @media screen and (max-width: 767px) {
         position: relative;
-      }
 
-      & .a-factoids {
-        &__img-wrapper {
-          min-width: rem(40);
+        & .a-factoids {
+          &__img-wrapper {
+            min-width: rem(40);
+          }
         }
       }
     }
