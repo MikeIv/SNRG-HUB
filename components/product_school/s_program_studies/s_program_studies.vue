@@ -74,7 +74,9 @@
 <script>
 import './s_program_studies.scss';
 import { VueTelInput } from 'vue-tel-input';
-import { AListElement, AButton, APopup, MForm, AInput } from '@cwespb/synergyui';
+import {
+  AListElement, AButton, APopup, MForm, AInput,
+} from '@cwespb/synergyui';
 import { Swiper, SwiperSlide } from 'vue-awesome-swiper';
 
 export default {

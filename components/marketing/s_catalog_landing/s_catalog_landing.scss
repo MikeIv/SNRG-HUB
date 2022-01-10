@@ -19,6 +19,19 @@
     &-lp {
       margin-bottom: rem(20);
       padding: rem(32) 0 0 0;
+
+      .a-popup {
+        .m-form__input.error-name input,
+        .m-form__input.error-mail input {
+          border: 2px solid var(--a-color_link);
+          &:focus {
+            border: 2px solid var(--a-color_link);
+          }
+        }
+        & .vue-tel-input.error {
+          border: 2px solid var(--a-color_link);
+        }
+      }
       .catalog-page {
         &__content {
           display: flex;
@@ -254,7 +267,7 @@
     width: calc(100% + rem(2)); // Todo: при большом количестве элементов скрол ведет себя не оч
   }
 
-  input {
+  .a-select__input {
     font-size: 1rem;
     font-weight: 600;
     line-height: 1rem;
