@@ -14,7 +14,7 @@
           class="catalog-product-list__item"
           :description="getProductDescription(product.budget_points, product.contract_points)"
           :title="product.name"
-          :verticalImgSrc="`${baseURL}/${product.preview_image}`"
+          :verticalImgSrc="`${baseURL}/${product.digital_image}`"
           :bottomText="product.abbreviation_name"
           :iconSrc="`${baseURL}${product.logo}`"
           @organization-click="onOrganizationClick(product)"

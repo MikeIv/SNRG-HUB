@@ -261,6 +261,7 @@ export default {
 
       this.totalProducts = response.count;
       this.productList = response.data;
+      console.log(this.productList);
     },
 
     switchClick(item, isChecked) {
