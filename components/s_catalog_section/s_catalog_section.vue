@@ -403,7 +403,10 @@ export default {
     getCityInfo() {
       if (process.client) {
         const city = JSON.parse(window.localStorage.getItem('cityInfo'));
-        const foundCity = this.filterListData?.city_ids?.values?.find((value) => value.name === city.name);
+        let foundCity;
+        if (city) {
+          foundCity = this.filterListData?.city_ids?.values?.find((value) => value.name === city.name);
+        }
         if (foundCity) {
           this.$set(foundCity, 'isChecked', true);
           if (!this.selectedFilters.filter((selectedFilter) => selectedFilter.id === foundCity.id).length) {
