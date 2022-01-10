@@ -68,6 +68,7 @@
             <template v-slot:inputs>
               <a-input
                 class="m-form__input"
+                :class="{ 'error-name': !validName }"
                 @input="
                   handlerSave();
                   validFormData();
@@ -77,6 +78,7 @@
               />
               <vue-tel-input
                 class="m-form__input"
+                :class="{ error: !validPhone }"
                 v-bind="vueTelOpts"
                 type="phone"
                 placeholder="Телефон"
@@ -87,6 +89,7 @@
               </vue-tel-input>
               <a-input
                 class="m-form__input"
+                :class="{ 'error-mail': !validFlag }"
                 @input="
                   handlerSave();
                   validFormData();
@@ -117,6 +120,7 @@
             <template v-slot:inputs>
               <a-input
                 class="m-form__input"
+                :class="{ 'error-name': !validName }"
                 @input="
                   handlerSave();
                   validFormData();
@@ -126,6 +130,7 @@
               />
               <vue-tel-input
                 class="m-form__input"
+                :class="{ error: !validPhone }"
                 v-bind="vueTelOpts"
                 type="phone"
                 placeholder="Телефон"
@@ -136,6 +141,7 @@
               </vue-tel-input>
               <a-input
                 class="m-form__input"
+                :class="{ 'error-mail': !validFlag }"
                 @input="
                   handlerSave();
                   validFormData();
@@ -385,9 +391,7 @@
 
 <script>
 import { VueTelInput } from 'vue-tel-input';
-import {
-  AButton, AControl, AInput, APopup, ASelect, ATag, ATitle, MCard, MFilter, MForm,
-} from '@cwespb/synergyui';
+import { AButton, AControl, AInput, APopup, ASelect, ATag, ATitle, MCard, MFilter, MForm } from '@cwespb/synergyui';
 import getProductsList from '~/api/products_list';
 import '../../s_catalog/s_catalog.scss';
 import '../../s_catalog_filter/s_catalog_filter.scss';
@@ -440,6 +444,7 @@ export default {
       selectedProductTitle: null,
       formChecked: true,
       validFlag: false,
+      validName: false,
       blockYScroll: false,
 
       maxPhoneLength: 16,
@@ -651,6 +656,11 @@ export default {
     validFormData() {
       const dataForm = [{ value: this.fieldsData.name }, { value: this.fieldsData.email, type: 'email' }];
       this.validFlag = this.$lander.valid(dataForm) && this.validPhone;
+      if (/^[A-ZА-ЯЁ]+$/i.test(this.fieldsData.name)) {
+        this.validName = true;
+      } else {
+        this.validName = false;
+      }
     },
 
     openPopupHandler(product) {
