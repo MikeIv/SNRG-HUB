@@ -88,6 +88,12 @@
         margin-bottom: rem(16);
         padding-right: 0;
       }
+
+      & .a-factoids {
+        &__img-wrapper {
+          display: none;
+        }
+      }
     }
     &-more {
       display: flex;

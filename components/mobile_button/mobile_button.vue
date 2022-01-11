@@ -21,9 +21,17 @@
         ref="popupform-ref"
       >
         <template v-slot:inputs>
-          <AInput class="m-form__input" @input="validFormData" v-model="fieldsData.name" placeholder="Имя" />
+          <AInput
+            class="m-form__input"
+            :class="{ 'error-name': !validName }"
+            @input="validFormData"
+            v-model="fieldsData.name"
+            placeholder="Имя"
+          />
+
           <vue-tel-input
             class="m-form__input"
+            :class="{ error: !validPhone }"
             v-bind="vueTelOpts"
             type="phone"
             placeholder="Телефон"
@@ -33,7 +41,13 @@
           >
           </vue-tel-input>
 
-          <AInput class="m-form__input" @input="validFormData" v-model="fieldsData.email" placeholder="Почта" />
+          <AInput
+            class="m-form__input"
+            :class="{ 'error-mail': !validFlag }"
+            @input="validFormData"
+            v-model="fieldsData.email"
+            placeholder="Почта"
+          />
         </template>
       </MForm>
     </APopup>
@@ -65,6 +79,7 @@ export default {
       startPosition: null,
       menuOpen: false,
       validFlag: false,
+      validName: false,
       validPhone: false,
       windowWidth: 0,
       popupOptions: {
@@ -163,6 +178,11 @@ export default {
     validFormData() {
       const dataForm = [{ value: this.fieldsData.name }, { value: this.fieldsData.email, type: 'email' }];
       this.validFlag = this.$lander.valid(dataForm) && this.validPhone;
+      if (/^[A-ZА-ЯЁ]+$/i.test(this.fieldsData.name)) {
+        this.validName = true;
+      } else {
+        this.validName = false;
+      }
 
       this.$lander.storage.save('popupform-reg', this.fieldsData);
     },
