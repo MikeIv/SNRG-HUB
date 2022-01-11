@@ -23,8 +23,19 @@
     align-items: flex-start;
   }
 
+  .m-form__input.error-name input,
+  .m-form__input.error-mail input {
+    border: 2px solid var(--a-color_link);
+    &:focus {
+      border: 2px solid var(--a-color_link);
+    }
+  }
+
   &__btn {
     width: 100%;
     height: 100%;
+  }
+  & .vue-tel-input.error {
+    border: 2px solid var(--a-color_link);
   }
 }
