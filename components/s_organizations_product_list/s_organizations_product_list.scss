@@ -1,6 +1,11 @@
 @import '/assets/styles/tools/mixins';
 
 .catalog-product-list {
+  &__wrapper {
+    &-sorry {
+      padding-left: rem(10);
+    }
+  }
   &__item {
     .m-card-program__label {
       color: var(--a-color_text--secondary);
