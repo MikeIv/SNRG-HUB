@@ -78,7 +78,7 @@ import {
 } from '@cwespb/synergyui';
 import './s_university_start.scss';
 import getOrganizationsDetail from '~/api/organizationsDetail';
-import ABreadcrumbs from '~/components/a_breadcrumbs/a_breadcrumbs';
+import ABreadcrumbs from '~/components/_ui/a_breadcrumbs/a_breadcrumbs';
 
 export default {
   name: 's_university_start',
