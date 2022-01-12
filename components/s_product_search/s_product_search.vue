@@ -41,7 +41,7 @@
                   >
                     <m-card
                       :title="product.name"
-                      :bottomText="product.included.organization.name"
+                      :bottomText="product.included.organization.abbreviation_name"
                       :name="product.name"
                       :description="product.included.levels[0].name"
                       :iconSrc="`${baseURL}${product.included.organization.logo}`"
@@ -189,9 +189,12 @@ export default {
 
     async fetchProductsList(categoryName) {
       if (categoryName) {
+        this.categories.forEach((category) => {
+          this.ids[category.name] = category.product_ids.slice(0, this.perPage[category.name]);
+        });
         const expandedProductsMoreMethod = {
           filter: {
-            ids: this.totalIds[categoryName],
+            ids: this.ids[categoryName],
           },
           include: ['levels', 'organization'],
           pagination: { page_size: this.perPage[categoryName], page: 1 },
@@ -200,21 +203,23 @@ export default {
         const newCards = await getProductsList(expandedProductsMoreMethod);
         const selectedProducts = this.productsList.find((products) => products.name === categoryName);
         this.$set(selectedProducts, 'products', [...newCards.data]);
-
+        selectedProducts.products.sort(
+          (a, b) => this.ids[categoryName].indexOf(a.id) - this.ids[categoryName].indexOf(b.id),
+        );
         this.loading = false;
       } else {
         this.categories.forEach(async (category) => {
           this.ids[category.name] = category.product_ids.slice(0, this.productsPerPage);
-
           const expandedProductsMethod = {
             filter: {
-              ids: this.totalIds[category.name],
+              ids: this.ids[category.name],
             },
             include: ['levels', 'organization'],
             pagination: { page_size: this.productsPerPage, page: 1 },
           };
 
           const cards = await getProductsList(expandedProductsMethod);
+          cards.data.sort((a, b) => this.ids[category.name].indexOf(a.id) - this.ids[category.name].indexOf(b.id));
           this.productsList.push({ products: cards.data, name: category.name, count: category.count });
           this.productsList.sort((a, b) => {
             if (a.name < b.name) {

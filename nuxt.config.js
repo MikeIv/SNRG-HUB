@@ -121,7 +121,8 @@ export default {
   // robots.txt
   robots: {
     UserAgent: '*',
-    Disallow: '/',
+    Disallow: '/admin',
+    Allow: '*',
   },
 
   // GTM

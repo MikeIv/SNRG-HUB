@@ -2,7 +2,7 @@
   <div class="catalog-product-list" id="catalog-product-list">
     <div class="catalog-product-list__wrapper" v-if="productList">
       <slot />
-      <h3 v-if="!productList.length">К сожалению, ничего нет</h3>
+      <h3 class="catalog-product-list__wrapper-sorry" v-if="!productList.length">К сожалению, ничего нет</h3>
       <nuxt-link
         v-for="product in productList"
         :to="`/organization/${product.slug}`"
