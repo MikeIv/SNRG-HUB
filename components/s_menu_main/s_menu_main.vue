@@ -6,9 +6,9 @@
           <div class="s-menu-main__location">
             <MLocation />
           </div>
-          <div class="s-menu-main__login">
+          <!-- <div class="s-menu-main__login">
             <a-button label="Войти в аккаунт" backgroundColor="#F5F5F5" bgColor="ghost-accept"></a-button>
-          </div>
+          </div> -->
           <div class="s-menu-main__title a-font_h5">Всё обучение</div>
           <template v-for="(item, idx) in menuAnchors" :index="idx">
             <div
@@ -77,7 +77,7 @@
 </template>
 
 <script>
-import { ASidebarItem, MBanner, AButton } from '@cwespb/synergyui';
+import { ASidebarItem, MBanner } from '@cwespb/synergyui';
 import getMenuMain from '~/api/menuMain';
 import getBannersDetail from '~/api/bannersDetail';
 import MLocation from '../_ui/m_location/m_location';
@@ -89,7 +89,7 @@ export default {
   components: {
     ASidebarItem,
     MBanner,
-    AButton,
+    // AButton,
     MLocation,
   },
 
