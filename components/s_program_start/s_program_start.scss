@@ -32,6 +32,18 @@
 
     &-breadcrumbs {
       display: flex;
+
+      .a-breadcrumbs {
+        &__wrapper {
+          @media screen and (max-width: 730px) {
+            display: none;
+
+            &:nth-child(5) {
+              display: flex;
+            }
+          }
+        }
+      }
     }
 
     .a-breadcrumbs-item__label {
