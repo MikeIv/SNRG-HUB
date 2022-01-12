@@ -34,7 +34,6 @@
               </h2>
               <div class="s-product-search__cards">
                 <template v-for="(product, index) in product.products">
-                  <!-- <pre>{{ product }}</pre> -->
                   <nuxt-link
                     :to="`/product/${product.slug}`"
                     class="s-product-search__wrapper"
