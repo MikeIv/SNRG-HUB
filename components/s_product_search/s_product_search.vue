@@ -34,6 +34,7 @@
               </h2>
               <div class="s-product-search__cards">
                 <template v-for="(product, index) in product.products">
+                  <!-- <pre>{{ product }}</pre> -->
                   <nuxt-link
                     :to="`/product/${product.slug}`"
                     class="s-product-search__wrapper"
@@ -41,7 +42,7 @@
                   >
                     <m-card
                       :title="product.name"
-                      :bottomText="product.included.organization.name"
+                      :bottomText="product.included.organization.abbreviation_name"
                       :name="product.name"
                       :description="product.included.levels[0].name"
                       :iconSrc="`${baseURL}${product.included.organization.logo}`"
