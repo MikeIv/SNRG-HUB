@@ -32,6 +32,26 @@
 
     &-breadcrumbs {
       display: flex;
+
+      .a-breadcrumbs {
+        &__wrapper {
+          @media screen and (max-width: 730px) {
+            display: none;
+
+            &[mobile] {
+              display: flex;
+            }
+
+            & .si-chevron-right {
+              margin-left: 0;
+              order: -1;
+              &::before {
+                transform: rotateY(180deg);
+              }
+            }
+          }
+        }
+      }
     }
 
     .a-breadcrumbs-item__label {

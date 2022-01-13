@@ -4,6 +4,7 @@
       class="a-breadcrumbs__wrapper"
       v-for="(item, index) in breadcrumbsArray"
       :key="index"
+      :mobile="item.mobile"
       itemprop="itemListElement"
       itemscope
       itemtype="https://schema.org/ListItem"
