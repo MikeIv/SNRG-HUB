@@ -238,28 +238,6 @@ export default {
         }
       });
 
-      // Ставим дефолтные фильтры на организации и города
-      // if (this.entity_page) {
-      //   const filterKey = `${this.entity_page.type}_ids`;
-      //   expandedMethod.filter[filterKey] = [this.entity_page.id];
-      // }
-
-      // Логика парсинга чекбоксов, для получения отфильрованный товаров
-      // Object.entries(this.filtersCheckboxDataRequest).forEach((checkboxData) => {
-      //   const [key, value] = checkboxData;
-      //   if (value) {
-      //     expandedMethod.filter[key] = value;
-      //   } else {
-      //     delete expandedMethod.filter[[key]];
-      //   }
-      // });
-
-      // if (this.categoryId) {
-      //   expandedMethod.filter.category_ids = this.categoryId;
-      // } else {
-      //   delete expandedMethod.filter.category_ids;
-      // }
-
       expandedMethod.pagination = { page: this.page, page_size: this.productsPerPage };
       expandedMethod.sort = this.currentOption;
 
