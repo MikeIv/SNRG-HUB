@@ -93,7 +93,11 @@ export default (context, inject) => {
     return url;
   }
 
-  function send(formData, setingsData, route) {
+  function send(formData, setingsData, route, landerString) {
+    if (landerString) {
+      landerConfig.land = landerString;
+    }
+
     let { unit, type } = landerConfig;
     const { land } = landerConfig;
 
