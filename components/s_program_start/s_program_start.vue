@@ -115,6 +115,7 @@ import getProductsDetail from '~/api/productsDetail';
 import getParseDate from '~/assets/js/getParseDate';
 import getDateFromDatesObj from '~/assets/js/getDateFromDatesObj';
 import ABreadcrumbs from '~/components/_ui/a_breadcrumbs/a_breadcrumbs';
+import getOrganizationsDetail from '~/api/organizationsDetail';
 
 export default {
   name: 's-program-start',
@@ -161,6 +162,7 @@ export default {
       city: {},
       organization: {},
       level: {},
+      landValue: '',
     };
   },
 
@@ -184,6 +186,7 @@ export default {
   async fetch() {
     const expandedMethod = this.methods[0].data;
     const preData = await getProductsDetail(expandedMethod);
+    const organizationData = await getOrganizationsDetail(this.organization);
     const getData = preData.data;
     this.program.color = getData.color;
     this.program.title = getData.name;
@@ -202,6 +205,8 @@ export default {
 
     let globalHref = '/catalog';
     let citylHref = '';
+
+    this.landValue = organizationData.data.land;
 
     if (this.city) {
       citylHref += `?&city_ids=${this.city.id}`;
@@ -259,6 +264,10 @@ export default {
 
     // Перевод строки в виде "4y-6m-5d" и возврат даты в нужном формате (4 года 6 месяцев 5 дней)
     this.program.duration = getDateFromDatesObj(getParseDate(getData.duration_format_value));
+  },
+
+  mounted() {
+    this.$lander.getLand(this.landValue);
   },
 
   methods: {

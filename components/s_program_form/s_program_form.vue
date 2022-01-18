@@ -52,7 +52,6 @@
 import { VueTelInput } from 'vue-tel-input';
 import { MForm, AInput } from '@cwespb/synergyui';
 import './s_program_form.scss';
-import getProductsDetail from '~/api/productsDetail';
 
 export default {
   name: 's_program_form',
@@ -106,15 +105,8 @@ export default {
       },
     },
 
-    landValue: '',
-
     validPhone: false,
   }),
-
-  async fetch() {
-    const preData = await getProductsDetail();
-    this.landValue = preData.data.land;
-  },
 
   mounted() {
     this.$emit('form-ref', this.$refs.form);
@@ -136,14 +128,12 @@ export default {
           this.$route.name === 'edu-platform-slug' || this.$route.name === 'edu-platform'
             ? this.$route.path
             : undefined,
-          this.landValue,
         )
         .then(() => {});
     },
     handlerSave() {
       const dataToSend = { ...this.fieldsData };
       delete dataToSend.comments;
-
       this.$lander.storage.save('sprogramform', dataToSend);
     },
     validatePhone(phone, { valid, number }) {

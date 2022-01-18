@@ -71,6 +71,12 @@ export default (context, inject) => {
     return true;
   }
 
+  function getLand(landValue) {
+    if (landValue) {
+      landerConfig.land = landValue;
+    }
+  }
+
   // Функция оправки данных на сервер
   // formData - объект из данных формы
   // setings = объект переопределения настроек
@@ -93,11 +99,7 @@ export default (context, inject) => {
     return url;
   }
 
-  function send(formData, setingsData, route, landerString) {
-    if (landerString) {
-      landerConfig.land = landerString;
-    }
-
+  function send(formData, setingsData, route) {
     let { unit, type } = landerConfig;
     const { land } = landerConfig;
 
@@ -173,6 +175,7 @@ export default (context, inject) => {
   const lander = {
     send,
     valid,
+    getLand,
     cookie,
     storage,
   };
