@@ -1,4 +1,4 @@
-export default async function ({ route, store }) {
+export default async function ({ route, store, redirect }) {
   const requestData = {
     filter: {},
     params: {},
@@ -27,5 +27,5 @@ export default async function ({ route, store }) {
     requestData.filter.slug = 'organization';
     requestData.params.slug = route.params.slug;
   }
-  await store.dispatch('getPageInfo', requestData);
+  await store.dispatch('getPageInfo', { requestData, redirect });
 }
