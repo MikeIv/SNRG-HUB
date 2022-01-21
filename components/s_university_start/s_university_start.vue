@@ -136,6 +136,10 @@ export default {
     // this.directions = preData.included.directions;
     this.city = preData.data.included.city;
 
+    if (preData.data.land) {
+      this.$store.commit('updateLander', preData.data);
+    }
+
     if (this.city) {
       const breadcrumb = {
         label: this.city.name,
