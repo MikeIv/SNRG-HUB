@@ -61,6 +61,7 @@ export const actions = {
       const response = await axios.post('api/v1/page', requestData);
       commit('setPageMeta', response.data.data.meta);
       commit('setPageInfo', response.data.data);
+      commit('updateLander', landerConfig);
     } catch (error) {
       if (error.response.data.success === false) {
         redirect('/404');
@@ -68,12 +69,11 @@ export const actions = {
     }
   },
 
-  async getLanderInfo({ commit }) {
+  getLanderInfo({ commit }) {
     commit('updateLander', landerConfig);
   },
 
   async nuxtServerInit({ dispatch }) {
     await dispatch('globalData/getGlobalData');
-    await dispatch('getLanderInfo');
   },
 };

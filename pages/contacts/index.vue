@@ -21,6 +21,10 @@ export default {
     return {};
   },
 
+  created() {
+    this.$store.dispatch('getLanderInfo');
+  },
+
   asyncData() {
     // Массив имен для component :is будет формироваться от бэка
     // На данный момент там имена неправильные, поэтому хардкод

@@ -34,6 +34,9 @@ export default {
       return this.$store.state.pageMeta;
     },
   },
+  created() {
+    this.$store.dispatch('getLanderInfo');
+  },
   head() {
     return {
       title: this.pageMeta?.title,
