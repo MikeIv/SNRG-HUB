@@ -201,7 +201,9 @@ export default {
     let globalHref = '/catalog';
     let citylHref = '';
 
-    this.$store.commit('updateLander', getData.included.organization.land);
+    if (getData.included.organization.land) {
+      this.$store.commit('updateLander', getData.included.organization);
+    }
 
     if (this.city) {
       citylHref += `?&city_ids=${this.city.id}`;
