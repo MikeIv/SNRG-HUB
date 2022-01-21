@@ -107,9 +107,7 @@
 </template>
 
 <script>
-import {
-  AFactoid, AButton, MSocialShare, MCard,
-} from '@cwespb/synergyui';
+import { AFactoid, AButton, MSocialShare, MCard } from '@cwespb/synergyui';
 import './s_program_start.scss';
 import getProductsDetail from '~/api/productsDetail';
 import getParseDate from '~/assets/js/getParseDate';
@@ -161,7 +159,6 @@ export default {
       city: {},
       organization: {},
       level: {},
-      landSettings: {},
     };
   },
 
@@ -204,8 +201,7 @@ export default {
     let globalHref = '/catalog';
     let citylHref = '';
 
-    this.landSettings.land = getData.included.organization.land;
-    this.$store.commit('updateLander', this.landSettings);
+    this.$store.commit('updateLander', getData.included.organization.land);
 
     if (this.city) {
       citylHref += `?&city_ids=${this.city.id}`;
@@ -279,8 +275,8 @@ export default {
       if (
         /Android|webOS|iPhone|iPad|iPod|BlackBerry|BB|PlayBook|IEMobile|Windows Phone|Kindle|Silk|Opera Mini/i.test(
           navigator.userAgent,
-        )
-        && navigator.share
+        ) &&
+        navigator.share
       ) {
         navigator.share({
           title: this.program.title,

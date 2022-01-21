@@ -50,7 +50,6 @@ export default {
       description: '',
       image: '',
       flag: false,
-      landSettings: {},
     };
   },
   props: ['methods', 'productIds'],
@@ -68,7 +67,7 @@ export default {
     this.image = this.baseUrl + preData.data.logo;
     this.programUniversityList = preData.data.included.triggers;
     this.landSettings.land = preData.data.land;
-    this.$store.commit('updateLander', this.landSettings);
+    this.$store.commit('updateLander', preData.data.land);
   },
 };
 </script>
