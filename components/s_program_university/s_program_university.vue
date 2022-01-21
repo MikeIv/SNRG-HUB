@@ -50,7 +50,7 @@ export default {
       description: '',
       image: '',
       flag: false,
-      landValue: '',
+      landSettings: {},
     };
   },
   props: ['methods', 'productIds'],
@@ -67,11 +67,8 @@ export default {
     this.description = preData.data.description;
     this.image = this.baseUrl + preData.data.logo;
     this.programUniversityList = preData.data.included.triggers;
-    this.landValue = preData.data.land;
-  },
-
-  mounted() {
-    this.$lander.getLand(this.landValue);
+    this.landSettings.land = preData.data.land;
+    this.$store.commit('updateLander', this.landSettings);
   },
 };
 </script>

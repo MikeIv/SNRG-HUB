@@ -2,6 +2,8 @@ import { axiosCreate } from '~/axios/axios';
 
 const axios = axiosCreate();
 
+const landerConfig = require('~/lander.config.json');
+
 export const state = () => ({
   pageInfo: {},
   pageMeta: {},
@@ -11,6 +13,12 @@ export const state = () => ({
   quizInfo: {},
   utms: {},
   followedLink: '',
+  landerSettings: {
+    type: '',
+    unit: '',
+    land: '',
+    redirectUrl: '',
+  },
 });
 
 export const mutations = {
@@ -38,6 +46,13 @@ export const mutations = {
   setFollowedLink(state, link) {
     state.followedLink = link;
   },
+  updateLander(state, info) {
+    Object.keys(info).forEach((key) => {
+      if (Object.prototype.hasOwnProperty.call(state.landerSettings, key) && info[key]) {
+        state.landerSettings[key] = info[key];
+      }
+    });
+  },
 };
 
 export const actions = {
@@ -45,6 +60,7 @@ export const actions = {
     const response = await axios.post('api/v1/page', requestData);
     commit('setPageMeta', response.data.data.meta);
     commit('setPageInfo', response.data.data);
+    commit('updateLander', landerConfig);
   },
 
   async nuxtServerInit({ dispatch }) {
