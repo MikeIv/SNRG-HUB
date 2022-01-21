@@ -56,11 +56,17 @@ export const mutations = {
 };
 
 export const actions = {
-  async getPageInfo({ commit }, requestData) {
-    const response = await axios.post('api/v1/page', requestData);
-    commit('setPageMeta', response.data.data.meta);
-    commit('setPageInfo', response.data.data);
-    commit('updateLander', landerConfig);
+  async getPageInfo({ commit }, { requestData, redirect }) {
+    try {
+      const response = await axios.post('api/v1/page', requestData);
+      commit('setPageMeta', response.data.data.meta);
+      commit('setPageInfo', response.data.data);
+      commit('updateLander', landerConfig);
+    } catch (error) {
+      if (error.response.data.success === false) {
+        redirect('/404');
+      }
+    }
   },
 
   async nuxtServerInit({ dispatch }) {
