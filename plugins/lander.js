@@ -164,6 +164,36 @@ export default (context, inject) => {
     });
   }
 
+  // Системная информация лендера
+  window.addEventListener('keydown', (event) => {
+    if ((event.ctrlKey || event.metaKey) && event.code === 'KeyI' && context.store.state.landerSettings) {
+      event.preventDefault();
+      const modal = document.createElement('div');
+      const modalClose = document.createElement('div');
+
+      modalClose.classList.add('lander-message-close');
+      modal.classList.add('lander-message');
+      modal.append(modalClose);
+
+      Object.entries(context.store.state.landerSettings).forEach(([key, value]) => {
+        const item = document.createElement('div');
+        item.innerHTML = `<strong>${key}</strong>: <span>${value}</span>`;
+        item.classList.add('lander-message-item');
+        modal.append(item);
+      });
+      document.body.append(modal);
+    }
+  });
+
+  // Скрытие системной информации лендера
+  window.addEventListener('click', (event) => {
+    if (event.target.className === 'lander-message-close') {
+      const landerMessage = document.querySelector('.lander-message');
+
+      landerMessage.parentNode.removeChild(landerMessage);
+    }
+  });
+
   const lander = {
     send,
     valid,
