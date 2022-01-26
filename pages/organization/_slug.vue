@@ -58,6 +58,11 @@ export default {
     },
   },
 
+  mounted() {
+    // для закрытия системной информации лендера при переходе по страницам
+    this.$lander.updateLanderInfo();
+  },
+
   methods: {
     menuToggle(value) {
       this.filtersMenu = value;

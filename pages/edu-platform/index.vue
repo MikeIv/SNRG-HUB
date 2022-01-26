@@ -340,6 +340,7 @@ export default {
   },
 
   mounted() {
+    this.$lander.updateLanderInfo();
     this.bannerTitleH1 = this.$route.query.h1;
     this.bannerTitleH2 = this.$route.query.h2;
     this.bannerTitleH3 = this.$route.query.h3;

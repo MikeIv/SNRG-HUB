@@ -168,24 +168,28 @@ export default (context, inject) => {
   window.addEventListener('keydown', (event) => {
     if ((event.ctrlKey || event.metaKey) && event.code === 'KeyI' && context.store.state.landerSettings) {
       event.preventDefault();
-      const modal = document.createElement('div');
-      const modalClose = document.createElement('div');
+      let modal = document.querySelector('.lander-message');
 
-      modalClose.classList.add('lander-message-close');
-      modal.classList.add('lander-message');
-      modal.append(modalClose);
+      if (!modal) {
+        modal = document.createElement('div');
+        const modalClose = document.createElement('div');
 
-      Object.entries(context.store.state.landerSettings).forEach(([key, value]) => {
-        const item = document.createElement('div');
-        item.innerHTML = `<strong>${key}</strong>: <span>${value}</span>`;
-        item.classList.add('lander-message-item');
-        modal.append(item);
-      });
-      document.body.append(modal);
+        modalClose.classList.add('lander-message-close');
+        modal.classList.add('lander-message');
+        modal.append(modalClose);
+
+        Object.entries(context.store.state.landerSettings).forEach(([key, value]) => {
+          const item = document.createElement('div');
+          item.innerHTML = `<strong>${key}</strong>: <span>${value}</span>`;
+          item.classList.add('lander-message-item');
+          modal.append(item);
+        });
+        document.body.append(modal);
+      }
     }
   });
 
-  // Скрытие системной информации лендера
+  // Скрытие системной информации лендера по клику на X
   window.addEventListener('click', (event) => {
     if (event.target.className === 'lander-message-close') {
       const landerMessage = document.querySelector('.lander-message');
@@ -194,9 +198,17 @@ export default (context, inject) => {
     }
   });
 
+  // Скрытие системной информации лендера при переходе на другую страницу
+  function updateLanderInfo() {
+    console.log('close');
+    const landerMessage = document.querySelector('.lander-message');
+    if (landerMessage) landerMessage.parentNode.removeChild(landerMessage);
+  }
+
   const lander = {
     send,
     valid,
+    updateLanderInfo,
     cookie,
     storage,
   };

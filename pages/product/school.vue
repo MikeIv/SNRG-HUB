@@ -16,6 +16,11 @@ export default {
     this.$store.dispatch('getLanderInfo');
   },
 
+  mounted() {
+    // для закрытия системной информации лендера при переходе по страницам
+    this.$lander.updateLanderInfo();
+  },
+
   head() {
     return {
       title: this.pageMeta?.title,

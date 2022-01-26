@@ -85,6 +85,10 @@ export default {
     },
   },
 
+  mounted() {
+    this.$lander.updateLanderInfo();
+  },
+
   head() {
     return {
       title: this.pageMeta?.title,
