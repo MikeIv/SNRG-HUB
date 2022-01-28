@@ -9,10 +9,10 @@
     margin: 0 rem(10) rem(20);
 
     @media screen and (max-width: 1350px) {
-      margin-bottom: rem(10);
+      margin-bottom: rem(16);
     }
     @media screen and (max-width: 767px) {
-      margin-bottom: rem(16);
+      margin-bottom: rem(24);
     }
 
     &-icon {

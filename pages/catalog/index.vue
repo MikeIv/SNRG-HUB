@@ -10,7 +10,6 @@
     <SProductSearch v-if="search" :search="search" />
     <s-catalog
       v-else
-      :pageInfo="pageInfo"
       :currentOption="currentOption"
       :options="options"
       :filtersMenu="filtersMenu"
@@ -77,9 +76,6 @@ export default {
   },
 
   computed: {
-    pageInfo() {
-      return this.$store.state.pageInfo;
-    },
     pageMeta() {
       return this.$store.state.pageMeta;
     },
