@@ -4,7 +4,13 @@
       <slot />
       <h3 v-if="!productList.length">К сожалению, ничего нет</h3>
       <div v-for="article in productList" :key="article.id" class="catalog-product-list__item-wrapper">
-        <m-article :article="article" :randomColor="getRandomColor(article.included.tags[0].name)" />
+        <nuxt-link :to="`/article/${article.slug}`">
+          <m-article
+            :article="article"
+            @click.stop="onArticleClick(article)"
+            :randomColor="getRandomColor(article.included.tags[0].name)"
+          />
+        </nuxt-link>
       </div>
     </div>
     <m-pagination
@@ -93,8 +99,8 @@ export default {
       this.pageInx = prevPage;
     },
 
-    onOrganizationClick(product) {
-      this.$router.push(`/organization/${product.included.organization.slug}`);
+    onArticleClick(article) {
+      this.$router.push(`/article/${article.slug}`);
     },
   },
 };

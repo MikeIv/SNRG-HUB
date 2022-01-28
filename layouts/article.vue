@@ -3,9 +3,6 @@
     <SHeader @search="search = $event" />
     <SProductSearch v-if="search" :search="search" />
     <Nuxt v-else />
-    <LazyHydrate when-visible v-if="!search">
-      <SQuiz :quiz-id="2" />
-    </LazyHydrate>
     <LazyHydrate when-visible>
       <SFooter />
     </LazyHydrate>
@@ -35,7 +32,6 @@ export default {
 
   components: {
     SHeader,
-    SQuiz: () => import('~/components/s_quiz/s_quiz'),
     SFooter: () => import('~/components/s_footer/s_footer'),
     SProductSearch,
     LazyHydrate,

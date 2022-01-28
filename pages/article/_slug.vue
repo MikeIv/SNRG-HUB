@@ -1,6 +1,14 @@
 <template>
-  <div class="l-default">
-    <SArticleDetail :content="articleBody" />
+  <div class="l-wide">
+    <SArticleDetail
+      :content="articleBody"
+      :title="title"
+      :publicationTypes="publicationTypes"
+      :date="date"
+      :readingTime="readingTime"
+      :subtitle="subtitle"
+      :user="author"
+    />
   </div>
 </template>
 
@@ -17,7 +25,13 @@ export default {
 
   data() {
     return {
-      articleBody: {},
+      title: '',
+      date: '',
+      readingTime: '',
+      articleBody: '',
+      subtitle: '',
+      author: '',
+      publicationTypes: {},
     };
   },
 
@@ -30,10 +44,19 @@ export default {
   },
 
   async fetch() {
-    const filter = { filter: { id: 60 }, include: ['journalContent', 'publicationTypes'] };
+    // eslint-disable-next-line max-len
+    const filter = {
+      filter: { slug: this.$route.params.slug },
+      include: ['journalContent', 'publicationTypes', 'directions', 'articleAuthors'],
+    };
     const preData = await getArticleDetail(filter);
+    this.title = preData.title;
+    this.subtitle = preData.included.journalContent.preview_text;
+    // this.publicationTypes = preData.included.publicationTypes[0];
+    this.date = preData.included.journalContent.publish_date;
+    this.readingTime = preData.included.journalContent.readingTime;
     this.articleBody = preData.included.journalContent.body;
-    console.log(preData);
+    this.author = preData.included.journalContent.author;
   },
 
   head() {
@@ -71,9 +94,6 @@ export default {
           content: this.pageMeta?.description,
         },
       ],
-      bodyAttrs: {
-        class: 'bg-gray',
-      },
     };
   },
 };
