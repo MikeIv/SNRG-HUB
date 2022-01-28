@@ -62,8 +62,6 @@ export const actions = {
       commit('setPageMeta', response.data.data.meta);
       commit('setPageInfo', response.data.data);
       commit('updateLander', landerConfig);
-
-      console.log();
     } catch (error) {
       if (error.response.data.success === false) {
         redirect('/404');

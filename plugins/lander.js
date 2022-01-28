@@ -199,18 +199,18 @@ export default (context, inject) => {
   });
 
   // Скрытие системной информации лендера при переходе на другую страницу
-  function updateLanderInfo() {
-    console.log('close');
+  const closeLanderInfo = () => {
     const landerMessage = document.querySelector('.lander-message');
     if (landerMessage) landerMessage.parentNode.removeChild(landerMessage);
-  }
+  };
 
   const lander = {
     send,
     valid,
-    updateLanderInfo,
+    closeLanderInfo,
     cookie,
     storage,
   };
+
   inject('lander', lander);
 };

@@ -26,10 +26,6 @@ export default {
       return this.$store.state.pageMeta;
     },
   },
-  mounted() {
-    // для закрытия системной информации лендера при переходе по страницам
-    this.$lander.updateLanderInfo();
-  },
   head() {
     return {
       title: this.pageMeta?.title,
