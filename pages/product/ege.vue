@@ -12,6 +12,10 @@ export default {
     ProductEge,
   },
 
+  created() {
+    this.$store.dispatch('getLanderInfo');
+  },
+
   head() {
     return {
       title: this.pageMeta?.title,

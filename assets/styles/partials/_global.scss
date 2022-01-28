@@ -104,3 +104,36 @@ div.vue-tel-input {
     box-shadow: none;
   }
 }
+
+.lander-message {
+  position: fixed;
+  z-index: 1000;
+  top: 0;
+  right: 0;
+  width: rem(200);
+  height: rem(200);
+  padding: var(--a-padding--x6);
+  color: #fff;
+  background: #ff0040;
+
+  &-item {
+    margin-bottom: var(--a-padding--x1);
+
+    strong {
+      width: 50%;
+    }
+    span {
+      margin-left: var(--a-padding--x3);
+    }
+  }
+
+  &-close {
+    position: absolute;
+    top: var(--a-padding--x1);
+    right: var(--a-padding--x4);
+    cursor: pointer;
+    &::after {
+      content: '\2715';
+    }
+  }
+}

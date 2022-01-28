@@ -1,8 +1,9 @@
-export default async function ({ route, store }) {
+export default async function ({ route, store, redirect }) {
   const requestData = {
     filter: {},
     params: {},
   };
+
   // Когда мы заходим на любую страницу, нам нужно сделать запрос, передам объект параметров
   // Мы знаем, что для главной страницы нужно передать id = 1
   // Здесь мы проверяем, что если главная страница, то добавляем id = 1
@@ -27,5 +28,11 @@ export default async function ({ route, store }) {
     requestData.filter.slug = 'organization';
     requestData.params.slug = route.params.slug;
   }
-  await store.dispatch('getPageInfo', requestData);
+
+  await store.dispatch('getPageInfo', { requestData, redirect });
+
+  if (process.client) {
+    // eslint-disable-next-line no-undef
+    $nuxt.context.$lander.closeLanderInfo();
+  }
 }
