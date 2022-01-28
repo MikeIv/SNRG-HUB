@@ -25,11 +25,6 @@ export default {
     this.$store.dispatch('getLanderInfo');
   },
 
-  mounted() {
-    // для закрытия системной информации лендера при переходе по страницам
-    this.$lander.updateLanderInfo();
-  },
-
   asyncData() {
     // Массив имен для component :is будет формироваться от бэка
     // На данный момент там имена неправильные, поэтому хардкод

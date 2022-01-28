@@ -84,6 +84,7 @@ export default {
 
     cityPicked(val) {
       if (val) {
+        this.searchCity = val;
         this.saveCityMobile(val);
       }
     },
@@ -91,10 +92,6 @@ export default {
     isPopup(val) {
       if (val) {
         document.documentElement.classList.add('cityPopupOpened');
-
-        if (!this.cityPicked) {
-          this.cityPicked = this.cityObj.name;
-        }
 
         if (!this.cityObj.name) {
           this.cityObj = this.$store.state.cityInfo;
@@ -150,8 +147,8 @@ export default {
     sortSynergyCities() {
       // При открытии попапа в массив городов первым ставлю город пользователя, для его же удобства
       this.cities = this.synergyCities;
-      if (this.cityPicked) {
-        const cityPickedIndex = this.cities.findIndex((el) => el.name === this.cityPicked);
+      if (this.cityObj.name) {
+        const cityPickedIndex = this.cities.findIndex((el) => el.name === this.cityObj.name);
         const cityPickedObj = this.cities[cityPickedIndex];
 
         if (cityPickedIndex >= 0) {
@@ -182,7 +179,7 @@ export default {
 
     // Поиск города по ip
     getCity() {
-      if (!this.cityPicked) {
+      if (!this.cityObj.name) {
         fetch('https://api.ipify.org?format=json')
           .then((x) => x.json())
           .then(({ ip }) => {
