@@ -8,6 +8,7 @@
       :readingTime="readingTime"
       :subtitle="subtitle"
       :user="author"
+      :previewImg="img"
     />
   </div>
 </template>
@@ -30,8 +31,9 @@ export default {
       readingTime: '',
       articleBody: '',
       subtitle: '',
-      author: '',
+      author: {},
       publicationTypes: {},
+      img: '',
     };
   },
 
@@ -44,19 +46,22 @@ export default {
   },
 
   async fetch() {
-    // eslint-disable-next-line max-len
     const filter = {
       filter: { slug: this.$route.params.slug },
       include: ['journalContent', 'publicationTypes', 'directions', 'articleAuthors'],
     };
     const preData = await getArticleDetail(filter);
+    const type = preData.included.publicationTypes[0];
+    const author = preData.included.articleAuthors[0];
     this.title = preData.title;
     this.subtitle = preData.included.journalContent.preview_text;
-    // this.publicationTypes = preData.included.publicationTypes[0];
     this.date = preData.included.journalContent.publish_date;
     this.readingTime = preData.included.journalContent.readingTime;
     this.articleBody = preData.included.journalContent.body;
     this.author = preData.included.journalContent.author;
+    this.publicationTypes = type;
+    this.author = author;
+    this.img = preData.included.preview_picture;
   },
 
   head() {

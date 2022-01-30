@@ -3,25 +3,31 @@
     <div class="l-default">
       <div class="s-article-detail__head">
         <div v-if="user" class="s-article-detail__user">
-          <AUser />
-        </div>
-        <div class="s-article-detail__btn">
-          <AButton label="Подписаться" />
+          <AUser :user="user" />
         </div>
       </div>
       <div class="s-article-detail__body">
         <div class="s-article-detail__top">
           <div class="s-article-detail__top-theme"></div>
           <nuxt-link to="/" class="s-article-detail__top-tag">
-            {{ tag }}
+            {{ `#${this.publicationTypes.name}` }}
           </nuxt-link>
           <div class="s-article-detail__top-date">
             {{ dateArticle }}
           </div>
           <div class="s-article-detail__top-share">
-            <i data-v-6f01a058="" tabindex="0" class="si-share">
-              <MSocialShare />
-            </i>
+            <div class="s-article-detail__top-icons">
+              <i v-if="shareIcon" class="si-share s-article-detail__top-icon" @click.stop="toggleMenu" tabindex="0" />
+              <i v-if="favoriteIcon" class="si-heart s-article-detail__top-icon" @click="onHeartClickHandler" />
+            </div>
+            <m-social-share
+              :is-menu-open="isMenuOpen"
+              :networks="article.social"
+              :title="title"
+              :description="subtitle"
+              :image="previewImage"
+              @changeMenuState="changeMenuState"
+            />
           </div>
         </div>
         <div class="s-article-detail__content">
@@ -39,7 +45,7 @@
               Время чтения <span> {{ publicationTypes.readingTime }} </span>
             </div>
           </div>
-          <div class="s-article-detail__content-body" v-html="content"></div>
+          <div class="s-article-detail__content-body" v-html="bodyHTML"></div>
         </div>
       </div>
     </div>
@@ -48,14 +54,13 @@
 
 <script>
 import './s_article_detail.scss';
-import { AButton, MSocialShare } from '@cwespb/synergyui';
+import { MSocialShare } from '@cwespb/synergyui';
 import AUser from '~/components/_ui/a_user/a_user';
 
 export default {
   name: 's-article-detail',
 
   components: {
-    AButton,
     AUser,
     MSocialShare,
   },
@@ -63,8 +68,13 @@ export default {
   data() {
     return {
       baseURL: process.env.NUXT_ENV_S3BACKET,
-      tag: '',
       dateArticle: '',
+      isMenuOpen: false,
+      article: {
+        social: [],
+        city: '',
+      },
+      bodyHTML: '',
     };
   },
 
@@ -85,6 +95,17 @@ export default {
       type: String,
     },
     user: {
+      type: Object,
+    },
+    shareIcon: {
+      type: Boolean,
+      default: true,
+    },
+    favoriteIcon: {
+      type: Boolean,
+      default: false,
+    },
+    previewImage: {
       type: String,
     },
   },
@@ -94,7 +115,43 @@ export default {
     const today = new Date();
 
     this.dateArticle = today.toLocaleString('ru-Ru', options);
-    this.tag = `#${this.publicationTypes.name}`;
+    this.bodyHTML = this.content.replace(/&nbsp;/g, '');
+  },
+
+  methods: {
+    changeMenuState(value) {
+      this.isMenuOpen = value;
+    },
+    toggleMenu() {
+      if (
+        /Android|webOS|iPhone|iPad|iPod|BlackBerry|BB|PlayBook|IEMobile|Windows Phone|Kindle|Silk|Opera Mini/i.test(
+          navigator.userAgent,
+        )
+        && navigator.share
+      ) {
+        navigator.share({
+          title: this.program.title,
+          url: document.location.href,
+        });
+      } else {
+        this.isMenuOpen = !this.isMenuOpen;
+        if (this.isMenuOpen) {
+          this.$nextTick(() => {
+            document.addEventListener('click', this.hideMenu);
+          });
+        }
+      }
+    },
+    hideMenu() {
+      this.isMenuOpen = false;
+      document.removeEventListener('click', this.hideMenu);
+    },
+    onHeartClickHandler() {
+      this.$emit('heart-click');
+    },
+    signUpClickHandler() {
+      this.$emit('sign-up');
+    },
   },
 };
 </script>
