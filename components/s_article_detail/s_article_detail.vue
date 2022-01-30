@@ -45,7 +45,7 @@
               Время чтения <span> {{ publicationTypes.readingTime }} </span>
             </div>
           </div>
-          <div class="s-article-detail__content-body" v-html="bodyHTML"></div>
+          <div class="s-article-detail__content-body" v-html="content"></div>
         </div>
       </div>
     </div>
@@ -74,7 +74,6 @@ export default {
         social: [],
         city: '',
       },
-      bodyHTML: '',
     };
   },
 
@@ -115,7 +114,6 @@ export default {
     const today = new Date();
 
     this.dateArticle = today.toLocaleString('ru-Ru', options);
-    this.bodyHTML = this.content.replace(/&nbsp;/g, '');
   },
 
   methods: {

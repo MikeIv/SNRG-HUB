@@ -57,7 +57,7 @@ export default {
     this.subtitle = preData.included.journalContent.preview_text;
     this.date = preData.included.journalContent.publish_date;
     this.readingTime = preData.included.journalContent.readingTime;
-    this.articleBody = preData.included.journalContent.body;
+    this.articleBody = preData.included.journalContent.body.replace(/&nbsp;/g, '');
     this.author = preData.included.journalContent.author;
     this.publicationTypes = type;
     this.author = author;
