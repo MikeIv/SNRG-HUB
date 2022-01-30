@@ -1,7 +1,5 @@
 import axios from 'axios';
 
-const landerConfig = require('~/lander.config.json');
-
 export default (context, inject) => {
   // Объект набора валидаторов
   const typesValid = {
@@ -77,7 +75,7 @@ export default (context, inject) => {
 
   function getConfig(unit, type, land, utms) {
     let url = '';
-    if (landerConfig) {
+    if (context.store.state.landerSettings) {
       // eslint-disable-next-line max-len
       url = `https://syn.su/lander.php?r=land/index&unit=${unit}${
         type ? `&type=${type}` : ''
@@ -94,8 +92,8 @@ export default (context, inject) => {
   }
 
   function send(formData, setingsData, route) {
-    let { unit, type } = landerConfig;
-    const { land } = landerConfig;
+    let { unit, type } = context.store.state.landerSettings;
+    const { land } = context.store.state.landerSettings;
 
     if (route) {
       unit = 'edu_platform';
@@ -106,7 +104,7 @@ export default (context, inject) => {
 
     const setingSend = {
       version: '',
-      redirectUrl: route ? `${route}thanks` : landerConfig.redirectUrl,
+      redirectUrl: route ? `${route}thanks` : context.store.state.landerSettings.redirectUrl,
     };
 
     return new Promise(() => {
@@ -166,11 +164,53 @@ export default (context, inject) => {
     });
   }
 
+  // Системная информация лендера
+  window.addEventListener('keydown', (event) => {
+    if ((event.ctrlKey || event.metaKey) && event.code === 'KeyI' && context.store.state.landerSettings) {
+      event.preventDefault();
+      let modal = document.querySelector('.lander-message');
+
+      if (!modal) {
+        modal = document.createElement('div');
+        const modalClose = document.createElement('div');
+
+        modalClose.classList.add('lander-message-close');
+        modal.classList.add('lander-message');
+        modal.append(modalClose);
+
+        Object.entries(context.store.state.landerSettings).forEach(([key, value]) => {
+          const item = document.createElement('div');
+          item.innerHTML = `<strong>${key}</strong>: <span>${value}</span>`;
+          item.classList.add('lander-message-item');
+          modal.append(item);
+        });
+        document.body.append(modal);
+      }
+    }
+  });
+
+  // Скрытие системной информации лендера по клику на X
+  window.addEventListener('click', (event) => {
+    if (event.target.className === 'lander-message-close') {
+      const landerMessage = document.querySelector('.lander-message');
+
+      landerMessage.parentNode.removeChild(landerMessage);
+    }
+  });
+
+  // Скрытие системной информации лендера при переходе на другую страницу
+  const closeLanderInfo = () => {
+    const landerMessage = document.querySelector('.lander-message');
+    if (landerMessage) landerMessage.parentNode.removeChild(landerMessage);
+  };
+
   const lander = {
     send,
     valid,
+    closeLanderInfo,
     cookie,
     storage,
   };
+
   inject('lander', lander);
 };

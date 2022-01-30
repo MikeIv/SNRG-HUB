@@ -17,7 +17,7 @@ function declOfNum(number, titles) {
 }
 
 /**
- * Возврат даты в нужном формате (x года x месяцев x дней)
+ * Возврат даты в нужном формате (x года x месяцев x дней х часов)
  */
 export default function getDateFromDatesObj(datesObj) {
   let result = '';
@@ -29,6 +29,10 @@ export default function getDateFromDatesObj(datesObj) {
   }
   if (isExistValue(datesObj.days)) {
     result += `${datesObj.days} ${declOfNum(datesObj.days, ['&nbsp;день', '&nbsp;дня', '&nbsp;дней'])}`;
+  }
+
+  if (isExistValue(datesObj.hours)) {
+    result += `${datesObj.hours} ${declOfNum(datesObj.hours, ['&nbsp;час', '&nbsp;часа', '&nbsp;часов'])}`;
   }
 
   return result;

@@ -40,6 +40,7 @@ export default {
       return this.programUniversityList.slice(0, 6);
     },
   },
+
   data() {
     return {
       programUniversityList: [],
@@ -65,6 +66,9 @@ export default {
     this.description = preData.data.description;
     this.image = this.baseUrl + preData.data.logo;
     this.programUniversityList = preData.data.included.triggers;
+    if (preData.data.land) {
+      this.$store.commit('updateLander', preData.data);
+    }
   },
 };
 </script>

@@ -16,6 +16,9 @@ export default function getParseDate(date) {
     if (datesArr[i].includes('y')) {
       datesObj.years = parseInt(datesArr[i], 10);
     }
+    if (datesArr[i].includes('h')) {
+      datesObj.hours = parseInt(datesArr[i], 10);
+    }
   }
   return datesObj;
 }
