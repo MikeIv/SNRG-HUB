@@ -11,8 +11,7 @@
         #{{ article.included.publicationTypes[0].name.toUpperCase() }}
       </span>
       <span class="m-article__info-additional-date">
-        {{ new Date(article.created_at).getDate() }}&nbsp;
-        {{ new Date(article.created_at).toLocaleString('default', { month: 'long' }) }}
+        {{ date }}
       </span>
     </div>
     <div class="m-article__info">
@@ -31,6 +30,7 @@ export default {
   data() {
     return {
       baseURL: process.env.NUXT_ENV_S3BACKET,
+      date: '',
     };
   },
 
@@ -42,6 +42,13 @@ export default {
     randomColor: {
       type: String,
     },
+  },
+
+  mounted() {
+    const options = { month: 'long', day: 'numeric' };
+    const today = new Date(this.article.created_at);
+
+    this.date = today.toLocaleString('ru-Ru', options);
   },
 
   methods: {

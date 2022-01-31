@@ -111,7 +111,7 @@ export default {
 
   mounted() {
     const options = { year: 'numeric', month: 'long', day: 'numeric' };
-    const today = new Date();
+    const today = new Date(this.date);
 
     this.dateArticle = today.toLocaleString('ru-Ru', options);
   },
