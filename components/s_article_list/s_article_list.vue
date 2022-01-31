@@ -2,11 +2,6 @@
   <section class="s-article-list s-padding">
     <div class="l-wide">
       <div class="s-article-list__title a-font_h5">{{ title }}</div>
-      <div class="s-article-list__tags">
-        <nuxt-link :to="`/journal/${tag.slug}`" v-for="(tag, id) in tags" :key="id">
-          <a-tag :label="tag.name" status="default"></a-tag>
-        </nuxt-link>
-      </div>
       <div class="s-article-list__wrapper">
         <template v-for="(article, index) in articles">
           <m-article
@@ -18,6 +13,15 @@
           </m-article>
         </template>
       </div>
+      <nuxt-link to="/journal" class="s-article-list__btn-link">
+        <AButton
+          label="Показать все"
+          bgColor="accent"
+          size="large"
+          class="s-article-list__btn"
+          @click="onButtonMoreClick"
+        />
+      </nuxt-link>
     </div>
   </section>
 </template>
@@ -25,7 +29,7 @@
 import './s_article_list.scss';
 import MArticle from '~/components/_ui/m_article/m_article';
 import getArticlesList from '~/api/articlesList';
-import { ATag } from '@cwespb/synergyui';
+import { AButton } from '@cwespb/synergyui';
 
 export default {
   name: 'SArticleList',
@@ -46,13 +50,15 @@ export default {
       tagColorsList: {},
       countColorIndex: 0,
       tags: [],
+      urlToCatalog: '/journal',
     };
   },
   components: {
     MArticle,
-    ATag,
+    AButton,
   },
-  props: ['methods', 'title'],
+
+  props: ['methods', 'title', 'optionsSection'],
 
   async fetch() {
     const expandedMethod = {
@@ -63,6 +69,10 @@ export default {
     };
     const response = await getArticlesList(expandedMethod);
     this.articles = response.data;
+  },
+
+  mounted() {
+    console.log(this.optionsSection);
   },
 
   methods: {
@@ -82,6 +92,9 @@ export default {
       }
 
       return this.tagColorsList[name];
+    },
+    onButtonMoreClick() {
+      this.$router.push(this.urlToCatalog);
     },
   },
 };

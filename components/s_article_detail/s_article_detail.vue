@@ -9,8 +9,8 @@
       <div class="s-article-detail__body">
         <div class="s-article-detail__top">
           <div class="s-article-detail__top-theme"></div>
-          <div v-if="publicationTypes.name" class="s-article-detail__top-tag">
-            {{ `#${this.publicationTypes.name}` }}
+          <div v-if="publicationTypes && publicationTypes.name" class="s-article-detail__top-tag">
+            {{ `#${publicationTypes.name}` }}
           </div>
           <div v-if="date" class="s-article-detail__top-date">
             {{ date }}
@@ -37,7 +37,7 @@
           <div v-if="subtitle" class="s-article-detail__content-subtitle a-font_xl">
             {{ subtitle }}
           </div>
-          <div v-if="publicationTypes.readingTime" class="s-article-detail__time">
+          <div v-if="publicationTypes && publicationTypes.readingTime" class="s-article-detail__time">
             <div class="s-article-detail__time-icon">
               <img src="/time.svg" alt="" />
             </div>

@@ -3,12 +3,12 @@
     <div class="m-article__image">
       <img alt="article" :src="`${baseURL}${article.included.journalContent.preview_picture}`" />
       <div class="m-article__tag" :style="{ background: randomColor }">
-        {{ article.included.tags[0].name }}
+        {{ article.included.tags[0] ? this.article.included.tags[0].name : '' }}
       </div>
     </div>
     <div class="m-article__info-additional">
-      <span class="m-article__info-additional-type" @click="onTypeClickHandler(article.included.publicationTypes[0])">
-        #{{ article.included.publicationTypes[0].name.toUpperCase() }}
+      <span class="m-article__info-additional-type">
+        {{ article.included.publicationTypes[0] ? `#${article.included.publicationTypes[0].name.toUpperCase()}` : '' }}
       </span>
       <span class="m-article__info-additional-date">
         {{ date }}
