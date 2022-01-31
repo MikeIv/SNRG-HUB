@@ -107,9 +107,7 @@
 </template>
 
 <script>
-import {
-  AFactoid, AButton, MSocialShare, MCard,
-} from '@cwespb/synergyui';
+import { AFactoid, AButton, MSocialShare, MCard } from '@cwespb/synergyui';
 import './s_program_start.scss';
 import getProductsDetail from '~/api/productsDetail';
 import getParseDate from '~/assets/js/getParseDate';
@@ -192,7 +190,8 @@ export default {
     this.program.document = getData.document;
     this.program.city = getData.included.organization.included.city?.name;
     this.program.start_date = getData.start_date;
-    this.program.form = getData.included.formats[0]?.name;
+    const formats = getData.included.formats.map((format) => format.name);
+    this.program.form = formats.join(', ');
     this.program.photo = `${this.baseURL}${getData.digital_image}`;
     this.organization = getData.included.organization;
 
@@ -262,7 +261,9 @@ export default {
     }
 
     // Перевод строки в виде "4y-6m-5d" и возврат даты в нужном формате (4 года 6 месяцев 5 дней)
-    this.program.duration = getDateFromDatesObj(getParseDate(getData.duration_format_value));
+    if (getData.duration_format_value) {
+      this.program.duration = getDateFromDatesObj(getParseDate(getData.duration_format_value));
+    }
   },
 
   methods: {
@@ -279,8 +280,8 @@ export default {
       if (
         /Android|webOS|iPhone|iPad|iPod|BlackBerry|BB|PlayBook|IEMobile|Windows Phone|Kindle|Silk|Opera Mini/i.test(
           navigator.userAgent,
-        )
-        && navigator.share
+        ) &&
+        navigator.share
       ) {
         navigator.share({
           title: this.program.title,
