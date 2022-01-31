@@ -2,6 +2,11 @@
   <section class="s-article-list s-padding">
     <div class="l-wide">
       <div class="s-article-list__title a-font_h5">{{ title }}</div>
+      <div class="s-article-list__tags">
+        <nuxt-link :to="`/journal/${tag.slug}`" v-for="(tag, id) in tags" :key="id">
+          <a-tag :label="tag.name" status="default"></a-tag>
+        </nuxt-link>
+      </div>
       <div class="s-article-list__wrapper">
         <template v-for="(article, index) in articles">
           <m-article
@@ -20,6 +25,7 @@
 import './s_article_list.scss';
 import MArticle from '~/components/_ui/m_article/m_article';
 import getArticlesList from '~/api/articlesList';
+import { ATag } from '@cwespb/synergyui';
 
 export default {
   name: 'SArticleList',
@@ -39,10 +45,12 @@ export default {
       ],
       tagColorsList: {},
       countColorIndex: 0,
+      tags: [],
     };
   },
   components: {
     MArticle,
+    ATag,
   },
   props: ['methods', 'title'],
 

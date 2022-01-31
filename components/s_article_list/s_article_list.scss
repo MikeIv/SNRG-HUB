@@ -1,12 +1,11 @@
 @import '@/assets/styles/tools/mixins';
 
 .s-article-list {
-
   .m-article {
     width: calc(25% - rem(20));
     margin: 0 rem(10);
 
-    @media screen and (max-width: 991px) {
+    @media screen and (max-width: 1199px) {
       width: calc(50% - rem(20));
       margin: 0 rem(10) rem(32);
     }
@@ -18,6 +17,10 @@
   }
   &__title {
     margin-bottom: rem(24);
+
+    @media screen and (max-width: 767px) {
+      margin-bottom: rem(12);
+    }
   }
 
   &__wrapper {
@@ -28,5 +31,11 @@
     @media screen and (max-width: 767px) {
       margin: 0;
     }
+  }
+
+  &__tags {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
   }
 }
