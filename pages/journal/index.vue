@@ -73,6 +73,15 @@ export default {
     };
   },
 
+  computed: {
+    pageMeta() {
+      return this.$store.state.pageMeta;
+    },
+    pageInfo() {
+      return this.$store.state.pageInfo;
+    },
+  },
+
   methods: {
     clearFilters() {
       this.filtersMenu = false;

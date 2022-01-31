@@ -8,7 +8,9 @@
       <div class="a-user__name a-font_m">
         {{ user.name }}
       </div>
-      <div class="a-user__publications a-font_s-m">{{ user.published }} {{ publicashionString }}</div>
+      <div v-if="user.published" class="a-user__publications a-font_s-m">
+        {{ user.published }} {{ publicationString }}
+      </div>
     </div>
   </div>
 </template>
@@ -23,31 +25,8 @@ export default {
     user: {
       type: Object,
     },
-  },
-
-  data() {
-    return {
-      publicashionString: '',
-    };
-  },
-
-  mounted() {
-    this.publications();
-  },
-
-  methods: {
-    publications() {
-      switch (true) {
-        case this.user.published > 1 && this.user.published < 5:
-          this.publicashionString = 'публикации';
-          break;
-        case this.user.published > 5:
-          this.publicashionString = 'публикаций';
-          break;
-        default:
-          this.publicashionString = 'публикация';
-          break;
-      }
+    publicationString: {
+      type: String,
     },
   },
 };

@@ -1,5 +1,5 @@
 <template>
-  <div class="m-article">
+  <nuxt-link :to="`/article/${article.slug}`" class="m-article">
     <div class="m-article__image">
       <img alt="article" :src="`${baseURL}${article.included.journalContent.preview_picture}`" />
       <div class="m-article__tag" :style="{ background: randomColor }">
@@ -18,7 +18,7 @@
       <h6 class="a-font_xl-m m-article__info-title">{{ article.title }}</h6>
       <p class="a-font_m m-article__info-description">{{ article.included.journalContent.preview_text }}</p>
     </div>
-  </div>
+  </nuxt-link>
 </template>
 
 <script>
@@ -49,12 +49,6 @@ export default {
     const today = new Date(this.article.created_at);
 
     this.date = today.toLocaleString('ru-Ru', options);
-  },
-
-  methods: {
-    onTypeClickHandler(type) {
-      this.$router.push(`/journal/${type.slug}`);
-    },
   },
 };
 </script>

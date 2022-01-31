@@ -3,17 +3,17 @@
     <div class="l-default">
       <div class="s-article-detail__head">
         <div v-if="user" class="s-article-detail__user">
-          <AUser :user="user" />
+          <AUser :user="user" :publicationString="publicationString" />
         </div>
       </div>
       <div class="s-article-detail__body">
         <div class="s-article-detail__top">
           <div class="s-article-detail__top-theme"></div>
-          <nuxt-link to="/" class="s-article-detail__top-tag">
+          <div v-if="publicationTypes.name" class="s-article-detail__top-tag">
             {{ `#${this.publicationTypes.name}` }}
-          </nuxt-link>
-          <div class="s-article-detail__top-date">
-            {{ dateArticle }}
+          </div>
+          <div v-if="date" class="s-article-detail__top-date">
+            {{ date }}
           </div>
           <div class="s-article-detail__top-share">
             <div class="s-article-detail__top-icons">
@@ -31,10 +31,10 @@
           </div>
         </div>
         <div class="s-article-detail__content">
-          <h1 class="s-article-detail__content-title a-font_h1">
+          <h1 v-if="title" class="s-article-detail__content-title a-font_h1">
             {{ title }}
           </h1>
-          <div class="s-article-detail__content-subtitle a-font_xl">
+          <div v-if="subtitle" class="s-article-detail__content-subtitle a-font_xl">
             {{ subtitle }}
           </div>
           <div v-if="publicationTypes.readingTime" class="s-article-detail__time">
@@ -45,7 +45,7 @@
               Время чтения <span> {{ publicationTypes.readingTime }} </span>
             </div>
           </div>
-          <div class="s-article-detail__content-body" v-html="content"></div>
+          <div v-if="subtitle" class="s-article-detail__content-body" v-html="content"></div>
         </div>
       </div>
     </div>
@@ -75,6 +75,14 @@ export default {
         city: '',
       },
     };
+  },
+
+  computed: {
+    publicationString() {
+      if (this.user.published > 1 && this.user.published < 5) return 'публикации';
+      if (this.user.published >= 5) return 'публикаций';
+      return 'публикация';
+    },
   },
 
   props: {
@@ -109,13 +117,6 @@ export default {
     },
   },
 
-  mounted() {
-    const options = { year: 'numeric', month: 'long', day: 'numeric' };
-    const today = new Date(this.date);
-
-    this.dateArticle = today.toLocaleString('ru-Ru', options);
-  },
-
   methods: {
     changeMenuState(value) {
       this.isMenuOpen = value;
@@ -128,7 +129,7 @@ export default {
         && navigator.share
       ) {
         navigator.share({
-          title: this.program.title,
+          title: this.title,
           url: document.location.href,
         });
       } else {

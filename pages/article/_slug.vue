@@ -4,7 +4,7 @@
       :content="articleBody"
       :title="title"
       :publicationTypes="publicationTypes"
-      :date="date"
+      :date="dateArticle"
       :readingTime="readingTime"
       :subtitle="subtitle"
       :user="author"
@@ -27,7 +27,7 @@ export default {
   data() {
     return {
       title: '',
-      date: '',
+      dateArticle: '',
       readingTime: '',
       articleBody: '',
       subtitle: '',
@@ -43,6 +43,9 @@ export default {
     pageMeta() {
       return this.$store.state.pageMeta;
     },
+    pageInfo() {
+      return this.$store.state.pageInfo;
+    },
   },
 
   async fetch() {
@@ -53,11 +56,18 @@ export default {
     const preData = await getArticleDetail(filter);
     const type = preData.included.publicationTypes[0];
     const author = preData.included.articleAuthors[0];
+    const options = { year: 'numeric', month: 'long', day: 'numeric' };
+    const date = new Date(preData.included.journalContent.publish_date);
+
+    this.dateArticle = date.toLocaleString('ru-Ru', options);
     this.title = preData.title;
     this.subtitle = preData.included.journalContent.preview_text;
-    this.date = preData.included.journalContent.publish_date;
     this.readingTime = preData.included.journalContent.readingTime;
-    this.articleBody = preData.included.journalContent.body.replace(/&nbsp;/g, '');
+    // eslint-disable-next-line max-len
+    this.articleBody = preData.included.journalContent.body.replace(
+      /<([^>\s]+)[^>]*>(?:\s*(?:<br \/>|&nbsp;|&thinsp;|&ensp;|&emsp;|&#8201;|&#8194;|&#8195;)\s*)*<\/\1>/gm,
+      '',
+    );
     this.author = preData.included.journalContent.author;
     this.publicationTypes = type;
     this.author = author;

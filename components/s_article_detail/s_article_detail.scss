@@ -3,8 +3,7 @@
 .s-article-detail {
   position: relative;
   max-width: rem(800);
-  margin-right: rem(90);
-  margin-left: auto;
+  margin: 0 auto;
   padding-top: rem(35);
   padding-bottom: rem(100);
 
@@ -79,10 +78,6 @@
 
     @media screen and (max-width: 767px) {
       margin-top: rem(20);
-    }
-
-    img {
-      display: none;
     }
 
     &-subtitle {

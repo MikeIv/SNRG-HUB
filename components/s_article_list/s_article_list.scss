@@ -1,0 +1,32 @@
+@import '@/assets/styles/tools/mixins';
+
+.s-article-list {
+
+  .m-article {
+    width: calc(25% - rem(20));
+    margin: 0 rem(10);
+
+    @media screen and (max-width: 991px) {
+      width: calc(50% - rem(20));
+      margin: 0 rem(10) rem(32);
+    }
+
+    @media screen and (max-width: 767px) {
+      width: 100%;
+      margin: 0 0 rem(42);
+    }
+  }
+  &__title {
+    margin-bottom: rem(24);
+  }
+
+  &__wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0 rem(-10);
+
+    @media screen and (max-width: 767px) {
+      margin: 0;
+    }
+  }
+}
