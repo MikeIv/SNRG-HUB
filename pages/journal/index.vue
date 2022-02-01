@@ -8,7 +8,7 @@
       @menu-toggle="menuToggle"
     />
     <SProductSearch v-if="search" :search="search" />
-    <s-catalog
+    <s-journal
       v-else
       :currentOption="currentOption"
       :options="options"
@@ -28,21 +28,19 @@
 <script>
 import LazyHydrate from 'vue-lazy-hydration';
 import SHeader from '~/components/s_header/s_header';
-import SCatalog from '~/components/s_catalog/s_catalog';
+import SJournal from '~/components/s_journal/s_journal';
 import MobileButton from '~/components/mobile_button/mobile_button';
 import SProductSearch from '~/components/s_product_search/s_product_search';
 import Popups from '~/components/popups/popups';
 
 export default {
-  middleware: ['getPageInfo', 'parseUtms'],
-
   layout: 'empty',
 
   components: {
     MobileButton,
     SHeader,
     SProductSearch,
-    SCatalog,
+    SJournal,
     SFooter: () => import('~/components/s_footer/s_footer'),
     LazyHydrate,
     Popups,
@@ -50,7 +48,7 @@ export default {
 
   data() {
     return {
-      title: 'Catalog page',
+      title: 'Journal page',
       search: '',
       filtersMenu: false,
       currentOption: 'sort',
@@ -65,11 +63,11 @@ export default {
         },
         {
           label: 'По алфавиту А-Я',
-          value: 'name',
+          value: 'title',
         },
         {
           label: 'По алфавиту Я-А',
-          value: '-name',
+          value: '-title',
         },
       ],
     };
@@ -79,44 +77,9 @@ export default {
     pageMeta() {
       return this.$store.state.pageMeta;
     },
-  },
-
-  head() {
-    return {
-      title: this.pageMeta?.title,
-      meta: [
-        {
-          hid: 'keywords',
-          name: 'keywords',
-          content: this.pageMeta?.keywords,
-        },
-        {
-          hid: 'description',
-          name: 'description',
-          content: this.pageMeta?.description,
-        },
-        {
-          hid: 'og:type',
-          name: 'og:type',
-          content: 'website',
-        },
-        {
-          hid: 'og:title',
-          name: 'og:title',
-          content: this.pageMeta?.title,
-        },
-        {
-          hid: 'og:site_name',
-          name: 'og:site_name',
-          content: 'Synergyeducation',
-        },
-        {
-          hid: 'og:description',
-          name: 'og:description',
-          content: this.pageMeta?.description,
-        },
-      ],
-    };
+    pageInfo() {
+      return this.$store.state.pageInfo;
+    },
   },
 
   methods: {

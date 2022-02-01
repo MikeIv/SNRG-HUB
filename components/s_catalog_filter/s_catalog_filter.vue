@@ -9,7 +9,7 @@
         :hasSearch="
           filters[0] === 'subject_ids' ? renderSubjects(filters[1].values).length > 15 : filters[1].values.length > 15
         "
-        :passedBtnText="filtersText[filters[0]]"
+        :passedBtnText="filtersTextProp ? filtersTextProp[filters[0]] : filtersText[filters[0]]"
         :items="filters[0] === 'subject_ids' ? renderSubjects(filters[1].values) : filters[1].values"
         @item-click="controlClick(filters[1].filter_by, ...arguments)"
       />
@@ -36,7 +36,7 @@ import './s_catalog_filter.scss';
 export default {
   name: 'SCatalogFilter',
 
-  props: ['filterListData', 'filterCheckboxData', 'subjects'],
+  props: ['filterListData', 'filterCheckboxData', 'subjects', 'filtersTextProp'],
 
   components: {
     MFilter,
