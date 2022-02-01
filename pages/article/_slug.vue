@@ -57,9 +57,8 @@ export default {
     const type = preData.included.publicationTypes[0];
     const author = preData.included.articleAuthors[0];
     const options = { year: 'numeric', month: 'long', day: 'numeric' };
-    const date = new Date(preData.included.journalContent.publish_date);
 
-    this.dateArticle = date.toLocaleString('ru-Ru', options);
+    this.dateArticle = new Date(preData.created_at).toLocaleString('ru-Ru', options);
     this.title = preData.title;
     this.subtitle = preData.included.journalContent.preview_text;
     this.readingTime = preData.included.journalContent.readingTime;

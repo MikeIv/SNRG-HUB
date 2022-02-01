@@ -98,6 +98,26 @@
       @media screen and (max-width: 767px) {
         margin-top: rem(22);
       }
+
+      ul,
+      ol {
+        margin-top: rem(20);
+        padding-left: rem(20);
+        li {
+          margin-bottom: rem(8);
+          font-size: rem(18);
+          line-height: rem(28);
+
+          @media screen and (max-width: 991px) {
+            font-size: rem(16);
+            line-height: rem(20);
+          }
+        }
+      }
+
+      ul {
+        list-style-type: disc;
+      }
     }
   }
 
@@ -147,25 +167,5 @@
 
   br {
     display: none;
-  }
-
-  ul,
-  ol {
-    margin-top: rem(20);
-    padding-left: rem(20);
-    li {
-      margin-bottom: rem(8);
-      font-size: rem(18);
-      line-height: rem(28);
-
-      @media screen and (max-width: 991px) {
-        font-size: rem(16);
-        line-height: rem(20);
-      }
-    }
-  }
-
-  ul {
-    list-style-type: disc;
   }
 }
