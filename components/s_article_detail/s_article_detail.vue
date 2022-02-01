@@ -68,7 +68,6 @@ export default {
   data() {
     return {
       baseURL: process.env.NUXT_ENV_S3BACKET,
-      dateArticle: '',
       isMenuOpen: false,
       article: {
         social: [],
