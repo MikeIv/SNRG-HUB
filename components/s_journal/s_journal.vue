@@ -1,11 +1,11 @@
 <template>
   <div>
-    <div class="l-wide catalog-page">
-      <s-catalog-section
-        title="Программы обучения"
+    <div class="l-wide catalog-page organizations-page">
+      <s-journal-section
+        title="Журнал"
         :hasPresets="presets.length"
         :presets="presets"
-        :products-per-page="24"
+        :products-per-page="12"
         category="default"
         :defaultFilters="defaultFilters"
         :slugs="slugs"
@@ -27,18 +27,18 @@
 </template>
 
 <script>
-import SCatalogSection from '~/components/s_catalog_section/s_catalog_section';
+import SJournalSection from '~/components/s_journal_section/s_journal_section';
 import SQuiz from '~/components/s_quiz/s_quiz';
 import getFiltersProductPresets from '~/api/filtersProductsPresets';
-import './s_catalog.scss';
+import '../s_catalog/s_catalog.scss';
 
 export default {
-  name: 'SCatalog',
+  name: 'SJournal',
   components: {
-    SCatalogSection,
+    SJournalSection,
     SQuiz,
   },
-  props: ['currentOption', 'options', 'filtersMenu'],
+  props: ['pageInfo', 'currentOption', 'options', 'filtersMenu'],
 
   data() {
     return {
@@ -78,23 +78,21 @@ export default {
     filterClickHandler(filtersIdsData, filterListData) {
       Object.entries(filtersIdsData).forEach(([filterKey, filterIds]) => {
         if (filterIds.length === 1) {
-          if (filterKey !== 'city_ids') {
-            const found = filterListData[filterKey].values.find((value) => value.id === Number(filterIds[0]));
-            if (!window.location.pathname.includes(found.slug)) {
-              // Сюда мы попадаем, если у нас только один слаг в фильтре и должны
-              // подчитстить ненужные квери, связанные с этим фильтром
-              // например слаг dizain и остался direction_ids=3
-              let newSearch = window.location.search
-                .split('&')
-                .filter((query) => !query.includes(filterKey))
-                .join('&');
+          const found = filterListData[filterKey].values.find((value) => value.id === Number(filterIds[0]));
+          if (!window.location.pathname.includes(found.slug)) {
+            // Сюда мы попадаем, если у нас только один слаг в фильтре и должны
+            // подчитстить ненужные квери, связанные с этим фильтром
+            // например слаг dizain и остался direction_ids=3
+            let newSearch = window.location.search
+              .split('&')
+              .filter((query) => !query.includes(filterKey))
+              .join('&');
 
-              if (!window.location.search.includes('page')) {
-                newSearch = `${newSearch}?page=1`;
-              }
-
-              window.history.pushState({}, null, `${window.location.pathname}${found.slug}/${newSearch}`);
+            if (!window.location.search.includes('page')) {
+              newSearch = `${newSearch}?page=1`;
             }
+
+            window.history.pushState({}, null, `${window.location.pathname}${found.slug}/${newSearch}`);
           }
         } else if (filterIds.length > 1) {
           let newPath = window.location.pathname;
@@ -116,55 +114,13 @@ export default {
           window.history.pushState({}, null, `${newPath}${newSearch || '?'}${newSearch ? '&' : ''}${queries}`);
         } else {
           filterListData[filterKey].values.forEach((value) => {
-            let slugs = window.location.pathname.split('/');
-            slugs.splice(0, 1);
-            slugs = slugs.filter((slug) => slug);
-            if (slugs.includes(value.slug)) {
+            if (window.location.pathname.includes(value.slug)) {
               const freshPath = window.location.pathname.replace(`/${value.slug}`, '');
               window.history.pushState({}, null, `${freshPath}${window.location.search}`);
             }
           });
         }
       });
-
-      // Логика для городов (надо будет заменить сепаратор)
-      // Логика другая, потому что у городов нет слагов
-      if (filtersIdsData.city_ids.length) {
-        let newSearch = window.location.search
-          .split('&')
-          .filter((query) => !query.includes('city_ids'))
-          .join('&');
-        const queries = `city_ids=${
-          typeof filtersIdsData.city_ids === 'string' ? filtersIdsData.city_ids : filtersIdsData.city_ids.join(',')
-        }`;
-
-        if (!window.location.search.includes('page')) {
-          newSearch = `${newSearch}?page=1`;
-        }
-
-        window.history.pushState({}, null, `${window.location.pathname}${newSearch}&${queries}`);
-      } else {
-        const newSearch = window.location.search
-          .split('&')
-          .filter((query) => !query.includes('city_ids'))
-          .join('&');
-        window.history.pushState({}, null, `${window.location.pathname}${newSearch}`);
-      }
-
-      // Логика с добавлением значений чекбоков-свитчей в урл (временно убрана, можнт быть убрана насовсем)
-      // Object.entries(this.filtersCheckboxDataRequest).forEach(([key, checked]) => {
-      //   const newSearch = window.location.search
-      //     .split('&')
-      //     .filter((query) => !query.includes(key))
-      //     .join('&');
-      //   let queries = '';
-      //   if (checked) {
-      //     queries = `${key}`;
-      //     window.history.pushState({}, null, `${window.location.pathname}${newSearch}&${queries}`);
-      //   } else {
-      //     window.history.pushState({}, null, `${window.location.pathname}${newSearch}`);
-      //   }
-      // });
     },
 
     parseUrlToFilters() {
@@ -186,8 +142,7 @@ export default {
     },
 
     clearAllFilters() {
-      this.$router.push('/catalog');
-      this.$emit('clear-filters');
+      this.$router.push('/journal');
     },
 
     async fetchFilterPresets() {

@@ -1,0 +1,16 @@
+@import '@/assets/styles/tools/mixins';
+
+.a-user {
+  &__name {
+    padding-left: 0;
+    font-weight: 600;
+  }
+
+  &__publications {
+    color: var(--a-color_text--secondary);
+  }
+
+  &__avatar {
+    margin-right: rem(13);
+  }
+}
