@@ -76,10 +76,9 @@
 </template>
 
 <script>
-import {
-  AInput, AButton, MBanner, ASelect,
-} from '@cwespb/synergyui';
+import { AInput, AButton, ASelect } from '@cwespb/synergyui';
 import './s_header.scss';
+import MBanner from '~/components/_ui/m_banner/m_banner';
 import MLocation from '../_ui/m_location/m_location';
 import SMenuMain from '../s_menu_main/s_menu_main';
 import MenuHorizontal from '../menu_horizontal/menu_horizontal';

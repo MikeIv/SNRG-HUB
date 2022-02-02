@@ -1,0 +1,8 @@
+@import '@/assets/styles/tools/mixins';
+
+.m-banner {
+  height: 128px;
+  &--narrow {
+    padding: 0;
+  }
+}
