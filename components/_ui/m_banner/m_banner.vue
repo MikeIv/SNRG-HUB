@@ -1,7 +1,7 @@
 <template>
   <div class="m-banner__main-wrapper">
     <div v-if="type === 'top'" :class="typeBanner" @click="href ? onBannerClickHandler() : {}" :style="style">
-      <div class="m-banner__img" v-if="ImgSrc">
+      <div class="m-banner__img-wrapper" v-if="ImgSrc">
         <picture>
           <source :srcset="ImgSrc" media="(min-width: 991px)" />
           <source :srcset="ImgSrcTablet" media="(min-width: 767px)" />
@@ -12,10 +12,10 @@
     </div>
 
     <div v-if="type === 'narrow'" :class="typeBanner" @click="href ? onBannerClickHandler() : {}" :style="style">
-      <div class="m-banner__img" v-if="ImgSrc">
+      <div class="m-banner__img-wrapper" v-if="ImgSrc">
         <picture>
           <source :srcset="ImgSrc" media="(min-width: 991px)" />
-          <source :srcset="ImgSrcTablet" media="(min-width: 767px)" />
+          <source :srcset="ImgSrcTablet" media="(min-width: 575px)" />
           <source :srcset="ImgSrcMobile" media="(min-width: 320px)" />
           <img :src="ImgSrc" alt="image" />
         </picture>
@@ -23,12 +23,12 @@
     </div>
 
     <div v-if="type === 'side'" :class="typeBanner" @click="href ? onBannerClickHandler() : {}" :style="style">
-      <div class="m-banner__img" v-if="ImgSrc">
+      <div class="m-banner__img-wrapper" v-if="ImgSrc">
         <picture>
           <source :srcset="ImgSrc" media="(min-width: 991px)" />
-          <source :srcset="ImgSrcTablet" media="(min-width: 767px)" />
+          <source :srcset="ImgSrcTablet" media="(min-width: 575px)" />
           <source :srcset="ImgSrcMobile" media="(min-width: 320px)" />
-          <img :src="ImgSrc" alt="image" />
+          <img :src="ImgSrc || ImgSrcTablet || ImgSrcMobile" alt="image" />
         </picture>
       </div>
     </div>
