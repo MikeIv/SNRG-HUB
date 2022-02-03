@@ -12,7 +12,7 @@
     </div>
 
     <div v-if="type === 'narrow'" :class="typeBanner" @click="href ? onBannerClickHandler() : {}" :style="style">
-      <div class="m-banner__img" v-if="ImgSrc">
+      <div class="m-banner__img-wrapper" v-if="ImgSrc">
         <picture>
           <source :srcset="ImgSrc" media="(min-width: 991px)" />
           <source :srcset="ImgSrcTablet" media="(min-width: 767px)" />
@@ -23,7 +23,7 @@
     </div>
 
     <div v-if="type === 'side'" :class="typeBanner" @click="href ? onBannerClickHandler() : {}" :style="style">
-      <div class="m-banner__img" v-if="ImgSrc">
+      <div class="m-banner__img-wrapper" v-if="ImgSrc">
         <picture>
           <source :srcset="ImgSrc" media="(min-width: 991px)" />
           <source :srcset="ImgSrcTablet" media="(min-width: 767px)" />

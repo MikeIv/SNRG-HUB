@@ -1,6 +1,9 @@
 @import '@/assets/styles/tools/mixins';
 
-.m-banner {
+div.m-banner {
+  &__img {
+    overflow: hidden;
+  }
   &.m-banner--top {
     height: rem(56);
     &.m-banner__img {
@@ -13,10 +16,32 @@
     height: rem(160);
     padding: 0;
     @media all and (max-width: 991px) {
-      height: rem(90);
+      height: 10.5vw;
+      // min-height: rem(80);
     }
     @media all and (max-width: 767px) {
-      height: rem(160);
+      min-height: unset;
+    }
+    @media all and (max-width: 480px) {
+      height: 44.41vw;
+    }
+    .m-banner {
+      &__img {
+        img {
+          width: 100%;
+          height: 100%;
+          @media all and (max-width: 991px) {
+            height: 10.5vw;
+
+            /* min-width: rem(700);
+            min-height: rem(80);   */
+          }
+          @media all and (max-width: 480px) {
+            width: 100%;
+            height: 45.41vw;
+          }
+        }
+      }
     }
   }
   &.m-banner--narrow {
