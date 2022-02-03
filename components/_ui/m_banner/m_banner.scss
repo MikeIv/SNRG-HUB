@@ -1,8 +1,29 @@
 @import '@/assets/styles/tools/mixins';
 
 .m-banner {
-  height: 128px;
-  &--narrow {
+  &.m-banner--top {
+    height: rem(56);
+    &.m-banner__img {
+      img {
+        width: 100%;
+      }
+    }
+  }
+  &.m-banner--side {
+    height: rem(160);
     padding: 0;
+    @media all and (max-width: 991px) {
+      height: rem(90);
+    }
+    @media all and (max-width: 767px) {
+      height: rem(160);
+    }
+  }
+  &.m-banner--narrow {
+    height: rem(128);
+    padding: 0;
+    @media all and (max-width: 991px) {
+      height: rem(80);
+    }
   }
 }

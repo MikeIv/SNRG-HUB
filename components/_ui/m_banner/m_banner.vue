@@ -1,39 +1,34 @@
 <template>
   <div class="m-banner__main-wrapper">
-    <div v-if="type === 'top'" :class="typeBanner" :style="style">
-      <div :class="textColor">
-        <div class="m-banner__img-wrapper" v-if="ImgSrc">
-          <img :src="ImgSrc" :alt="topTxt" class="m-banner__img" />
-        </div>
-        <p class="m-banner__txt a-font_m" :style="{ color: customTextColor }">{{ topTxt }}</p>
-        <a-button
-          class="m-banner__button"
-          @click="href ? onBannerClickHandler() : {}"
-          size="small"
-          bg-color="custom"
-          :label="buttonLabel"
-        ></a-button>
+    <div v-if="type === 'top'" :class="typeBanner" @click="href ? onBannerClickHandler() : {}" :style="style">
+      <div class="m-banner__img" v-if="ImgSrc">
+        <picture>
+          <source :srcset="ImgSrc" media="(min-width: 991px)" />
+          <source :srcset="ImgSrcTablet" media="(min-width: 767px)" />
+          <source :srcset="ImgSrcMobile" media="(min-width: 320px)" />
+          <img :src="ImgSrc" alt="image" />
+        </picture>
       </div>
     </div>
 
     <div v-if="type === 'narrow'" :class="typeBanner" @click="href ? onBannerClickHandler() : {}" :style="style">
-      <div class="m-banner__img-wrapper" v-if="ImgSrc">
+      <div class="m-banner__img" v-if="ImgSrc">
         <picture>
-          <source :srcset="ImgSrc" media="(min-width: 991px)">
-          <source :srcset="ImgSrcTablet" media="(min-width: 767px)">
-          <source :srcset="ImgSrcMobile" media="(min-width: 320px)">
-          <img :src="ImgSrc" alt="image">
+          <source :srcset="ImgSrc" media="(min-width: 991px)" />
+          <source :srcset="ImgSrcTablet" media="(min-width: 767px)" />
+          <source :srcset="ImgSrcMobile" media="(min-width: 320px)" />
+          <img :src="ImgSrc" alt="image" />
         </picture>
       </div>
     </div>
 
     <div v-if="type === 'side'" :class="typeBanner" @click="href ? onBannerClickHandler() : {}" :style="style">
-      <div class="m-banner__img-wrapper" v-if="ImgSrc">
+      <div class="m-banner__img" v-if="ImgSrc">
         <picture>
-          <source :srcset="ImgSrc" media="(min-width: 991px)">
-          <source :srcset="ImgSrcTablet" media="(min-width: 767px)">
-          <source :srcset="ImgSrcMobile" media="(min-width: 320px)">
-          <img :src="ImgSrc" alt="image">
+          <source :srcset="ImgSrc" media="(min-width: 991px)" />
+          <source :srcset="ImgSrcTablet" media="(min-width: 767px)" />
+          <source :srcset="ImgSrcMobile" media="(min-width: 320px)" />
+          <img :src="ImgSrc" alt="image" />
         </picture>
       </div>
     </div>
