@@ -107,7 +107,9 @@
 </template>
 
 <script>
-import { AFactoid, AButton, MSocialShare, MCard } from '@cwespb/synergyui';
+import {
+  AFactoid, AButton, MSocialShare, MCard,
+} from '@cwespb/synergyui';
 import './s_program_start.scss';
 import getProductsDetail from '~/api/productsDetail';
 import getParseDate from '~/assets/js/getParseDate';
@@ -280,8 +282,8 @@ export default {
       if (
         /Android|webOS|iPhone|iPad|iPod|BlackBerry|BB|PlayBook|IEMobile|Windows Phone|Kindle|Silk|Opera Mini/i.test(
           navigator.userAgent,
-        ) &&
-        navigator.share
+        )
+        && navigator.share
       ) {
         navigator.share({
           title: this.program.title,
