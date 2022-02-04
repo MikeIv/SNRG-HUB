@@ -7,10 +7,10 @@
           :type="bannerTop.banner_type"
           :backgroundColor="bannerTop.color_bg"
           :ImgSrc="baseUrl + bannerTop.image"
+          :ImgSrcTablet="baseUrl + bannerTop.image_tablet"
+          :ImgSrcMobile="baseUrl + bannerTop.image_mobile_phone"
           :topTxt="bannerTop.name"
           :href="topBannerSmoothHref"
-          buttonLabel="Подобрать"
-          color="default"
           @onBannerClick="scrollTo(topBannerSmoothHref)"
         ></m-banner>
       </div>

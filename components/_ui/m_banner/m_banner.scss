@@ -22,6 +22,10 @@ div.m-banner {
         width: 100%;
       }
     }
+    .m-banner__img-wrapper {
+      max-width: 100%;
+      margin-right: 0;
+    }
   }
   &.m-banner--side {
     height: rem(160);
