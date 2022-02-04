@@ -3,8 +3,8 @@
     <div v-if="type === 'top'" :class="typeBanner" @click="href ? onBannerClickHandler() : {}" :style="style">
       <div class="m-banner__img-wrapper" v-if="ImgSrc">
         <picture>
-          <source :srcset="ImgSrc" media="(min-width: 991px)" />
-          <source :srcset="ImgSrcTablet" media="(min-width: 767px)" />
+          <source :srcset="ImgSrc" media="(min-width: 769px)" />
+          <source :srcset="ImgSrcTablet" media="(min-width: 575px)" />
           <source :srcset="ImgSrcMobile" media="(min-width: 320px)" />
           <img :src="ImgSrc" alt="image" />
         </picture>

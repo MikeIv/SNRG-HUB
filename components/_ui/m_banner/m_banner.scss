@@ -17,14 +17,30 @@ div.m-banner {
   }
   &.m-banner--top {
     height: rem(56);
+    padding-right: 0;
     &.m-banner__img {
       img {
         width: 100%;
+        object-fit: cover;
       }
     }
     .m-banner__img-wrapper {
       max-width: 100%;
       margin-right: 0;
+      @media all and (max-width: 575px) {
+        width: 100%;
+        max-width: rem(575);
+      }
+      img {
+        width: 100%;
+        object-fit: cover;
+        @media all and (max-width: 1499px) {
+          object-fit: fill;
+        }
+        @media all and (max-width: 1200px) {
+          object-fit: cover;
+        }
+      }
     }
   }
   &.m-banner--side {
