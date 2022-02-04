@@ -18,6 +18,8 @@
             :secondTxt="item.name_second"
             :customTextColor="item.color_text"
             :ImgSrc="`${baseURL}${item.image}`"
+            :ImgSrcTablet="item.image_tablet ? `${baseURL}${item.image_tablet}` : ''"
+            :ImgSrcMobile="item.image_mobile_phone ? `${baseURL}${item.image_mobile_phone}` : ''"
           />
         </nuxt-link>
       </template>
@@ -26,7 +28,7 @@
 </template>
 
 <script>
-import { MBanner } from '@cwespb/synergyui';
+import MBanner from '~/components/_ui/m_banner/m_banner';
 import getBannersDetail from '~/api/bannersDetail';
 import './s_banner.scss';
 

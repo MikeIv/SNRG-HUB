@@ -77,7 +77,8 @@
 </template>
 
 <script>
-import { ASidebarItem, MBanner } from '@cwespb/synergyui';
+import { ASidebarItem } from '@cwespb/synergyui';
+import MBanner from '~/components/_ui/m_banner/m_banner';
 import getMenuMain from '~/api/menuMain';
 import getBannersDetail from '~/api/bannersDetail';
 import MLocation from '../_ui/m_location/m_location';
