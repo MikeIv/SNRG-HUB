@@ -1,17 +1,31 @@
 <template>
   <div class="m-banner__main-wrapper">
     <div v-if="type === 'top'" :class="typeBanner" @click="href ? onBannerClickHandler() : {}" :style="style">
-      <div class="m-banner__img-wrapper" v-if="ImgSrc">
-        <picture>
-          <source :srcset="ImgSrc" media="(min-width: 991px)" />
-          <source :srcset="ImgSrcTablet" media="(min-width: 767px)" />
-          <source :srcset="ImgSrcMobile" media="(min-width: 320px)" />
-          <img :src="ImgSrc" alt="image" />
-        </picture>
+      <div :class="textColor">
+        <div class="m-banner__img-wrapper" v-if="ImgSrc">
+          <picture>
+            <source :srcset="ImgSrc" media="(min-width: 991px)" />
+            <source :srcset="ImgSrcTablet" media="(min-width: 767px)" />
+            <source :srcset="ImgSrcMobile" media="(min-width: 320px)" />
+            <img :src="ImgSrc" alt="image" />
+          </picture>
+        </div>
+        <p class="m-banner__txt a-font_m" :style="{ color: customTextColor }">{{ topTxt }}</p>
       </div>
     </div>
 
     <div v-if="type === 'narrow'" :class="typeBanner" @click="href ? onBannerClickHandler() : {}" :style="style">
+      <div :class="textColor">
+        <div class="m-banner__txt-left-col" :class="leftColShow">
+          <p class="m-banner__txt a-font_m-s" :style="{ color: customTextColor }">{{ topTxt }}</p>
+        </div>
+        <div class="m-banner__txt-right-col">
+          <p class="m-banner__txt a-font_xl m-banner__txt--medium" :style="{ color: customTextColor }">
+            {{ titleTxt }}
+          </p>
+          <p class="m-banner__txt a-font_xl-m" :style="{ color: customTextColor }">{{ secondTxt }}</p>
+        </div>
+      </div>
       <div class="m-banner__img-wrapper" v-if="ImgSrc">
         <picture>
           <source :srcset="ImgSrc" media="(min-width: 991px)" />
@@ -30,6 +44,12 @@
           <source :srcset="ImgSrcMobile" media="(min-width: 320px)" />
           <img :src="ImgSrc || ImgSrcTablet || ImgSrcMobile" alt="image" />
         </picture>
+      </div>
+      <div :class="textColor">
+        <div class="m-banner__txt-right-col">
+          <p class="m-banner__txt m-banner__txt--title a-font_h5" :style="{ color: customTextColor }">{{ titleTxt }}</p>
+          <p class="m-banner__txt a-font_l-m" :style="{ color: customTextColor }">{{ secondTxt }}</p>
+        </div>
       </div>
     </div>
 
