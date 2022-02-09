@@ -192,7 +192,8 @@ export default {
     this.program.document = getData.document;
     this.program.city = getData.included.organization.included.city?.name;
     this.program.start_date = getData.start_date;
-    this.program.form = getData.included.formats[0]?.name;
+    const formats = getData.included.formats.map((format) => format.name);
+    this.program.form = formats.join(', ');
     this.program.photo = `${this.baseURL}${getData.digital_image}`;
     this.organization = getData.included.organization;
 
@@ -262,7 +263,9 @@ export default {
     }
 
     // Перевод строки в виде "4y-6m-5d" и возврат даты в нужном формате (4 года 6 месяцев 5 дней)
-    this.program.duration = getDateFromDatesObj(getParseDate(getData.duration_format_value));
+    if (getData.duration_format_value) {
+      this.program.duration = getDateFromDatesObj(getParseDate(getData.duration_format_value));
+    }
   },
 
   methods: {

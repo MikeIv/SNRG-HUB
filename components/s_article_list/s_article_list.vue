@@ -27,9 +27,9 @@
 </template>
 <script>
 import './s_article_list.scss';
+import { AButton } from '@cwespb/synergyui';
 import MArticle from '~/components/_ui/m_article/m_article';
 import getArticlesList from '~/api/articlesList';
-import { AButton } from '@cwespb/synergyui';
 
 export default {
   name: 'SArticleList',

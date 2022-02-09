@@ -171,17 +171,15 @@
             }
 
             @media screen and (max-width: 991px) {
-              width: 40%;
               padding-bottom: var(--a-padding--x4);
             }
 
             @media screen and (max-width: 701px) {
-              width: 20%;
+              width: min-content;
               padding-bottom: var(--a-padding--x4);
             }
 
             @media screen and (max-width: 575px) {
-              width: 45%;
               padding-bottom: var(--a-padding--x4);
             }
           }
