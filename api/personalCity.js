@@ -14,5 +14,6 @@ export default async function getCityByIp(ip) {
       Authorization: `Token ${token}`,
     },
   });
+
   return response.data;
 }
