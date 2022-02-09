@@ -5,7 +5,7 @@
         :is="key"
         :methods="methods"
         :optionsSection="options"
-        :title="title"
+        :title="view_type !== 'quiz' ? title : null"
         :viewType="view_type"
       ></component>
     </LazyHydrate>
