@@ -31,7 +31,12 @@
         </a-control>
       </div>
       <div class="popup-location__dialog-bottom">
-        <a-button label="Сохранить" bgColor="accent" @click="saveCity(cityPicked)"></a-button>
+        <a-button
+          label="Сохранить"
+          bgColor="accent"
+          @click="saveCity(cityPicked)"
+          :disabled="auto || searchCity ? false : true"
+        ></a-button>
         <a-button label="Отмена" bgColor="ghost-primary" @click="hidePopups"></a-button>
       </div>
     </PopupAnimated>
@@ -193,7 +198,6 @@ export default {
 
     // Поиск города по ip
     getCity() {
-      // if (!this.cityObj.name) {
       fetch('https://api.ipify.org?format=json')
         .then((x) => x.json())
         .then(({ ip }) => {
@@ -204,7 +208,6 @@ export default {
             }
           });
         });
-      // }
     },
 
     // Объект с информацией о городе, который выбрал пользователь
