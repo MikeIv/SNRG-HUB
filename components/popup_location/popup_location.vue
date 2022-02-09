@@ -104,6 +104,7 @@ export default {
     },
 
     isPopup(val) {
+      this.cityPicked = null;
       if (val) {
         document.documentElement.classList.add('cityPopupOpened');
 
