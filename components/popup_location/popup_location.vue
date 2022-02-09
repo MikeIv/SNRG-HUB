@@ -20,10 +20,23 @@
         </span>
       </div>
       <div class="popup-location__dialog-checkbox">
-        <AControl typeBtn="checkbox" typeCtrl="checkbox" title="Определять автоматически" labelPosition="right" />
+        <a-control
+          typeBtn="checkbox"
+          typeCtrl="checkbox"
+          title="Определять автоматически"
+          labelPosition="right"
+          :checked="auto"
+          @change="changeAuto"
+        >
+        </a-control>
       </div>
       <div class="popup-location__dialog-bottom">
-        <a-button label="Сохранить" bgColor="accent" @click="saveCity(cityPicked)"></a-button>
+        <a-button
+          label="Сохранить"
+          bgColor="accent"
+          @click="saveCity(cityPicked)"
+          :disabled="auto || cityPicked ? false : true"
+        ></a-button>
         <a-button label="Отмена" bgColor="ghost-primary" @click="hidePopups"></a-button>
       </div>
     </PopupAnimated>
@@ -61,6 +74,7 @@ export default {
       personalIP: '',
       isPopup: false,
       dadataKey: process.env.DADATA_KEY,
+      auto: false,
     };
   },
 
@@ -90,6 +104,7 @@ export default {
     },
 
     isPopup(val) {
+      this.cityPicked = null;
       if (val) {
         document.documentElement.classList.add('cityPopupOpened');
 
@@ -130,7 +145,12 @@ export default {
     saveCity(val) {
       const cityObjIndex = this.cities.findIndex((el) => el.name === val);
       const cityObj = this.cities[cityObjIndex];
-      this.cityObj = this.getCityObj(cityObj.name, cityObj.geoname_id, cityObj.city_kladr_id);
+
+      if (!this.auto) {
+        this.cityObj = this.getCityObj(cityObj.name, cityObj.geoname_id, cityObj.city_kladr_id);
+      } else {
+        this.getCity();
+      }
 
       this.$store.commit('setCityInfo', this.cityObj);
       localStorage.cityInfo = JSON.stringify(this.cityObj);
@@ -179,18 +199,16 @@ export default {
 
     // Поиск города по ip
     getCity() {
-      if (!this.cityObj.name) {
-        fetch('https://api.ipify.org?format=json')
-          .then((x) => x.json())
-          .then(({ ip }) => {
-            getCityByIp(ip).then((response) => {
-              if (response.location) {
-                const { data } = response.location;
-                this.cityObj = this.getCityObj(data.city, data.geoname_id, data.city_kladr_id);
-              }
-            });
+      fetch('https://api.ipify.org?format=json')
+        .then((x) => x.json())
+        .then(({ ip }) => {
+          getCityByIp(ip).then((response) => {
+            if (response.location) {
+              const { data } = response.location;
+              this.cityObj = this.getCityObj(data.city, data.geoname_id, data.city_kladr_id);
+            }
           });
-      }
+        });
     },
 
     // Объект с информацией о городе, который выбрал пользователь
@@ -200,6 +218,10 @@ export default {
         geoname_id: geonameId,
         city_kladr_id: cityKladrId,
       };
+    },
+
+    changeAuto() {
+      this.auto = !this.auto;
     },
   },
 };
