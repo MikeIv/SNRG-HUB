@@ -35,7 +35,7 @@
           label="Сохранить"
           bgColor="accent"
           @click="saveCity(cityPicked)"
-          :disabled="auto || searchCity ? false : true"
+          :disabled="auto || cityPicked ? false : true"
         ></a-button>
         <a-button label="Отмена" bgColor="ghost-primary" @click="hidePopups"></a-button>
       </div>
