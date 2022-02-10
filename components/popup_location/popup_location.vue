@@ -1,6 +1,11 @@
 <template>
   <div class="popup-location__dialog">
-    <PopupAnimated :visible="isPopupSelectCity" @close="hidePopups" title="Выбор города" transition="slideToTop">
+    <PopupAnimated
+      :visible="isPopupSelectCity"
+      @close="hidePopups"
+      title="Где вы хотите учиться?"
+      transition="slideToTop"
+    >
       <p class="popup-location__dialog-note a-font_xl">
         Каталог образовательных программ будет отфильтрован по&nbsp;выбранному Вами городу
       </p>
