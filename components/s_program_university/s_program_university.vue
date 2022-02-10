@@ -66,9 +66,6 @@ export default {
     this.description = preData.data.description;
     this.image = this.baseUrl + preData.data.logo;
     this.programUniversityList = preData.data.included.triggers;
-    if (preData.data.land) {
-      this.$store.commit('updateLander', preData.data);
-    }
   },
 };
 </script>
