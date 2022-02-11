@@ -114,7 +114,7 @@ export default {
         { value: this.fieldsData.question },
       ];
       this.validFlag = this.$lander.valid(dataForm);
-      if (/^[A-ZА-ЯЁ]+$/i.test(this.fieldsData.name)) {
+      if (/^([A-ZА-ЯЁ][-,a-z, a-яё. ']+[ ]*)+$/i.test(this.fieldsData.name)) {
         this.validName = true;
       } else {
         this.validName = false;

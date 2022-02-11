@@ -391,9 +391,7 @@
 
 <script>
 import { VueTelInput } from 'vue-tel-input';
-import {
-  AButton, AControl, AInput, APopup, ASelect, ATag, ATitle, MCard, MFilter, MForm,
-} from '@cwespb/synergyui';
+import { AButton, AControl, AInput, APopup, ASelect, ATag, ATitle, MCard, MFilter, MForm } from '@cwespb/synergyui';
 import getProductsList from '~/api/products_list';
 import '../../s_catalog/s_catalog.scss';
 import '../../s_catalog_filter/s_catalog_filter.scss';
@@ -658,7 +656,7 @@ export default {
     validFormData() {
       const dataForm = [{ value: this.fieldsData.name }, { value: this.fieldsData.email, type: 'email' }];
       this.validFlag = this.$lander.valid(dataForm) && this.validPhone;
-      if (/^[A-ZА-ЯЁ]+$/i.test(this.fieldsData.name)) {
+      if (/^([A-ZА-ЯЁ][-,a-z, a-яё. ']+[ ]*)+$/i.test(this.fieldsData.name)) {
         this.validName = true;
       } else {
         this.validName = false;
