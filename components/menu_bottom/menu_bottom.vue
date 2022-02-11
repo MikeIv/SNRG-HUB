@@ -40,7 +40,10 @@ export default {
   },
   components: { APopup },
   data: () => ({
-    navBottomLinks: [{ href: '/contacts/', text: 'Контакты' }],
+    navBottomLinks: [
+      { href: '/journal/', text: 'Журнал' },
+      { href: '/contacts/', text: 'Контакты' },
+    ],
     popupOptions: false,
   }),
 
