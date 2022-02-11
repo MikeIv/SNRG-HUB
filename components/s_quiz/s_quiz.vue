@@ -260,7 +260,7 @@ export default {
       const dataForm = [{ value: this.send.name }, { value: this.send.tel }];
 
       this.validFlag = this.$lander.valid(dataForm) && this.validPhone;
-      if (/^[A-ZА-ЯЁ]+$/i.test(this.send.name)) {
+      if (/^([A-ZА-ЯЁ][-,a-z, a-яё. ']+[ ]*)+$/i.test(this.send.name)) {
         this.validName = true;
       } else {
         this.validName = false;
