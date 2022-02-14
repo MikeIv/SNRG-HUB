@@ -96,6 +96,7 @@ export default {
     focused(val) {
       if (val) {
         document.documentElement.classList.add('cityPopupFocused');
+        console.log(this.focused);
       } else {
         document.documentElement.classList.remove('cityPopupFocused');
       }

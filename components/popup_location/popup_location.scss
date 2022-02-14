@@ -4,7 +4,7 @@
   overflow: hidden !important;
   height: 100%;
   .a-popup__container {
-    top: 20%;
+    top: 35%;
   }
 }
 
@@ -34,7 +34,7 @@
       display: flex;
       overflow: auto;
       flex-direction: column;
-      max-height: rem(288);
+      max-height: rem(352);
       @media screen and (min-width: 768px) {
         overflow: unset;
         flex-direction: row;
