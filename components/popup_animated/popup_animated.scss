@@ -24,7 +24,7 @@
   &.slideToTop {
     @media screen and (max-width: 991px) {
       .a-popup__container {
-        top: 10%;
+        bottom: 0;
         border-radius: var(--a-borderRadius--bg) var(--a-borderRadius--bg) 0 0;
       }
       &-leave-active .a-popup__container,
