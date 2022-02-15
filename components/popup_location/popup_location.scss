@@ -14,6 +14,26 @@
           position: relative;
           width: rem(628);
         }
+
+        @media screen and (max-width: 768px) {
+          display: flex;
+          flex-direction: column;
+
+          .a-popup-close,
+          .popup-animated__title,
+          .popup-location__dialog-note {
+            order: 0;
+          }
+
+          .popup-location__dialog-checkbox {
+            order: 1;
+          }
+
+          .a-input__wrapper,
+          .popup-location__dialog-list {
+            order: 2;
+          }
+        }
       }
     }
 
@@ -93,11 +113,7 @@
     }
 
     &-checkbox {
-      display: none;
       margin: rem(12) 0 rem(16);
-      @media screen and (min-width: 768px) {
-        display: block;
-      }
       & .a-control {
         &__label {
           padding: 0;
