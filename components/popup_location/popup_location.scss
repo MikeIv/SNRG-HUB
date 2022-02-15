@@ -3,9 +3,9 @@
 .cityPopupOpened {
   overflow: hidden !important;
   height: 100%;
-  .a-popup__container {
-    top: 35%;
-  }
+  // .a-popup__container {
+  //   top: 35%;
+  // }
 }
 
 .popup-location {
@@ -34,7 +34,7 @@
       display: flex;
       overflow: auto;
       flex-direction: column;
-      max-height: rem(352);
+      max-height: rem(288);
       @media screen and (min-width: 768px) {
         overflow: unset;
         flex-direction: row;
