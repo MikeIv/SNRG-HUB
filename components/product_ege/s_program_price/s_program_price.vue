@@ -5,7 +5,6 @@
       <div class="s-program-price__info-wrapper">
         <div class="s-program-price__left">
           <div class="s-program-price__course">
-            <div class="s-program-price__course-title a-font_l">{{ priceInfo.courses.title }}</div>
             <div class="s-program-price__course-items">
               <div
                 class="s-program-price__course-item a-font_l"
@@ -17,7 +16,6 @@
             </div>
           </div>
           <div class="s-program-price__course">
-            <div class="s-program-price__course-title a-font_l">{{ priceInfo.subjects.title }}</div>
             <div class="s-program-price__course-items">
               <div
                 class="s-program-price__course-item a-font_l"
@@ -112,7 +110,6 @@ export default {
     title: 'Расчет стоимости курса',
     priceInfo: {
       courses: {
-        title: 'Выберете курс:',
         items: [
           {
             text: 'Подготовка к ЕГЭ (11 класс)',
