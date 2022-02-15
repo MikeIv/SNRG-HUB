@@ -227,6 +227,11 @@ export default {
 
     changeAuto() {
       this.auto = !this.auto;
+
+      if (this.auto && window.innerWidth < 768) {
+        this.getCity();
+        this.saveCityMobile(this.cityObj.name);
+      }
     },
   },
 };
