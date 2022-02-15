@@ -138,6 +138,13 @@ export default {
 
   mounted() {
     this.getCity();
+
+    visualViewport.addEventListener('resize', () => {
+      // const vh = window.innerHeight * 0.01;
+      // document.documentElement.style.setProperty('--vh', `${vh}px`);
+      console.log('первый', visualViewport.height);
+      console.log('второй', window.innerHeight);
+    });
   },
 
   methods: {
