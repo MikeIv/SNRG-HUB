@@ -3,9 +3,11 @@
 .cityPopupOpened {
   overflow: hidden !important;
   height: 100%;
-  // .a-popup__container {
-  //   top: 35%;
-  // }
+  @media screen and (max-width: 767px) {
+    &.a-popup__container {
+      top: 25%;
+    }
+  }
 }
 
 .popup-location {
