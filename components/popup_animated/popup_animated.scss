@@ -5,7 +5,8 @@
   height: 100%;
   @media screen and (max-width: 767px) {
     &.slideToTop .a-popup__container {
-      top: 45px;
+      position: fixed;
+      top: rem(90);
       height: calc(100vh - 60px);
     }
   }
