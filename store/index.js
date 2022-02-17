@@ -51,7 +51,10 @@ export const mutations = {
       if (Object.prototype.hasOwnProperty.call(state.landerSettings, key) && info[key]) {
         state.landerSettings[key] = info[key];
         if (key === 'type') {
-          state.landerSettings[key] = landerConfig[key];
+          state.landerSettings[key] = 'academy';
+        }
+        if (key === 'redirectUrl') {
+          state.landerSettings[key] = '';
         }
       }
     });

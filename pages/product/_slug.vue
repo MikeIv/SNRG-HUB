@@ -3,17 +3,20 @@
     <LazyHydrate :key="id" v-for="{ key, methods, title, id } in pageInfo.components" when-visible>
       <component :is="key" :methods="methods" :title="title" :productIds="pageInfo.entity_page"></component>
     </LazyHydrate>
+    <SProgramPrice />
   </div>
 </template>
 
 <script>
 import LazyHydrate from 'vue-lazy-hydration';
+import SProgramPrice from '~/components/s_program_price/s_program_price';
 
 export default {
   layout: 'product',
 
   components: {
     LazyHydrate,
+    SProgramPrice,
   },
 
   middleware: ['getPageInfo', 'parseUtms'],
