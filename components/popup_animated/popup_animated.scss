@@ -21,12 +21,10 @@
     margin: unset;
     margin-top: auto;
     transition: 0.2s;
-  }
-
-  .cityPopupFocused {
-    &.a-popup {
-      @media screen and (max-width: 767px) {
-        align-items: flex-start;
+    @media screen and (max-width: 767px) {
+      &.active {
+        margin: auto;
+        margin-top: 0;
       }
     }
   }

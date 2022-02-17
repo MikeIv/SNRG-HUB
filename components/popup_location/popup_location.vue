@@ -94,8 +94,10 @@ export default {
     },
 
     focused(val) {
+      const aPopup = document.querySelector('.popup-animated .a-popup__container');
       if (val) {
         document.documentElement.classList.add('cityPopupFocused');
+        aPopup.classList.add('active');
       } else {
         document.documentElement.classList.remove('cityPopupFocused');
       }
