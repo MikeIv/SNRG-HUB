@@ -131,8 +131,10 @@
   }
 
   &__btn-link {
-    display: block;
+    display: flex;
+    max-width: rem(250);
     margin-top: var(--a-padding--x6);
+    margin-left: auto;
     text-decoration: none;
     @media screen and (max-width: 991px) {
       margin-top: var(--a-padding--x5);
