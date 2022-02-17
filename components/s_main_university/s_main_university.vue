@@ -18,7 +18,7 @@
         </template>
       </div>
 
-      <nuxt-link to="/organizations" class="a-button__wrapper">
+      <nuxt-link to="/organizations" class="a-button__wrapper s-main-university__btn-link">
         <a-button label="Показать все" size="large" bgColor="accent" @click="goToOrganizations" />
       </nuxt-link>
     </div>
