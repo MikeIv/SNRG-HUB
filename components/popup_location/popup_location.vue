@@ -100,6 +100,7 @@ export default {
         aPopup.classList.add('active');
       } else {
         document.documentElement.classList.remove('cityPopupFocused');
+        aPopup.classList.remove('active');
       }
     },
 
