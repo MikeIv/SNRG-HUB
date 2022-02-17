@@ -1,10 +1,6 @@
 import axios from 'axios';
 
 export default (context, inject) => {
-  // Переменные для вызова оплаты
-  let responseType = null;
-  let iframe = '';
-
   // Объект набора валидаторов
   const typesValid = {
     email(value) {
@@ -95,21 +91,6 @@ export default (context, inject) => {
     return url;
   }
 
-  function payments(response) {
-    const responseHTML = response;
-    const htmlObject = document.createElement('div');
-    htmlObject.innerHTML = responseHTML;
-    const buttons = htmlObject.querySelectorAll('.form__button');
-    buttons.forEach((el) => {
-      const attr = el.getAttribute('data-src');
-      if (attr) {
-        iframe = attr;
-      }
-    });
-    responseType = null;
-    return iframe;
-  }
-
   function send(formData, setingsData, route) {
     let { unit, type } = context.store.state.landerSettings;
     const { land } = context.store.state.landerSettings;
@@ -126,7 +107,7 @@ export default (context, inject) => {
       redirectUrl: route ? `${route}thanks` : context.store.state.landerSettings.redirectUrl,
     };
 
-    return new Promise(() => {
+    return new Promise((resolve, reject) => {
       const data = new FormData();
 
       // Получение и переназначение настроект
@@ -174,24 +155,15 @@ export default (context, inject) => {
       })
         .then((response) => {
           if (response.status === 200) {
-            if (unit === 'payments') {
-              if (!responseType) {
-                const formDataNew = formData;
-                responseType = {
-                  isPayment: '',
-                };
-                formDataNew.isPayment = '';
-
-                send(formData, setingsData, route);
-              } else {
-                payments(response.data);
-              }
-            }
+            resolve({
+              formData: data,
+              response,
+            });
             context.app.router.push({ path: setingSend.redirectUrl });
           }
         })
         .catch((error) => {
-          console.log(error);
+          reject(error);
         });
     });
   }

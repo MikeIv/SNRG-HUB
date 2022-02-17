@@ -1,5 +1,6 @@
 <template>
   <section class="s-program-price" ref="form" id="form-price">
+    <APopup :visible="isPopupPrice" @close="closePopup" type="iframe" :link="payment"> </APopup>
     <m-form-pay
       :title="title"
       :iconSrc="iconSrc"
@@ -57,7 +58,7 @@
 </template>
 
 <script>
-import { MFormPay, AInput } from '@cwespb/synergyui';
+import { MFormPay, AInput, APopup } from '@cwespb/synergyui';
 import { VueTelInput } from 'vue-tel-input';
 import './s_program_price.scss';
 
@@ -68,6 +69,7 @@ export default {
     MFormPay,
     AInput,
     VueTelInput,
+    APopup,
   },
 
   data: () => ({
@@ -91,14 +93,14 @@ export default {
     iconSrc: 'https://sys3.ru/marketplace/uploads/organizations/yuIYPVAzTpYhkDo2acWAZAMLpIh4LiRGttzzlyFs.svg',
     text: 'Университет Синергия',
     fieldsData: {
+      product_id: '71618903',
+      birthdate: '01.01.1901',
+      is_order: 'Y',
+      gender: '-',
       name: '',
       phone: '',
       email: '',
-      product_id: '71618903',
-      birthdate: '01.01.1901',
       land: '',
-      is_order: 'Y',
-      gender: '-',
     },
     vueTelOpts: {
       mode: 'international',
@@ -118,37 +120,62 @@ export default {
     formProduct: {
       name: 'form_price',
     },
+    isPopup: false,
+    paymentLink: '',
   }),
+
+  computed: {
+    isPopupPrice() {
+      return this.isPopup;
+    },
+    payment() {
+      return this.paymentLink;
+    },
+  },
 
   mounted() {
     this.$emit('form-ref', this.$refs.form);
-    this.fieldsData.land = this.$store.state.landerSettings.land;
-
-    const lander = {
-      type: 'academy',
-      unit: 'payments',
-    };
-
-    this.$store.commit('updateLander', lander);
     const loadDataForm = this.$lander.storage.load('programpriceform');
     if (loadDataForm) this.fieldsData = loadDataForm;
   },
 
   methods: {
     sendForm() {
+      const lander = {
+        type: 'academy',
+        unit: 'payments',
+        land: 'KD_market',
+        redirectUrl: '',
+      };
+      this.$store.commit('updateLander', lander);
+      const resp = this.$lander.send(this.fieldsData);
       if (this.formProduct) {
         this.fieldsData.comments = `Клик из формы попапа продукта: ${this.formProduct.name}`;
       }
 
-      this.$lander
-        .send(
-          this.fieldsData,
-          {},
-          this.$route.name === 'edu-platform-slug' || this.$route.name === 'edu-platform'
-            ? this.$route.path
-            : undefined,
-        )
-        .then(() => {});
+      resp.then(() => {
+        const formData = this.fieldsData;
+        formData.isPayment = '';
+        const respPrice = this.$lander.send(formData, lander);
+        respPrice
+          .then((result) => result.response.data)
+          .then((priceData) => {
+            this.getPaymentSrc(priceData);
+          });
+      });
+    },
+    getPaymentSrc(data) {
+      const responseHTML = data;
+      const htmlObject = document.createElement('div');
+      htmlObject.innerHTML = responseHTML;
+      const buttons = htmlObject.querySelectorAll('.form__button');
+      buttons.forEach((el) => {
+        const attr = el.getAttribute('data-src');
+        if (attr) {
+          this.paymentLink = attr;
+        }
+      });
+      this.isPopup = true;
     },
     handlerSave() {
       const dataToSend = { ...this.fieldsData };
@@ -182,6 +209,9 @@ export default {
       } else {
         this.validName = false;
       }
+    },
+    closePopup() {
+      this.$emit('close', false);
     },
   },
 };
