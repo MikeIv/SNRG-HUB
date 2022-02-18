@@ -51,7 +51,7 @@
               <a-button label="Войти" bgColor="ghost-accept"></a-button>
             </a>
           </div>
-          <template v-if="catalog && isScrolled">
+          <!-- <template v-if="catalog && isScrolled">
             <div class="s-header__catalog-icons">
               <a-select :options="options" class="catalog-page__select" @change="changeSortOption" />
               <i
@@ -62,7 +62,7 @@
                 <span class="a-font_button">Фильтры</span>
               </i>
             </div>
-          </template>
+          </template> -->
         </div>
         <div class="s-header__bottom">
           <div class="l-wide">
@@ -76,14 +76,14 @@
 </template>
 
 <script>
-import { AInput, AButton, ASelect } from '@cwespb/synergyui';
+import { AInput, AButton } from '@cwespb/synergyui';
 import './s_header.scss';
 import MBanner from '~/components/_ui/m_banner/m_banner';
+import getBannersDetail from '~/api/bannersDetail';
+import { debounce } from '~/assets/js/debounce';
 import MLocation from '../_ui/m_location/m_location';
 import SMenuMain from '../s_menu_main/s_menu_main';
 import MenuHorizontal from '../menu_horizontal/menu_horizontal';
-import getBannersDetail from '~/api/bannersDetail';
-import { debounce } from '~/assets/js/debounce';
 
 export default {
   name: 'SHeader',
@@ -123,7 +123,6 @@ export default {
     MenuHorizontal,
     SMenuMain,
     MBanner,
-    ASelect,
   },
 
   async fetch() {
