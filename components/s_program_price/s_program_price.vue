@@ -29,8 +29,38 @@
             handlerSave();
             validFormData();
           "
-          v-model="fieldsData.name"
+          v-model="fieldsData.firstName"
+          placeholder="Фамилия"
+        />
+        <a-input
+          class="m-form__input"
+          :class="{ 'error-name': !validName }"
+          @input="
+            handlerSave();
+            validFormData();
+          "
+          v-model="fieldsData.surname"
           placeholder="Имя"
+        />
+        <a-input
+          class="m-form__input"
+          :class="{ 'error-name': !validName }"
+          @input="
+            handlerSave();
+            validFormData();
+          "
+          v-model="fieldsData.patronymic"
+          placeholder="Отчество (при наличии)"
+        />
+        <a-input
+          class="m-form__input"
+          :class="{ 'error-mail': !validFlag }"
+          v-model="fieldsData.email"
+          @input="
+            handlerSave();
+            validFormData();
+          "
+          placeholder="Электронная почта"
         />
         <vue-tel-input
           class="m-form__input"
@@ -41,16 +71,6 @@
           @validate="validFormData"
           v-model="fieldsData.phone"
           @input="validatePhone"
-        />
-        <a-input
-          class="m-form__input"
-          :class="{ 'error-mail': !validFlag }"
-          v-model="fieldsData.email"
-          @input="
-            handlerSave();
-            validFormData();
-          "
-          placeholder="Почта"
         />
       </template>
     </m-form-pay>
@@ -97,10 +117,10 @@ export default {
       birthdate: '01.01.1901',
       is_order: 'Y',
       gender: '-',
-      name: '',
+      firstName: '',
       phone: '',
       email: '',
-      land: '',
+      publicOffer: 'on',
     },
     vueTelOpts: {
       mode: 'international',
@@ -117,9 +137,6 @@ export default {
       },
     },
     maxPhoneLength: 16,
-    formProduct: {
-      name: 'form_price',
-    },
     isPopup: false,
     paymentLink: '',
   }),
@@ -148,10 +165,9 @@ export default {
         redirectUrl: '',
       };
       this.$store.commit('updateLander', lander);
-      const resp = this.$lander.send(this.fieldsData);
-      if (this.formProduct) {
-        this.fieldsData.comments = `Клик из формы попапа продукта: ${this.formProduct.name}`;
-      }
+      const currentData = this.fieldsData;
+      currentData.name = `${this.fieldsData.firstName} ${this.fieldsData.surname} ${this.fieldsData.patronymic}`;
+      const resp = this.$lander.send(currentData, lander);
 
       resp.then(() => {
         const formData = this.fieldsData;
@@ -176,6 +192,9 @@ export default {
         }
       });
       this.isPopup = true;
+    },
+    closePopup() {
+      this.isPopup = false;
     },
     handlerSave() {
       const dataToSend = { ...this.fieldsData };
@@ -209,9 +228,6 @@ export default {
       } else {
         this.validName = false;
       }
-    },
-    closePopup() {
-      this.$emit('close', false);
     },
   },
 };

@@ -141,7 +141,7 @@ export default (context, inject) => {
       data.append('personalDataAgree', 'on');
       data.append(
         'mergelead',
-        `id_${Math.random().toString(36).substr(2, 9)} ${Math.round(new Date().getTime() / 1000)}`,
+        `id_${Math.random().toString(36).substr(2, 9)}${Math.round(new Date().getTime() / 1000)}`,
       );
       data.append('url_location', document.location.href);
       data.append('entry_point', document.location.host);
