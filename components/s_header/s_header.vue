@@ -51,7 +51,7 @@
               <a-button label="Войти" bgColor="ghost-accept"></a-button>
             </a>
           </div>
-          <!-- <template v-if="catalog && isScrolled">
+          <template v-if="catalog && isScrolled">
             <div class="s-header__catalog-icons">
               <a-select :options="options" class="catalog-page__select" @change="changeSortOption" />
               <i
@@ -62,7 +62,7 @@
                 <span class="a-font_button">Фильтры</span>
               </i>
             </div>
-          </template> -->
+          </template>
         </div>
         <div class="s-header__bottom">
           <div class="l-wide">
@@ -76,7 +76,7 @@
 </template>
 
 <script>
-import { AInput, AButton } from '@cwespb/synergyui';
+import { AInput, AButton, ASelect } from '@cwespb/synergyui';
 import './s_header.scss';
 import MBanner from '~/components/_ui/m_banner/m_banner';
 import getBannersDetail from '~/api/bannersDetail';
@@ -123,6 +123,7 @@ export default {
     MenuHorizontal,
     SMenuMain,
     MBanner,
+    ASelect,
   },
 
   async fetch() {
@@ -242,8 +243,9 @@ export default {
             mainWrapper.classList.add('js-fixed');
           }
 
-          this.isVisible = (this.scrollTop > startPos && clientHeight < this.$store.state.quizInfo.top)
-            || (this.scrollTop > startPos && this.scrollTop > quizScrollTop);
+          this.isVisible =
+            (this.scrollTop > startPos && clientHeight < this.$store.state.quizInfo.top) ||
+            (this.scrollTop > startPos && this.scrollTop > quizScrollTop);
 
           break;
         default:
