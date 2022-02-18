@@ -79,11 +79,11 @@
 import { AInput, AButton, ASelect } from '@cwespb/synergyui';
 import './s_header.scss';
 import MBanner from '~/components/_ui/m_banner/m_banner';
+import getBannersDetail from '~/api/bannersDetail';
+import { debounce } from '~/assets/js/debounce';
 import MLocation from '../_ui/m_location/m_location';
 import SMenuMain from '../s_menu_main/s_menu_main';
 import MenuHorizontal from '../menu_horizontal/menu_horizontal';
-import getBannersDetail from '~/api/bannersDetail';
-import { debounce } from '~/assets/js/debounce';
 
 export default {
   name: 'SHeader',
@@ -243,8 +243,9 @@ export default {
             mainWrapper.classList.add('js-fixed');
           }
 
-          this.isVisible = (this.scrollTop > startPos && clientHeight < this.$store.state.quizInfo.top)
-            || (this.scrollTop > startPos && this.scrollTop > quizScrollTop);
+          this.isVisible =
+            (this.scrollTop > startPos && clientHeight < this.$store.state.quizInfo.top) ||
+            (this.scrollTop > startPos && this.scrollTop > quizScrollTop);
 
           break;
         default:
