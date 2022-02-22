@@ -77,15 +77,14 @@
               placeholder="Имя"
               v-model="send.name"
               @input="validQuizData"
-              :class="{ error: !this.validName }"
+              :class="{ 'error-name': !nameErrorFlag }"
             ></a-input>
             <vue-tel-input
               class="a-input__row"
-              :class="{ error: !this.validFlag }"
+              :class="{ error: !phoneErrorFlag }"
               v-bind="vueTelOpts"
               type="phone"
               placeholder="Телефон"
-              @validate="validQuizData"
               v-model="send.phone"
               @input="validatePhone"
             >
@@ -94,7 +93,7 @@
               bgColor="accent"
               size="large"
               label="Отправить"
-              :disabled="!sogl || !validFlag || !validPhone"
+              :disabled="!sogl || validFlag || !validPhone"
               @click="sendQuiz"
             ></a-button>
           </div>
@@ -165,9 +164,11 @@ export default {
       phone: '',
     },
     sogl: true,
-    validFlag: false,
+    validFlag: true,
     validName: false,
     validPhone: false,
+    nameErrorFlag: true,
+    phoneErrorFlag: true,
   }),
 
   props: {
@@ -233,23 +234,30 @@ export default {
 
   methods: {
     validatePhone(phone, { valid, number }) {
-      // this.validPhone = value.valid;
-      const telOpts = this.vueTelOpts;
-      const inputOpts = telOpts.inputOptions;
-      const isLocalCode = phone[0] === '8';
+      if (phone) {
+        const telOpts = this.vueTelOpts;
+        const inputOpts = telOpts.inputOptions;
+        const isLocalCode = phone[0] === '8';
 
-      inputOpts.maxlength = this.maxPhoneLength;
-      telOpts.autoFormat = !isLocalCode;
+        inputOpts.maxlength = this.maxPhoneLength;
+        telOpts.autoFormat = !isLocalCode;
 
-      this.validPhone = valid && isLocalCode ? phone.length === 11 : valid;
+        this.validPhone = valid && isLocalCode ? phone.length === 11 : valid;
 
-      if (valid) {
-        telOpts.mode = isLocalCode ? 'auto' : 'international';
-        inputOpts.maxlength = isLocalCode ? 11 : number.length;
-      } else {
-        inputOpts.maxlength = 16;
+        if (valid) {
+          telOpts.mode = isLocalCode ? 'auto' : 'international';
+          inputOpts.maxlength = isLocalCode ? 11 : number.length;
+        } else {
+          inputOpts.maxlength = 16;
+        }
+        this.validQuizData();
       }
-      this.validQuizData();
+    },
+
+    handlerSave() {
+      const dataToSend = { ...this.send };
+      delete dataToSend.comments;
+      this.$lander.storage.save('quiz', dataToSend);
     },
 
     async startQuiz() {
@@ -257,17 +265,14 @@ export default {
     },
 
     validQuizData() {
-      const dataForm = [{ value: this.send.name }, { value: this.send.tel }];
+      this.handlerSave();
+      this.checkedValidateError();
+    },
 
-      this.validFlag = this.$lander.valid(dataForm) && this.validPhone;
-      if (/^([A-ZА-ЯЁ][-,a-z, a-яё. ']+[ ]*)+$/i.test(this.send.name)) {
-        this.validName = true;
-      } else {
-        this.validName = false;
-      }
-      const dataToSend = { ...this.send };
-      delete dataToSend.comments;
-      this.$lander.storage.save('quiz', dataToSend);
+    checkedValidateError() {
+      this.nameErrorFlag = /^([A-ZА-ЯЁ][-,a-z, a-яё. ']+[ ]*)+$/i.test(this.send.name);
+      this.phoneErrorFlag = this.validPhone === true && this.send.phone !== '';
+      return this.nameErrorFlag && this.validPhone;
     },
 
     sendQuiz() {
