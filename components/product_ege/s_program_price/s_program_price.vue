@@ -247,14 +247,6 @@ export default {
     },
     validFormData() {
       this.handlerSave();
-      this.checkedValidateError();
-      /* const dataForm = [{ value: this.fieldsData.name }, { value: this.fieldsData.email, type: 'email' }];
-      this.validFlag = this.$lander.valid(dataForm) && this.validPhone;
-      if (/^([A-ZА-ЯЁ][-,a-z, a-яё. ']+[ ]*)+$/i.test(this.fieldsData.name)) {
-        this.validName = true;
-      } else {
-        this.validName = false;
-      } */
     },
 
     checkedValidateError() {

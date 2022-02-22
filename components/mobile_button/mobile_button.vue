@@ -188,7 +188,6 @@ export default {
 
     validFormData() {
       this.handlerSave();
-      this.checkedValidateError();
       this.$lander.storage.save('popupform-reg', this.fieldsData);
     },
 

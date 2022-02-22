@@ -266,7 +266,6 @@ export default {
 
     validQuizData() {
       this.handlerSave();
-      this.checkedValidateError();
     },
 
     checkedValidateError() {

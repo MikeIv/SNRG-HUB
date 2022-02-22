@@ -157,7 +157,6 @@ export default {
     },
     validFormData() {
       this.handlerSave();
-      this.checkedValidateError();
     },
     checkedValidateError() {
       this.nameErrorFlag = /^([A-ZА-ЯЁ][-,a-z, a-яё. ']+[ ]*)+$/i.test(this.fieldsData.name);
