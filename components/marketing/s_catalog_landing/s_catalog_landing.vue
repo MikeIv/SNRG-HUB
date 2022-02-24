@@ -68,32 +68,25 @@
             <template v-slot:inputs>
               <a-input
                 class="m-form__input"
-                :class="{ 'error-name': !validName }"
-                @input="
-                  handlerSave();
-                  validFormData();
-                "
+                :class="{ 'error-name': !nameErrorFlag }"
+                @input="validFormData"
                 v-model="fieldsData.name"
                 placeholder="Имя"
               />
               <vue-tel-input
                 class="m-form__input"
-                :class="{ error: !validPhone }"
+                :class="{ error: !phoneErrorFlag }"
                 v-bind="vueTelOpts"
                 type="phone"
                 placeholder="Телефон"
-                @validate="validFormData"
                 v-model="fieldsData.phone"
                 @input="validatePhone"
               >
               </vue-tel-input>
               <a-input
                 class="m-form__input"
-                :class="{ 'error-mail': !validFlag }"
-                @input="
-                  handlerSave();
-                  validFormData();
-                "
+                :class="{ 'error-mail': !emailErrorFlag }"
+                @input="validFormData"
                 v-model="fieldsData.email"
                 placeholder="Почта"
               />
@@ -384,7 +377,9 @@
 
 <script>
 import { VueTelInput } from 'vue-tel-input';
-import { AButton, AControl, AInput, APopup, ASelect, ATag, ATitle, MCard, MFilter, MForm } from '@cwespb/synergyui';
+import {
+  AButton, AControl, AInput, APopup, ASelect, ATag, ATitle, MCard, MFilter, MForm,
+} from '@cwespb/synergyui';
 import getProductsList from '~/api/products_list';
 import '../../s_catalog/s_catalog.scss';
 import '../../s_catalog_filter/s_catalog_filter.scss';

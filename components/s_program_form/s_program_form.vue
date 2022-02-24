@@ -114,7 +114,7 @@ export default {
   methods: {
     sendForm() {
       if (this.formProduct) {
-        this.fieldsData.comments = `Клик из формы попапа продукта: ${this.formProduct.name}`;
+        this.fieldsData.comment = `Клик из формы попапа продукта: ${this.formProduct.name}`;
       }
 
       if (this.checkedValidateError()) {
