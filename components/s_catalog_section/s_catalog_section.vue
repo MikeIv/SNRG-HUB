@@ -27,6 +27,10 @@
         :filterCheckboxData="filterCheckboxData"
         :subjects="subjects"
         :key="componentFilterKey"
+        :subcategories="subcategories"
+        :categories="categories"
+        :subcategoriesTitle="subcategoriesTitle"
+        :topicTitle="topicTitle"
         @select-filter="selectFilter"
         @switch-click="switchClick"
       />
@@ -60,6 +64,7 @@ import SCatalogTags from '~/components/s_catalog_tags/s_catalog_tags';
 import SCatalogMenu from '~/components/s_catalog_menu/s_catalog_menu';
 import getProductsList from '~/api/products_list';
 import getFilterData from '~/api/filter_data';
+import getCatalogCategoriesList from '~/api/getCatalogCategoriesList';
 import './s_catalog_section.scss';
 
 export default {
@@ -113,10 +118,26 @@ export default {
 
       selectedFilters: [],
       subjects: [],
+
+      allCategories: [],
+      subcategories: [],
+      subcategoriesTitle: null,
+      topicTitle: null,
     };
   },
 
+  computed: {
+    categories() {
+      return this.allCategories.filter((category) => category.level === 1);
+    },
+  },
+
   watch: {
+    $route: {
+      handler() {},
+      deep: true,
+    },
+
     currentOption() {
       this.fetchProductsList();
     },
@@ -158,6 +179,25 @@ export default {
   },
 
   methods: {
+    async fetchCategoriesList() {
+      await getCatalogCategoriesList().then((response) => {
+        this.allCategories = response;
+
+        const slugs = this.$route.params?.pathMatch?.split('/').slice(0, -1);
+
+        if (slugs && slugs[0]) {
+          const foundCategory = this.categories.find((category) => category.slug === slugs[0]);
+          this.subcategories = this.allCategories.filter((cat) => cat.parent_id === foundCategory.id);
+          this.subcategoriesTitle = foundCategory.name;
+        }
+
+        if (slugs && slugs[1]) {
+          const foundCategory = this.allCategories.find((category) => category.slug === slugs[1]);
+          this.topicTitle = foundCategory.name;
+        }
+      });
+    },
+
     async fetchFilterData() {
       const filtersResponse = await getFilterData();
 
@@ -421,6 +461,7 @@ export default {
   async fetch() {
     await this.fetchFilterData();
     await this.fetchProductsList();
+    await this.fetchCategoriesList();
   },
 
   created() {

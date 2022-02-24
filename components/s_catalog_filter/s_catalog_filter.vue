@@ -1,5 +1,14 @@
 <template>
   <div class="catalog-filter__wrapper">
+    <m-catalog-categories
+      title="Программы обучения"
+      :subcategories="subcategories"
+      :categories="categories"
+      :subcategoriesTitle="subcategoriesTitle"
+      :topicTitle="topicTitle"
+      passed-btn-text="Показать всё"
+      :visible-count="15"
+    />
     <template v-for="filters in filterListData">
       <m-filter
         v-if="isFilterRendered(filters[0])"
@@ -31,14 +40,25 @@
 
 <script>
 import { MFilter, AControl } from '@cwespb/synergyui';
+import MCatalogCategories from '~/components/ui/m-catalog-categories/m-catalog-categories';
 import './s_catalog_filter.scss';
 
 export default {
   name: 'SCatalogFilter',
 
-  props: ['filterListData', 'filterCheckboxData', 'subjects', 'filtersTextProp'],
+  props: [
+    'filterListData',
+    'filterCheckboxData',
+    'subjects',
+    'filtersTextProp',
+    'subcategories',
+    'categories',
+    'subcategoriesTitle',
+    'topicTitle',
+  ],
 
   components: {
+    MCatalogCategories,
     MFilter,
     AControl,
   },
@@ -57,6 +77,10 @@ export default {
   },
 
   methods: {
+    onCategoryClickHandler(category) {
+      console.log('category', category);
+    },
+
     isFilterRendered(key) {
       return key === 'subject_ids' ? this.subjects.length : true;
     },
