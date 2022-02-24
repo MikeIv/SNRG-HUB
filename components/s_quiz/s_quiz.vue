@@ -75,8 +75,8 @@
           <div class="m-quiz__finish-data">
             <a-input
               placeholder="Имя"
-              v-model="send.name"
-              @input="validQuizData"
+              v-model="fieldsData.name"
+              @input="validFormData"
               :class="{ 'error-name': !nameErrorFlag }"
             ></a-input>
             <vue-tel-input
@@ -85,7 +85,7 @@
               v-bind="vueTelOpts"
               type="phone"
               placeholder="Телефон"
-              v-model="send.phone"
+              v-model="fieldsData.phone"
               @input="validatePhone"
             >
             </vue-tel-input>
@@ -93,7 +93,7 @@
               bgColor="accent"
               size="large"
               label="Отправить"
-              :disabled="!sogl || validFlag || !validPhone"
+              :disabled="!sogl || !validFlag || !validPhone"
               @click="sendQuiz"
             ></a-button>
           </div>
@@ -159,7 +159,7 @@ export default {
         maxlength: 14,
       },
     },
-    send: {
+    fieldsData: {
       name: '',
       phone: '',
     },
@@ -202,10 +202,10 @@ export default {
       this.$lander.cookie.set('test1', 'test dev');
 
       const loadDataForm = this.$lander.storage.load('quiz');
-      if (loadDataForm) this.send = loadDataForm;
+      if (loadDataForm) this.fieldsData = loadDataForm;
 
-      const dataForm = [{ value: this.send.name }, { value: this.send.tel }];
-      this.validFlag = this.$lander.valid(dataForm);
+      // const dataForm = [{ value: this.send.name }, { value: this.send.tel }];
+      // this.validFlag = this.$lander.valid(dataForm);
 
       if (this.dataQuiz) {
         this.getQuizParameters();
@@ -235,6 +235,7 @@ export default {
   methods: {
     validatePhone(phone, { valid, number }) {
       if (phone) {
+        // this.validPhone = value.valid;
         const telOpts = this.vueTelOpts;
         const inputOpts = telOpts.inputOptions;
         const isLocalCode = phone[0] === '8';
@@ -250,27 +251,28 @@ export default {
         } else {
           inputOpts.maxlength = 16;
         }
-        this.validQuizData();
+
+        this.validFormData();
       }
     },
-
-    handlerSave() {
-      const dataToSend = { ...this.send };
-      delete dataToSend.comments;
-      this.$lander.storage.save('quiz', dataToSend);
-    },
-
     async startQuiz() {
       this.banerFlag = false;
     },
 
-    validQuizData() {
+    handlerSave() {
+      const dataToSend = { ...this.fieldsData };
+      delete dataToSend.comments;
+      this.$lander.storage.save('quiz', dataToSend);
+    },
+
+    validFormData() {
       this.handlerSave();
+      this.$lander.storage.save('quiz', this.fieldsData);
     },
 
     checkedValidateError() {
-      this.nameErrorFlag = /^([A-ZА-ЯЁ][-,a-z, a-яё. ']+[ ]*)+$/i.test(this.send.name);
-      this.phoneErrorFlag = this.validPhone === true && this.send.phone !== '';
+      this.nameErrorFlag = /^([A-ZА-ЯЁ][-,a-z, a-яё. ']+[ ]*)+$/i.test(this.fieldsData.name);
+      this.phoneErrorFlag = this.validPhone === true && this.fieldsData.phone !== '';
       return this.nameErrorFlag && this.validPhone;
     },
 
@@ -283,8 +285,12 @@ export default {
       for (let i = 0; i < dataQuiz.length; i += 1) {
         quizString = `${quizString} Вопрос: ${dataQuiz[i].question} - Ответ:  ${dataQuiz[i].answer} \n`;
       }
-      this.send.comments = quizString;
-      this.$lander.send(this.send);
+      this.fieldsData.comments = quizString;
+      if (this.checkedValidateError()) {
+        this.$lander
+          .send(this.fieldsData, {}, this.$route.name === 'edu-platform-slug' ? this.$route.path : undefined)
+          .then(() => {});
+      }
     },
 
     prevQuiz() {
