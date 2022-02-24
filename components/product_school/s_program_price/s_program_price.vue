@@ -149,7 +149,7 @@ export default {
     validName: false,
     formTitle: 'Поступить в онлайн-школу «Синергия»',
 
-    maxPhoneLength: 8,
+    maxPhoneLength: 16,
     vueTelOpts: {
       mode: 'international',
       preferredCountries: ['RU', 'US'],

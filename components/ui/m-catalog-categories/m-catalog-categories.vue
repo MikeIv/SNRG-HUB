@@ -17,7 +17,7 @@
         :prefetch="false"
         v-for="category in subcategories.length ? subcategories : categories"
         :key="category.id"
-        :to="`${$route.fullPath}${category.slug}`"
+        :to="{ path: `${$route.path}${category.slug}`, query: $route.query }"
         class="m-catalog-categories__item a-font_l-m"
       >
         {{ category.name }}
@@ -98,6 +98,10 @@ export default {
     toggleList() {
       this.isOpen = !this.isOpen;
     },
+  },
+
+  mounted() {
+    console.log('route', this.$route);
   },
 };
 </script>

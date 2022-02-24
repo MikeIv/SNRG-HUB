@@ -11,15 +11,13 @@
     />
     <template v-for="filters in filterListData">
       <m-filter
-        v-if="isFilterRendered(filters[0])"
+        v-if="filters[0]"
         class="catalog-filter__filter"
         :key="filters[0]"
         :title="filters[1].title"
-        :hasSearch="
-          filters[0] === 'subject_ids' ? renderSubjects(filters[1].values).length > 15 : filters[1].values.length > 15
-        "
+        :hasSearch="filters[1].values.length > 15"
         :passedBtnText="filtersTextProp ? filtersTextProp[filters[0]] : filtersText[filters[0]]"
-        :items="filters[0] === 'subject_ids' ? renderSubjects(filters[1].values) : filters[1].values"
+        :items="filters[1].values"
         @item-click="controlClick(filters[1].filter_by, ...arguments)"
       />
     </template>
@@ -49,7 +47,6 @@ export default {
   props: [
     'filterListData',
     'filterCheckboxData',
-    'subjects',
     'filtersTextProp',
     'subcategories',
     'categories',
@@ -66,29 +63,15 @@ export default {
   data() {
     return {
       filtersText: {
-        direction_ids: 'Все направления',
         format_ids: 'Все форматы',
         level_ids: 'Все уровни',
         city_ids: 'Все города',
         organization_ids: 'Все заведения',
-        subject_ids: 'Все тематики',
       },
     };
   },
 
   methods: {
-    onCategoryClickHandler(category) {
-      console.log('category', category);
-    },
-
-    isFilterRendered(key) {
-      return key === 'subject_ids' ? this.subjects.length : true;
-    },
-
-    renderSubjects(values) {
-      return this.subjects.length ? values.filter((value) => this.subjects.includes(value.id)) : values;
-    },
-
     controlClick(key, item) {
       this.$emit('select-filter', key, item);
     },
