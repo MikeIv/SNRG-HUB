@@ -48,13 +48,25 @@
           <div v-if="subtitle" class="s-article-detail__content-body" v-html="content"></div>
         </div>
       </div>
+      <div class="s-article-detail__directions">
+        <div class="s-article-detail__directions-title a-font_h5">Направления</div>
+        <div class="s-article-detail__directions-items">
+          <a-tag
+            v-for="(category, id) in categories"
+            :key="id"
+            :label="category.name"
+            class="s-article-detail__directions-item"
+          >
+          </a-tag>
+        </div>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
 import './s_article_detail.scss';
-import { MSocialShare } from '@cwespb/synergyui';
+import { MSocialShare, ATag } from '@cwespb/synergyui';
 import AUser from '~/components/_ui/a_user/a_user';
 
 export default {
@@ -63,6 +75,7 @@ export default {
   components: {
     AUser,
     MSocialShare,
+    ATag,
   },
 
   data() {
@@ -114,6 +127,16 @@ export default {
     previewImage: {
       type: String,
     },
+    banner: {
+      type: Object,
+    },
+    categories: {
+      type: Array,
+    },
+  },
+
+  mounted() {
+    console.log(this.categories);
   },
 
   methods: {

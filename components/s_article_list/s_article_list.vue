@@ -65,7 +65,7 @@ export default {
       filter: {
         published: true,
       },
-      include: ['publicationTypes', 'journalContent', 'articleAuthors', 'tags'],
+      include: ['publicationTypes', 'journalContent', 'articleAuthors', 'tags', 'directions'],
     };
     const response = await getArticlesList(expandedMethod);
     this.articles = response.data;

@@ -9,6 +9,8 @@
       :subtitle="subtitle"
       :user="author"
       :previewImg="img"
+      :banner="banner"
+      :categories="categories"
     />
   </div>
 </template>
@@ -34,6 +36,8 @@ export default {
       author: {},
       publicationTypes: {},
       img: '',
+      banner: {},
+      categories: [],
     };
   },
 
@@ -51,7 +55,15 @@ export default {
   async fetch() {
     const filter = {
       filter: { slug: this.$route.params.slug },
-      include: ['journalContent', 'publicationTypes', 'directions', 'articleAuthors'],
+      include: [
+        'journalContent',
+        'publicationTypes',
+        'directions',
+        'articleAuthors',
+        'categories',
+        'relatedArticles',
+        'relatedArticles.journalContent',
+      ],
     };
     const preData = await getArticleDetail(filter);
     const type = preData.included.publicationTypes[0];
@@ -71,6 +83,14 @@ export default {
     this.publicationTypes = type;
     this.author = author;
     this.img = preData.included.preview_picture;
+    this.banner = {
+      title: preData.included.journalContent.banner_title ?? '',
+      text: preData.included.journalContent.banner_text ?? '',
+      img: preData.included.journalContent.banner_picture ?? '',
+      link: preData.included.journalContent.banner_link ?? '',
+    };
+    this.categories = preData.included.categories;
+    console.log(preData.included.categories);
   },
 
   head() {

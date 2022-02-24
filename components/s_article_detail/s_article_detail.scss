@@ -168,4 +168,34 @@
   br {
     display: none;
   }
+
+  &__directions {
+    margin-top: rem(40);
+    padding: rem(30) var(--a-padding--x6) rem(38);
+    background: var(--a-color_bg--secondary);
+
+    .a-tag {
+      &__item {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        max-width: fit-content;
+        margin-right: rem(8);
+        margin-bottom: var(--a-padding--x4);
+        border: 1px solid var(--a-color_text);
+        border-radius: rem(35);
+      }
+    }
+
+    &__items {
+      display: flex;
+      align-items: center;
+    }
+
+    &-title {
+      display: none; // Пока скрыто до выяснения как делать
+      margin-bottom: 26px;
+      text-align: center;
+    }
+  }
 }
