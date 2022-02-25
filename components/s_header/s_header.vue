@@ -219,7 +219,7 @@ export default {
           },
         });
       }
-    }, 500),
+    }, 1000),
     onLogoClickHandler() {
       this.search = '';
       this.$emit('search', '');
@@ -243,9 +243,8 @@ export default {
             mainWrapper.classList.add('js-fixed');
           }
 
-          this.isVisible =
-            (this.scrollTop > startPos && clientHeight < this.$store.state.quizInfo.top) ||
-            (this.scrollTop > startPos && this.scrollTop > quizScrollTop);
+          this.isVisible = (this.scrollTop > startPos && clientHeight < this.$store.state.quizInfo.top)
+            || (this.scrollTop > startPos && this.scrollTop > quizScrollTop);
 
           break;
         default:
