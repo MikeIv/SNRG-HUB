@@ -1,5 +1,6 @@
 <template>
   <div :class="this.$route.name === 'organization-slug' ? 'catalog-page__section' : ''">
+    <a-breadcrumbs v-if="withBreadcrumbs" :breadcrumbs="breadcrumbs" class="catalog-page__breadcrumbs" />
     <h2 class="a-font_h2" v-if="title">
       {{ title }}
       <sup class="catalog-page__header-total a-font_L"> {{ totalProducts }} программ</sup>
@@ -44,6 +45,10 @@
           :selectedFilters="selectedFilters"
           :productList="productList"
           :options="options"
+          :subcategoriesTitle="subcategoriesTitle"
+          :topicTitle="topicTitle"
+          :categories="categories"
+          :subcategories="subcategories"
           @clear-all-filters="clearAllFilters"
           @delete-tag="deleteTag"
           @filters-icon-click="filtersIconClickHandler"
@@ -61,16 +66,27 @@ import SCatalogPresets from '~/components/s_catalog_presets/s_catalog_presets';
 import SCatalogTags from '~/components/s_catalog_tags/s_catalog_tags';
 import SCatalogMenu from '~/components/s_catalog_menu/s_catalog_menu';
 import getProductsList from '~/api/products_list';
-import getFilterData from '~/api/filter_data';
 import getCatalogCategoriesList from '~/api/getCatalogCategoriesList';
 import './s_catalog_section.scss';
+import ABreadcrumbs from '~/components/_ui/a_breadcrumbs/a_breadcrumbs';
 
 export default {
   name: 'SCatalogSection',
 
-  props: ['title', 'hasPresets', 'presets', 'productsPerPage', 'currentOption', 'options', 'filtersMenu'],
+  props: [
+    'title',
+    'hasPresets',
+    'presets',
+    'productsPerPage',
+    'currentOption',
+    'options',
+    'filtersMenu',
+    'filterResponse',
+    'withBreadcrumbs',
+  ],
 
   components: {
+    ABreadcrumbs,
     SCatalogTags,
     SCatalogPresets,
     SCatalogProductList,
@@ -80,6 +96,10 @@ export default {
 
   data() {
     return {
+      breadcrumbs: [
+        { label: 'Главная', href: '/' },
+        { label: 'Программы обучения', href: '/catalog' },
+      ],
       totalProducts: null,
       productList: [],
       filterListData: {},
@@ -160,40 +180,25 @@ export default {
         this.fetchProductsList();
       },
     },
+
+    filterResponse: {
+      deep: true,
+      handler() {
+        this.parseFilterData();
+      },
+    },
+
+    selectedFilters: {
+      deep: true,
+      handler() {
+        this.componentMenuKey += 123;
+      },
+    },
   },
 
   methods: {
-    async fetchCategoriesList() {
-      await getCatalogCategoriesList().then((response) => {
-        this.allCategories = response;
-
-        const slugs = this.$route.params?.pathMatch?.split('/').slice(0, -1);
-
-        if (slugs && slugs[0]) {
-          const foundCategory = this.categories.find((category) => category.slug === slugs[0]);
-          this.subcategories = this.allCategories.filter((cat) => cat.parent_id === foundCategory.id);
-          this.subcategoriesTitle = foundCategory.name;
-
-          this.categoryId = foundCategory.id;
-
-          console.log('this.categoryId', foundCategory.id);
-        }
-
-        if (slugs && slugs[1]) {
-          const foundCategory = this.allCategories.find((category) => category.slug === slugs[1]);
-          this.topicTitle = foundCategory.name;
-
-          this.subcategoryId = foundCategory.id;
-        }
-      });
-    },
-
-    async fetchFilterData() {
-      await this.fetchCategoriesList();
-
-      const filtersResponse = await getFilterData();
-
-      filtersResponse.forEach((filters) => {
+    parseFilterData() {
+      this.filterResponse.forEach((filters) => {
         if (filters.filter_by !== 'direction_ids' && filters.filter_by !== 'subject_ids') {
           if (filters.type === 'list') {
             this.filterListData[filters.filter_by] = { ...filters };
@@ -214,7 +219,34 @@ export default {
           });
         }
       });
+    },
 
+    async fetchCategoriesList() {
+      await getCatalogCategoriesList().then((response) => {
+        this.allCategories = response;
+
+        const slugs = this.$route.params?.pathMatch?.split('/').slice(0, -1);
+
+        if (slugs && slugs[0]) {
+          const foundCategory = this.categories.find((category) => category.slug === slugs[0]);
+          this.subcategories = this.allCategories.filter((cat) => cat.parent_id === foundCategory.id);
+          this.subcategoriesTitle = foundCategory.name;
+          this.categoryId = foundCategory.id;
+          this.breadcrumbs.push({ label: foundCategory.name, href: `/catalog/${slugs[0]}` });
+        }
+
+        if (slugs && slugs[1]) {
+          const foundCategory = this.allCategories.find((category) => category.slug === slugs[1]);
+          this.topicTitle = foundCategory.name;
+          this.subcategoryId = foundCategory.id;
+          this.breadcrumbs.push({ label: foundCategory.name, href: `/catalog/${slugs[0]}/${slugs[1]}` });
+        }
+      });
+    },
+
+    async fetchFilterData() {
+      await this.fetchCategoriesList();
+      this.parseFilterData();
       this.getCityInfo();
       await this.fetchProductsList();
 
@@ -248,20 +280,17 @@ export default {
         }
       });
 
-      console.log('category id', this.categoryId, this.subcategoryId);
       if (this.subcategoryId) {
         expandedMethod.filter.new_category_all_ids = [this.subcategoryId];
       } else if (this.categoryId) {
-        expandedMethod.filter.new_category_ids = [this.categoryId];
+        expandedMethod.filter.new_category_all_ids = [this.categoryId];
       }
 
       expandedMethod.pagination = { page: this.page, page_size: this.productsPerPage };
       expandedMethod.sort = this.currentOption;
-      const response = await getProductsList(expandedMethod);
+      const response = await getProductsList(expandedMethod, 'api/v1/products/list');
       this.totalProducts = response.count;
       this.productList = response.data;
-
-      console.log('expandedMethod', expandedMethod);
     },
 
     switchClick(item, isChecked) {
@@ -277,15 +306,18 @@ export default {
         this.filtersIdsData[key].push(selectedItem.id);
       } else {
         this.selectedFilters = this.selectedFilters.filter((filter) => filter.name !== item.name);
+        console.log('this.selectedFilters', this.selectedFilters);
         this.filtersIdsData[key] = this.filtersIdsData[key].filter((id) => Number(id) !== item.id);
       }
 
       this.componentFilterKey += 1;
+      this.componentMenuKey += 1;
       this.page = 1;
     },
 
     selectControlFilter(key, item, isChecked) {
       const selectedItem = { ...item, key, isChecked };
+      console.log('selectedItem', selectedItem);
 
       if (selectedItem.isChecked) {
         this.selectedFilters.push(selectedItem);
@@ -293,7 +325,11 @@ export default {
         const found = this.filterListData[selectedItem.key].values.find((value) => value.name === selectedItem.name);
         this.$set(found, 'isChecked', true);
       } else {
+        console.log('this.selectedFilters', this.selectedFilters);
+
         this.selectedFilters = this.selectedFilters.filter((filter) => filter.name !== item.name);
+        console.log('this.selectedFilters', this.selectedFilters);
+
         this.filtersIdsData[key] = this.filtersIdsData[key].filter((id) => Number(id) !== item.id);
         const found = this.filterListData[selectedItem.key].values.find((value) => value.name === selectedItem.name);
         this.$set(found, 'isChecked', false);

@@ -8,7 +8,7 @@
         :to="`/product/${product.slug}`"
         :key="product.id"
         :class="
-          $route.name === 'organization-slug'
+          $route.name === 'organization-_slug'
             ? 'catalog-product-list__item-wrapper-section'
             : 'catalog-product-list__item-wrapper'
         "

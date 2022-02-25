@@ -10,6 +10,8 @@
         :currentOption="currentOption"
         :options="options"
         :filtersMenu="filtersMenu"
+        :filterResponse="filterResponse"
+        :with-breadcrumbs="true"
         @change-sort-options="changeSortOptions"
         @menu-toggle="menuToggle"
       />
@@ -22,6 +24,7 @@
 import SCatalogSection from '~/components/s_catalog_section/s_catalog_section';
 import SQuiz from '~/components/s_quiz/s_quiz';
 import getFiltersProductPresets from '~/api/filtersProductsPresets';
+import getFilterData from '~/api/filter_data';
 import './s_catalog.scss';
 
 export default {
@@ -36,10 +39,15 @@ export default {
     return {
       presets: [],
       mainCatalogKey: 666,
+      filterResponse: [],
     };
   },
 
   methods: {
+    async fetchFilterData() {
+      this.filterResponse = await getFilterData();
+    },
+
     menuToggle(value) {
       this.$emit('menu-toggle', value);
     },
@@ -55,6 +63,7 @@ export default {
 
   async fetch() {
     await this.fetchFilterPresets();
+    await this.fetchFilterData();
   },
 };
 </script>

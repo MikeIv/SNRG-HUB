@@ -125,7 +125,7 @@ export default {
         .send(
           this.fieldsData,
           {},
-          this.$route.name === 'edu-platform-slug' || this.$route.name === 'edu-platform'
+          this.$route.name === 'edu-platform-_slug' || this.$route.name === 'edu-platform'
             ? this.$route.path
             : undefined,
         )

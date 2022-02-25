@@ -153,7 +153,7 @@ export default {
     },
     sendForm() {
       this.$lander
-        .send(this.fieldsData, {}, this.$route.name === 'edu-platform-slug' ? this.$route.path : undefined)
+        .send(this.fieldsData, {}, this.$route.name === 'edu-platform-_slug' ? this.$route.path : undefined)
         .then(() => {});
     },
     validatePhone(phone, { valid, number }) {
