@@ -3,6 +3,7 @@
     <div class="m-article__image">
       <img alt="article" :src="`${baseURL}${this.article.included.journalContent.preview_picture}`" />
       <nuxt-link
+        v-if="this.article.included.directions"
         :to="`/journal/${this.article.included.directions[0].slug}`"
         class="m-article__tag"
         :style="{ background: randomColor }"
@@ -11,7 +12,11 @@
       </nuxt-link>
     </div>
     <div class="m-article__additional">
-      <nuxt-link :to="`/journal/${article.included.publicationTypes[0].slug}`" class="m-article__info-additional-type">
+      <nuxt-link
+        v-if="this.article.included.publicationTypes"
+        :to="`/journal/${article.included.publicationTypes[0].slug}`"
+        class="m-article__info-additional-type"
+      >
         {{ article.included.publicationTypes[0] ? `#${article.included.publicationTypes[0].name.toUpperCase()}` : '' }}
       </nuxt-link>
       <span class="m-article__additional-date">

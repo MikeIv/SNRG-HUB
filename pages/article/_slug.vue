@@ -11,12 +11,17 @@
       :previewImg="img"
       :banner="banner"
       :categories="categories"
+      :relatedArticles="relatedArticles"
+      :tags="tags"
+      :nameCourse="nameCourse"
+      :programs="programs"
     />
   </div>
 </template>
 
 <script>
 import getArticleDetail from '~/api/articleDetail';
+import getProductsList from '~/api/products_list';
 import SArticleDetail from '~/components/s_article_detail/s_article_detail';
 
 export default {
@@ -33,11 +38,16 @@ export default {
       readingTime: '',
       articleBody: '',
       subtitle: '',
+      nameCourse: '',
+      linkCourse: '',
       author: {},
       publicationTypes: {},
       img: '',
       banner: {},
       categories: [],
+      relatedArticles: [],
+      programs: [],
+      tags: [],
     };
   },
 
@@ -58,6 +68,8 @@ export default {
       include: [
         'journalContent',
         'publicationTypes',
+        'studyingPrograms',
+        'tags',
         'directions',
         'articleAuthors',
         'categories',
@@ -65,7 +77,9 @@ export default {
         'relatedArticles.journalContent',
       ],
     };
+
     const preData = await getArticleDetail(filter);
+
     const type = preData.included.publicationTypes[0];
     const author = preData.included.articleAuthors[0];
     const options = { year: 'numeric', month: 'long', day: 'numeric' };
@@ -90,7 +104,17 @@ export default {
       link: preData.included.journalContent.banner_link ?? '',
     };
     this.categories = preData.included.categories;
-    console.log(preData.included.categories);
+    this.relatedArticles = preData.included.relatedArticles;
+    this.tags = preData.included.tags;
+    this.nameCourse = this.categories[0].name ?? '';
+    this.linkCourse = this.categories[0].slug ?? '';
+
+    const filterProgram = {
+      filter: { slug: this.categories[0].slug },
+      include: ['organization', 'organization.city', 'directions'],
+    };
+    const preDataProgram = await getProductsList(filterProgram);
+    this.programs = preDataProgram.data;
   },
 
   head() {
