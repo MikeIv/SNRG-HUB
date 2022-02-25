@@ -45,7 +45,14 @@
               <div class="s-header__burger-text a-font_l a-color_link">{{ btnText }}</div>
             </div>
             <div class="s-header__search">
-              <a-input id="search" icons="si-search" size="medium" :placeholder="searchPlaceholder" v-model="search" />
+              <a-input
+                id="search"
+                icons="si-search"
+                size="medium"
+                :placeholder="searchPlaceholder"
+                v-model="search"
+                :disabled="disabledSearch"
+              />
             </div>
             <a href="//pass.synergy.ru" target="_blank" class="s-header__login" rel="noreferrer" v-if="false">
               <a-button label="Войти" bgColor="ghost-accept"></a-button>
@@ -113,6 +120,7 @@ export default {
       bannerTop: {},
       isVisible: false,
       topBannerSmoothHref: '#quiz',
+      disabledSearch: false,
     };
   },
 
@@ -206,6 +214,10 @@ export default {
 
     debounceSearchListener: debounce(function debounceHandler() {
       if (!this.search) {
+        this.disabledSearch = true;
+        setTimeout(() => {
+          this.disabledSearch = false;
+        }, 700);
         this.search = '';
         this.$emit('search', '');
         this.$router.push({
@@ -219,7 +231,7 @@ export default {
           },
         });
       }
-    }, 500),
+    }, 2000),
     onLogoClickHandler() {
       this.search = '';
       this.$emit('search', '');
