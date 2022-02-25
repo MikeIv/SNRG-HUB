@@ -213,7 +213,6 @@ export default {
     },
 
     debounceSearchListener: debounce(function debounceHandler() {
-      console.log('debounce!!!!!!!@@@');
       if (!this.search) {
         this.disabledSearch = true;
         setTimeout(() => {
@@ -256,8 +255,9 @@ export default {
             mainWrapper.classList.add('js-fixed');
           }
 
-          this.isVisible = (this.scrollTop > startPos && clientHeight < this.$store.state.quizInfo.top)
-            || (this.scrollTop > startPos && this.scrollTop > quizScrollTop);
+          this.isVisible =
+            (this.scrollTop > startPos && clientHeight < this.$store.state.quizInfo.top) ||
+            (this.scrollTop > startPos && this.scrollTop > quizScrollTop);
 
           break;
         default:
