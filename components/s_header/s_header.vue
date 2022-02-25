@@ -225,7 +225,6 @@ export default {
           query: {},
         });
       } else {
-        console.log('search', this.search);
         this.$emit('search', this.search.trim());
         this.$router.push({
           query: {
@@ -257,9 +256,8 @@ export default {
             mainWrapper.classList.add('js-fixed');
           }
 
-          this.isVisible =
-            (this.scrollTop > startPos && clientHeight < this.$store.state.quizInfo.top) ||
-            (this.scrollTop > startPos && this.scrollTop > quizScrollTop);
+          this.isVisible = (this.scrollTop > startPos && clientHeight < this.$store.state.quizInfo.top)
+            || (this.scrollTop > startPos && this.scrollTop > quizScrollTop);
 
           break;
         default:
