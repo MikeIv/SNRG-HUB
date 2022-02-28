@@ -17,22 +17,16 @@
       <template v-slot:inputs>
         <a-input
           class="m-form__input"
-          :class="{ 'error-name': !validName }"
-          @input="
-            handlerSave();
-            validFormData();
-          "
+          :class="{ 'error-name': !nameErrorFlag }"
+          @input="validFormData"
           v-model="fieldsData.name"
           placeholder="Имя"
         />
 
         <a-input
           class="m-form__input"
-          :class="{ 'error-mail': !validFlag }"
-          @input="
-            handlerSave();
-            validFormData();
-          "
+          :class="{ 'error-mail': !emailErrorFlag }"
+          @input="validFormData"
           v-model="fieldsData.email"
           placeholder="Почта"
         />
@@ -40,10 +34,7 @@
         <a-input
           class="m-form__input"
           type="textarea"
-          @input="
-            handlerSave();
-            validFormData();
-          "
+          @input="validFormData"
           v-model="fieldsData.question"
           placeholder="Ваш вопрос"
         />
@@ -66,8 +57,10 @@ export default {
       title: 'Обратная связь',
       subtitle: 'Если у вас возник вопрос напишите нам в поддержку через форму обратной связи',
       buttonText: 'Отправить',
-      validFlag: false,
+      validFlag: true,
       validName: false,
+      nameErrorFlag: true,
+      emailErrorFlag: true,
       checkboxText: 'Нажимая на кнопку, вы соглашаетсь с политикой конфиденциальности и на получение рассылок',
       fieldsData: {
         name: '',

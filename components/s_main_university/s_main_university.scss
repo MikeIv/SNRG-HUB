@@ -38,4 +38,9 @@
       grid-template-columns: 1fr;
     }
   }
+  &__btn-link {
+    display: flex;
+    max-width: rem(175);
+    margin: 0 auto;
+  }
 }

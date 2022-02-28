@@ -211,7 +211,7 @@
     margin-right: var(--a-padding--x2);
   }
 
-  & .a-input__wrapper.error input {
+  & .a-input__wrapper.error-name input {
     border: 2px solid var(--a-color_link);
     &:focus {
       border: 2px solid var(--a-color_link);
