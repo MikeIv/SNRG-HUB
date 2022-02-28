@@ -6,10 +6,15 @@
         :methods="methods"
         :title="title"
         :products-per-page="16"
-        :entity_page="pageInfo.entity_page"
         :options="options"
         :filtersMenu="filtersMenu"
         :currentOption="currentOption"
+        :with-breadcrumbs="true"
+        :productListUrl="productListUrl"
+        :filterResponse="filterResponse"
+        :defaultFilters="defaultFilters"
+        :type="type"
+        :routePath="routePath"
         @change-sort-options="changeSortOptions"
         @menu-toggle="menuToggle"
       ></component>
@@ -19,12 +24,18 @@
 
 <script>
 import LazyHydrate from 'vue-lazy-hydration';
+import getFilterData from '~/api/filter_data';
 
 export default {
   layout: 'organization',
 
   data() {
     return {
+      routePath: 'organization',
+      filterResponse: [],
+      defaultFilters: {},
+      type: 'main',
+      productListUrl: 'api/v1/products/list',
       title: 'Organization page',
       filtersMenu: false,
       currentOption: 'sort',
@@ -58,7 +69,33 @@ export default {
     },
   },
 
+  watch: {
+    $route: {
+      deep: true,
+      immediate: true,
+      handler() {
+        this.defaultFilters = {};
+        this.parseUrlToFilters();
+      },
+    },
+  },
+
   methods: {
+    parseUrlToFilters() {
+      // Если есть квери (direction_ids=1,2) в урле при инициализации
+      if (this.$route.query) {
+        Object.entries(this.$route.query).forEach(([key, ids]) => {
+          if (key !== 'page') {
+            this.defaultFilters[key] = ids.split(',').map((id) => Number(id));
+          }
+        });
+      }
+    },
+
+    async fetchFilterData() {
+      this.filterResponse = await getFilterData();
+    },
+
     menuToggle(value) {
       this.filtersMenu = value;
     },
@@ -67,6 +104,11 @@ export default {
       this.options = options;
       this.currentOption = option;
     },
+  },
+
+  async fetch() {
+    console.log('route', this.$route);
+    await this.fetchFilterData();
   },
 
   head() {

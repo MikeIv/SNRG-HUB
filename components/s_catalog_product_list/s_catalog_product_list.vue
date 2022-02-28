@@ -16,11 +16,17 @@
         <m-card
           type="program"
           class="catalog-product-list__item"
-          :description="product.included.levels[0].name"
+          :description="
+            type === 'organizations'
+              ? getProductDescription(product.budget_points, product.contract_points)
+              : product.included.levels[0].name
+          "
           :title="product.name"
-          :verticalImgSrc="`${baseURL}/${product.preview_image}`"
-          :bottomText="product.included.organization.abbreviation_name"
-          :iconSrc="`${baseURL}${product.included.organization.logo}`"
+          :verticalImgSrc="`${baseURL}/${type === 'organizations' ? product.digital_image : product.preview_image}`"
+          :bottomText="
+            type === 'organizations' ? product.abbreviation_name : product.included.organization.abbreviation_name
+          "
+          :iconSrc="`${baseURL}${type === 'organizations' ? product.logo : product.included.organization.logo}`"
           @organization-click="onOrganizationClick(product)"
         />
       </nuxt-link>
@@ -44,7 +50,7 @@ import './s_catalog_product_list.scss';
 export default {
   name: 'SCatalogProductList',
 
-  props: ['productList', 'totalProducts', 'page', 'productsPerPage'],
+  props: ['productList', 'totalProducts', 'page', 'productsPerPage', 'type'],
 
   components: {
     MCard,
@@ -74,6 +80,12 @@ export default {
   },
 
   methods: {
+    getProductDescription(budget, contract) {
+      const budgetStr = budget ? `Бюджет: от ${budget} баллов ${contract ? ' • ' : ''}` : '';
+      const contractStr = contract ? `Платное: от ${contract} баллов` : '';
+      return budgetStr + contractStr;
+    },
+
     changeCurrentPage(page) {
       this.pageInx = page;
     },
@@ -87,7 +99,9 @@ export default {
     },
 
     onOrganizationClick(product) {
-      this.$router.push(`/organization/${product.included.organization.slug}`);
+      this.$router.push(
+        `/organization/${this.type === 'organizations' ? product.slug : product.included.organization.slug}`,
+      );
     },
   },
 };

@@ -189,12 +189,10 @@ export default {
     },
 
     selectFilter(key, item) {
-      console.log('selectFilter');
       this.$emit('select-menu-filter', key, item);
     },
 
     selectFilterControl(key, item, isChecked) {
-      console.log('selectFilterControl');
       this.$emit('select-menu-control', key, item, isChecked);
     },
 

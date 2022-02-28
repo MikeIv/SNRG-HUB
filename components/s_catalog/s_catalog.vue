@@ -11,7 +11,12 @@
         :options="options"
         :filtersMenu="filtersMenu"
         :filterResponse="filterResponse"
+        :defaultFilters="defaultFilters"
         :with-breadcrumbs="true"
+        :productListUrl="productListUrl"
+        :type="type"
+        :routePath="routePath"
+        :allCategories="allCategories"
         @change-sort-options="changeSortOptions"
         @menu-toggle="menuToggle"
       />
@@ -25,6 +30,7 @@ import SCatalogSection from '~/components/s_catalog_section/s_catalog_section';
 import SQuiz from '~/components/s_quiz/s_quiz';
 import getFiltersProductPresets from '~/api/filtersProductsPresets';
 import getFilterData from '~/api/filter_data';
+import getCatalogCategoriesList from '~/api/getCatalogCategoriesList';
 import './s_catalog.scss';
 
 export default {
@@ -38,12 +44,43 @@ export default {
   data() {
     return {
       presets: [],
+      allCategories: [],
       mainCatalogKey: 666,
       filterResponse: [],
+      defaultFilters: {},
+      type: 'main',
+      productListUrl: 'api/v1/products/list',
+      routePath: 'catalog',
     };
   },
 
+  watch: {
+    $route: {
+      deep: true,
+      immediate: true,
+      handler() {
+        this.defaultFilters = {};
+        this.parseUrlToFilters();
+      },
+    },
+  },
+
   methods: {
+    parseUrlToFilters() {
+      // Если есть квери (direction_ids=1,2) в урле при инициализации
+      if (this.$route.query) {
+        Object.entries(this.$route.query).forEach(([key, ids]) => {
+          if (key !== 'page') {
+            this.defaultFilters[key] = ids.split(',').map((id) => Number(id));
+          }
+        });
+      }
+    },
+
+    async fetchCategoriesData() {
+      this.allCategories = await getCatalogCategoriesList();
+    },
+
     async fetchFilterData() {
       this.filterResponse = await getFilterData();
     },
@@ -64,6 +101,7 @@ export default {
   async fetch() {
     await this.fetchFilterPresets();
     await this.fetchFilterData();
+    await this.fetchCategoriesData();
   },
 };
 </script>

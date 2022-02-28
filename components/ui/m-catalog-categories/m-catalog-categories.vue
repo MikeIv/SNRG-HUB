@@ -99,9 +99,5 @@ export default {
       this.isOpen = !this.isOpen;
     },
   },
-
-  mounted() {
-    console.log('route', this.$route);
-  },
 };
 </script>

@@ -53,6 +53,10 @@
     width: 100%;
     padding-top: rem(12);
     padding-left: rem(11);
+
+    &:hover {
+      color: var(--a-color_link);
+    }
   }
 
   &__line {

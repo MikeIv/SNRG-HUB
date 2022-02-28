@@ -1,9 +1,11 @@
 <template>
-  <div :class="this.$route.name === 'organization-slug' ? 'catalog-page__section' : ''">
+  <div class="catalog-page__section" v-if="filterResponse">
     <a-breadcrumbs v-if="withBreadcrumbs" :breadcrumbs="breadcrumbs" class="catalog-page__breadcrumbs" />
     <h2 class="a-font_h2" v-if="title">
       {{ title }}
-      <sup class="catalog-page__header-total a-font_L"> {{ totalProducts }} программ</sup>
+      <sup class="catalog-page__header-total a-font_L">
+        {{ totalProducts }} {{ type === 'organizations' ? 'заведений' : 'программ' }}</sup
+      >
     </h2>
     <s-catalog-presets :presets="presets" :has-presets="hasPresets" :filters-ids-data="filtersIdsData" />
     <s-catalog-menu
@@ -39,6 +41,7 @@
         :page="page"
         :productsPerPage="productsPerPage"
         :key="componentProductsKey"
+        :type="type"
         @page="page = $event"
       >
         <s-catalog-tags
@@ -65,10 +68,9 @@ import SCatalogProductList from '~/components/s_catalog_product_list/s_catalog_p
 import SCatalogPresets from '~/components/s_catalog_presets/s_catalog_presets';
 import SCatalogTags from '~/components/s_catalog_tags/s_catalog_tags';
 import SCatalogMenu from '~/components/s_catalog_menu/s_catalog_menu';
-import getProductsList from '~/api/products_list';
-import getCatalogCategoriesList from '~/api/getCatalogCategoriesList';
-import './s_catalog_section.scss';
 import ABreadcrumbs from '~/components/_ui/a_breadcrumbs/a_breadcrumbs';
+import getProductsList from '~/api/products_list';
+import './s_catalog_section.scss';
 
 export default {
   name: 'SCatalogSection',
@@ -83,6 +85,11 @@ export default {
     'filtersMenu',
     'filterResponse',
     'withBreadcrumbs',
+    'defaultFilters',
+    'productListUrl',
+    'type',
+    'routePath',
+    'allCategories',
   ],
 
   components: {
@@ -98,7 +105,10 @@ export default {
     return {
       breadcrumbs: [
         { label: 'Главная', href: '/' },
-        { label: 'Программы обучения', href: '/catalog' },
+        {
+          label: 'Программы обучения',
+          href: `/${this.routePath}${this.$route?.params?.slug ? `/${this.$route?.params?.slug}` : ''}`,
+        },
       ],
       totalProducts: null,
       productList: [],
@@ -121,7 +131,6 @@ export default {
 
       selectedFilters: [],
 
-      allCategories: [],
       subcategories: [],
       subcategoriesTitle: null,
       topicTitle: null,
@@ -181,10 +190,21 @@ export default {
       },
     },
 
+    allCategories: {
+      deep: true,
+      immediate: true,
+      handler() {
+        this.fetchCategoriesList();
+      },
+    },
+
     filterResponse: {
       deep: true,
+      immediate: true,
       handler() {
-        this.parseFilterData();
+        if (!this.filterListData?.level_ids?.values?.length) {
+          this.parseFilterData();
+        }
       },
     },
 
@@ -199,6 +219,19 @@ export default {
   methods: {
     parseFilterData() {
       this.filterResponse.forEach((filters) => {
+        if (this.defaultFilters) {
+          Object.entries(this.defaultFilters).forEach(([key, ids]) => {
+            if (filters.filter_by === key && ids.length) {
+              ids.forEach((id) => {
+                const found = filters.values.find((value) => value.id === id);
+                this.$set(found, 'isChecked', true);
+                this.selectedFilters.push({ ...found, key });
+                this.filtersIdsData[key].push(id);
+              });
+            }
+          });
+        }
+
         if (filters.filter_by !== 'direction_ids' && filters.filter_by !== 'subject_ids') {
           if (filters.type === 'list') {
             this.filterListData[filters.filter_by] = { ...filters };
@@ -209,44 +242,40 @@ export default {
           }
         }
       });
-
-      Object.entries(this.$route.query).forEach(([key, ids]) => {
-        if (key !== 'page') {
-          ids.split(',').forEach((id) => {
-            const filter = this.filterListData[key]?.values.find((value) => value.id === Number(id));
-            this.selectedFilters.push({ ...filter, key });
-            this.filtersIdsData[key].push(id);
-          });
-        }
-      });
     },
 
     async fetchCategoriesList() {
-      await getCatalogCategoriesList().then((response) => {
-        this.allCategories = response;
+      const slugs = this.$route.params?.pathMatch?.split('/').slice(0, -1);
 
-        const slugs = this.$route.params?.pathMatch?.split('/').slice(0, -1);
-
-        if (slugs && slugs[0]) {
-          const foundCategory = this.categories.find((category) => category.slug === slugs[0]);
+      if (slugs && slugs[0]) {
+        const foundCategory = this.categories.find((category) => category.slug === slugs[0]);
+        if (foundCategory) {
           this.subcategories = this.allCategories.filter((cat) => cat.parent_id === foundCategory.id);
           this.subcategoriesTitle = foundCategory.name;
           this.categoryId = foundCategory.id;
-          this.breadcrumbs.push({ label: foundCategory.name, href: `/catalog/${slugs[0]}` });
+          this.breadcrumbs.push({
+            label: foundCategory.name,
+            href: `/${this.routePath}${this.$route?.params?.slug ? `/${this.$route?.params?.slug}` : ''}/${slugs[0]}`,
+          });
         }
+      }
 
-        if (slugs && slugs[1]) {
-          const foundCategory = this.allCategories.find((category) => category.slug === slugs[1]);
+      if (slugs && slugs[1]) {
+        const foundCategory = this.allCategories.find((category) => category.slug === slugs[1]);
+        if (foundCategory) {
           this.topicTitle = foundCategory.name;
           this.subcategoryId = foundCategory.id;
-          this.breadcrumbs.push({ label: foundCategory.name, href: `/catalog/${slugs[0]}/${slugs[1]}` });
+          this.breadcrumbs.push({
+            label: foundCategory.name,
+            href: `/${this.routePath}${this.$route?.params?.slug ? `/${this.$route?.params?.slug}` : ''}/${slugs[0]}/${
+              slugs[1]
+            }`,
+          });
         }
-      });
+      }
     },
 
     async fetchFilterData() {
-      await this.fetchCategoriesList();
-      this.parseFilterData();
       this.getCityInfo();
       await this.fetchProductsList();
 
@@ -258,7 +287,9 @@ export default {
         filter: { published: true },
       };
 
-      expandedMethod.include = ['organization', 'levels', 'directions'];
+      if (this.type === 'main') {
+        expandedMethod.include = ['organization', 'levels', 'directions'];
+      }
 
       // Логика парсинга выбранных фильтров на бэк, для получения отфильрованный товаров
       Object.entries(this.filtersIdsData).forEach((filterData) => {
@@ -288,7 +319,7 @@ export default {
 
       expandedMethod.pagination = { page: this.page, page_size: this.productsPerPage };
       expandedMethod.sort = this.currentOption;
-      const response = await getProductsList(expandedMethod, 'api/v1/products/list');
+      const response = await getProductsList(expandedMethod, this.productListUrl);
       this.totalProducts = response.count;
       this.productList = response.data;
     },
@@ -306,7 +337,6 @@ export default {
         this.filtersIdsData[key].push(selectedItem.id);
       } else {
         this.selectedFilters = this.selectedFilters.filter((filter) => filter.name !== item.name);
-        console.log('this.selectedFilters', this.selectedFilters);
         this.filtersIdsData[key] = this.filtersIdsData[key].filter((id) => Number(id) !== item.id);
       }
 
@@ -317,7 +347,6 @@ export default {
 
     selectControlFilter(key, item, isChecked) {
       const selectedItem = { ...item, key, isChecked };
-      console.log('selectedItem', selectedItem);
 
       if (selectedItem.isChecked) {
         this.selectedFilters.push(selectedItem);
@@ -325,11 +354,7 @@ export default {
         const found = this.filterListData[selectedItem.key].values.find((value) => value.name === selectedItem.name);
         this.$set(found, 'isChecked', true);
       } else {
-        console.log('this.selectedFilters', this.selectedFilters);
-
         this.selectedFilters = this.selectedFilters.filter((filter) => filter.name !== item.name);
-        console.log('this.selectedFilters', this.selectedFilters);
-
         this.filtersIdsData[key] = this.filtersIdsData[key].filter((id) => Number(id) !== item.id);
         const found = this.filterListData[selectedItem.key].values.find((value) => value.name === selectedItem.name);
         this.$set(found, 'isChecked', false);
@@ -399,11 +424,9 @@ export default {
     },
   },
 
-  async fetch() {
-    await this.fetchFilterData();
-    // await this.fetchProductsList();
-    // await this.fetchCategoriesList();
-  },
+  // async fetch() {
+  //   await
+  // },
 
   created() {
     if (this.$route.query.page) {
@@ -411,8 +434,10 @@ export default {
     }
   },
 
-  mounted() {
+  async mounted() {
+    await this.fetchCategoriesList();
     this.getCityInfo();
+    await this.fetchFilterData();
   },
 };
 </script>
