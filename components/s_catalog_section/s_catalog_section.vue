@@ -119,10 +119,15 @@ export default {
         level_ids: [],
         city_ids: [],
         organization_ids: [],
+        publication_type_ids: [],
+        reader_type_ids: [],
+        article_author_ids: [],
       },
       filtersCheckboxDataRequest: {
         is_employment: false,
         is_installment: false,
+        is_military_center: false,
+        is_hostel: false,
       },
       page: 1,
       componentProductsKey: 10,
@@ -141,7 +146,7 @@ export default {
 
   computed: {
     categories() {
-      return this.allCategories.filter((category) => category.level === 1);
+      return this.allCategories?.filter((category) => category.level === 1) || [];
     },
   },
 
@@ -192,7 +197,6 @@ export default {
 
     allCategories: {
       deep: true,
-      immediate: true,
       handler() {
         this.fetchCategoriesList();
       },
@@ -253,10 +257,13 @@ export default {
           this.subcategories = this.allCategories.filter((cat) => cat.parent_id === foundCategory.id);
           this.subcategoriesTitle = foundCategory.name;
           this.categoryId = foundCategory.id;
-          this.breadcrumbs.push({
-            label: foundCategory.name,
-            href: `/${this.routePath}${this.$route?.params?.slug ? `/${this.$route?.params?.slug}` : ''}/${slugs[0]}`,
-          });
+
+          if (!this.breadcrumbs.find((breadcrumb) => breadcrumb.label === foundCategory.name)) {
+            this.breadcrumbs.push({
+              label: foundCategory.name,
+              href: `/${this.routePath}${this.$route?.params?.slug ? `/${this.$route?.params?.slug}` : ''}/${slugs[0]}`,
+            });
+          }
         }
       }
 
@@ -265,14 +272,18 @@ export default {
         if (foundCategory) {
           this.topicTitle = foundCategory.name;
           this.subcategoryId = foundCategory.id;
-          this.breadcrumbs.push({
-            label: foundCategory.name,
-            href: `/${this.routePath}${this.$route?.params?.slug ? `/${this.$route?.params?.slug}` : ''}/${slugs[0]}/${
-              slugs[1]
-            }`,
-          });
+          if (!this.breadcrumbs.find((breadcrumb) => breadcrumb.label === foundCategory.name)) {
+            this.breadcrumbs.push({
+              label: foundCategory.name,
+              href: `/${this.routePath}${this.$route?.params?.slug ? `/${this.$route?.params?.slug}` : ''}/${
+                slugs[0]
+              }/${slugs[1]}`,
+            });
+          }
         }
       }
+
+      await this.fetchFilterData();
     },
 
     async fetchFilterData() {
@@ -289,6 +300,10 @@ export default {
 
       if (this.type === 'main') {
         expandedMethod.include = ['organization', 'levels', 'directions'];
+      }
+
+      if (this.type === 'journal') {
+        expandedMethod.include = ['publicationTypes', 'journalContent', 'articleAuthors', 'tags'];
       }
 
       // Логика парсинга выбранных фильтров на бэк, для получения отфильрованный товаров
@@ -319,6 +334,7 @@ export default {
 
       expandedMethod.pagination = { page: this.page, page_size: this.productsPerPage };
       expandedMethod.sort = this.currentOption;
+
       const response = await getProductsList(expandedMethod, this.productListUrl);
       this.totalProducts = response.count;
       this.productList = response.data;
@@ -437,7 +453,6 @@ export default {
   async mounted() {
     await this.fetchCategoriesList();
     this.getCityInfo();
-    await this.fetchFilterData();
   },
 };
 </script>

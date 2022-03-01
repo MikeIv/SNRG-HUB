@@ -15,6 +15,7 @@
         :defaultFilters="defaultFilters"
         :type="type"
         :routePath="routePath"
+        :allCategories="allCategories"
         @change-sort-options="changeSortOptions"
         @menu-toggle="menuToggle"
       ></component>
@@ -25,6 +26,7 @@
 <script>
 import LazyHydrate from 'vue-lazy-hydration';
 import getFilterData from '~/api/filter_data';
+import getCatalogCategoriesList from '~/api/getCatalogCategoriesList';
 
 export default {
   layout: 'organization',
@@ -34,6 +36,7 @@ export default {
       routePath: 'organization',
       filterResponse: [],
       defaultFilters: {},
+      allCategories: [],
       type: 'main',
       productListUrl: 'api/v1/products/list',
       title: 'Organization page',
@@ -81,6 +84,10 @@ export default {
   },
 
   methods: {
+    async fetchCategoriesData() {
+      this.allCategories = await getCatalogCategoriesList();
+    },
+
     parseUrlToFilters() {
       // Если есть квери (direction_ids=1,2) в урле при инициализации
       if (this.$route.query) {
@@ -107,8 +114,8 @@ export default {
   },
 
   async fetch() {
-    console.log('route', this.$route);
     await this.fetchFilterData();
+    await this.fetchCategoriesData();
   },
 
   head() {

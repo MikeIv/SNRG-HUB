@@ -26,6 +26,7 @@
           :productListUrl="productListUrl"
           :type="type"
           :routePath="routePath"
+          :allCategories="allCategories"
           @change-sort-options="changeSortOptions"
           @menu-toggle="menuToggle"
         />
@@ -47,6 +48,7 @@ import SProductSearch from '~/components/s_product_search/s_product_search';
 import MobileButton from '~/components/mobile_button/mobile_button';
 import SQuiz from '~/components/s_quiz/s_quiz';
 import getOrganizationsCatalogFilter from '~/api/organizationsCatalogFilter';
+import getCatalogCategoriesList from '~/api/getCatalogCategoriesList';
 
 export default {
   layout: 'empty',
@@ -57,6 +59,7 @@ export default {
       productListUrl: 'api/v1/organizations/list',
       filterResponse: [],
       defaultFilters: {},
+      allCategories: [],
       mainCatalogKey: 1,
       type: 'organizations',
       search: '',
@@ -120,6 +123,10 @@ export default {
   },
 
   methods: {
+    async fetchCategoriesData() {
+      this.allCategories = await getCatalogCategoriesList();
+    },
+
     parseUrlToFilters() {
       // Если есть квери (direction_ids=1,2) в урле при инициализации
       if (this.$route.query) {
@@ -151,6 +158,7 @@ export default {
 
   async fetch() {
     await this.fetchFilterData();
+    await this.fetchCategoriesData();
   },
 };
 </script>

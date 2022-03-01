@@ -67,6 +67,9 @@ export default {
         level_ids: 'Все уровни',
         city_ids: 'Все города',
         organization_ids: 'Все заведения',
+        publication_type_ids: 'Все форматы',
+        reader_type_ids: 'Все пользователи',
+        article_author_ids: 'Все авторы',
       },
     };
   },

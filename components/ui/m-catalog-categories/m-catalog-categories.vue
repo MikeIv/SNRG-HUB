@@ -14,7 +14,6 @@
       :style="{ maxHeight: visibleCount * 32 + 'px' }"
     >
       <nuxt-link
-        :prefetch="false"
         v-for="category in subcategories.length ? subcategories : categories"
         :key="category.id"
         :to="{ path: `${$route.path}${category.slug}`, query: $route.query }"
