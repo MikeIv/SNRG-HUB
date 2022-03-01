@@ -21,7 +21,6 @@
 
 <script>
 import getArticleDetail from '~/api/articleDetail';
-import getProductsList from '~/api/products_list';
 import SArticleDetail from '~/components/s_article_detail/s_article_detail';
 
 export default {
@@ -69,6 +68,7 @@ export default {
         'journalContent',
         'publicationTypes',
         'studyingPrograms',
+        'studyingPrograms.organization',
         'tags',
         'directions',
         'articleAuthors',
@@ -108,13 +108,7 @@ export default {
     this.tags = preData.included.tags;
     this.nameCourse = this.categories[0].name ?? '';
     this.linkCourse = this.categories[0].slug ?? '';
-
-    const filterProgram = {
-      filter: { slug: this.categories[0].slug },
-      include: ['organization', 'organization.city', 'directions'],
-    };
-    const preDataProgram = await getProductsList(filterProgram);
-    this.programs = preDataProgram.data;
+    this.programs = preData.included.studyingPrograms;
   },
 
   head() {

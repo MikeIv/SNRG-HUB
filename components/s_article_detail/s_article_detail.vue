@@ -57,14 +57,20 @@
                 type="program"
                 :verticalImgSrc="baseURL + program.preview_image"
                 :title="program.name"
-                :description="program.included.directions[0].name"
+                :description="program.description"
                 :bottomText="program.included.organization.name"
                 :iconSrc="baseURL + program.included.organization.logo"
               ></m-card>
             </nuxt-link>
           </swiper-slide>
         </swiper>
-        <a-button size="large" label="Показать все" bgColor="accent" class="s-article-detail__programs-btn"></a-button>
+        <a-button
+          size="large"
+          label="Показать все"
+          bgColor="accent"
+          class="s-article-detail__programs-btn"
+          @click="goToJournal"
+        ></a-button>
       </div>
       <div class="s-article-detail__directions" v-if="categories.length">
         <div class="s-article-detail__directions-title a-font_h5">Направления в сфере {{ nameCourse }}</div>
@@ -202,9 +208,7 @@ export default {
     },
   },
 
-  mounted() {
-    console.log(this.relatedArticles);
-  },
+  mounted() {},
 
   methods: {
     changeMenuState(value) {
@@ -239,6 +243,9 @@ export default {
     },
     signUpClickHandler() {
       this.$emit('sign-up');
+    },
+    goToJournal() {
+      this.$router.push(`/journal/${this.categories[0].slug}`);
     },
   },
 };
