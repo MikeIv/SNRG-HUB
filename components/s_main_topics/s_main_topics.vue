@@ -19,22 +19,9 @@
               </nuxt-link>
             </swiper-slide>
           </swiper>
-          <a-button
-            class="swiper-button-prev s-main-topics__prev"
-            size="medium"
-            bg-color="ghost-primary"
-            only-icon="square"
-            iconType="si-chevron-left"
-          ></a-button>
-          <a-button
-            class="swiper-button-next s-main-topics__next"
-            size="medium"
-            bg-color="ghost-primary"
-            only-icon="square"
-            iconType="si-chevron-right"
-          ></a-button>
+          <div class="swiper-pagination-topics" slot="pagination"></div>
         </div>
-        <div class="s-main-topics__cards">
+        <div class="s-main-topics__cards cards">
           <div class="s-main-topics__card" v-for="product in directionsList" :key="product.id">
             <nuxt-link :to="`/catalog/${product.slug}?page=1`">
               <m-card-edu
@@ -73,9 +60,14 @@ export default {
         spaceBetween: 12,
         resistance: true,
         resistanceRatio: 0,
-        navigation: {
-          nextEl: '.s-main-topics__next',
-          prevEl: '.s-main-topics__prev',
+        // loop: true,
+        initialSlide: 0,
+        pagination: {
+          el: '.swiper-pagination-topics',
+          clickable: true,
+        },
+        mousewheel: {
+          invert: true,
         },
         speed: 600,
         breakpoints: {
@@ -125,6 +117,7 @@ export default {
   methods: {
     showMoreCards() {
       this.flag = true;
+      console.log('test');
     },
     handleResize() {
       this.windowWidth = window.innerWidth;
