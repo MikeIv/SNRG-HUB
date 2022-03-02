@@ -30,7 +30,7 @@ import SCatalogSection from '~/components/s_catalog_section/s_catalog_section';
 import SQuiz from '~/components/s_quiz/s_quiz';
 import getFiltersProductPresets from '~/api/filtersProductsPresets';
 import getArticlesFilters from '~/api/articlesFilters';
-import getCatalogCategoriesList from '~/api/getCatalogCategoriesList';
+// import getCatalogCategoriesList from '~/api/getCatalogCategoriesList';
 import '../s_catalog/s_catalog.scss';
 
 export default {
@@ -78,7 +78,8 @@ export default {
     },
 
     async fetchCategoriesData() {
-      this.allCategories = await getCatalogCategoriesList();
+      // this.allCategories = await getCatalogCategoriesList();
+      this.allCategories = [];
     },
 
     async fetchFilterData() {

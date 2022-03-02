@@ -10,6 +10,7 @@
         :filtersMenu="filtersMenu"
         :currentOption="currentOption"
         :with-breadcrumbs="true"
+        :withPaddings="true"
         :productListUrl="productListUrl"
         :filterResponse="filterResponse"
         :defaultFilters="defaultFilters"

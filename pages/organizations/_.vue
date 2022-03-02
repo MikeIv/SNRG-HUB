@@ -48,7 +48,7 @@ import SProductSearch from '~/components/s_product_search/s_product_search';
 import MobileButton from '~/components/mobile_button/mobile_button';
 import SQuiz from '~/components/s_quiz/s_quiz';
 import getOrganizationsCatalogFilter from '~/api/organizationsCatalogFilter';
-import getCatalogCategoriesList from '~/api/getCatalogCategoriesList';
+// import getCatalogCategoriesList from '~/api/getCatalogCategoriesList';
 
 export default {
   layout: 'empty',
@@ -124,7 +124,8 @@ export default {
 
   methods: {
     async fetchCategoriesData() {
-      this.allCategories = await getCatalogCategoriesList();
+      // this.allCategories = await getCatalogCategoriesList();
+      this.allCategories = [];
     },
 
     parseUrlToFilters() {

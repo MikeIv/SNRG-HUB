@@ -1,5 +1,5 @@
 <template>
-  <div class="catalog-page__section" v-if="filterResponse">
+  <div :class="{ 'catalog-page__section': withPaddings }" v-if="filterResponse">
     <a-breadcrumbs v-if="withBreadcrumbs" :breadcrumbs="breadcrumbs" class="catalog-page__breadcrumbs" />
     <h2 class="a-font_h2" v-if="title">
       {{ title }}
@@ -85,6 +85,7 @@ export default {
     'filtersMenu',
     'filterResponse',
     'withBreadcrumbs',
+    'withPaddings',
     'defaultFilters',
     'productListUrl',
     'type',
@@ -206,7 +207,10 @@ export default {
       deep: true,
       immediate: true,
       handler() {
-        if (!this.filterListData?.level_ids?.values?.length) {
+        if (
+          !this.filterListData?.level_ids?.values?.length
+          && !this.filterListData?.publication_type_ids?.values?.length
+        ) {
           this.parseFilterData();
         }
       },
@@ -222,7 +226,7 @@ export default {
 
   methods: {
     parseFilterData() {
-      this.filterResponse.forEach((filters) => {
+      this.filterResponse?.forEach((filters) => {
         if (this.defaultFilters) {
           Object.entries(this.defaultFilters).forEach(([key, ids]) => {
             if (filters.filter_by === key && ids.length) {
@@ -430,7 +434,14 @@ export default {
           foundCity = this.filterListData?.city_ids?.values?.find((value) => value.name === city.name);
         }
         if (foundCity) {
+          const onlineFormatFilter = this.filterListData?.format_ids?.values?.find((value) => value.name === 'Онлайн');
           this.$set(foundCity, 'isChecked', true);
+          this.$set(onlineFormatFilter, 'isChecked', true);
+          if (!this.selectedFilters.filter((selectedFilter) => selectedFilter.id === onlineFormatFilter.id).length) {
+            this.selectedFilters.push({ ...onlineFormatFilter, key: 'format_ids' });
+            this.filtersIdsData.format_ids.push(onlineFormatFilter.id);
+          }
+
           if (!this.selectedFilters.filter((selectedFilter) => selectedFilter.id === foundCity.id).length) {
             this.selectedFilters.push({ ...foundCity, key: 'city_ids' });
             this.filtersIdsData.city_ids.push(foundCity.id);
@@ -439,10 +450,6 @@ export default {
       }
     },
   },
-
-  // async fetch() {
-  //   await
-  // },
 
   created() {
     if (this.$route.query.page) {

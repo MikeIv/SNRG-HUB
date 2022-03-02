@@ -17,7 +17,7 @@
       />
     </div>
     <template>
-      <div class="catalog-page__filters-categories">
+      <div class="catalog-page__filters-categories" v-if="categories && categories.length">
         <div class="catalog-page__filters-categories--input" @click="onCategoryClickHandler">
           <h5 v-if="subcategoriesTitle" class="a-font_m">{{ subcategoriesTitle }}</h5>
           <h5 v-else class="a-font_m placeholder">Выберите направление</h5>
@@ -47,11 +47,11 @@
       <a-popup :visible="categoryPopup" @close="categoryPopup = false" class="catalog-page__popup">
         <div class="catalog-page__popup-header">
           <h1 class="catalog-page__popup-title">{{ popupTitle }}</h1>
-          <a-input class="catalog-page__popup-search" placeholder="Введите название направления" />
+          <a-input v-model="search" class="catalog-page__popup-search" placeholder="Введите название направления" />
         </div>
         <div class="catalog-page__popup-categories">
           <nuxt-link
-            v-for="category in popupCategories"
+            v-for="category in searchedPopupCategories"
             :key="category.id"
             :to="getLinkRoute(category)"
             class="catalog-page__popup-category"
@@ -80,6 +80,7 @@ export default {
       popupTitle: 'Направления',
       popupCategories: this.categories,
       categoriesState: true,
+      search: '',
     };
   },
 
@@ -98,6 +99,14 @@ export default {
     ASelect,
     APopup,
     AInput,
+  },
+
+  computed: {
+    searchedPopupCategories() {
+      return this.search
+        ? this.popupCategories.filter((category) => category.name.toLowerCase().includes(this.search.toLowerCase()))
+        : this.popupCategories;
+    },
   },
 
   watch: {
