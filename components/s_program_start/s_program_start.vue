@@ -3,7 +3,7 @@
     <div class="s-program-start__wrapper" :style="{ backgroundColor: program.color ? program.color : '#fff' }">
       <div class="s-program-start__header">
         <div
-          v-if="$route.name !== 'edu-platform' && $route.name !== 'edu-platform-_slug'"
+          v-if="$route.name !== 'edu-platform' && $route.name !== 'edu-platform-slug'"
           class="s-program-start__header-breadcrumbs"
         >
           <a-breadcrumbs :breadcrumbs="breadcrumbs" />
