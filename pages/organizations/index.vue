@@ -49,6 +49,7 @@ import MobileButton from '~/components/mobile_button/mobile_button';
 import SQuiz from '~/components/s_quiz/s_quiz';
 import getOrganizationsCatalogFilter from '~/api/organizationsCatalogFilter';
 // import getCatalogCategoriesList from '~/api/getCatalogCategoriesList';
+import '@/components/s_catalog/s_catalog.scss';
 
 export default {
   layout: 'empty',
