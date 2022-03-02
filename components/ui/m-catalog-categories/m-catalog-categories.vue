@@ -1,12 +1,17 @@
 <template>
   <div class="m-catalog-categories" v-if="categories && categories.length">
-    <h3 v-if="title" class="m-catalog-categories__title a-font_xl">{{ title }}</h3>
-    <h3 v-if="subcategoriesTitle" class="m-catalog-categories__subcategories-title a-font_xl">
-      {{ subcategoriesTitle }}
-    </h3>
+    <nuxt-link :to="mainPageLink">
+      <h3 v-if="title" class="m-catalog-categories__title a-font_xl">{{ title }}</h3>
+    </nuxt-link>
+    <nuxt-link :to="categoryLink">
+      <h3 v-if="subcategoriesTitle" class="m-catalog-categories__subcategories-title a-font_xl">
+        {{ subcategoriesTitle }}
+      </h3>
+    </nuxt-link>
     <h3 v-if="topicTitle" class="m-catalog-categories__topics-title a-font_xl">
       {{ topicTitle }}
     </h3>
+
     <div
       v-if="!topicTitle"
       class="m-catalog-categories__items"
@@ -71,6 +76,9 @@ export default {
       type: Number,
       default: 6,
     },
+    routePath: {
+      type: String,
+    },
   },
 
   data() {
@@ -80,6 +88,16 @@ export default {
   },
 
   computed: {
+    categoryLink() {
+      return `/${this.routePath}${this.$route?.params?.slug ? `/${this.$route?.params?.slug}` : ''}/${
+        this.$route.params?.pathMatch?.split('/').slice(0, -1)[0]
+      }`;
+    },
+
+    mainPageLink() {
+      return `/${this.routePath}${this.$route?.params?.slug ? `/${this.$route?.params?.slug}` : ''}`;
+    },
+
     visibleItems() {
       return this.isOpen ? this.categories : this.categories.slice(0, this.visibleCount);
     },

@@ -8,6 +8,7 @@
       :topicTitle="topicTitle"
       passed-btn-text="Показать всё"
       :visible-count="15"
+      :routePath="routePath"
     />
     <template v-for="filters in filterListData">
       <m-filter
@@ -52,6 +53,7 @@ export default {
     'categories',
     'subcategoriesTitle',
     'topicTitle',
+    'routePath',
   ],
 
   components: {

@@ -2,7 +2,7 @@
   <div>
     <div class="l-wide catalog-page">
       <s-catalog-section
-        title="Программы обучения"
+        title="Журнал"
         :hasPresets="presets.length"
         :presets="presets"
         :products-per-page="24"

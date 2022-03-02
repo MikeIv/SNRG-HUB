@@ -4,7 +4,8 @@
     <h2 class="a-font_h2" v-if="title">
       {{ title }}
       <sup class="catalog-page__header-total a-font_L">
-        {{ totalProducts }} {{ type === 'organizations' ? 'заведений' : 'программ' }}</sup
+        {{ totalProducts }}
+        {{ type === 'organizations' ? 'заведений' : type === 'journal' ? 'публикаций' : 'программ' }}</sup
       >
     </h2>
     <s-catalog-presets :presets="presets" :has-presets="hasPresets" :filters-ids-data="filtersIdsData" />
@@ -32,6 +33,7 @@
         :categories="categories"
         :subcategoriesTitle="subcategoriesTitle"
         :topicTitle="topicTitle"
+        :routePath="routePath"
         @select-filter="selectFilter"
         @switch-click="switchClick"
       />

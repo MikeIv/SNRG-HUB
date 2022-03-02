@@ -17,7 +17,7 @@
       <template v-else>
         <nuxt-link
           v-for="product in productList"
-          :to="`/product/${product.slug}`"
+          :to="`/${type === 'organizations' ? 'organization' : 'product'}/${product.slug}`"
           :key="product.id"
           :class="
             $route.name === 'organization-_slug'
