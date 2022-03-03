@@ -2,11 +2,6 @@
   <section class="s-article-list s-padding">
     <div class="l-wide">
       <div class="s-article-list__title a-font_h5">{{ title }}</div>
-      <div class="s-article-list__categories">
-        <nuxt-link :to="`/journal/${category.slug}`" v-for="(category, id) in categories" :key="id">
-          <a-tag class="s-article-list__category" :label="category.name"></a-tag>
-        </nuxt-link>
-      </div>
       <div class="s-article-list__wrapper">
         <template v-for="(article, index) in articles">
           <m-article
@@ -32,10 +27,9 @@
 </template>
 <script>
 import './s_article_list.scss';
-import { AButton, ATag } from '@cwespb/synergyui';
+import { AButton } from '@cwespb/synergyui';
 import MArticle from '~/components/_ui/m_article/m_article';
 import getArticlesList from '~/api/articlesList';
-import getArticlesCategoriesList from '~/api/articlesCategoriesList';
 
 export default {
   name: 'SArticleList',
@@ -45,7 +39,6 @@ export default {
       baseUrl: process.env.NUXT_ENV_S3BACKET,
       maxCardsCount: 4,
       articles: [],
-      categories: [],
       tagColors: [
         'rgba(228, 43, 43, 1)',
         'rgba(5, 161, 143, 1)',
@@ -63,7 +56,6 @@ export default {
   components: {
     MArticle,
     AButton,
-    ATag,
   },
 
   props: ['methods', 'title', 'optionsSection'],
@@ -73,17 +65,14 @@ export default {
       filter: {
         published: true,
       },
-      include: ['publicationTypes', 'journalContent', 'articleAuthors', 'tags', 'directions'],
-    };
-    const expandedMethodCategories = {
-      filter: {
-        published: true,
-      },
+      include: ['publicationTypes', 'journalContent', 'articleAuthors', 'tags'],
     };
     const response = await getArticlesList(expandedMethod);
-    const categories = await getArticlesCategoriesList(expandedMethodCategories);
     this.articles = response.data;
-    this.categories = categories;
+  },
+
+  mounted() {
+    console.log(this.optionsSection);
   },
 
   methods: {

@@ -3,7 +3,7 @@
     <div class="catalog-page__menu" v-if="filterListData">
       <div v-show="!isFilterExpanded">
         <a-title title="Фильтры" :showIcon="false" @clickClose="filtersMenuClose" class="catalog-page__menu-header" />
-        <div v-if="selectedFilters.length" class="catalog-page__menu-tags" :key="menuKey">
+        <div v-if="selectedFilters.length" class="catalog-page__menu-tags">
           <a-tag
             v-for="tag in selectedFilters"
             :key="`${tag.name}${tag.id}`"
@@ -32,8 +32,16 @@
           <m-filter
             title=""
             passedBtnText=""
-            :hasSearch="filterListData[currentExpandedFilter].values.length > 15"
-            :items="filterListData[currentExpandedFilter].values"
+            :hasSearch="
+              filterListData[currentExpandedFilter].filter_by === 'subject_ids'
+                ? renderSubjects(filterListData[currentExpandedFilter].values).length > 15
+                : filterListData[currentExpandedFilter].values.length > 15
+            "
+            :items="
+              filterListData[currentExpandedFilter].filter_by === 'subject_ids'
+                ? renderSubjects(filterListData[currentExpandedFilter].values)
+                : filterListData[currentExpandedFilter].values
+            "
             :visibleCount="1000"
             class="catalog-page__menu-filter_mfilter"
             @item-click="selectFilter(filterListData[currentExpandedFilter].filter_by, ...arguments)"
@@ -124,9 +132,8 @@ export default {
   data() {
     return {
       isFilterExpanded: false,
-      currentExpandedFilter: 'level_ids',
+      currentExpandedFilter: 'direction_ids',
       componentExpandedMenuKey: 3000,
-      menuKey: 1,
     };
   },
 
@@ -149,13 +156,13 @@ export default {
     filtersMenu() {
       this.hideYScroll();
     },
-
-    selectedFilters() {
-      this.menuKey += 1;
-    },
   },
 
   methods: {
+    renderSubjects(values) {
+      return this.subjects.length ? values.filter((value) => this.subjects.includes(value.id)) : values;
+    },
+
     hideYScroll() {
       const htmlWrapper = document.querySelector('html');
 
@@ -185,7 +192,7 @@ export default {
     clearAllFilters() {
       this.$emit('clear-all-filters');
       this.isFilterExpanded = false;
-      this.currentExpandedFilter = 'level_ids';
+      this.currentExpandedFilter = 'direction_ids';
     },
 
     selectFilter(key, item) {

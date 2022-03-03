@@ -63,11 +63,11 @@ export default {
         },
         {
           label: 'По алфавиту А-Я',
-          value: 'title',
+          value: 'name',
         },
         {
           label: 'По алфавиту Я-А',
-          value: '-title',
+          value: '-name',
         },
       ],
     };
