@@ -75,15 +75,15 @@ export default {
         breakpoints: {
           767: {
             spaceBetween: 20,
-            slidesPerGroup: 1,
+            // slidesPerGroup: 1,
           },
           1440: {
             spaceBetween: 20,
-            slidesPerGroup: 1,
+            // slidesPerGroup: 1,
           },
           1499: {
             spaceBetween: 20,
-            slidesPerGroup: 1,
+            // slidesPerGroup: 1,
           },
         },
       },
