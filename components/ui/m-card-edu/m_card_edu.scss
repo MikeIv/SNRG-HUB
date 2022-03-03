@@ -18,16 +18,15 @@
     height: rem(260);
     padding: rem(24) rem(32) rem(30) rem(24);
     @media screen and (max-width: 991px) {
+      width: 90%;
       height: rem(180);
       padding: rem(16) rem(8) rem(24) rem(16);
     }
   }
   &__title {
-    max-width: 100%;
-    height: 100%;
-    max-height: rem(48);
-    margin-bottom: rem(12);
+    margin-bottom: 0;
     color: var(--a-color_text);
+    font-weight: 600;
     @media screen and (max-width: 767px) {
       margin-bottom: rem(4);
     }
@@ -36,28 +35,35 @@
   &__description {
     position: absolute;
     bottom: rem(30);
-    color: var(--a-color_active);
+    color: var(--a-color_text--secondary);
+    font-size: rem(16);
+    font-weight: 500;
+    line-height: rem(24);
 
+    @media screen and (max-width: 991px) {
+      bottom: rem(24);
+      font-size: rem(12);
+      line-height: rem(16);
+    }
     @media screen and (max-width: 767px) {
-      margin-bottom: rem(28);
+      margin-bottom: 0;
     }
   }
 
   &__icon {
     position: relative;
     overflow: hidden;
+    justify-content: flex-start;
     width: rem(40);
+    min-width: unset;
     height: rem(40);
+    min-height: unset;
     margin-bottom: rem(8);
     border-radius: 50%;
-
-    i {
-      font-size: rem(32);
-    }
-
     img {
-      width: 100%;
-      height: auto;
+      width: rem(40);
+      height: rem(40);
+      border-radius: 50%;
     }
 
     .m-card-gorizontal:hover & {

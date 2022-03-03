@@ -3,7 +3,7 @@
     <div class="l-wide">
       <div class="s-main-topics__wrapper">
         <h2 class="s-main-topics__title a-font_h5">{{ title }}</h2>
-        <div class="s-main-topics__swiper">
+        <div class="s-main-topics__swiper" :class="{ hidden: !isHidden }">
           <swiper ref="awesomeSwiper" :options="swiperOptionA">
             <swiper-slide
               v-for="product in directionsList"
@@ -21,7 +21,7 @@
           </swiper>
           <div class="swiper-pagination-topics" slot="pagination"></div>
         </div>
-        <div class="s-main-topics__cards cards">
+        <div class="s-main-topics__cards cards" :class="{ hidden: isHidden }">
           <div class="s-main-topics__card" v-for="product in directionsList" :key="product.id">
             <nuxt-link :to="`/catalog/${product.slug}?page=1`">
               <m-card-edu
@@ -55,12 +55,14 @@ export default {
       desktopBreakPoint: 970,
       windowWidth: null,
       maxCardsCount: null,
+      isHidden: true,
       swiperOptionA: {
         slidesPerView: 'auto',
-        spaceBetween: 12,
+        spaceBetween: 10,
         resistance: true,
         resistanceRatio: 0,
-        // loop: true,
+        slidesPerGroup: 2,
+        loop: true,
         initialSlide: 0,
         pagination: {
           el: '.swiper-pagination-topics',
@@ -73,12 +75,15 @@ export default {
         breakpoints: {
           767: {
             spaceBetween: 20,
+            slidesPerGroup: 1,
           },
           1440: {
             spaceBetween: 20,
+            slidesPerGroup: 1,
           },
           1499: {
             spaceBetween: 20,
+            slidesPerGroup: 1,
           },
         },
       },
@@ -104,7 +109,7 @@ export default {
   props: ['methods', 'title'],
   computed: {
     directionsList() {
-      if (this.flag || this.windowWidth <= 768) {
+      if (this.flag) {
         return this.directionsFullList;
       }
       return this.directionsFullList.slice(0, this.maxCardsCount);
@@ -118,6 +123,7 @@ export default {
     showMoreCards() {
       this.flag = true;
       console.log('test');
+      this.isHidden = !this.isHidden;
     },
     handleResize() {
       this.windowWidth = window.innerWidth;
