@@ -55,12 +55,4 @@
       color: var(--a-color_text--secondary);
     }
   }
-
-  &__additional {
-    display: flex;
-    align-items: center;
-    &-date {
-      margin-left: auto;
-    }
-  }
 }

@@ -9,12 +9,6 @@
       :subtitle="subtitle"
       :user="author"
       :previewImg="img"
-      :banner="banner"
-      :categories="categories"
-      :relatedArticles="relatedArticles"
-      :tags="tags"
-      :nameCourse="nameCourse"
-      :programs="programs"
     />
   </div>
 </template>
@@ -37,16 +31,9 @@ export default {
       readingTime: '',
       articleBody: '',
       subtitle: '',
-      nameCourse: '',
-      linkCourse: '',
       author: {},
       publicationTypes: {},
       img: '',
-      banner: {},
-      categories: [],
-      relatedArticles: [],
-      programs: [],
-      tags: [],
     };
   },
 
@@ -64,22 +51,9 @@ export default {
   async fetch() {
     const filter = {
       filter: { slug: this.$route.params.slug },
-      include: [
-        'journalContent',
-        'publicationTypes',
-        'studyingPrograms',
-        'studyingPrograms.organization',
-        'tags',
-        'directions',
-        'articleAuthors',
-        'categories',
-        'relatedArticles',
-        'relatedArticles.journalContent',
-      ],
+      include: ['journalContent', 'publicationTypes', 'directions', 'articleAuthors'],
     };
-
     const preData = await getArticleDetail(filter);
-
     const type = preData.included.publicationTypes[0];
     const author = preData.included.articleAuthors[0];
     const options = { year: 'numeric', month: 'long', day: 'numeric' };
@@ -97,18 +71,6 @@ export default {
     this.publicationTypes = type;
     this.author = author;
     this.img = preData.included.preview_picture;
-    this.banner = {
-      title: preData.included.journalContent.banner_title ?? '',
-      text: preData.included.journalContent.banner_text ?? '',
-      img: preData.included.journalContent.banner_picture ?? '',
-      link: preData.included.journalContent.banner_link ?? '',
-    };
-    this.categories = preData.included.categories;
-    this.relatedArticles = preData.included.relatedArticles;
-    this.tags = preData.included.tags;
-    this.nameCourse = this.categories[0].name ?? '';
-    this.linkCourse = this.categories[0].slug ?? '';
-    this.programs = preData.included.studyingPrograms;
   },
 
   head() {

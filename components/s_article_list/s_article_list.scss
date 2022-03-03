@@ -57,27 +57,4 @@
       }
     }
   }
-
-  &__categories {
-    display: flex;
-    align-items: center;
-    flex-wrap: wrap;
-    margin-bottom: rem(28);
-
-    @media screen and (max-width: 991px) {
-      margin-bottom: rem(24);
-    }
-
-    @media screen and (max-width: 767px) {
-      margin-bottom: rem(8);
-    }
-  }
-
-  &__category {
-    margin-right: rem(8);
-
-    @media screen and (max-width: 767px) {
-      margin-bottom: rem(8);
-    }
-  }
 }

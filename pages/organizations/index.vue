@@ -11,28 +11,14 @@
       @menu-toggle="menuToggle"
     />
     <SProductSearch v-if="search" :search="search" />
-    <div>
-      <div class="l-wide catalog-page">
-        <s-catalog-section
-          title="Учебные заведения"
-          :products-per-page="24"
-          :key="mainCatalogKey"
-          :currentOption="currentOption"
-          :options="options"
-          :filtersMenu="filtersMenu"
-          :filterResponse="filterResponse"
-          :defaultFilters="defaultFilters"
-          :with-breadcrumbs="true"
-          :productListUrl="productListUrl"
-          :type="type"
-          :routePath="routePath"
-          :allCategories="allCategories"
-          @change-sort-options="changeSortOptions"
-          @menu-toggle="menuToggle"
-        />
-      </div>
-      <SQuiz :quizId="2" class="catalog-page__quiz" />
-    </div>
+    <s-organizations
+      v-else
+      :currentOption="currentOption"
+      :options="options"
+      :filtersMenu="filtersMenu"
+      @change-sort-options="changeSortOptions"
+      @menu-toggle="menuToggle"
+    />
     <LazyHydrate when-visible>
       <SFooter />
     </LazyHydrate>
@@ -42,27 +28,16 @@
 
 <script>
 import LazyHydrate from 'vue-lazy-hydration';
-import SCatalogSection from '~/components/s_catalog_section/s_catalog_section';
+import SOrganizations from '~/components/s_organizations/s_organizations';
 import SHeader from '~/components/s_header/s_header';
 import SProductSearch from '~/components/s_product_search/s_product_search';
 import MobileButton from '~/components/mobile_button/mobile_button';
-import SQuiz from '~/components/s_quiz/s_quiz';
-import getOrganizationsCatalogFilter from '~/api/organizationsCatalogFilter';
-// import getCatalogCategoriesList from '~/api/getCatalogCategoriesList';
-import '@/components/s_catalog/s_catalog.scss';
 
 export default {
   layout: 'empty',
 
   data() {
     return {
-      routePath: 'organizations',
-      productListUrl: 'api/v1/organizations/list',
-      filterResponse: [],
-      defaultFilters: {},
-      allCategories: [],
-      mainCatalogKey: 1,
-      type: 'organizations',
       search: '',
       filtersMenu: false,
       currentOption: '-id',
@@ -103,51 +78,15 @@ export default {
   },
 
   components: {
-    SQuiz,
     SHeader,
     SProductSearch,
     SFooter: () => import('~/components/s_footer/s_footer'),
     LazyHydrate,
-    SCatalogSection,
+    SOrganizations,
     MobileButton,
   },
 
-  watch: {
-    $route: {
-      deep: true,
-      immediate: true,
-      handler() {
-        this.defaultFilters = {};
-        this.parseUrlToFilters();
-      },
-    },
-  },
-
   methods: {
-    async fetchCategoriesData() {
-      // this.allCategories = await getCatalogCategoriesList();
-      this.allCategories = [];
-    },
-
-    parseUrlToFilters() {
-      // Если есть квери (direction_ids=1,2) в урле при инициализации
-      if (this.$route.query) {
-        Object.entries(this.$route.query).forEach(([key, ids]) => {
-          if (key !== 'page') {
-            this.defaultFilters[key] = ids.split(',').map((id) => Number(id));
-          }
-        });
-      }
-    },
-
-    async fetchFilterData() {
-      this.filterResponse = await getOrganizationsCatalogFilter();
-    },
-
-    clearFilters() {
-      this.filtersMenu = false;
-    },
-
     menuToggle(value) {
       this.filtersMenu = value;
     },
@@ -156,11 +95,6 @@ export default {
       this.options = options;
       this.currentOption = option;
     },
-  },
-
-  async fetch() {
-    await this.fetchFilterData();
-    await this.fetchCategoriesData();
   },
 };
 </script>

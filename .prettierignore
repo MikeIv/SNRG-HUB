@@ -5,7 +5,6 @@ node_modules
 .helm
 .nuxt
 .husky
-assets/
 idea
 werf.yaml
 werf-giterminism.yaml

@@ -1,25 +1,16 @@
 <template>
   <nuxt-link :to="`/article/${article.slug}`" class="m-article">
     <div class="m-article__image">
-      <img alt="article" :src="`${baseURL}${this.article.included.journalContent.preview_picture}`" />
-      <nuxt-link
-        v-if="this.article.included.directions"
-        :to="`/journal/${this.article.included.directions[0].slug}`"
-        class="m-article__tag"
-        :style="{ background: randomColor }"
-      >
-        {{ this.article.included.directions[0] ? this.article.included.directions[0].name : '' }}
-      </nuxt-link>
+      <img alt="article" :src="`${baseURL}${article.included.journalContent.preview_picture}`" />
+      <div class="m-article__tag" :style="{ background: randomColor }">
+        {{ article.included.tags[0] ? this.article.included.tags[0].name : '' }}
+      </div>
     </div>
-    <div class="m-article__additional">
-      <nuxt-link
-        v-if="this.article.included.publicationTypes"
-        :to="`/journal/${article.included.publicationTypes[0].slug}`"
-        class="m-article__info-additional-type"
-      >
+    <div class="m-article__info-additional">
+      <span class="m-article__info-additional-type">
         {{ article.included.publicationTypes[0] ? `#${article.included.publicationTypes[0].name.toUpperCase()}` : '' }}
-      </nuxt-link>
-      <span class="m-article__additional-date">
+      </span>
+      <span class="m-article__info-additional-date">
         {{ date }}
       </span>
     </div>

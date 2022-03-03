@@ -1,12 +1,8 @@
 <template>
-  <div :class="{ 'catalog-page__section': withPaddings }" v-if="filterResponse">
-    <a-breadcrumbs v-if="withBreadcrumbs" :breadcrumbs="breadcrumbs" class="catalog-page__breadcrumbs" />
+  <div :class="this.$route.name === 'organization-slug' ? 'catalog-page__section' : ''">
     <h2 class="a-font_h2" v-if="title">
       {{ title }}
-      <sup class="catalog-page__header-total a-font_L">
-        {{ totalProducts }}
-        {{ type === 'organizations' ? 'заведений' : type === 'journal' ? 'публикаций' : 'программ' }}</sup
-      >
+      <sup class="catalog-page__header-total a-font_L"> {{ totalProducts }} программ</sup>
     </h2>
     <s-catalog-presets :presets="presets" :has-presets="hasPresets" :filters-ids-data="filtersIdsData" />
     <s-catalog-menu
@@ -17,6 +13,7 @@
       :totalProducts="totalProducts"
       :maxVisibleControls="7"
       :key="componentMenuKey"
+      :subjects="subjects"
       @menu-toggle="menuToggle"
       @delete-tag="deleteTag"
       @clear-all-filters="clearAllFilters"
@@ -28,12 +25,8 @@
       <s-catalog-filter
         :filterListData="Object.entries(filterListData)"
         :filterCheckboxData="filterCheckboxData"
+        :subjects="subjects"
         :key="componentFilterKey"
-        :subcategories="subcategories"
-        :categories="categories"
-        :subcategoriesTitle="subcategoriesTitle"
-        :topicTitle="topicTitle"
-        :routePath="routePath"
         @select-filter="selectFilter"
         @switch-click="switchClick"
       />
@@ -43,17 +36,12 @@
         :page="page"
         :productsPerPage="productsPerPage"
         :key="componentProductsKey"
-        :type="type"
         @page="page = $event"
       >
         <s-catalog-tags
           :selectedFilters="selectedFilters"
           :productList="productList"
           :options="options"
-          :subcategoriesTitle="subcategoriesTitle"
-          :topicTitle="topicTitle"
-          :categories="categories"
-          :subcategories="subcategories"
           @clear-all-filters="clearAllFilters"
           @delete-tag="deleteTag"
           @filters-icon-click="filtersIconClickHandler"
@@ -70,8 +58,8 @@ import SCatalogProductList from '~/components/s_catalog_product_list/s_catalog_p
 import SCatalogPresets from '~/components/s_catalog_presets/s_catalog_presets';
 import SCatalogTags from '~/components/s_catalog_tags/s_catalog_tags';
 import SCatalogMenu from '~/components/s_catalog_menu/s_catalog_menu';
-import ABreadcrumbs from '~/components/_ui/a_breadcrumbs/a_breadcrumbs';
 import getProductsList from '~/api/products_list';
+import getFilterData from '~/api/filter_data';
 import './s_catalog_section.scss';
 
 export default {
@@ -81,22 +69,18 @@ export default {
     'title',
     'hasPresets',
     'presets',
+    'category',
+    'defaultFilters',
+    'slugs',
+    'categoryId',
     'productsPerPage',
+    'entity_page',
     'currentOption',
     'options',
     'filtersMenu',
-    'filterResponse',
-    'withBreadcrumbs',
-    'withPaddings',
-    'defaultFilters',
-    'productListUrl',
-    'type',
-    'routePath',
-    'allCategories',
   ],
 
   components: {
-    ABreadcrumbs,
     SCatalogTags,
     SCatalogPresets,
     SCatalogProductList,
@@ -106,31 +90,21 @@ export default {
 
   data() {
     return {
-      breadcrumbs: [
-        { label: 'Главная', href: '/' },
-        {
-          label: 'Программы обучения',
-          href: `/${this.routePath}${this.$route?.params?.slug ? `/${this.$route?.params?.slug}` : ''}`,
-        },
-      ],
       totalProducts: null,
       productList: [],
       filterListData: {},
       filterCheckboxData: {},
       filtersIdsData: {
+        direction_ids: [],
         format_ids: [],
         level_ids: [],
         city_ids: [],
         organization_ids: [],
-        publication_type_ids: [],
-        reader_type_ids: [],
-        article_author_ids: [],
+        subject_ids: [],
       },
       filtersCheckboxDataRequest: {
         is_employment: false,
         is_installment: false,
-        is_military_center: false,
-        is_hostel: false,
       },
       page: 1,
       componentProductsKey: 10,
@@ -138,19 +112,8 @@ export default {
       componentMenuKey: 1000,
 
       selectedFilters: [],
-
-      subcategories: [],
-      subcategoriesTitle: null,
-      topicTitle: null,
-      categoryId: null,
-      subcategoryId: null,
+      subjects: [],
     };
-  },
-
-  computed: {
-    categories() {
-      return this.allCategories?.filter((category) => category.level === 1) || [];
-    },
   },
 
   watch: {
@@ -159,10 +122,16 @@ export default {
     },
 
     page() {
-      const query = { ...this.$route.query };
-      query.page = this.page;
-      this.$router.push({ query });
       this.fetchProductsList();
+      if (window.location.search.includes('page')) {
+        let newSearch = window.location.search
+          .split('&')
+          .filter((query) => !query.includes('page'))
+          .join('&');
+        newSearch = `?page=${this.page}${newSearch ? '&' : ''}${newSearch}`;
+
+        window.history.pushState({}, null, `${window.location.pathname}${newSearch}`);
+      }
     },
 
     productsPerPage() {
@@ -172,17 +141,6 @@ export default {
     filtersIdsData: {
       deep: true,
       handler() {
-        const query = {};
-        query.page = this.page;
-        Object.entries(this.filtersIdsData).forEach(([key, ids]) => {
-          if (ids.length) {
-            query[key] = ids.join(',');
-          } else {
-            delete query[key];
-          }
-        });
-        this.$router.push({ query });
-
         this.pageMain = 1;
         this.componentProductsKey += 3;
         this.fetchProductsList();
@@ -197,104 +155,81 @@ export default {
         this.fetchProductsList();
       },
     },
-
-    allCategories: {
-      deep: true,
-      handler() {
-        this.fetchCategoriesList();
-      },
-    },
-
-    filterResponse: {
-      deep: true,
-      immediate: true,
-      handler() {
-        if (
-          !this.filterListData?.level_ids?.values?.length
-          && !this.filterListData?.publication_type_ids?.values?.length
-        ) {
-          this.parseFilterData();
-        }
-      },
-    },
-
-    selectedFilters: {
-      deep: true,
-      handler() {
-        this.componentMenuKey += 123;
-      },
-    },
   },
 
   methods: {
-    parseFilterData() {
-      this.filterResponse?.forEach((filters) => {
+    async fetchFilterData() {
+      const filtersResponse = await getFilterData();
+
+      filtersResponse.forEach((filters) => {
+        // Если мы передаем дефолтные фильтры, то мы выбираем фильтры, тэги и отправляем на бэк
         if (this.defaultFilters) {
           Object.entries(this.defaultFilters).forEach(([key, ids]) => {
             if (filters.filter_by === key && ids.length) {
-              ids.forEach((id) => {
-                const found = filters.values.find((value) => value.id === id);
+              if (ids.length === 1) {
+                const found = filters.values.find((value) => value.id === ids[0]);
                 this.$set(found, 'isChecked', true);
-                this.selectedFilters.push({ ...found, key });
-                this.filtersIdsData[key].push(id);
-              });
+                const newFilter = { ...found, key };
+                this.selectedFilters.push(newFilter);
+                this.filtersIdsData[key].push(ids[0]);
+                this.$emit('slug', newFilter);
+              } else {
+                ids.forEach((id) => {
+                  const found = filters.values.find((value) => value.id === id);
+                  this.$set(found, 'isChecked', true);
+                  this.selectedFilters.push({ ...found, key });
+                  this.filtersIdsData[key].push(id);
+                });
+              }
             }
           });
         }
 
-        if (filters.filter_by !== 'direction_ids' && filters.filter_by !== 'subject_ids') {
-          if (filters.type === 'list') {
+        if (filters.type === 'list') {
+          if (this.entity_page) {
+            if (`${this.entity_page.type}_ids` !== filters.filter_by) {
+              this.filterListData[filters.filter_by] = { ...filters };
+            }
+          } else {
             this.filterListData[filters.filter_by] = { ...filters };
           }
-
-          if (filters.type === 'checkbox') {
-            this.filterCheckboxData[filters.filter_by] = { ...filters };
-          }
         }
+
+        if (filters.type === 'checkbox') {
+          this.filterCheckboxData[filters.filter_by] = { ...filters };
+        }
+
+        // Todo с бэка будет приходить еще один тип в будущем
+        // нужно будет добавить сюда проверку
       });
-    },
 
-    async fetchCategoriesList() {
-      const slugs = this.$route.params?.pathMatch?.split('/').slice(0, -1);
-
-      if (slugs && slugs[0]) {
-        const foundCategory = this.categories.find((category) => category.slug === slugs[0]);
-        if (foundCategory) {
-          this.subcategories = this.allCategories.filter((cat) => cat.parent_id === foundCategory.id);
-          this.subcategoriesTitle = foundCategory.name;
-          this.categoryId = foundCategory.id;
-
-          if (!this.breadcrumbs.find((breadcrumb) => breadcrumb.label === foundCategory.name)) {
-            this.breadcrumbs.push({
-              label: foundCategory.name,
-              href: `/${this.routePath}${this.$route?.params?.slug ? `/${this.$route?.params?.slug}` : ''}/${slugs[0]}`,
+      // Если нам приходят слаги с урла, то тоже находим их фильтры, выбираем и отправляем на бэк
+      if (this.slugs) {
+        Object.values(this.filterListData).forEach((filterList) => {
+          if (filterList.filter_by !== 'subject_ids') {
+            filterList.values.forEach((value) => {
+              this.slugs.forEach((slug) => {
+                if (value.slug === slug) {
+                  this.$set(value, 'isChecked', true);
+                  this.filtersIdsData[filterList.filter_by].push(value.id);
+                  const newFilter = { ...value, key: filterList.filter_by };
+                  this.selectedFilters.push(newFilter);
+                  if (this.filtersIdsData.direction_ids.length) {
+                    const found = this.filterListData.direction_ids.values.find(
+                      (val) => val.id === this.filtersIdsData.direction_ids[0],
+                    );
+                    found.subjects.forEach((subject) => {
+                      this.subjects.push(subject.id);
+                    });
+                  }
+                }
+              });
             });
           }
-        }
+        });
       }
 
-      if (slugs && slugs[1]) {
-        const foundCategory = this.allCategories.find((category) => category.slug === slugs[1]);
-        if (foundCategory) {
-          this.topicTitle = foundCategory.name;
-          this.subcategoryId = foundCategory.id;
-          if (!this.breadcrumbs.find((breadcrumb) => breadcrumb.label === foundCategory.name)) {
-            this.breadcrumbs.push({
-              label: foundCategory.name,
-              href: `/${this.routePath}${this.$route?.params?.slug ? `/${this.$route?.params?.slug}` : ''}/${
-                slugs[0]
-              }/${slugs[1]}`,
-            });
-          }
-        }
-      }
-
-      await this.fetchFilterData();
-    },
-
-    async fetchFilterData() {
       this.getCityInfo();
-      await this.fetchProductsList();
 
       this.componentFilterKey += 3;
     },
@@ -304,13 +239,7 @@ export default {
         filter: { published: true },
       };
 
-      if (this.type === 'main') {
-        expandedMethod.include = ['organization', 'levels', 'directions'];
-      }
-
-      if (this.type === 'journal') {
-        expandedMethod.include = ['publicationTypes', 'journalContent', 'articleAuthors', 'tags'];
-      }
+      expandedMethod.include = ['organization', 'levels', 'directions'];
 
       // Логика парсинга выбранных фильтров на бэк, для получения отфильрованный товаров
       Object.entries(this.filtersIdsData).forEach((filterData) => {
@@ -322,6 +251,12 @@ export default {
         }
       });
 
+      // Ставим дефолтные фильтры на организации и города
+      if (this.entity_page) {
+        const filterKey = `${this.entity_page.type}_ids`;
+        expandedMethod.filter[filterKey] = [this.entity_page.id];
+      }
+
       // Логика парсинга чекбоксов, для получения отфильрованный товаров
       Object.entries(this.filtersCheckboxDataRequest).forEach((checkboxData) => {
         const [key, value] = checkboxData;
@@ -332,16 +267,15 @@ export default {
         }
       });
 
-      if (this.subcategoryId) {
-        expandedMethod.filter.new_category_all_ids = [this.subcategoryId];
-      } else if (this.categoryId) {
-        expandedMethod.filter.new_category_all_ids = [this.categoryId];
+      if (this.categoryId) {
+        expandedMethod.filter.category_ids = this.categoryId;
+      } else {
+        delete expandedMethod.filter.category_ids;
       }
 
       expandedMethod.pagination = { page: this.page, page_size: this.productsPerPage };
       expandedMethod.sort = this.currentOption;
-
-      const response = await getProductsList(expandedMethod, this.productListUrl);
+      const response = await getProductsList(expandedMethod);
       this.totalProducts = response.count;
       this.productList = response.data;
     },
@@ -357,14 +291,38 @@ export default {
       if (selectedItem.isChecked) {
         this.selectedFilters.push(selectedItem);
         this.filtersIdsData[key].push(selectedItem.id);
+
+        if (selectedItem.key === 'direction_ids') {
+          this.selectedFilters = this.selectedFilters.filter((selectedFilter) => selectedFilter.key !== 'subject_ids');
+          this.filtersIdsData.subject_ids = [];
+
+          selectedItem.subjects.forEach((subject) => {
+            this.subjects.push(subject.id);
+          });
+
+          this.filterListData.subject_ids.values.forEach((value) => {
+            this.$set(value, 'isChecked', false);
+          });
+        }
       } else {
         this.selectedFilters = this.selectedFilters.filter((filter) => filter.name !== item.name);
         this.filtersIdsData[key] = this.filtersIdsData[key].filter((id) => Number(id) !== item.id);
+
+        if (selectedItem.key === 'direction_ids') {
+          selectedItem.subjects.forEach((subject) => {
+            this.subjects = this.subjects.filter((sub) => sub !== subject.id);
+          });
+        }
+      }
+
+      if (this.filtersIdsData.direction_ids.length === 0) {
+        this.filtersIdsData.subject_ids = [];
+        this.selectedFilters = this.selectedFilters.filter((selectedFilter) => selectedFilter.key !== 'subject_ids');
       }
 
       this.componentFilterKey += 1;
-      this.componentMenuKey += 1;
       this.page = 1;
+      this.$emit('on-filter-click', this.filtersIdsData, this.filterListData);
     },
 
     selectControlFilter(key, item, isChecked) {
@@ -383,6 +341,7 @@ export default {
       }
 
       this.page = 1;
+      this.$emit('on-filter-click', this.filtersIdsData, this.filterListData);
     },
 
     menuToggle(value) {
@@ -413,6 +372,7 @@ export default {
       this.page = 1;
       this.componentFilterKey += 1;
       this.componentMenuKey += 1;
+      this.$emit('clear-filters');
     },
 
     deleteTag(tag) {
@@ -421,7 +381,19 @@ export default {
       const found = this.filterListData[tag.key].values.find((value) => value.name === tag.name);
       this.$set(found, 'isChecked', false);
 
+      if (tag.key === 'direction_ids') {
+        tag.subjects.forEach((subject) => {
+          this.subjects = this.subjects.filter((sub) => sub !== subject.id);
+        });
+      }
+
+      if (this.filtersIdsData.direction_ids.length === 0) {
+        this.filtersIdsData.subject_ids = [];
+        this.selectedFilters = this.selectedFilters.filter((selectedFilter) => selectedFilter.key !== 'subject_ids');
+      }
+
       this.componentFilterKey += 1;
+      this.$emit('delete-filter-tag', this.filtersIdsData, this.filterListData);
     },
 
     filtersIconClickHandler() {
@@ -436,14 +408,7 @@ export default {
           foundCity = this.filterListData?.city_ids?.values?.find((value) => value.name === city.name);
         }
         if (foundCity) {
-          const onlineFormatFilter = this.filterListData?.format_ids?.values?.find((value) => value.name === 'Онлайн');
           this.$set(foundCity, 'isChecked', true);
-          this.$set(onlineFormatFilter, 'isChecked', true);
-          if (!this.selectedFilters.filter((selectedFilter) => selectedFilter.id === onlineFormatFilter.id).length) {
-            this.selectedFilters.push({ ...onlineFormatFilter, key: 'format_ids' });
-            this.filtersIdsData.format_ids.push(onlineFormatFilter.id);
-          }
-
           if (!this.selectedFilters.filter((selectedFilter) => selectedFilter.id === foundCity.id).length) {
             this.selectedFilters.push({ ...foundCity, key: 'city_ids' });
             this.filtersIdsData.city_ids.push(foundCity.id);
@@ -453,14 +418,18 @@ export default {
     },
   },
 
+  async fetch() {
+    await this.fetchFilterData();
+    await this.fetchProductsList();
+  },
+
   created() {
     if (this.$route.query.page) {
       this.page = Number(this.$route.query.page);
     }
   },
 
-  async mounted() {
-    await this.fetchCategoriesList();
+  mounted() {
     this.getCityInfo();
   },
 };
