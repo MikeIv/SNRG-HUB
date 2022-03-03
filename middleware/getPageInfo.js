@@ -24,7 +24,7 @@ export default async function ({ route, store, redirect }) {
     requestData.params.slug = route.params.slug;
   }
 
-  if (route.name === 'organization-slug' || route.name === 'organization-slug-all') {
+  if (route.name === 'organization-slug') {
     requestData.filter.slug = 'organization';
     requestData.params.slug = route.params.slug;
   }

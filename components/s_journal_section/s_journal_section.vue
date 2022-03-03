@@ -225,7 +225,7 @@ export default {
         filter: {
           published: true,
         },
-        include: ['publicationTypes', 'journalContent', 'articleAuthors', 'tags', 'directions'],
+        include: ['publicationTypes', 'journalContent', 'articleAuthors', 'tags'],
       };
 
       // Логика парсинга выбранных фильтров на бэк, для получения отфильрованный товаров

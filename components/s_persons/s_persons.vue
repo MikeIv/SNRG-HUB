@@ -14,14 +14,27 @@
               />
             </swiper-slide>
           </swiper>
-          <div class="swiper-pagination" slot="pagination"></div>
+          <a-button
+            class="swiper-button-prev s-persons__prev"
+            size="medium"
+            bg-color="ghost-primary"
+            only-icon="square"
+            iconType="si-chevron-left"
+          ></a-button>
+          <a-button
+            class="swiper-button-next s-persons__next"
+            size="medium"
+            bg-color="ghost-primary"
+            only-icon="square"
+            iconType="si-chevron-right"
+          ></a-button>
         </div>
       </div>
     </div>
   </section>
 </template>
 <script>
-import { MCard } from '@cwespb/synergyui';
+import { MCard, AButton } from '@cwespb/synergyui';
 import { Swiper, SwiperSlide } from 'vue-awesome-swiper';
 import './s_persons.scss';
 import getPersonsList from '~/api/personsList';
@@ -34,21 +47,16 @@ export default {
       baseUrl: process.env.NUXT_ENV_S3BACKET,
       swiperOptionA: {
         slidesPerView: 'auto',
-        spaceBetween: 12,
+        spaceBetween: 20,
         resistance: true,
         resistanceRatio: 0,
-        loop: true,
-        initialSlide: 0,
-        pagination: {
-          el: '.swiper-pagination',
-          clickable: true,
-        },
-        mousewheel: {
-          invert: true,
+        navigation: {
+          nextEl: '.s-persons__next',
+          prevEl: '.s-persons__prev',
         },
         breakpoints: {
-          991: {
-            spaceBetween: 12,
+          767: {
+            spaceBetween: 20,
           },
           1440: {
             spaceBetween: 20,
@@ -62,6 +70,7 @@ export default {
   },
   components: {
     MCard,
+    AButton,
     Swiper,
     SwiperSlide,
   },

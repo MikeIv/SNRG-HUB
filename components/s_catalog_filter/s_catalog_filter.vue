@@ -1,24 +1,16 @@
 <template>
   <div class="catalog-filter__wrapper">
-    <m-catalog-categories
-      title="Программы обучения"
-      :subcategories="subcategories"
-      :categories="categories"
-      :subcategoriesTitle="subcategoriesTitle"
-      :topicTitle="topicTitle"
-      passed-btn-text="Показать всё"
-      :visible-count="15"
-      :routePath="routePath"
-    />
     <template v-for="filters in filterListData">
       <m-filter
-        v-if="filters[0]"
+        v-if="isFilterRendered(filters[0])"
         class="catalog-filter__filter"
         :key="filters[0]"
         :title="filters[1].title"
-        :hasSearch="filters[1].values.length > 15"
+        :hasSearch="
+          filters[0] === 'subject_ids' ? renderSubjects(filters[1].values).length > 15 : filters[1].values.length > 15
+        "
         :passedBtnText="filtersTextProp ? filtersTextProp[filters[0]] : filtersText[filters[0]]"
-        :items="filters[1].values"
+        :items="filters[0] === 'subject_ids' ? renderSubjects(filters[1].values) : filters[1].values"
         @item-click="controlClick(filters[1].filter_by, ...arguments)"
       />
     </template>
@@ -39,25 +31,14 @@
 
 <script>
 import { MFilter, AControl } from '@cwespb/synergyui';
-import MCatalogCategories from '~/components/ui/m-catalog-categories/m-catalog-categories';
 import './s_catalog_filter.scss';
 
 export default {
   name: 'SCatalogFilter',
 
-  props: [
-    'filterListData',
-    'filterCheckboxData',
-    'filtersTextProp',
-    'subcategories',
-    'categories',
-    'subcategoriesTitle',
-    'topicTitle',
-    'routePath',
-  ],
+  props: ['filterListData', 'filterCheckboxData', 'subjects', 'filtersTextProp'],
 
   components: {
-    MCatalogCategories,
     MFilter,
     AControl,
   },
@@ -65,18 +46,25 @@ export default {
   data() {
     return {
       filtersText: {
+        direction_ids: 'Все направления',
         format_ids: 'Все форматы',
         level_ids: 'Все уровни',
         city_ids: 'Все города',
         organization_ids: 'Все заведения',
-        publication_type_ids: 'Все форматы',
-        reader_type_ids: 'Все пользователи',
-        article_author_ids: 'Все авторы',
+        subject_ids: 'Все тематики',
       },
     };
   },
 
   methods: {
+    isFilterRendered(key) {
+      return key === 'subject_ids' ? this.subjects.length : true;
+    },
+
+    renderSubjects(values) {
+      return this.subjects.length ? values.filter((value) => this.subjects.includes(value.id)) : values;
+    },
+
     controlClick(key, item) {
       this.$emit('select-filter', key, item);
     },
