@@ -27,6 +27,7 @@
     margin-bottom: 0;
     color: var(--a-color_text);
     font-weight: 600;
+    word-break: break-word;
     @media screen and (max-width: 767px) {
       margin-bottom: rem(4);
     }
