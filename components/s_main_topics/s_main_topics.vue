@@ -59,8 +59,10 @@ export default {
         resistance: true,
         resistanceRatio: 0,
         slidesPerGroup: 2,
-        loop: true,
         initialSlide: 0,
+        observer: true,
+        freeMode: false,
+        mousewheelControl: true,
         pagination: {
           el: '.swiper-pagination-topics',
           clickable: true,
@@ -68,7 +70,7 @@ export default {
         mousewheel: {
           invert: true,
         },
-        speed: 600,
+        speed: 300,
         breakpoints: {
           767: {
             spaceBetween: 20,
