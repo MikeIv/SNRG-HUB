@@ -23,6 +23,19 @@
     }
   }
 
+  .m-card-program {
+    &__title {
+      margin-top: 0;
+      font-size: rem(18);
+      line-height: rem(28);
+      @media screen and (max-width: 991px) {
+        margin-top: 0;
+        font-size: rem(16);
+        line-height: rem(24);
+      }
+    }
+  }
+
   &__head {
     display: flex;
     align-items: center;
@@ -118,6 +131,54 @@
       ul {
         list-style-type: disc;
       }
+
+      a {
+        color: var(--a-color_link);
+        text-decoration: underline;
+
+        &:hover {
+          text-decoration: none;
+        }
+      }
+
+      p {
+        &:not(:empty) {
+          margin-top: rem(32);
+          font-size: rem(18);
+          line-height: rem(28);
+          @media screen and (max-width: 991px) {
+            margin-top: rem(20);
+            font-size: rem(16);
+            line-height: rem(20);
+          }
+        }
+      }
+
+      blockquote {
+        position: relative;
+        margin-top: rem(40);
+        padding-top: rem(6);
+        padding-right: rem(40);
+        padding-left: rem(40);
+        padding-bottom: rem(52);
+        color: var(--a-color_text--secondary);
+        background-color: var(--a-color_bg--secondary);
+        border-radius: rem(10);
+        font-weight: 500;
+
+        &::before {
+          content: url('~/assets/images/quotes.svg');
+          position: absolute;
+          top: rem(-19);
+          left: rem(40);
+          width: rem(50);
+          height: rem(40);
+        }
+      }
+    }
+
+    &-preview {
+      margin-top: rem(32);
     }
   }
 
@@ -139,34 +200,6 @@
     &-text {
       color: var(--a-color_active);
     }
-  }
-
-  p {
-    &:not(:empty) {
-      margin-top: rem(32);
-      font-size: rem(18);
-      line-height: rem(28);
-      @media screen and (max-width: 991px) {
-        margin-top: rem(20);
-        font-size: rem(16);
-        line-height: rem(20);
-      }
-    }
-  }
-
-  h3 {
-    margin-top: rem(40);
-    font-size: rem(28);
-    line-height: rem(36);
-    @media screen and (max-width: 991px) {
-      margin-top: rem(32);
-      font-size: rem(20);
-      line-height: rem(20);
-    }
-  }
-
-  br {
-    display: none;
   }
 
   &__directions {
@@ -200,16 +233,6 @@
     }
   }
 
-  figure {
-    margin: rem(32) 0;
-  }
-
-  figcaption {
-    color: var(--a-color_active);
-    text-align: center;
-    margin-top: rem(8);
-  }
-
   &__releative {
     margin-top: rem(70);
     @media screen and (max-width: 991px) {
@@ -236,23 +259,10 @@
     width: rem(360);
   }
 
-  .m-card-program {
-    &__title {
-      font-size: rem(18);
-      line-height: rem(28);
-      margin-top: 0;
-      @media screen and (max-width: 991px) {
-        font-size: rem(16);
-        line-height: rem(24);
-        margin-top: 0;
-      }
-    }
-  }
-
   &__programs {
     &-title {
-      text-align: center;
       margin-bottom: rem(24);
+      text-align: center;
 
       @media screen and (max-width: 991px) {
         margin-top: 0 !important;
@@ -282,15 +292,40 @@
     .a-tag {
       &__item {
         max-width: fit-content;
+        margin-right: rem(12);
+        background: var(--a-color_bg);
         border: 1px solid var(--a-color_text);
         border-radius: var(--a-borderRadius--default);
-        background: var(--a-color_bg);
-        margin-right: rem(12);
 
         &:hover {
           color: inherit;
         }
       }
     }
+  }
+
+  h3 {
+    margin-top: rem(40);
+    font-size: rem(28);
+    line-height: rem(36);
+    @media screen and (max-width: 991px) {
+      margin-top: rem(32);
+      font-size: rem(20);
+      line-height: rem(20);
+    }
+  }
+
+  br {
+    display: none;
+  }
+
+  figure {
+    margin: rem(32) 0;
+  }
+
+  figcaption {
+    margin-top: rem(8);
+    color: var(--a-color_active);
+    text-align: center;
   }
 }

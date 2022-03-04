@@ -45,6 +45,10 @@
               Время чтения <span> {{ publicationTypes.readingTime }} </span>
             </div>
           </div>
+
+          <div v-if="previewImage" class="s-article-detail__content-preview">
+            <img :src="previewImage" alt="" />
+          </div>
           <div v-if="subtitle" class="s-article-detail__content-body" v-html="content"></div>
         </div>
       </div>

@@ -8,7 +8,7 @@
       :readingTime="readingTime"
       :subtitle="subtitle"
       :user="author"
-      :previewImg="img"
+      :previewImage="img"
       :banner="banner"
       :categories="categories"
       :relatedArticles="relatedArticles"
