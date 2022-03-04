@@ -52,9 +52,6 @@ export default {
       directionsFullList: [],
       flag: false,
       baseUrl: process.env.NUXT_ENV_S3BACKET,
-      desktopBreakPoint: 970,
-      windowWidth: null,
-      maxCardsCount: null,
       isHidden: true,
       swiperOptionA: {
         slidesPerView: 'auto',
@@ -75,15 +72,13 @@ export default {
         breakpoints: {
           767: {
             spaceBetween: 20,
-            // slidesPerGroup: 1,
           },
           1440: {
             spaceBetween: 20,
-            // slidesPerGroup: 1,
           },
           1499: {
             spaceBetween: 20,
-            // slidesPerGroup: 1,
+            slidesPerGroup: 1,
           },
         },
       },
@@ -94,17 +89,6 @@ export default {
     MCardEdu,
     Swiper,
     SwiperSlide,
-  },
-  watch: {
-    windowWidth() {
-      if (this.windowWidth >= this.desktopBreakPoint) {
-        this.maxCardsCount = 9;
-      }
-
-      if (this.windowWidth <= this.desktopBreakPoint) {
-        this.maxCardsCount = 8;
-      }
-    },
   },
   props: ['methods', 'title'],
   computed: {
@@ -122,7 +106,6 @@ export default {
   methods: {
     showMoreCards() {
       this.flag = true;
-      console.log('test');
       this.isHidden = !this.isHidden;
     },
     handleResize() {
