@@ -37,17 +37,17 @@
           <div v-if="subtitle" class="s-article-detail__content-subtitle a-font_xl">
             {{ subtitle }}
           </div>
-          <div v-if="publicationTypes && publicationTypes.readingTime" class="s-article-detail__time">
+          <div v-if="readingTime" class="s-article-detail__time">
             <div class="s-article-detail__time-icon">
-              <img src="/time.svg" alt="" />
+              <img src="~/assets/images/reading-time.svg" alt="" />
             </div>
             <div class="s-article-detail__time-text a-font_m-s">
-              Время чтения <span> {{ publicationTypes.readingTime }} </span>
+              Время чтения <span> {{ readingTime }} </span> {{ readingTimeText }}
             </div>
           </div>
 
-          <div v-if="previewImage" class="s-article-detail__content-preview">
-            <img :src="previewImage" alt="" />
+          <div v-if="digitalImage" class="s-article-detail__content-preview">
+            <img :src="`${baseURL}${digitalImage}`" alt="" />
           </div>
           <div v-if="subtitle" class="s-article-detail__content-body" v-html="content"></div>
         </div>
@@ -107,7 +107,9 @@
 
 <script>
 import './s_article_detail.scss';
-import { MSocialShare, ATag, MCard, AButton } from '@cwespb/synergyui';
+import {
+  MSocialShare, ATag, MCard, AButton,
+} from '@cwespb/synergyui';
 import { Swiper, SwiperSlide } from 'vue-awesome-swiper';
 import AUser from '~/components/_ui/a_user/a_user';
 import MArticle from '~/components/_ui/m_article/m_article';
@@ -155,6 +157,12 @@ export default {
       if (this.user.published >= 5) return 'публикаций';
       return 'публикация';
     },
+
+    readingTimeText() {
+      if (this.readingTime === 1) return 'минута';
+      if (this.readingTime > 1 && this.readingTime < 5) return 'минуты';
+      return 'минут';
+    },
   },
 
   props: {
@@ -169,6 +177,9 @@ export default {
     },
     date: {
       type: String,
+    },
+    readingTime: {
+      type: Number,
     },
     subtitle: {
       type: String,
@@ -185,6 +196,9 @@ export default {
       default: false,
     },
     previewImage: {
+      type: String,
+    },
+    digitalImage: {
       type: String,
     },
     banner: {
@@ -220,8 +234,8 @@ export default {
       if (
         /Android|webOS|iPhone|iPad|iPod|BlackBerry|BB|PlayBook|IEMobile|Windows Phone|Kindle|Silk|Opera Mini/i.test(
           navigator.userAgent,
-        ) &&
-        navigator.share
+        )
+        && navigator.share
       ) {
         navigator.share({
           title: this.title,

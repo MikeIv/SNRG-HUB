@@ -9,6 +9,7 @@
       :subtitle="subtitle"
       :user="author"
       :previewImage="img"
+      :digitalImage="digitalImage"
       :banner="banner"
       :categories="categories"
       :relatedArticles="relatedArticles"
@@ -42,6 +43,7 @@ export default {
       author: {},
       publicationTypes: {},
       img: '',
+      digitalImage: '',
       banner: {},
       categories: [],
       relatedArticles: [],
@@ -87,7 +89,7 @@ export default {
     this.dateArticle = new Date(preData.created_at).toLocaleString('ru-Ru', options);
     this.title = preData.title;
     this.subtitle = preData.included.journalContent.preview_text;
-    this.readingTime = preData.included.journalContent.readingTime;
+    this.readingTime = preData.included.journalContent.reading_time;
     // eslint-disable-next-line max-len
     this.articleBody = preData.included.journalContent.body.replace(
       /<([^>\s]+)[^>]*>(?:\s*(?:<br \/>|&nbsp;|&thinsp;|&ensp;|&emsp;|&#8201;|&#8194;|&#8195;)\s*)*<\/\1>/gm,
@@ -96,7 +98,8 @@ export default {
     this.author = preData.included.journalContent.author;
     this.publicationTypes = type;
     this.author = author;
-    this.img = preData.included.preview_picture;
+    this.img = preData.included.journalContent.preview_picture;
+    this.digitalImage = preData.included.journalContent.digital_picture;
     this.banner = {
       title: preData.included.journalContent.banner_title ?? '',
       text: preData.included.journalContent.banner_text ?? '',

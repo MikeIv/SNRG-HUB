@@ -65,6 +65,7 @@
               </nuxt-link>
             </template>
           </div>
+          <div class="s-product-search__category">Журнал</div>
         </div>
       </div>
       <SQuiz :quiz-id="2" />
@@ -78,8 +79,10 @@ import { ATag, MCard, AButton } from '@cwespb/synergyui';
 import SQuiz from '~/components/s_quiz/s_quiz';
 import MLoader from '~/components/ui/m_loader/m_loader';
 import './s_product_search.scss';
-import getSearchProducts from '~/api/productsSearch';
+// import getSearchProducts from '~/api/productsSearch';
 import getProductsList from '~/api/products_list';
+
+import getSearch from '~/api/search';
 
 export default {
   name: 'SProductSearch',
@@ -122,6 +125,7 @@ export default {
       selectedPreset: 'Все',
       baseURL: process.env.NUXT_ENV_S3BACKET,
       categories: [],
+      articles: [],
       productsList: [],
       productsPerPage: 9,
       perPage: {},
@@ -164,10 +168,20 @@ export default {
         },
       };
 
-      const searchedData = await getSearchProducts(expandedMethod);
+      const searchedData = await getSearch(expandedMethod);
+
       this.totalItems = searchedData.total;
-      this.categories = searchedData.data.search_results;
-      const searchResults = searchedData.data.search_results;
+      this.categories = searchedData.data.search_results[0].products.groups;
+
+      this.articles = {
+        name: 'Журнал',
+        count: searchedData.data.search_results[1].articles.total,
+        product_ids: searchedData.data.search_results[1].articles.ids,
+      };
+
+      this.categories.push(this.articles);
+
+      const searchResults = searchedData.data.search_results[0].products.groups;
       searchResults.sort((a, b) => {
         if (a.name < b.name) {
           return -1;
@@ -184,6 +198,7 @@ export default {
         this.perPage[category.name] = this.productsPerPage;
         this.totalIds[category.name] = category.product_ids;
       });
+
       await this.fetchProductsList();
     },
 
