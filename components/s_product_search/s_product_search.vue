@@ -65,7 +65,37 @@
               </nuxt-link>
             </template>
           </div>
-          <div class="s-product-search__category">Журнал</div>
+          <div
+            class="s-product-search__category"
+            :class="{ hidden: articles.name !== selectedPreset && selectedPreset !== 'Все' }"
+          >
+            <template v-if="articles.name === selectedPreset || selectedPreset === 'Все'">
+              <h2 class="a-font_h2 s-product-search__category-title">
+                {{ articles.name }} <sup class="s-product-search__total a-font_l"> {{ articles.count }} </sup>
+              </h2>
+              <div class="s-product-search__cards">
+                <template v-for="article in articlesList">
+                  <m-article
+                    :key="article.id"
+                    :article="article"
+                    v-if="articlesList && articlesList.length > 0"
+                    :randomColor="getRandomColor(article.included.tags[0].name)"
+                  >
+                  </m-article>
+                </template>
+              </div>
+              <nuxt-link to="/catalog" class="s-product-search__btn-link">
+                <a-button
+                  v-if="articles.count > articlesPerPage && articlesList.length < articles.count"
+                  class="s-product-search__btn"
+                  label="Показать еще"
+                  size="large"
+                  bgColor="ghost-primary"
+                  @click="fetchMoreArticles"
+                />
+              </nuxt-link>
+            </template>
+          </div>
         </div>
       </div>
       <SQuiz :quiz-id="2" />
@@ -76,11 +106,12 @@
 <script>
 import { Swiper, SwiperSlide } from 'vue-awesome-swiper';
 import { ATag, MCard, AButton } from '@cwespb/synergyui';
+import MArticle from '~/components/_ui/m_article/m_article';
 import SQuiz from '~/components/s_quiz/s_quiz';
 import MLoader from '~/components/ui/m_loader/m_loader';
 import './s_product_search.scss';
-// import getSearchProducts from '~/api/productsSearch';
 import getProductsList from '~/api/products_list';
+import getArticlesList from '~/api/articlesList';
 
 import getSearch from '~/api/search';
 
@@ -103,6 +134,7 @@ export default {
     MCard,
     AButton,
     MLoader,
+    MArticle,
   },
 
   props: {
@@ -127,12 +159,24 @@ export default {
       categories: [],
       articles: [],
       productsList: [],
+      articlesList: [],
       productsPerPage: 9,
+      articlesPerPage: 9,
       perPage: {},
       ids: {},
       totalIds: {},
       windowWidth: null,
       loading: false,
+      tagColors: [
+        'rgba(228, 43, 43, 1)',
+        'rgba(5, 161, 143, 1)',
+        'rgba(220, 3, 198, 1)',
+        'rgba(0, 169, 227, 1)',
+        'rgba(67, 86, 255, 1)',
+        'rgba(107, 190, 0, 1)',
+      ],
+      tagColorsList: {},
+      countColorIndex: 0,
     };
   },
 
@@ -156,6 +200,11 @@ export default {
       this.fetchProductsList(category.name);
     },
 
+    fetchMoreArticles() {
+      this.articlesPerPage += 50;
+      this.fetchArticlesList();
+    },
+
     async fetchSearchData() {
       this.loading = true;
       this.selectedPreset = 'Все';
@@ -176,10 +225,8 @@ export default {
       this.articles = {
         name: 'Журнал',
         count: searchedData.data.search_results[1].articles.total,
-        product_ids: searchedData.data.search_results[1].articles.ids,
+        ids: searchedData.data.search_results[1].articles.ids,
       };
-
-      this.categories.push(this.articles);
 
       const searchResults = searchedData.data.search_results[0].products.groups;
       searchResults.sort((a, b) => {
@@ -194,12 +241,31 @@ export default {
 
       this.presets = [{ name: 'Все', count: searchedData.total }, ...searchResults];
 
+      if (this.articles.ids.length) {
+        this.presets.push({ name: this.articles.name, count: this.articles.count });
+      }
+
       this.categories.forEach((category) => {
         this.perPage[category.name] = this.productsPerPage;
         this.totalIds[category.name] = category.product_ids;
       });
 
       await this.fetchProductsList();
+      await this.fetchArticlesList();
+    },
+
+    async fetchArticlesList() {
+      const expandedArticlesMethod = {
+        filter: {
+          ids: this.articles.ids,
+          published: true,
+        },
+        include: ['publicationTypes', 'journalContent', 'articleAuthors', 'tags', 'directions'],
+        pagination: { page_size: this.articlesPerPage, page: 1 },
+      };
+
+      const response = await getArticlesList(expandedArticlesMethod);
+      this.articlesList = response.data;
     },
 
     async fetchProductsList(categoryName) {
@@ -249,6 +315,21 @@ export default {
 
         this.loading = false;
       }
+    },
+
+    getRandomColor(name) {
+      if (Object.prototype.hasOwnProperty.call(this.tagColorsList, name)) {
+        return this.tagColorsList[name];
+      }
+
+      this.tagColorsList[name] = this.tagColors[this.countColorIndex];
+      if (this.countColorIndex === 5) {
+        this.countColorIndex = 0;
+      } else {
+        this.countColorIndex += 1;
+      }
+
+      return this.tagColorsList[name];
     },
   },
 
