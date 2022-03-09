@@ -1,5 +1,5 @@
 <template>
-  <div class="m-banner__main-wrapper">
+  <div class="m-banner__main-wrapper" v-if="banner">
     <div v-if="type === 'top'" :class="typeBanner" @click="href ? onBannerClickHandler() : {}" :style="style">
       <div class="m-banner__img-wrapper" v-if="ImgSrc">
         <picture>
@@ -46,6 +46,17 @@
       </div>
       <div class="m-banner__img-wrapper" v-if="ImgSrc">
         <img :src="ImgSrc" alt="image" class="m-banner__img" />
+      </div>
+    </div>
+
+    <div v-if="type === 'side'" :class="typeBanner" @click="href ? onBannerClickHandler() : {}" :style="style">
+      <div class="m-banner__img-wrapper" v-if="ImgSrc">
+        <picture>
+          <source :srcset="ImgSrc" media="(min-width: 991px)" />
+          <source :srcset="ImgSrcTablet" media="(min-width: 575px)" />
+          <source :srcset="ImgSrcMobile" media="(min-width: 320px)" />
+          <img :src="ImgSrc || ImgSrcTablet || ImgSrcMobile" alt="image" />
+        </picture>
       </div>
     </div>
 
@@ -129,6 +140,10 @@ export default {
     },
     applications: {
       type: Array,
+    },
+    banner: {
+      type: Boolean,
+      default: true,
     },
     type: {
       type: String,

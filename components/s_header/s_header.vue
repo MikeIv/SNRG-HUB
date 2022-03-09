@@ -4,6 +4,7 @@
     <div class="s-header__wrapper">
       <div class="s-header__top" :class="{ hidden: !isVisible }" @click="scrollTo(topBannerSmoothHref)">
         <m-banner
+          v-if="banner"
           :type="bannerTop.banner_type"
           :backgroundColor="bannerTop.color_bg"
           :ImgSrc="baseUrl + bannerTop.image"
@@ -103,6 +104,11 @@ export default {
 
     options: {
       type: Array,
+    },
+
+    banner: {
+      type: Boolean,
+      default: true,
     },
   },
 

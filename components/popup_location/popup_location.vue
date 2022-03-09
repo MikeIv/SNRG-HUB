@@ -105,6 +105,9 @@ export default {
       if (val) {
         this.searchCity = val;
         this.saveCityMobile(val);
+        // console.log('citypicked', this.cityPicked)
+        // console.log('searchCity', this.searchCity)
+        // console.log('saveCityMobile', this.saveCityMobile)
       }
     },
 
