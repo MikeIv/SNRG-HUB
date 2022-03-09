@@ -110,6 +110,7 @@ import './s_article_detail.scss';
 import {
   MSocialShare, ATag, MCard, AButton,
 } from '@cwespb/synergyui';
+import { declOfNum } from '~/assets/js/getDateFromDatesObj';
 import { Swiper, SwiperSlide } from 'vue-awesome-swiper';
 import AUser from '~/components/_ui/a_user/a_user';
 import MArticle from '~/components/_ui/m_article/m_article';
@@ -153,15 +154,11 @@ export default {
 
   computed: {
     publicationString() {
-      if (this.user.published > 1 && this.user.published < 5) return 'публикации';
-      if (this.user.published >= 5) return 'публикаций';
-      return 'публикация';
+      return declOfNum(this.user.published, ['публикация', 'публикации', 'публикаций']);
     },
 
     readingTimeText() {
-      if (this.readingTime === 1) return 'минута';
-      if (this.readingTime > 1 && this.readingTime < 5) return 'минуты';
-      return 'минут';
+      return declOfNum(this.readingTime, ['минута', 'минуты', 'минут']);
     },
   },
 
@@ -180,6 +177,7 @@ export default {
     },
     readingTime: {
       type: Number,
+      default: 0,
     },
     subtitle: {
       type: String,

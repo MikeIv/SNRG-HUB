@@ -35,7 +35,7 @@ export default {
     return {
       title: '',
       dateArticle: '',
-      readingTime: '',
+      readingTime: 0,
       articleBody: '',
       subtitle: '',
       nameCourse: '',
