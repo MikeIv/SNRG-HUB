@@ -131,6 +131,54 @@
       ul {
         list-style-type: disc;
       }
+
+      a {
+        color: var(--a-color_link);
+        text-decoration: underline;
+
+        &:hover {
+          text-decoration: none;
+        }
+      }
+
+      p {
+        &:not(:empty) {
+          margin-top: rem(32);
+          font-size: rem(18);
+          line-height: rem(28);
+          @media screen and (max-width: 991px) {
+            margin-top: rem(20);
+            font-size: rem(16);
+            line-height: rem(20);
+          }
+        }
+      }
+
+      blockquote {
+        position: relative;
+        margin-top: rem(40);
+        padding-top: rem(6);
+        padding-right: rem(40);
+        padding-left: rem(40);
+        padding-bottom: rem(52);
+        color: var(--a-color_text--secondary);
+        background-color: var(--a-color_bg--secondary);
+        border-radius: rem(10);
+        font-weight: 500;
+
+        &::before {
+          content: url('~/assets/images/quotes.svg');
+          position: absolute;
+          top: rem(-19);
+          left: rem(40);
+          width: rem(50);
+          height: rem(40);
+        }
+      }
+    }
+
+    &-preview {
+      margin-top: rem(32);
     }
   }
 
@@ -252,19 +300,6 @@
         &:hover {
           color: inherit;
         }
-      }
-    }
-  }
-
-  p {
-    &:not(:empty) {
-      margin-top: rem(32);
-      font-size: rem(18);
-      line-height: rem(28);
-      @media screen and (max-width: 991px) {
-        margin-top: rem(20);
-        font-size: rem(16);
-        line-height: rem(20);
       }
     }
   }
