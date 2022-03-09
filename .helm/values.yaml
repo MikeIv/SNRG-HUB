@@ -23,3 +23,5 @@ global:
 redirects:
   - host: synergyedu.ru
     path: /
+  - host: synergyeducation.ru
+    path: /
