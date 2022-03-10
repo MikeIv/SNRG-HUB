@@ -45,7 +45,13 @@
             </nuxt-link>
           </div>
         </div>
-        <a-button v-if="!flag" class="s-main-topics__btn" label="Показать все" @click="showMoreCards" />
+
+        <a-button
+          v-if="!flag && directionsList.length > this.maxCardsCount"
+          class="s-main-topics__btn"
+          label="Показать все"
+          @click="showMoreCards"
+        />
       </div>
     </div>
   </section>
@@ -54,7 +60,7 @@
 import { AButton } from '@cwespb/synergyui';
 import { Swiper, SwiperSlide } from 'vue-awesome-swiper';
 import './s_main_topics.scss';
-import getDirectionsList from '~/api/dicrectionsList';
+import getCatalogCategoriesList from '~/api/getCatalogCategoriesList';
 import MCardEdu from '~/components/ui/m-card-edu/m_card_edu';
 
 export default {
@@ -120,7 +126,7 @@ export default {
   },
   async fetch() {
     const expandedMethod = this.methods[0].data;
-    this.directionsFullList = await getDirectionsList(expandedMethod);
+    this.directionsFullList = await getCatalogCategoriesList(expandedMethod);
   },
   methods: {
     showMoreCards() {

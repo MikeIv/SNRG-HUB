@@ -436,13 +436,13 @@ export default {
           foundCity = this.filterListData?.city_ids?.values?.find((value) => value.name === city.name);
         }
         if (foundCity) {
-          const onlineFormatFilter = this.filterListData?.format_ids?.values?.find((value) => value.name === 'Онлайн');
+          // const onlineFormatFilter=this.filterListData?.format_ids?.values?.find((value) => value.name === 'Онлайн');
           this.$set(foundCity, 'isChecked', true);
-          this.$set(onlineFormatFilter, 'isChecked', true);
-          if (!this.selectedFilters.filter((selectedFilter) => selectedFilter.id === onlineFormatFilter.id).length) {
-            this.selectedFilters.push({ ...onlineFormatFilter, key: 'format_ids' });
-            this.filtersIdsData.format_ids.push(onlineFormatFilter.id);
-          }
+          // this.$set(onlineFormatFilter, 'isChecked', true);
+          // if (!this.selectedFilters.filter((selectedFilter) => selectedFilter.id === onlineFormatFilter.id).length) {
+          // this.selectedFilters.push({ ...onlineFormatFilter, key: 'format_ids' });
+          // this.filtersIdsData.format_ids.push(onlineFormatFilter.id);
+          // }
 
           if (!this.selectedFilters.filter((selectedFilter) => selectedFilter.id === foundCity.id).length) {
             this.selectedFilters.push({ ...foundCity, key: 'city_ids' });
