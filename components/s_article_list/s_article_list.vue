@@ -8,7 +8,7 @@
         </nuxt-link>
       </div>
       <div class="s-article-list__wrapper">
-        <template v-for="(article, index) in articles">
+        <template v-for="(article, index) in randomArticles">
           <m-article
             :key="article.id"
             :article="article"
@@ -84,6 +84,12 @@ export default {
     const categories = await getArticlesCategoriesList(expandedMethodCategories);
     this.articles = response.data;
     this.categories = categories;
+  },
+
+  computed: {
+    randomArticles() {
+      return this.articles.slice(0).sort(() => Math.random() - 0.5);
+    },
   },
 
   methods: {
