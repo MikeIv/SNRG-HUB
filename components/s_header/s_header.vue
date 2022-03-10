@@ -4,7 +4,7 @@
     <div class="s-header__wrapper">
       <div class="s-header__top" :class="{ hidden: !isVisible }" @click="scrollTo(topBannerSmoothHref)">
         <m-banner
-          v-if="$route.name !== 'contacts'"
+          v-if="isBanner"
           :type="bannerTop.banner_type"
           :backgroundColor="bannerTop.color_bg"
           :ImgSrc="baseUrl + bannerTop.image"
@@ -122,7 +122,6 @@ export default {
       isVisible: false,
       topBannerSmoothHref: '#quiz',
       disabledSearch: false,
-      banner: true,
     };
   },
 
@@ -158,6 +157,12 @@ export default {
     },
     quiz() {
       return this.$store.state.quizInfo;
+    },
+    isBanner() {
+      if (this.$route.name === 'contacts') {
+        return false;
+      }
+      return true;
     },
   },
 
