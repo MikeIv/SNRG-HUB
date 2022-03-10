@@ -1,5 +1,5 @@
 <template>
-  <div class="m-banner__main-wrapper" v-if="banner">
+  <div class="m-banner__main-wrapper">
     <div v-if="type === 'top'" :class="typeBanner" @click="href ? onBannerClickHandler() : {}" :style="style">
       <div class="m-banner__img-wrapper" v-if="ImgSrc">
         <picture>
@@ -140,10 +140,6 @@ export default {
     },
     applications: {
       type: Array,
-    },
-    banner: {
-      type: Boolean,
-      default: true,
     },
     type: {
       type: String,

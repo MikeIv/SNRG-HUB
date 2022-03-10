@@ -4,7 +4,7 @@
     <div class="s-header__wrapper">
       <div class="s-header__top" :class="{ hidden: !isVisible }" @click="scrollTo(topBannerSmoothHref)">
         <m-banner
-          v-if="banner"
+          v-if="$route.name !== 'contacts'"
           :type="bannerTop.banner_type"
           :backgroundColor="bannerTop.color_bg"
           :ImgSrc="baseUrl + bannerTop.image"
@@ -105,11 +105,6 @@ export default {
     options: {
       type: Array,
     },
-
-    banner: {
-      type: Boolean,
-      default: true,
-    },
   },
 
   data() {
@@ -127,6 +122,7 @@ export default {
       isVisible: false,
       topBannerSmoothHref: '#quiz',
       disabledSearch: false,
+      banner: true,
     };
   },
 

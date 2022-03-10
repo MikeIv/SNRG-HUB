@@ -14,8 +14,6 @@ export default {
     LazyHydrate,
   },
 
-  layout: 'contacts',
-
   // middleware: 'getPageInfo',
   middleware: 'parseUtms',
 
