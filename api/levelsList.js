@@ -4,7 +4,7 @@ const axios = axiosCreate();
 
 // Метод получения категорий по фильтру
 
-export default async function getCatalogCategoriesList(requestData) {
-  const response = await axios.post('api/v1/categories/list', requestData);
+export default async function getLevelsList(requestData) {
+  const response = await axios.post('api/v1/levels/list', requestData);
   return response.data.data;
 }

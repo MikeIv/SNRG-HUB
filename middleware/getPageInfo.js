@@ -10,7 +10,7 @@ export default async function ({ route, store, redirect }) {
   // если другая, то добавляем route.name
   // Для этой реализации нам нужно, чтобы названия роутов совпадали со слагом на бэке
   if (route.name === 'index') {
-    requestData.filter.id = 1;
+    requestData.filter.slug = 'main-page';
   } else {
     requestData.filter.slug = route.name;
   }
