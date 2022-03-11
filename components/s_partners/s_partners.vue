@@ -15,14 +15,15 @@
     <div class="l-wide">
       <div class="s-partners__box">
         <h2 class="s-partners__title" v-html="title"></h2>
-        <div class="s-partners__swiper">
+        <div class="s-partners__swiper" :key="key">
           <swiper
-            ref="partnersFirstSwiper"
+            :key="`${key}-first`"
+            ref="partnersSwiper"
             :options="{
               ...swiperOptions,
               ...{
                 autoplay: {
-                  delay: 0,
+                  delay: 1,
                   disableOnInteraction: false,
                 },
               },
@@ -33,7 +34,8 @@
             </swiper-slide>
           </swiper>
           <swiper
-            ref="partnersSecondSwiper"
+            :key="`${key}-second`"
+            ref="partnersSwiper"
             :options="{
               ...swiperOptions,
               ...{
@@ -50,7 +52,8 @@
             </swiper-slide>
           </swiper>
           <swiper
-            ref="partnersThirdSwiper"
+            :key="`${key}-third`"
+            ref="partnersSwiper"
             :options="{
               ...swiperOptions,
               ...{
@@ -91,31 +94,40 @@ export default {
   data() {
     return {
       companyList: [],
+      chunkedCompanyList: [],
       baseUrl: process.env.NUXT_ENV_S3BACKET,
       swiperOptions: {
         spaceBetween: 12,
         autoHeight: false,
         loop: true,
         slidesPerView: 'auto',
-        speed: 3000,
+        speed: 2000,
         grabCursor: true,
         mousewheelControl: true,
         keyboardControl: true,
       },
+      key: 1000,
     };
   },
 
   props: ['methods', 'title'],
-  async fetch() {
+
+  methods: {
+    chunkArray(array, chunk) {
+      for (let i = 0; i < array.length; i += chunk) {
+        this.chunkedCompanyList.push(array.slice(i, i + chunk));
+      }
+      console.log('this.companyList', array);
+      console.log('this.chunkedCompanyList', this.chunkedCompanyList);
+    },
+  },
+
+  async mounted() {
     const expandedMethod = this.methods[0].data;
     const preData = await getEntitiesSectionsDetail(expandedMethod);
     this.companyList = preData.json.items.data;
-  },
-
-  mounted() {
-    this.$refs.partnersFirstSwiper.$swiper.autoplay.start();
-    this.$refs.partnersSecondSwiper.$swiper.autoplay.start();
-    this.$refs.partnersThirdSwiper.$swiper.autoplay.start();
+    this.chunkArray(this.companyList, 7);
+    this.key += 1;
   },
 };
 </script>

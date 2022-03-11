@@ -22,7 +22,7 @@
     }
     .swiper-container {
       height: auto;
-      padding: 0 rem(40);
+      padding: rem(1) rem(40);
 
       & + .swiper-container {
         margin-top: rem(12);
