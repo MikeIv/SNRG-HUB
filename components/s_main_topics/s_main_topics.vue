@@ -47,7 +47,7 @@
         </div>
 
         <a-button
-          v-if="!flag && directionsList.length > this.maxCardsCount"
+          v-if="!flag && directionsFullList.length > this.maxCardsCount"
           class="s-main-topics__btn"
           label="Показать все"
           @click="showMoreCards"
