@@ -17,9 +17,15 @@
         @focus="focused = true"
         @blur="focused = false"
         v-model.trim="searchCity"
+        @input="changeInput"
       />
       <div class="popup-location__dialog-list" ref="cities">
-        <span class="popup-location__dialog-list-item" v-for="city in cities.slice(0, 8)" :key="city.index">
+        <span
+          class="popup-location__dialog-list-item"
+          v-for="city in cities.slice(0, 8)"
+          :key="city.index"
+          @input="changeInput"
+        >
           <input type="radio" name="cityDialog" :value="city.name" v-model="cityPicked" />
           <span>{{ city.name }}</span>
         </span>
@@ -231,6 +237,12 @@ export default {
       if (this.auto && window.innerWidth < 768) {
         this.getCity();
         this.saveCityMobile(this.cityObj.name);
+      }
+    },
+    changeInput() {
+      if (this.searchCity !== null) {
+        this.auto = false;
+        // return this.searchCity;
       }
     },
   },
