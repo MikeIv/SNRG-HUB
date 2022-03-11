@@ -1,20 +1,8 @@
 <template>
-  <section class="s-partners">
-    <!--    <div :class="this.$route.name === 'index' ? 'l-wide' : 's-partners__wrapper'">-->
-    <!--      <h2-->
-    <!--        class="s-partners__title s-program-timeline__title"-->
-    <!--        :class="this.$route.name === 'index' ? 'a-font_h5' : 'a-font_h2'"-->
-    <!--        v-html="title"-->
-    <!--      ></h2>-->
-    <!--      <div class="s-partners__items">-->
-    <!--        <div class="s-partners__item" v-for="(company, idx) in companyList" :key="idx">-->
-    <!--          <a-logo type="bordered" :link="`${baseUrl}${company.logo_image.value}`" />-->
-    <!--        </div>-->
-    <!--      </div>-->
-    <!--    </div>-->
-    <div class="l-wide">
+  <section class="s-partners" :class="this.$route.name === 'index' ? 'main' : 'other'">
+    <div v-if="this.$route.name === 'index'" class="l-wide">
       <div class="s-partners__box">
-        <h2 class="s-partners__title" v-html="title"></h2>
+        <h2 class="s-partners__title main" v-html="title"></h2>
         <div class="s-partners__swiper" :key="key">
           <swiper
             :key="`${key}-first`"
@@ -68,6 +56,14 @@
               <a-logo type="bordered" :link="`${baseUrl}${company.logo_image.value}`" />
             </swiper-slide>
           </swiper>
+        </div>
+      </div>
+    </div>
+    <div v-else class="s-partners__wrapper">
+      <h2 class="s-partners__title s-program-timeline__title other a-font_h2" v-html="title"></h2>
+      <div class="s-partners__items">
+        <div class="s-partners__item" v-for="(company, idx) in companyList" :key="idx">
+          <a-logo type="bordered" :link="`${baseUrl}${company.logo_image.value}`" />
         </div>
       </div>
     </div>
