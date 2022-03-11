@@ -242,7 +242,6 @@ export default {
     changeInput() {
       if (this.searchCity !== null) {
         this.auto = false;
-        // return this.searchCity;
       }
     },
   },
