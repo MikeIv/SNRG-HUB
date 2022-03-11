@@ -51,7 +51,7 @@
                   </div>
                   <nuxt-link
                     v-if="linkItem.products.length > 5"
-                    :to="`${buildFilterUrl(linkItem.link)}`"
+                    :to="linkItem.link"
                     @click.native="changeIsOpen"
                     class="s-menu-main__link-more"
                   >
@@ -161,10 +161,6 @@ export default {
   },
 
   methods: {
-    buildFilterUrl(link) {
-      return `${link.split('?')[0]}?page=1&${link.split('?')[1]}`;
-    },
-
     getActive(id) {
       this.menuLinks.forEach((data, i) => {
         const element = data;

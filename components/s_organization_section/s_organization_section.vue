@@ -63,20 +63,7 @@ import SOrganizationsProductList from '~/components/s_organizations_product_list
 export default {
   name: 'SOrganizationSection',
 
-  props: [
-    'title',
-    'hasPresets',
-    'presets',
-    'category',
-    'defaultFilters',
-    'slugs',
-    'categoryId',
-    'productsPerPage',
-    'entity_page',
-    'currentOption',
-    'options',
-    'filtersMenu',
-  ],
+  props: ['title', 'hasPresets', 'presets', 'productsPerPage', 'currentOption', 'options', 'filtersMenu'],
 
   components: {
     SCatalogTags,
@@ -94,7 +81,6 @@ export default {
       filterCheckboxData: {},
       filtersIdsData: {
         city_ids: [],
-        direction_ids: [],
         level_ids: [],
         format_ids: [],
       },
@@ -157,62 +143,16 @@ export default {
       const filtersResponse = await getOrganizationsCatalogFilter();
 
       filtersResponse.forEach((filters) => {
-        // Если мы передаем дефолтные фильтры, то мы выбираем фильтры, тэги и отправляем на бэк
-        if (this.defaultFilters) {
-          Object.entries(this.defaultFilters).forEach(([key, ids]) => {
-            if (filters.filter_by === key && ids.length) {
-              if (ids.length === 1) {
-                const found = filters.values.find((value) => value.id === ids[0]);
-                this.$set(found, 'isChecked', true);
-                const newFilter = { ...found, key };
-                this.selectedFilters.push(newFilter);
-                this.filtersIdsData[key].push(ids[0]);
-                this.$emit('slug', newFilter);
-              } else {
-                ids.forEach((id) => {
-                  const found = filters.values.find((value) => value.id === id);
-                  this.$set(found, 'isChecked', true);
-                  this.selectedFilters.push({ ...found, key });
-                  this.filtersIdsData[key].push(id);
-                });
-              }
-            }
-          });
-        }
-
-        if (filters.type === 'list') {
-          if (this.entity_page) {
-            if (`${this.entity_page.type}_ids` !== filters.filter_by) {
-              this.filterListData[filters.filter_by] = { ...filters };
-            }
-          } else {
+        if (filters.filter_by !== 'direction_ids' && filters.filter_by !== 'subject_ids') {
+          if (filters.type === 'list') {
             this.filterListData[filters.filter_by] = { ...filters };
           }
-        }
 
-        if (filters.type === 'checkbox') {
-          this.filterCheckboxData[filters.filter_by] = { ...filters };
+          if (filters.type === 'checkbox') {
+            this.filterCheckboxData[filters.filter_by] = { ...filters };
+          }
         }
-
-        // Todo с бэка будет приходить еще один тип в будущем
-        // нужно будет добавить сюда проверку
       });
-
-      // Если нам приходят слаги с урла, то тоже находим их фильтры, выбираем и отправляем на бэк
-      if (this.slugs) {
-        Object.values(this.filterListData).forEach((filterList) => {
-          filterList.values.forEach((value) => {
-            this.slugs.forEach((slug) => {
-              if (value.slug === slug) {
-                this.$set(value, 'isChecked', true);
-                this.filtersIdsData[filterList.filter_by].push(value.id);
-                const newFilter = { ...value, key: filterList.filter_by };
-                this.selectedFilters.push(newFilter);
-              }
-            });
-          });
-        });
-      }
 
       this.componentFilterKey += 3;
     },

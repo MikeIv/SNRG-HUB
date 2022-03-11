@@ -74,7 +74,7 @@
               />
               <a-factoid
                 type="default"
-                :title="program.duration"
+                :title="getDurationDate"
                 subtitle="Длительность"
                 class="s-program-start__info-bottom-additional_factoid"
                 v-if="program.duration"
@@ -129,6 +129,7 @@ export default {
 
   data() {
     return {
+      getDuration: '',
       baseURL: process.env.NUXT_ENV_S3BACKET,
       isMenuOpen: false,
 
@@ -152,6 +153,7 @@ export default {
         social: [],
         city: '',
         document: '',
+        beginDuration: '',
         duration: '',
         form: '',
         photo: '',
@@ -265,9 +267,25 @@ export default {
     }
 
     // Перевод строки в виде "4y-6m-5d" и возврат даты в нужном формате (4 года 6 месяцев 5 дней)
-    if (getData.duration_format_value) {
+
+    const beginDurationFormatValue = getData.begin_duration_format_value;
+    if (beginDurationFormatValue) {
+      this.program.beginDuration = getDateFromDatesObj(getParseDate(getData.begin_duration_format_value));
+    }
+
+    const durationFormatValue = getData.duration_format_value;
+    if (durationFormatValue) {
       this.program.duration = getDateFromDatesObj(getParseDate(getData.duration_format_value));
     }
+  },
+
+  computed: {
+    getDurationDate() {
+      if (this.program.beginDuration === '') {
+        return this.program.duration;
+      }
+      return `${this.program.beginDuration} - ${this.program.duration}`;
+    },
   },
 
   methods: {

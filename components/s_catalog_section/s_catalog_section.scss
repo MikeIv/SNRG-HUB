@@ -1,6 +1,14 @@
 @import '/assets/styles/tools/mixins';
 
 .catalog-page {
+  &__breadcrumbs {
+    li.a-breadcrumbs__wrapper:not(:last-child) {
+      @media all and (max-width: 730px) {
+        display: flex;
+      }
+    }
+  }
+
   &__section {
     margin-bottom: rem(20);
     padding: rem(60) rem(80) 0 rem(80);
