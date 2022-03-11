@@ -4,55 +4,75 @@
       <div class="s-partners__box">
         <h2 class="s-partners__title main" v-html="title"></h2>
         <div class="s-partners__swiper" :key="key">
+          <!--          <swiper-->
+          <!--            :key="`${key}-first`"-->
+          <!--            ref="partnersSwiper"-->
+          <!--            :options="{-->
+          <!--              ...swiperOptions,-->
+          <!--              ...{-->
+          <!--                autoplay: {-->
+          <!--                  delay: 1,-->
+          <!--                  disableOnInteraction: false,-->
+          <!--                },-->
+          <!--              },-->
+          <!--            }"-->
+          <!--          >-->
+          <!--            <swiper-slide v-for="(company, idx) in companyList" :key="idx" class="s-partners__slide">-->
+          <!--              <a-logo type="bordered" :link="`${baseUrl}${company.logo_image.value}`" />-->
+          <!--            </swiper-slide>-->
+          <!--          </swiper>-->
+          <!--          <swiper-->
+          <!--            :key="`${key}-second`"-->
+          <!--            ref="partnersSwiper"-->
+          <!--            :options="{-->
+          <!--              ...swiperOptions,-->
+          <!--              ...{-->
+          <!--                autoplay: {-->
+          <!--                  delay: 1,-->
+          <!--                  reverseDirection: true,-->
+          <!--                  disableOnInteraction: false,-->
+          <!--                },-->
+          <!--              },-->
+          <!--            }"-->
+          <!--          >-->
+          <!--            <swiper-slide v-for="(company, idx) in companyList" :key="idx" class="s-partners__slide">-->
+          <!--              <a-logo type="bordered" :link="`${baseUrl}${company.logo_image.value}`" />-->
+          <!--            </swiper-slide>-->
+          <!--          </swiper>-->
+          <!--          <swiper-->
+          <!--            :key="`${key}-third`"-->
+          <!--            ref="partnersSwiper"-->
+          <!--            :options="{-->
+          <!--              ...swiperOptions,-->
+          <!--              ...{-->
+          <!--                autoplay: {-->
+          <!--                  delay: 1,-->
+          <!--                  disableOnInteraction: false,-->
+          <!--                },-->
+          <!--              },-->
+          <!--            }"-->
+          <!--          >-->
+          <!--            <swiper-slide v-for="(company, idx) in companyList" :key="idx" class="s-partners__slide">-->
+          <!--              <a-logo type="bordered" :link="`${baseUrl}${company.logo_image.value}`" />-->
+          <!--            </swiper-slide>-->
+          <!--          </swiper>-->
+
           <swiper
-            :key="`${key}-first`"
+            v-for="index in swiperCount"
+            :key="`${index}-${key}`"
             ref="partnersSwiper"
             :options="{
               ...swiperOptions,
               ...{
                 autoplay: {
                   delay: 1,
+                  reverseDirection: !!(index % 2),
                   disableOnInteraction: false,
                 },
               },
             }"
           >
-            <swiper-slide v-for="(company, idx) in companyList" :key="idx" class="s-partners__slide">
-              <a-logo type="bordered" :link="`${baseUrl}${company.logo_image.value}`" />
-            </swiper-slide>
-          </swiper>
-          <swiper
-            :key="`${key}-second`"
-            ref="partnersSwiper"
-            :options="{
-              ...swiperOptions,
-              ...{
-                autoplay: {
-                  delay: 1,
-                  reverseDirection: true,
-                  disableOnInteraction: false,
-                },
-              },
-            }"
-          >
-            <swiper-slide v-for="(company, idx) in companyList" :key="idx" class="s-partners__slide">
-              <a-logo type="bordered" :link="`${baseUrl}${company.logo_image.value}`" />
-            </swiper-slide>
-          </swiper>
-          <swiper
-            :key="`${key}-third`"
-            ref="partnersSwiper"
-            :options="{
-              ...swiperOptions,
-              ...{
-                autoplay: {
-                  delay: 1,
-                  disableOnInteraction: false,
-                },
-              },
-            }"
-          >
-            <swiper-slide v-for="(company, idx) in companyList" :key="idx" class="s-partners__slide">
+            <swiper-slide v-for="(company, idx) in chunkedList[index - 1]" :key="idx" class="s-partners__slide">
               <a-logo type="bordered" :link="`${baseUrl}${company.logo_image.value}`" />
             </swiper-slide>
           </swiper>
@@ -90,14 +110,16 @@ export default {
   data() {
     return {
       companyList: [],
-      chunkedCompanyList: [],
+      swiperCount: 0,
+      chunks: 7,
+      chunkedList: [],
       baseUrl: process.env.NUXT_ENV_S3BACKET,
       swiperOptions: {
         spaceBetween: 12,
         autoHeight: false,
         loop: true,
         slidesPerView: 'auto',
-        speed: 2000,
+        speed: 4000,
         grabCursor: true,
         mousewheelControl: true,
         keyboardControl: true,
@@ -111,10 +133,27 @@ export default {
   methods: {
     chunkArray(array, chunk) {
       for (let i = 0; i < array.length; i += chunk) {
-        this.chunkedCompanyList.push(array.slice(i, i + chunk));
+        const newChunk = array.slice(i, i + chunk);
+        if (array.slice(i, i + chunk).length < 7 && array.slice(i, i + chunk).length > 3) {
+          this.chunkedList.push([...newChunk, ...newChunk]);
+        } else if (array.slice(i, i + chunk).length <= 3) {
+          // eslint-disable-next-line max-len
+          this.chunkedList.push([
+            ...newChunk,
+            ...newChunk,
+            ...newChunk,
+            ...newChunk,
+            ...newChunk,
+            ...newChunk,
+            ...newChunk,
+          ]);
+        } else {
+          this.chunkedList.push(newChunk);
+        }
       }
+
       console.log('this.companyList', array);
-      console.log('this.chunkedCompanyList', this.chunkedCompanyList);
+      console.log('this.chunkedCompanyList', this.chunkedList);
     },
   },
 
@@ -122,7 +161,8 @@ export default {
     const expandedMethod = this.methods[0].data;
     const preData = await getEntitiesSectionsDetail(expandedMethod);
     this.companyList = preData.json.items.data;
-    this.chunkArray(this.companyList, 7);
+    this.swiperCount = Math.ceil(this.companyList.length / this.chunks);
+    this.chunkArray(this.companyList, this.chunks);
     this.key += 1;
   },
 };
