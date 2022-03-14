@@ -2,14 +2,28 @@
   <section class="s-main-topics">
     <div class="l-wide">
       <div class="s-main-topics__wrapper">
-        <h2 class="s-main-topics__title a-font_h5">{{ title }}</h2>
-        <div class="s-main-topics__swiper" :class="{ hidden: !isHidden }">
-          <swiper ref="awesomeSwiper" :options="swiperOptionA">
-            <swiper-slide
-              v-for="product in directionsList"
-              :key="product.id"
-              class="s-main-topics__slide m-card-vertical"
-            >
+        <div class="s-main-topics__box">
+          <h2 class="s-main-topics__title a-font_h5">{{ title }}</h2>
+          <div class="s-main-topics__swiper" :class="{ hidden: !isHidden }">
+            <swiper ref="awesomeSwiper" :options="swiperOptionA">
+              <swiper-slide
+                v-for="product in directionsList"
+                :key="product.id"
+                class="s-main-topics__slide m-card-vertical"
+              >
+                <nuxt-link :to="`/catalog/${product.slug}?page=1`">
+                  <m-card-edu
+                    :title="product.name"
+                    :description="`${product.product_count} программ`"
+                    :iconClasses="`${baseUrl}${product.preview_image}`"
+                  />
+                </nuxt-link>
+              </swiper-slide>
+            </swiper>
+            <div class="swiper-pagination-topics" slot="pagination"></div>
+          </div>
+          <div class="s-main-topics__cards cards" :class="{ hidden: isHidden }">
+            <div class="s-main-topics__card" v-for="product in directionsList" :key="product.id">
               <nuxt-link :to="`/catalog/${product.slug}?page=1`">
                 <m-card-edu
                   :title="product.name"
@@ -17,28 +31,10 @@
                   :iconClasses="`${baseUrl}${product.preview_image}`"
                 />
               </nuxt-link>
-            </swiper-slide>
-          </swiper>
-          <div class="swiper-pagination-topics" slot="pagination"></div>
-        </div>
-        <div class="s-main-topics__cards cards" :class="{ hidden: isHidden }">
-          <div class="s-main-topics__card" v-for="product in directionsList" :key="product.id">
-            <nuxt-link :to="`/catalog/${product.slug}?page=1`">
-              <m-card-edu
-                :title="product.name"
-                :description="`${product.product_count} программ`"
-                :iconClasses="`${baseUrl}${product.preview_image}`"
-              />
-            </nuxt-link>
+            </div>
           </div>
+          <a-button v-if="!flag" class="s-main-topics__btn" label="Показать все" @click="showMoreCards" />
         </div>
-
-        <a-button
-          v-if="!flag && directionsFullList.length > this.maxCardsCount"
-          class="s-main-topics__btn"
-          label="Показать все"
-          @click="showMoreCards"
-        />
       </div>
     </div>
   </section>
@@ -104,7 +100,7 @@ export default {
       if (this.flag) {
         return this.directionsFullList;
       }
-      return this.directionsFullList.slice(0, this.maxCardsCount);
+      return this.directionsFullList;
     },
   },
   async fetch() {
