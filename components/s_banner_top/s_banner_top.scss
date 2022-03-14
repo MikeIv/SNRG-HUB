@@ -156,10 +156,11 @@
     }
 
     &-checkbox {
-      align-items: flex-start;
       padding: 0;
 
       @media screen and (max-width: 991px) {
+        align-items: flex-start;
+
         .a-control__switch {
           margin-top: rem(3);
         }
