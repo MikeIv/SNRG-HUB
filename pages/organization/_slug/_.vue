@@ -17,6 +17,7 @@
         :type="type"
         :routePath="routePath"
         :allCategories="allCategories"
+        :entity_page="pageInfo.entity_page"
         @change-sort-options="changeSortOptions"
         @menu-toggle="menuToggle"
       ></component>
