@@ -36,6 +36,13 @@
     line-height: rem(20);
   }
 
+  .m-card-vertical__img {
+    min-height: rem(206);
+    @media screen and (max-width: 991px) {
+      min-height: rem(136);
+    }
+  }
+
   .swiper-pagination-bullet {
     width: rem(162);
     height: rem(4);
