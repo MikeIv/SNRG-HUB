@@ -4,59 +4,6 @@
       <div class="s-partners__box">
         <h2 class="s-partners__title main" v-html="title"></h2>
         <div class="s-partners__swiper" :key="key">
-          <!--          <swiper-->
-          <!--            :key="`${key}-first`"-->
-          <!--            ref="partnersSwiper"-->
-          <!--            :options="{-->
-          <!--              ...swiperOptions,-->
-          <!--              ...{-->
-          <!--                autoplay: {-->
-          <!--                  delay: 1,-->
-          <!--                  disableOnInteraction: false,-->
-          <!--                },-->
-          <!--              },-->
-          <!--            }"-->
-          <!--          >-->
-          <!--            <swiper-slide v-for="(company, idx) in companyList" :key="idx" class="s-partners__slide">-->
-          <!--              <a-logo type="bordered" :link="`${baseUrl}${company.logo_image.value}`" />-->
-          <!--            </swiper-slide>-->
-          <!--          </swiper>-->
-          <!--          <swiper-->
-          <!--            :key="`${key}-second`"-->
-          <!--            ref="partnersSwiper"-->
-          <!--            :options="{-->
-          <!--              ...swiperOptions,-->
-          <!--              ...{-->
-          <!--                autoplay: {-->
-          <!--                  delay: 1,-->
-          <!--                  reverseDirection: true,-->
-          <!--                  disableOnInteraction: false,-->
-          <!--                },-->
-          <!--              },-->
-          <!--            }"-->
-          <!--          >-->
-          <!--            <swiper-slide v-for="(company, idx) in companyList" :key="idx" class="s-partners__slide">-->
-          <!--              <a-logo type="bordered" :link="`${baseUrl}${company.logo_image.value}`" />-->
-          <!--            </swiper-slide>-->
-          <!--          </swiper>-->
-          <!--          <swiper-->
-          <!--            :key="`${key}-third`"-->
-          <!--            ref="partnersSwiper"-->
-          <!--            :options="{-->
-          <!--              ...swiperOptions,-->
-          <!--              ...{-->
-          <!--                autoplay: {-->
-          <!--                  delay: 1,-->
-          <!--                  disableOnInteraction: false,-->
-          <!--                },-->
-          <!--              },-->
-          <!--            }"-->
-          <!--          >-->
-          <!--            <swiper-slide v-for="(company, idx) in companyList" :key="idx" class="s-partners__slide">-->
-          <!--              <a-logo type="bordered" :link="`${baseUrl}${company.logo_image.value}`" />-->
-          <!--            </swiper-slide>-->
-          <!--          </swiper>-->
-
           <swiper
             v-for="index in swiperCount"
             :key="`${index}-${key}`"
