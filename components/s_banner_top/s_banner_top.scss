@@ -1,0 +1,254 @@
+@import '@/assets/styles/tools/mixins';
+
+.s-banner-top {
+  padding: rem(20) 0;
+  background-color: var(--a-color_bg--secondary);
+
+  &__wrapper {
+    position: relative;
+    display: flex;
+    overflow: hidden;
+    justify-content: space-between;
+    align-items: center;
+    max-height: rem(106);
+    padding: rem(21) rem(48);
+    background-color: var(--a-color_text);
+    border-radius: rem(16);
+
+    @media screen and (max-width: 1330px) {
+      max-height: rem(150);
+    }
+
+    @media screen and (max-width: 767px) {
+      flex-direction: column;
+      max-height: unset;
+      padding: rem(33) rem(17);
+    }
+  }
+
+  &__image {
+    margin-left: rem(-90);
+    background-repeat: no-repeat;
+    background-position: center center;
+
+    @media screen and (max-width: 991px) {
+      margin-left: rem(-160);
+    }
+
+    @media screen and (max-width: 767px) {
+      margin: rem(-80) 0 rem(15) rem(-47);
+    }
+  }
+
+  &__text {
+    max-width: rem(774);
+    margin: 0 rem(10);
+    color: var(--a-color_bg);
+    text-align: center;
+
+    @media screen and (max-width: 1330px) {
+      max-width: rem(450);
+    }
+
+    @media screen and (max-width: 991px) {
+      max-width: rem(350);
+      margin: 0;
+    }
+
+    @media screen and (max-width: 767px) {
+      max-width: unset;
+      margin-bottom: rem(26);
+    }
+  }
+
+  &__title,
+  &__subtitle {
+    font-weight: 400;
+  }
+
+  &__title {
+    margin-bottom: rem(4);
+    font-size: rem(28);
+    line-height: rem(36);
+
+    @media screen and (max-width: 991px) {
+      font-size: rem(22);
+      line-height: rem(28);
+    }
+
+    @media screen and (max-width: 575px) {
+      font-size: rem(20);
+      line-height: rem(24);
+    }
+  }
+
+  &__subtitle {
+    font-size: rem(16);
+    line-height: rem(24);
+
+    @media screen and (max-width: 991px) {
+      font-size: rem(14);
+      line-height: rem(20);
+    }
+  }
+
+  &__button {
+    width: rem(210);
+    height: rem(44);
+    margin-left: rem(5);
+    border-radius: rem(6);
+
+    @media screen and (max-width: 991px) {
+      padding: rem(14);
+
+      .a-font_button {
+        padding: 0;
+        font-size: rem(14);
+        line-height: rem(14);
+      }
+    }
+
+    @media screen and (max-width: 767px) {
+      width: rem(234);
+      height: rem(48);
+      padding: 0;
+    }
+
+    &.popup {
+      width: rem(248);
+      height: rem(48);
+      margin-left: rem(12);
+
+      @media screen and (max-width: 991px) {
+        width: 100%;
+        height: rem(48);
+        margin-top: rem(20);
+        margin-left: 0;
+      }
+    }
+  }
+
+  &__popup {
+    &-title {
+      margin-bottom: rem(24);
+
+      @media screen and (max-width: 991px) {
+        width: 49%;
+      }
+
+      @media screen and (max-width: 767px) {
+        width: 100%;
+      }
+
+      @media screen and (max-width: 575px) {
+        max-width: rem(281);
+      }
+    }
+
+    &-content {
+      @media screen and (max-width: 991px) {
+        width: 49%;
+      }
+
+      @media screen and (max-width: 767px) {
+        width: 100%;
+      }
+    }
+
+    &-checkbox {
+      align-items: flex-start;
+      padding: 0;
+
+      @media screen and (max-width: 991px) {
+        .a-control__switch {
+          margin-top: rem(3);
+        }
+      }
+    }
+
+    &-inputs {
+      margin-bottom: rem(20);
+
+      @media screen and (max-width: 991px) {
+        margin-bottom: rem(24);
+      }
+    }
+
+    &-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      & + .s-banner-top__popup-row {
+        margin-top: rem(16);
+      }
+
+      @media screen and (max-width: 991px) {
+        flex-direction: column;
+
+        & + .s-banner-top__popup-row {
+          margin-top: rem(12);
+        }
+      }
+    }
+
+    &-input {
+      width: calc(33% - rem(12));
+
+      @media screen and (max-width: 991px) {
+        width: 100%;
+
+        & + .s-banner-top__popup-input {
+          margin-top: rem(12);
+        }
+      }
+
+      &.vue-tel-input {
+        @media screen and (max-width: 991px) {
+          margin-bottom: 0;
+        }
+      }
+
+      .a-input__row {
+        width: 100%;
+      }
+
+      &.institution {
+        width: 100%;
+      }
+    }
+
+    .a-popup {
+      position: relative;
+
+      &__container {
+        padding: rem(48) rem(44);
+
+        @media screen and (max-width: 991px) {
+          display: flex;
+          flex-direction: row;
+          justify-content: space-between;
+        }
+
+        @media screen and (max-width: 767px) {
+          display: flex;
+          flex-direction: column;
+        }
+
+        @media screen and (max-width: 575px) {
+          padding: rem(24) rem(16);
+        }
+      }
+
+      &__close {
+        position: absolute;
+        top: rem(18);
+        right: rem(18);
+      }
+
+      &__i {
+        font-size: rem(24);
+      }
+    }
+  }
+}
