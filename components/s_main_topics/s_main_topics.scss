@@ -1,13 +1,6 @@
 @import '@/assets/styles/tools/mixins';
 
 .s-main-topics {
-  padding: rem(24) 0;
-  background: var(--a-color_bg--secondary);
-
-  @media screen and (max-width: 767px) {
-    padding: rem(8) 0;
-  }
-
   .l-wide {
     padding: 0;
   }
@@ -64,11 +57,20 @@
 
   &__wrapper {
     position: relative;
-    padding: 0 var(--layout-padding);
     @media screen and (max-width: 767px) {
       padding: rem(24) var(--layout-padding);
       background-color: var(--a-color_bg);
       border-radius: rem(10);
+    }
+  }
+
+  &__box {
+    padding: rem(48) 0 rem(48) rem(40);
+    @media screen and (max-width: 991px) {
+      padding: rem(24) 0 rem(24) rem(30);
+    }
+    @media screen and (max-width: 767px) {
+      padding: 0;
     }
   }
   &__title {

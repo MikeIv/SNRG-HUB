@@ -49,10 +49,25 @@
   }
 
   &__slide {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
     width: rem(220);
+    height: auto;
+    min-height: rem(90);
+    border: rem(1) solid rgba(207, 211, 216, 0.5);
+    border-radius: rem(8);
 
     @media screen and (max-width: 768px) {
-      width: rem(168);
+      width: rem(162);
+      height: rem(68);
+      min-height: unset;
+      padding: rem(15);
+    }
+
+    .a-logo {
+      display: flex;
     }
   }
 
