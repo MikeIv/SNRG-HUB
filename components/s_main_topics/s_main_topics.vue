@@ -6,7 +6,7 @@
         <div class="s-main-topics__swiper" :class="{ hidden: !isHidden }">
           <swiper ref="awesomeSwiper" :options="swiperOptionA">
             <swiper-slide
-              v-for="product in directionsList"
+              v-for="product in directionsFullList"
               :key="product.id"
               class="s-main-topics__slide m-card-vertical"
             >
@@ -22,7 +22,7 @@
           <div class="swiper-pagination-topics" slot="pagination"></div>
         </div>
         <div class="s-main-topics__cards cards" :class="{ hidden: isHidden }">
-          <div class="s-main-topics__card" v-for="product in directionsList" :key="product.id">
+          <div class="s-main-topics__card" v-for="product in directionsFullList" :key="product.id">
             <nuxt-link :to="`/catalog/${product.slug}?page=1`">
               <m-card-edu
                 :title="product.name"
@@ -33,12 +33,7 @@
           </div>
         </div>
 
-        <a-button
-          v-if="!flag && directionsFullList.length > this.maxCardsCount"
-          class="s-main-topics__btn"
-          label="Показать все"
-          @click="showMoreCards"
-        />
+        <a-button v-if="isHidden" class="s-main-topics__btn" label="Показать все" @click="showMoreCards" />
       </div>
     </div>
   </section>
@@ -54,9 +49,7 @@ export default {
   name: 'SMainTopics',
   data() {
     return {
-      list: [],
       directionsFullList: [],
-      flag: false,
       baseUrl: process.env.NUXT_ENV_S3BACKET,
       isHidden: true,
       swiperOptionA: {
@@ -99,21 +92,12 @@ export default {
     SwiperSlide,
   },
   props: ['methods', 'title'],
-  computed: {
-    directionsList() {
-      if (this.flag) {
-        return this.directionsFullList;
-      }
-      return this.directionsFullList.slice(0, this.maxCardsCount);
-    },
-  },
   async fetch() {
     const expandedMethod = this.methods[0].data;
     this.directionsFullList = await getCatalogCategoriesList(expandedMethod);
   },
   methods: {
     showMoreCards() {
-      this.flag = true;
       this.isHidden = !this.isHidden;
     },
     handleResize() {
