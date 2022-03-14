@@ -151,9 +151,6 @@ export default {
           this.chunkedList.push(newChunk);
         }
       }
-
-      console.log('this.companyList', array);
-      console.log('this.chunkedCompanyList', this.chunkedList);
     },
   },
 
