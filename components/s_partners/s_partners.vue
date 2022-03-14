@@ -20,7 +20,7 @@
             }"
           >
             <swiper-slide v-for="(company, idx) in chunkedList[index - 1]" :key="idx" class="s-partners__slide">
-              <a-logo type="bordered" :link="`${baseUrl}${company.logo_image.value}`" />
+              <a-logo type="standart" :link="`${baseUrl}${company.logo_image.value}`" />
             </swiper-slide>
           </swiper>
         </div>
