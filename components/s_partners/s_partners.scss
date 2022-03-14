@@ -1,29 +1,109 @@
 @import '@/assets/styles/tools/mixins';
 
 .s-partners {
-  margin-bottom: rem(20);
-  padding: rem(48) 0;
-
-  @media (max-width: 991px) {
-    margin-bottom: rem(12);
-    padding: var(--a-padding--x8) 0;
+  &.main {
+    padding: rem(20) 0;
+    background-color: var(--a-color_bg--secondary);
   }
 
-  @media (max-width: 575px) {
-    padding: var(--a-padding--x6) 0;
-  }
-
-  &__title {
-    margin-bottom: rem(32);
-    color: var(--a-color_text);
+  &.other {
+    margin-bottom: rem(20);
+    padding: rem(48) 0;
 
     @media (max-width: 991px) {
-      margin-bottom: rem(24);
-      font-size: rem(20);
+      margin-bottom: rem(12);
+      padding: var(--a-padding--x8) 0;
     }
 
     @media (max-width: 575px) {
-      margin-bottom: rem(20);
+      padding: var(--a-padding--x6) 0;
+    }
+  }
+
+  &__box {
+    padding: rem(48) 0;
+    background: var(--a-color_bg);
+    border-radius: rem(20);
+    box-shadow: 0 rem(2) rem(10) rgba(235, 235, 235, 0.6);
+
+    @media (max-width: 768px) {
+      padding: rem(32) 0;
+    }
+  }
+
+  &__swiper {
+    position: relative;
+
+    .swiper-wrapper {
+      transition-timing-function: linear;
+    }
+
+    .swiper-container {
+      height: auto;
+      padding: rem(1) rem(40);
+
+      & + .swiper-container {
+        margin-top: rem(12);
+      }
+    }
+  }
+
+  &__slide {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+    width: rem(220);
+    height: auto;
+    min-height: rem(90);
+    border: rem(1) solid rgba(207, 211, 216, 0.5);
+    border-radius: rem(8);
+
+    @media screen and (max-width: 768px) {
+      width: rem(162);
+      height: rem(68);
+      min-height: unset;
+      padding: rem(15);
+    }
+
+    .a-logo {
+      display: flex;
+    }
+  }
+
+  &__title {
+    &.main {
+      margin-bottom: rem(24);
+      padding: 0 rem(40);
+      color: var(--a-color_text);
+      font-size: rem(28);
+      line-height: rem(36);
+
+      @media (max-width: 768px) {
+        margin-bottom: rem(20);
+        padding: 0 rem(30);
+        font-size: rem(20);
+        line-height: rem(30);
+      }
+
+      @media (max-width: 575px) {
+        padding: 0 rem(16);
+        line-height: rem(24);
+      }
+    }
+
+    &.other {
+      margin-bottom: rem(32);
+      color: var(--a-color_text);
+
+      @media (max-width: 991px) {
+        margin-bottom: rem(24);
+        font-size: rem(20);
+      }
+
+      @media (max-width: 575px) {
+        margin-bottom: rem(20);
+      }
     }
   }
 
