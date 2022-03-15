@@ -66,7 +66,7 @@ export default {
         autoHeight: false,
         loop: true,
         slidesPerView: 'auto',
-        speed: 4000,
+        speed: 6000,
         grabCursor: true,
         mousewheelControl: true,
         keyboardControl: true,
