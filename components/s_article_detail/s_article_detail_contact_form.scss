@@ -1,0 +1,38 @@
+@import '@/assets/styles/tools/mixins';
+
+.s-contact-form-detail {
+  position: relative;
+  width: 100%;
+  margin: rem(20) auto;
+
+  .m-form {
+    background-color: var(--a-color_bg--secondary);
+
+    &__input {
+      width: calc(33% - rem(12));
+
+      @media screen and (max-width: 991px) {
+        width: calc(100% - rem(12));
+      }
+    }
+
+    &__submit {
+      width: calc(33% - rem(12));
+
+      @media screen and (max-width: 991px) {
+        width: calc(100% - rem(12));
+      }
+    }
+  }
+
+  .m-form__input.error-name input,
+  .m-form__input.error-mail input {
+    border: 2px solid var(--a-color_link);
+    &:focus {
+      border: 2px solid var(--a-color_link);
+    }
+  }
+  & .vue-tel-input.error {
+    border: 2px solid var(--a-color_link);
+  }
+}

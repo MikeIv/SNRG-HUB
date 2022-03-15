@@ -15,7 +15,7 @@
       :relatedArticles="relatedArticles"
       :tags="tags"
       :nameCourse="nameCourse"
-      :programs="programs"
+      :studyingPrograms="programs"
     />
   </div>
 </template>
