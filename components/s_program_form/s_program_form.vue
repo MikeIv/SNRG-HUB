@@ -18,6 +18,9 @@
           @input="validFormData"
           v-model="fieldsData.name"
           placeholder="Имя"
+          @focus="focused = true"
+          @blur="focused = false"
+          @change="changeInput"
         />
         <vue-tel-input
           class="m-form__input"
@@ -27,6 +30,8 @@
           placeholder="Телефон"
           v-model="fieldsData.phone"
           @input="validatePhone"
+          @focus="focused = true"
+          @blur="focused = false"
         >
         </vue-tel-input>
         <a-input
@@ -35,6 +40,8 @@
           @input="validFormData"
           v-model="fieldsData.email"
           placeholder="Почта"
+          @focus="focused = true"
+          @blur="focused = false"
         />
       </template>
     </m-form>
@@ -69,6 +76,7 @@ export default {
   },
 
   data: () => ({
+    focused: false,
     checkboxText: 'Нажимая на кнопку, вы соглашаетсь с политикой конфиденциальности и на получение рассылок',
     btnText: 'Записаться',
     typeCtrl: 'checkbox',
@@ -103,6 +111,16 @@ export default {
 
     validPhone: false,
   }),
+
+  watch: {
+    focused(val) {
+      if (val) {
+        document.documentElement.classList.add('btn-focused');
+      } else {
+        document.documentElement.classList.remove('btn-focused');
+      }
+    },
+  },
 
   mounted() {
     this.$emit('form-ref', this.$refs.form);
@@ -164,6 +182,7 @@ export default {
       this.phoneErrorFlag = this.validPhone === true && this.fieldsData.phone !== '';
       return this.nameErrorFlag && this.emailErrorFlag && this.validPhone;
     },
+    changeInput() {},
   },
 };
 </script>
