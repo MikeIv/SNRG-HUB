@@ -93,6 +93,7 @@ export default {
     'type',
     'routePath',
     'allCategories',
+    'entity_page',
   ],
 
   components: {
@@ -244,7 +245,13 @@ export default {
 
         if (filters.filter_by !== 'direction_ids' && filters.filter_by !== 'subject_ids') {
           if (filters.type === 'list') {
-            this.filterListData[filters.filter_by] = { ...filters };
+            if (this.entity_page) {
+              if (filters.filter_by !== 'organization_ids') {
+                this.filterListData[filters.filter_by] = { ...filters };
+              }
+            } else {
+              this.filterListData[filters.filter_by] = { ...filters };
+            }
           }
 
           if (filters.type === 'checkbox') {
@@ -331,6 +338,11 @@ export default {
           delete expandedMethod.filter[[key]];
         }
       });
+
+      if (this.entity_page) {
+        const filterKey = `${this.entity_page.type}_ids`;
+        expandedMethod.filter[filterKey] = [this.entity_page.id];
+      }
 
       if (this.subcategoryId) {
         expandedMethod.filter.new_category_all_ids = [this.subcategoryId];
