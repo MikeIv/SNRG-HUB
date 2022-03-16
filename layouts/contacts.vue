@@ -1,6 +1,7 @@
 <template>
   <div>
     <SHeader @search="search = $event" :banner="false" />
+    <SProductSearch v-if="search" :search="search" />
     <Nuxt />
     <LazyHydrate when-visible>
       <SFooter />
@@ -11,6 +12,7 @@
 <script>
 import LazyHydrate from 'vue-lazy-hydration';
 import SHeader from '~/components/s_header/s_header';
+import SProductSearch from '~/components/s_product_search/s_product_search';
 
 export default {
   data() {
@@ -31,6 +33,7 @@ export default {
 
   components: {
     SHeader,
+    SProductSearch,
     SFooter: () => import('~/components/s_footer/s_footer'),
     LazyHydrate,
   },
