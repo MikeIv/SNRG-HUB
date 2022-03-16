@@ -73,6 +73,7 @@ export default {
         mousewheel: false,
         noSwiping: true,
         noSwipingClass: 'noSwipingClass',
+        watchSlidesProgress: true,
       },
       key: 1000,
     };
