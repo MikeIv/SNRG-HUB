@@ -2,7 +2,7 @@
   <div>
     <SHeader @search="search = $event" :banner="false" />
     <SProductSearch v-if="search" :search="search" />
-    <Nuxt />
+    <Nuxt v-else />
     <LazyHydrate when-visible>
       <SFooter />
     </LazyHydrate>
