@@ -5,7 +5,6 @@
         <h2 class="s-partners__title main" v-html="title"></h2>
         <div class="s-partners__swiper" :key="key">
           <swiper
-            class="noSwipingClass"
             v-for="index in swiperCount"
             :key="`${index}-${key}`"
             ref="partnersSwiper"
@@ -68,11 +67,9 @@ export default {
         loop: true,
         slidesPerView: 'auto',
         speed: 6000,
-        grabCursor: false,
-        mousewheelControl: false,
-        keyboardControl: false,
-        noSwiping: true,
-        noSwipingClass: 'noSwipingClass',
+        grabCursor: true,
+        mousewheelControl: true,
+        keyboardControl: true,
       },
       key: 1000,
     };
