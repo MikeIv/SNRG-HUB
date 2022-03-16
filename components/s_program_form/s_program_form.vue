@@ -15,12 +15,14 @@
         <a-input
           class="m-form__input"
           :class="{ 'error-name': !nameErrorFlag }"
-          @input="validFormData"
+          @input="
+            validFormData();
+            changeInput();
+          "
           v-model="fieldsData.name"
           placeholder="Имя"
           @focus="focused = true"
           @blur="focused = false"
-          @change="changeInput"
         />
         <vue-tel-input
           class="m-form__input"
@@ -29,7 +31,10 @@
           type="phone"
           placeholder="Телефон"
           v-model="fieldsData.phone"
-          @input="validatePhone"
+          @input="
+            validFormData();
+            changeInput();
+          "
           @focus="focused = true"
           @blur="focused = false"
         >
@@ -37,7 +42,10 @@
         <a-input
           class="m-form__input"
           :class="{ 'error-mail': !emailErrorFlag }"
-          @input="validFormData"
+          @input="
+            validFormData();
+            changeInput();
+          "
           v-model="fieldsData.email"
           placeholder="Почта"
           @focus="focused = true"
@@ -182,7 +190,10 @@ export default {
       this.phoneErrorFlag = this.validPhone === true && this.fieldsData.phone !== '';
       return this.nameErrorFlag && this.emailErrorFlag && this.validPhone;
     },
-    changeInput() {},
+    changeInput() {
+      this.$store.commit('changeIsHidden', this.focused);
+      console.log(this.focused);
+    },
   },
 };
 </script>

@@ -19,6 +19,7 @@ export const state = () => ({
     land: '',
     redirectUrl: '',
   },
+  isVisible: true,
 });
 
 export const mutations = {
@@ -56,6 +57,9 @@ export const mutations = {
       }
     });
   },
+  changeIsVisible(state, val) {
+    state.isVisible = val;
+  },
 };
 
 export const actions = {
@@ -78,5 +82,9 @@ export const actions = {
 
   async nuxtServerInit({ dispatch }) {
     await dispatch('globalData/getGlobalData');
+  },
+
+  getChangeVisible({ commit }) {
+    commit('changeIsVisible', true);
   },
 };

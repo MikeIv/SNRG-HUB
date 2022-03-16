@@ -5,6 +5,7 @@
       label="Подобрать программу"
       class="a-font_button mobile-button__btn"
       @click="togglePopup"
+      v-if="isHidden"
     ></a-button>
 
     <APopup @close="popupOptions.visible = false" :visible="popupOptions.visible">
@@ -73,6 +74,7 @@ export default {
 
   data() {
     return {
+      isVisible: '',
       isScroll: false,
       scrollPosition: null,
       startPosition: null,
