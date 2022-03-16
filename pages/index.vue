@@ -11,20 +11,17 @@
         :viewType="view_type"
       ></component>
     </LazyHydrate>
-    <SPartners :methods="pageInfo.components[11].methods" :title="pageInfo.components[11].title" />
     <SBannerTop />
   </main>
 </template>
 
 <script>
 import LazyHydrate from 'vue-lazy-hydration';
-import SPartners from '~/components/s_partners/s_partners';
 
 export default {
   middleware: ['getPageInfo', 'parseUtms'],
 
   components: {
-    SPartners,
     LazyHydrate,
   },
   data() {

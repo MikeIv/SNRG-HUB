@@ -14,7 +14,8 @@
               ...{
                 autoplay: {
                   delay: 1,
-                  reverseDirection: !!(index % 2),
+                  // reverseDirection: !!(index % 2),
+                  reverseDirection: false,
                   disableOnInteraction: false,
                 },
               },
