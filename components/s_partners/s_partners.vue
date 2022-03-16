@@ -3,7 +3,7 @@
     <div v-if="this.$route.name === 'index'" class="l-wide">
       <div class="s-partners__box">
         <h2 class="s-partners__title main" v-html="title"></h2>
-        <div class="s-partners__swiper" :key="key">
+        <div v-if="chunkedList.length" class="s-partners__swiper" :key="key">
           <swiper
             class="noSwipingClass"
             v-for="index in swiperCount"
@@ -69,8 +69,8 @@ export default {
         slidesPerView: 'auto',
         speed: 6000,
         grabCursor: false,
-        mousewheelControl: false,
-        keyboardControl: false,
+        keyboard: false,
+        mousewheel: false,
         noSwiping: true,
         noSwipingClass: 'noSwipingClass',
       },
@@ -110,7 +110,7 @@ export default {
     this.companyList = preData.json.items.data;
     this.swiperCount = Math.ceil(this.companyList.length / this.chunks);
     this.chunkArray(this.companyList, this.chunks);
-    this.key += 1;
+    // this.key += 1;
   },
 };
 </script>
