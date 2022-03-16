@@ -110,7 +110,7 @@ export default {
     this.companyList = preData.json.items.data;
     this.swiperCount = Math.ceil(this.companyList.length / this.chunks);
     this.chunkArray(this.companyList, this.chunks);
-    // this.key += 1;
+    this.key += 1;
   },
 };
 </script>
