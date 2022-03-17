@@ -166,6 +166,12 @@ export default {
       this.phoneErrorFlag = this.validPhone === true && this.fieldsData.phone !== '';
       return this.nameErrorFlag && this.emailErrorFlag && this.validPhone;
     },
+    changeFocusInput() {
+      this.$store.commit('changeIsVisible', false);
+    },
+    changeBlurInput() {
+      this.$store.commit('changeIsVisible', true);
+    },
   },
 };
 </script>
