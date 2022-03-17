@@ -111,16 +111,6 @@ export default {
     validPhone: false,
   }),
 
-  watch: {
-    focused(val) {
-      if (val) {
-        document.documentElement.classList.add('btn-focused');
-      } else {
-        document.documentElement.classList.remove('btn-focused');
-      }
-    },
-  },
-
   mounted() {
     this.$emit('form-ref', this.$refs.form);
 
@@ -183,6 +173,7 @@ export default {
     },
     changeFocusInput() {
       this.$store.commit('changeIsVisible', false);
+      console.log('test');
     },
     changeBlurInput() {
       this.$store.commit('changeIsVisible', true);
