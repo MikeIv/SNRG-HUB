@@ -185,7 +185,7 @@ export default {
       this.$store.commit('changeIsVisible', false);
     },
     changeBlurInput() {
-      this.$store.commit('changeIsVisible', false);
+      this.$store.commit('changeIsVisible', true);
     },
   },
 };
