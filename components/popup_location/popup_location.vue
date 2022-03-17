@@ -17,36 +17,20 @@
         @focus="focused = true"
         @blur="focused = false"
         v-model.trim="searchCity"
-        @input="changeInput"
       />
       <div class="popup-location__dialog-list" ref="cities">
-        <span
-          class="popup-location__dialog-list-item"
-          v-for="city in cities.slice(0, 8)"
-          :key="city.index"
-          @input="changeInput"
-        >
+        <span class="popup-location__dialog-list-item" v-for="city in cities.slice(0, 8)" :key="city.index">
           <input type="radio" name="cityDialog" :value="city.name" v-model="cityPicked" />
           <span>{{ city.name }}</span>
         </span>
       </div>
-      <div class="popup-location__dialog-checkbox">
-        <a-control
-          typeBtn="checkbox"
-          typeCtrl="checkbox"
-          title="Определять автоматически"
-          labelPosition="right"
-          :checked="auto"
-          @change="changeAuto"
-        >
-        </a-control>
-      </div>
       <div class="popup-location__dialog-bottom">
+        <a-button bgColor="none" label="Сбросить город" @click="clearCity"></a-button>
         <a-button
           label="Сохранить"
           bgColor="accent"
           @click="saveCity(cityPicked)"
-          :disabled="auto || cityPicked ? false : true"
+          :disabled="cityPicked ? false : true"
         ></a-button>
         <a-button label="Отмена" bgColor="ghost-primary" @click="hidePopups"></a-button>
       </div>
@@ -55,13 +39,12 @@
 </template>
 
 <script>
-import { AInput, AButton, AControl } from '@cwespb/synergyui';
+import { AInput, AButton } from '@cwespb/synergyui';
 import { debounce } from '~/assets/js/debounce';
 import PopupAnimated from '~/components/popup_animated/popup_animated';
 import './popup_location.scss';
 import getCitiesList from '~/api/citiesList';
 import getPersonalIP from '~/api/personalIP';
-import getCityByIp from '~/api/personalCity';
 import getCityByStr from '~/api/getCityDadata';
 
 export default {
@@ -70,7 +53,6 @@ export default {
   components: {
     AInput,
     AButton,
-    AControl,
     PopupAnimated,
   },
 
@@ -85,7 +67,6 @@ export default {
       personalIP: '',
       isPopup: false,
       dadataKey: process.env.DADATA_KEY,
-      auto: false,
     };
   },
 
@@ -115,13 +96,14 @@ export default {
     },
 
     isPopup(val) {
-      this.cityPicked = null;
       if (val) {
         document.documentElement.classList.add('cityPopupOpened');
 
         if (!this.cityObj.name) {
           this.cityObj = this.$store.state.cityInfo;
         }
+
+        this.cityPicked = this.$store.state.cityInfo.name;
 
         this.sortSynergyCities();
       } else {
@@ -143,7 +125,9 @@ export default {
   },
 
   mounted() {
-    this.getCity();
+    if (this.$store.state.cityInfo.name) {
+      this.cityPicked = this.$store.state.cityInfo.name;
+    }
   },
 
   methods: {
@@ -151,17 +135,14 @@ export default {
       this.$store.commit('changeIsPopupSelectCity', false);
       this.isPopup = false;
       this.searchCity = '';
+      this.cityPicked = null;
     },
 
     saveCity(val) {
       const cityObjIndex = this.cities.findIndex((el) => el.name === val);
       const cityObj = this.cities[cityObjIndex];
 
-      if (!this.auto) {
-        this.cityObj = this.getCityObj(cityObj.name, cityObj.geoname_id, cityObj.city_kladr_id);
-      } else {
-        this.getCity();
-      }
+      this.cityObj = this.getCityObj(cityObj.name, cityObj.geoname_id, cityObj.city_kladr_id);
 
       this.$store.commit('setCityInfo', this.cityObj);
       localStorage.cityInfo = JSON.stringify(this.cityObj);
@@ -208,20 +189,6 @@ export default {
       }
     }, 700),
 
-    // Поиск города по ip
-    getCity() {
-      fetch('https://api.ipify.org?format=json')
-        .then((x) => x.json())
-        .then(({ ip }) => {
-          getCityByIp(ip).then((response) => {
-            if (response.location) {
-              const { data } = response.location;
-              this.cityObj = this.getCityObj(data.city, data.geoname_id, data.city_kladr_id);
-            }
-          });
-        });
-    },
-
     // Объект с информацией о городе, который выбрал пользователь
     getCityObj(name, geonameId, cityKladrId) {
       return {
@@ -231,18 +198,9 @@ export default {
       };
     },
 
-    changeAuto() {
-      this.auto = !this.auto;
-
-      if (this.auto && window.innerWidth < 768) {
-        this.getCity();
-        this.saveCityMobile(this.cityObj.name);
-      }
-    },
-    changeInput() {
-      if (this.searchCity !== null) {
-        this.auto = false;
-      }
+    clearCity() {
+      this.cityPicked = '';
+      this.searchCity = '';
     },
   },
 };
