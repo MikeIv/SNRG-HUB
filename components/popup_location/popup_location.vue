@@ -26,12 +26,7 @@
       </div>
       <div class="popup-location__dialog-bottom">
         <a-button bgColor="none" label="Сбросить город" @click="clearCity"></a-button>
-        <a-button
-          label="Сохранить"
-          bgColor="accent"
-          @click="saveCity(cityPicked)"
-          :disabled="cityPicked ? false : true"
-        ></a-button>
+        <a-button label="Сохранить" bgColor="accent" @click="saveCity(cityPicked)"></a-button>
         <a-button label="Отмена" bgColor="ghost-primary" @click="hidePopups"></a-button>
       </div>
     </PopupAnimated>
@@ -91,7 +86,6 @@ export default {
     cityPicked(val) {
       if (val) {
         this.searchCity = val;
-        this.saveCityMobile(val);
       }
     },
 
@@ -103,7 +97,7 @@ export default {
           this.cityObj = this.$store.state.cityInfo;
         }
 
-        if (this.$store.state.cityInfo.name && window.innerWidth > 767) {
+        if (this.$store.state.cityInfo.name) {
           this.cityPicked = this.$store.state.cityInfo.name;
         }
 
@@ -128,28 +122,23 @@ export default {
 
   methods: {
     hidePopups() {
-      this.$store.commit('changeIsPopupSelectCity', false);
       this.isPopup = false;
+      this.$store.commit('changeIsPopupSelectCity', this.isPopup);
       this.searchCity = '';
       this.cityPicked = null;
     },
 
     saveCity(val) {
-      const cityObjIndex = this.cities.findIndex((el) => el.name === val);
-      const cityObj = this.cities[cityObjIndex];
-
-      this.cityObj = this.getCityObj(cityObj.name, cityObj.geoname_id, cityObj.city_kladr_id);
+      if (val) {
+        const cityObjIndex = this.cities.findIndex((el) => el.name === val);
+        const cityObj = this.cities[cityObjIndex];
+        this.cityObj = this.getCityObj(cityObj.name, cityObj.geoname_id, cityObj.city_kladr_id);
+      }
 
       this.$store.commit('setCityInfo', this.cityObj);
       localStorage.cityInfo = JSON.stringify(this.cityObj);
 
       this.hidePopups();
-    },
-
-    saveCityMobile(val) {
-      if (val.length && window.innerWidth < 768) {
-        this.saveCity(val);
-      }
     },
 
     sortSynergyCities() {
@@ -197,6 +186,7 @@ export default {
     clearCity() {
       this.cityPicked = '';
       this.searchCity = '';
+      this.cityObj = '';
     },
   },
 };
