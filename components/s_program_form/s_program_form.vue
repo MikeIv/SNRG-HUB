@@ -15,14 +15,11 @@
         <a-input
           class="m-form__input"
           :class="{ 'error-name': !nameErrorFlag }"
-          @input="
-            validFormData();
-            changeInput();
-          "
+          @input="validFormData()"
           v-model="fieldsData.name"
           placeholder="Имя"
-          @focus="focused = true"
-          @blur="focused = false"
+          @focus="changeFocusInput"
+          @blur="changeBlurInput"
         />
         <vue-tel-input
           class="m-form__input"
@@ -31,25 +28,19 @@
           type="phone"
           placeholder="Телефон"
           v-model="fieldsData.phone"
-          @input="
-            validFormData();
-            changeInput();
-          "
-          @focus="focused = true"
-          @blur="focused = false"
+          @input="validFormData()"
+          @focus="changeFocusInput"
+          @blur="changeBlurInput"
         >
         </vue-tel-input>
         <a-input
           class="m-form__input"
           :class="{ 'error-mail': !emailErrorFlag }"
-          @input="
-            validFormData();
-            changeInput();
-          "
+          @input="validFormData()"
           v-model="fieldsData.email"
           placeholder="Почта"
-          @focus="focused = true"
-          @blur="focused = false"
+          @focus="changeFocusInput"
+          @blur="changeBlurInput"
         />
       </template>
     </m-form>
@@ -190,9 +181,11 @@ export default {
       this.phoneErrorFlag = this.validPhone === true && this.fieldsData.phone !== '';
       return this.nameErrorFlag && this.emailErrorFlag && this.validPhone;
     },
-    changeInput() {
-      this.$store.commit('changeIsHidden', this.focused);
-      console.log(this.focused);
+    changeFocusInput() {
+      this.$store.commit('changeIsVisible', false);
+    },
+    changeBlurInput() {
+      this.$store.commit('changeIsVisible', false);
     },
   },
 };

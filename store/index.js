@@ -83,8 +83,4 @@ export const actions = {
   async nuxtServerInit({ dispatch }) {
     await dispatch('globalData/getGlobalData');
   },
-
-  getChangeVisible({ commit }) {
-    commit('changeIsVisible', true);
-  },
 };
