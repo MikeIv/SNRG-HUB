@@ -103,7 +103,9 @@ export default {
           this.cityObj = this.$store.state.cityInfo;
         }
 
-        this.cityPicked = this.$store.state.cityInfo.name;
+        if (this.$store.state.cityInfo.name && window.innerWidth > 767) {
+          this.cityPicked = this.$store.state.cityInfo.name;
+        }
 
         this.sortSynergyCities();
       } else {
@@ -122,12 +124,6 @@ export default {
     isPopupSelectCity() {
       return this.$store.state.isPopupSelectCity;
     },
-  },
-
-  mounted() {
-    if (this.$store.state.cityInfo.name) {
-      this.cityPicked = this.$store.state.cityInfo.name;
-    }
   },
 
   methods: {
