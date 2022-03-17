@@ -44,7 +44,7 @@ export default {
           clickable: true,
         },
         mousewheel: {
-          invert: true,
+          invert: false,
         },
         breakpoints: {
           991: {

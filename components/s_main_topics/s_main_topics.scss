@@ -53,6 +53,10 @@
     &.hidden {
       display: none;
     }
+
+    .swiper-wrapper {
+      height: auto;
+    }
   }
 
   &__wrapper {
