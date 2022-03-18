@@ -34,9 +34,9 @@
       }
     }
 
-    &__text {
-      white-space: nowrap;
-    }
+    // &__text {
+    //   white-space: nowrap;
+    // }
   }
 
   .m-banner__main-wrapper {
@@ -73,7 +73,7 @@
   }
 
   &__items {
-    overflow-y: scroll;
+    overflow-y: auto;
     min-width: rem(243);
     height: calc(var(--vh, 1vh) * 100 - 195px);
     max-height: 100vh;
@@ -83,6 +83,10 @@
 
     &::-webkit-scrollbar {
       display: none;
+    }
+
+    &::-moz-scrollbars-vertical {
+      overflow: hidden;
     }
 
     @media screen and (max-width: 1499px) {
@@ -104,7 +108,7 @@
 
   &__content {
     overflow-x: hidden;
-    overflow-y: scroll;
+    overflow-y: auto;
     width: auto;
     height: calc(var(--vh, 1vh) * 100 - 156px);
     padding-top: var(--a-padding--x5);
@@ -113,6 +117,10 @@
 
     &::-webkit-scrollbar {
       display: none;
+    }
+
+    &::-moz-scrollbars-horizontal {
+      overflow: hidden;
     }
 
     @media screen and (max-width: 1499px) {
