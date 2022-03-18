@@ -99,6 +99,7 @@
           </div>
           <div class="m-quiz__finish-sogl">
             <a-control
+              class="m-quiz__finish-checkbox"
               typeBtn="checkbox"
               typeCtrl="checkbox"
               v-model="sogl"
