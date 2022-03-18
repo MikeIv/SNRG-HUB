@@ -28,7 +28,7 @@
           type="phone"
           placeholder="Телефон"
           v-model="fieldsData.phone"
-          @input="validFormData"
+          @input="validatePhone"
           @focus="changeFocusInput"
           @blur="changeBlurInput"
         >
