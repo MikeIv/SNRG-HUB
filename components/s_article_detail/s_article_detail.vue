@@ -49,53 +49,16 @@
           <div v-if="digitalImage" class="s-article-detail__content-preview">
             <img :src="`${baseURL}${digitalImage}`" alt="" />
           </div>
-          <div v-if="subtitle" class="s-article-detail__content-body" v-html="content"></div>
         </div>
       </div>
-      <div class="s-article-detail__programs" v-if="programs.length">
-        <h3 class="s-article-detail__programs-title">Лучшие программы по направлению "{{ nameCourse }}"</h3>
-        <swiper :options="swiperOptions" class="s-article-detail__programs-slider">
-          <swiper-slide class="s-article-detail__program" v-for="(program, id) in programs" :key="id">
-            <nuxt-link :to="`/catalog/${program.slug}`">
-              <m-card
-                type="program"
-                :verticalImgSrc="baseURL + program.preview_image"
-                :title="program.name"
-                :description="program.description"
-                :bottomText="program.included.organization.name"
-                :iconSrc="baseURL + program.included.organization.logo"
-              ></m-card>
-            </nuxt-link>
-          </swiper-slide>
-        </swiper>
-        <a-button
-          size="large"
-          label="Показать все"
-          bgColor="accent"
-          class="s-article-detail__programs-btn"
-          @click="goToJournal"
-        ></a-button>
-      </div>
-      <div class="s-article-detail__directions" v-if="false">
-        <div class="s-article-detail__directions-title a-font_h5">Направления в сфере {{ nameCourse }}</div>
-        <div class="s-article-detail__directions-items">
-          <nuxt-link :to="`/journal/${category.slug}`" v-for="(category, id) in categories" :key="id">
-            <a-tag :label="category.name" class="s-article-detail__directions-item"> </a-tag>
-          </nuxt-link>
-        </div>
-      </div>
-      <div class="s-article-detail__releative" v-if="relatedArticles.length">
-        <h3 class="s-article-detail__releative-title">Статьи по теме {{ nameCourse }}</h3>
-        <swiper :options="swiperOptionsArticles" class="s-article-detail__releative-slider">
-          <swiper-slide
-            class="s-article-detail__releative-item"
-            v-for="(relatedArticle, id) in relatedArticles"
-            :key="id"
-          >
-            <m-article :article="relatedArticle"></m-article>
-          </swiper-slide>
-        </swiper>
-      </div>
+      <component
+        v-for="(part, index) in partsContent()"
+        :key="index"
+        :is="part.template"
+        :data="part.data"
+        :nameCourse="nameCourse"
+        :categories="categories"
+      ></component>
       <div class="s-article-detail__tags">
         <nuxt-link :to="`/journal/${tag.slug}`" v-for="(tag, id) in tags" :key="id">
           <a-tag :label="`#${tag.name}`" class="s-article-detail__tag"></a-tag>
@@ -107,13 +70,15 @@
 
 <script>
 import './s_article_detail.scss';
-import {
-  MSocialShare, ATag, MCard, AButton,
-} from '@cwespb/synergyui';
+import { MSocialShare, ATag } from '@cwespb/synergyui';
 import { declOfNum } from '~/assets/js/getDateFromDatesObj';
-import { Swiper, SwiperSlide } from 'vue-awesome-swiper';
 import AUser from '~/components/_ui/a_user/a_user';
-import MArticle from '~/components/_ui/m_article/m_article';
+
+import Acontent from './s_article_detail_content';
+import categories from './s_article_detail_categories';
+import relatedArticles from './s_article_detail_related_articles';
+import contactForm from './s_article_detail_contact_form';
+import studyingPrograms from './s_article_detail_programs';
 
 export default {
   name: 's-article-detail',
@@ -122,11 +87,12 @@ export default {
     AUser,
     MSocialShare,
     ATag,
-    MArticle,
-    AButton,
-    MCard,
-    Swiper,
-    SwiperSlide,
+
+    Acontent,
+    categories,
+    contactForm,
+    relatedArticles,
+    studyingPrograms,
   },
 
   data() {
@@ -136,18 +102,6 @@ export default {
       article: {
         social: [],
         city: '',
-      },
-      swiperOptions: {
-        slidesPerView: 'auto',
-        spaceBetween: 20,
-        resistance: true,
-        resistanceRatio: 0,
-      },
-      swiperOptionsArticles: {
-        slidesPerView: 'auto',
-        spaceBetween: 24,
-        resistance: true,
-        resistanceRatio: 0,
       },
     };
   },
@@ -159,6 +113,11 @@ export default {
 
     readingTimeText() {
       return declOfNum(this.readingTime, ['минута', 'минуты', 'минут']);
+    },
+
+    splittedContent() {
+      const pattern = /\{\{\{(.[^}]+)\}\}\}/g;
+      return this.content.length ? this.content.split(pattern) : [];
     },
   },
 
@@ -211,7 +170,7 @@ export default {
     tags: {
       type: Array,
     },
-    programs: {
+    studyingPrograms: {
       type: Array,
     },
     nameCourse: {
@@ -224,6 +183,10 @@ export default {
 
   mounted() {},
 
+  created() {
+    this.$store.dispatch('getLanderInfo');
+  },
+
   methods: {
     changeMenuState(value) {
       this.isMenuOpen = value;
@@ -232,8 +195,8 @@ export default {
       if (
         /Android|webOS|iPhone|iPad|iPod|BlackBerry|BB|PlayBook|IEMobile|Windows Phone|Kindle|Silk|Opera Mini/i.test(
           navigator.userAgent,
-        )
-        && navigator.share
+        ) &&
+        navigator.share
       ) {
         navigator.share({
           title: this.title,
@@ -260,6 +223,28 @@ export default {
     },
     goToJournal() {
       this.$router.push(`/journal/${this.categories[0].slug}`);
+    },
+    partsContent() {
+      const result = [];
+      this.splittedContent.forEach((element) => {
+        const elementName = 'Acontent';
+
+        if (element.match(/shortcode:/)) {
+          const elementArrayName = element.split(':')[1];
+
+          result.push({
+            template: elementArrayName,
+            data: this[elementArrayName],
+          });
+        } else {
+          result.push({
+            template: elementName,
+            data: element,
+          });
+        }
+      });
+
+      return result;
     },
   },
 };

@@ -124,7 +124,8 @@ _paq.push(['enableLinkTracking']);
   loading: '~/components/s_loader/s_loader',
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
-  build: {},
+  build: {
+  },
 
   env: {
     NUXT_ENV_S3BACKET: process.env.NUXT_ENV_S3BACKET,
