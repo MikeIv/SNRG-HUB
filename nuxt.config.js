@@ -1,6 +1,6 @@
 /* eslint-disable max-len */
 export default {
-  debug: true,
+  debug: false,
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
     title: 'Образовательный маркетплейс',
@@ -77,14 +77,7 @@ export default {
 
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
-    // https://go.nuxtjs.dev/axios
     '@nuxtjs/axios',
-    // https://github.com/nuxt-community/robots-module
-    '@nuxtjs/robots',
-    // https://github.com/nuxt-community/gtm-module
-    // '@nuxtjs/gtm',
-    // https://www.npmjs.com/package/nuxt-facebook-pixel-module
-    // 'nuxt-facebook-pixel-module',
     '@nuxtjs/redirect-module',
   ],
 
@@ -111,24 +104,4 @@ export default {
     SITE_URL: process.env.SITE_URL,
   },
 
-  // robots.txt
-  robots: {
-    UserAgent: '*',
-    Disallow: '/admin',
-  },
-
-  // GTM
-  // gtm: {
-  //   id: process.env.SITE_GTM,
-  //   pageTracking: true,
-  // },
-
-  // Facebook pixel
-  // facebook: {
-  //   /* module options */
-  //   track: 'PageView',
-  //   pixelId: process.env.SITE_FB_PIXEL,
-  //   autoPageView: true,
-  //   disabled: false,
-  // },
 };
