@@ -15,7 +15,7 @@
         <a-input
           class="m-form__input"
           :class="{ 'error-name': !nameErrorFlag }"
-          @input="validFormData()"
+          @input="validFormData"
           v-model="fieldsData.name"
           placeholder="Имя"
           @focus="changeFocusInput"
@@ -28,7 +28,7 @@
           type="phone"
           placeholder="Телефон"
           v-model="fieldsData.phone"
-          @input="validFormData()"
+          @input="validFormData"
           @focus="changeFocusInput"
           @blur="changeBlurInput"
         >
@@ -36,7 +36,7 @@
         <a-input
           class="m-form__input"
           :class="{ 'error-mail': !emailErrorFlag }"
-          @input="validFormData()"
+          @input="validFormData"
           v-model="fieldsData.email"
           placeholder="Почта"
           @focus="changeFocusInput"
@@ -75,7 +75,6 @@ export default {
   },
 
   data: () => ({
-    focused: false,
     checkboxText: 'Нажимая на кнопку, вы соглашаетсь с политикой конфиденциальности и на получение рассылок',
     btnText: 'Записаться',
     typeCtrl: 'checkbox',
