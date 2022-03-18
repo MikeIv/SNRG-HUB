@@ -34,9 +34,12 @@
       }
     }
 
-    // &__text {
-    //   white-space: nowrap;
-    // }
+    &__text {
+      white-space: nowrap;
+      @media screen and (max-width: 991px) {
+        white-space: normal;
+      }
+    }
   }
 
   .m-banner__main-wrapper {
@@ -73,28 +76,23 @@
   }
 
   &__items {
-    overflow-y: auto;
-    min-width: rem(243);
+    overflow-y: scroll;
+    min-width: rem(350);
     height: calc(var(--vh, 1vh) * 100 - 195px);
     max-height: 100vh;
     padding-top: var(--a-padding--x5);
     padding-right: var(--a-padding--x4);
     border-right: 1px solid var(--a-color_thumbnail);
+    scrollbar-width: none;
 
     &::-webkit-scrollbar {
-      display: none;
+      display: none !important;
     }
 
-    &::-moz-scrollbars-vertical {
-      overflow: hidden;
-    }
-
-    @media screen and (max-width: 1499px) {
-      width: auto;
-      min-width: rem(238);
-    }
     @media screen and (max-width: 991px) {
+      min-width: rem(300);
       padding-top: 0;
+      padding-right: 0;
     }
 
     @media screen and (max-width: 767px) {
@@ -107,8 +105,8 @@
   }
 
   &__content {
-    overflow-x: hidden;
-    overflow-y: auto;
+    overflow-x: scroll;
+    overflow-y: hidden;
     width: auto;
     height: calc(var(--vh, 1vh) * 100 - 156px);
     padding-top: var(--a-padding--x5);
@@ -116,11 +114,7 @@
     transition: all 0.4s ease-in-out;
 
     &::-webkit-scrollbar {
-      display: none;
-    }
-
-    &::-moz-scrollbars-horizontal {
-      overflow: hidden;
+      display: none !important;
     }
 
     @media screen and (max-width: 1499px) {
