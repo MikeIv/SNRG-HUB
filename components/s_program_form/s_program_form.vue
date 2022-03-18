@@ -173,7 +173,6 @@ export default {
     },
     changeFocusInput() {
       this.$store.commit('changeIsVisible', false);
-      console.log('test');
     },
     changeBlurInput() {
       this.$store.commit('changeIsVisible', true);
