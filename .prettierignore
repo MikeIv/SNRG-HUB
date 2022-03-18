@@ -33,3 +33,4 @@ assets/images
 .gitignore
 CHANGELOG.md
 .gitlab
+app.html
