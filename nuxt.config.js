@@ -36,33 +36,6 @@ export default {
       { rel: 'preconnect', href: 'https://mp.synergy.ru' },
       { rel: 'preconnect', href: 'https://connect.facebook.net' },
     ],
-    // script: [
-    //   {
-    //     type: 'text/javascript',
-    //     // eslint-disable-next-line quotes
-    //     innerHTML: `(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({"gtm.start": new Date().getTime(),event:"gtm.js"});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!="dataLayer"?"&l="+l:"";j.async=true;j.src="https://www.googletagmanager.com/gtm.js?id="+i+dl;f.parentNode.insertBefore(j,f);})(window,document,"script","dataLayer","GTM-WPTVBRG");`,
-    //   },
-    // ],
-    __dangerouslyDisableSanitizers: ['script'],
-    script: [
-      {
-        type: 'text/javascript',
-        // eslint-disable-next-line quotes
-        innerHTML: `var _mtm = window._mtm = window._mtm || [];
-        _mtm.push({'mtm.startTime': (new Date().getTime()), 'event': 'mtm.Start'});
-        var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
-        g.type='text/javascript'; g.async=true; g.src='https://matomo.synergy.ru/js/container_3be7G1HM.js'; s.parentNode.insertBefore(g,s);`,
-      },
-      {
-        type: 'text/javascript',
-        // eslint-disable-next-line quotes
-        innerHTML: `var _paq = window._paq = window._paq || [];
-_paq.push(['trackPageView']);
-_paq.push(['enableLinkTracking']);
-(function(){ var u="https://matomo.synergy.ru/"; _paq.push(['setTrackerUrl', u+'matomo.php']); _paq.push(['setSiteId', '1']); var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0]; g.type='text/javascript'; g.async=true; g.src=u+'matomo.js'; s.parentNode.insertBefore(g,s); })();`,
-      },
-    ],
-
   },
 
   // Global CSS: https://go.nuxtjs.dev/config-css
