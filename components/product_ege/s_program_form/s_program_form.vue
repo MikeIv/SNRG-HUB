@@ -18,6 +18,8 @@
           @input="validFormData"
           v-model="fieldsData.name"
           placeholder="Имя"
+          @focus="changeFocusInput"
+          @blur="changeBlurInput"
         />
         <vue-tel-input
           class="m-form__input"
@@ -27,6 +29,8 @@
           placeholder="Телефон"
           v-model="fieldsData.phone"
           @input="validatePhone"
+          @focus="changeFocusInput"
+          @blur="changeBlurInput"
         >
         </vue-tel-input>
         <a-input
@@ -35,6 +39,8 @@
           @input="validFormData"
           v-model="fieldsData.email"
           placeholder="Почта"
+          @focus="changeFocusInput"
+          @blur="changeBlurInput"
         />
       </template>
     </m-form>
@@ -165,6 +171,12 @@ export default {
       this.emailErrorFlag = this.$lander.valid([{ value: this.fieldsData.email, type: 'email' }]);
       this.phoneErrorFlag = this.validPhone === true && this.fieldsData.phone !== '';
       return this.nameErrorFlag && this.emailErrorFlag && this.validPhone;
+    },
+    changeFocusInput() {
+      this.$store.commit('changeIsVisible', false);
+    },
+    changeBlurInput() {
+      this.$store.commit('changeIsVisible', true);
     },
   },
 };
