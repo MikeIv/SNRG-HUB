@@ -61,13 +61,9 @@ export default {
         initialSlide: 0,
         observer: true,
         freeMode: false,
-        mousewheelControl: true,
         pagination: {
           el: '.swiper-pagination-topics',
           clickable: true,
-        },
-        mousewheel: {
-          invert: false,
         },
         speed: 300,
         breakpoints: {
