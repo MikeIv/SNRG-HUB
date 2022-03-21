@@ -11,14 +11,14 @@
             ref="partnersSwiper"
             :options="{
               ...swiperOptions,
-              // ...{
-              //   autoplay: {
-              //     delay: 1,
-              //     // reverseDirection: !!(index % 2),
-              //     reverseDirection: false,
-              //     disableOnInteraction: false,
-              //   },
-              // },
+              ...{
+                autoplay: {
+                  delay: 1,
+                  reverseDirection: !!(index % 2),
+                  // reverseDirection: false,
+                  disableOnInteraction: false,
+                },
+              },
             }"
           >
             <swiper-slide v-for="(company, idx) in chunkedList[index - 1]" :key="idx" class="s-partners__slide">
@@ -64,16 +64,17 @@ export default {
       chunkedList: [],
       baseUrl: process.env.NUXT_ENV_S3BACKET,
       swiperOptions: {
+        updateOnWindowResize: true,
         spaceBetween: 12,
         autoHeight: false,
         loop: true,
         slidesPerView: 'auto',
-        // speed: 6000,
-        grabCursor: true,
+        speed: 6000,
+        grabCursor: false,
         keyboard: false,
         mousewheel: false,
-        // noSwiping: true,
-        // noSwipingClass: 'noSwipingClass',
+        noSwiping: true,
+        noSwipingClass: 'noSwipingClass',
         watchSlidesProgress: true,
       },
       key: 1000,
