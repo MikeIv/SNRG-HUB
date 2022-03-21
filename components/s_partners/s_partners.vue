@@ -6,7 +6,7 @@
         <div class="s-partners__swiper" :key="key">
           <swiper
             class="noSwipingClass"
-            ref="partnersSwiper"
+            ref="partnersSwiper1"
             :options="{
               ...swiperOptions,
               ...{
@@ -23,7 +23,7 @@
           </swiper>
           <swiper
             class="noSwipingClass"
-            ref="partnersSwiper"
+            ref="partnersSwiper2"
             :options="{
               ...swiperOptions,
               ...{
@@ -41,7 +41,7 @@
           </swiper>
           <swiper
             class="noSwipingClass"
-            ref="partnersSwiper"
+            ref="partnersSwiper3"
             :options="{
               ...swiperOptions,
               ...{
@@ -105,7 +105,7 @@ export default {
       chunkedList: [],
       baseUrl: process.env.NUXT_ENV_S3BACKET,
       swiperOptions: {
-        updateOnWindowResize: true,
+        // updateOnWindowResize: true,
         spaceBetween: 12,
         autoHeight: false,
         loop: true,
@@ -116,7 +116,6 @@ export default {
         mousewheel: false,
         noSwiping: true,
         noSwipingClass: 'noSwipingClass',
-        watchSlidesProgress: true,
       },
       key: 1000,
     };
