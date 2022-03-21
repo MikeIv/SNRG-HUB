@@ -11,14 +11,14 @@
             ref="partnersSwiper"
             :options="{
               ...swiperOptions,
-              ...{
-                autoplay: {
-                  delay: 1,
-                  // reverseDirection: !!(index % 2),
-                  reverseDirection: false,
-                  disableOnInteraction: false,
-                },
-              },
+              // ...{
+              //   autoplay: {
+              //     delay: 1,
+              //     // reverseDirection: !!(index % 2),
+              //     reverseDirection: false,
+              //     disableOnInteraction: false,
+              //   },
+              // },
             }"
           >
             <swiper-slide v-for="(company, idx) in chunkedList[index - 1]" :key="idx" class="s-partners__slide">
@@ -68,12 +68,12 @@ export default {
         autoHeight: false,
         loop: true,
         slidesPerView: 'auto',
-        speed: 6000,
-        grabCursor: false,
+        // speed: 6000,
+        grabCursor: true,
         keyboard: false,
         mousewheel: false,
-        noSwiping: true,
-        noSwipingClass: 'noSwipingClass',
+        // noSwiping: true,
+        // noSwipingClass: 'noSwipingClass',
         watchSlidesProgress: true,
       },
       key: 1000,
