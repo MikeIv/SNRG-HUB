@@ -1,12 +1,12 @@
 <template>
   <section class="s-partners" :class="this.$route.name === 'index' ? 'main' : 'other'">
-    <div v-if="this.$route.name === 'index'" class="l-wide">
+    <div v-if="this.$route.name === 'index' && companyList.length <= 21" class="l-wide">
       <div class="s-partners__box">
         <h2 class="s-partners__title main" v-html="title"></h2>
-        <div v-if="chunkedList.length" class="s-partners__swiper" :key="key">
+        <div class="s-partners__swiper" :key="key">
           <swiper
             class="noSwipingClass"
-            v-for="index in swiperCount"
+            v-for="index in 3"
             :key="`${index}-${key}`"
             ref="partnersSwiper"
             :options="{
@@ -14,8 +14,7 @@
               ...{
                 autoplay: {
                   delay: 1,
-                  // reverseDirection: !!(index % 2),
-                  reverseDirection: false,
+                  reverseDirection: !!(index % 2),
                   disableOnInteraction: false,
                 },
               },
@@ -25,6 +24,16 @@
               <a-logo type="standart" :link="`${baseUrl}${company.logo_image.value}`" />
             </swiper-slide>
           </swiper>
+        </div>
+      </div>
+    </div>
+    <div v-else-if="this.$route.name === 'index' && companyList.length > 21" class="l-wide">
+      <div class="s-partners__box">
+        <h2 class="s-partners__title main" v-html="title"></h2>
+        <div class="s-partners__items main">
+          <div class="s-partners__item" v-for="(company, idx) in companyList" :key="idx">
+            <a-logo type="bordered" :link="`${baseUrl}${company.logo_image.value}`" />
+          </div>
         </div>
       </div>
     </div>
@@ -83,36 +92,42 @@ export default {
 
   props: ['methods', 'title'],
 
-  methods: {
-    chunkArray(array, chunk) {
-      for (let i = 0; i < array.length; i += chunk) {
-        const newChunk = array.slice(i, i + chunk);
-        if (array.slice(i, i + chunk).length < 7 && array.slice(i, i + chunk).length > 3) {
-          this.chunkedList.push([...newChunk, ...newChunk]);
-        } else if (array.slice(i, i + chunk).length <= 3) {
-          // eslint-disable-next-line max-len
-          this.chunkedList.push([
-            ...newChunk,
-            ...newChunk,
-            ...newChunk,
-            ...newChunk,
-            ...newChunk,
-            ...newChunk,
-            ...newChunk,
-          ]);
-        } else {
-          this.chunkedList.push(newChunk);
-        }
-      }
-    },
-  },
+  // methods: {
+  //   chunkArray(array, chunk) {
+  //     for (let i = 0; i < array.length; i += chunk) {
+  //       const newChunk = array.slice(i, i + chunk);
+  //       if (array.slice(i, i + chunk).length < 7 && array.slice(i, i + chunk).length > 3) {
+  //         this.chunkedList.push([...newChunk, ...newChunk]);
+  //       } else if (array.slice(i, i + chunk).length <= 3) {
+  //         // eslint-disable-next-line max-len
+  //         this.chunkedList.push([
+  //           ...newChunk,
+  //           ...newChunk,
+  //           ...newChunk,
+  //           ...newChunk,
+  //           ...newChunk,
+  //           ...newChunk,
+  //           ...newChunk,
+  //         ]);
+  //       } else {
+  //         this.chunkedList.push(newChunk);
+  //       }
+  //     }
+  //   },
+  // },
 
   async mounted() {
     const expandedMethod = this.methods[0].data;
     const preData = await getEntitiesSectionsDetail(expandedMethod);
     this.companyList = preData.json.items.data;
-    this.swiperCount = Math.ceil(this.companyList.length / this.chunks);
-    this.chunkArray(this.companyList, this.chunks);
+    if (this.companyList.length <= 21) {
+      this.chunkedList.push(this.companyList.slice(0, 7));
+      this.chunkedList.push(this.companyList.slice(7, 14));
+      this.chunkedList.push(this.companyList.slice(14));
+    }
+    // console.log('this.chunkedList', this.chunkedList);
+    // this.swiperCount = Math.ceil(this.companyList.length / this.chunks);
+    // this.chunkArray(this.companyList, this.chunks);
     this.key += 1;
   },
 };
