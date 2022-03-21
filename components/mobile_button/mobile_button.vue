@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 <template>
   <div class="mobile-button" v-if="isScroll && windowWidth < 767">
     <a-button
@@ -5,6 +6,7 @@
       label="Подобрать программу"
       class="a-font_button mobile-button__btn"
       @click="togglePopup"
+      v-if="isVisible"
     ></a-button>
 
     <APopup @close="popupOptions.visible = false" :visible="popupOptions.visible">
@@ -54,6 +56,8 @@
 </template>
 
 <script>
+// eslint-disable-next-line
+import { mapState } from 'vuex';
 import { VueTelInput } from 'vue-tel-input';
 import {
   AButton, APopup, MForm, AInput,
@@ -201,6 +205,10 @@ export default {
     handleResize() {
       this.windowWidth = window.innerWidth;
     },
+  },
+
+  computed: {
+    ...mapState(['isVisible']),
   },
 };
 </script>
