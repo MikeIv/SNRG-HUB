@@ -6,21 +6,53 @@
         <div class="s-partners__swiper" :key="key">
           <swiper
             class="noSwipingClass"
-            v-for="index in 3"
-            :key="`${index}-${key}`"
             ref="partnersSwiper"
             :options="{
               ...swiperOptions,
               ...{
                 autoplay: {
                   delay: 1,
-                  reverseDirection: !!(index % 2),
                   disableOnInteraction: false,
                 },
               },
             }"
           >
-            <swiper-slide v-for="(company, idx) in chunkedList[index - 1]" :key="idx" class="s-partners__slide">
+            <swiper-slide v-for="(company, idx) in chunkedList[0]" :key="idx" class="s-partners__slide">
+              <a-logo type="standart" :link="`${baseUrl}${company.logo_image.value}`" />
+            </swiper-slide>
+          </swiper>
+          <swiper
+            class="noSwipingClass"
+            ref="partnersSwiper"
+            :options="{
+              ...swiperOptions,
+              ...{
+                autoplay: {
+                  delay: 1,
+                  reverseDirection: true,
+                  disableOnInteraction: false,
+                },
+              },
+            }"
+          >
+            <swiper-slide v-for="(company, idx) in chunkedList[1]" :key="idx" class="s-partners__slide">
+              <a-logo type="standart" :link="`${baseUrl}${company.logo_image.value}`" />
+            </swiper-slide>
+          </swiper>
+          <swiper
+            class="noSwipingClass"
+            ref="partnersSwiper"
+            :options="{
+              ...swiperOptions,
+              ...{
+                autoplay: {
+                  delay: 1,
+                  disableOnInteraction: false,
+                },
+              },
+            }"
+          >
+            <swiper-slide v-for="(company, idx) in chunkedList[2]" :key="idx" class="s-partners__slide">
               <a-logo type="standart" :link="`${baseUrl}${company.logo_image.value}`" />
             </swiper-slide>
           </swiper>
