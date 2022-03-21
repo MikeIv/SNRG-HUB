@@ -9,7 +9,7 @@
               <a-logo type="standart" :link="`${baseUrl}${company.logo_image.value}`" />
             </swiper-slide>
           </swiper>
-          <swiper class="noSwipingClass" ref="partnersSwiper2" :options="swiperOptionsA">
+          <swiper class="noSwipingClass" ref="partnersSwiper2" :options="swiperOptionsB">
             <swiper-slide v-for="(company, idx) in chunkedList[1]" :key="idx" class="s-partners__slide">
               <a-logo type="standart" :link="`${baseUrl}${company.logo_image.value}`" />
             </swiper-slide>
