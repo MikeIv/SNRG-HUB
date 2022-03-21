@@ -9,7 +9,7 @@
               <a-logo type="standart" :link="`${baseUrl}${company.logo_image.value}`" />
             </swiper-slide>
           </swiper>
-          <swiper class="noSwipingClass" ref="partnersSwiper2" :options="swiperOptionsB">
+          <swiper class="noSwipingClass" ref="partnersSwiper2" :options="swiperOptionsA">
             <swiper-slide v-for="(company, idx) in chunkedList[1]" :key="idx" class="s-partners__slide">
               <a-logo type="standart" :link="`${baseUrl}${company.logo_image.value}`" />
             </swiper-slide>
@@ -96,6 +96,7 @@ export default {
         noSwipingClass: 'noSwipingClass',
         autoplay: {
           delay: 1,
+          reverseDirection: true,
           disableOnInteraction: false,
         },
       },
