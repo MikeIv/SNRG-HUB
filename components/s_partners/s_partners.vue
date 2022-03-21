@@ -96,7 +96,6 @@ export default {
         noSwipingClass: 'noSwipingClass',
         autoplay: {
           delay: 1,
-          reverseDirection: true,
           disableOnInteraction: false,
         },
       },
