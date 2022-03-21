@@ -4,54 +4,17 @@
       <div class="s-partners__box">
         <h2 class="s-partners__title main" v-html="title"></h2>
         <div class="s-partners__swiper" :key="key">
-          <swiper
-            class="noSwipingClass"
-            ref="partnersSwiper1"
-            :options="{
-              ...swiperOptions,
-              ...{
-                autoplay: {
-                  delay: 1,
-                  disableOnInteraction: false,
-                },
-              },
-            }"
-          >
+          <swiper class="noSwipingClass" ref="partnersSwiper1" :options="swiperOptionsA">
             <swiper-slide v-for="(company, idx) in chunkedList[0]" :key="idx" class="s-partners__slide">
               <a-logo type="standart" :link="`${baseUrl}${company.logo_image.value}`" />
             </swiper-slide>
           </swiper>
-          <swiper
-            class="noSwipingClass"
-            ref="partnersSwiper2"
-            :options="{
-              ...swiperOptions,
-              ...{
-                autoplay: {
-                  delay: 1,
-                  reverseDirection: true,
-                  disableOnInteraction: false,
-                },
-              },
-            }"
-          >
+          <swiper class="noSwipingClass" ref="partnersSwiper2" :options="swiperOptionsB">
             <swiper-slide v-for="(company, idx) in chunkedList[1]" :key="idx" class="s-partners__slide">
               <a-logo type="standart" :link="`${baseUrl}${company.logo_image.value}`" />
             </swiper-slide>
           </swiper>
-          <swiper
-            class="noSwipingClass"
-            ref="partnersSwiper3"
-            :options="{
-              ...swiperOptions,
-              ...{
-                autoplay: {
-                  delay: 1,
-                  disableOnInteraction: false,
-                },
-              },
-            }"
-          >
+          <swiper class="noSwipingClass" ref="partnersSwiper3" :options="swiperOptionsA">
             <swiper-slide v-for="(company, idx) in chunkedList[2]" :key="idx" class="s-partners__slide">
               <a-logo type="standart" :link="`${baseUrl}${company.logo_image.value}`" />
             </swiper-slide>
@@ -104,8 +67,7 @@ export default {
       chunks: 7,
       chunkedList: [],
       baseUrl: process.env.NUXT_ENV_S3BACKET,
-      swiperOptions: {
-        // updateOnWindowResize: true,
+      swiperOptionsA: {
         spaceBetween: 12,
         autoHeight: false,
         loop: true,
@@ -116,6 +78,27 @@ export default {
         mousewheel: false,
         noSwiping: true,
         noSwipingClass: 'noSwipingClass',
+        autoplay: {
+          delay: 1,
+          disableOnInteraction: false,
+        },
+      },
+      swiperOptionsB: {
+        spaceBetween: 12,
+        autoHeight: false,
+        loop: true,
+        slidesPerView: 'auto',
+        speed: 6000,
+        grabCursor: false,
+        keyboard: false,
+        mousewheel: false,
+        noSwiping: true,
+        noSwipingClass: 'noSwipingClass',
+        autoplay: {
+          delay: 1,
+          reverseDirection: true,
+          disableOnInteraction: false,
+        },
       },
       key: 1000,
     };
