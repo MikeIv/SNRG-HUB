@@ -40,10 +40,10 @@ export default {
         { id: 2, number: '+7 (800) 100-00-11' },
       ],
       emails: [
-        { id: 1, title: 'Отдел продаж', email: 'sales@synergyeducation.ru' },
-        { id: 2, title: 'Служба поддержки', email: 'support@synergyeducation.ru' },
-        { id: 3, title: 'Пресс-служба', email: 'press@synergyeducation.ru' },
-        { id: 4, title: 'Партнёрам', email: 'partner@synergyeducation.ru' },
+        { id: 1, title: 'Отдел продаж', email: 'sales@synergyhub.ru' },
+        { id: 2, title: 'Служба поддержки', email: 'support@synergyhub.ru' },
+        { id: 3, title: 'Пресс-служба', email: 'press@synergyhub.ru' },
+        { id: 4, title: 'Партнёрам', email: 'partner@synergyhub.ru' },
       ],
     };
   },
