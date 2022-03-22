@@ -7,12 +7,7 @@
           <h2 class="s-banner-top__title">Разместите учебное заведение или программу обучения</h2>
           <h4 class="s-banner-top__subtitle">Попробуйте все инструменты бесплатно</h4>
         </div>
-        <a-button
-          class="s-banner-top__button"
-          bgColor="accent"
-          label="Оставить заявку"
-          @click="showAddRequestPopupHandler"
-        />
+        <a-button class="s-banner-top__button" bgColor="accent" label="Оставить заявку" @click="goto" />
       </div>
     </div>
     <a-popup class="s-banner-top__popup" :visible="addRequestPopup" @close="addRequestPopup = false">
