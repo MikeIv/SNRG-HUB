@@ -1,6 +1,6 @@
 <template>
   <div class="s-menu-main" :class="{ open: isOpen }">
-    <div class="l-default">
+    <div class="l-wide">
       <div class="s-menu-main__box">
         <div class="s-menu-main__items">
           <div class="s-menu-main__location">
