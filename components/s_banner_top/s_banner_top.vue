@@ -106,8 +106,6 @@ export default {
         },
       },
 
-      redirectURL: 'https://synergyhub.ru/campus/',
-
       fieldsData: {
         name: '',
         phone: '',
@@ -171,7 +169,7 @@ export default {
     },
 
     goto() {
-      window.location.href = this.redirectURL;
+      window.location.href = 'https://synergyhub.ru/campus/';
     },
   },
 };
