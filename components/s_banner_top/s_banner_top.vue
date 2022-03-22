@@ -1,5 +1,5 @@
 <template>
-  <section class="s-banner-top">
+  <section class="s-banner-top" @click="goto">
     <div class="l-wide">
       <div class="s-banner-top__wrapper">
         <img class="s-banner-top__image" src="@/assets/images/s-banner-top.png" alt="image" />
@@ -111,6 +111,8 @@ export default {
         },
       },
 
+      redirectURL: 'https://synergyhub.ru/campus/',
+
       fieldsData: {
         name: '',
         phone: '',
@@ -171,6 +173,10 @@ export default {
       };
 
       this.$lander.send({ ...this.fieldsData, ...this.comments, ...this.land });
+    },
+
+    goto() {
+      window.location.href = this.redirectURL;
     },
   },
 };
