@@ -1,5 +1,5 @@
 <template>
-  <section class="s-banner-top">
+  <section class="s-banner-top" @click="goto">
     <div class="l-wide">
       <div class="s-banner-top__wrapper">
         <img class="s-banner-top__image" src="@/assets/images/s-banner-top.png" alt="image" />
@@ -7,12 +7,7 @@
           <h2 class="s-banner-top__title">Разместите учебное заведение или программу обучения</h2>
           <h4 class="s-banner-top__subtitle">Попробуйте все инструменты бесплатно</h4>
         </div>
-        <a-button
-          class="s-banner-top__button"
-          bgColor="accent"
-          label="Оставить заявку"
-          @click="showAddRequestPopupHandler"
-        />
+        <a-button class="s-banner-top__button" bgColor="accent" label="Оставить заявку" @click="goto" />
       </div>
     </div>
     <a-popup class="s-banner-top__popup" :visible="addRequestPopup" @close="addRequestPopup = false">
@@ -171,6 +166,10 @@ export default {
       };
 
       this.$lander.send({ ...this.fieldsData, ...this.comments, ...this.land });
+    },
+
+    goto() {
+      window.location.href = 'https://synergyhub.ru/campus/';
     },
   },
 };
