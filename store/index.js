@@ -18,6 +18,8 @@ export const state = () => ({
     unit: '',
     land: '',
     redirectUrl: '',
+    partners: '',
+    version: '',
   },
   isVisible: true,
 });
