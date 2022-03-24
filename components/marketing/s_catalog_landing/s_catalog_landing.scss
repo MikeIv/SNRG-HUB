@@ -145,6 +145,20 @@
             margin: rem(12) 0;
           }
         }
+
+        .m-form__checkbox {
+          .a-control__box .a-control__switch {
+            &--checkbox:hover::before {
+              top: rem(3);
+            }
+          }
+
+          .a-control__box input:checked + .a-control__switch {
+            &--checkbox::before {
+              top: rem(3);
+            }
+          }
+        }
       }
 
       &__mobile-btn {

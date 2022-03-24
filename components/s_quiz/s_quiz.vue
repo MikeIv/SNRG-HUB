@@ -98,7 +98,13 @@
             ></a-button>
           </div>
           <div class="m-quiz__finish-sogl">
-            <a-control typeBtn="checkbox" typeCtrl="checkbox" v-model="sogl" labelPosition="right"> </a-control>
+            <a-control
+              class="m-quiz__finish-checkbox"
+              typeBtn="checkbox"
+              typeCtrl="checkbox"
+              v-model="sogl"
+              labelPosition="right"
+            ></a-control>
             <span class="m-quiz__finish-sogl-text" @click="changeSoglClickHandler">
               Нажимая на кнопку, вы соглашаетсь с
               <span class="m-quiz__finish-sogl-policy" @click.stop="showPolicyPopupClickHandler"
@@ -118,9 +124,7 @@
 
 <script>
 import { VueTelInput } from 'vue-tel-input';
-import {
-  AButton, AInput, AControl, APopup,
-} from '@cwespb/synergyui';
+import { AButton, AInput, AControl, APopup } from '@cwespb/synergyui';
 
 import getQuizzesDetail from '~/api/quizzesDetail';
 
