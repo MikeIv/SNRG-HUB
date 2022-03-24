@@ -1,5 +1,5 @@
 <template>
-  <section class="s-banner-top" @click="goto">
+  <section class="s-banner-top s-padding" @click="goto">
     <div class="l-wide">
       <div class="s-banner-top__wrapper">
         <img class="s-banner-top__image" src="@/assets/images/s-banner-top.png" alt="image" />

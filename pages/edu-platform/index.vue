@@ -1,56 +1,102 @@
 <template>
   <div>
-    <header class="s-header-lp l-wide" :class="{ fixed: isScrolled, fixedMobile: isIconInHeader }">
-      <div class="s-header-lp__left">
-        <nuxt-link to="/" class="s-header__logo-link" no-prefetch>
-          <img class="s-header-lp__logo" src="/logo-synergy.svg" />
-        </nuxt-link>
-      </div>
-      <div class="s-header-lp__right">
-        <i
-          class="si-filter s-header-lp__filters-icon"
-          :class="{ isVisible: !tabletIconVisible }"
-          tabindex="0"
-          @click="menu = true"
-        />
-        <div class="s-header-lp__phones">
-          <a
-            class="s-header-lp__phone"
-            v-for="(phone, idx) in phones"
-            :key="idx"
-            :href="`tel:${phone.replace(/[^+\d]/g, '')}`"
-          >
-            <div class="s-header-lp__phones-icon si-phone-filled"></div>
-            <div class="s-header-lp__phones-text a-font_m-s">{{ phone }}</div>
-          </a>
+    <header class="s-header s-header-lp" :class="{ fixed: isScrolled, fixedMobile: isIconInHeader }">
+      <div class="l-wide">
+        <div class="s-header__wrapper">
+          <div class="s-header-lp__left">
+            <nuxt-link to="/" class="s-header__logo-link" no-prefetch>
+              <img class="s-header-lp__logo" src="/logo-synergy.svg" />
+            </nuxt-link>
+          </div>
+          <div class="s-header-lp__right">
+            <i
+              class="si-filter s-header-lp__filters-icon"
+              :class="{ isVisible: !tabletIconVisible }"
+              tabindex="0"
+              @click="menu = true"
+            />
+            <div class="s-header-lp__phones">
+              <a
+                class="s-header-lp__phone"
+                v-for="(phone, idx) in phones"
+                :key="idx"
+                :href="`tel:${phone.replace(/[^+\d]/g, '')}`"
+              >
+                <div class="s-header-lp__phones-icon si-phone-filled"></div>
+                <div class="s-header-lp__phones-text a-font_m-s">{{ phone }}</div>
+              </a>
+            </div>
+          </div>
         </div>
       </div>
     </header>
 
-    <div class="l-wide">
-      <a-popup :visible="applicationPopup" @close="applicationPopup = false">
-        <div class="catalog-page__section-lp__popup">
-          <section ref="form" id="form">
-            <m-form
-              title="Оставьте заявку на программу"
-              btnText="Оставить заявку"
-              typeBtn="checkbox"
-              typeCtrl="checkbox"
-              :checked="true"
-              checkboxText="Нажимая на кнопку, я соглашаюсь с политикой конфиденциальности и на получение рассылок"
-              :submitDisabled="!validFlag"
-              @submit-disabled="validFlag = $event"
-              @click="sendForm"
-            >
-              <template v-slot:inputs>
+    <div class="catalog-page__section-lp-wrapper s-padding">
+      <div class="l-wide">
+        <a-popup :visible="applicationPopup" @close="applicationPopup = false">
+          <div class="catalog-page__section-lp__popup">
+            <section ref="form" id="form">
+              <m-form
+                title="Оставьте заявку на программу"
+                btnText="Оставить заявку"
+                typeBtn="checkbox"
+                typeCtrl="checkbox"
+                :checked="true"
+                checkboxText="Нажимая на кнопку, я соглашаюсь с политикой конфиденциальности и на получение рассылок"
+                :submitDisabled="!validFlag"
+                @submit-disabled="validFlag = $event"
+                @click="sendForm"
+              >
+                <template v-slot:inputs>
+                  <a-input
+                    class="m-form__input"
+                    @input="
+                      handlerSave();
+                      validFormData();
+                    "
+                    v-model="fieldsData.name"
+                    placeholder="Имя"
+                  />
+                  <vue-tel-input
+                    class="m-form__input"
+                    v-bind="vueTelOpts"
+                    type="phone"
+                    placeholder="Телефон"
+                    @validate="validFormData"
+                    v-model="fieldsData.phone"
+                    @input="validatePhone"
+                  >
+                  </vue-tel-input>
+                </template>
+              </m-form>
+            </section>
+          </div>
+        </a-popup>
+
+        <div class="banner-lp__wrapper" v-if="bannerTitleH1">
+          <div class="banner-lp__content">
+            <div class="banner-lp__info">
+              <div class="banner-lp__title">
+                <h1 class="a-font_promo">{{ bannerTitleH1 }}</h1>
+                <h2 class="a-font_promo banner-lp__title-h2">{{ bannerTitleH2 }}</h2>
+                <h3 class="a-font_promo">{{ bannerTitleH3 }}</h3>
+              </div>
+              <a-button
+                label="Оставить заявку"
+                size="xlarge"
+                bgColor="accent"
+                class="banner-lp__button"
+                @click="applicationPopup = true"
+              />
+              <div class="banner-lp__content-mobile">
                 <a-input
-                  class="m-form__input"
+                  placeholder="Имя"
+                  class="banner-lp__content-mobile_input"
                   @input="
                     handlerSave();
                     validFormData();
                   "
                   v-model="fieldsData.name"
-                  placeholder="Имя"
                 />
                 <vue-tel-input
                   class="m-form__input"
@@ -62,81 +108,42 @@
                   @input="validatePhone"
                 >
                 </vue-tel-input>
-              </template>
-            </m-form>
-          </section>
+                <a-button
+                  label="Оставить заявку"
+                  bgColor="accent"
+                  size="large"
+                  class="banner-lp__content-mobile_button"
+                  :disabled="!isChecked || !validFlag"
+                  @click="sendForm"
+                />
+                <a-control
+                  :checked="isChecked"
+                  @change="isChecked = !isChecked"
+                  typeBtn="checkbox"
+                  typeCtrl="checkbox"
+                  title="Нажимая на кнопку, я соглашаюсь с политикой конфиденциальности и на получение рассылок"
+                  labelPosition="right"
+                />
+              </div>
+            </div>
+            <div class="banner-lp__img">
+              <svg width="194" height="360" viewBox="0 0 140 260" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M140 190.82L74.514 130.007L140 69.1965V0L0 129.993L140 260V190.82Z" fill="#FF0040" />
+              </svg>
+            </div>
+          </div>
         </div>
-      </a-popup>
 
-      <div class="banner-lp__wrapper" v-if="bannerTitleH1">
-        <div class="banner-lp__content">
-          <div class="banner-lp__info">
-            <div class="banner-lp__title">
-              <h1 class="a-font_promo">{{ bannerTitleH1 }}</h1>
-              <h2 class="a-font_promo banner-lp__title-h2">{{ bannerTitleH2 }}</h2>
-              <h3 class="a-font_promo">{{ bannerTitleH3 }}</h3>
-            </div>
-            <a-button
-              label="Оставить заявку"
-              size="xlarge"
-              bgColor="accent"
-              class="banner-lp__button"
-              @click="applicationPopup = true"
-            />
-            <div class="banner-lp__content-mobile">
-              <a-input
-                placeholder="Имя"
-                class="banner-lp__content-mobile_input"
-                @input="
-                  handlerSave();
-                  validFormData();
-                "
-                v-model="fieldsData.name"
-              />
-              <vue-tel-input
-                class="m-form__input"
-                v-bind="vueTelOpts"
-                type="phone"
-                placeholder="Телефон"
-                @validate="validFormData"
-                v-model="fieldsData.phone"
-                @input="validatePhone"
-              >
-              </vue-tel-input>
-              <a-button
-                label="Оставить заявку"
-                bgColor="accent"
-                size="large"
-                class="banner-lp__content-mobile_button"
-                :disabled="!isChecked || !validFlag"
-                @click="sendForm"
-              />
-              <a-control
-                :checked="isChecked"
-                @change="isChecked = !isChecked"
-                typeBtn="checkbox"
-                typeCtrl="checkbox"
-                title="Нажимая на кнопку, я соглашаюсь с политикой конфиденциальности и на получение рассылок"
-                labelPosition="right"
-              />
-            </div>
-          </div>
-          <div class="banner-lp__img">
-            <svg width="194" height="360" viewBox="0 0 140 260" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M140 190.82L74.514 130.007L140 69.1965V0L0 129.993L140 260V190.82Z" fill="#FF0040" />
-            </svg>
-          </div>
-        </div>
+        <s-catalog-landing
+          :filters="landingDetailInfo.included"
+          :menu="menu"
+          :menuFixed="isIconInHeader"
+          @menu-change="menu = $event"
+        />
       </div>
-
-      <s-catalog-landing
-        :filters="landingDetailInfo.included"
-        :menu="menu"
-        :menuFixed="isIconInHeader"
-        @menu-change="menu = $event"
-      />
-      <s-program-form title="Записаться на программу или получить бесплатную консультацию" />
     </div>
+
+    <s-program-form title="Записаться на программу или получить бесплатную консультацию" />
 
     <footer class="footer-lp s-footer__wrap">
       <div class="l-wide">
@@ -170,7 +177,9 @@
 
 <script>
 import { VueTelInput } from 'vue-tel-input';
-import { AButton, AInput, AControl, APopup, MForm } from '@cwespb/synergyui';
+import {
+  AButton, AInput, AControl, APopup, MForm,
+} from '@cwespb/synergyui';
 import SCatalogLanding from '~/components/marketing/s_catalog_landing/s_catalog_landing';
 import SProgramForm from '~/components/s_program_form/s_program_form';
 import getLandingDetail from '~/api/landingsDetail';
@@ -312,14 +321,13 @@ export default {
         mainWrapper.classList.remove('js-fixed');
       }
 
-      this.tabletIconVisible =
-        document.documentElement.clientWidth < 767 &&
-        this.scrollTop + 80 > document.getElementById('filtersIcon').offsetTop;
+      this.tabletIconVisible = document.documentElement.clientWidth < 767
+        && this.scrollTop + 80 > document.getElementById('filtersIcon').offsetTop;
 
       if (document.documentElement.clientWidth < 575) {
         if (
-          document.getElementById('filtersIcon').offsetTop &&
-          this.scrollTop > document.getElementById('filtersIcon').offsetTop
+          document.getElementById('filtersIcon').offsetTop
+          && this.scrollTop > document.getElementById('filtersIcon').offsetTop
         ) {
           this.isIconInHeader = true;
         } else {
@@ -468,6 +476,7 @@ export default {
 
   &__right {
     display: flex;
+    margin-left: auto;
   }
 
   &__logo {
@@ -650,6 +659,10 @@ export default {
       }
     }
   }
+}
+
+.catalog-page__section-lp-wrapper {
+  padding: rem(48) 0 rem(24);
 }
 
 .js-fixed {

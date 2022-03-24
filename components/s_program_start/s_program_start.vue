@@ -1,106 +1,108 @@
 <template>
-  <section class="s-program-start">
-    <div class="s-program-start__wrapper" :style="{ backgroundColor: program.color ? program.color : '#fff' }">
-      <div class="s-program-start__header">
-        <div
-          v-if="$route.name !== 'edu-platform' && $route.name !== 'edu-platform-slug'"
-          class="s-program-start__header-breadcrumbs"
-        >
-          <a-breadcrumbs :breadcrumbs="breadcrumbs" />
-        </div>
-        <div class="s-program-start__header-icons">
-          <i v-if="shareIcon" class="si-share s-program-start__header-icon" @click.stop="toggleMenu" tabindex="0" />
-          <i v-if="favoriteIcon" class="si-heart s-program-start__header-icon" @click="onHeartClickHandler" />
-        </div>
-        <m-social-share
-          :is-menu-open="isMenuOpen"
-          :networks="program.social"
-          :title="program.title"
-          :description="program.description"
-          :image="program.photo"
-          @changeMenuState="changeMenuState"
-        />
-      </div>
-      <div class="s-program-start__content" itemscope itemtype="https://schema.org/Product">
-        <div class="s-program-start__info-top">
-          <span class="s-program-start__info-top-subtitle a-font_l">{{ program.subtitle }}</span>
-          <h2 class="s-program-start__info-top-name a-font_h1" itemprop="name">{{ program.title }}</h2>
-          <p class="s-program-start__info-top-description a-font_xl" itemprop="description">
-            {{ program.description }}
-          </p>
-          <div class="s-program-start__photo s-program-start__photo-bottom">
-            <img :src="program.photo" :alt="program.title" class="s-program-start__photo-img" itemprop="image" />
+  <section class="s-program-start s-padding">
+    <div class="l-wide">
+      <div class="s-program-start__wrapper" :style="{ backgroundColor: program.color ? program.color : '#fff' }">
+        <div class="s-program-start__header">
+          <div
+            v-if="$route.name !== 'edu-platform' && $route.name !== 'edu-platform-slug'"
+            class="s-program-start__header-breadcrumbs"
+          >
+            <a-breadcrumbs :breadcrumbs="breadcrumbs" />
           </div>
-          <div itemprop="aggregateRating" itemscope itemtype="https://schema.org/AggregateRating">
-            <meta itemprop="ratingValue" content="5" />
-            <meta itemprop="reviewCount" content="5" />
+          <div class="s-program-start__header-icons">
+            <i v-if="shareIcon" class="si-share s-program-start__header-icon" @click.stop="toggleMenu" tabindex="0" />
+            <i v-if="favoriteIcon" class="si-heart s-program-start__header-icon" @click="onHeartClickHandler" />
           </div>
-          <div class="s-program-start__info-bottom">
-            <div class="s-program-start__info-bottom-buttons">
-              <a-button
-                @click="
-                  signUpClickHandler();
-                  scrollToFormBlock();
-                "
-                bg-color="accent"
-                size="large"
-                label="Записаться"
-              />
-              <a-button
-                @click="
-                  getProgramClickHandler();
-                  scrollToFormBlock();
-                "
-                bg-color="none"
-                size="large"
-                label="Получить программу"
-                class="s-program-start__info-bottom-button"
-              />
+          <m-social-share
+            :is-menu-open="isMenuOpen"
+            :networks="program.social"
+            :title="program.title"
+            :description="program.description"
+            :image="program.photo"
+            @changeMenuState="changeMenuState"
+          />
+        </div>
+        <div class="s-program-start__content" itemscope itemtype="https://schema.org/Product">
+          <div class="s-program-start__info-top">
+            <span class="s-program-start__info-top-subtitle a-font_l">{{ program.subtitle }}</span>
+            <h2 class="s-program-start__info-top-name a-font_h1" itemprop="name">{{ program.title }}</h2>
+            <p class="s-program-start__info-top-description a-font_xl" itemprop="description">
+              {{ program.description }}
+            </p>
+            <div class="s-program-start__photo s-program-start__photo-bottom">
+              <img :src="program.photo" :alt="program.title" class="s-program-start__photo-img" itemprop="image" />
             </div>
-            <div class="s-program-start__info-bottom-additional">
-              <a-factoid
-                type="default"
-                :title="program.start_date !== null ? program.start_date : program.city"
-                :subtitle="program.start_date !== null ? 'Дата начала' : 'Город'"
-                class="s-program-start__info-bottom-additional_factoid"
-                v-if="program.city || program.start_date"
-              />
-              <a-factoid
-                type="default"
-                :title="program.language"
-                subtitle="Язык"
-                class="s-program-start__info-bottom-additional_factoid"
-                v-if="program.language"
-              />
-              <a-factoid
-                type="default"
-                :title="getDurationDate"
-                subtitle="Длительность"
-                class="s-program-start__info-bottom-additional_factoid"
-                v-if="program.duration"
-              />
-              <a-factoid
-                type="default"
-                :title="program.form"
-                subtitle="Форма обучения"
-                class="s-program-start__info-bottom-additional_factoid"
-              />
+            <div itemprop="aggregateRating" itemscope itemtype="https://schema.org/AggregateRating">
+              <meta itemprop="ratingValue" content="5" />
+              <meta itemprop="reviewCount" content="5" />
+            </div>
+            <div class="s-program-start__info-bottom">
+              <div class="s-program-start__info-bottom-buttons">
+                <a-button
+                  @click="
+                    signUpClickHandler();
+                    scrollToFormBlock();
+                  "
+                  bg-color="accent"
+                  size="large"
+                  label="Записаться"
+                />
+                <a-button
+                  @click="
+                    getProgramClickHandler();
+                    scrollToFormBlock();
+                  "
+                  bg-color="none"
+                  size="large"
+                  label="Получить программу"
+                  class="s-program-start__info-bottom-button"
+                />
+              </div>
+              <div class="s-program-start__info-bottom-additional">
+                <a-factoid
+                  type="default"
+                  :title="program.start_date !== null ? program.start_date : program.city"
+                  :subtitle="program.start_date !== null ? 'Дата начала' : 'Город'"
+                  class="s-program-start__info-bottom-additional_factoid"
+                  v-if="program.city || program.start_date"
+                />
+                <a-factoid
+                  type="default"
+                  :title="program.language"
+                  subtitle="Язык"
+                  class="s-program-start__info-bottom-additional_factoid"
+                  v-if="program.language"
+                />
+                <a-factoid
+                  type="default"
+                  :title="getDurationDate"
+                  subtitle="Длительность"
+                  class="s-program-start__info-bottom-additional_factoid"
+                  v-if="program.duration"
+                />
+                <a-factoid
+                  type="default"
+                  :title="program.form"
+                  subtitle="Форма обучения"
+                  class="s-program-start__info-bottom-additional_factoid"
+                />
+              </div>
             </div>
           </div>
+          <div class="s-program-start__photo s-program-start__photo-top">
+            <img :src="program.photo" :alt="program.title" class="s-program-start__photo-img" />
+          </div>
         </div>
-        <div class="s-program-start__photo s-program-start__photo-top">
-          <img :src="program.photo" :alt="program.title" class="s-program-start__photo-img" />
+        <div class="s-program-start__event" v-if="event">
+          <m-card
+            type="announce"
+            :title="event.title"
+            :description="event.description"
+            :date="event.date"
+            :link="event.link"
+            @more="onMoreBtnClickHandler"
+          />
         </div>
-      </div>
-      <div class="s-program-start__event" v-if="event">
-        <m-card
-          type="announce"
-          :title="event.title"
-          :description="event.description"
-          :date="event.date"
-          :link="event.link"
-          @more="onMoreBtnClickHandler"
-        />
       </div>
     </div>
   </section>

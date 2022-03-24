@@ -23,34 +23,36 @@
 
         <div class="s-product-search__categories" v-if="categories.length">
           <div
-            class="s-product-search__category"
+            class="s-product-search__category s-padding"
             v-for="(product, index) in productsList"
             :key="product.name + index"
             :class="{ hidden: product.name !== selectedPreset && selectedPreset !== 'Все' }"
           >
             <template v-if="product.name === selectedPreset || selectedPreset === 'Все'">
-              <h2 class="a-font_h2 s-product-search__category-title">
-                {{ product.name }} <sup class="s-product-search__total a-font_l"> {{ product.count }} </sup>
-              </h2>
-              <div class="s-product-search__cards">
-                <template v-for="(product, index) in product.products">
-                  <nuxt-link
-                    :to="`/product/${product.slug}`"
-                    class="s-product-search__wrapper"
-                    :key="product.id + index"
-                  >
-                    <m-card
-                      :title="product.name"
-                      :bottomText="product.included.organization.abbreviation_name"
-                      :name="product.name"
-                      :description="product.included.levels[0].name"
-                      :iconSrc="`${baseURL}${product.included.organization.logo}`"
-                      :verticalImgSrc="`${baseURL}${product.digital_image}`"
-                      type="program"
-                      @organization-click="onOrganizationClick(product)"
-                    />
-                  </nuxt-link>
-                </template>
+              <div class="l-wide">
+                <h2 class="a-font_h2 s-product-search__category-title">
+                  {{ product.name }} <sup class="s-product-search__total a-font_l"> {{ product.count }} </sup>
+                </h2>
+                <div class="s-product-search__cards">
+                  <template v-for="(product, index) in product.products">
+                    <nuxt-link
+                      :to="`/product/${product.slug}`"
+                      class="s-product-search__wrapper"
+                      :key="product.id + index"
+                    >
+                      <m-card
+                        :title="product.name"
+                        :bottomText="product.included.organization.abbreviation_name"
+                        :name="product.name"
+                        :description="product.included.levels[0].name"
+                        :iconSrc="`${baseURL}${product.included.organization.logo}`"
+                        :verticalImgSrc="`${baseURL}${product.digital_image}`"
+                        type="program"
+                        @organization-click="onOrganizationClick(product)"
+                      />
+                    </nuxt-link>
+                  </template>
+                </div>
               </div>
 
               <nuxt-link to="/catalog" class="s-product-search__btn-link">
@@ -66,7 +68,7 @@
             </template>
           </div>
           <div
-            class="s-product-search__category"
+            class="s-product-search__category s-padding"
             :class="{ hidden: articles.name !== selectedPreset && selectedPreset !== 'Все' }"
           >
             <template v-if="articles.name === selectedPreset || selectedPreset === 'Все'">

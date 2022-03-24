@@ -1,5 +1,5 @@
 <template>
-  <section class="s-search-home">
+  <section class="s-search-home s-padding">
     <div class="l-wide">
       <div class="s-search-home__wrapper">
         <div class="s-search-home__infoblock">

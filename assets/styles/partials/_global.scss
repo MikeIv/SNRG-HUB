@@ -1,9 +1,12 @@
+@use '../tools/mixins' as *;
+
 body,
 html {
   overflow-x: hidden;
 }
 
 body {
+  background: var(--a-color_bg--secondary);
   font-family: 'TT Norms', serif;
   font-size: 16px;
   &.bg-gray {
@@ -44,10 +47,13 @@ a {
 }
 
 .l-wide {
-  --layout-width: 96.25rem; // 1540px
-  --layout-padding: 1.875rem; // 30px
+  --layout-width: 92.5rem; // 1480px
+  --layout-padding: 2.5rem; // 30px
+  --layout-bd--radius: 1.25rem; // 20px
 
-  padding: 0 var(--layout-padding);
+  padding: var(--layout-padding);
+  background: var(--a-color_bg);
+  border-radius: var(--layout-bd--radius);
 
   @media all and (max-width: 767px) {
     --layout-padding: 1rem; // 16px
@@ -55,9 +61,9 @@ a {
 }
 
 .s-padding {
-  padding: var(--a-padding--x12) 0;
+  padding: var(--a-padding--x6) 0;
   @media screen and (max-width: 767px) {
-    padding: var(--a-padding--x6) 0;
+    padding: var(--a-padding--x4) 0;
   }
   &--smallTop {
     padding: var(--a-padding--x6) 0 var(--a-padding--x12);
@@ -136,4 +142,8 @@ div.vue-tel-input {
       content: '\2715';
     }
   }
+}
+
+main {
+  background: var(--a-color_bg--secondary);
 }

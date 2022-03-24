@@ -1,49 +1,51 @@
 <template>
-  <section class="s-program-form" ref="form" id="form">
-    <m-form
-      :title="title"
-      :checkboxText="checkboxText"
-      :btnText="btnText"
-      :typeCtrl="typeCtrl"
-      :typeBtn="typeBtn"
-      :checked="checked"
-      :submitDisabled="!validFlag"
-      @submit-disabled="validFlag = $event"
-      @click="sendForm"
-    >
-      <template v-slot:inputs>
-        <a-input
-          class="m-form__input"
-          :class="{ 'error-name': !nameErrorFlag }"
-          @input="validFormData"
-          v-model="fieldsData.name"
-          placeholder="Имя"
-          @focus="changeFocusInput"
-          @blur="changeBlurInput"
-        />
-        <vue-tel-input
-          class="m-form__input"
-          :class="{ error: !phoneErrorFlag }"
-          v-bind="vueTelOpts"
-          type="phone"
-          placeholder="Телефон"
-          v-model="fieldsData.phone"
-          @input="validatePhone"
-          @focus="changeFocusInput"
-          @blur="changeBlurInput"
-        >
-        </vue-tel-input>
-        <a-input
-          class="m-form__input"
-          :class="{ 'error-mail': !emailErrorFlag }"
-          @input="validFormData"
-          v-model="fieldsData.email"
-          placeholder="Почта"
-          @focus="changeFocusInput"
-          @blur="changeBlurInput"
-        />
-      </template>
-    </m-form>
+  <section class="s-program-form s-padding" ref="form" id="form">
+    <div class="l-wide">
+      <m-form
+        :title="title"
+        :checkboxText="checkboxText"
+        :btnText="btnText"
+        :typeCtrl="typeCtrl"
+        :typeBtn="typeBtn"
+        :checked="checked"
+        :submitDisabled="!validFlag"
+        @submit-disabled="validFlag = $event"
+        @click="sendForm"
+      >
+        <template v-slot:inputs>
+          <a-input
+            class="m-form__input"
+            :class="{ 'error-name': !nameErrorFlag }"
+            @input="validFormData"
+            v-model="fieldsData.name"
+            placeholder="Имя"
+            @focus="changeFocusInput"
+            @blur="changeBlurInput"
+          />
+          <vue-tel-input
+            class="m-form__input"
+            :class="{ error: !phoneErrorFlag }"
+            v-bind="vueTelOpts"
+            type="phone"
+            placeholder="Телефон"
+            v-model="fieldsData.phone"
+            @input="validatePhone"
+            @focus="changeFocusInput"
+            @blur="changeBlurInput"
+          >
+          </vue-tel-input>
+          <a-input
+            class="m-form__input"
+            :class="{ 'error-mail': !emailErrorFlag }"
+            @input="validFormData"
+            v-model="fieldsData.email"
+            placeholder="Почта"
+            @focus="changeFocusInput"
+            @blur="changeBlurInput"
+          />
+        </template>
+      </m-form>
+    </div>
   </section>
 </template>
 

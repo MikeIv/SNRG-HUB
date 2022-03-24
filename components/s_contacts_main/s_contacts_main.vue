@@ -1,25 +1,27 @@
 <template>
-  <section class="s-contacts-main">
-    <h1 class="s-contacts-main__title a-font_h2" v-html="title"></h1>
+  <section class="s-contacts-main s-padding">
+    <div class="l-wide">
+      <h1 class="s-contacts-main__title a-font_h2" v-html="title"></h1>
 
-    <div class="s-contacts-main__subtitle a-font_xxl" v-html="subtitle"></div>
-    <div class="s-contacts-main__phones">
-      <template v-for="phone in phones">
-        <a
-          v-if="phone.number"
-          :href="`tel:${phone.number.replace(/[^+\d]/g, '')}`"
-          class="s-contacts-main__phone a-font_h4"
-          :key="phone.id"
-        >
-          {{ phone.number }}
-        </a>
-      </template>
-    </div>
+      <div class="s-contacts-main__subtitle a-font_xxl" v-html="subtitle"></div>
+      <div class="s-contacts-main__phones">
+        <template v-for="phone in phones">
+          <a
+            v-if="phone.number"
+            :href="`tel:${phone.number.replace(/[^+\d]/g, '')}`"
+            class="s-contacts-main__phone a-font_h4"
+            :key="phone.id"
+          >
+            {{ phone.number }}
+          </a>
+        </template>
+      </div>
 
-    <div class="s-contacts-main__emails">
-      <div class="s-contacts-main__email" v-for="item in emails" :key="item.id">
-        <div class="s-contacts-main__email-title a-font_xxl" v-html="item.title"></div>
-        <a :href="`mailto:${item.email}`" class="s-contacts-main__email-adress a-font_xxl">{{ item.email }}</a>
+      <div class="s-contacts-main__emails">
+        <div class="s-contacts-main__email" v-for="item in emails" :key="item.id">
+          <div class="s-contacts-main__email-title a-font_xxl" v-html="item.title"></div>
+          <a :href="`mailto:${item.email}`" class="s-contacts-main__email-adress a-font_xxl">{{ item.email }}</a>
+        </div>
       </div>
     </div>
   </section>

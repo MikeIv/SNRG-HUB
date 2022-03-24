@@ -1,12 +1,6 @@
 <template>
-  <section class="m-quiz" v-if="dataQuiz" id="quiz">
-    <div
-      :class="
-        this.$route.name === 'index' || this.$route.name === 'catalog' || this.$route.name === 'catalog-all'
-          ? 'l-wide'
-          : 'l-default'
-      "
-    >
+  <section class="m-quiz s-padding" v-if="dataQuiz" id="quiz">
+    <div class="l-wide">
       <!-- banner -->
       <div
         v-if="banerFlag"

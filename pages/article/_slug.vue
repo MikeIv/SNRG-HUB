@@ -1,22 +1,24 @@
 <template>
-  <div class="l-wide">
-    <SArticleDetail
-      :content="articleBody"
-      :title="title"
-      :publicationTypes="publicationTypes"
-      :date="dateArticle"
-      :readingTime="readingTime"
-      :subtitle="subtitle"
-      :user="author"
-      :previewImage="img"
-      :digitalImage="digitalImage"
-      :banner="banner"
-      :categories="categories"
-      :relatedArticles="relatedArticles"
-      :tags="tags"
-      :nameCourse="nameCourse"
-      :studyingPrograms="programs"
-    />
+  <div class="s-article-detail__wrapper">
+    <div class="l-wide">
+      <SArticleDetail
+        :content="articleBody"
+        :title="title"
+        :publicationTypes="publicationTypes"
+        :date="dateArticle"
+        :readingTime="readingTime"
+        :subtitle="subtitle"
+        :user="author"
+        :previewImage="img"
+        :digitalImage="digitalImage"
+        :banner="banner"
+        :categories="categories"
+        :relatedArticles="relatedArticles"
+        :tags="tags"
+        :nameCourse="nameCourse"
+        :studyingPrograms="programs"
+      />
+    </div>
   </div>
 </template>
 

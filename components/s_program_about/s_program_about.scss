@@ -3,15 +3,7 @@
 .s-program-about {
   position: relative;
   display: grid;
-  max-width: var(--layout-width);
-  margin: rem(20) auto;
-  padding: var(--layout-v-padding) var(--layout-h-padding);
-  background-color: var(--a-color_bg);
-  border-radius: var(--a-borderRadius--bg);
-
-  @media (max-width: 991px) {
-    margin-bottom: rem(12);
-  }
+  margin: 0 auto;
 
   .a-factoid-horizontal {
     &__wrapper {

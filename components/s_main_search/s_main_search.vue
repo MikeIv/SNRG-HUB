@@ -1,5 +1,5 @@
 <template>
-  <section class="s-main-search">
+  <section class="s-main-search s-padding">
     <div class="l-wide">
       <div class="s-main-search__box">
         <h2 class="s-main-search__title a-font_h5" v-html="title">Search</h2>

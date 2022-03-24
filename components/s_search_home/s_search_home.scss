@@ -1,15 +1,11 @@
 @import '@/assets/styles/tools/mixins';
 
 .s-search-home {
-  padding: rem(48) 0;
-  @media screen and (max-width: 991px) {
-    padding: rem(24) 0;
-    .l-wide {
-      padding: 0;
-    }
-  }
+  padding-top: rem(48);
   @media screen and (max-width: 680px) {
     margin-bottom: rem(40);
+  }
+  .l-wide {
     padding: 0;
   }
   &__wrapper {

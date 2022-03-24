@@ -1,11 +1,13 @@
 <template>
-  <section class="s-contacts-address">
-    <h2 class="s-contacts-address__title a-font_h2" v-html="title"></h2>
+  <section class="s-contacts-address s-padding">
+    <div class="l-wide">
+      <h2 class="s-contacts-address__title a-font_h2" v-html="title"></h2>
 
-    <div class="s-contacts-address__map">
-      <iframe class="s-contacts-address__frame" :src="iframeSrc" frameborder="0"></iframe>
+      <div class="s-contacts-address__map">
+        <iframe class="s-contacts-address__frame" :src="iframeSrc" frameborder="0"></iframe>
+      </div>
+      <MContacts :adress="adress" :metro="metro" :backgroundColor="backgroundColor" />
     </div>
-    <MContacts :adress="adress" :metro="metro" :backgroundColor="backgroundColor" />
   </section>
 </template>
 

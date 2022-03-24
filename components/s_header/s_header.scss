@@ -3,6 +3,11 @@
 .s-header {
   position: relative;
   z-index: 100;
+  background: var(--a-color_bg);
+  .l-wide {
+    width: 100%;
+    padding: 0;
+  }
   .a-logo__wrapper {
     min-width: rem(195);
     margin-right: rem(60);
@@ -126,6 +131,8 @@
     z-index: 100;
     display: flex;
     flex-wrap: wrap;
+    width: 100%;
+    max-width: 100%;
     background: var(--a-color_bg);
   }
 

@@ -32,6 +32,14 @@
   }
 }
 
+.s-banner {
+  .l-wide {
+    overflow: hidden;
+    padding: 0;
+    border-radius: rem(14);
+  }
+}
+
 .l-wide.banners {
   display: flex;
   justify-content: space-between;

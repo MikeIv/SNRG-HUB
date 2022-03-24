@@ -4,10 +4,9 @@
   position: relative;
   overflow: hidden;
   width: 100%;
-  margin: rem(20) auto;
-  border-radius: var(--a-borderRadius--bg);
-  @media screen and (max-width: 991px) {
-    margin: rem(12) auto;
+  padding-top: rem(48);
+  .l-wide {
+    padding: 0;
   }
   .a-breadcrumbs-item__wrapper {
     display: none;
@@ -19,6 +18,7 @@
 
   &__wrapper {
     padding: var(--layout-v-padding) var(--layout-h-padding);
+    border-radius: rem(20);
   }
 
   &__header {

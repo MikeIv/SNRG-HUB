@@ -1,6 +1,7 @@
 @import '/assets/styles/tools/mixins';
 
 .catalog-page {
+  margin: rem(48) auto rem(24);
   &__breadcrumbs {
     li.a-breadcrumbs__wrapper:not(:last-child) {
       @media all and (max-width: 730px) {
@@ -10,9 +11,8 @@
   }
 
   &__section {
-    margin-bottom: rem(20);
-    padding: rem(60) rem(80) 0 rem(80);
-    background: var(--a-color_bg);
+    margin: rem(24) auto;
+    border-radius: rem(20);
 
     @media all and (max-width: 1300px) {
       padding: rem(55) rem(60) 0 rem(60);

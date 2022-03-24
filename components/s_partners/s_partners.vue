@@ -1,36 +1,38 @@
 <template>
-  <section class="s-partners" :class="this.$route.name === 'index' ? 'main' : 'other'">
-    <div v-if="this.$route.name === 'index'" class="l-wide">
-      <div class="s-partners__box">
-        <h2 class="s-partners__title main" v-html="title"></h2>
-        <div class="s-partners__swiper" :key="key">
-          <swiper
-            v-for="index in swiperCount"
-            :key="`${index}-${key}`"
-            ref="partnersSwiper"
-            :options="{
-              ...swiperOptions,
-              ...{
-                autoplay: {
-                  delay: 1,
-                  reverseDirection: !!(index % 2),
-                  disableOnInteraction: false,
+  <section class="s-partners s-padding" :class="this.$route.name === 'index' ? 'main' : 'other'">
+    <div class="l-wide">
+      <div v-if="this.$route.name === 'index'" class="l-wide">
+        <div class="s-partners__box">
+          <h2 class="s-partners__title main" v-html="title"></h2>
+          <div class="s-partners__swiper" :key="key">
+            <swiper
+              v-for="index in swiperCount"
+              :key="`${index}-${key}`"
+              ref="partnersSwiper"
+              :options="{
+                ...swiperOptions,
+                ...{
+                  autoplay: {
+                    delay: 1,
+                    reverseDirection: !!(index % 2),
+                    disableOnInteraction: false,
+                  },
                 },
-              },
-            }"
-          >
-            <swiper-slide v-for="(company, idx) in chunkedList[index - 1]" :key="idx" class="s-partners__slide">
-              <a-logo type="standart" :link="`${baseUrl}${company.logo_image.value}`" />
-            </swiper-slide>
-          </swiper>
+              }"
+            >
+              <swiper-slide v-for="(company, idx) in chunkedList[index - 1]" :key="idx" class="s-partners__slide">
+                <a-logo type="standart" :link="`${baseUrl}${company.logo_image.value}`" />
+              </swiper-slide>
+            </swiper>
+          </div>
         </div>
       </div>
-    </div>
-    <div v-else class="s-partners__wrapper">
-      <h2 class="s-partners__title s-program-timeline__title other a-font_h2" v-html="title"></h2>
-      <div class="s-partners__items">
-        <div class="s-partners__item" v-for="(company, idx) in companyList" :key="idx">
-          <a-logo type="bordered" :link="`${baseUrl}${company.logo_image.value}`" />
+      <div v-else class="s-partners__wrapper">
+        <h2 class="s-partners__title s-program-timeline__title other a-font_h2" v-html="title"></h2>
+        <div class="s-partners__items">
+          <div class="s-partners__item" v-for="(company, idx) in companyList" :key="idx">
+            <a-logo type="bordered" :link="`${baseUrl}${company.logo_image.value}`" />
+          </div>
         </div>
       </div>
     </div>

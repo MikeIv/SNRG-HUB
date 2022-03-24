@@ -4,13 +4,19 @@
   &__wrap {
     padding-top: var(--a-padding--x8);
     padding-bottom: var(--a-padding--x8);
-    background-color: var(--a-color_bg--secondary);
+    margin-top: rem(66);
     @media screen and (max-width: 991px) {
       padding-top: var(--a-padding--x5);
       padding-bottom: var(--a-padding--x5);
     }
     @media screen and (max-width: 767px) {
       padding-bottom: rem(80);
+    }
+
+    .l-wide {
+      padding: 0;
+      border-radius: 0;
+      background: var(--a-color_bg--secondary);
     }
   }
 }
