@@ -165,9 +165,7 @@
 
 <script>
 /* eslint-disable max-len */
-import {
-  AInput, APopup, AControl, AButton,
-} from '@cwespb/synergyui';
+import { AInput, APopup, AControl, AButton } from '@cwespb/synergyui';
 import { VueTelInput } from 'vue-tel-input';
 import MFormPay from '~/components/_ui/m_form_pay/m_form_pay';
 import getConfirmationCode from '~/api/confirmationCode';
@@ -312,10 +310,10 @@ export default {
     },
     isEnoughtData() {
       return (
-        this.user?.phone?.status === 'confirmed'
-        && Boolean(this.user.account_information?.name)
-        && Boolean(this.user.account_information?.surname)
-        && Boolean(this.user.account_information?.patronymic)
+        this.user?.phone?.status === 'confirmed' &&
+        Boolean(this.user.account_information?.name) &&
+        Boolean(this.user.account_information?.surname) &&
+        Boolean(this.user.account_information?.patronymic)
       );
     },
     btnText() {
@@ -345,7 +343,7 @@ export default {
 
     this.user = parseJWT(this.$store.state.auth.access_token);
     this.fieldsData = {
-      product_id: null,
+      product_id: '71618903', // TODO: После апдейта эластика - вернуть как null
       birthdate: this.user?.account_information?.birthday ?? '01.01.1901',
       is_order: 'Y',
       gender: this.user?.account_information?.gender ?? '-',
@@ -355,8 +353,6 @@ export default {
       phone: this.user?.phone?.phone ?? '',
       email: this.user?.email?.email ?? '',
       publicOffer: 'on',
-      // eslint-disable-next-line max-len
-      successPage: this.successPage,
     };
 
     const detailsExpandedMethod = {
@@ -376,7 +372,7 @@ export default {
     this.oldPrice = detailsData.data?.included?.offers[0]?.oldPrice
       ? `${detailsData.data?.included?.offers[0]?.oldPrice} ₽`
       : null;
-    this.fieldsData.product_id = detailsData.data?.included?.offers[0]?.product_id ?? null;
+    // this.fieldsData.product_id = detailsData.data?.included?.offers[0]?.product_id ?? null; //TODO:ВЕРНУТЬ ПОСЛЕ ОБНОВЛЕНИЯ ЭЛАСТИКА
 
     // eslint-disable-next-line prefer-destructuring
     this.study = detailsData.data?.included?.offers[0]?.properties['App\\Models\\Format'].join(' ');
@@ -565,6 +561,7 @@ export default {
       this.$store.commit('updateLander', lander);
       const currentData = this.fieldsData;
       currentData.name = `${this.fieldsData.name} ${this.fieldsData.surname} ${this.fieldsData.patronymic}`;
+      currentData.successPage = this.successPage;
       const resp = this.$lander.send(currentData, lander);
 
       resp.then(() => {
@@ -587,6 +584,7 @@ export default {
         const attr = el.getAttribute('data-src');
         if (attr) {
           this.paymentLink = attr;
+          console.log(this.paymentLink);
         }
       });
       window.location.href = this.paymentLink;
@@ -635,11 +633,11 @@ export default {
       this.phoneErrorFlag = this.validPhone === true && this.fieldsData.phone !== '';
       // eslint-disable-next-line max-len
       return (
-        this.nameErrorFlag
-        && this.surnameErrorFlag
-        && this.patronymicErrorFlag
-        && this.emailErrorFlag
-        && this.validPhone
+        this.nameErrorFlag &&
+        this.surnameErrorFlag &&
+        this.patronymicErrorFlag &&
+        this.emailErrorFlag &&
+        this.validPhone
       );
     },
     changeFocusInput() {
