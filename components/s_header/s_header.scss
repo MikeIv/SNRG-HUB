@@ -188,6 +188,10 @@
     }
   }
   &__bottom {
+    @media screen and (max-width: 1499px) {
+      padding: 0 var(--a-padding--x5);
+    }
+
     @media screen and (max-width: 767px) {
       display: none;
     }
