@@ -2,9 +2,9 @@
 
 .s-footer {
   &__wrap {
+    margin-top: rem(48);
     padding-top: var(--a-padding--x8);
     padding-bottom: var(--a-padding--x8);
-    margin-top: rem(66);
     @media screen and (max-width: 991px) {
       padding-top: var(--a-padding--x5);
       padding-bottom: var(--a-padding--x5);
@@ -16,8 +16,8 @@
 
     .l-wide {
       padding: 0;
-      border-radius: 0;
       background: var(--a-color_bg--secondary);
+      border-radius: 0;
 
       @media screen and (max-width: 1499px) {
         padding: 0 var(--a-padding--x8);
