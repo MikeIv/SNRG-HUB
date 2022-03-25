@@ -149,9 +149,7 @@
 </template>
 
 <script>
-import {
-  MFormPay, AInput, APopup, AControl, AButton,
-} from '@cwespb/synergyui';
+import { MFormPay, AInput, APopup, AControl, AButton } from '@cwespb/synergyui';
 import { VueTelInput } from 'vue-tel-input';
 import getConfirmationCode from '~/api/confirmationCode';
 import checkConfirmationCode from '~/api/checkConfirmationCode';
@@ -244,7 +242,7 @@ export default {
       },
       maxPhoneLength: 16,
 
-      confirmationCodePopup: true,
+      confirmationCodePopup: false,
       isChecked: true,
       uuid: null,
       codeError: false,
