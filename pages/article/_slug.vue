@@ -1,6 +1,6 @@
 <template>
   <div class="s-article-detail__wrapper">
-    <div class="l-wide">
+    <div class="l-wide l-border-radius">
       <SArticleDetail
         :content="articleBody"
         :title="title"

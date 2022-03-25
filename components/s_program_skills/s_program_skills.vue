@@ -1,6 +1,6 @@
 <template>
-  <section class="s-program-skills s-padding">
-    <div class="l-wide">
+  <section class="s-program-skills s-margin">
+    <div class="l-wide l-border-radius">
       <h2 class="s-program-skills__title a-font_h2" v-html="title"></h2>
       <div class="s-program-skills__items">
         <AListElement v-for="(item, index) in programSkillsList" :key="index" :type="item.type" :label="item.value" />

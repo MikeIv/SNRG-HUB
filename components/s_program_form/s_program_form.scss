@@ -3,9 +3,6 @@
 .s-program-form {
   position: relative;
   width: 100%;
-  @media screen and (max-width: 991px) {
-    margin: rem(12) auto;
-  }
   .l-wide {
     background: var(--a-color_corporate--blue);
   }

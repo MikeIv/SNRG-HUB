@@ -1,6 +1,6 @@
 <template>
-  <section class="m-quiz s-padding" v-if="dataQuiz" id="quiz">
-    <div class="l-wide">
+  <section class="m-quiz s-margin" v-if="dataQuiz" id="quiz">
+    <div class="l-wide l-border-radius">
       <!-- banner -->
       <div
         v-if="banerFlag"

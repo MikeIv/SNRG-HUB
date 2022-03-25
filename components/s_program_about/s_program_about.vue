@@ -1,6 +1,6 @@
 <template>
-  <section class="s-program-about s-padding" v-if="programAboutList.length">
-    <div class="l-wide">
+  <section class="s-program-about s-margin" v-if="programAboutList.length">
+    <div class="l-wide l-border-radius">
       <div class="s-program-about__row">
         <h2 class="s-program-about__title a-font_h2" v-html="title"></h2>
         <p

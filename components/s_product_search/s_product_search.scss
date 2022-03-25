@@ -1,7 +1,6 @@
 @import '@/assets/styles/tools/mixins';
 
 .s-product-search {
-  margin-top: rem(48);
   &__loader {
     height: calc(100vh - rem(155) - rem(260));
   }
@@ -41,20 +40,6 @@
 
     .swiper-wrapper {
       padding-top: rem(24);
-    }
-  }
-
-  &__categories {
-    margin-top: rem(24);
-    margin-bottom: rem(64);
-
-    @media (max-width: 1100px) {
-      margin-top: rem(24);
-    }
-
-    @media (max-width: 767px) {
-      margin-top: rem(16);
-      margin-bottom: rem(32);
     }
   }
 

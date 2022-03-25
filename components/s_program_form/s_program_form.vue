@@ -1,6 +1,6 @@
 <template>
-  <section class="s-program-form s-padding" ref="form" id="form">
-    <div class="l-wide">
+  <section class="s-program-form s-margin" ref="form" id="form">
+    <div class="l-wide l-border-radius">
       <m-form
         :title="title"
         :checkboxText="checkboxText"

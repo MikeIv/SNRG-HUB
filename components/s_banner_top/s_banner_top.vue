@@ -1,6 +1,6 @@
 <template>
-  <section class="s-banner-top s-padding" @click="goto">
-    <div class="l-wide">
+  <section class="s-banner-top s-margin" @click="goto">
+    <div class="l-wide l-border-radius">
       <div class="s-banner-top__wrapper">
         <img class="s-banner-top__image" src="@/assets/images/s-banner-top.png" alt="image" />
         <div class="s-banner-top__text">

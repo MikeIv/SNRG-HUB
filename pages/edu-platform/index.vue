@@ -1,7 +1,7 @@
 <template>
   <div>
     <header class="s-header s-header-lp" :class="{ fixed: isScrolled, fixedMobile: isIconInHeader }">
-      <div class="l-wide">
+      <div class="l-wide l-border-radius">
         <div class="s-header__wrapper">
           <div class="s-header-lp__left">
             <nuxt-link to="/" class="s-header__logo-link" no-prefetch>
@@ -31,8 +31,8 @@
       </div>
     </header>
 
-    <div class="catalog-page__section-lp-wrapper s-padding">
-      <div class="l-wide">
+    <div class="catalog-page__section-lp-wrapper s-margin">
+      <div class="l-wide l-border-radius">
         <a-popup :visible="applicationPopup" @close="applicationPopup = false">
           <div class="catalog-page__section-lp__popup">
             <section ref="form" id="form">
@@ -146,7 +146,7 @@
     <s-program-form title="Записаться на программу или получить бесплатную консультацию" />
 
     <footer class="footer-lp s-footer__wrap">
-      <div class="l-wide">
+      <div class="l-wide l-border-radius">
         <div class="s-footer__row">
           <div class="s-footer__accord a-font_m">
             © <span>{{ year }}</span> Synergy. Все права защищены

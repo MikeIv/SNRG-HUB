@@ -1,5 +1,5 @@
 <template>
-  <section class="s-contacts-address s-padding">
+  <section class="s-contacts-address s-margin">
     <div class="l-wide">
       <h2 class="s-contacts-address__title a-font_h2" v-html="title"></h2>
 

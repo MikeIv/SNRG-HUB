@@ -1,5 +1,5 @@
 <template>
-  <section class="s-contacts-form s-padding" ref="form">
+  <section class="s-contacts-form s-margin" ref="form">
     <div class="l-wide">
       <m-form
         :isVertical="true"

@@ -1,16 +1,6 @@
 @import '/assets/styles/tools/mixins';
 
 .catalog-page {
-  padding-top: rem(48);
-
-  @media all and (max-width: 1100px) {
-    padding-top: rem(40);
-  }
-
-  @media all and (max-width: 767px) {
-    padding-top: rem(32);
-  }
-
   &__content {
     display: flex;
     padding: rem(24) 0 rem(80) 0;

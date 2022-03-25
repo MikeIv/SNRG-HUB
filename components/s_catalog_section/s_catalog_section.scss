@@ -1,7 +1,6 @@
 @import '/assets/styles/tools/mixins';
 
 .catalog-page {
-  margin: rem(48) auto rem(24);
   &__breadcrumbs {
     li.a-breadcrumbs__wrapper:not(:last-child) {
       @media all and (max-width: 730px) {

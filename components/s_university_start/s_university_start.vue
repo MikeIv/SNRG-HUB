@@ -1,6 +1,6 @@
 <template>
-  <section class="s-university-start s-padding">
-    <div class="l-wide">
+  <section class="s-university-start s-margin">
+    <div class="l-wide l-border-radius">
       <div
         class="s-university-start__wrapper"
         :style="{ backgroundColor: university.color ? university.color : '#fff' }"

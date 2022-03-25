@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="l-wide catalog-page">
+    <div class="l-wide catalog-page s-margin l-border-radius">
       <s-catalog-section
         title="Программы обучения"
         :hasPresets="presets.length"

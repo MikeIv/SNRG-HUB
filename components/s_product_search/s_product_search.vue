@@ -3,33 +3,35 @@
     <div v-if="loading" class="s-product-search__loader">
       <m-loader type="basic" />
     </div>
-    <div v-else class="l-default">
+    <div v-else>
       <div class="s-product-search">
-        <h2 class="a-font_h2" v-if="categories.length">
-          Найдено {{ totalItems }} результатов в {{ categories.length }} категориях
-          <sup class="s-product-search__total a-font_l"> {{ totalItems }} </sup>
-        </h2>
-        <h2 v-else class="a-font_h2">По вашему запросу ничего не найдено</h2>
+        <div class="l-wide l-border-radius s-margin">
+          <h2 class="a-font_h2" v-if="categories.length">
+            Найдено {{ totalItems }} результатов в {{ categories.length }} категориях
+            <sup class="s-product-search__total a-font_l"> {{ totalItems }} </sup>
+          </h2>
+          <h2 v-else class="a-font_h2">По вашему запросу ничего не найдено</h2>
 
-        <swiper class="s-product-search__presets" :options="$options.swiperOption" v-if="categories.length">
-          <swiper-slide v-for="(preset, index) in presets" :key="index" class="catalog-presets__swiper-slide">
-            <a-tag
-              :label="`${preset.name} ${preset.count}`"
-              :class="{ active: preset.name === selectedPreset }"
-              @aTagClick="onTagClickHandler(preset)"
-            />
-          </swiper-slide>
-        </swiper>
+          <swiper class="s-product-search__presets" :options="$options.swiperOption" v-if="categories.length">
+            <swiper-slide v-for="(preset, index) in presets" :key="index" class="catalog-presets__swiper-slide">
+              <a-tag
+                :label="`${preset.name} ${preset.count}`"
+                :class="{ active: preset.name === selectedPreset }"
+                @aTagClick="onTagClickHandler(preset)"
+              />
+            </swiper-slide>
+          </swiper>
+        </div>
 
         <div class="s-product-search__categories" v-if="categories.length">
           <div
-            class="s-product-search__category s-padding"
+            class="s-product-search__category s-margin"
             v-for="(product, index) in productsList"
             :key="product.name + index"
             :class="{ hidden: product.name !== selectedPreset && selectedPreset !== 'Все' }"
           >
             <template v-if="product.name === selectedPreset || selectedPreset === 'Все'">
-              <div class="l-wide">
+              <div class="l-wide l-border-radius">
                 <h2 class="a-font_h2 s-product-search__category-title">
                   {{ product.name }} <sup class="s-product-search__total a-font_l"> {{ product.count }} </sup>
                 </h2>
@@ -68,35 +70,37 @@
             </template>
           </div>
           <div
-            class="s-product-search__category s-padding"
+            class="s-product-search__category s-margin"
             :class="{ hidden: articles.name !== selectedPreset && selectedPreset !== 'Все' }"
           >
-            <template v-if="articles.name === selectedPreset || selectedPreset === 'Все'">
-              <h2 class="a-font_h2 s-product-search__category-title">
-                {{ articles.name }} <sup class="s-product-search__total a-font_l"> {{ articles.count }} </sup>
-              </h2>
-              <div class="s-product-search__cards">
-                <template v-for="article in articlesList">
-                  <m-article
-                    :key="article.id"
-                    :article="article"
-                    v-if="articlesList && articlesList.length > 0"
-                    :randomColor="getRandomColor(article.included.tags[0].name)"
-                  >
-                  </m-article>
-                </template>
-              </div>
-              <nuxt-link to="/catalog" class="s-product-search__btn-link">
-                <a-button
-                  v-if="articles.count > articlesPerPage && articlesList.length < articles.count"
-                  class="s-product-search__btn"
-                  label="Показать еще"
-                  size="large"
-                  bgColor="ghost-primary"
-                  @click="fetchMoreArticles"
-                />
-              </nuxt-link>
-            </template>
+            <div class="l-wide l-border-radius">
+              <template v-if="articles.name === selectedPreset || selectedPreset === 'Все'">
+                <h2 class="a-font_h2 s-product-search__category-title">
+                  {{ articles.name }} <sup class="s-product-search__total a-font_l"> {{ articles.count }} </sup>
+                </h2>
+                <div class="s-product-search__cards">
+                  <template v-for="article in articlesList">
+                    <m-article
+                      :key="article.id"
+                      :article="article"
+                      v-if="articlesList && articlesList.length > 0"
+                      :randomColor="getRandomColor(article.included.tags[0].name)"
+                    >
+                    </m-article>
+                  </template>
+                </div>
+                <nuxt-link to="/catalog" class="s-product-search__btn-link">
+                  <a-button
+                    v-if="articles.count > articlesPerPage && articlesList.length < articles.count"
+                    class="s-product-search__btn"
+                    label="Показать еще"
+                    size="large"
+                    bgColor="ghost-primary"
+                    @click="fetchMoreArticles"
+                  />
+                </nuxt-link>
+              </template>
+            </div>
           </div>
         </div>
       </div>

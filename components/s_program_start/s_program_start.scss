@@ -4,7 +4,6 @@
   position: relative;
   overflow: hidden;
   width: 100%;
-  padding-top: var(--a-padding--x12);
   @media screen and (max-width: 991px) {
     margin: rem(12) auto;
   }
@@ -23,7 +22,6 @@
     position: relative;
     overflow: hidden;
     padding: var(--layout-v-padding) var(--layout-h-padding);
-    border-radius: rem(20);
   }
 
   &__header {
