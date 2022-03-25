@@ -1,7 +1,7 @@
 @import '@/assets/styles/tools/mixins';
 
 .cityPopupOpened {
-  overflow: hidden !important;
+  overflow: hidden;
   height: 100%;
 }
 
@@ -49,40 +49,33 @@
 
     &-list {
       display: flex;
-      overflow: auto;
-      flex-direction: column;
+      overflow: unset;
+      flex-direction: row;
       max-height: rem(288);
-      @media screen and (min-width: 768px) {
-        overflow: unset;
-        flex-direction: row;
-        max-height: unset;
-        margin: rem(18) rem(-4) 0;
-        flex-wrap: wrap;
-      }
+      margin: rem(18) rem(-4) 0;
+      flex-wrap: wrap;
 
       &-item {
         position: relative;
         display: flex;
+        overflow: hidden;
         flex: none;
         align-items: center;
         height: rem(48);
+        margin: rem(6) rem(4);
+        border-radius: var(--a-borderRadius--default);
         line-height: 1;
-        @media screen and (min-width: 768px) {
-          overflow: hidden;
+        @media screen and (max-width: 767px) {
           height: unset;
-          margin: rem(6) rem(4);
-          border-radius: var(--a-borderRadius--default);
         }
 
         span {
           display: flex;
           align-items: center;
           height: 100%;
+          padding: rem(12) rem(24);
+          background-color: var(--a-color_banner--lightcyan);
           transition: 0.2s;
-          @media screen and (min-width: 768px) {
-            padding: rem(12) rem(24);
-            background-color: var(--a-color_banner--lightcyan);
-          }
         }
         &:hover span {
           color: var(--a-color_link);
@@ -103,10 +96,8 @@
           opacity: 0;
           cursor: pointer;
           &:checked ~ span {
-            @media screen and (min-width: 768px) {
-              color: var(--a-color_bg);
-              background-color: var(--a-color_banner--blue);
-            }
+            color: var(--a-color_bg);
+            background-color: var(--a-color_link);
           }
         }
       }
@@ -122,17 +113,33 @@
     }
 
     &-bottom {
-      display: none;
+      display: flex;
+      justify-content: space-between;
+      order: 9;
+      margin-bottom: rem(8);
       @media screen and (min-width: 768px) {
         display: flex;
-        justify-content: flex-end;
+        margin-top: rem(8);
+        margin-bottom: 0;
       }
 
       & .a-button {
+        display: none;
         flex: 1;
         margin-left: rem(8);
         &:first-child {
+          display: block;
+          margin-right: auto;
           margin-left: 0;
+          color: var(--a-color_link);
+
+          .a-button__label {
+            justify-content: flex-start;
+            padding: 0;
+          }
+        }
+        &:nth-child(2) {
+          display: block;
         }
         @media screen and (min-width: 768px) {
           flex: none;

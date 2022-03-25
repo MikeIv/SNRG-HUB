@@ -9,7 +9,7 @@
           <div class="s-main-search__items">
             <template v-for="item in row.items">
               <nuxt-link
-                :to="`catalog?page=1&${extractQueryParams(row, item)}`"
+                :to="`catalog` + (row.key === 'category' ? `/${item.slug}?page=1` : `?page=1&level_ids=${item.id}`)"
                 class="s-main-search__item"
                 v-if="item.isActive"
                 :key="item.id"
@@ -17,7 +17,7 @@
                 <div class="s-main-search__item-title a-font_l-m">
                   <span>{{ item.name }}</span>
                 </div>
-                <div class="s-main-search__item-count a-font_m">{{ item.count }}</div>
+                <div class="s-main-search__item-count a-font_m" v-if="item.product_count">{{ item.product_count }}</div>
               </nuxt-link>
             </template>
 
@@ -52,7 +52,8 @@
 
 <script>
 import { AButton } from '@cwespb/synergyui';
-import getProductsMain from '~/api/productsMain';
+import getLevelsList from '~/api/levelsList';
+import getCatalogCategoriesList from '~/api/getCatalogCategoriesList';
 import './s_main_search.scss';
 
 export default {
@@ -60,7 +61,18 @@ export default {
 
   data() {
     return {
-      rows: [],
+      rows: [
+        {
+          name: 'Направления',
+          key: 'category',
+          items: [],
+        },
+        {
+          name: 'Уровни обучения',
+          key: 'levels_ids',
+          items: [],
+        },
+      ],
       windowWidth: null,
       maxLinksCount: null,
       desktopLinksCount: 24,
@@ -119,9 +131,12 @@ export default {
   },
 
   async fetch() {
-    let [expandedMethod] = this.methods;
-    expandedMethod = { ...expandedMethod.data };
-    this.rows = await getProductsMain(expandedMethod);
+    const expandedMethodList = this.methods[0].data;
+    const expandedMethodCategories = this.methods[1].data;
+    const levelsList = await getLevelsList(expandedMethodList);
+    const categoriesList = await getCatalogCategoriesList(expandedMethodCategories);
+    this.rows[0].items.push(...categoriesList);
+    this.rows[1].items.push(...levelsList);
   },
 
   methods: {
@@ -144,10 +159,6 @@ export default {
 
     handleResize() {
       this.windowWidth = window.innerWidth;
-    },
-
-    extractQueryParams(params, item) {
-      return `${params.filter_by}=${item.id}`;
     },
 
     onButtonMoreClick() {

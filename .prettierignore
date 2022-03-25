@@ -5,6 +5,7 @@ node_modules
 .helm
 .nuxt
 .husky
+assets/
 idea
 werf.yaml
 werf-giterminism.yaml
@@ -32,3 +33,4 @@ assets/images
 .gitignore
 CHANGELOG.md
 .gitlab
+app.html

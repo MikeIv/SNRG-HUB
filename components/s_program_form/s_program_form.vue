@@ -14,34 +14,33 @@
       <template v-slot:inputs>
         <a-input
           class="m-form__input"
-          :class="{ 'error-name': !validName }"
-          @input="
-            handlerSave();
-            validFormData();
-          "
+          :class="{ 'error-name': !nameErrorFlag }"
+          @input="validFormData"
           v-model="fieldsData.name"
           placeholder="Имя"
+          @focus="changeFocusInput"
+          @blur="changeBlurInput"
         />
         <vue-tel-input
           class="m-form__input"
-          :class="{ error: !validPhone }"
+          :class="{ error: !phoneErrorFlag }"
           v-bind="vueTelOpts"
           type="phone"
           placeholder="Телефон"
-          @validate="validFormData"
           v-model="fieldsData.phone"
           @input="validatePhone"
+          @focus="changeFocusInput"
+          @blur="changeBlurInput"
         >
         </vue-tel-input>
         <a-input
           class="m-form__input"
-          :class="{ 'error-mail': !validFlag }"
-          @input="
-            handlerSave();
-            validFormData();
-          "
+          :class="{ 'error-mail': !emailErrorFlag }"
+          @input="validFormData"
           v-model="fieldsData.email"
           placeholder="Почта"
+          @focus="changeFocusInput"
+          @blur="changeBlurInput"
         />
       </template>
     </m-form>
@@ -81,8 +80,11 @@ export default {
     typeCtrl: 'checkbox',
     typeBtn: 'checkbox',
     checked: true,
-    validFlag: false,
+    validFlag: true,
     validName: false,
+    nameErrorFlag: true,
+    emailErrorFlag: true,
+    phoneErrorFlag: true,
 
     fieldsData: {
       name: '',
@@ -118,18 +120,20 @@ export default {
   methods: {
     sendForm() {
       if (this.formProduct) {
-        this.fieldsData.comments = `Клик из формы попапа продукта: ${this.formProduct.name}`;
+        this.fieldsData.comment = `Клик из формы попапа продукта: ${this.formProduct.name}`;
       }
 
-      this.$lander
-        .send(
-          this.fieldsData,
-          {},
-          this.$route.name === 'edu-platform-slug' || this.$route.name === 'edu-platform'
-            ? this.$route.path
-            : undefined,
-        )
-        .then(() => {});
+      if (this.checkedValidateError()) {
+        this.$lander
+          .send(
+            this.fieldsData,
+            {},
+            this.$route.name === 'edu-platform-slug' || this.$route.name === 'edu-platform'
+              ? this.$route.path
+              : undefined,
+          )
+          .then(() => {});
+      }
     },
     handlerSave() {
       const dataToSend = { ...this.fieldsData };
@@ -137,32 +141,40 @@ export default {
       this.$lander.storage.save('sprogramform', dataToSend);
     },
     validatePhone(phone, { valid, number }) {
-      const telOpts = this.vueTelOpts;
-      const inputOpts = telOpts.inputOptions;
-      const isLocalCode = phone[0] === '8';
+      if (phone) {
+        const telOpts = this.vueTelOpts;
+        const inputOpts = telOpts.inputOptions;
+        const isLocalCode = phone[0] === '8';
 
-      inputOpts.maxlength = this.maxPhoneLength;
-      telOpts.autoFormat = !isLocalCode;
+        inputOpts.maxlength = this.maxPhoneLength;
+        telOpts.autoFormat = !isLocalCode;
 
-      this.validPhone = valid && isLocalCode ? phone.length === 11 : valid;
+        this.validPhone = valid && isLocalCode ? phone.length === 11 : valid;
 
-      if (valid) {
-        telOpts.mode = isLocalCode ? 'auto' : 'international';
-        inputOpts.maxlength = isLocalCode ? 11 : number.length;
-      } else {
-        inputOpts.maxlength = 16;
+        if (valid) {
+          telOpts.mode = isLocalCode ? 'auto' : 'international';
+          inputOpts.maxlength = isLocalCode ? 11 : number.length;
+        } else {
+          inputOpts.maxlength = 16;
+        }
+
+        this.validFormData();
       }
-
-      this.validFormData();
     },
     validFormData() {
-      const dataForm = [{ value: this.fieldsData.name }, { value: this.fieldsData.email, type: 'email' }];
-      this.validFlag = this.$lander.valid(dataForm) && this.validPhone;
-      if (/^([A-ZА-ЯЁ][-,a-z, a-яё. ']+[ ]*)+$/i.test(this.fieldsData.name)) {
-        this.validName = true;
-      } else {
-        this.validName = false;
-      }
+      this.handlerSave();
+    },
+    checkedValidateError() {
+      this.nameErrorFlag = /^([A-ZА-ЯЁ][-,a-z, a-яё. ']+[ ]*)+$/i.test(this.fieldsData.name);
+      this.emailErrorFlag = this.$lander.valid([{ value: this.fieldsData.email, type: 'email' }]);
+      this.phoneErrorFlag = this.validPhone === true && this.fieldsData.phone !== '';
+      return this.nameErrorFlag && this.emailErrorFlag && this.validPhone;
+    },
+    changeFocusInput() {
+      this.$store.commit('changeIsVisible', false);
+    },
+    changeBlurInput() {
+      this.$store.commit('changeIsVisible', true);
     },
   },
 };

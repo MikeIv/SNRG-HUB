@@ -18,7 +18,10 @@
         <div class="s-program-content__row" v-for="item in programContentList" :key="item.id" @click="showMore(item)">
           <div class="s-program-content__head">
             <div class="title a-font_xxl">{{ item.title }}</div>
-            <div class="s-program-content__icon-wrapper" v-if="item.listItems.length">
+            <div
+              class="s-program-content__icon-wrapper"
+              v-if="item.listItems.length && item.listItems[0].text !== null"
+            >
               <i class="s-program-content__icon" :class="`si-chevron-${item.isActive ? 'down' : 'up'}`"> </i>
             </div>
           </div>

@@ -1,6 +1,6 @@
 <template>
   <div class="product-page">
-    <SHeader @search="search = $event" />
+    <SHeader :banner="false" @search="search = $event" />
     <SProductSearch v-if="search" :search="search" />
     <Nuxt v-else />
     <LazyHydrate when-visible>
@@ -36,6 +36,9 @@ export default {
   data() {
     return {
       search: '',
+      SHeaderOptions: {
+        banner: false,
+      },
     };
   },
 

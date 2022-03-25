@@ -1,5 +1,7 @@
 <template>
   <main>
+    <SSearchHome />
+    <SBannerTop />
     <LazyHydrate :key="id" v-for="{ key, methods, options, title, id, view_type } in pageInfo.components" when-visible>
       <component
         :is="key"
@@ -9,6 +11,7 @@
         :viewType="view_type"
       ></component>
     </LazyHydrate>
+    <SBannerTop />
   </main>
 </template>
 

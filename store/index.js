@@ -19,6 +19,7 @@ export const state = () => ({
     land: '',
     redirectUrl: '',
   },
+  isVisible: true,
 });
 
 export const mutations = {
@@ -55,6 +56,9 @@ export const mutations = {
         }
       }
     });
+  },
+  changeIsVisible(state, val) {
+    state.isVisible = val;
   },
 };
 

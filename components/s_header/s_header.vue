@@ -2,7 +2,12 @@
   <header class="s-header" :class="{ open: isOpen, fixed: isScrolled }">
     <div class="shadow" v-if="isOpen" @click="handleChange"></div>
     <div class="s-header__wrapper">
-      <div class="s-header__top" :class="{ hidden: !isVisible }" @click="scrollTo(topBannerSmoothHref)">
+      <div
+        v-if="isBannerAvailable"
+        class="s-header__top"
+        :class="{ hidden: !isVisible }"
+        @click="scrollTo(topBannerSmoothHref)"
+      >
         <m-banner
           :type="bannerTop.banner_type"
           :backgroundColor="bannerTop.color_bg"
@@ -45,7 +50,14 @@
               <div class="s-header__burger-text a-font_l a-color_link">{{ btnText }}</div>
             </div>
             <div class="s-header__search">
-              <a-input id="search" icons="si-search" size="medium" :placeholder="searchPlaceholder" v-model="search" />
+              <a-input
+                id="search"
+                icons="si-search"
+                size="medium"
+                :placeholder="searchPlaceholder"
+                v-model="search"
+                :disabled="disabledSearch"
+              />
             </div>
             <a href="//pass.synergy.ru" target="_blank" class="s-header__login" rel="noreferrer" v-if="false">
               <a-button label="Войти" bgColor="ghost-accept"></a-button>
@@ -79,11 +91,11 @@
 import { AInput, AButton, ASelect } from '@cwespb/synergyui';
 import './s_header.scss';
 import MBanner from '~/components/_ui/m_banner/m_banner';
+import getBannersDetail from '~/api/bannersDetail';
+import { debounce } from '~/assets/js/debounce';
 import MLocation from '../_ui/m_location/m_location';
 import SMenuMain from '../s_menu_main/s_menu_main';
 import MenuHorizontal from '../menu_horizontal/menu_horizontal';
-import getBannersDetail from '~/api/bannersDetail';
-import { debounce } from '~/assets/js/debounce';
 
 export default {
   name: 'SHeader',
@@ -96,6 +108,11 @@ export default {
 
     options: {
       type: Array,
+    },
+
+    banner: {
+      type: Boolean,
+      default: true,
     },
   },
 
@@ -113,6 +130,7 @@ export default {
       bannerTop: {},
       isVisible: false,
       topBannerSmoothHref: '#quiz',
+      disabledSearch: false,
     };
   },
 
@@ -148,6 +166,9 @@ export default {
     },
     quiz() {
       return this.$store.state.quizInfo;
+    },
+    isBannerAvailable() {
+      return this.banner;
     },
   },
 
@@ -206,6 +227,10 @@ export default {
 
     debounceSearchListener: debounce(function debounceHandler() {
       if (!this.search) {
+        this.disabledSearch = true;
+        setTimeout(() => {
+          this.disabledSearch = false;
+        }, 700);
         this.search = '';
         this.$emit('search', '');
         this.$router.push({
@@ -219,7 +244,7 @@ export default {
           },
         });
       }
-    }, 500),
+    }, 2000),
     onLogoClickHandler() {
       this.search = '';
       this.$emit('search', '');
