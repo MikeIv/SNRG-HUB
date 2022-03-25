@@ -1,6 +1,6 @@
 <template>
-  <section class="s-contacts-form s-padding" ref="form">
-    <div class="l-wide">
+  <section class="s-contacts-form s-margin" ref="form">
+    <div class="l-wide l-border-radius">
       <m-form
         :isVertical="true"
         titleClass="a-font_h2"

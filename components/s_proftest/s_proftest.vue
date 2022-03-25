@@ -1,5 +1,5 @@
 <template>
-  <section class="s-proftest s-padding">
+  <section class="s-proftest s-margin">
     <div class="l-wide l-border-radius">
       <div class="s-proftest__wrapper">
         <div class="s-proftest__content">

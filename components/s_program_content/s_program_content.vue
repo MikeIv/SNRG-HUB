@@ -1,5 +1,5 @@
 <template>
-  <section class="s-program-content s-padding" v-if="programContentList.length">
+  <section class="s-program-content s-margin" v-if="programContentList.length">
     <div class="l-wide l-border-radius">
       <div class="s-program-content__wrapper">
         <div class="s-program-content__top">

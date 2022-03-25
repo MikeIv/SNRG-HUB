@@ -1,5 +1,5 @@
 <template>
-  <section class="s-article-list s-padding">
+  <section class="s-article-list s-margin">
     <div class="l-wide l-border-radius">
       <div class="s-article-list__title a-font_h5">{{ title }}</div>
       <div class="s-article-list__categories">

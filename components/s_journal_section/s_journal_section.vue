@@ -1,8 +1,8 @@
 <template>
   <div
     :class="
-      this.$route.name === 'organization-slug s-padding l-border-radius'
-        ? 'catalog-page__section s-padding l-border-radius'
+      this.$route.name === 'organization-slug s-margin l-border-radius'
+        ? 'catalog-page__section s-margin l-border-radius'
         : ''
     "
   >

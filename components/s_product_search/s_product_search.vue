@@ -5,7 +5,7 @@
     </div>
     <div v-else>
       <div class="s-product-search">
-        <div class="l-border-radius s-padding">
+        <div class="l-border-radius s-margin">
           <div class="l-wide l-border-radius">
             <h2 class="a-font_h2" v-if="categories.length">
               Найдено {{ totalItems }} результатов в {{ categories.length }} категориях
@@ -27,7 +27,7 @@
 
         <div class="s-product-search__categories" v-if="categories.length">
           <div
-            class="s-product-search__category s-padding"
+            class="s-product-search__category s-margin"
             v-for="(product, index) in productsList"
             :key="product.name + index"
             :class="{ hidden: product.name !== selectedPreset && selectedPreset !== 'Все' }"
@@ -72,7 +72,7 @@
             </template>
           </div>
           <div
-            class="s-product-search__category s-padding"
+            class="s-product-search__category s-margin"
             :class="{ hidden: articles.name !== selectedPreset && selectedPreset !== 'Все' }"
           >
             <div class="l-wide l-border-radius">

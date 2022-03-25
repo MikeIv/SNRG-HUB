@@ -1,6 +1,6 @@
 <template>
-  <section class="s-contats-note s-padding">
-    <div class="l-wide">
+  <section class="s-contats-note s-margin">
+    <div class="l-wide l-border-radius">
       <h2 class="s-contats-note__title a-font_xxl" v-html="title"></h2>
       <p class="s-contats-note__p a-font_l-m" v-html="paragraph"></p>
     </div>

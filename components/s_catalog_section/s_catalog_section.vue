@@ -1,6 +1,6 @@
 <template>
-  <div :class="{ 'catalog-page__section s-margin l-wide': withPaddings }" v-if="filterResponse">
-    <div :class="{ 'catalog-page__section s-margin l-wide': !withPaddings }">
+  <div class="s-margin" v-if="filterResponse">
+    <div class="catalog-page__section l-wide">
       <a-breadcrumbs v-if="withBreadcrumbs" :breadcrumbs="breadcrumbs" class="catalog-page__breadcrumbs" />
       <h2 class="a-font_h2" v-if="title">
         {{ title }}

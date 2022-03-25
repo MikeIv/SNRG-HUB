@@ -1,5 +1,5 @@
 <template>
-  <section class="s-program-teachers s-padding" v-if="programTeachers.length">
+  <section class="s-program-teachers s-margin" v-if="programTeachers.length">
     <div class="l-wide l-border-radius">
       <h2 class="s-program-teachers__title a-font_h2" v-html="title"></h2>
       <div class="s-program-teachers__items s-program-teachers__items_horizontal" v-if="programTeachers.length < 4">

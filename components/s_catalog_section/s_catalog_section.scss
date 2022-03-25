@@ -12,18 +12,6 @@
   &__section {
     margin: rem(24) auto;
     border-radius: rem(20);
-
-    @media all and (max-width: 1300px) {
-      padding: rem(55) rem(60) 0 rem(60);
-    }
-
-    @media all and (max-width: 1000px) {
-      padding: rem(50) rem(40) 0 rem(40);
-    }
-
-    @media all and (max-width: 767px) {
-      padding: rem(46) rem(30) 0 rem(30);
-    }
   }
 
   &__header-total {

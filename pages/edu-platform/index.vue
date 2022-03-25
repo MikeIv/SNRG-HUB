@@ -1,7 +1,7 @@
 <template>
   <div>
     <header class="s-header s-header-lp" :class="{ fixed: isScrolled, fixedMobile: isIconInHeader }">
-      <div class="l-wide l-border-radius">
+      <div class="l-wide">
         <div class="s-header__wrapper">
           <div class="s-header-lp__left">
             <nuxt-link to="/" class="s-header__logo-link" no-prefetch>
@@ -31,7 +31,7 @@
       </div>
     </header>
 
-    <div class="catalog-page__section-lp-wrapper s-padding">
+    <div class="catalog-page__section-lp-wrapper s-margin">
       <div class="l-wide l-border-radius">
         <a-popup :visible="applicationPopup" @close="applicationPopup = false">
           <div class="catalog-page__section-lp__popup">
@@ -440,6 +440,16 @@ export default {
     padding-bottom: rem(16);
   }
 
+  .s-header__wrapper {
+    @media screen and (max-width: 1499px) {
+      padding: 0 var(--a-padding--x5);
+    }
+
+    @media screen and (max-width: 767px) {
+      padding: 0 var(--a-padding--x4);
+    }
+  }
+
   &.fixed {
     position: fixed;
     z-index: 100;
@@ -659,10 +669,6 @@ export default {
       }
     }
   }
-}
-
-.catalog-page__section-lp-wrapper {
-  padding: rem(48) 0 rem(24);
 }
 
 .js-fixed {

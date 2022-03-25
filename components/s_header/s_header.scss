@@ -7,14 +7,6 @@
   .l-wide {
     width: 100%;
     padding: 0;
-
-    @media screen and (max-width: 1499px) {
-      padding: 0 var(--a-padding--x8);
-    }
-
-    @media screen and (max-width: 1199px) {
-      padding: 0 var(--a-padding--x4);
-    }
   }
   .a-logo__wrapper {
     min-width: rem(195);
@@ -79,8 +71,7 @@
         padding: 0 rem(8) rem(20) rem(8);
       }
       @media screen and (max-width: 520px) {
-        padding-right: 0;
-        padding-left: 0;
+        padding: 0 rem(16) rem(8);
       }
     }
   }
@@ -124,12 +115,12 @@
       padding: rem(20) 0;
 
       @media screen and (max-width: 1499px) {
-        padding: var(--a-padding--x5) 0;
+        padding: var(--a-padding--x5);
       }
 
       @media screen and (max-width: 767px) {
         flex-wrap: wrap;
-        padding: var(--a-padding--x4) 0;
+        padding: var(--a-padding--x4);
       }
     }
   }

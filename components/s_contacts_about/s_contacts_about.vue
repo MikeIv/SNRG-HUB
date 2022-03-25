@@ -1,6 +1,6 @@
 <template>
-  <section class="s-contacts-about s-padding" itemscope itemtype="https://schema.org/LocalBusiness">
-    <div class="l-wide">
+  <section class="s-contacts-about s-margin" itemscope itemtype="https://schema.org/LocalBusiness">
+    <div class="l-wide l-border-radius">
       <h2 class="s-contacts-address__title a-font_h2" v-html="title"></h2>
 
       <div class="s-contacts-about__items">

@@ -1,5 +1,5 @@
 <template>
-  <section class="s-main-university s-padding">
+  <section class="s-main-university s-margin">
     <div class="l-wide l-border-radius">
       <h2 class="s-main-university__title a-font_h5">{{ title }}</h2>
       <div class="s-main-university__box">

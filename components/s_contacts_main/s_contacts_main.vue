@@ -1,6 +1,6 @@
 <template>
-  <section class="s-contacts-main s-padding">
-    <div class="l-wide">
+  <section class="s-contacts-main s-margin">
+    <div class="l-wide l-border-radius">
       <h1 class="s-contacts-main__title a-font_h2" v-html="title"></h1>
 
       <div class="s-contacts-main__subtitle a-font_xxl" v-html="subtitle"></div>

@@ -1,5 +1,5 @@
 <template>
-  <section class="s-program-timeline s-padding">
+  <section class="s-program-timeline s-margin">
     <div class="l-wide l-border-radius">
       <div class="s-program-timeline__header">
         <h2 class="s-program-timeline__title a-font_h2" v-html="title"></h2>

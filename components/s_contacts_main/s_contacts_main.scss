@@ -1,7 +1,6 @@
 @import '@/assets/styles/tools/mixins';
 
 .s-contacts-main {
-  padding-top: rem(48);
   &__title {
     margin-bottom: var(--a-padding--x8);
     @media screen and (max-width: 991px) {
