@@ -10,7 +10,7 @@
         <div class="course__info a-font_m">
           <div class="course__row">
             <div class="course__row-left">Длительность курса</div>
-            <div class="course__row-right">{{ years }}</div>
+            <div class="course__row-right" v-html="years"></div>
           </div>
           <div class="course__row">
             <div class="course__row-left">Формат обучения</div>
@@ -19,7 +19,7 @@
         </div>
         <div class="course__price">
           <div class="text a-font_xl">{{ priceText }}</div>
-          <div class="oldPrice">{{ oldPrice }}</div>
+          <div class="oldPrice" v-if="oldPrice">{{ oldPrice }}</div>
           <div class="currentPrice">{{ currentPrice }}</div>
         </div>
       </div>

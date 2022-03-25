@@ -84,7 +84,7 @@
       :priceText="priceText"
       :oldPrice="oldPrice"
       :currentPrice="currentPrice"
-      :formTitle="formTitle"
+      :formTitle="isAuthenticated ? 'Оплатить' : formTitle"
       :btnText="btnText"
       :checkboxText="checkboxText"
       :typeCtrl="typeCtrl"
@@ -164,15 +164,17 @@
 </template>
 
 <script>
-import {
-  AInput, APopup, AControl, AButton,
-} from '@cwespb/synergyui';
+import { AInput, APopup, AControl, AButton } from '@cwespb/synergyui';
 import { VueTelInput } from 'vue-tel-input';
 import MFormPay from '~/components/_ui/m_form_pay/m_form_pay';
 import getConfirmationCode from '~/api/confirmationCode';
 import checkConfirmationCode from '~/api/checkConfirmationCode';
 import parseJWT from '~/assets/js/parseJWT';
+import getProductsDetails from '~/api/productsDetail';
 import './s_program_price.scss';
+import getDateFromDatesObj from '~/assets/js/getDateFromDatesObj';
+import getParseDate from '~/assets/js/getParseDate';
+import getOrganizationsDetail from '~/api/organizationsDetail';
 
 const KEY_CODE = {
   backspace: 8,
@@ -223,7 +225,7 @@ export default {
       years: '4 года 6 месяцев',
       study: 'Бакалавриат',
       priceText: 'Стоимость курса',
-      oldPrice: '45550 ₽',
+      oldPrice: '',
       currentPrice: '35 000 ₽',
       iconSrc: 'https://sys3.ru/marketplace/uploads/organizations/yuIYPVAzTpYhkDo2acWAZAMLpIh4LiRGttzzlyFs.svg',
       text: 'Университет Синергия',
@@ -308,10 +310,10 @@ export default {
     isEnoughtData() {
       // eslint-disable-next-line max-len
       return (
-        this.user?.phone?.status === 'confirmed'
-        && Boolean(this.user.account_information?.name)
-        && Boolean(this.user.account_information?.surname)
-        && Boolean(this.user.account_information?.patronymic)
+        this.user?.phone?.status === 'confirmed' &&
+        Boolean(this.user.account_information?.name) &&
+        Boolean(this.user.account_information?.surname) &&
+        Boolean(this.user.account_information?.patronymic)
       );
     },
     btnText() {
@@ -330,7 +332,7 @@ export default {
     },
   },
 
-  mounted() {
+  async mounted() {
     this.$emit('form-ref', this.$refs.form);
     const loadDataForm = this.$lander.storage.load('programpriceform');
     if (loadDataForm) this.fieldsData = loadDataForm;
@@ -349,6 +351,38 @@ export default {
       publicOffer: 'on',
       successPage: `${document.location.host}/payment-thanks`,
     };
+
+    const detailsExpandedMethod = {
+      filter: {
+        slug: this.$route.params.slug,
+      },
+      include: ['offers'],
+    };
+    const detailsData = await getProductsDetails(detailsExpandedMethod);
+    console.log('detailsData', detailsData.data);
+    this.courseName = `${detailsData.data.name}`;
+    const durationFormatValue = detailsData.data.duration_format_value;
+    if (durationFormatValue) {
+      this.years = getDateFromDatesObj(getParseDate(detailsData.data.duration_format_value));
+    }
+    this.currentPrice = `${detailsData.data.included.offers[0].price} ₽`;
+    if (detailsData.data.included.offers[0].oldPrice) {
+      this.oldPrice = `${detailsData.data.included.offers[0].oldPrice} ₽`;
+    }
+    this.fieldsData.product_id = detailsData.data.included.offers[0].product_id;
+    // eslint-disable-next-line prefer-destructuring
+    this.study = detailsData.data.included.offers[0].properties['App\\Models\\Format'].join(' ');
+
+    const organizationsExpandedMethod = {
+      filter: {
+        product_id: this.fieldsData.product_id,
+      },
+      include: ['persons', 'city', 'triggers'],
+    };
+    const organizationsData = await getOrganizationsDetail(organizationsExpandedMethod);
+    console.log('organizationsData', organizationsData.data);
+    this.text = organizationsData.data.abbreviation_name;
+    this.iconSrc = `https://sys3.ru/marketplace/${organizationsData.data.logo}`;
   },
 
   methods: {
@@ -595,11 +629,11 @@ export default {
       this.phoneErrorFlag = this.validPhone === true && this.fieldsData.phone !== '';
       // eslint-disable-next-line max-len
       return (
-        this.nameErrorFlag
-        && this.surnameErrorFlag
-        && this.patronymicErrorFlag
-        && this.emailErrorFlag
-        && this.validPhone
+        this.nameErrorFlag &&
+        this.surnameErrorFlag &&
+        this.patronymicErrorFlag &&
+        this.emailErrorFlag &&
+        this.validPhone
       );
     },
     changeFocusInput() {

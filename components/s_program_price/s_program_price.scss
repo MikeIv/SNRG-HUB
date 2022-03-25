@@ -183,6 +183,10 @@ input::-webkit-inner-spin-button {
     width: 100%;
     margin: 0 rem(6) rem(30);
 
+    @media screen and (max-width: 991px) {
+      margin: 0 0 rem(30);
+    }
+
     &-row {
       display: flex;
       align-items: center;
@@ -208,8 +212,75 @@ input::-webkit-inner-spin-button {
 
   &__form {
     &.authorized {
-      .m-form__title {
-        margin-top: auto;
+      .m-form-pay__wrapper {
+        min-height: rem(470);
+      }
+
+      .m-form-pay__reg {
+        position: relative;
+        z-index: 10;
+        display: flex;
+        overflow: hidden;
+        flex-direction: column;
+        justify-content: flex-end;
+
+        @media screen and (max-width: 991px) {
+          flex-direction: row;
+          justify-content: space-between;
+          align-items: flex-start;
+        }
+
+        @media screen and (max-width: 767px) {
+          flex-direction: column;
+          justify-content: flex-end;
+          min-height: rem(448);
+        }
+
+        &::before {
+          content: url('/payment-thanks/decore-1.png');
+          position: absolute;
+          z-index: -1;
+          top: 0;
+          right: 0;
+
+          @media screen and (max-width: 991px) {
+            content: url('/payment-thanks/decore-2.png');
+            top: unset;
+            right: unset;
+            left: 0;
+            bottom: 0;
+          }
+
+          @media screen and (max-width: 767px) {
+            top: 0;
+            right: 0;
+            left: unset;
+            bottom: unset;
+            transform: rotate(180deg);
+          }
+        }
+
+        &::after {
+          content: url('/payment-thanks/decore-3.png');
+          position: absolute;
+          z-index: -1;
+          top: rem(24);
+          left: rem(32);
+
+          @media screen and (max-width: 991px) {
+            content: url('/payment-thanks/decore-4.png');
+            top: unset;
+            left: rem(170);
+            bottom: rem(50);
+          }
+
+          @media screen and (max-width: 767px) {
+            top: rem(58);
+            left: rem(36);
+            bottom: unset;
+            transform: rotate(180deg);
+          }
+        }
       }
     }
   }
