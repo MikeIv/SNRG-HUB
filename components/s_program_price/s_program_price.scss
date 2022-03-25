@@ -52,10 +52,28 @@ input::-webkit-inner-spin-button {
   }
 
   &__confirmation {
+    &.a-popup {
+      width: auto;
+
+      @media screen and (max-width: 385px) {
+        padding-bottom: 0;
+      }
+    }
+
     .a-popup__container {
       position: relative;
       max-width: rem(385);
       padding: rem(40);
+
+      @media screen and (max-width: 575px) {
+        padding: rem(28) rem(16);
+      }
+
+      @media screen and (max-width: 385px) {
+        margin: auto 0 0;
+        border-bottom-right-radius: 0;
+        border-bottom-left-radius: 0;
+      }
     }
 
     .a-popup__close {
@@ -69,6 +87,11 @@ input::-webkit-inner-spin-button {
       margin-bottom: rem(24);
       font-size: rem(28);
       line-height: rem(36);
+
+      @media screen and (max-width: 575px) {
+        font-size: rem(20);
+        line-height: rem(28);
+      }
     }
 
     &-telephone {
@@ -109,7 +132,7 @@ input::-webkit-inner-spin-button {
       text-align: center;
 
       & + .s-program-price__confirmation-input {
-        margin-left: rem(27);
+        margin-left: rem(20);
       }
     }
 
