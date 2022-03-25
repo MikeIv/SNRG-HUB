@@ -1,6 +1,6 @@
 <template>
   <section class="s-program-questions s-padding" v-if="questionsList.length">
-    <div class="l-wide">
+    <div class="l-wide l-border-radius">
       <div class="s-program-questions__wrapper" itemscope itemtype="http://schema.org/Question">
         <h2 class="s-program-questions__title a-font_h2" v-html="title"></h2>
         <div class="s-program-questions__body">

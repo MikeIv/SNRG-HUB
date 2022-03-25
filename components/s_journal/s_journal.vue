@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="l-wide catalog-page s-padding l-border-radius">
+    <div class="catalog-page">
       <s-catalog-section
         title="Журнал"
         :hasPresets="presets.length"

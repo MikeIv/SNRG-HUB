@@ -5,22 +5,24 @@
     </div>
     <div v-else>
       <div class="s-product-search">
-        <div class="l-wide l-border-radius s-padding">
-          <h2 class="a-font_h2" v-if="categories.length">
-            Найдено {{ totalItems }} результатов в {{ categories.length }} категориях
-            <sup class="s-product-search__total a-font_l"> {{ totalItems }} </sup>
-          </h2>
-          <h2 v-else class="a-font_h2">По вашему запросу ничего не найдено</h2>
+        <div class="l-border-radius s-padding">
+          <div class="l-wide l-border-radius">
+            <h2 class="a-font_h2" v-if="categories.length">
+              Найдено {{ totalItems }} результатов в {{ categories.length }} категориях
+              <sup class="s-product-search__total a-font_l"> {{ totalItems }} </sup>
+            </h2>
+            <h2 v-else class="a-font_h2">По вашему запросу ничего не найдено</h2>
 
-          <swiper class="s-product-search__presets" :options="$options.swiperOption" v-if="categories.length">
-            <swiper-slide v-for="(preset, index) in presets" :key="index" class="catalog-presets__swiper-slide">
-              <a-tag
-                :label="`${preset.name} ${preset.count}`"
-                :class="{ active: preset.name === selectedPreset }"
-                @aTagClick="onTagClickHandler(preset)"
-              />
-            </swiper-slide>
-          </swiper>
+            <swiper class="s-product-search__presets" :options="$options.swiperOption" v-if="categories.length">
+              <swiper-slide v-for="(preset, index) in presets" :key="index" class="catalog-presets__swiper-slide">
+                <a-tag
+                  :label="`${preset.name} ${preset.count}`"
+                  :class="{ active: preset.name === selectedPreset }"
+                  @aTagClick="onTagClickHandler(preset)"
+                />
+              </swiper-slide>
+            </swiper>
+          </div>
         </div>
 
         <div class="s-product-search__categories" v-if="categories.length">
