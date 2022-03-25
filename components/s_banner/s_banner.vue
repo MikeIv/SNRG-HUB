@@ -1,5 +1,5 @@
 <template>
-  <section class="s-banner s-margin" v-if="bannersDetail.length">
+  <section class="s-banner s-padding" v-if="bannersDetail.length">
     <div class="l-wide l-border-radius" :class="{ banners: bannersDetail.length > 1 }">
       <template v-for="item in bannersDetail">
         <nuxt-link

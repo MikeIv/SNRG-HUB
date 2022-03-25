@@ -31,7 +31,7 @@
       </div>
     </header>
 
-    <div class="catalog-page__section-lp-wrapper s-margin">
+    <div class="catalog-page__section-lp-wrapper s-padding">
       <div class="l-wide l-border-radius">
         <a-popup :visible="applicationPopup" @close="applicationPopup = false">
           <div class="catalog-page__section-lp__popup">

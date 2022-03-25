@@ -1,5 +1,5 @@
 <template>
-  <section class="s-partners s-margin" :class="this.$route.name === 'index' ? 'main' : 'other'">
+  <section class="s-partners s-padding" :class="this.$route.name === 'index' ? 'main' : 'other'">
     <div v-if="this.$route.name === 'index'" class="l-wide l-border-radius">
       <div class="s-partners__box">
         <h2 class="s-partners__title main" v-html="title"></h2>

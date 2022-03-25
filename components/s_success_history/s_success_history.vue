@@ -1,5 +1,5 @@
 <template>
-  <section :class="this.$route.name == 'index' ? 's-success-history s-margin' : 's-success-history'">
+  <section :class="this.$route.name == 'index' ? 's-success-history s-padding' : 's-success-history'">
     <div :class="this.$route.name == 'index' ? 'l-wide l-border-radius' : ''">
       <div class="s-success-history__wrapper">
         <h2

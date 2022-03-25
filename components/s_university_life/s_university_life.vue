@@ -1,5 +1,5 @@
 <template>
-  <section class="s-university-life s-margin">
+  <section class="s-university-life s-padding">
     <div class="l-wide">
       <h2 class="s-university-life__title s-university-life__title a-font_h2" v-html="title"></h2>
       <div class="s-university-life__items">

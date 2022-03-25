@@ -1,5 +1,5 @@
 <template>
-  <section class="s-program-diploma s-margin">
+  <section class="s-program-diploma s-padding">
     <div class="l-wide l-border-radius">
       <h2 class="s-program-diploma__title a-font_h2" v-html="title"></h2>
       <div class="s-program-diploma__items">

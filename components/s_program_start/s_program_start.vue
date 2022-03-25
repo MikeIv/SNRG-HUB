@@ -1,5 +1,5 @@
 <template>
-  <section class="s-program-start s-margin">
+  <section class="s-program-start s-padding">
     <div class="l-wide l-border-radius">
       <div class="s-program-start__wrapper" :style="{ backgroundColor: program.color ? program.color : '#fff' }">
         <div class="s-program-start__header">

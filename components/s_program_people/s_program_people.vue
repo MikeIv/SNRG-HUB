@@ -1,5 +1,5 @@
 <template>
-  <section class="s-program-people s-margin">
+  <section class="s-program-people s-padding">
     <div class="l-wide l-border-radius">
       <div class="s-program-people__wrapper">
         <h2 class="s-program-people__title a-font_h2" v-html="title"></h2>

@@ -1,5 +1,5 @@
 <template>
-  <section class="s-search-home s-margin">
+  <section class="s-search-home s-padding">
     <div class="l-wide l-border-radius">
       <div class="s-search-home__wrapper">
         <div class="s-search-home__infoblock">

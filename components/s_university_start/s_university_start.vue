@@ -1,5 +1,5 @@
 <template>
-  <section class="s-university-start s-margin">
+  <section class="s-university-start s-padding">
     <div class="l-wide l-border-radius">
       <div
         class="s-university-start__wrapper"
