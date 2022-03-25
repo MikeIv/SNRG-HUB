@@ -54,6 +54,10 @@
     &.hidden {
       display: none;
     }
+
+    .l-border-radius {
+      border-radius: 0;
+    }
   }
 
   &__location {

@@ -1,21 +1,12 @@
 @import '@/assets/styles/tools/mixins';
 
 .s-partners {
-  .l-wide {
-    overflow: hidden;
-    padding: rem(48) rem(40);
-  }
-
   &.main {
     background-color: var(--a-color_bg--secondary);
   }
 
   &__box {
     background: var(--a-color_bg);
-
-    @media (max-width: 768px) {
-      padding: rem(32) 0;
-    }
   }
 
   &__swiper {
@@ -26,9 +17,9 @@
     }
 
     .swiper-container {
+      overflow: visible;
       height: auto;
       padding: rem(1) rem(40);
-      overflow: visible;
 
       & + .swiper-container {
         margin-top: rem(12);
@@ -62,20 +53,17 @@
   &__title {
     &.main {
       margin-bottom: rem(24);
-      padding: 0 rem(40);
       color: var(--a-color_text);
       font-size: rem(28);
       line-height: rem(36);
 
       @media (max-width: 768px) {
         margin-bottom: rem(20);
-        padding: 0 rem(30);
         font-size: rem(20);
         line-height: rem(30);
       }
 
       @media (max-width: 575px) {
-        padding: 0 rem(16);
         line-height: rem(24);
       }
     }

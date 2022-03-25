@@ -7,6 +7,14 @@
   .l-wide {
     overflow: hidden;
     padding: 0;
+    background: none;
+
+    @media screen and (max-width: 1499px) {
+      padding: 0 rem(30);
+    }
+    @media screen and (max-width: 767px) {
+      padding: 0 rem(16);
+    }
   }
 
   &__wrapper {
