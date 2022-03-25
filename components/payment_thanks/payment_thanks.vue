@@ -4,15 +4,30 @@
       <div class="payment-thanks__box">
         <h2 class="payment-thanks__title a-font_h1">Оплата прошла успешно!</h2>
         <div class="payment-thanks__cards">
-          <!--          <div class="payment-thanks__card lms">-->
-          <!--            <h3 class="payment-thanks__card-title">Доступ в Synergy LMS</h3>-->
-          <!--            <p class="payment-thanks__card-text">Начните обучение прямо сейчас</p>-->
-          <!--            <a-button class="payment-thanks__card-button" label="Начать учиться" bgColor="accent"/>-->
-          <!--          </div>-->
-          <div class="payment-thanks__card docs">
+          <div class="payment-thanks__card lms" v-if="false">
+            <h3 class="payment-thanks__card-title">Доступ в Synergy LMS</h3>
+            <p class="payment-thanks__card-text">Начните обучение прямо сейчас</p>
+            <a-button class="payment-thanks__card-button" label="Начать учиться" bgColor="accent" />
+          </div>
+          <div class="payment-thanks__card docs" v-if="!isRegistrationCompleted">
             <h3 class="payment-thanks__card-title">Завершите регистрацию</h3>
             <p class="payment-thanks__card-text">И подайте документы, чтобы открыть доступ к полному функционалу</p>
-            <a-button class="payment-thanks__card-button" label="Завершить" bgColor="ghost-accept" />
+            <a-button
+              class="payment-thanks__card-button"
+              label="Завершить"
+              bgColor="ghost-accept"
+              @click="onButtonClickHandler"
+            />
+          </div>
+          <div class="payment-thanks__card docs" v-else>
+            <h3 class="payment-thanks__card-title">Подайте документы</h3>
+            <p class="payment-thanks__card-text">Чтобы открыть доступ к полному функционалу</p>
+            <a-button
+              class="payment-thanks__card-button"
+              label="Подать документы"
+              bgColor="ghost-accept"
+              @click="onButtonClickHandler"
+            />
           </div>
         </div>
         <img class="payment-thanks__img" src="/payment-thanks/payment-thanks.png" alt="thanks" />
@@ -144,6 +159,23 @@ export default {
 
   components: {
     AButton,
+  },
+  data() {
+    return {
+      isRegistrationCompleted: true,
+    };
+  },
+  mounted() {
+    if (window.location.search) {
+      this.isRegistrationCompleted = false;
+    } else this.isRegistrationCompleted = true;
+  },
+  methods: {
+    onButtonClickHandler() {
+      window.location.href = this.isRegistrationCompleted
+        ? '//pass.synergy.ru/'
+        : `//pass.synergy.ru/registration${window.location.search}&registrationType=academic`;
+    },
   },
 };
 </script>

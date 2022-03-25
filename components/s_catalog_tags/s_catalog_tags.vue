@@ -66,7 +66,9 @@
 </template>
 
 <script>
-import { ATag, ASelect, APopup, AInput } from '@cwespb/synergyui';
+import {
+  ATag, ASelect, APopup, AInput,
+} from '@cwespb/synergyui';
 import './s_catalog_tags.scss';
 
 export default {
@@ -117,13 +119,13 @@ export default {
     getLinkRoute(category) {
       return this.subcategories.length && !this.categoriesState
         ? {
-            path: `/catalog/${this.$route.params?.pathMatch?.split('/').slice(0, -1)[0]}/${category.slug}`,
-            query: this.$route.query,
-          }
+          path: `/catalog/${this.$route.params?.pathMatch?.split('/').slice(0, -1)[0]}/${category.slug}`,
+          query: this.$route.query,
+        }
         : {
-            path: `/catalog/${category.slug}`,
-            query: this.$route.query,
-          };
+          path: `/catalog/${category.slug}`,
+          query: this.$route.query,
+        };
     },
 
     hideYScroll() {

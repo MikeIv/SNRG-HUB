@@ -109,9 +109,6 @@ export default {
     checkedValidateError() {
       this.nameErrorFlag = /^([A-ZА-ЯЁ][-,a-z, a-яё. ']+[ ]*)+$/i.test(this.fieldsData.name);
       this.emailErrorFlag = this.$lander.valid([{ value: this.fieldsData.email, type: 'email' }]);
-
-      console.log('as', this.nameErrorFlag && this.emailErrorFlag);
-
       return this.nameErrorFlag && this.emailErrorFlag;
     },
   },

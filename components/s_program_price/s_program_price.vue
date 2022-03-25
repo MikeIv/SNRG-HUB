@@ -1,5 +1,5 @@
 <template>
-  <section class="s-program-price" ref="form" id="form-price">
+  <section class="s-program-price" ref="form" id="form-price" v-if="fieldsData.product_id">
     <APopup :visible="isPopupPrice" @close="closePopup" type="iframe" :link="payment"> </APopup>
     <APopup class="s-program-price__confirmation" :visible="confirmationCodePopup" @close="closeConfirmationCodePopup">
       <div class="s-program-price__confirmation-content">
@@ -164,7 +164,10 @@
 </template>
 
 <script>
-import { AInput, APopup, AControl, AButton } from '@cwespb/synergyui';
+/* eslint-disable max-len */
+import {
+  AInput, APopup, AControl, AButton,
+} from '@cwespb/synergyui';
 import { VueTelInput } from 'vue-tel-input';
 import MFormPay from '~/components/_ui/m_form_pay/m_form_pay';
 import getConfirmationCode from '~/api/confirmationCode';
@@ -223,12 +226,12 @@ export default {
       checkboxText: 'Нажимая на кнопку, вы соглашаетсь с политикой конфиденциальности и на получение рассылок',
       courseName: 'Информатика и вычислительная техника. Автоматизированное управление бизнес-процессами и финансами',
       years: '4 года 6 месяцев',
-      study: 'Бакалавриат',
+      study: '',
       priceText: 'Стоимость курса',
-      oldPrice: '',
-      currentPrice: '35 000 ₽',
-      iconSrc: 'https://sys3.ru/marketplace/uploads/organizations/yuIYPVAzTpYhkDo2acWAZAMLpIh4LiRGttzzlyFs.svg',
-      text: 'Университет Синергия',
+      oldPrice: null,
+      currentPrice: '',
+      iconSrc: '',
+      text: '',
 
       typeCtrl: 'checkbox',
       typeBtn: 'checkbox',
@@ -308,19 +311,22 @@ export default {
       return this.$store.getters['auth/isAuthenticated'];
     },
     isEnoughtData() {
-      // eslint-disable-next-line max-len
       return (
-        this.user?.phone?.status === 'confirmed' &&
-        Boolean(this.user.account_information?.name) &&
-        Boolean(this.user.account_information?.surname) &&
-        Boolean(this.user.account_information?.patronymic)
+        this.user?.phone?.status === 'confirmed'
+        && Boolean(this.user.account_information?.name)
+        && Boolean(this.user.account_information?.surname)
+        && Boolean(this.user.account_information?.patronymic)
       );
     },
     btnText() {
-      // eslint-disable-next-line max-len
       return !this.isAuthenticated || (this.isAuthenticated && this.isEnoughtData)
         ? 'Перейти к оплате'
         : 'Заполнить данные';
+    },
+    successPage() {
+      return this.isAuthenticated
+        ? `https://${document.location.host}/payment-thanks`
+        : `https://${document.location.host}/payment-thanks?name=${this.fieldsData.name}&surname=${this.fieldsData.surname}&patronymic=${this.fieldsData.patronymic}&phone=${this.fieldsData.phone}&email=${this.fieldsData.email}`;
     },
   },
 
@@ -339,7 +345,7 @@ export default {
 
     this.user = parseJWT(this.$store.state.auth.access_token);
     this.fieldsData = {
-      product_id: '71618903',
+      product_id: null,
       birthdate: this.user?.account_information?.birthday ?? '01.01.1901',
       is_order: 'Y',
       gender: this.user?.account_information?.gender ?? '-',
@@ -349,7 +355,8 @@ export default {
       phone: this.user?.phone?.phone ?? '',
       email: this.user?.email?.email ?? '',
       publicOffer: 'on',
-      successPage: `${document.location.host}/payment-thanks`,
+      // eslint-disable-next-line max-len
+      successPage: this.successPage,
     };
 
     const detailsExpandedMethod = {
@@ -359,19 +366,20 @@ export default {
       include: ['offers'],
     };
     const detailsData = await getProductsDetails(detailsExpandedMethod);
-    console.log('detailsData', detailsData.data);
     this.courseName = `${detailsData.data.name}`;
     const durationFormatValue = detailsData.data.duration_format_value;
     if (durationFormatValue) {
       this.years = getDateFromDatesObj(getParseDate(detailsData.data.duration_format_value));
     }
-    this.currentPrice = `${detailsData.data.included.offers[0].price} ₽`;
-    if (detailsData.data.included.offers[0].oldPrice) {
-      this.oldPrice = `${detailsData.data.included.offers[0].oldPrice} ₽`;
-    }
-    this.fieldsData.product_id = detailsData.data.included.offers[0].product_id;
+    this.currentPrice = `${detailsData.data?.included?.offers[0]?.price} ₽`;
+    // eslint-disable-next-line max-len
+    this.oldPrice = detailsData.data?.included?.offers[0]?.oldPrice
+      ? `${detailsData.data?.included?.offers[0]?.oldPrice} ₽`
+      : null;
+    this.fieldsData.product_id = detailsData.data?.included?.offers[0]?.product_id ?? null;
+
     // eslint-disable-next-line prefer-destructuring
-    this.study = detailsData.data.included.offers[0].properties['App\\Models\\Format'].join(' ');
+    this.study = detailsData.data?.included?.offers[0]?.properties['App\\Models\\Format'].join(' ');
 
     const organizationsExpandedMethod = {
       filter: {
@@ -380,9 +388,8 @@ export default {
       include: ['persons', 'city', 'triggers'],
     };
     const organizationsData = await getOrganizationsDetail(organizationsExpandedMethod);
-    console.log('organizationsData', organizationsData.data);
-    this.text = organizationsData.data.abbreviation_name;
-    this.iconSrc = `https://sys3.ru/marketplace/${organizationsData.data.logo}`;
+    this.text = organizationsData.data?.abbreviation_name;
+    this.iconSrc = `https://sys3.ru/marketplace/${organizationsData.data?.logo}`;
   },
 
   methods: {
@@ -580,7 +587,6 @@ export default {
         const attr = el.getAttribute('data-src');
         if (attr) {
           this.paymentLink = attr;
-          console.log(this.paymentLink);
         }
       });
       window.location.href = this.paymentLink;
@@ -629,11 +635,11 @@ export default {
       this.phoneErrorFlag = this.validPhone === true && this.fieldsData.phone !== '';
       // eslint-disable-next-line max-len
       return (
-        this.nameErrorFlag &&
-        this.surnameErrorFlag &&
-        this.patronymicErrorFlag &&
-        this.emailErrorFlag &&
-        this.validPhone
+        this.nameErrorFlag
+        && this.surnameErrorFlag
+        && this.patronymicErrorFlag
+        && this.emailErrorFlag
+        && this.validPhone
       );
     },
     changeFocusInput() {
