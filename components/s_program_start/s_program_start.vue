@@ -206,11 +206,12 @@ export default {
     let globalHref = '/catalog';
     let citylHref = '';
 
-    if (getData.land) {
-      this.$store.commit('updateLander', getData);
-    } else {
-      this.$store.commit('updateLander', getData.included.organization);
-    }
+    const landerInfo = {
+      version: getData.included.landVersion ? getData.included.landVersion.value : '',
+      partner: getData.partner ? getData.partner : getData.included.organization.land,
+    };
+
+    this.$store.commit('updateLander', landerInfo);
 
     if (this.city) {
       citylHref += `?&city_ids=${this.city.id}`;

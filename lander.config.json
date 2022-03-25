@@ -2,7 +2,7 @@
   "unit": "synergy_marketplace",
   "type": "marketplace",
   "land": "KD_market",
-  "partners": "",
+  "partner": "",
   "version": "",
   "redirectUrl": "/thanks"
 }
