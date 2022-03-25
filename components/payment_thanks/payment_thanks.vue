@@ -151,6 +151,8 @@
 </template>
 
 <script>
+/* eslint-disable max-len */
+
 import { AButton } from '@cwespb/synergyui';
 import './payment_thanks.scss';
 
@@ -163,10 +165,21 @@ export default {
   data() {
     return {
       isRegistrationCompleted: true,
+      name: null,
+      surname: null,
+      patronymic: null,
+      phone: null,
+      email: null,
     };
   },
   mounted() {
-    if (window.location.search) {
+    if (window.localStorage.getItem('fieldsData')) {
+      const fieldsData = JSON.parse(window.localStorage.getItem('fieldsData'));
+      this.name = fieldsData.name;
+      this.surname = fieldsData.surname;
+      this.patronymic = fieldsData.patronymic;
+      this.phone = fieldsData.phone;
+      this.email = fieldsData.email;
       this.isRegistrationCompleted = false;
     } else this.isRegistrationCompleted = true;
   },
@@ -174,7 +187,7 @@ export default {
     onButtonClickHandler() {
       window.location.href = this.isRegistrationCompleted
         ? '//pass.synergy.ru/'
-        : `//pass.synergy.ru/registration${window.location.search}&registrationType=academic`;
+        : `//pass.synergy.ru/registration?name=${this.name}&surname=${this.surname}&patronymic=${this.patronymic}&email=${this.email}&phone=${this.phone}&registrationType=academic`;
     },
   },
 };

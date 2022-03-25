@@ -321,11 +321,6 @@ export default {
         ? 'Перейти к оплате'
         : 'Заполнить данные';
     },
-    successPage() {
-      return this.isAuthenticated
-        ? `https://${document.location.host}/payment-thanks`
-        : `https://${document.location.host}/payment-thanks?name=${this.fieldsData.name}&surname=${this.fieldsData.surname}&patronymic=${this.fieldsData.patronymic}&phone=${this.fieldsData.phone}&email=${this.fieldsData.email}`;
-    },
   },
 
   watch: {
@@ -560,20 +555,25 @@ export default {
       };
       this.$store.commit('updateLander', lander);
       const currentData = this.fieldsData;
+      window.localStorage.setItem('fieldsData', JSON.stringify(this.fieldsData));
       currentData.name = `${this.fieldsData.name} ${this.fieldsData.surname} ${this.fieldsData.patronymic}`;
-      currentData.successPage = this.successPage;
+      currentData.successPage = `https://${document.location.host}/payment-thanks`;
       const resp = this.$lander.send(currentData, lander);
 
-      resp.then(() => {
-        const formData = this.fieldsData;
-        formData.isPayment = '';
-        const respPrice = this.$lander.send(formData, lander);
-        respPrice
-          .then((result) => result.response.data)
-          .then((priceData) => {
-            this.getPaymentSrc(priceData);
-          });
-      });
+      resp
+        .then(() => {
+          const formData = this.fieldsData;
+          formData.isPayment = '';
+          const respPrice = this.$lander.send(formData, lander);
+          respPrice
+            .then((result) => result.response.data)
+            .then((priceData) => {
+              this.getPaymentSrc(priceData);
+            });
+        })
+        .catch(() => {
+          window.localStorage.removeItem('fieldsData');
+        });
     },
     getPaymentSrc(data) {
       const responseHTML = data;
@@ -587,7 +587,7 @@ export default {
           console.log(this.paymentLink);
         }
       });
-      window.location.href = this.paymentLink;
+      // window.location.href = this.paymentLink;
     },
     closePopup() {
       this.isPopup = false;
