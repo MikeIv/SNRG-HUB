@@ -73,6 +73,8 @@
       </div>
     </APopup>
     <m-form-pay
+      class="s-program-price__form"
+      :class="{ authorized: authorized }"
       :title="title"
       :iconSrc="iconSrc"
       :text="text"
@@ -92,7 +94,23 @@
       @submit-disabled="validFlag = $event"
       @click="getConfirmationCode('call', false)"
     >
-      <template v-slot:inputs>
+      <template v-if="authorized" v-slot:inputs>
+        <div class="s-program-price__authorized">
+          <div class="s-program-price__authorized-row">
+            <span class="s-program-price__authorized-label">Имя</span>
+            <span class="s-program-price__authorized-value">Екатерина</span>
+          </div>
+          <div class="s-program-price__authorized-row">
+            <span class="s-program-price__authorized-label">Почта</span>
+            <span class="s-program-price__authorized-value">ekaterina@mail.ru</span>
+          </div>
+          <div class="s-program-price__authorized-row">
+            <span class="s-program-price__authorized-label">Телефон</span>
+            <span class="s-program-price__authorized-value">+7 (000) 000-00-00</span>
+          </div>
+        </div>
+      </template>
+      <template v-else v-slot:inputs>
         <a-input
           class="m-form__input"
           :class="{ 'error-name': !validName }"
@@ -149,7 +167,10 @@
 </template>
 
 <script>
-import { MFormPay, AInput, APopup, AControl, AButton } from '@cwespb/synergyui';
+import {
+  AInput, APopup, AControl, AButton,
+} from '@cwespb/synergyui';
+import MFormPay from '~/components/_ui/m_form_pay/m_form_pay';
 import { VueTelInput } from 'vue-tel-input';
 import getConfirmationCode from '~/api/confirmationCode';
 import checkConfirmationCode from '~/api/checkConfirmationCode';
@@ -259,6 +280,8 @@ export default {
 
       isPopup: false,
       paymentLink: '',
+
+      authorized: true,
     };
   },
 
@@ -292,7 +315,6 @@ export default {
     timeLeft(newValue) {
       if (newValue === 0) {
         this.onTimesUp();
-        this.resend = false;
       }
     },
   },
@@ -447,7 +469,8 @@ export default {
 
       await checkConfirmationCode(requestData)
         .then((response) => {
-          console.log('confirmation success', response);
+          console.log('Confirmation code verified', response);
+          // this.sendForm();
         })
         .catch(() => {
           this.codeError = true;
@@ -455,7 +478,7 @@ export default {
     },
 
     onTimesUp() {
-      this.resendCodeBtnAvailable = true;
+      this.resend = false;
       clearInterval(this.timerInterval);
     },
 
@@ -505,6 +528,7 @@ export default {
     },
     closeConfirmationCodePopup() {
       this.confirmationCodePopup = false;
+      this.values = Array(4).fill('');
     },
     handlerSave() {
       const dataToSend = { ...this.fieldsData };

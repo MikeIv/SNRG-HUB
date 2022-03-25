@@ -10,9 +10,9 @@
           <!--            <a-button class="payment-thanks__card-button" label="Начать учиться" bgColor="accent"/>-->
           <!--          </div>-->
           <div class="payment-thanks__card docs">
-            <h3 class="payment-thanks__card-title">Подайте документы</h3>
-            <p class="payment-thanks__card-text">Чтобы открыть доступ к полному функционалу</p>
-            <a-button class="payment-thanks__card-button" label="Подать документы" bgColor="ghost-accept" />
+            <h3 class="payment-thanks__card-title">Завершите регистрацию</h3>
+            <p class="payment-thanks__card-text">И подайте документы, чтобы открыть доступ к полному функционалу</p>
+            <a-button class="payment-thanks__card-button" label="Завершить" bgColor="ghost-accept" />
           </div>
         </div>
         <img class="payment-thanks__img" src="/payment-thanks/payment-thanks.png" alt="thanks" />
