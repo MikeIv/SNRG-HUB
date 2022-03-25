@@ -587,7 +587,7 @@ export default {
           console.log(this.paymentLink);
         }
       });
-      // window.location.href = this.paymentLink;
+      window.location.href = this.paymentLink;
     },
     closePopup() {
       this.isPopup = false;
