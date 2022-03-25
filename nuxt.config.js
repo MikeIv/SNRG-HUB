@@ -93,6 +93,13 @@ export default {
   modules: [
     '@nuxtjs/axios',
     '@nuxtjs/redirect-module',
+    ['@synergy/synergyid-adapter', {
+      namespace: 'auth',
+      brokerBackendUrl: 'https://ogm-000-2865.c4.syndev.ru/',
+      synergyIdBackendUrl: 'https://ogm-111-2795.c4.syndev.ru/',
+      synergyIdDomain: 'https://pass.synergy.ru/',
+    },
+    ],
   ],
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios

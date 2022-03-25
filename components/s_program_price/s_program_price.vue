@@ -45,7 +45,7 @@
 
         <span v-if="codeError" class="s-program-price__confirmation-error">Введенный код неверен или истек</span>
 
-        <span v-if="resend && !sendCode" class="s-program-price__confirmation-message">
+        <span v-if="+timeLeft > 0 && !sendCode" class="s-program-price__confirmation-message">
           Повторный запрос через {{ formattedTimeLeft }}
         </span>
 
@@ -58,7 +58,7 @@
           @click="sendConfirmationCode"
         />
         <a-button
-          v-if="!sendCode && !resend"
+          v-if="!sendCode && +timeLeft <= 0"
           class="s-program-price__confirmation-button"
           label="Запросить код повторно"
           bgColor="ghost-primary"
@@ -74,7 +74,7 @@
     </APopup>
     <m-form-pay
       class="s-program-price__form"
-      :class="{ authorized: authorized }"
+      :class="{ authorized: isAuthenticated }"
       :title="title"
       :iconSrc="iconSrc"
       :text="text"
@@ -92,74 +92,71 @@
       :checked="checked"
       :submitDisabled="!validFlag"
       @submit-disabled="validFlag = $event"
-      @click="getConfirmationCode('call', false)"
+      @click="onFormButtonClickHandler"
     >
-      <template v-if="authorized" v-slot:inputs>
-        <div class="s-program-price__authorized">
+      <template v-if="isAuthenticated" v-slot:inputs>
+        <div class="s-program-price__authorized" v-if="user">
           <div class="s-program-price__authorized-row">
             <span class="s-program-price__authorized-label">Имя</span>
-            <span class="s-program-price__authorized-value">Екатерина</span>
+            <span class="s-program-price__authorized-value">{{ user.account_information.name }}</span>
           </div>
-          <div class="s-program-price__authorized-row">
+          <div class="s-program-price__authorized-row" v-if="user.email">
             <span class="s-program-price__authorized-label">Почта</span>
-            <span class="s-program-price__authorized-value">ekaterina@mail.ru</span>
+            <span class="s-program-price__authorized-value">{{ user.email.email }}</span>
           </div>
-          <div class="s-program-price__authorized-row">
+          <div class="s-program-price__authorized-row" v-if="user.phone">
             <span class="s-program-price__authorized-label">Телефон</span>
-            <span class="s-program-price__authorized-value">+7 (000) 000-00-00</span>
+            <span class="s-program-price__authorized-value">{{ user.phone.phone }}</span>
           </div>
         </div>
       </template>
       <template v-else v-slot:inputs>
         <a-input
           class="m-form__input"
-          :class="{ 'error-name': !validName }"
-          @input="
-            handlerSave();
-            validFormData();
-          "
-          v-model="fieldsData.firstName"
-          placeholder="Фамилия"
-        />
-        <a-input
-          class="m-form__input"
-          :class="{ 'error-name': !validName }"
-          @input="
-            handlerSave();
-            validFormData();
-          "
+          :class="{ 'error-name': !surnameErrorFlag }"
+          @input="validFormData"
           v-model="fieldsData.surname"
-          placeholder="Имя"
+          placeholder="Фамилия"
+          @focus="changeFocusInput"
+          @blur="changeBlurInput"
         />
         <a-input
           class="m-form__input"
-          :class="{ 'error-name': !validName }"
-          @input="
-            handlerSave();
-            validFormData();
-          "
+          :class="{ 'error-name': !nameErrorFlag }"
+          @input="validFormData"
+          v-model="fieldsData.name"
+          placeholder="Имя"
+          @focus="changeFocusInput"
+          @blur="changeBlurInput"
+        />
+        <a-input
+          class="m-form__input"
+          :class="{ 'error-name': !patronymicErrorFlag }"
+          @input="validFormData"
           v-model="fieldsData.patronymic"
           placeholder="Отчество (при наличии)"
+          @focus="changeFocusInput"
+          @blur="changeBlurInput"
         />
         <a-input
           class="m-form__input"
-          :class="{ 'error-mail': !validFlag }"
+          :class="{ 'error-mail': !emailErrorFlag }"
           v-model="fieldsData.email"
-          @input="
-            handlerSave();
-            validFormData();
-          "
+          @input="validFormData"
           placeholder="Электронная почта"
+          @focus="changeFocusInput"
+          @blur="changeBlurInput"
         />
         <vue-tel-input
           class="m-form__input"
-          :class="{ error: !validPhone }"
+          :class="{ error: !phoneErrorFlag }"
           v-bind="vueTelOpts"
           type="phone"
           placeholder="Телефон"
-          @validate="validFormData"
           v-model="fieldsData.phone"
           @input="validatePhone"
+          @focus="changeFocusInput"
+          @blur="changeBlurInput"
         />
       </template>
     </m-form-pay>
@@ -170,10 +167,11 @@
 import {
   AInput, APopup, AControl, AButton,
 } from '@cwespb/synergyui';
-import MFormPay from '~/components/_ui/m_form_pay/m_form_pay';
 import { VueTelInput } from 'vue-tel-input';
+import MFormPay from '~/components/_ui/m_form_pay/m_form_pay';
 import getConfirmationCode from '~/api/confirmationCode';
 import checkConfirmationCode from '~/api/checkConfirmationCode';
+import parseJWT from '~/assets/js/parseJWT';
 import './s_program_price.scss';
 
 const KEY_CODE = {
@@ -221,14 +219,6 @@ export default {
       title: 'Стоимость программы',
       formTitle: 'Зарегистрироваться и оплатить',
       checkboxText: 'Нажимая на кнопку, вы соглашаетсь с политикой конфиденциальности и на получение рассылок',
-      btnText: 'Перейти к оплате',
-      typeCtrl: 'checkbox',
-      typeBtn: 'checkbox',
-      checked: true,
-      validFlag: false,
-      validName: false,
-      validPhone: false,
-      disabled: 'false',
       courseName: 'Информатика и вычислительная техника. Автоматизированное управление бизнес-процессами и финансами',
       years: '4 года 6 месяцев',
       study: 'Бакалавриат',
@@ -237,16 +227,20 @@ export default {
       currentPrice: '35 000 ₽',
       iconSrc: 'https://sys3.ru/marketplace/uploads/organizations/yuIYPVAzTpYhkDo2acWAZAMLpIh4LiRGttzzlyFs.svg',
       text: 'Университет Синергия',
-      fieldsData: {
-        product_id: '71618903',
-        birthdate: '01.01.1901',
-        is_order: 'Y',
-        gender: '-',
-        firstName: '',
-        phone: '',
-        email: '',
-        publicOffer: 'on',
-      },
+
+      typeCtrl: 'checkbox',
+      typeBtn: 'checkbox',
+      checked: true,
+      validFlag: false,
+      validPhone: false,
+      nameErrorFlag: true,
+      surnameErrorFlag: true,
+      patronymicErrorFlag: true,
+      emailErrorFlag: true,
+      phoneErrorFlag: true,
+
+      fieldsData: {},
+      maxPhoneLength: 16,
       vueTelOpts: {
         mode: 'international',
         preferredCountries: ['RU', 'US'],
@@ -261,7 +255,6 @@ export default {
           maxlength: 14,
         },
       },
-      maxPhoneLength: 16,
 
       confirmationCodePopup: false,
       isChecked: true,
@@ -281,7 +274,7 @@ export default {
       isPopup: false,
       paymentLink: '',
 
-      authorized: true,
+      user: null,
     };
   },
 
@@ -309,6 +302,24 @@ export default {
 
       return `${minutes}:${seconds}`;
     },
+    isAuthenticated() {
+      return this.$store.getters['auth/isAuthenticated'];
+    },
+    isEnoughtData() {
+      // eslint-disable-next-line max-len
+      return (
+        this.user?.phone?.status === 'confirmed'
+        && Boolean(this.user.account_information?.name)
+        && Boolean(this.user.account_information?.surname)
+        && Boolean(this.user.account_information?.patronymic)
+      );
+    },
+    btnText() {
+      // eslint-disable-next-line max-len
+      return !this.isAuthenticated || (this.isAuthenticated && this.isEnoughtData)
+        ? 'Перейти к оплате'
+        : 'Заполнить данные';
+    },
   },
 
   watch: {
@@ -323,9 +334,35 @@ export default {
     this.$emit('form-ref', this.$refs.form);
     const loadDataForm = this.$lander.storage.load('programpriceform');
     if (loadDataForm) this.fieldsData = loadDataForm;
+
+    this.user = parseJWT(this.$store.state.auth.access_token);
+    this.fieldsData = {
+      product_id: '71618903',
+      birthdate: this.user?.account_information?.birthday ?? '01.01.1901',
+      is_order: 'Y',
+      gender: this.user?.account_information?.gender ?? '-',
+      name: this.user?.account_information?.name ?? '',
+      surname: this.user?.account_information?.surname ?? '',
+      patronymic: this.user?.account_information?.patronymic ?? '',
+      phone: this.user?.phone?.phone ?? '',
+      email: this.user?.email?.email ?? '',
+      publicOffer: 'on',
+      successPage: `${document.location.host}/payment-thanks`,
+    };
   },
 
   methods: {
+    onFormButtonClickHandler() {
+      if (this.isAuthenticated) {
+        if (this.isEnoughtData) {
+          this.sendForm();
+        } else {
+          window.location.href = `//pass.synergy.ru/edit?redirectUrl${this.$route.fullPath}`;
+        }
+      } else if (this.checkedValidateError()) {
+        this.getConfirmationCode('call', false);
+      }
+    },
     onFocus(e) {
       e.target.select(e);
     },
@@ -429,8 +466,9 @@ export default {
       this.isChecked = !this.isChecked;
     },
 
-    async getConfirmationCode(type, resend) {
+    async getConfirmationCode(type) {
       this.codeError = false;
+      this.startTimer();
 
       let formattedPhone = this.fieldsData.phone.replace(/\s+/g, '').replace(/[^0-9]/g, '');
       if (formattedPhone[0] === '8') {
@@ -441,22 +479,10 @@ export default {
         type,
         phone: +formattedPhone,
       };
-
-      if (resend) {
-        this.resend = true;
-        this.timeLimit = 60;
-        this.timePassed = 0;
-        this.startTimer();
-
-        await getConfirmationCode(requestData).then((response) => {
-          this.uuid = response.uuid;
-        });
-      } else {
-        await getConfirmationCode(requestData).then((response) => {
-          this.uuid = response.uuid;
-          this.confirmationCodePopup = true;
-        });
-      }
+      await getConfirmationCode(requestData).then((response) => {
+        this.uuid = response.uuid;
+        this.confirmationCodePopup = true;
+      });
     },
 
     async sendConfirmationCode() {
@@ -468,9 +494,9 @@ export default {
       };
 
       await checkConfirmationCode(requestData)
-        .then((response) => {
-          console.log('Confirmation code verified', response);
-          // this.sendForm();
+        .then(() => {
+          this.closeConfirmationCodePopup();
+          this.sendForm();
         })
         .catch(() => {
           this.codeError = true;
@@ -483,6 +509,8 @@ export default {
     },
 
     startTimer() {
+      this.timeLimit = 60;
+      this.timePassed = 0;
       // eslint-disable-next-line no-return-assign
       this.timerInterval = setInterval(() => (this.timePassed += 1), 1000);
     },
@@ -492,11 +520,10 @@ export default {
         type: 'academy',
         unit: 'payments',
         land: 'KD_market',
-        redirectUrl: '',
       };
       this.$store.commit('updateLander', lander);
       const currentData = this.fieldsData;
-      currentData.name = `${this.fieldsData.firstName} ${this.fieldsData.surname} ${this.fieldsData.patronymic}`;
+      currentData.name = `${this.fieldsData.name} ${this.fieldsData.surname} ${this.fieldsData.patronymic}`;
       const resp = this.$lander.send(currentData, lander);
 
       resp.then(() => {
@@ -519,9 +546,10 @@ export default {
         const attr = el.getAttribute('data-src');
         if (attr) {
           this.paymentLink = attr;
+          console.log(this.paymentLink);
         }
       });
-      this.isPopup = true;
+      window.location.href = this.paymentLink;
     },
     closePopup() {
       this.isPopup = false;
@@ -533,35 +561,52 @@ export default {
     handlerSave() {
       const dataToSend = { ...this.fieldsData };
       delete dataToSend.comments;
-      this.$lander.storage.save('sprogramformprice', dataToSend);
+      this.$lander.storage.save('sprogramform', dataToSend);
     },
     validatePhone(phone, { valid, number }) {
-      const telOpts = this.vueTelOpts;
-      const inputOpts = telOpts.inputOptions;
-      const isLocalCode = phone[0] === '8';
+      if (phone) {
+        const telOpts = this.vueTelOpts;
+        const inputOpts = telOpts.inputOptions;
+        const isLocalCode = phone[0] === '8';
 
-      inputOpts.maxlength = this.maxPhoneLength;
-      telOpts.autoFormat = !isLocalCode;
+        inputOpts.maxlength = this.maxPhoneLength;
+        telOpts.autoFormat = !isLocalCode;
 
-      this.validPhone = valid && isLocalCode ? phone.length === 11 : valid;
+        this.validPhone = valid && isLocalCode ? phone.length === 11 : valid;
 
-      if (valid) {
-        telOpts.mode = isLocalCode ? 'auto' : 'international';
-        inputOpts.maxlength = isLocalCode ? 11 : number.length;
-      } else {
-        inputOpts.maxlength = 16;
+        if (valid) {
+          telOpts.mode = isLocalCode ? 'auto' : 'international';
+          inputOpts.maxlength = isLocalCode ? 11 : number.length;
+        } else {
+          inputOpts.maxlength = 16;
+        }
+
+        this.validFormData();
       }
-
-      this.validFormData();
     },
     validFormData() {
-      const dataForm = [{ value: this.fieldsData.name }, { value: this.fieldsData.email, type: 'email' }];
-      this.validFlag = this.$lander.valid(dataForm) && this.validPhone;
-      if (/^[A-ZА-ЯЁ]+$/i.test(this.fieldsData.name)) {
-        this.validName = true;
-      } else {
-        this.validName = false;
-      }
+      this.handlerSave();
+    },
+    checkedValidateError() {
+      this.nameErrorFlag = /^([A-ZА-ЯЁ][-,a-z, a-яё. ']+[ ]*)+$/i.test(this.fieldsData.name);
+      this.surnameErrorFlag = /^([A-ZА-ЯЁ][-,a-z, a-яё. ']+[ ]*)+$/i.test(this.fieldsData.surname);
+      this.patronymicErrorFlag = /^([A-ZА-ЯЁ][-,a-z, a-яё. ']+[ ]*)+$/i.test(this.fieldsData.patronymic);
+      this.emailErrorFlag = this.$lander.valid([{ value: this.fieldsData.email, type: 'email' }]);
+      this.phoneErrorFlag = this.validPhone === true && this.fieldsData.phone !== '';
+      // eslint-disable-next-line max-len
+      return (
+        this.nameErrorFlag
+        && this.surnameErrorFlag
+        && this.patronymicErrorFlag
+        && this.emailErrorFlag
+        && this.validPhone
+      );
+    },
+    changeFocusInput() {
+      this.$store.commit('changeIsVisible', false);
+    },
+    changeBlurInput() {
+      this.$store.commit('changeIsVisible', true);
     },
   },
 };
