@@ -1,72 +1,81 @@
 <template>
-  <section class="s-university-start">
-    <div class="s-university-start__wrapper" :style="{ backgroundColor: university.color ? university.color : '#fff' }">
-      <div class="s-university-start__header">
-        <div class="s-university-start__header-breadcrumbs">
-          <a-breadcrumbs :breadcrumbs="breadcrumbs" />
-        </div>
-        <div class="s-university-start__header-icons">
-          <i class="si-share s-university-start__header-icon" @click.stop="toggleMenu" tabindex="0" />
-          <i class="si-bell s-university-start__header-icon" :style="{ display: 'none' }" @click="onBellClickHandler" />
-          <i
-            class="si-heart s-university-start__header-icon"
-            :style="{ display: 'none' }"
-            @click="onHeartClickHandler"
+  <section class="s-university-start s-margin">
+    <div class="l-wide l-border-radius">
+      <div
+        class="s-university-start__wrapper"
+        :style="{ backgroundColor: university.color ? university.color : '#fff' }"
+      >
+        <div class="s-university-start__header">
+          <div class="s-university-start__header-breadcrumbs">
+            <a-breadcrumbs :breadcrumbs="breadcrumbs" />
+          </div>
+          <div class="s-university-start__header-icons">
+            <i class="si-share s-university-start__header-icon" @click.stop="toggleMenu" tabindex="0" />
+            <i
+              class="si-bell s-university-start__header-icon"
+              :style="{ display: 'none' }"
+              @click="onBellClickHandler"
+            />
+            <i
+              class="si-heart s-university-start__header-icon"
+              :style="{ display: 'none' }"
+              @click="onHeartClickHandler"
+            />
+          </div>
+          <m-social-share
+            :is-menu-open="isMenuOpen"
+            :networks="university.social"
+            :title="university.name"
+            :description="university.description"
+            :image="university.photo"
+            @changeMenuState="changeMenuState"
           />
         </div>
-        <m-social-share
-          :is-menu-open="isMenuOpen"
-          :networks="university.social"
-          :title="university.name"
-          :description="university.description"
-          :image="university.photo"
-          @changeMenuState="changeMenuState"
-        />
-      </div>
-      <div class="s-university-start__content">
-        <div class="s-university-start__info">
-          <span class="s-university-start__info-subtitle a-font_l">{{ university.city }}</span>
-          <h2 class="s-university-start__info-name a-font_h1">{{ university.name }}</h2>
-          <p class="s-university-start__info-description a-font_xl">{{ university.description }}</p>
-          <div class="s-university-start__photo s-university-start__photo-bottom">
-            <img :src="university.photo" :alt="university.title" class="s-university-start__photo-img" />
+        <div class="s-university-start__content">
+          <div class="s-university-start__info">
+            <span class="s-university-start__info-subtitle a-font_l">{{ university.city }}</span>
+            <h2 class="s-university-start__info-name a-font_h1">{{ university.name }}</h2>
+            <p class="s-university-start__info-description a-font_xl">{{ university.description }}</p>
+            <div class="s-university-start__photo s-university-start__photo-bottom">
+              <img :src="university.photo" :alt="university.title" class="s-university-start__photo-img" />
+              <a-logo type="bordered" :link="logoSrc" class="s-university-start__photo-logo" />
+            </div>
+            <div class="s-university-start__info-additional">
+              <a-factoid
+                type="default"
+                :title="university.hostel"
+                subtitle="Общежитие"
+                class="s-university-start__info-additional_factoid"
+                v-if="university.hostel"
+              />
+              <a-factoid type="default" :title="university.type" subtitle="Тип" v-if="university.type" />
+            </div>
+          </div>
+          <div class="s-university-start__photo s-university-start__photo-top">
+            <img :src="university.photo" alt="university" class="s-university-start__photo-img" />
             <a-logo type="bordered" :link="logoSrc" class="s-university-start__photo-logo" />
-          </div>
-          <div class="s-university-start__info-additional">
-            <a-factoid
-              type="default"
-              :title="university.hostel"
-              subtitle="Общежитие"
-              class="s-university-start__info-additional_factoid"
-              v-if="university.hostel"
-            />
-            <a-factoid type="default" :title="university.type" subtitle="Тип" v-if="university.type" />
-          </div>
-        </div>
-        <div class="s-university-start__photo s-university-start__photo-top">
-          <img :src="university.photo" alt="university" class="s-university-start__photo-img" />
-          <a-logo type="bordered" :link="logoSrc" class="s-university-start__photo-logo" />
-          <div class="s-university-start__photo-event" v-if="event">
-            <m-card
-              type="announce"
-              :title="event.title"
-              :description="event.description"
-              :date="event.date"
-              :link="event.link"
-              @more="onMoreBtnClickHandler"
-            />
+            <div class="s-university-start__photo-event" v-if="event">
+              <m-card
+                type="announce"
+                :title="event.title"
+                :description="event.description"
+                :date="event.date"
+                :link="event.link"
+                @more="onMoreBtnClickHandler"
+              />
+            </div>
           </div>
         </div>
-      </div>
-      <div class="s-university-start__photo-event s-university-start__photo-event-bottom" v-if="event">
-        <m-card
-          type="announce"
-          :title="event.title"
-          :description="event.description"
-          :date="event.date"
-          :link="event.link"
-          @more="onMoreBtnClickHandler"
-        />
+        <div class="s-university-start__photo-event s-university-start__photo-event-bottom" v-if="event">
+          <m-card
+            type="announce"
+            :title="event.title"
+            :description="event.description"
+            :date="event.date"
+            :link="event.link"
+            @more="onMoreBtnClickHandler"
+          />
+        </div>
       </div>
     </div>
   </section>

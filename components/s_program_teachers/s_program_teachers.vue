@@ -1,26 +1,28 @@
 <template>
-  <section class="s-program-teachers" v-if="programTeachers.length">
-    <h2 class="s-program-teachers__title a-font_h2" v-html="title"></h2>
-    <div class="s-program-teachers__items s-program-teachers__items_horizontal" v-if="programTeachers.length < 4">
-      <MCardSpeaker
-        v-for="item in programTeachers"
-        :key="item.id"
-        :name="item.name"
-        :title="item.title"
-        :description="item.description"
-        :image="`${baseURL}${item.preview_image}`"
-      />
-    </div>
-    <div class="s-program-teachers__items s-program-teachers__items_vertical" v-else>
-      <swiper :options="swiperOptionA">
-        <swiper-slide
+  <section class="s-program-teachers s-margin" v-if="programTeachers.length">
+    <div class="l-wide l-border-radius">
+      <h2 class="s-program-teachers__title a-font_h2" v-html="title"></h2>
+      <div class="s-program-teachers__items s-program-teachers__items_horizontal" v-if="programTeachers.length < 4">
+        <MCardSpeaker
           v-for="item in programTeachers"
           :key="item.id"
-          class="s-program-teachers__slide m-card-landing-vertical"
-        >
-          <MCardLanding :title="item.name" :text="item.description" :image="`${baseURL}${item.preview_image}`" />
-        </swiper-slide>
-      </swiper>
+          :name="item.name"
+          :title="item.title"
+          :description="item.description"
+          :image="`${baseURL}${item.preview_image}`"
+        />
+      </div>
+      <div class="s-program-teachers__items s-program-teachers__items_vertical" v-else>
+        <swiper :options="swiperOptionA">
+          <swiper-slide
+            v-for="item in programTeachers"
+            :key="item.id"
+            class="s-program-teachers__slide m-card-landing-vertical"
+          >
+            <MCardLanding :title="item.name" :text="item.description" :image="`${baseURL}${item.preview_image}`" />
+          </swiper-slide>
+        </swiper>
+      </div>
     </div>
   </section>
 </template>
