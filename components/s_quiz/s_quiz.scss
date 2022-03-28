@@ -228,21 +228,7 @@
     color: var(--a-color_link);
 
     &:hover {
-      border-bottom: rem(1) solid var(--a-color_link);
-    }
-  }
-
-  &__finish-checkbox {
-    .a-control__box .a-control__switch {
-      &--checkbox:hover::before {
-        top: rem(3);
-      }
-    }
-
-    .a-control__box input:checked + .a-control__switch {
-      &--checkbox::before {
-        top: rem(3);
-      }
+      text-decoration: underline;
     }
   }
 
