@@ -48,8 +48,7 @@
 
 <script>
 import { VueTelInput } from 'vue-tel-input';
-import { AInput } from '@cwespb/synergyui';
-import MForm from '@/components/_ui/m_form/m_form';
+import { MForm, AInput } from '@cwespb/synergyui';
 import './s_program_form.scss';
 
 export default {

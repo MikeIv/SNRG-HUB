@@ -1,19 +1,6 @@
 @import '@/assets/styles/tools/mixins';
 
 .s-product-search {
-  padding-top: rem(48);
-  padding-bottom: rem(24);
-
-  @media all and (max-width: 1100px) {
-    padding-top: rem(40);
-    padding-bottom: rem(24);
-  }
-
-  @media all and (max-width: 768px) {
-    padding-top: rem(32);
-    padding-bottom: rem(24);
-  }
-
   &__loader {
     height: calc(100vh - rem(155) - rem(260));
   }
@@ -56,34 +43,7 @@
     }
   }
 
-  &__categories {
-    margin-top: rem(24);
-    margin-bottom: rem(64);
-
-    @media (max-width: 1100px) {
-      margin-top: rem(24);
-    }
-
-    @media (max-width: 767px) {
-      margin-top: rem(16);
-      margin-bottom: rem(32);
-    }
-  }
-
   &__category {
-    margin-bottom: rem(20);
-    padding: rem(60) rem(80);
-    background-color: var(--a-color_bg);
-    border-radius: rem(10);
-
-    @media (max-width: 1100px) {
-      padding: rem(32) rem(30);
-    }
-
-    @media (max-width: 767px) {
-      padding: rem(32) rem(16);
-    }
-
     &.hidden {
       display: none;
     }

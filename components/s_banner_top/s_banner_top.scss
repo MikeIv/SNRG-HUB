@@ -1,9 +1,21 @@
 @import '@/assets/styles/tools/mixins';
 
 .s-banner-top {
-  padding: rem(20) 0;
   background-color: var(--a-color_bg--secondary);
   cursor: pointer;
+
+  .l-wide {
+    overflow: hidden;
+    padding: 0;
+    background: none;
+
+    @media screen and (max-width: 1499px) {
+      padding: 0 rem(30);
+    }
+    @media screen and (max-width: 767px) {
+      padding: 0 rem(16);
+    }
+  }
 
   &__wrapper {
     position: relative;
@@ -14,7 +26,6 @@
     max-height: rem(106);
     padding: rem(21) rem(48);
     background-color: var(--a-color_text);
-    border-radius: rem(16);
 
     @media screen and (max-width: 1330px) {
       max-height: rem(150);
