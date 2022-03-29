@@ -2,7 +2,6 @@
 
 .s-program-about {
   position: relative;
-  display: grid;
 
   .a-factoid-horizontal {
     &__wrapper {
@@ -21,14 +20,8 @@
   }
 
   &__row {
-    display: grid;
-    grid-gap: 0 rem(145);
-    grid-template-columns: 1fr 1fr;
     align-items: flex-start;
     min-width: 0;
-    @media screen and (max-width: 1199px) {
-      grid-gap: 0 rem(40);
-    }
     @media screen and (max-width: 767px) {
       display: block;
     }
