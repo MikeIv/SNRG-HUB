@@ -1,27 +1,29 @@
 <template>
-  <section class="s-program-timeline">
-    <div class="s-program-timeline__header">
-      <h2 class="s-program-timeline__title a-font_h2" v-html="title"></h2>
-      <div class="s-program-timeline__factoids" v-if="programTimelineRightItems">
-        <AFactoids
-          v-for="timelineItem in programTimelineRightItems"
-          :key="timelineItem.id"
-          :type="timelineItem.type"
-          :title="timelineItem.title"
-          :subtitle="timelineItem.subtitle"
-        />
+  <section class="s-program-timeline s-margin">
+    <div class="l-wide l-border-radius">
+      <div class="s-program-timeline__header">
+        <h2 class="s-program-timeline__title a-font_h2" v-html="title"></h2>
+        <div class="s-program-timeline__factoids" v-if="programTimelineRightItems">
+          <AFactoids
+            v-for="timelineItem in programTimelineRightItems"
+            :key="timelineItem.id"
+            :type="timelineItem.type"
+            :title="timelineItem.title"
+            :subtitle="timelineItem.subtitle"
+          />
+        </div>
       </div>
-    </div>
-    <div class="s-program-timeline__swiper">
-      <swiper :options="swiperOptionA">
-        <swiper-slide
-          v-for="item in programTimelineList"
-          :key="item.id"
-          class="s-program-timeline__slide m-card-landing"
-        >
-          <MCardLanding :title="item.title" :text="item.text" :image="item.image" />
-        </swiper-slide>
-      </swiper>
+      <div class="s-program-timeline__swiper">
+        <swiper :options="swiperOptionA">
+          <swiper-slide
+            v-for="item in programTimelineList"
+            :key="item.id"
+            class="s-program-timeline__slide m-card-landing"
+          >
+            <MCardLanding :title="item.title" :text="item.text" :image="item.image" />
+          </swiper-slide>
+        </swiper>
+      </div>
     </div>
   </section>
 </template>

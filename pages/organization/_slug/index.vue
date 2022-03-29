@@ -1,5 +1,5 @@
 <template>
-  <div class="l-default">
+  <div>
     <LazyHydrate :key="id" v-for="{ key, methods, title, id } in pageInfo.components" when-visible>
       <component
         :is="key"
@@ -190,10 +190,6 @@ export default {
     position: relative;
     overflow: hidden;
     width: 100%;
-    margin: 1.25rem auto;
-    padding: var(--layout-v-padding) var(--layout-h-padding);
-    background-color: var(--a-color_bg);
-    border-radius: var(--a-borderRadius--bg);
   }
 }
 </style>

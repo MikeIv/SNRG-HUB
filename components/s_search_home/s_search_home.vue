@@ -1,6 +1,6 @@
 <template>
-  <section class="s-search-home">
-    <div class="l-wide">
+  <section class="s-search-home s-margin">
+    <div class="l-wide l-border-radius">
       <div class="s-search-home__wrapper">
         <div class="s-search-home__infoblock">
           <h1 class="a-font_h1">Образовательная<br />платформа</h1>

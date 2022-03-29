@@ -1,6 +1,6 @@
 <template>
-  <section class="s-main-search">
-    <div class="l-wide">
+  <section class="s-main-search s-margin">
+    <div class="l-wide l-border-radius">
       <div class="s-main-search__box">
         <h2 class="s-main-search__title a-font_h5" v-html="title">Search</h2>
 

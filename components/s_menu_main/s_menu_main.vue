@@ -13,7 +13,7 @@
           <template v-for="(item, idx) in menuAnchors" :index="idx">
             <div
               class="s-menu-main__item"
-              @mouseover="getActive(idx)"
+              @mouseover="getActiveMenu(idx), getActive(idx)"
               @click.prevent="getActiveMenu(idx), getActive(idx)"
               :key="idx"
             >
@@ -40,7 +40,7 @@
                 <div class="s-menu-main__link-list" itemscope itemtype="http://schema.org/SiteNavigationElement">
                   <div v-for="(product, idx) in linkItem.products" :index="idx" :key="idx">
                     <nuxt-link
-                      v-if="idx < 5"
+                      v-if="idx < 3"
                       :to="product.link"
                       @click.native="changeIsOpen"
                       class="s-menu-main__link-product"
@@ -50,7 +50,7 @@
                     </nuxt-link>
                   </div>
                   <nuxt-link
-                    v-if="linkItem.products.length > 5"
+                    v-if="linkItem.products.length > 3"
                     :to="linkItem.link"
                     @click.native="changeIsOpen"
                     class="s-menu-main__link-more"
@@ -63,7 +63,7 @@
             </div>
           </template>
         </div>
-        <nuxt-link :to="banner.link" v-if="banner.type !== ''">
+        <nuxt-link class="s-menu-main__banner" :to="banner.link" v-if="banner.type !== ''">
           <m-banner
             :type="banner.type"
             :titleTxt="banner.titleText"

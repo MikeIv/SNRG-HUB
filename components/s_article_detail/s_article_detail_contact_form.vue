@@ -2,7 +2,6 @@
   <section class="s-contact-form-detail" ref="form" id="form">
     <m-form
       :title="title"
-      :checkboxText="checkboxText"
       :btnText="btnText"
       :typeCtrl="typeCtrl"
       :typeBtn="typeBtn"
@@ -32,7 +31,8 @@
 </template>
 
 <script>
-import { MForm, AInput } from '@cwespb/synergyui';
+import { AInput } from '@cwespb/synergyui';
+import MForm from '@/components/_ui/m_form/m_form';
 import './s_article_detail_contact_form.scss';
 
 export default {

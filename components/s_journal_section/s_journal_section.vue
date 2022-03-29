@@ -1,5 +1,11 @@
 <template>
-  <div :class="this.$route.name === 'organization-slug' ? 'catalog-page__section' : ''">
+  <div
+    :class="
+      this.$route.name === 'organization-slug s-margin l-border-radius'
+        ? 'catalog-page__section s-margin l-border-radius'
+        : ''
+    "
+  >
     <h2 class="a-font_h2" v-if="title">
       {{ title }}
       <sup class="catalog-page__header-total a-font_L"> {{ totalProducts }} публикаций</sup>

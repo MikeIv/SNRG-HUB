@@ -1,16 +1,18 @@
 <template>
-  <section class="s-program-people">
-    <div class="s-program-people__wrapper">
-      <h2 class="s-program-people__title a-font_h2" v-html="title"></h2>
-      <div class="s-program-people__slider">
-        <swiper :options="swiperOptionProgramPeople" v-if="!isMobile">
-          <swiper-slide v-for="people in programPeopleList" :key="people.id" class="s-program-people__slide">
-            <m-card-landing :title="people.title" :text="people.text" :image="people.image" />
-          </swiper-slide>
-        </swiper>
-        <div v-else class="s-program-people__items">
-          <div v-for="people in programPeopleList" :key="people.id" class="s-program-people__slide">
-            <m-card-landing :title="people.title" :text="people.text" :image="people.image" />
+  <section class="s-program-people s-margin">
+    <div class="l-wide l-border-radius">
+      <div class="s-program-people__wrapper">
+        <h2 class="s-program-people__title a-font_h2" v-html="title"></h2>
+        <div class="s-program-people__slider">
+          <swiper :options="swiperOptionProgramPeople" v-if="!isMobile">
+            <swiper-slide v-for="people in programPeopleList" :key="people.id" class="s-program-people__slide">
+              <m-card-landing :title="people.title" :text="people.text" :image="people.image" />
+            </swiper-slide>
+          </swiper>
+          <div v-else class="s-program-people__items">
+            <div v-for="people in programPeopleList" :key="people.id" class="s-program-people__slide">
+              <m-card-landing :title="people.title" :text="people.text" :image="people.image" />
+            </div>
           </div>
         </div>
       </div>
