@@ -26,36 +26,40 @@
             >
               <div class="s-about__tabs__swiper">
                 <swiper ref="awesomeSwiperTabsContent" :options="swiperOptionTabsContent">
-                  <swiper-slide v-for="(item, index) in tab.items_1" :key="index" class="s-about__tabs-content__slide">
-                    <div class="s-about__tabs-content__top">
-                      <div class="s-about__tabs-content__img"><img :src="item.image" alt="" /></div>
-                      <div class="s-about__tabs-content__info">
-                        <div class="s-about__tabs-content__info-title">{{ item.name }}</div>
-                        <div class="s-about__tabs-content__info-subtitle">{{ item.student }}</div>
+                  <swiper-slide v-for="(item, index) in tab.items_1" :key="index" class="s-about__tabs-content__slides">
+                    <div class="s-about__tabs-content__slide">
+                      <div class="s-about__tabs-content__top">
+                        <div class="s-about__tabs-content__img"><img :src="item.image" alt="" /></div>
+                        <div class="s-about__tabs-content__info">
+                          <div class="s-about__tabs-content__info-title">{{ item.name }}</div>
+                          <div class="s-about__tabs-content__info-subtitle">{{ item.student }}</div>
+                        </div>
                       </div>
-                    </div>
-                    <div class="s-about__tabs-content__text">
-                      {{ item.text }}
-                    </div>
-                    <div class="s-about__tabs-content__stars">
-                      {{ item.stars }}
+                      <div class="s-about__tabs-content__text">
+                        {{ item.text }}
+                      </div>
+                      <div class="s-about__tabs-content__stars">
+                        {{ item.stars }}
+                      </div>
                     </div>
                   </swiper-slide>
                 </swiper>
                 <swiper ref="awesomeSwiperTabsContent2" :options="swiperOptionTabsContent2">
-                  <swiper-slide v-for="(item, index) in tab.items_2" :key="index" class="s-about__tabs-content__slide">
-                    <div class="s-about__tabs-content__top">
-                      <div class="s-about__tabs-content__img"><img :src="item.image" alt="" /></div>
-                      <div class="s-about__tabs-content__info">
-                        <div class="s-about__tabs-content__info-title">{{ item.name }}</div>
-                        <div class="s-about__tabs-content__info-subtitle">{{ item.student }}</div>
+                  <swiper-slide v-for="(item, index) in tab.items_2" :key="index" class="s-about__tabs-content__slides">
+                    <div class="s-about__tabs-content__slide">
+                      <div class="s-about__tabs-content__top">
+                        <div class="s-about__tabs-content__img"><img :src="item.image" alt="" /></div>
+                        <div class="s-about__tabs-content__info">
+                          <div class="s-about__tabs-content__info-title">{{ item.name }}</div>
+                          <div class="s-about__tabs-content__info-subtitle">{{ item.student }}</div>
+                        </div>
                       </div>
-                    </div>
-                    <div class="s-about__tabs-content__text">
-                      {{ item.text }}
-                    </div>
-                    <div class="s-about__tabs-content__stars">
-                      {{ item.stars }}
+                      <div class="s-about__tabs-content__text">
+                        {{ item.text }}
+                      </div>
+                      <div class="s-about__tabs-content__stars">
+                        {{ item.stars }}
+                      </div>
                     </div>
                   </swiper-slide>
                 </swiper>
@@ -83,8 +87,6 @@ export default {
   data() {
     return {
       title: 'Что говорят о нас',
-      students: 'Студенты',
-      university: 'Вузы',
       show: 0,
       tabs: [
         {
@@ -248,14 +250,15 @@ export default {
       ],
       swiperOptionTabsContent: {
         direction: 'vertical',
+        autoplay: true,
         spaceBetween: 24,
         autoHeight: false,
         loop: true,
         slidesPerView: 'auto',
         speed: 8000,
         grabCursor: true,
-        mousewheelControl: true,
-        keyboardControl: true,
+        // mousewheelControl: true,
+        // keyboardControl: true,
         reverseDirection: false,
       },
       swiperOptionTabsContent2: {
@@ -264,11 +267,14 @@ export default {
         autoHeight: false,
         loop: true,
         slidesPerView: 'auto',
-        speed: 8000,
+        speed: 5000,
         grabCursor: true,
-        mousewheelControl: true,
-        keyboardControl: true,
-        reverseDirection: false,
+        // mousewheelControl: true,
+        // keyboardControl: true,
+        autoplay: {
+          disableOnInteraction: false,
+          reverseDirection: true,
+        },
       },
     };
   },
