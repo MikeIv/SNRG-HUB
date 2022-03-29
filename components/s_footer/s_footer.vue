@@ -73,8 +73,6 @@ export default {
     this.policy.text = this.$store.state.globalData.globalData.data.privacy_policy.text;
     this.policy.text_full = this.$store.state.globalData.globalData.data.privacy_policy.text_full;
 
-    console.log(this.policy);
-
     for (let i = 0; i < socialsItems.length; i += 1) {
       const item = socialsItems[i];
       const social = {
