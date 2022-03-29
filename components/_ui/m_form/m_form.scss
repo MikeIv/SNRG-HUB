@@ -150,7 +150,9 @@
 
 .policy {
   .a-popup__container {
-    max-width: 50%;
+    max-width: 50% !important;
+    padding: 1.25rem 1.25rem 1.875rem !important;
+    background: #fff !important;
     @media screen and (max-width: 991px) {
       max-width: 80%;
     }
