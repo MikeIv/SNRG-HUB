@@ -14,23 +14,6 @@
     display: block;
   }
 
-  .m-form__checkbox {
-    order: 9;
-    margin-top: rem(20);
-
-    .a-control__box .a-control__switch {
-      &--checkbox:hover::before {
-        top: rem(3);
-      }
-    }
-
-    .a-control__box input:checked + .a-control__switch {
-      &--checkbox::before {
-        top: rem(3);
-      }
-    }
-  }
-
   .m-form .a-control__label {
     align-items: flex-start;
   }
