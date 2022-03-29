@@ -13,22 +13,22 @@
                 :class="{ 'is-active': show == index }"
                 @click.prevent="
                   show = index;
-                  changeContent();
+                  runSwiper();
                 "
               >
                 {{ tab.label }}
               </div>
             </div>
           </div>
-          <div class="s-about__content" v-if="isActive">
+          <div class="s-about__content">
             <div
-              v-for="(tab, index) in tabs"
+              v-for="(tab, index) in students"
               :key="index"
               class="s-about__tabs-item__content"
-              :class="{ 'is-active': show == index }"
+              :class="{ 'is-active': show === 0 }"
             >
               <div class="s-about__tabs__swiper">
-                <swiper ref="awesomeSwiperTabsContent" :options="swiperOptionTabsContent">
+                <swiper ref="swiperTabsContent" :options="{ ...swiperOptionTabsContent }">
                   <swiper-slide v-for="(item, index) in tab.items_1" :key="index" class="s-about__tabs-content__slides">
                     <div class="s-about__tabs-content__slide">
                       <div class="s-about__tabs-content__top">
@@ -47,7 +47,7 @@
                     </div>
                   </swiper-slide>
                 </swiper>
-                <swiper ref="awesomeSwiperTabsContent2" :options="swiperOptionTabsContent2">
+                <swiper ref="swiperTabsContent2" :options="{ ...swiperOptionTabsContent }">
                   <swiper-slide v-for="(item, index) in tab.items_2" :key="index" class="s-about__tabs-content__slides">
                     <div class="s-about__tabs-content__slide">
                       <div class="s-about__tabs-content__top">
@@ -70,15 +70,15 @@
             </div>
           </div>
 
-          <div class="s-about__content--universities" v-else>
+          <div class="s-about__content--universities">
             <div
-              v-for="(tab, index) in tabs"
+              v-for="(tab, index) in universities"
               :key="index"
               class="s-about__tabs-item__content"
-              :class="{ 'is-active': show == index }"
+              :class="{ 'is-active': show === 1 }"
             >
               <div class="s-about__tabs__swiper">
-                <swiper ref="awesomeSwiperTabsContent" :options="swiperOptionTabsContent">
+                <swiper ref="swiperTabsContent" :options="{ ...swiperOptionTabsContent }">
                   <swiper-slide v-for="(item, index) in tab.items_3" :key="index" class="s-about__tabs-content__slides">
                     <div class="s-about__tabs-content__slide">
                       <div class="s-about__tabs-content__top">
@@ -96,7 +96,7 @@
                     </div>
                   </swiper-slide>
                 </swiper>
-                <swiper ref="awesomeSwiperTabsContent2" :options="swiperOptionTabsContent2">
+                <swiper ref="swiperTabsContent2" :options="{ ...swiperOptionTabsContent }">
                   <swiper-slide v-for="(item, index) in tab.items_4" :key="index" class="s-about__tabs-content__slides">
                     <div class="s-about__tabs-content__slide">
                       <div class="s-about__tabs-content__top">
@@ -140,7 +140,74 @@ export default {
       title: 'Что говорят о нас',
       isActive: true,
       show: 0,
-      tabs: [
+      tabs: [{ label: 'студенты' }, { label: 'вузы' }],
+      universities: [
+        {
+          label: 'вузы',
+          items_3: [
+            {
+              name: 'Омский автотранспортный колледж',
+              // eslint-disable-next-line max-len
+              image: 'about/universities/oatk.jpg',
+              stars: '4.5/5',
+              // eslint-disable-next-line max-len
+              text: 'Страница колледжа на Synergy Hub стала для нас полноценной рекламной кампанией. Сами публикуем нужную информацию и управляем ей. Абитуриенты находят ответы на многие вопросы и сразу подают документы без лишних консультаций.',
+            },
+            {
+              name: 'Восточно-Сибирский государственный институт культуры',
+              image: 'about/universities/vsgik.jpg',
+              stars: '4.5/5',
+              text: 'Как только опубликовали свою организацию на Synergy Hub, многие абитуриенты заинтересовались ',
+            },
+            {
+              name: 'Воронежский экономико-правовой институт',
+              image: 'about/universities/vepi.jpg',
+              stars: '4.5/5',
+              // eslint-disable-next-line max-len
+              text: 'Очень понравился подход сотрудничества. Быстро подписали соглашение и приступили к работе: опубликовали информацию об институте и программах. Уже есть первые заявки.',
+            },
+            {
+              name: 'Рыбинский государственный авиационный технический университет...',
+              image: 'about/universities/rsatu.jpg',
+              stars: '4.5/5',
+              // eslint-disable-next-line max-len
+              text: 'Уже 3 год хожу в студенческий спортзал, каждый год обновляют тренажеры.',
+            },
+          ],
+          items_4: [
+            {
+              name: 'Алтайский бизнес-колледж',
+              // eslint-disable-next-line max-len
+              image: 'about/universities/altaycollege.jpg',
+              stars: '4.5/5',
+              // eslint-disable-next-line max-len
+              text: 'Была проблема привлечения абитуриентов. Команда Synergy Hub помогла усилить торговое предложение, сделала акцент на преимуществах организации в текстах и настроила рекламную кампанию.',
+            },
+            {
+              name: 'Нижегородская государственная сельскохозяйственная академия',
+              image: 'about/universities/nnsaa.jpg',
+              stars: '4.5/5',
+              // eslint-disable-next-line max-len
+              text: 'Рады, что у нас появилась возможность продвигать свои программы не только в рамках региона, но и всей страны.',
+            },
+            {
+              name: 'Государственный аграрный университет Северного Зауралья ',
+              image: 'about/universities/tsaa.jpg',
+              stars: '4.5/5',
+              // eslint-disable-next-line max-len
+              text: 'В нашем университете очень много образовательных направлений, которые нужно всегда актуализировать. Контент-менеджеры Synegry Hub всегда помогают публиковать новые программы и обновлять информацию в текущих карточках.',
+            },
+            {
+              name: 'Пензенский государственный аграрный университет',
+              image: 'about/universities/pgau.jpg',
+              stars: '4.5/5',
+              // eslint-disable-next-line max-len
+              text: 'Как и все, наше учебное заведение заинтересовано в развитии. На сервисах Synergy мы смогли найти весь нужных функционал: продвижение, информаирование поступающих и удобный интерфейс для управления всеми направлениями университета.',
+            },
+          ],
+        },
+      ],
+      students: [
         {
           label: 'студенты',
           items_1: [
@@ -221,8 +288,8 @@ export default {
           items_2: [
             {
               name: 'Тимур Нуров',
-              // eslint-disable-next-line max-len
               student:
+                // eslint-disable-next-line max-len
                 'Автономная некоммерческая образовательная организация высшего образования «Воронежский экономико-правовой институт»',
               image: 'about/students/nurov.jpg',
               stars: '4.5/5',
@@ -296,70 +363,6 @@ export default {
               text: 'При выборе института для меня было важно иметь возможность совмещать работу и учебу. Очень удобно, что можно выбрать подходящую форму обучения.',
             },
           ],
-          items_3: [
-            {
-              name: 'Омский автотранспортный колледж',
-              // eslint-disable-next-line max-len
-              image: 'about/universities/oatk.jpg',
-              stars: '4.5/5',
-              // eslint-disable-next-line max-len
-              text: 'Страница колледжа на Synergy Hub стала для нас полноценной рекламной кампанией. Сами публикуем нужную информацию и управляем ей. Абитуриенты находят ответы на многие вопросы и сразу подают документы без лишних консультаций.',
-            },
-            {
-              name: 'Восточно-Сибирский государственный институт культуры',
-              image: 'about/universities/vsgik.jpg',
-              stars: '4.5/5',
-              text: 'Как только опубликовали свою организацию на Synergy Hub, многие абитуриенты заинтересовались ',
-            },
-            {
-              name: 'Воронежский экономико-правовой институт',
-              image: 'about/universities/vepi.jpg',
-              stars: '4.5/5',
-              // eslint-disable-next-line max-len
-              text: 'Очень понравился подход сотрудничества. Быстро подписали соглашение и приступили к работе: опубликовали информацию об институте и программах. Уже есть первые заявки.',
-            },
-            {
-              name: 'Рыбинский государственный авиационный технический университет...',
-              image: 'about/universities/rsatu.jpg',
-              stars: '4.5/5',
-              // eslint-disable-next-line max-len
-              text: 'Уже 3 год хожу в студенческий спортзал, каждый год обновляют тренажеры.',
-            },
-          ],
-          items_4: [
-            {
-              name: 'Алтайский бизнес-колледж',
-              // eslint-disable-next-line max-len
-              image: 'about/universities/altaycollege.jpg',
-              stars: '4.5/5',
-              // eslint-disable-next-line max-len
-              text: 'Была проблема привлечения абитуриентов. Команда Synergy Hub помогла усилить торговое предложение, сделала акцент на преимуществах организации в текстах и настроила рекламную кампанию.',
-            },
-            {
-              name: 'Нижегородская государственная сельскохозяйственная академия',
-              image: 'about/universities/nnsaa.jpg',
-              stars: '4.5/5',
-              // eslint-disable-next-line max-len
-              text: 'Рады, что у нас появилась возможность продвигать свои программы не только в рамках региона, но и всей страны.',
-            },
-            {
-              name: 'Государственный аграрный университет Северного Зауралья ',
-              image: 'about/universities/tsaa.jpg',
-              stars: '4.5/5',
-              // eslint-disable-next-line max-len
-              text: 'В нашем университете очень много образовательных направлений, которые нужно всегда актуализировать. Контент-менеджеры Synegry Hub всегда помогают публиковать новые программы и обновлять информацию в текущих карточках.',
-            },
-            {
-              name: 'Пензенский государственный аграрный университет',
-              image: 'about/universities/pgau.jpg',
-              stars: '4.5/5',
-              // eslint-disable-next-line max-len
-              text: 'Как и все, наше учебное заведение заинтересовано в развитии. На сервисах Synergy мы смогли найти весь нужных функционал: продвижение, информаирование поступающих и удобный интерфейс для управления всеми направлениями университета.',
-            },
-          ],
-        },
-        {
-          label: 'вузы',
         },
       ],
       swiperOptionTabsContent: {
@@ -394,6 +397,7 @@ export default {
           reverseDirection: true,
         },
       },
+      classFlag: false,
     };
   },
 
@@ -403,11 +407,15 @@ export default {
         e.preventDefault();
         this.show = e.target.dataset.show;
       }
-      console.log(this.show);
     },
-    changeContent() {
-      this.isActive = !this.isActive;
-      console.log('test');
+    runSwiper() {
+      if (this.show) {
+        this.$refs.swiperTabsContent[1].swiperInstance.autoplay.run();
+        this.$refs.swiperTabsContent2[1].swiperInstance.autoplay.run();
+      } else {
+        this.$refs.swiperTabsContent[0].swiperInstance.autoplay.run();
+        this.$refs.swiperTabsContent2[0].swiperInstance.autoplay.run();
+      }
     },
   },
 };
