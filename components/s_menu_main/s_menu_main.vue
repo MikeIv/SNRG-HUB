@@ -11,12 +11,7 @@
           </div> -->
           <div class="s-menu-main__title a-font_h5">Всё обучение</div>
           <template v-for="(item, idx) in menuAnchors" :index="idx">
-            <div
-              class="s-menu-main__item"
-              @mouseover="getActive(idx)"
-              @click.prevent="getActiveMenu(idx), getActive(idx)"
-              :key="idx"
-            >
+            <div class="s-menu-main__item" @click.prevent="getActiveMenu(idx), getActive(idx)" :key="idx">
               <a-sidebar-item :class="{ active: item.isActive }" :label="item.anchor" />
             </div>
           </template>
@@ -32,7 +27,7 @@
                 <div class="s-menu-main__link">
                   <div class="s-menu-main__link-top" @click="openMenuItem($event)">
                     <div class="s-menu-main__link-title a-font_xxl">
-                      <nuxt-link :to="linkItem.link" @click.prevent="changeIsOpen">{{ linkItem.anchor }}</nuxt-link>
+                      <nuxt-link :to="linkItem.link" @click.native="changeIsOpen">{{ linkItem.anchor }}</nuxt-link>
                     </div>
                     <div class="s-menu-main__link-icon si-chevron-down"></div>
                   </div>
@@ -42,7 +37,7 @@
                     <nuxt-link
                       v-if="idx < 3"
                       :to="product.link"
-                      @click.prevent="changeIsOpen"
+                      @click.native="changeIsOpen"
                       class="s-menu-main__link-product"
                       itemprop="url"
                     >
@@ -52,7 +47,7 @@
                   <nuxt-link
                     v-if="linkItem.products.length > 3"
                     :to="linkItem.link"
-                    @click.prevent="changeIsOpen"
+                    @click.native="changeIsOpen"
                     class="s-menu-main__link-more"
                   >
                     <div class="s-menu-main__link-more--text a-font_l">Смотреть все</div>
