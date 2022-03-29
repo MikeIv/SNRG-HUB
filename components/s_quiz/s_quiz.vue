@@ -93,23 +93,34 @@
           </div>
           <div class="m-quiz__finish-sogl">
             <a-control
+              class="m-quiz__finish-checkbox"
               typeBtn="checkbox"
               typeCtrl="checkbox"
               v-model="sogl"
               labelPosition="right"
-              title="Нажимая на кнопку, вы соглашаетсь с политикой конфиденциальности и на получение рассылок"
-            >
-            </a-control>
+            ></a-control>
+            <span class="m-quiz__finish-sogl-text" @click="changeSoglClickHandler">
+              Нажимая на кнопку, вы соглашаетсь с
+              <span class="m-quiz__finish-sogl-policy" @click.stop="showPolicyPopupClickHandler"
+                >политикой конфиденциальности</span
+              >
+              и на получение рассылок
+            </span>
           </div>
         </div>
       </div>
     </div>
+    <APopup class="policy" @close="showPolicyPopup = false" :visible="showPolicyPopup">
+      <div class="policy__popup" v-html="policy.text_full"></div>
+    </APopup>
   </section>
 </template>
 
 <script>
 import { VueTelInput } from 'vue-tel-input';
-import { AButton, AInput, AControl } from '@cwespb/synergyui';
+import {
+  AButton, AInput, AControl, APopup,
+} from '@cwespb/synergyui';
 
 import getQuizzesDetail from '~/api/quizzesDetail';
 
@@ -121,6 +132,7 @@ export default {
     AControl,
     AButton,
     AInput,
+    APopup,
     VueTelInput,
   },
 
@@ -163,6 +175,12 @@ export default {
     validPhone: false,
     nameErrorFlag: true,
     phoneErrorFlag: true,
+
+    showPolicyPopup: false,
+    policy: {
+      href: '',
+      text: '',
+    },
   }),
 
   props: {
@@ -170,6 +188,12 @@ export default {
     image: String,
     methods: Array,
     quizId: Number,
+  },
+
+  watch: {
+    showPolicyPopup() {
+      this.hideYScroll();
+    },
   },
 
   async fetch() {
@@ -219,6 +243,9 @@ export default {
     if (this.dataQuiz) {
       this.getQuizParameters();
     }
+    this.policy.href = this.$store.state.globalData.globalData.data.privacy_policy.link;
+    this.policy.text = this.$store.state.globalData.globalData.data.privacy_policy.text;
+    this.policy.text_full = this.$store.state.globalData.globalData.data.privacy_policy.text_full;
   },
 
   beforeDestroy() {
@@ -227,6 +254,27 @@ export default {
   },
 
   methods: {
+    hideYScroll() {
+      const htmlWrapper = document.querySelector('html');
+      const bodyWrapper = document.querySelector('body');
+
+      if (this.showPolicyPopup) {
+        htmlWrapper.style.overflow = 'hidden';
+        bodyWrapper.style.overflow = 'hidden';
+      } else {
+        htmlWrapper.style.overflow = 'initial';
+        bodyWrapper.style.overflow = 'initial';
+      }
+    },
+
+    changeSoglClickHandler() {
+      this.sogl = !this.sogl;
+    },
+
+    showPolicyPopupClickHandler() {
+      this.showPolicyPopup = true;
+    },
+
     validatePhone(phone, { valid, number }) {
       if (phone) {
         // this.validPhone = value.valid;

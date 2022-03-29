@@ -11,7 +11,6 @@
         :checked="true"
         :submitDisabled="!validFlag"
         :btnText="buttonText"
-        :checkboxText="checkboxText"
         @submit-disabled="validFlag = $event"
         @click="sendForm"
       >
@@ -46,7 +45,8 @@
 </template>
 
 <script>
-import { MForm, AInput } from '@cwespb/synergyui';
+import { AInput } from '@cwespb/synergyui';
+import MForm from '@/components/_ui/m_form/m_form';
 import sendContactForm from '~/api/sendContactForm';
 
 import './s_contacts_form.scss';

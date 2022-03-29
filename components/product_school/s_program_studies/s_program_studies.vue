@@ -29,7 +29,6 @@
         :title="popupOptions.form.title"
         :isVertical="popupOptions.form.isVertical"
         :btnText="popupOptions.form.btnText"
-        :checkboxText="popupOptions.form.checkboxText"
         :checked="popupOptions.form.checked"
         :submitDisabled="!validFlag"
         @submit-disabled="validFlag = $event"
@@ -75,8 +74,9 @@
 import './s_program_studies.scss';
 import { VueTelInput } from 'vue-tel-input';
 import {
-  AListElement, AButton, APopup, MForm, AInput,
+  AListElement, AButton, APopup, AInput,
 } from '@cwespb/synergyui';
+import MForm from '@/components/_ui/m_form/m_form';
 import { Swiper, SwiperSlide } from 'vue-awesome-swiper';
 
 export default {

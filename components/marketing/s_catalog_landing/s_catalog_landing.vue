@@ -60,7 +60,6 @@
             typeBtn="checkbox"
             typeCtrl="checkbox"
             :checked="formChecked"
-            checkboxText="Нажимая на кнопку, я соглашаюсь с политикой конфиденциальности и на получение рассылок"
             :submitDisabled="!validFlag"
             @submit-disabled="validFlag = $event"
             @click="sendForm"
@@ -105,7 +104,6 @@
             typeBtn="checkbox"
             typeCtrl="checkbox"
             :checked="formChecked"
-            checkboxText="Нажимая на кнопку, я соглашаюсь с политикой конфиденциальности и на получение рассылок"
             :submitDisabled="!validFlag"
             @submit-disabled="validFlag = $event"
             @click="sendForm"
@@ -377,9 +375,7 @@
 
 <script>
 import { VueTelInput } from 'vue-tel-input';
-import {
-  AButton, AControl, AInput, APopup, ASelect, ATag, ATitle, MCard, MFilter, MForm,
-} from '@cwespb/synergyui';
+import { AButton, AControl, AInput, APopup, ASelect, ATag, ATitle, MCard, MFilter } from '@cwespb/synergyui';
 import getProductsList from '~/api/products_list';
 import '../../s_catalog/s_catalog.scss';
 import '../../s_catalog_filter/s_catalog_filter.scss';
@@ -394,6 +390,7 @@ import SProgramContent from '~/components/s_program_content/s_program_content';
 import SProgramTeachers from '~/components/s_program_teachers/s_program_teachers';
 import SProgramSkills from '~/components/s_program_skills/s_program_skills';
 import SProgramForm from '~/components/s_program_form/s_program_form';
+import MForm from '@/components/_ui/m_form/m_form';
 
 export default {
   name: 'SCatalogSection',

@@ -69,9 +69,7 @@
 
 <script>
 import { VueTelInput } from 'vue-tel-input';
-import {
-  AButton, APopup, AControl, AInput,
-} from '@cwespb/synergyui';
+import { AButton, APopup, AControl, AInput } from '@cwespb/synergyui';
 import './s_banner_top.scss';
 
 export default {
