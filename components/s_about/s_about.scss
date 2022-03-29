@@ -15,6 +15,7 @@
   }
   &__wrapper {
     display: flex;
+    justify-content: space-around;
   }
   &__title {
     margin-bottom: rem(17);
@@ -22,6 +23,9 @@
     font-size: rem(40);
     font-weight: 500;
     line-height: rem(48);
+  }
+  &__info {
+    padding-top: rem(219);
   }
   &__tabs {
     display: flex;
@@ -77,24 +81,24 @@
         margin-left: rem(12);
 
         &-title {
-          font-weight: 500;
           font-size: 16px;
+          font-weight: 500;
           line-height: 24px;
         }
 
         &-subtitle {
-          font-weight: 400;
-          font-size: 14px;
-          line-height: 20px;
           color: var(--a-color_text--secondary);
+          font-size: 14px;
+          font-weight: 400;
+          line-height: 20px;
         }
       }
 
       &__text {
-        font-weight: 400;
-        font-size: 18px;
-        line-height: 28px;
         margin-bottom: rem(16);
+        font-size: 18px;
+        font-weight: 400;
+        line-height: 28px;
       }
     }
   }
