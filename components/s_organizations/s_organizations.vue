@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="l-wide catalog-page organizations-page">
+    <div class="l-wide catalog-page organizations-page s-margin l-border-radius">
       <s-organization-section
         title="Учебные заведения"
         :hasPresets="presets.length"

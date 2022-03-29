@@ -43,7 +43,6 @@
     <div class="s-program-price__form">
       <m-form
         :title="formTitle"
-        :checkboxText="checkboxText"
         :btnText="btnText"
         :typeCtrl="typeCtrl"
         :typeBtn="typeBtn"
@@ -91,7 +90,8 @@
 
 <script>
 import { VueTelInput } from 'vue-tel-input';
-import { MForm, AInput } from '@cwespb/synergyui';
+import { AInput } from '@cwespb/synergyui';
+import MForm from '@/components/_ui/m_form/m_form';
 import './s_program_price.scss';
 
 export default {

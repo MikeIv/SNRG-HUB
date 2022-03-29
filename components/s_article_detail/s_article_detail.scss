@@ -36,6 +36,10 @@
     }
   }
 
+  &__wrapper {
+    margin: rem(48) 0 rem(24);
+  }
+
   &__head {
     display: flex;
     align-items: center;
