@@ -11,8 +11,10 @@
                 v-for="(tab, index) in tabs"
                 :key="index"
                 :class="{ 'is-active': show == index }"
-                @click.prevent="show = index; changeContent();"
-
+                @click.prevent="
+                  show = index;
+                  changeContent();
+                "
               >
                 {{ tab.label }}
               </div>
@@ -68,7 +70,7 @@
             </div>
           </div>
 
-          <div v-else>
+          <div class="s-about__content--universities" v-else>
             <div
               v-for="(tab, index) in tabs"
               :key="index"
@@ -76,7 +78,7 @@
               :class="{ 'is-active': show == index }"
             >
               <div class="s-about__tabs__swiper">
-                <swiper ref="awesomeSwiperTabsContent3" :options="swiperOptionTabsContent3">
+                <swiper ref="awesomeSwiperTabsContent" :options="swiperOptionTabsContent">
                   <swiper-slide v-for="(item, index) in tab.items_3" :key="index" class="s-about__tabs-content__slides">
                     <div class="s-about__tabs-content__slide">
                       <div class="s-about__tabs-content__top">
@@ -94,7 +96,7 @@
                     </div>
                   </swiper-slide>
                 </swiper>
-                <swiper ref="awesomeSwiperTabsContent4" :options="swiperOptionTabsContent4">
+                <swiper ref="awesomeSwiperTabsContent2" :options="swiperOptionTabsContent2">
                   <swiper-slide v-for="(item, index) in tab.items_4" :key="index" class="s-about__tabs-content__slides">
                     <div class="s-about__tabs-content__slide">
                       <div class="s-about__tabs-content__top">
@@ -113,7 +115,7 @@
                   </swiper-slide>
                 </swiper>
               </div>
-          </div>
+            </div>
           </div>
         </div>
       </div>
@@ -220,7 +222,8 @@ export default {
             {
               name: 'Тимур Нуров',
               // eslint-disable-next-line max-len
-              student: 'Автономная некоммерческая образовательная организация высшего образования «Воронежский экономико-правовой институт»',
+              student:
+                'Автономная некоммерческая образовательная организация высшего образования «Воронежский экономико-правовой институт»',
               image: 'about/students/nurov.jpg',
               stars: '4.5/5',
               text: 'Выбрал программу на этом сайте. Смог сравнить ВУЗы в своем регионе и выбрать подходящий.',
@@ -361,16 +364,19 @@ export default {
       ],
       swiperOptionTabsContent: {
         direction: 'vertical',
-        autoplay: true,
         spaceBetween: 24,
         autoHeight: false,
         loop: true,
         slidesPerView: 'auto',
         speed: 8000,
         grabCursor: true,
-        // mousewheelControl: true,
-        // keyboardControl: true,
-        reverseDirection: false,
+        mousewheelControl: true,
+        keyboardControl: true,
+        autoplay: {
+          delay: 1,
+          disableOnInteraction: true,
+          reverseDirection: false,
+        },
       },
       swiperOptionTabsContent2: {
         direction: 'vertical',
@@ -378,39 +384,12 @@ export default {
         autoHeight: false,
         loop: true,
         slidesPerView: 'auto',
-        speed: 5000,
-        grabCursor: true,
-        // mousewheelControl: true,
-        // keyboardControl: true,
-        autoplay: {
-          disableOnInteraction: false,
-          reverseDirection: true,
-        },
-      },
-      swiperOptionTabsContent3: {
-        direction: 'vertical',
-        autoplay: true,
-        spaceBetween: 24,
-        autoHeight: false,
-        loop: true,
-        slidesPerView: 'auto',
         speed: 8000,
         grabCursor: true,
-        // mousewheelControl: true,
-        // keyboardControl: true,
-        reverseDirection: false,
-      },
-      swiperOptionTabsContent4: {
-        direction: 'vertical',
-        spaceBetween: 24,
-        autoHeight: false,
-        loop: true,
-        slidesPerView: 'auto',
-        speed: 8000,
-        grabCursor: true,
-        // mousewheelControl: true,
-        // keyboardControl: true,
+        mousewheelControl: true,
+        keyboardControl: true,
         autoplay: {
+          delay: 1,
           disableOnInteraction: false,
           reverseDirection: true,
         },
