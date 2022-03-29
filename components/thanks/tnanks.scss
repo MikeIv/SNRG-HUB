@@ -7,6 +7,7 @@
   flex: 1;
   align-items: center;
   width: 100%;
+  background: var(--a-color_bg);
   @media screen and (max-width: 767px) {
     padding: rem(32) 0;
   }
@@ -17,6 +18,8 @@
   .l-wide {
     width: 100%;
     margin: auto;
+    padding: 0;
+    background: none;
     @media screen and (max-width: 600px) {
       margin: unset;
       margin-bottom: rem(19);
@@ -31,6 +34,10 @@
     @media screen and (max-width: 991px) {
       height: 100vh;
       min-height: 0;
+    }
+
+    .s-footer__wrap {
+      margin: 0;
     }
   }
   &__content {

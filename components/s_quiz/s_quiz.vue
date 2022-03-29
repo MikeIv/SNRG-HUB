@@ -1,12 +1,6 @@
 <template>
-  <section class="m-quiz" v-if="dataQuiz" id="quiz">
-    <div
-      :class="
-        this.$route.name === 'index' || this.$route.name === 'catalog' || this.$route.name === 'catalog-all'
-          ? 'l-wide'
-          : 'l-default'
-      "
-    >
+  <section class="m-quiz s-margin" v-if="dataQuiz" id="quiz">
+    <div class="l-wide l-border-radius">
       <!-- banner -->
       <div
         v-if="banerFlag"
@@ -124,7 +118,9 @@
 
 <script>
 import { VueTelInput } from 'vue-tel-input';
-import { AButton, AInput, AControl, APopup } from '@cwespb/synergyui';
+import {
+  AButton, AInput, AControl, APopup,
+} from '@cwespb/synergyui';
 
 import getQuizzesDetail from '~/api/quizzesDetail';
 

@@ -1,6 +1,6 @@
 <template>
-  <section class="s-article-list s-padding">
-    <div class="l-wide">
+  <section class="s-article-list s-margin">
+    <div class="l-wide l-border-radius">
       <div class="s-article-list__title a-font_h5">{{ title }}</div>
       <div class="s-article-list__categories">
         <nuxt-link :to="`/journal/${category.slug}`" v-for="(category, id) in categories" :key="id">

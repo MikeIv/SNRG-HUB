@@ -107,7 +107,7 @@
     color: var(--a-color_link);
 
     &:hover {
-      border-bottom: rem(1) solid var(--a-color_link);
+      text-decoration: underline;
     }
   }
 

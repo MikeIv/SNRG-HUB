@@ -1,8 +1,11 @@
 @import '@/assets/styles/tools/mixins';
+
 .m-quiz {
   overflow: hidden;
   background: var(--a-color_bg--secondary);
-  border-radius: var(--a-borderRadius--bg);
+  .l-wide {
+    padding: 0;
+  }
   &__baner {
     position: relative;
     overflow: hidden;
@@ -10,6 +13,7 @@
     background-repeat: no-repeat;
     background-position: 50% 50%;
     background-size: cover;
+    border-radius: rem(20);
     @media screen and (max-width: 991px) {
       padding: var(--a-padding--x6) var(--a-padding--x8);
     }
@@ -53,11 +57,12 @@
   }
   &__quiz {
     display: flex;
+    overflow: hidden;
     align-items: center;
     min-height: rem(222);
     padding: rem(22) rem(40);
     background: var(--a-color_banner--lightcyan);
-    border-radius: var(--a-borderRadius--bg) var(--a-borderRadius--bg) 0 0;
+    border-radius: rem(20);
     @media screen and (max-width: 1140px) {
       padding: var(--a-padding--x12) var(--a-padding--x15);
     }

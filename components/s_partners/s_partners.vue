@@ -1,6 +1,6 @@
 <template>
-  <section class="s-partners" :class="this.$route.name === 'index' ? 'main' : 'other'">
-    <div v-if="this.$route.name === 'index'" class="l-wide">
+  <section class="s-partners s-margin" :class="this.$route.name === 'index' ? 'main' : 'other'">
+    <div v-if="this.$route.name === 'index'" class="l-wide l-border-radius">
       <div class="s-partners__box">
         <h2 class="s-partners__title main" v-html="title"></h2>
         <div class="s-partners__swiper" :key="key">
@@ -26,7 +26,7 @@
         </div>
       </div>
     </div>
-    <div v-else class="s-partners__wrapper">
+    <div v-else class="s-partners__wrapper l-wide l-border-radius">
       <h2 class="s-partners__title s-program-timeline__title other a-font_h2" v-html="title"></h2>
       <div class="s-partners__items">
         <div class="s-partners__item" v-for="(company, idx) in companyList" :key="idx">

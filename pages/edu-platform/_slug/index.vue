@@ -270,6 +270,17 @@ export default {
     padding-bottom: rem(16);
   }
 
+  .s-header__wrapper {
+    @media screen and (max-width: 1499px) {
+      padding: var(--a-padding--x5);
+    }
+
+    @media screen and (max-width: 767px) {
+      flex-wrap: wrap;
+      padding: var(--a-padding--x4);
+    }
+  }
+
   &.fixed {
     position: fixed;
     z-index: 100;

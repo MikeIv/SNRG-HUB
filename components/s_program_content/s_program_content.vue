@@ -1,41 +1,43 @@
 <template>
-  <section class="s-program-content" v-if="programContentList.length">
-    <div class="s-program-content__wrapper">
-      <div class="s-program-content__top">
-        <h2 class="s-program-content__title a-font_h2" v-html="title"></h2>
-        <div class="s-program-content__numbs" v-if="programContentRightItems">
-          <AFactoids
-            v-for="factoid in programContentRightItems"
-            :key="factoid.id"
-            :type="factoid.type"
-            :title="factoid.title"
-            :number="factoid.number"
-            :color="factoid.color"
-          />
-        </div>
-      </div>
-      <div class="s-program-content__body">
-        <div class="s-program-content__row" v-for="item in programContentList" :key="item.id" @click="showMore(item)">
-          <div class="s-program-content__head">
-            <div class="title a-font_xxl">{{ item.title }}</div>
-            <div
-              class="s-program-content__icon-wrapper"
-              v-if="item.listItems.length && item.listItems[0].text !== null"
-            >
-              <i class="s-program-content__icon" :class="`si-chevron-${item.isActive ? 'down' : 'up'}`"> </i>
-            </div>
+  <section class="s-program-content s-margin" v-if="programContentList.length">
+    <div class="l-wide l-border-radius">
+      <div class="s-program-content__wrapper">
+        <div class="s-program-content__top">
+          <h2 class="s-program-content__title a-font_h2" v-html="title"></h2>
+          <div class="s-program-content__numbs" v-if="programContentRightItems">
+            <AFactoids
+              v-for="factoid in programContentRightItems"
+              :key="factoid.id"
+              :type="factoid.type"
+              :title="factoid.title"
+              :number="factoid.number"
+              :color="factoid.color"
+            />
           </div>
-          <transition name="fadeHeight" v-if="item.listItems.length">
-            <div class="s-program-content__info" v-if="item.isActive">
-              <AListElement
-                v-for="item in item.listItems"
-                :key="item.id"
-                :type="item.type"
-                :number="item.number"
-                :label="item.text"
-              />
+        </div>
+        <div class="s-program-content__body">
+          <div class="s-program-content__row" v-for="item in programContentList" :key="item.id" @click="showMore(item)">
+            <div class="s-program-content__head">
+              <div class="title a-font_xxl">{{ item.title }}</div>
+              <div
+                class="s-program-content__icon-wrapper"
+                v-if="item.listItems.length && item.listItems[0].text !== null"
+              >
+                <i class="s-program-content__icon" :class="`si-chevron-${item.isActive ? 'down' : 'up'}`"> </i>
+              </div>
             </div>
-          </transition>
+            <transition name="fadeHeight" v-if="item.listItems.length">
+              <div class="s-program-content__info" v-if="item.isActive">
+                <AListElement
+                  v-for="item in item.listItems"
+                  :key="item.id"
+                  :type="item.type"
+                  :number="item.number"
+                  :label="item.text"
+                />
+              </div>
+            </transition>
+          </div>
         </div>
       </div>
     </div>

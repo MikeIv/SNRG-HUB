@@ -1,19 +1,21 @@
 <template>
-  <section class="s-program-university">
-    <div class="s-program-university__top">
-      <h2 class="s-program-university__title a-font_h2" v-html="title"></h2>
-      <p class="s-program-university__introtext a-font_xxl" v-html="introtext"></p>
-      <p class="s-program-university__description" v-html="description"></p>
-      <span class="s-program-university__img" v-if="image">
-        <img :src="image" alt="" />
-      </span>
-    </div>
-    <div class="s-program-university__factoids">
-      <div class="s-program-university__factoids-item" v-for="(item, idx) in getAllItem" :key="idx">
-        <AFactoids :title="item.description" :number="item.name" color="color_link" type="number" />
+  <section class="s-program-university s-margin">
+    <div class="l-wide l-border-radius">
+      <div class="s-program-university__top">
+        <h2 class="s-program-university__title a-font_h2" v-html="title"></h2>
+        <p class="s-program-university__introtext a-font_xxl" v-html="introtext"></p>
+        <p class="s-program-university__description" v-html="description"></p>
+        <span class="s-program-university__img" v-if="image">
+          <img :src="image" alt="" />
+        </span>
       </div>
-      <div class="s-program-university__factoids-more" v-if="!flag && getAllItem.length > 6">
-        <AButton size="large" bgColor="accent" label="Показать ещё" @click="flag = true"></AButton>
+      <div class="s-program-university__factoids">
+        <div class="s-program-university__factoids-item" v-for="(item, idx) in getAllItem" :key="idx">
+          <AFactoids :title="item.description" :number="item.name" color="color_link" type="number" />
+        </div>
+        <div class="s-program-university__factoids-more" v-if="!flag && getAllItem.length > 6">
+          <AButton size="large" bgColor="accent" label="Показать ещё" @click="flag = true"></AButton>
+        </div>
       </div>
     </div>
   </section>
