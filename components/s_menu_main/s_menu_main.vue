@@ -40,7 +40,7 @@
                 <div class="s-menu-main__link-list" itemscope itemtype="http://schema.org/SiteNavigationElement">
                   <div v-for="(product, idx) in linkItem.products" :index="idx" :key="idx">
                     <nuxt-link
-                      v-if="idx < 5"
+                      v-if="idx < 3"
                       :to="product.link"
                       @click.native="changeIsOpen"
                       class="s-menu-main__link-product"
@@ -50,7 +50,7 @@
                     </nuxt-link>
                   </div>
                   <nuxt-link
-                    v-if="linkItem.products.length > 5"
+                    v-if="linkItem.products.length > 3"
                     :to="linkItem.link"
                     @click.native="changeIsOpen"
                     class="s-menu-main__link-more"

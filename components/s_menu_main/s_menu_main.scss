@@ -18,6 +18,10 @@
     height: 100vh;
     max-height: 100vh;
     background: var(--a-color_bg--secondary);
+
+    .l-wide {
+      min-height: 100vh;
+    }
   }
 
   .l-default {
@@ -36,16 +40,14 @@
 
     &__text {
       white-space: nowrap;
-      @media screen and (max-width: 991px) {
-        white-space: normal;
-      }
     }
   }
 
   .m-banner__main-wrapper {
+    position: relative;
     min-width: rem(293);
-    padding-top: var(--a-padding--x5);
-    padding-left: var(--a-padding--x15);
+    margin-top: var(--a-padding--x5);
+    margin-left: rem(23);
     color: var(--a-color_bg);
 
     @media screen and (max-width: 1499px) {
@@ -53,6 +55,16 @@
     }
     @media screen and (max-width: 991px) {
       padding-top: var(--a-padding--x4);
+    }
+
+    img {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: top;
     }
   }
 
@@ -72,22 +84,17 @@
 
     @media screen and (max-width: 767px) {
       flex-wrap: wrap;
+      min-height: 100vh;
     }
   }
 
   &__items {
     overflow-y: scroll;
-    min-width: rem(350);
-    height: calc(var(--vh, 1vh) * 100 - 195px);
+    min-width: rem(262);
+    height: calc(var(--vh, 1vh) * 100 - 156px);
     max-height: 100vh;
     padding-top: var(--a-padding--x5);
-    padding-right: var(--a-padding--x4);
-    border-right: 1px solid var(--a-color_thumbnail);
-    scrollbar-width: none;
-
-    &::-webkit-scrollbar {
-      display: none !important;
-    }
+    padding-right: var(--a-padding--x3);
 
     @media screen and (max-width: 991px) {
       min-width: rem(300);
@@ -102,27 +109,40 @@
       background: var(--a-color_bg--secondary);
       border-right: none;
     }
+
+    &::-webkit-scrollbar {
+      width: 4px;
+    }
+
+    &::-webkit-scrollbar-track {
+      display: none;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background: var(--a-color_thumbnail);
+      border-radius: rem(7);
+    }
   }
 
   &__content {
-    overflow-x: scroll;
-    overflow-y: hidden;
+    overflow-x: hidden;
+    overflow-y: scroll;
     width: auto;
     height: calc(var(--vh, 1vh) * 100 - 156px);
+    margin-left: rem(12);
     padding-top: var(--a-padding--x5);
+    padding-right: rem(22);
     padding-left: var(--a-padding--x8);
+    border-left: 1px solid var(--a-color_thumbnail);
     transition: all 0.4s ease-in-out;
-
-    &::-webkit-scrollbar {
-      display: none !important;
-    }
-
     @media screen and (max-width: 1499px) {
       width: auto;
     }
     @media screen and (max-width: 991px) {
       height: calc(var(--vh, 1vh) * 100 - 116px);
+      margin-left: 0;
       padding-top: var(--a-padding--x4);
+      padding-right: 0;
       padding-left: var(--a-padding--x6);
     }
     @media screen and (max-width: 767px) {
@@ -137,8 +157,18 @@
       background: var(--a-color_bg--secondary);
       transform: translateX(200%);
     }
+
     &.open {
       transform: translateX(0);
+    }
+
+    &::-webkit-scrollbar {
+      width: rem(4);
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background: var(--a-color_thumbnail);
+      border-radius: rem(7);
     }
   }
 
@@ -230,21 +260,35 @@
 
   &__item {
     min-width: rem(222);
+    margin-bottom: rem(4);
 
     @media screen and (max-width: 1499px) {
       min-width: rem(130);
     }
 
     @media screen and (max-width: 767px) {
-      margin-bottom: rem(4);
       background: var(--a-color_bg);
       border-radius: 10px;
+    }
+
+    .a-sidebarItem {
+      height: rem(40);
+
+      &__text {
+        overflow: hidden;
+        max-width: rem(182);
+        padding: 0 rem(5);
+        text-overflow: ellipsis;
+
+        @media screen and (max-width: 767px) {
+          max-width: calc(100% - rem(33));
+        }
+      }
     }
   }
 
   &__links {
     display: none;
-    overflow-y: scroll;
     margin: 0 rem(-16);
     flex-wrap: wrap;
     @media screen and (max-width: 767px) {
@@ -255,10 +299,6 @@
       display: flex;
       justify-content: flex-start;
       align-items: flex-start;
-    }
-
-    &::-webkit-scrollbar {
-      display: none;
     }
 
     &-top {
