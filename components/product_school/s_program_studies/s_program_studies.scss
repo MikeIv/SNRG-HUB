@@ -1,6 +1,10 @@
 @import '@/assets/styles/tools/mixins';
 
 .product-school {
+  .a-popup__container {
+    max-width: rem(415);
+    padding: rem(32);
+  }
   .s-program-studies {
     margin-bottom: rem(20);
     padding: var(--layout-v-padding) var(--layout-h-padding);
@@ -9,11 +13,6 @@
 
     .a-button {
       width: rem(206);
-    }
-
-    .a-popup__container {
-      max-width: rem(415);
-      padding: rem(32);
     }
 
     .m-form--vertical {
