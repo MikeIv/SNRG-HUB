@@ -47,7 +47,7 @@
     position: relative;
     min-width: rem(293);
     margin-top: var(--a-padding--x5);
-    margin-left: rem(23);
+    margin-left: auto;
     color: var(--a-color_bg);
 
     @media screen and (max-width: 1499px) {
@@ -130,6 +130,7 @@
     width: auto;
     height: calc(var(--vh, 1vh) * 100 - 156px);
     max-height: 100vh;
+    margin-right: rem(23);
     margin-left: rem(12);
     padding-top: var(--a-padding--x5);
     padding-right: rem(22);
@@ -141,6 +142,7 @@
     }
     @media screen and (max-width: 991px) {
       height: calc(var(--vh, 1vh) * 100 - 116px);
+      margin-right: 0;
       margin-left: 0;
       padding-top: var(--a-padding--x4);
       padding-right: 0;
@@ -257,6 +259,10 @@
         }
       }
     }
+  }
+
+  &__banner {
+    margin-left: auto;
   }
 
   &__item {

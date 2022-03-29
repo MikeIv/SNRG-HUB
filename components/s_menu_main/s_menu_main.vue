@@ -11,7 +11,12 @@
           </div> -->
           <div class="s-menu-main__title a-font_h5">Всё обучение</div>
           <template v-for="(item, idx) in menuAnchors" :index="idx">
-            <div class="s-menu-main__item" @click.prevent="getActiveMenu(idx), getActive(idx)" :key="idx">
+            <div
+              class="s-menu-main__item"
+              @mouseover="getActiveMenu(idx), getActive(idx)"
+              @click.prevent="getActiveMenu(idx), getActive(idx)"
+              :key="idx"
+            >
               <a-sidebar-item :class="{ active: item.isActive }" :label="item.anchor" />
             </div>
           </template>
@@ -58,7 +63,7 @@
             </div>
           </template>
         </div>
-        <nuxt-link :to="banner.link" v-if="banner.type !== ''">
+        <nuxt-link class="s-menu-main__banner" :to="banner.link" v-if="banner.type !== ''">
           <m-banner
             :type="banner.type"
             :titleTxt="banner.titleText"
