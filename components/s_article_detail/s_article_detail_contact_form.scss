@@ -35,18 +35,4 @@
   & .vue-tel-input.error {
     border: 2px solid var(--a-color_link);
   }
-
-  .m-form__checkbox {
-    .a-control__box .a-control__switch {
-      &--checkbox:hover::before {
-        top: rem(3);
-      }
-    }
-
-    .a-control__box input:checked + .a-control__switch {
-      &--checkbox::before {
-        top: rem(3);
-      }
-    }
-  }
 }
