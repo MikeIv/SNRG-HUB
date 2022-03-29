@@ -108,6 +108,15 @@
         font-weight: 400;
         line-height: 28px;
       }
+
+      &__stars {
+        display: flex;
+        align-items: center;
+
+        &-rate {
+          margin-left: rem(5);
+        }
+      }
     }
   }
 }
