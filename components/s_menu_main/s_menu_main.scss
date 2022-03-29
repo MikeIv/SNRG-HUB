@@ -92,7 +92,6 @@
     overflow-y: scroll;
     min-width: rem(262);
     height: calc(var(--vh, 1vh) * 100 - 156px);
-    min-height: 100vh;
     max-height: 100vh;
     padding-top: var(--a-padding--x5);
     padding-right: var(--a-padding--x3);
@@ -130,6 +129,7 @@
     overflow-y: scroll;
     width: auto;
     height: calc(var(--vh, 1vh) * 100 - 156px);
+    max-height: 100vh;
     margin-left: rem(12);
     padding-top: var(--a-padding--x5);
     padding-right: rem(22);
