@@ -165,7 +165,9 @@
 
 <script>
 /* eslint-disable max-len */
-import { AInput, APopup, AControl, AButton } from '@cwespb/synergyui';
+import {
+  AInput, APopup, AControl, AButton,
+} from '@cwespb/synergyui';
 import { VueTelInput } from 'vue-tel-input';
 import MFormPay from '~/components/_ui/m_form_pay/m_form_pay';
 import getConfirmationCode from '~/api/confirmationCode';
@@ -310,10 +312,10 @@ export default {
     },
     isEnoughtData() {
       return (
-        this.user?.phone?.status === 'confirmed' &&
-        Boolean(this.user.account_information?.name) &&
-        Boolean(this.user.account_information?.surname) &&
-        Boolean(this.user.account_information?.patronymic)
+        this.user?.phone?.status === 'confirmed'
+        && Boolean(this.user.account_information?.name)
+        && Boolean(this.user.account_information?.surname)
+        && Boolean(this.user.account_information?.patronymic)
       );
     },
     btnText() {
@@ -338,7 +340,7 @@ export default {
 
     this.user = parseJWT(this.$store.state.auth.access_token);
     this.fieldsData = {
-      product_id: '71618903', // TODO: После апдейта эластика - вернуть как null
+      product_id: '105734098', // TODO: После апдейта эластика - вернуть как null
       birthdate: this.user?.account_information?.birthday ?? '01.01.1901',
       is_order: 'Y',
       gender: this.user?.account_information?.gender ?? '-',
@@ -633,11 +635,11 @@ export default {
       this.phoneErrorFlag = this.validPhone === true && this.fieldsData.phone !== '';
       // eslint-disable-next-line max-len
       return (
-        this.nameErrorFlag &&
-        this.surnameErrorFlag &&
-        this.patronymicErrorFlag &&
-        this.emailErrorFlag &&
-        this.validPhone
+        this.nameErrorFlag
+        && this.surnameErrorFlag
+        && this.patronymicErrorFlag
+        && this.emailErrorFlag
+        && this.validPhone
       );
     },
     changeFocusInput() {
