@@ -1,5 +1,5 @@
 <template>
-  <section class="s-about">
+  <section class="s-about s-margin">
     <div class="l-wide">
       <div class="s-about__box">
         <div class="s-about__wrapper">
@@ -43,7 +43,7 @@
                       </div>
                       <div class="s-about__tabs-content__stars">
                         <img class="s-about__tabs-content__stars-icon" :src="item.icon" alt="" />
-                        <div class="s-about__tabs-content__stars-rate">{{ item.stars }}</div>
+                        <div class="s-about__tabs-content__stars-rate" v-html="item.stars"></div>
                       </div>
                     </div>
                   </swiper-slide>
@@ -63,11 +63,12 @@
                       </div>
                       <div class="s-about__tabs-content__stars">
                         <img class="s-about__tabs-content__stars-icon" :src="item.icon" alt="" />
-                        <div class="s-about__tabs-content__stars-rate">{{ item.stars }}</div>
+                        <div class="s-about__tabs-content__stars-rate" v-html="item.stars"></div>
                       </div>
                     </div>
                   </swiper-slide>
                 </swiper>
+                <div class="swiper-pagination" slot="pagination"></div>
               </div>
             </div>
           </div>
@@ -94,7 +95,7 @@
                       </div>
                       <div class="s-about__tabs-content__stars">
                         <img class="s-about__tabs-content__stars-icon" :src="item.icon" alt="" />
-                        <div class="s-about__tabs-content__stars-rate">{{ item.stars }}</div>
+                        <div class="s-about__tabs-content__stars-rate" v-html="item.stars"></div>
                       </div>
                     </div>
                   </swiper-slide>
@@ -113,7 +114,7 @@
                       </div>
                       <div class="s-about__tabs-content__stars">
                         <img class="s-about__tabs-content__stars-icon" :src="item.icon" alt="" />
-                        <div class="s-about__tabs-content__stars-rate">{{ item.stars }}</div>
+                        <div class="s-about__tabs-content__stars-rate" v-html="item.stars"></div>
                       </div>
                     </div>
                   </swiper-slide>
@@ -144,7 +145,7 @@ export default {
       title: 'Что говорят о нас',
       isActive: true,
       show: 0,
-      tabs: [{ label: 'студенты' }, { label: 'вузы' }],
+      tabs: [{ label: 'студенты' }, { label: 'вузы', class: 'universities' }],
       universities: [
         {
           label: 'вузы',
@@ -153,7 +154,7 @@ export default {
               name: 'Омский автотранспортный колледж',
               // eslint-disable-next-line max-len
               image: 'about/universities/oatk.jpg',
-              stars: '4.6/5',
+              stars: '4.6<span>/5</span>',
               icon: '/about/star.svg',
               // eslint-disable-next-line max-len
               text: 'Страница колледжа на Synergy Hub стала для нас полноценной рекламной кампанией. Сами публикуем нужную информацию и управляем ей. Абитуриенты находят ответы на многие вопросы и сразу подают документы без лишних консультаций.',
@@ -161,14 +162,14 @@ export default {
             {
               name: 'Восточно-Сибирский государственный институт культуры',
               image: 'about/universities/vsgik.jpg',
-              stars: '4.6/5',
+              stars: '4.6<span>/5</span>',
               icon: '/about/star.svg',
               text: 'Как только опубликовали свою организацию на Synergy Hub, многие абитуриенты заинтересовались ',
             },
             {
               name: 'Воронежский экономико-правовой институт',
               image: 'about/universities/vepi.jpg',
-              stars: '4.6/5',
+              stars: '4.6<span>/5</span>',
               icon: '/about/star.svg',
               // eslint-disable-next-line max-len
               text: 'Очень понравился подход сотрудничества. Быстро подписали соглашение и приступили к работе: опубликовали информацию об институте и программах. Уже есть первые заявки.',
@@ -176,7 +177,7 @@ export default {
             {
               name: 'Рыбинский государственный авиационный технический университет...',
               image: 'about/universities/rsatu.jpg',
-              stars: '4.6/5',
+              stars: '4.6<span>/5</span>',
               icon: '/about/star.svg',
               // eslint-disable-next-line max-len
               text: 'Уже 3 год хожу в студенческий спортзал, каждый год обновляют тренажеры.',
@@ -187,7 +188,7 @@ export default {
               name: 'Алтайский бизнес-колледж',
               // eslint-disable-next-line max-len
               image: 'about/universities/altaycollege.jpg',
-              stars: '4.6/5',
+              stars: '4.6<span>/5</span>',
               icon: '/about/star.svg',
               // eslint-disable-next-line max-len
               text: 'Была проблема привлечения абитуриентов. Команда Synergy Hub помогла усилить торговое предложение, сделала акцент на преимуществах организации в текстах и настроила рекламную кампанию.',
@@ -195,7 +196,7 @@ export default {
             {
               name: 'Нижегородская государственная сельскохозяйственная академия',
               image: 'about/universities/nnsaa.jpg',
-              stars: '4.6/5',
+              stars: '4.6<span>/5</span>',
               icon: '/about/star.svg',
               // eslint-disable-next-line max-len
               text: 'Рады, что у нас появилась возможность продвигать свои программы не только в рамках региона, но и всей страны.',
@@ -203,7 +204,7 @@ export default {
             {
               name: 'Государственный аграрный университет Северного Зауралья ',
               image: 'about/universities/tsaa.jpg',
-              stars: '4.6/5',
+              stars: '4.6<span>/5</span>',
               icon: '/about/star.svg',
               // eslint-disable-next-line max-len
               text: 'В нашем университете очень много образовательных направлений, которые нужно всегда актуализировать. Контент-менеджеры Synegry Hub всегда помогают публиковать новые программы и обновлять информацию в текущих карточках.',
@@ -211,7 +212,7 @@ export default {
             {
               name: 'Пензенский государственный аграрный университет',
               image: 'about/universities/pgau.jpg',
-              stars: '4.6/5',
+              stars: '4.6<span>/5</span>',
               icon: '/about/star.svg',
               // eslint-disable-next-line max-len
               text: 'Как и все, наше учебное заведение заинтересовано в развитии. На сервисах Synergy мы смогли найти весь нужных функционал: продвижение, информаирование поступающих и удобный интерфейс для управления всеми направлениями университета.',
@@ -227,7 +228,7 @@ export default {
               name: 'Екатерина Васильева',
               student: 'Студент программы “Ландшафтная архитектура”',
               image: 'about/students/vasilieva.jpg',
-              stars: '4.5/5',
+              stars: '4.5<span>/5</span>',
               icon: '/about/star.svg',
               text: 'Отличные преподаватели! Находят индивидуальный подход к каждому студенту.',
             },
@@ -235,7 +236,7 @@ export default {
               name: 'Наталья Лисицина',
               student: 'Выпускник программы “Маркетинг”',
               image: 'about/students/lisitsina.jpg',
-              stars: '4.5/5',
+              stars: '4.5<span>/5</span>',
               icon: '/about/star.svg',
               text: 'Сразу после выпуска смогла устроиться в крупную компанию.',
             },
@@ -243,7 +244,7 @@ export default {
               name: 'Никита Краснов',
               student: 'Выпускник программы “Вычислительные машины, комплексы, системы и сети”',
               image: 'about/students/krasnov.jpg',
-              stars: '4.5/5',
+              stars: '4.5<span>/5</span>',
               icon: '/about/star.svg',
               text: 'На учебе были преподаватели, которые делились реальным опытом работы.',
             },
@@ -251,7 +252,7 @@ export default {
               name: 'Алина Сычева',
               student: 'Выпускник программы “Финансы и кредит”',
               image: 'about/students/sycheva.jpg',
-              stars: '4.5/5',
+              stars: '4.5<span>/5</span>',
               icon: '/about/star.svg',
               // eslint-disable-next-line max-len
               text: 'Будущую профессию навязали родители, думала будет сложно, но преподаватели смогли заинтересовать, сейчас работаю по специальности.',
@@ -260,7 +261,7 @@ export default {
               name: 'Вячеслав Ермолаев',
               student: 'Выпускник программы “Управление рисками”',
               image: 'about/students/ermolaev.jpg',
-              stars: '4.5/5',
+              stars: '4.5<span>/5</span>',
               icon: '/about/star.svg',
               // eslint-disable-next-line max-len
               text: 'Уже со второго курса начал проходить стажировки, очень пригодились пройденные практические задания.',
@@ -269,7 +270,7 @@ export default {
               name: 'Иван Козлов',
               student: 'Студент программы “Бизнес-аналитика”',
               image: 'about/students/kozlov.jpg',
-              stars: '4.5/5',
+              stars: '4.5<span>/5</span>',
               icon: '/about/star.svg',
               text: 'Порадовал выбор профильных дисциплин.',
             },
@@ -277,7 +278,7 @@ export default {
               name: 'Надежда Исаева',
               student: 'Студент программы “Психология и социальная педагогика”',
               image: 'about/students/isaeva.jpg',
-              stars: '4.5/5',
+              stars: '4.5<span>/5</span>',
               icon: '/about/star.svg',
               text: 'Заканчиваю в следующем году, уже знаю куда пойду работать.',
             },
@@ -285,7 +286,7 @@ export default {
               name: 'Александр Бутиков',
               student: 'Студент программы “Энергообеспечение предприятий”',
               image: 'about/students/butikov.jpg',
-              stars: '4.5/5',
+              stars: '4.5<span>/5</span>',
               icon: '/about/star.svg',
               text: 'Пишу диплом, научный руководитель очень помогает и поддерживает.',
             },
@@ -293,7 +294,7 @@ export default {
               name: 'Варий Набиуллин',
               student: 'Выпускник программы “Менеджмент в игровой индустрии и киберспорте”',
               image: 'about/students/nabiullin.jpg',
-              stars: '4.5/5',
+              stars: '4.5<span>/5</span>',
               icon: '/about/star.svg',
               // eslint-disable-next-line max-len
               text: 'Выбрал эту программу, потому что в других университетах аналогичных не нашел. Теперь знаю, что когда пойду работать мои знания не устареют.',
@@ -302,7 +303,7 @@ export default {
               name: 'Валентина Романенко',
               student: 'Студент программы “Теория и история искусств”',
               image: 'about/students/romanenko.jpg',
-              stars: '4.5/5',
+              stars: '4.5<span>/5</span>',
               icon: '/about/star.svg',
               text: 'Хожу на учебу с удовольствием. Интересные лекции и много практики.',
             },
@@ -314,7 +315,7 @@ export default {
                 // eslint-disable-next-line max-len
                 'Автономная некоммерческая образовательная организация высшего образования «Воронежский экономико-правовой институт»',
               image: 'about/students/nurov.jpg',
-              stars: '4.5/5',
+              stars: '4.5<span>/5</span>',
               icon: '/about/star.svg',
               text: 'Выбрал программу на этом сайте. Смог сравнить ВУЗы в своем регионе и выбрать подходящий.',
             },
@@ -322,7 +323,7 @@ export default {
               name: 'Анастасия Чкалова',
               student: 'Рыбинский государственный авиационный технический университет имени П.А.Соловьева',
               image: 'about/students/chkalova.jpg',
-              stars: '4.5/5',
+              stars: '4.5<span>/5</span>',
               icon: '/about/star.svg',
               text: 'Очень радует, что в университете большой выбор дополнительных занятий.',
             },
@@ -330,7 +331,7 @@ export default {
               name: 'Валерия Шумова',
               student: 'Костромская государственная сельскохозяйственная академия',
               image: 'about/students/shumova.jpg',
-              stars: '4.5/5',
+              stars: '4.5<span>/5</span>',
               icon: '/about/star.svg',
               text: 'Довольна, что общежитие находится рядом с университетом, выхожу за 5 минут до начала пар. ',
             },
@@ -338,7 +339,7 @@ export default {
               name: 'Геннадий Аксенов',
               student: 'Выпускник программы “Финансы и кредит”',
               image: 'about/students/aksenov.jpg',
-              stars: '4.5/5',
+              stars: '4.5<span>/5</span>',
               icon: '/about/star.svg',
               // eslint-disable-next-line max-len
               text: 'Уже 3 год хожу в студенческий спортзал, каждый год обновляют тренажеры.',
@@ -347,7 +348,7 @@ export default {
               name: 'Федор Степаненко',
               student: 'Томский институт бизнеса',
               image: 'about/students/stepanenko.jpg',
-              stars: '4.5/5',
+              stars: '4.5<span>/5</span>',
               icon: '/about/star.svg',
               // eslint-disable-next-line max-len
               text: 'Нет возможности учиться очно, университет составил для меня индивидуальный план учебы. ',
@@ -356,7 +357,7 @@ export default {
               name: 'Лидия Володина',
               student: 'Нижегородская государственная сельскохозяйственная академия',
               image: 'about/students/volodina.jpg',
-              stars: '4.5/5',
+              stars: '4.5<span>/5</span>',
               icon: '/about/star.svg',
               text: 'Увлекла научная жизнь ВУЗа. Выступаю со своими докладами на студенческих конференциях.',
             },
@@ -364,7 +365,7 @@ export default {
               name: 'Азат Ахметов',
               student: 'МИРЭА - Российский технологический университет',
               image: 'about/students/akhmetov.jpg',
-              stars: '4.5/5',
+              stars: '4.5<span>/5</span>',
               icon: '/about/star.svg',
               text: 'На 2 курсе узнала, что университет занимается волонтерством. Ездим и помогаем нуждающимся. ',
             },
@@ -372,7 +373,7 @@ export default {
               name: 'Александр Бутиков',
               student: 'Студент программы “Энергообеспечение предприятий”',
               image: 'about/students/butikov.jpg',
-              stars: '4.5/5',
+              stars: '4.5<span>/5</span>',
               icon: '/about/star.svg',
               text: 'Пишу диплом, научный руководитель очень помогает и поддерживает.',
             },
@@ -380,7 +381,7 @@ export default {
               name: 'Татьяна Нестерова',
               student: 'Выпускник программы “Менеджмент в игровой индустрии и киберспорте”',
               image: 'about/students/nesterova.jpg',
-              stars: '4.5/5',
+              stars: '4.5<span>/5</span>',
               icon: '/about/star.svg',
               // eslint-disable-next-line max-len
               text: 'Нравится возможность заниматься студенческой жизнью, прошла в студсовет и помогаю организовывать мероприятия для всех студентов своего ВУЗа.',
@@ -389,7 +390,7 @@ export default {
               name: 'Елена Тихомирова',
               student: 'Московский технологический институт',
               image: 'about/students/tikhomirova.jpg',
-              stars: '4.5/5',
+              stars: '4.5<span>/5</span>',
               icon: '/about/star.svg',
               // eslint-disable-next-line max-len
               text: 'При выборе института для меня было важно иметь возможность совмещать работу и учебу. Очень удобно, что можно выбрать подходящую форму обучения.',
@@ -412,6 +413,16 @@ export default {
           disableOnInteraction: true,
           reverseDirection: false,
         },
+        pagination: {
+          el: '.swiper-pagination',
+          clickable: true,
+        },
+        // breakpoints: {
+        //   991: {
+        //     spaceBetween: 12,
+
+        //   },
+        // },
       },
       swiperOptionTabsContent2: {
         direction: 'vertical',
