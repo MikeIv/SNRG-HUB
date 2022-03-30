@@ -1,9 +1,6 @@
 @import '@/assets/styles/tools/mixins';
 
 .s-about {
-  // padding: rem(20) 0;
-  // background: var(--a-color_bg--secondary);
-  // box-shadow: 0 2px 10px rgba(235, 235, 235, 0.6);
   .l-wide {
     overflow: hidden;
     padding: 0;
@@ -81,15 +78,6 @@
     }
     @media screen and (max-width: 767px) {
       padding-top: 0;
-    }
-  }
-  &__content {
-    padding-left: rem(100);
-    @media screen and (max-width: 1499px) {
-      padding-left: rem(30);
-    }
-    @media screen and (max-width: 991px) {
-      padding-left: rem(15);
     }
   }
   &__tabs {
@@ -226,6 +214,37 @@
           span {
             opacity: 0.5;
           }
+        }
+      }
+    }
+  }
+  &__content {
+    padding-left: rem(100);
+    @media screen and (max-width: 1499px) {
+      padding-left: rem(30);
+    }
+    @media screen and (max-width: 991px) {
+      padding-left: rem(15);
+    }
+    &.hidden {
+      display: none;
+    }
+    &--universities {
+      &.hidden {
+        display: none;
+      }
+    }
+    &-mobile {
+      &--students {
+        display: none;
+        &.visible {
+          display: block;
+        }
+        .s-about__tabs__swiper {
+          display: flex;
+        }
+        .swiper-container {
+          width: auto;
         }
       }
     }
