@@ -28,7 +28,19 @@
               :class="{ 'is-active': show === 0 }"
             >
               <div class="s-about__tabs__swiper">
-                <swiper ref="swiperTabsContent" :options="{ ...swiperOptionTabsContent }">
+                <swiper
+                  ref="swiperTabsContent"
+                  :options="{
+                    ...swiperOptionTabsContent,
+                    ...{
+                      autoplay: {
+                        delay: 1,
+                        disableOnInteraction: true,
+                        reverseDirection: false,
+                      },
+                    },
+                  }"
+                >
                   <swiper-slide v-for="(item, index) in tab.items_1" :key="index" class="s-about__tabs-content__slides">
                     <div class="s-about__tabs-content__slide">
                       <div class="s-about__tabs-content__top">
@@ -48,7 +60,19 @@
                     </div>
                   </swiper-slide>
                 </swiper>
-                <swiper ref="swiperTabsContent2" :options="{ ...swiperOptionTabsContent }">
+                <swiper
+                  ref="swiperTabsContent2"
+                  :options="{
+                    ...swiperOptionTabsContent,
+                    ...{
+                      autoplay: {
+                        delay: 1,
+                        disableOnInteraction: true,
+                        reverseDirection: false,
+                      },
+                    },
+                  }"
+                >
                   <swiper-slide v-for="(item, index) in tab.items_2" :key="index" class="s-about__tabs-content__slides">
                     <div class="s-about__tabs-content__slide">
                       <div class="s-about__tabs-content__top">
@@ -121,7 +145,6 @@
               </div>
             </div>
           </div>
-
         </div>
       </div>
     </div>
@@ -400,22 +423,26 @@ export default {
         },
       ],
       swiperOptionTabsContent: {
-        direction: 'vertical',
-        spaceBetween: 24,
-        autoHeight: false,
-        loop: true,
-        slidesPerView: 'auto',
-        speed: 8000,
-        grabCursor: true,
-        mousewheelControl: true,
-        keyboardControl: true,
-        autoplay: {
-          delay: 1,
-          disableOnInteraction: true,
-          reverseDirection: true,
-        },
+        direction: 'horizontal',
+        slidesPerColumnFill: 'row',
+        spaceBetween: 12,
+        autoplay: false,
+        loop: false,
+        slidesPerColumn: 1,
+        slidesPerView: 3,
         breakpoints: {
-          767: {},
+          767: {
+            direction: 'vertical',
+            spaceBetween: 24,
+            autoHeight: false,
+            loop: true,
+            slidesPerView: 'auto',
+            speed: 8000,
+            grabCursor: true,
+            mousewheelControl: true,
+            keyboardControl: true,
+            autoplay: true,
+          },
         },
         pagination: {
           el: '.swiper-pagination',
@@ -457,18 +484,12 @@ export default {
       const concatedArray = [...this?.students[0]?.items_1, ...this?.students[0]?.items_2];
       this.students.items_1 = concatedArray;
       this.students[0].items_2 = [];
-
-      console.log(concatedArray);
-      console.log(this.students[0].items_2);
     }
 
     if (this.windowWidth < 767) {
       const concatedArrayUniversities = [...this?.universities[0]?.items_3, ...this?.universities[0]?.items_4];
       this.universities.items_3 = concatedArrayUniversities;
       this.universities[0].items_4 = [];
-
-      console.log(concatedArrayUniversities);
-      console.log(this.students[0].items_2);
     }
   },
 
@@ -476,6 +497,5 @@ export default {
     window.removeEventListener('resize', this.handleResize);
     window.removeEventListener('DOMContentLoaded', this.handleResize);
   },
-
 };
 </script>
