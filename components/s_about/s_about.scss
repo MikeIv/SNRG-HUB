@@ -18,6 +18,9 @@
     @media screen and (max-width: 991px) {
       width: rem(265);
     }
+    @media screen and (max-width: 767px) {
+      width: unset;
+    }
   }
   &__box {
     max-height: rem(560);
@@ -98,6 +101,9 @@
       gap: rem(24);
       @media screen and (max-width: 1380px) {
         gap: rem(16);
+      }
+      @media screen and (max-width: 767px) {
+        display: unset;
       }
     }
     &-item {
@@ -226,27 +232,9 @@
     @media screen and (max-width: 991px) {
       padding-left: rem(15);
     }
-    &.hidden {
-      display: none;
-    }
-    &--universities {
-      &.hidden {
-        display: none;
-      }
-    }
-    &-mobile {
-      &--students {
-        display: none;
-        &.visible {
-          display: block;
-        }
-        .s-about__tabs__swiper {
-          display: flex;
-        }
-        .swiper-container {
-          width: auto;
-        }
-      }
+
+    @media screen and (max-width: 991px) {
+      padding-left: 0;
     }
   }
 }

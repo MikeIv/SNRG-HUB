@@ -122,38 +122,6 @@
             </div>
           </div>
 
-            <div class="s-about__content-mobile--students">
-            <div
-              v-for="(tab, index) in students_mobile"
-              :key="index"
-              class="s-about__tabs-item__content"
-              :class="{ 'is-active': show === 0 }"
-            >
-              <div class="s-about__tabs__swiper">
-                <swiper ref="swiperTabsContent" :options="{ ...swiperOptionTabsContentMobile }">
-                  <swiper-slide v-for="(item, index) in tab.items" :key="index" class="s-about__tabs-content__slides">
-                    <div class="s-about__tabs-content__slide">
-                      <div class="s-about__tabs-content__top">
-                        <div class="s-about__tabs-content__img"><img :src="item.image" alt="" /></div>
-                        <div class="s-about__tabs-content__info">
-                          <div class="s-about__tabs-content__info-title">{{ item.name }}</div>
-                          <div class="s-about__tabs-content__info-subtitle">{{ item.student }}</div>
-                        </div>
-                      </div>
-                      <div class="s-about__tabs-content__text">
-                        {{ item.text }}
-                      </div>
-                      <div class="s-about__tabs-content__stars">
-                        <img class="s-about__tabs-content__stars-icon" :src="item.icon" alt="" />
-                        <div class="s-about__tabs-content__stars-rate" v-html="item.stars"></div>
-                      </div>
-                    </div>
-                  </swiper-slide>
-                </swiper>
-              </div>
-            </div>
-          </div>
-
         </div>
       </div>
     </div>
@@ -431,182 +399,6 @@ export default {
           ],
         },
       ],
-      students_mobile: [
-        {
-          label: 'студенты',
-          items: [
-            {
-              name: 'Екатерина Васильева',
-              student: 'Студент программы “Ландшафтная архитектура”',
-              image: 'about/students/vasilieva.jpg',
-              stars: '4.5<span>/5</span>',
-              icon: '/about/star.svg',
-              text: 'Отличные преподаватели! Находят индивидуальный подход к каждому студенту.',
-            },
-            {
-              name: 'Наталья Лисицина',
-              student: 'Выпускник программы “Маркетинг”',
-              image: 'about/students/lisitsina.jpg',
-              stars: '4.5<span>/5</span>',
-              icon: '/about/star.svg',
-              text: 'Сразу после выпуска смогла устроиться в крупную компанию.',
-            },
-            {
-              name: 'Никита Краснов',
-              student: 'Выпускник программы “Вычислительные машины, комплексы, системы и сети”',
-              image: 'about/students/krasnov.jpg',
-              stars: '4.5<span>/5</span>',
-              icon: '/about/star.svg',
-              text: 'На учебе были преподаватели, которые делились реальным опытом работы.',
-            },
-            {
-              name: 'Алина Сычева',
-              student: 'Выпускник программы “Финансы и кредит”',
-              image: 'about/students/sycheva.jpg',
-              stars: '4.5<span>/5</span>',
-              icon: '/about/star.svg',
-              // eslint-disable-next-line max-len
-              text: 'Будущую профессию навязали родители, думала будет сложно, но преподаватели смогли заинтересовать, сейчас работаю по специальности.',
-            },
-            {
-              name: 'Вячеслав Ермолаев',
-              student: 'Выпускник программы “Управление рисками”',
-              image: 'about/students/ermolaev.jpg',
-              stars: '4.5<span>/5</span>',
-              icon: '/about/star.svg',
-              // eslint-disable-next-line max-len
-              text: 'Уже со второго курса начал проходить стажировки, очень пригодились пройденные практические задания.',
-            },
-            {
-              name: 'Иван Козлов',
-              student: 'Студент программы “Бизнес-аналитика”',
-              image: 'about/students/kozlov.jpg',
-              stars: '4.5<span>/5</span>',
-              icon: '/about/star.svg',
-              text: 'Порадовал выбор профильных дисциплин.',
-            },
-            {
-              name: 'Надежда Исаева',
-              student: 'Студент программы “Психология и социальная педагогика”',
-              image: 'about/students/isaeva.jpg',
-              stars: '4.5<span>/5</span>',
-              icon: '/about/star.svg',
-              text: 'Заканчиваю в следующем году, уже знаю куда пойду работать.',
-            },
-            {
-              name: 'Александр Бутиков',
-              student: 'Студент программы “Энергообеспечение предприятий”',
-              image: 'about/students/butikov.jpg',
-              stars: '4.5<span>/5</span>',
-              icon: '/about/star.svg',
-              text: 'Пишу диплом, научный руководитель очень помогает и поддерживает.',
-            },
-            {
-              name: 'Варий Набиуллин',
-              student: 'Выпускник программы “Менеджмент в игровой индустрии и киберспорте”',
-              image: 'about/students/nabiullin.jpg',
-              stars: '4.5<span>/5</span>',
-              icon: '/about/star.svg',
-              // eslint-disable-next-line max-len
-              text: 'Выбрал эту программу, потому что в других университетах аналогичных не нашел. Теперь знаю, что когда пойду работать мои знания не устареют.',
-            },
-            {
-              name: 'Валентина Романенко',
-              student: 'Студент программы “Теория и история искусств”',
-              image: 'about/students/romanenko.jpg',
-              stars: '4.5<span>/5</span>',
-              icon: '/about/star.svg',
-              text: 'Хожу на учебу с удовольствием. Интересные лекции и много практики.',
-            },
-            {
-              name: 'Тимур Нуров',
-              student:
-                // eslint-disable-next-line max-len
-                'Автономная некоммерческая образовательная организация высшего образования «Воронежский экономико-правовой институт»',
-              image: 'about/students/nurov.jpg',
-              stars: '4.5<span>/5</span>',
-              icon: '/about/star.svg',
-              text: 'Выбрал программу на этом сайте. Смог сравнить ВУЗы в своем регионе и выбрать подходящий.',
-            },
-            {
-              name: 'Анастасия Чкалова',
-              student: 'Рыбинский государственный авиационный технический университет имени П.А.Соловьева',
-              image: 'about/students/chkalova.jpg',
-              stars: '4.5<span>/5</span>',
-              icon: '/about/star.svg',
-              text: 'Очень радует, что в университете большой выбор дополнительных занятий.',
-            },
-            {
-              name: 'Валерия Шумова',
-              student: 'Костромская государственная сельскохозяйственная академия',
-              image: 'about/students/shumova.jpg',
-              stars: '4.5<span>/5</span>',
-              icon: '/about/star.svg',
-              text: 'Довольна, что общежитие находится рядом с университетом, выхожу за 5 минут до начала пар. ',
-            },
-            {
-              name: 'Геннадий Аксенов',
-              student: 'Выпускник программы “Финансы и кредит”',
-              image: 'about/students/aksenov.jpg',
-              stars: '4.5<span>/5</span>',
-              icon: '/about/star.svg',
-              // eslint-disable-next-line max-len
-              text: 'Уже 3 год хожу в студенческий спортзал, каждый год обновляют тренажеры.',
-            },
-            {
-              name: 'Федор Степаненко',
-              student: 'Томский институт бизнеса',
-              image: 'about/students/stepanenko.jpg',
-              stars: '4.5<span>/5</span>',
-              icon: '/about/star.svg',
-              // eslint-disable-next-line max-len
-              text: 'Нет возможности учиться очно, университет составил для меня индивидуальный план учебы. ',
-            },
-            {
-              name: 'Лидия Володина',
-              student: 'Нижегородская государственная сельскохозяйственная академия',
-              image: 'about/students/volodina.jpg',
-              stars: '4.5<span>/5</span>',
-              icon: '/about/star.svg',
-              text: 'Увлекла научная жизнь ВУЗа. Выступаю со своими докладами на студенческих конференциях.',
-            },
-            {
-              name: 'Азат Ахметов',
-              student: 'МИРЭА - Российский технологический университет',
-              image: 'about/students/akhmetov.jpg',
-              stars: '4.5<span>/5</span>',
-              icon: '/about/star.svg',
-              text: 'На 2 курсе узнала, что университет занимается волонтерством. Ездим и помогаем нуждающимся. ',
-            },
-            {
-              name: 'Александр Бутиков',
-              student: 'Студент программы “Энергообеспечение предприятий”',
-              image: 'about/students/butikov.jpg',
-              stars: '4.5<span>/5</span>',
-              icon: '/about/star.svg',
-              text: 'Пишу диплом, научный руководитель очень помогает и поддерживает.',
-            },
-            {
-              name: 'Татьяна Нестерова',
-              student: 'Выпускник программы “Менеджмент в игровой индустрии и киберспорте”',
-              image: 'about/students/nesterova.jpg',
-              stars: '4.5<span>/5</span>',
-              icon: '/about/star.svg',
-              // eslint-disable-next-line max-len
-              text: 'Нравится возможность заниматься студенческой жизнью, прошла в студсовет и помогаю организовывать мероприятия для всех студентов своего ВУЗа.',
-            },
-            {
-              name: 'Елена Тихомирова',
-              student: 'Московский технологический институт',
-              image: 'about/students/tikhomirova.jpg',
-              stars: '4.5<span>/5</span>',
-              icon: '/about/star.svg',
-              // eslint-disable-next-line max-len
-              text: 'При выборе института для меня было важно иметь возможность совмещать работу и учебу. Очень удобно, что можно выбрать подходящую форму обучения.',
-            },
-          ],
-        },
-      ],
       swiperOptionTabsContent: {
         direction: 'vertical',
         spaceBetween: 24,
@@ -620,34 +412,15 @@ export default {
         autoplay: {
           delay: 1,
           disableOnInteraction: true,
-          reverseDirection: false,
+          reverseDirection: true,
+        },
+        breakpoints: {
+          767: {},
         },
         pagination: {
           el: '.swiper-pagination',
           clickable: true,
         },
-      },
-      swiperOptionTabsContent2: {
-        direction: 'vertical',
-        spaceBetween: 24,
-        autoHeight: false,
-        loop: true,
-        slidesPerView: 'auto',
-        speed: 8000,
-        grabCursor: true,
-        mousewheelControl: true,
-        keyboardControl: true,
-        autoplay: {
-          delay: 1,
-          disableOnInteraction: false,
-          reverseDirection: true,
-        },
-      },
-      swiperOptionTabsContentMobile: {
-        slidesPerView: 1,
-        slidesPerColumn: 3,
-        loop: false,
-        spaceBetween: 12,
       },
       classFlag: false,
     };
@@ -672,18 +445,6 @@ export default {
     handleResize() {
       this.windowWidth = window.innerWidth;
       console.log(this.windowWidth);
-      const sAboutContent = document.querySelector('.s-about__content');
-      const sAboutContentUniversities = document.querySelector('.s-about__content--universities');
-      const sAboutContentSTudentsMobile = document.querySelector('.s-about__content-mobile--students');
-      if (this.windowWidth < 767) {
-        sAboutContent.classList.add('hidden');
-        sAboutContentUniversities.classList.add('hidden');
-        sAboutContentSTudentsMobile.classList.add('visible');
-      } else {
-        sAboutContent.classList.remove('hidden');
-        sAboutContentUniversities.classList.remove('hidden');
-        sAboutContentSTudentsMobile.classList.remove('visible');
-      }
     },
   },
 
@@ -691,6 +452,24 @@ export default {
     window.addEventListener('resize', this.handleResize);
     window.addEventListener('DOMContentLoaded', this.handleResize);
     this.handleResize();
+
+    if (this.windowWidth < 767) {
+      const concatedArray = [...this?.students[0]?.items_1, ...this?.students[0]?.items_2];
+      this.students.items_1 = concatedArray;
+      this.students[0].items_2 = [];
+
+      console.log(concatedArray);
+      console.log(this.students[0].items_2);
+    }
+
+    if (this.windowWidth < 767) {
+      const concatedArrayUniversities = [...this?.universities[0]?.items_3, ...this?.universities[0]?.items_4];
+      this.universities.items_3 = concatedArrayUniversities;
+      this.universities[0].items_4 = [];
+
+      console.log(concatedArrayUniversities);
+      console.log(this.students[0].items_2);
+    }
   },
 
   beforeDestroy() {
