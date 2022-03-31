@@ -2,7 +2,7 @@
 
 .s-about {
   .l-wide {
-    overflow: hidden;
+    // overflow: hidden;
     padding: 0;
     background: none;
   }
@@ -103,7 +103,7 @@
         gap: rem(16);
       }
       @media screen and (max-width: 767px) {
-        display: unset;
+        display: block;
       }
     }
     &-item {
@@ -148,6 +148,9 @@
       position: static;
       display: flex;
       opacity: 1;
+      // @media screen and (max-width: 767px) {
+      //   display: unset;
+      // }
     }
     &-content {
       &__slides {
@@ -155,7 +158,7 @@
         background: var(--a-color_bg);
         border-radius: rem(10);
         @media screen and (max-width: 767px) {
-          width: 265px !important;
+          max-width: 265px;
         }
       }
 

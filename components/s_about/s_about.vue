@@ -30,16 +30,7 @@
               <div class="s-about__tabs__swiper">
                 <swiper
                   ref="swiperTabsContent"
-                  :options="{
-                    ...swiperOptionTabsContent,
-                    ...{
-                      autoplay: {
-                        delay: 1,
-                        disableOnInteraction: true,
-                        reverseDirection: false,
-                      },
-                    },
-                  }"
+                  :options="{ ...swiperOptionTabsContent }"
                 >
                   <swiper-slide v-for="(item, index) in tab.items_1" :key="index" class="s-about__tabs-content__slides">
                     <div class="s-about__tabs-content__slide">
@@ -62,16 +53,7 @@
                 </swiper>
                 <swiper
                   ref="swiperTabsContent2"
-                  :options="{
-                    ...swiperOptionTabsContent,
-                    ...{
-                      autoplay: {
-                        delay: 1,
-                        disableOnInteraction: true,
-                        reverseDirection: false,
-                      },
-                    },
-                  }"
+                  :options="{ ...swiperOptionTabsContent }"
                 >
                   <swiper-slide v-for="(item, index) in tab.items_2" :key="index" class="s-about__tabs-content__slides">
                     <div class="s-about__tabs-content__slide">
@@ -424,12 +406,14 @@ export default {
       ],
       swiperOptionTabsContent: {
         direction: 'horizontal',
-        slidesPerColumnFill: 'row',
+        /* slidesPerColumnFill: 'row', */
         spaceBetween: 12,
-        autoplay: false,
         loop: false,
-        slidesPerColumn: 1,
-        slidesPerView: 3,
+        slidesPerView: 'auto',
+        slidesPerColumn: 3,
+        observer: true,
+        observeParents: true,
+        autoplay: false,
         breakpoints: {
           767: {
             direction: 'vertical',
@@ -440,15 +424,21 @@ export default {
             speed: 8000,
             grabCursor: true,
             mousewheelControl: true,
+            slidesPerColumn: 1,
             keyboardControl: true,
-            autoplay: true,
+            autoplay: {
+              delay: 1,
+              disableOnInteraction: true,
+              reverseDirection: false,
+            },
           },
         },
-        pagination: {
+        /* pagination: {
           el: '.swiper-pagination',
           clickable: true,
-        },
+        }, */
       },
+      key: 0,
       classFlag: false,
     };
   },
@@ -483,6 +473,8 @@ export default {
     if (this.windowWidth < 767) {
       const concatedArray = [...this?.students[0]?.items_1, ...this?.students[0]?.items_2];
       this.students.items_1 = concatedArray;
+      console.log('--->', this.students.items_1);
+      this.key += 1;
       this.students[0].items_2 = [];
     }
 
