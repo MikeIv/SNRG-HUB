@@ -28,10 +28,7 @@
               :class="{ 'is-active': show === 0 }"
             >
               <div class="s-about__tabs__swiper">
-                <swiper
-                  ref="swiperTabsContent"
-                  :options="{ ...swiperOptionTabsContent }"
-                >
+                <swiper ref="swiperStudents" :options="currentOpts">
                   <swiper-slide v-for="(item, index) in tab.items_1" :key="index" class="s-about__tabs-content__slides">
                     <div class="s-about__tabs-content__slide">
                       <div class="s-about__tabs-content__top">
@@ -51,10 +48,7 @@
                     </div>
                   </swiper-slide>
                 </swiper>
-                <swiper
-                  ref="swiperTabsContent2"
-                  :options="{ ...swiperOptionTabsContent }"
-                >
+                <swiper ref="swiperStudents" :options="currentOpts">
                   <swiper-slide v-for="(item, index) in tab.items_2" :key="index" class="s-about__tabs-content__slides">
                     <div class="s-about__tabs-content__slide">
                       <div class="s-about__tabs-content__top">
@@ -86,7 +80,7 @@
               :class="{ 'is-active': show === 1 }"
             >
               <div class="s-about__tabs__swiper">
-                <swiper ref="swiperTabsContent" :options="{ ...swiperOptionTabsContent }">
+                <swiper ref="swiperUniversities" :options="currentOpts">
                   <swiper-slide v-for="(item, index) in tab.items_3" :key="index" class="s-about__tabs-content__slides">
                     <div class="s-about__tabs-content__slide">
                       <div class="s-about__tabs-content__top">
@@ -105,7 +99,7 @@
                     </div>
                   </swiper-slide>
                 </swiper>
-                <swiper ref="swiperTabsContent2" :options="{ ...swiperOptionTabsContent }">
+                <swiper ref="swiperUniversities" :options="currentOpts">
                   <swiper-slide v-for="(item, index) in tab.items_4" :key="index" class="s-about__tabs-content__slides">
                     <div class="s-about__tabs-content__slide">
                       <div class="s-about__tabs-content__top">
@@ -404,9 +398,26 @@ export default {
           ],
         },
       ],
-      swiperOptionTabsContent: {
+      currentOpts: {},
+      swiperOptions: {
+        direction: 'vertical',
+        spaceBetween: 24,
+        autoHeight: false,
+        loop: true,
+        slidesPerView: 'auto',
+        speed: 8000,
+        grabCursor: true,
+        mousewheelControl: true,
+        keyboardControl: true,
+        autoplay: {
+          delay: 1,
+          disableOnInteraction: true,
+          reverseDirection: false,
+        },
+      },
+      swiperMobileOptions: {
         direction: 'horizontal',
-        /* slidesPerColumnFill: 'row', */
+        slidesPerColumnFill: 'row',
         spaceBetween: 12,
         loop: false,
         slidesPerView: 'auto',
@@ -414,29 +425,6 @@ export default {
         observer: true,
         observeParents: true,
         autoplay: false,
-        breakpoints: {
-          767: {
-            direction: 'vertical',
-            spaceBetween: 24,
-            autoHeight: false,
-            loop: true,
-            slidesPerView: 'auto',
-            speed: 8000,
-            grabCursor: true,
-            mousewheelControl: true,
-            slidesPerColumn: 1,
-            keyboardControl: true,
-            autoplay: {
-              delay: 1,
-              disableOnInteraction: true,
-              reverseDirection: false,
-            },
-          },
-        },
-        /* pagination: {
-          el: '.swiper-pagination',
-          clickable: true,
-        }, */
       },
       key: 0,
       classFlag: false,
@@ -444,50 +432,43 @@ export default {
   },
 
   methods: {
-    navigate(e) {
-      if (e.target.dataset.show) {
-        e.preventDefault();
-        this.show = e.target.dataset.show;
-      }
-    },
     runSwiper() {
       if (this.show) {
-        this.$refs.swiperTabsContent[1].swiperInstance.autoplay.run();
-        this.$refs.swiperTabsContent2[1].swiperInstance.autoplay.run();
+        this.$refs.swiperUniversities[0].swiperInstance.autoplay.run();
+        this.$refs.swiperUniversities[1].swiperInstance.autoplay.run();
       } else {
-        this.$refs.swiperTabsContent[0].swiperInstance.autoplay.run();
-        this.$refs.swiperTabsContent2[0].swiperInstance.autoplay.run();
+        this.$refs.swiperStudents[0].swiperInstance.autoplay.run();
+        this.$refs.swiperStudents[1].swiperInstance.autoplay.run();
       }
     },
     handleResize() {
       this.windowWidth = window.innerWidth;
-      console.log(this.windowWidth);
     },
+  },
+
+  beforeMount() {
+    if (window?.innerWidth < 767) {
+      const concatedArray = [...this?.students[0]?.items_1, ...this?.students[0]?.items_2];
+      this.students[0].items_1 = concatedArray;
+      this.students[0].items_2 = [];
+
+      const concatedArrayUniversities = [...this?.universities[0]?.items_3, ...this?.universities[0]?.items_4];
+      this.universities[0].items_3 = concatedArrayUniversities;
+      this.universities[0].items_4 = [];
+      this.currentOpts = this.swiperMobileOptions;
+    } else {
+      this.currentOpts = this.swiperOptions;
+    }
   },
 
   mounted() {
     window.addEventListener('resize', this.handleResize);
-    window.addEventListener('DOMContentLoaded', this.handleResize);
     this.handleResize();
-
-    if (this.windowWidth < 767) {
-      const concatedArray = [...this?.students[0]?.items_1, ...this?.students[0]?.items_2];
-      this.students.items_1 = concatedArray;
-      console.log('--->', this.students.items_1);
-      this.key += 1;
-      this.students[0].items_2 = [];
-    }
-
-    if (this.windowWidth < 767) {
-      const concatedArrayUniversities = [...this?.universities[0]?.items_3, ...this?.universities[0]?.items_4];
-      this.universities.items_3 = concatedArrayUniversities;
-      this.universities[0].items_4 = [];
-    }
+    this.runSwiper();
   },
 
   beforeDestroy() {
     window.removeEventListener('resize', this.handleResize);
-    window.removeEventListener('DOMContentLoaded', this.handleResize);
   },
 };
 </script>
