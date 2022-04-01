@@ -28,7 +28,13 @@
               :class="{ 'is-active': show === 0 }"
             >
               <div class="s-about__tabs__swiper">
-                <swiper ref="swiperStudents" :options="currentOpts">
+                <swiper
+                  ref="swiperStudents"
+                  :options="{
+                    ...currentOpts,
+                    pagination: { el: '.swiper-pagination-st', clickable: true },
+                  }"
+                >
                   <swiper-slide v-for="(item, index) in tab.items_1" :key="index" class="s-about__tabs-content__slides">
                     <div class="s-about__tabs-content__slide">
                       <div class="s-about__tabs-content__top">
@@ -68,6 +74,7 @@
                     </div>
                   </swiper-slide>
                 </swiper>
+                <div class="swiper-pagination-st" slot="pagination"></div>
               </div>
             </div>
           </div>
@@ -80,7 +87,13 @@
               :class="{ 'is-active': show === 1 }"
             >
               <div class="s-about__tabs__swiper">
-                <swiper ref="swiperUniversities" :options="currentOpts">
+                <swiper
+                  ref="swiperUniversities"
+                  :options="{
+                    ...currentOpts,
+                    pagination: { el: '.swiper-pagination-s', clickable: true },
+                  }"
+                >
                   <swiper-slide v-for="(item, index) in tab.items_3" :key="index" class="s-about__tabs-content__slides">
                     <div class="s-about__tabs-content__slide">
                       <div class="s-about__tabs-content__top">
@@ -118,6 +131,7 @@
                     </div>
                   </swiper-slide>
                 </swiper>
+                <div class="swiper-pagination-s" slot="pagination"></div>
               </div>
             </div>
           </div>
@@ -425,6 +439,9 @@ export default {
         observer: true,
         observeParents: true,
         autoplay: false,
+        pagination: {
+          clickable: true,
+        },
       },
       key: 0,
       classFlag: false,
