@@ -480,8 +480,10 @@ export default {
   },
 
   mounted() {
-    this.handleResize();
-    this.runSwiper();
+    this.$nextTick(() => {
+      this.handleResize();
+      this.runSwiper();
+    });
   },
 };
 </script>
