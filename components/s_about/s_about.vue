@@ -425,7 +425,7 @@ export default {
         keyboardControl: true,
         autoplay: {
           delay: 1,
-          disableOnInteraction: true,
+          disableOnInteraction: false,
           reverseDirection: false,
         },
       },
@@ -439,6 +439,7 @@ export default {
         observer: true,
         observeParents: true,
         autoplay: false,
+        initialSlide: 0,
         pagination: {
           clickable: true,
         },
@@ -479,13 +480,8 @@ export default {
   },
 
   mounted() {
-    window.addEventListener('resize', this.handleResize);
     this.handleResize();
     this.runSwiper();
-  },
-
-  beforeDestroy() {
-    window.removeEventListener('resize', this.handleResize);
   },
 };
 </script>

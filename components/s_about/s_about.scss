@@ -2,7 +2,6 @@
 
 .s-about {
   .l-wide {
-    // overflow: hidden;
     padding: 0;
     background: none;
   }
@@ -68,21 +67,12 @@
     }
   }
   &__box {
-    /* max-height: rem(560); */
     background: var(--a-color_text);
     border-radius: rem(20);
-
-    /* @media screen and (max-width: 1200px) {
-      max-height: rem(344);
-    }
-    @media screen and (max-width: 767px) {
-      max-height: rem(730);
-    } */
   }
   &__wrapper {
     position: relative;
     display: flex;
-    justify-content: space-between;
     padding: 0 rem(56) 0 rem(40);
     @media screen and (max-width: 1380px) {
       padding: 0 rem(12) 0 rem(30);
@@ -167,6 +157,9 @@
         font-size: rem(20);
         line-height: rem(24);
       }
+      @media screen and (max-width: 767px) {
+        padding: rem(9) rem(12.5);
+      }
       &:first-child {
         margin-right: rem(20);
         @media screen and (max-width: 1380px) {
@@ -204,7 +197,11 @@
         background: var(--a-color_bg);
         border-radius: rem(10);
         @media screen and (max-width: 767px) {
-          width: 265px;
+          width: rem(340);
+          min-height: rem(200);
+        }
+        @media screen and (max-width: 360px) {
+          width: rem(328);
         }
       }
 
@@ -213,12 +210,21 @@
         @media screen and (max-width: 1380px) {
           padding: rem(16) rem(14) rem(20) rem(16);
         }
+        @media screen and (max-width: 767px) {
+          display: flex;
+          flex-direction: column;
+          height: 85%;
+          padding: rem(14) rem(14) 0 rem(14);
+        }
       }
 
       &__top {
         display: flex;
         align-items: center;
         margin-bottom: rem(16);
+        @media screen and (max-width: 767px) {
+          margin-bottom: rem(12);
+        }
       }
 
       &__info {
@@ -243,6 +249,9 @@
             font-size: rem(10);
             line-height: rem(16);
           }
+          @media screen and (max-width: 767px) {
+            line-height: rem(12);
+          }
         }
       }
 
@@ -255,11 +264,18 @@
           font-size: rem(12);
           line-height: rem(16);
         }
+        @media screen and (max-width: 991px) {
+          margin-bottom: rem(10);
+        }
       }
 
       &__stars {
         display: flex;
         align-items: center;
+
+        @media screen and (max-width: 991px) {
+          margin-top: auto;
+        }
 
         &-rate {
           margin-left: rem(5);
@@ -274,10 +290,15 @@
           }
         }
       }
+      &__img {
+        img {
+          min-width: rem(48);
+        }
+      }
     }
   }
   &__content {
-    padding-left: rem(100);
+    padding-left: rem(150);
     @media screen and (max-width: 1499px) {
       padding-left: rem(30);
     }
