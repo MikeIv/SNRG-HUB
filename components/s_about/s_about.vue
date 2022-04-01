@@ -425,7 +425,7 @@ export default {
         keyboardControl: true,
         autoplay: {
           delay: 1,
-          disableOnInteraction: false,
+          disableOnInteraction: true,
           reverseDirection: false,
         },
       },
