@@ -29,6 +29,7 @@
             >
               <div class="s-about__tabs__swiper">
                 <swiper
+                  class="s-about__animation"
                   ref="swiperStudents"
                   :options="{
                     ...currentOpts,
@@ -88,6 +89,7 @@
             >
               <div class="s-about__tabs__swiper">
                 <swiper
+                  class="s-about__animation"
                   ref="swiperUniversities"
                   :options="{
                     ...currentOpts,
@@ -451,13 +453,13 @@ export default {
 
   methods: {
     runSwiper() {
-      if (this.show) {
-        this.$refs.swiperUniversities[0].swiperInstance.autoplay.run();
-        this.$refs.swiperUniversities[1].swiperInstance.autoplay.run();
-      } else {
-        this.$refs.swiperStudents[0].swiperInstance.autoplay.run();
-        this.$refs.swiperStudents[1].swiperInstance.autoplay.run();
-      }
+      // if (this.show) {
+      //   this.$refs.swiperUniversities[0].swiperInstance.autoplay.run();
+      //   this.$refs.swiperUniversities[1].swiperInstance.autoplay.run();
+      // } else {
+      //   this.$refs.swiperStudents[0].swiperInstance.autoplay.run();
+      //   this.$refs.swiperStudents[1].swiperInstance.autoplay.run();
+      // }
     },
     handleResize() {
       this.windowWidth = window.innerWidth;
