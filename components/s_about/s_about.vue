@@ -452,11 +452,11 @@ export default {
   methods: {
     runSwiper() {
       if (this.show) {
-        this.$refs.swiperUniversities[0].swiperInstance.autoplay.run();
-        this.$refs.swiperUniversities[1].swiperInstance.autoplay.run();
+        this.$refs.swiperUniversities[0].swiperInstance.autoplay.start();
+        this.$refs.swiperUniversities[1].swiperInstance.autoplay.start();
       } else {
-        this.$refs.swiperStudents[0].swiperInstance.autoplay.run();
-        this.$refs.swiperStudents[1].swiperInstance.autoplay.run();
+        this.$refs.swiperStudents[0].swiperInstance.autoplay.start();
+        this.$refs.swiperStudents[1].swiperInstance.autoplay.start();
       }
     },
     handleResize() {
