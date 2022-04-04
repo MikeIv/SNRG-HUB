@@ -157,10 +157,9 @@ export default {
 
     this.$store.commit('updateLander', landerInfo);
 
-    // console.log(getData);
-    // console.log(expandedMethod);
-    // console.log('version', landerInfo.version);
-    // console.log('partner', landerInfo.partner);
+    console.log(getData);
+    console.log('version', landerInfo.version);
+    console.log('partner', landerInfo.partner);
 
     if (this.city) {
       const breadcrumb = {
