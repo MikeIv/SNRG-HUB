@@ -20,22 +20,22 @@
               </div>
             </div>
           </div>
+
           <div class="s-about__content">
-            <div
-              v-for="(tab, index) in students"
-              :key="index"
-              class="s-about__tabs-item__content"
-              :class="{ 'is-active': show === 0 }"
-            >
+            <div class="s-about__tabs-item__content" :class="{ 'is-active': show === 0 }">
               <div class="s-about__tabs__swiper">
                 <swiper
                   ref="swiperStudents"
                   :options="{
-                    ...currentOpts,
+                    ...swiperOptions,
                     pagination: { el: '.swiper-pagination-st', clickable: true },
                   }"
                 >
-                  <swiper-slide v-for="(item, index) in tab.items_1" :key="index" class="s-about__tabs-content__slides">
+                  <swiper-slide
+                    v-for="(item, index) in students[0].items_1"
+                    :key="index"
+                    class="s-about__tabs-content__slides"
+                  >
                     <div class="s-about__tabs-content__slide">
                       <div class="s-about__tabs-content__top">
                         <div class="s-about__tabs-content__img"><img :src="item.image" alt="" /></div>
@@ -54,8 +54,12 @@
                     </div>
                   </swiper-slide>
                 </swiper>
-                <swiper ref="swiperStudents" :options="currentOpts">
-                  <swiper-slide v-for="(item, index) in tab.items_2" :key="index" class="s-about__tabs-content__slides">
+                <swiper ref="swiperStudents" :options="swiperOptions">
+                  <swiper-slide
+                    v-for="(item, index) in students[0].items_2"
+                    :key="index"
+                    class="s-about__tabs-content__slides"
+                  >
                     <div class="s-about__tabs-content__slide">
                       <div class="s-about__tabs-content__top">
                         <div class="s-about__tabs-content__img"><img :src="item.image" alt="" /></div>
@@ -450,39 +454,39 @@ export default {
   },
 
   methods: {
-    runSwiper() {
-      if (this.show) {
-        this.$refs.swiperUniversities[0].swiperInstance.autoplay.run();
-        this.$refs.swiperUniversities[1].swiperInstance.autoplay.run();
-      } else {
-        this.$refs.swiperStudents[0].swiperInstance.autoplay.run();
-        this.$refs.swiperStudents[1].swiperInstance.autoplay.run();
-      }
-    },
+    // runSwiper() {
+    //   if (this.show) {
+    //     this.$refs.swiperUniversities[0].swiperInstance.autoplay.run();
+    //     this.$refs.swiperUniversities[1].swiperInstance.autoplay.run();
+    //   } else {
+    //     this.$refs.swiperStudents[0].swiperInstance.autoplay.run();
+    //     this.$refs.swiperStudents[1].swiperInstance.autoplay.run();
+    //   }
+    // },
     handleResize() {
       this.windowWidth = window.innerWidth;
     },
   },
 
-  beforeMount() {
-    if (window?.innerWidth < 767) {
-      const concatedArray = [...this?.students[0]?.items_1, ...this?.students[0]?.items_2];
-      this.students[0].items_1 = concatedArray;
-      this.students[0].items_2 = [];
-
-      const concatedArrayUniversities = [...this?.universities[0]?.items_3, ...this?.universities[0]?.items_4];
-      this.universities[0].items_3 = concatedArrayUniversities;
-      this.universities[0].items_4 = [];
-      this.currentOpts = this.swiperMobileOptions;
-    } else {
-      this.currentOpts = this.swiperOptions;
-    }
-  },
+  // beforeMount() {
+  //   if (window?.innerWidth < 767) {
+  //     const concatedArray = [...this?.students[0]?.items_1, ...this?.students[0]?.items_2];
+  //     this.students[0].items_1 = concatedArray;
+  //     this.students[0].items_2 = [];
+  //
+  //     const concatedArrayUniversities = [...this?.universities[0]?.items_3, ...this?.universities[0]?.items_4];
+  //     this.universities[0].items_3 = concatedArrayUniversities;
+  //     this.universities[0].items_4 = [];
+  //     this.currentOpts = this.swiperMobileOptions;
+  //   } else {
+  //     this.currentOpts = this.swiperOptions;
+  //   }
+  // },
 
   mounted() {
     this.$nextTick(() => {
       this.handleResize();
-      this.runSwiper();
+      // this.runSwiper();
     });
   },
 };
