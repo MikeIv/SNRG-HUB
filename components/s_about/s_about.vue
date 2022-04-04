@@ -31,7 +31,7 @@
                 <swiper
                   ref="swiperStudents"
                   :options="{
-                    ...swiperOptions,
+                    ...currentOpts,
                     pagination: { el: '.swiper-pagination-st', clickable: true },
                   }"
                 >
@@ -54,7 +54,7 @@
                     </div>
                   </swiper-slide>
                 </swiper>
-                <swiper ref="swiperStudents" :options="swiperOptions">
+                <swiper ref="swiperStudents" :options="currentOpts">
                   <swiper-slide v-for="(item, index) in tab.items_2" :key="index" class="s-about__tabs-content__slides">
                     <div class="s-about__tabs-content__slide">
                       <div class="s-about__tabs-content__top">
@@ -479,6 +479,8 @@ export default {
   },
 
   mounted() {
+    this.$refs.swiperStudents[0].$swiper.autoplay.paused = false;
+    console.log('this.$refs.swiperStudents[0]', this.$refs.swiperStudents[0].$swiper.autoplay.paused);
     this.$nextTick(() => {
       this.handleResize();
       this.runSwiper();
