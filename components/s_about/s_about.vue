@@ -30,6 +30,7 @@
                     ...swiperOptions,
                     pagination: { el: '.swiper-pagination-st', clickable: true },
                   }"
+                  :key="`${key}f`"
                 >
                   <swiper-slide
                     v-for="(item, index) in students[0].items_1"
@@ -54,7 +55,7 @@
                     </div>
                   </swiper-slide>
                 </swiper>
-                <swiper ref="swiperStudents" :options="swiperOptions">
+                <swiper ref="swiperStudents" :options="swiperOptions" :key="`${key}s`">
                   <swiper-slide
                     v-for="(item, index) in students[0].items_2"
                     :key="index"
@@ -487,6 +488,7 @@ export default {
     this.$nextTick(() => {
       this.handleResize();
       // this.runSwiper();
+      this.key += 1;
     });
   },
 };
