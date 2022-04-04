@@ -89,13 +89,19 @@ export default {
 
   computed: {
     categoryLink() {
-      return `/${this.routePath}${this.$route?.params?.slug ? `/${this.$route?.params?.slug}` : ''}/${
-        this.$route.params?.pathMatch?.split('/').slice(0, -1)[0]
-      }`;
+      return {
+        path: `/${this.routePath}${this.$route?.params?.slug ? `/${this.$route?.params?.slug}` : ''}/${
+          this.$route.params?.pathMatch?.split('/').slice(0, -1)[0]
+        }`,
+        query: this.$route.query,
+      };
     },
 
     mainPageLink() {
-      return `/${this.routePath}${this.$route?.params?.slug ? `/${this.$route?.params?.slug}` : ''}`;
+      return {
+        path: `/${this.routePath}${this.$route?.params?.slug ? `/${this.$route?.params?.slug}` : ''}`,
+        query: this.$route.query,
+      };
     },
 
     visibleItems() {
