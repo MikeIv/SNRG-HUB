@@ -29,7 +29,6 @@
             >
               <div class="s-about__tabs__swiper">
                 <swiper
-                  v-if="students[0].items_1.length"
                   ref="swiperStudents"
                   :options="{
                     ...currentOpts,
@@ -427,6 +426,7 @@ export default {
         autoplay: {
           delay: 1,
           disableOnInteraction: true,
+          reverseDirection: false,
         },
       },
       swiperMobileOptions: {
@@ -466,7 +466,8 @@ export default {
 
   beforeMount() {
     if (window?.innerWidth < 767) {
-      this.students[0].items_1 = [...this?.students[0]?.items_1, ...this?.students[0]?.items_2];
+      const concatedArray = [...this?.students[0]?.items_1, ...this?.students[0]?.items_2];
+      this.students[0].items_1 = concatedArray;
       this.students[0].items_2 = [];
 
       const concatedArrayUniversities = [...this?.universities[0]?.items_3, ...this?.universities[0]?.items_4];
@@ -479,9 +480,6 @@ export default {
   },
 
   mounted() {
-    this.students[0].items_1 = [...this?.students[0]?.items_1, ...this?.students[0]?.items_2];
-    this.$refs.swiperStudents[0].$swiper.autoplay.paused = false;
-    console.log('this.$refs.swiperStudents[0]', this.$refs.swiperStudents[0].$swiper.autoplay.paused);
     this.$nextTick(() => {
       this.handleResize();
       this.runSwiper();
