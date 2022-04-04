@@ -31,7 +31,7 @@
                 <swiper
                   ref="swiperStudents"
                   :options="{
-                    ...currentOpts,
+                    ...swiperOptions,
                     pagination: { el: '.swiper-pagination-st', clickable: true },
                   }"
                 >
@@ -54,7 +54,7 @@
                     </div>
                   </swiper-slide>
                 </swiper>
-                <swiper ref="swiperStudents" :options="currentOpts">
+                <swiper ref="swiperStudents" :options="swiperOptions">
                   <swiper-slide v-for="(item, index) in tab.items_2" :key="index" class="s-about__tabs-content__slides">
                     <div class="s-about__tabs-content__slide">
                       <div class="s-about__tabs-content__top">
@@ -426,7 +426,6 @@ export default {
         autoplay: {
           delay: 1,
           disableOnInteraction: true,
-          reverseDirection: false,
         },
       },
       swiperMobileOptions: {
