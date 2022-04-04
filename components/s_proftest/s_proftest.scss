@@ -1,6 +1,7 @@
 @import '@/assets/styles/tools/mixins';
 
 .s-proftest {
+  padding-top: rem(48);
   .l-wide {
     @media screen and (max-width: 767px) {
       padding: 0;

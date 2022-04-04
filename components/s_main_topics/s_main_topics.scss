@@ -1,10 +1,6 @@
 @import '@/assets/styles/tools/mixins';
 
 .s-main-topics {
-  .l-wide {
-    padding: 0;
-  }
-
   .swiper-pagination-topics {
     position: relative;
     display: flex;
@@ -58,9 +54,7 @@
   &__wrapper {
     position: relative;
     @media screen and (max-width: 767px) {
-      padding: rem(24) var(--layout-padding);
       background-color: var(--a-color_bg);
-      border-radius: rem(10);
     }
   }
 

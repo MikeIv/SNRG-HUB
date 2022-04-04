@@ -12,7 +12,7 @@
     />
     <SProductSearch v-if="search" :search="search" />
     <div>
-      <div class="l-wide catalog-page">
+      <div class="l-wide catalog-page l-border-radius s-margin">
         <s-catalog-section
           title="Учебные заведения"
           :products-per-page="24"

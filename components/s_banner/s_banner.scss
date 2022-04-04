@@ -32,6 +32,21 @@
   }
 }
 
+.s-banner {
+  .l-wide {
+    overflow: hidden;
+    padding: 0;
+    background: none;
+    border-radius: rem(14);
+    @media screen and (max-width: 1499px) {
+      padding: 0 rem(30);
+    }
+    @media screen and (max-width: 767px) {
+      padding: 0 rem(16);
+    }
+  }
+}
+
 .l-wide.banners {
   display: flex;
   justify-content: space-between;
