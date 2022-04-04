@@ -208,8 +208,12 @@ export default {
 
     const landerInfo = {
       version: getData.included.landVersion ? getData.included.landVersion.value : '',
-      partner: getData.partner ? getData.partner : getData.included.organization.land,
+      partner: getData.partner ? getData.partner : getData.included.organization.partner,
     };
+
+    console.log(landerInfo.version);
+    console.log(landerInfo.partner);
+    console.log(getData);
 
     this.$store.commit('updateLander', landerInfo);
 

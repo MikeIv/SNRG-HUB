@@ -125,6 +125,7 @@ export default {
   async fetch() {
     const expandedMethod = this.methods[0].data;
     const preData = await getOrganizationsDetail(expandedMethod);
+    const getData = preData.data;
     this.university.city = preData.data.included.city.name;
     this.university.name = preData.data.name;
     this.university.description = preData.data.description;
@@ -136,14 +137,21 @@ export default {
     // this.directions = preData.included.directions;
     this.city = preData.data.included.city;
 
-    if (preData.data.land) {
-      this.$store.commit('updateLander', preData.data);
-    }
+    // if (preData.data.land) {
+    //   this.$store.commit('updateLander', preData.data);
+    // }
 
-    // versions: getData.included.landVersion ? getData.included.landVersion.value : '',
-    // partner: preData.partner ? preData.partner ,
+    const landerInfo = {
+      version: getData.included.landVersion ? getData.included.landVersion.value : '',
+      partner: getData.partner ? getData.partner : getData.included.organization.partner,
+    };
 
-    console.log(preData.data);
+    this.$store.commit('updateLander', landerInfo);
+
+    console.log(getData);
+    console.log(expandedMethod);
+    console.log('version', landerInfo.version);
+    console.log('partner', landerInfo.partner);
 
     if (this.city) {
       const breadcrumb = {
