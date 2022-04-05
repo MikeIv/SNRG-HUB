@@ -160,9 +160,15 @@
         .a-factoid-default {
           &__wrapper {
             flex: 1;
-            margin-right: 40px;
+            margin-right: rem(40);
             @media screen and (max-width: 1119px) {
-              margin-right: 20px;
+              margin-right: rem(20);
+            }
+            @media screen and (max-width: 500px) {
+              margin-right: rem(40);
+            }
+            @media screen and (max-width: 360px) {
+              margin-right: rem(20);
             }
             &:last-child {
               margin-right: 0;
