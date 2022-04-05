@@ -66,9 +66,6 @@
       width: rem(80);
     }
   }
-  &__animation {
-    animation: 110s linear 0s infinite alternate moveSlide;
-  }
   &__box {
     background: var(--a-color_text);
     border-radius: rem(20);
@@ -312,14 +309,5 @@
     @media screen and (max-width: 991px) {
       padding-left: 0;
     }
-  }
-}
-
-@keyframes moveSlide {
-  0% {
-    transform: translateY(0);
-  }
-  100% {
-    transform: translateY(1px);
   }
 }
