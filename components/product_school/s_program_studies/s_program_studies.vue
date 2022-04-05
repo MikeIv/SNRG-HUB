@@ -39,7 +39,7 @@
         <template v-slot:inputs>
           <AInput
             class="m-form__input"
-            :class="{ 'error-name': !validName }"
+            :class="{ 'error-name': !nameErrorFlag }"
             @input="validFormData()"
             v-model="fieldsData.name"
             placeholder="Имя"
@@ -47,7 +47,7 @@
 
           <vue-tel-input
             class="m-form__input"
-            :class="{ error: !validPhone }"
+            :class="{ error: !phoneErrorFlag }"
             v-bind="vueTelOpts"
             type="phone"
             placeholder="Телефон"
@@ -59,7 +59,7 @@
 
           <AInput
             class="m-form__input"
-            :class="{ 'error-mail': !validFlag }"
+            :class="{ 'error-mail': !emailErrorFlag }"
             @input="validFormData()"
             v-model="fieldsData.email"
             placeholder="Почта"
@@ -114,7 +114,7 @@ export default {
           },
         },
       },
-      validFlag: false,
+      validFlag: true,
       formChecked: true,
       maxPhoneLength: 16,
       fieldsData: {
@@ -145,6 +145,11 @@ export default {
           checked: true,
         },
       },
+
+      nameErrorFlag: true,
+      emailErrorFlag: true,
+      phoneErrorFlag: true,
+      validPhone: false,
     };
   },
 
@@ -154,8 +159,6 @@ export default {
     const loadDataForm = this.$lander.storage.load('popupform');
 
     if (loadDataForm) this.fieldsData = loadDataForm;
-
-    this.validFormData();
 
     this.title = this.dataObject.title;
     this.subtitle = this.dataObject.subtitle;
@@ -167,9 +170,14 @@ export default {
       this.popupOptions.visible = true;
     },
     sendForm() {
-      this.$lander
-        .send(this.fieldsData, {}, this.$route.name === 'edu-platform-slug' ? this.$route.path : undefined)
-        .then(() => {});
+      if (this.checkedValidateError()) {
+        this.$lander
+          .send(this.fieldsData, {}, this.$route.name === 'edu-platform-slug' ? this.$route.path : undefined)
+          .then(() => {});
+      }
+    },
+    handleSave() {
+      this.$lander.storage.save('form-reg', this.fieldsData);
     },
     validatePhone(phone, { valid, number }) {
       const telOpts = this.vueTelOpts;
@@ -191,15 +199,13 @@ export default {
       this.validFormData();
     },
     validFormData() {
-      const dataForm = [{ value: this.fieldsData.name }, { value: this.fieldsData.email, type: 'email' }];
-      this.validFlag = this.$lander.valid(dataForm) && this.validPhone;
-      if (/^([A-ZА-ЯЁ][-,a-z, a-яё. ']+[ ]*)+$/i.test(this.fieldsData.name)) {
-        this.validName = true;
-      } else {
-        this.validName = false;
-      }
-
-      this.$lander.storage.save('form-reg', this.fieldsData);
+      this.handleSave();
+    },
+    checkedValidateError() {
+      this.nameErrorFlag = /^([A-ZА-ЯЁ][-,a-z, a-яё. ']+[ ]*)+$/i.test(this.fieldsData.name);
+      this.emailErrorFlag = this.$lander.valid([{ value: this.fieldsData.email, type: 'email' }]);
+      this.phoneErrorFlag = this.validPhone === true && this.fieldsData.phone !== '';
+      return this.nameErrorFlag && this.emailErrorFlag && this.validPhone;
     },
   },
 };

@@ -3,8 +3,8 @@
     <swiper class="menu-horizontal__box" :options="swiperOption">
       <template v-for="item in navLinks">
         <swiper-slide v-if="item.active" :key="item.id" itemprop="name">
-          <nuxt-link
-            :to="`/catalog?page=1&${Object.entries(item.filter_by)[0][0]}=${Object.entries(
+          <a
+            :href="`/catalog?page=1&${Object.entries(item.filter_by)[0][0]}=${Object.entries(
               item.filter_by,
             )[0][1].toString()}`"
             class="a-font_m menu-horizontal__link"
@@ -12,7 +12,7 @@
             itemprop="url"
           >
             {{ item.anchor }}
-          </nuxt-link>
+          </a>
         </swiper-slide>
       </template>
     </swiper>
