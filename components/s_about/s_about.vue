@@ -452,13 +452,23 @@ export default {
   methods: {
     runSwiper() {
       if (this.show) {
-        this.$refs.swiperUniversities[0].swiperInstance.autoplay.run();
-        this.$refs.swiperUniversities[1].swiperInstance.autoplay.run();
+        this.$refs.swiperUniversities[0].swiper.autoplay.run();
+        this.$refs.swiperUniversities[1].swiper.autoplay.run();
       } else {
-        this.$refs.swiperStudents[0].swiperInstance.autoplay.run();
-        this.$refs.swiperStudents[1].swiperInstance.autoplay.run();
+        this.$refs.swiperStudents[0].swiper.autoplay.run();
+        this.$refs.swiperStudents[1].swiper.autoplay.run();
       }
     },
+    stopSwiper() {
+      if (window.innerWidth < 767) {
+        this.$refs.swiperUniversities[0].swiper.autoplay.stop();
+        this.$refs.swiperUniversities[1].swiper.autoplay.stop();
+      } else {
+        this.$refs.swiperStudents[0].swiper.autoplay.stop();
+        this.$refs.swiperStudents[1].swiper.autoplay.stop();
+      }
+    },
+
     handleResize() {
       this.windowWidth = window.innerWidth;
     },
@@ -480,10 +490,9 @@ export default {
   },
 
   mounted() {
-    this.$nextTick(() => {
-      this.handleResize();
-      this.runSwiper();
-    });
+    this.handleResize();
+    this.runSwiper();
+    this.stopSwiper();
   },
 };
 </script>
