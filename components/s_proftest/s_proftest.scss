@@ -33,30 +33,35 @@
   }
 
   &__cards {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    grid-gap: rem(16);
-
-    @media screen and (max-width: 970px) {
-      grid-template-columns: repeat(2, 1fr);
-    }
-    @media screen and (max-width: 767px) {
-      grid-template-columns: repeat(1, 1fr);
-    }
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0 rem(-16) rem(-16) 0;
   }
 
   &__card {
+    width: rem(190);
+    margin: 0 rem(16) rem(16) 0;
+
     @media screen and (max-width: 767px) {
       .m-card-gorizontal {
         flex-direction: row;
       }
     }
+
+    @media screen and (max-width: 430px) {
+      width: 100%;
+    }
+
     &:hover {
       .m-card-gorizontal {
         &__title {
           color: var(--a-color_link);
         }
       }
+    }
+
+    .m-card-gorizontal__info {
+      width: 100%;
     }
   }
 
