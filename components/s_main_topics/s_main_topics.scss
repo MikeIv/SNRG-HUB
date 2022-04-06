@@ -76,48 +76,55 @@
   }
 
   &__slide {
-    width: rem(190);
+    width: fit-content;
+    min-width: rem(160);
     height: 100%;
     min-height: rem(260);
     @media screen and (max-width: 991px) {
-      width: rem(136);
       height: 100%;
       min-height: rem(180);
     }
     a {
       text-decoration: none;
     }
+
+    .m-card-gorizontal__info {
+      box-sizing: border-box;
+      width: fit-content;
+      min-width: rem(160);
+      padding: rem(16);
+    }
   }
 
   &__cards {
     display: grid;
-    grid-template-columns: repeat(7, 1fr);
+    grid-template-columns: repeat(5, 1fr);
     grid-gap: rem(15);
-    @media screen and (max-width: 1380px) {
-      grid-template-columns: repeat(5, 1fr);
-    }
-    @media screen and (max-width: 1199px) {
+    @media screen and (max-width: 1340px) {
       grid-template-columns: repeat(4, 1fr);
     }
-    @media screen and (max-width: 767px) {
+    @media screen and (max-width: 1060px) {
       grid-template-columns: repeat(3, 1fr);
     }
-    @media screen and (max-width: 560px) {
+    @media screen and (max-width: 768px) {
       grid-template-columns: repeat(2, 1fr);
     }
-
-    .m-card-gorizontal {
-      @media screen and (max-width: 400px) {
-        width: rem(160);
-        max-width: 100%;
-      }
+    @media screen and (max-width: 400px) {
+      grid-template-columns: repeat(1, 1fr);
     }
+
+    //.m-card-gorizontal {
+    //  @media screen and (max-width: 400px) {
+    //    //width: rem(160);
+    //    max-width: 100%;
+    //  }
+    //}
 
     .m-card-gorizontal__info {
       width: 100%;
-      @media screen and (max-width: 400px) {
-        padding: rem(24);
-      }
+      //@media screen and (max-width: 400px) {
+      //  padding: rem(24);
+      //}
     }
 
     &.hidden {
