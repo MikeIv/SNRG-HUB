@@ -11,6 +11,7 @@
         :viewType="view_type"
       ></component>
     </LazyHydrate>
+    <SAbout />
     <SBannerTop />
   </main>
 </template>

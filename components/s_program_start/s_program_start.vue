@@ -80,11 +80,12 @@
                   class="s-program-start__info-bottom-additional_factoid"
                   v-if="program.duration"
                 />
+                <!-- eslint-disable max-len -->
                 <a-factoid
                   type="default"
                   :title="program.form"
                   subtitle="Форма обучения"
-                  class="s-program-start__info-bottom-additional_factoid"
+                  class="s-program-start__info-bottom-additional_factoid s-program-start__info-bottom-additional_factoid--form"
                 />
               </div>
             </div>
