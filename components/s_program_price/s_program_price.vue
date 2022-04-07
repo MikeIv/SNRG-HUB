@@ -334,6 +334,7 @@ export default {
   },
 
   async mounted() {
+    await this.$store.dispatch('AUTH/REFRESH');
     this.$emit('form-ref', this.$refs.form);
     const loadDataForm = this.$lander.storage.load('programpriceform');
     if (loadDataForm) this.fieldsData = loadDataForm;
@@ -391,7 +392,7 @@ export default {
         if (this.isEnoughtData) {
           this.sendForm();
         } else {
-          window.location.href = `//pass.synergy.ru/edit?redirectUrl${this.$route.fullPath}`;
+          window.location.href = `//pass.synergy.ru/edit?redirectUrl=${window.location.href}`;
         }
       } else if (this.checkedValidateError()) {
         this.getConfirmationCode('call', false);
