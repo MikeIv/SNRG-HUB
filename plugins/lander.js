@@ -73,11 +73,11 @@ export default (context, inject) => {
   // formData - объект из данных формы
   // setings = объект переопределения настроек
 
-  function getConfig(unit, type, land, utms) {
+  function getConfig(unit, type, land, partner, version, utms) {
     let url = '';
     if (context.store.state.landerSettings) {
       // eslint-disable-next-line max-len
-      url = `https://syn.su/lander.php?r=land/index&unit=${unit}${
+      url = `https://syn.su/lander.php?r=land/index&unit=${unit}&partner=${partner}&version=${version}${
         type ? `&type=${type}` : ''
       }&land=${land}&ignore-thanksall=1`;
 
