@@ -95,18 +95,18 @@
       @click="onFormButtonClickHandler"
     >
       <template v-if="isAuthenticated" v-slot:inputs>
-        <div class="s-program-price__authorized" v-if="user">
+        <div class="s-program-price__authorized" v-if="userInfo">
           <div class="s-program-price__authorized-row">
             <span class="s-program-price__authorized-label">Имя</span>
-            <span class="s-program-price__authorized-value">{{ user.account_information.name }}</span>
+            <span class="s-program-price__authorized-value">{{ userInfo.account_information.name }}</span>
           </div>
-          <div class="s-program-price__authorized-row" v-if="user.email">
+          <div class="s-program-price__authorized-row" v-if="userInfo.email">
             <span class="s-program-price__authorized-label">Почта</span>
-            <span class="s-program-price__authorized-value">{{ user.email.email }}</span>
+            <span class="s-program-price__authorized-value">{{ userInfo.email.email }}</span>
           </div>
-          <div class="s-program-price__authorized-row" v-if="user.phone">
+          <div class="s-program-price__authorized-row" v-if="userInfo.phone">
             <span class="s-program-price__authorized-label">Телефон</span>
-            <span class="s-program-price__authorized-value">{{ user.phone.phone }}</span>
+            <span class="s-program-price__authorized-value">{{ userInfo.phone.phone }}</span>
           </div>
         </div>
       </template>
@@ -165,19 +165,18 @@
 
 <script>
 /* eslint-disable max-len */
-import {
-  AInput, APopup, AControl, AButton,
-} from '@cwespb/synergyui';
+import { AInput, APopup, AControl, AButton } from '@cwespb/synergyui';
 import { VueTelInput } from 'vue-tel-input';
 import MFormPay from '~/components/_ui/m_form_pay/m_form_pay';
 import getConfirmationCode from '~/api/confirmationCode';
 import checkConfirmationCode from '~/api/checkConfirmationCode';
-import parseJWT from '~/assets/js/parseJWT';
 import getProductsDetails from '~/api/productsDetail';
 import './s_program_price.scss';
 import getDateFromDatesObj from '~/assets/js/getDateFromDatesObj';
 import getParseDate from '~/assets/js/getParseDate';
 import getOrganizationsDetail from '~/api/organizationsDetail';
+// eslint-disable-next-line import/no-extraneous-dependencies
+import { mapGetters } from 'vuex';
 
 const KEY_CODE = {
   backspace: 8,
@@ -278,12 +277,13 @@ export default {
 
       isPopup: false,
       paymentLink: '',
-
-      user: null,
     };
   },
 
   computed: {
+    ...mapGetters({
+      userInfo: 'auth/userInfo',
+    }),
     isPopupPrice() {
       return this.isPopup;
     },
@@ -312,10 +312,10 @@ export default {
     },
     isEnoughtData() {
       return (
-        this.user?.phone?.status === 'confirmed'
-        && Boolean(this.user.account_information?.name)
-        && Boolean(this.user.account_information?.surname)
-        && Boolean(this.user.account_information?.patronymic)
+        this.userInfo?.phone?.status === 'confirmed' &&
+        Boolean(this.userInfo.account_information?.name) &&
+        Boolean(this.userInfo.account_information?.surname) &&
+        Boolean(this.userInfo.account_information?.patronymic)
       );
     },
     btnText() {
@@ -334,22 +334,23 @@ export default {
   },
 
   async mounted() {
-    await this.$store.dispatch('AUTH/REFRESH');
+    if (this.$store.state.auth.refresh_token) {
+      await this.$store.dispatch('auth/refresh');
+    }
     this.$emit('form-ref', this.$refs.form);
     const loadDataForm = this.$lander.storage.load('programpriceform');
     if (loadDataForm) this.fieldsData = loadDataForm;
 
-    this.user = parseJWT(this.$store.state.auth.access_token);
     this.fieldsData = {
       product_id: '105734098', // TODO: После апдейта эластика - вернуть как null
-      birthdate: this.user?.account_information?.birthday ?? '01.01.1901',
+      birthdate: this.userInfo?.account_information?.birthday ?? '01.01.1901',
       is_order: 'Y',
-      gender: this.user?.account_information?.gender ?? '-',
-      name: this.user?.account_information?.name ?? '',
-      surname: this.user?.account_information?.surname ?? '',
-      patronymic: this.user?.account_information?.patronymic ?? '',
-      phone: this.user?.phone?.phone ?? '',
-      email: this.user?.email?.email ?? '',
+      gender: this.userInfo?.account_information?.gender ?? '-',
+      name: this.userInfo?.account_information?.name ?? '',
+      surname: this.userInfo?.account_information?.surname ?? '',
+      patronymic: this.userInfo?.account_information?.patronymic ?? '',
+      phone: this.userInfo?.phone?.phone ?? '',
+      email: this.userInfo?.email?.email ?? '',
       publicOffer: 'on',
     };
 
@@ -636,11 +637,11 @@ export default {
       this.phoneErrorFlag = this.validPhone === true && this.fieldsData.phone !== '';
       // eslint-disable-next-line max-len
       return (
-        this.nameErrorFlag
-        && this.surnameErrorFlag
-        && this.patronymicErrorFlag
-        && this.emailErrorFlag
-        && this.validPhone
+        this.nameErrorFlag &&
+        this.surnameErrorFlag &&
+        this.patronymicErrorFlag &&
+        this.emailErrorFlag &&
+        this.validPhone
       );
     },
     changeFocusInput() {
