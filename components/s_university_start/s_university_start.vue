@@ -149,11 +149,6 @@ export default {
       this.$store.commit('updateLander', preData.data);
     }
 
-    // versions: getData.included.landVersion ? getData.included.landVersion.value : '',
-    // partner: preData.partner ? preData.partner ,
-
-    console.log(preData.data);
-
     if (this.city) {
       const breadcrumb = {
         label: this.city.name,
