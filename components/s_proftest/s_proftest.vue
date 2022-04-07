@@ -48,9 +48,42 @@
         </div>
       </div>
 
-      <div class="s-proftest__wrapper" v-if="quizComplete">
-        <h1 class="s-proftest__title">{{ titleCards }}</h1>
-        <div class="s-proftest__cards">
+      <!--      <div class="s-proftest__wrapper" v-if="quizComplete">-->
+      <!--        <h1 class="s-proftest__title">{{ titleCards }}</h1>-->
+      <!--        <div class="s-proftest__cards">-->
+      <!--          <div class="s-proftest__card" v-for="directions in directionsList" :key="directions.id">-->
+      <!--            <nuxt-link :to="`/catalog/${directions.slug}?page=1`">-->
+      <!--              <m-card-edu-->
+      <!--                :title="directions.name"-->
+      <!--                :description="`${directions.product_count} программ`"-->
+      <!--                :iconClasses="`${baseURL}${directions.preview_image}`"-->
+      <!--              />-->
+      <!--            </nuxt-link>-->
+      <!--          </div>-->
+      <!--        </div>-->
+      <!--      </div>-->
+
+      <div v-if="quizComplete" class="s-proftest__wrapper swiper">
+        <h2 class="s-proftest__title swiper">{{ titleCards }}</h2>
+        <div class="s-proftest__swiper" :class="{ hidden: !isHidden }">
+          <swiper ref="awesomeSwiper" :options="swiperOptionB">
+            <swiper-slide
+              v-for="directions in directionsList"
+              :key="directions.id"
+              class="s-proftest__slide m-card-vertical"
+            >
+              <nuxt-link :to="`/catalog/${directions.slug}?page=1`">
+                <m-card-edu
+                  :title="directions.name"
+                  :description="`${directions.product_count} программ`"
+                  :iconClasses="`${baseURL}${directions.preview_image}`"
+                />
+              </nuxt-link>
+            </swiper-slide>
+          </swiper>
+          <div class="swiper-pagination-topics" slot="pagination"></div>
+        </div>
+        <div class="s-proftest__cards" :class="{ hidden: isHidden }">
           <div class="s-proftest__card" v-for="directions in directionsList" :key="directions.id">
             <nuxt-link :to="`/catalog/${directions.slug}?page=1`">
               <m-card-edu
@@ -61,6 +94,8 @@
             </nuxt-link>
           </div>
         </div>
+
+        <a-button v-if="isHidden" class="s-proftest__btn swiper" label="Показать все" @click="showMoreCards" />
       </div>
     </div>
   </section>
@@ -106,6 +141,34 @@ export default {
         },
         1499: {
           spaceBetween: 20,
+        },
+      },
+    },
+    isHidden: true,
+    swiperOptionB: {
+      slidesPerView: 'auto',
+      spaceBetween: 10,
+      resistance: true,
+      resistanceRatio: 0,
+      slidesPerGroup: 2,
+      initialSlide: 0,
+      observer: true,
+      freeMode: false,
+      pagination: {
+        el: '.swiper-pagination-topics',
+        clickable: true,
+      },
+      speed: 300,
+      breakpoints: {
+        767: {
+          spaceBetween: 20,
+        },
+        1440: {
+          spaceBetween: 20,
+        },
+        1499: {
+          spaceBetween: 20,
+          slidesPerGroup: 1,
         },
       },
     },
@@ -176,6 +239,9 @@ export default {
   },
 
   methods: {
+    showMoreCards() {
+      this.isHidden = !this.isHidden;
+    },
     changeHandler(value) {
       this.dataQuestion = value;
     },
