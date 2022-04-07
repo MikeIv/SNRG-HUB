@@ -1,6 +1,6 @@
 <template>
-  <section class="s-proftest">
-    <div class="l-wide">
+  <section class="s-proftest s-margin">
+    <div class="l-wide l-border-radius">
       <div class="s-proftest__wrapper">
         <div class="s-proftest__content">
           <div class="s-proftest__left-col">

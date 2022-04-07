@@ -1,5 +1,5 @@
 <template>
-  <div class="m-banner__main-wrapper">
+  <div class="m-banner__main-wrapper l-border-radius">
     <div v-if="type === 'top'" :class="typeBanner" @click="href ? onBannerClickHandler() : {}" :style="style">
       <div class="m-banner__img-wrapper" v-if="ImgSrc">
         <picture>

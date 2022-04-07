@@ -53,15 +53,9 @@
           <div class="s-footer__accord a-font_m">
             © <span>{{ year }}</span> Synergy. Все права защищены
           </div>
-          <a
-            target="_blank"
-            class="s-footer__accord a-font_m"
-            rel="noreferrer"
-            :href="policy.href"
-            v-if="policy.text !== ''"
-          >
+          <span class="s-footer__accord a-font_m" v-if="policy.text !== ''" @click="popupOptions = true">
             {{ policy.text }}
-          </a>
+          </span>
           <a
             target="_blank"
             class="s-footer__accord a-font_m"
@@ -72,12 +66,16 @@
             {{ terms.text }}
           </a>
         </div>
+        <APopup class="edu" @close="popupOptions = false" :visible="popupOptions">
+          <div class="edu__popup" v-html="policy.text_full"></div>
+        </APopup>
       </div>
     </footer>
   </div>
 </template>
 
 <script>
+import { APopup } from '@cwespb/synergyui';
 import SCatalogLanding from '~/components/marketing/s_catalog_landing/s_catalog_landing';
 import SProgramForm from '~/components/s_program_form/s_program_form';
 import getLandingDetail from '~/api/landingsDetail';
@@ -86,6 +84,7 @@ export default {
   components: {
     SCatalogLanding,
     SProgramForm,
+    APopup,
   },
 
   layout: 'empty',
@@ -112,6 +111,8 @@ export default {
       isIconInHeader: false,
       tabletIconVisible: false,
       menu: false,
+
+      popupOptions: false,
     };
   },
 
@@ -177,6 +178,7 @@ export default {
     this.year = date.getFullYear();
     this.policy.href = this.$store.state.globalData.globalData.data.privacy_policy.link;
     this.policy.text = this.$store.state.globalData.globalData.data.privacy_policy.text;
+    this.policy.text_full = this.$store.state.globalData.globalData.data.privacy_policy.text_full;
     this.phones = this.$store.state.globalData.globalData.data.contacts.phones;
     this.logoURL = this.$store.state.globalData.globalData.data.main.logo;
   },
@@ -268,6 +270,17 @@ export default {
   @media screen and (max-width: 767px) {
     align-items: flex-start;
     padding-bottom: rem(16);
+  }
+
+  .s-header__wrapper {
+    @media screen and (max-width: 1499px) {
+      padding: var(--a-padding--x5);
+    }
+
+    @media screen and (max-width: 767px) {
+      flex-wrap: wrap;
+      padding: var(--a-padding--x4);
+    }
   }
 
   &.fixed {
@@ -406,5 +419,60 @@ export default {
 
 .js-fixed-mobile {
   margin-top: rem(84);
+}
+
+.edu {
+  .a-popup__container {
+    max-width: 50%;
+    @media screen and (max-width: 991px) {
+      max-width: 80%;
+    }
+    @media screen and (max-width: 767px) {
+      max-width: 95%;
+    }
+
+    h1 {
+      margin-bottom: rem(21);
+      @media screen and (max-width: 767px) {
+        font-size: rem(14);
+      }
+    }
+    h2 {
+      margin-bottom: rem(16);
+      @media screen and (max-width: 767px) {
+        font-size: rem(12);
+      }
+    }
+
+    ul {
+      display: flex;
+      flex-direction: column;
+    }
+    p,
+    li {
+      width: 100%;
+      margin-bottom: rem(8);
+      font-size: rem(12);
+      text-align: left;
+      @media screen and (max-width: 767px) {
+        font-size: rem(10);
+      }
+    }
+
+    a {
+      margin-bottom: rem(16);
+      color: var(--a-color_link);
+      text-decoration: underline;
+      @media screen and (max-width: 767px) {
+        font-size: rem(12);
+      }
+    }
+  }
+  &__popup {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
 }
 </style>

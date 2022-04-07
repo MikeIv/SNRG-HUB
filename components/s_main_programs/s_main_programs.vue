@@ -1,6 +1,6 @@
 <template>
-  <section class="s-main-programs s-padding">
-    <div class="l-wide">
+  <section class="s-main-programs s-margin">
+    <div class="l-wide l-border-radius">
       <h2 class="s-main-programs__h2 a-font_h5">{{ title }}</h2>
       <div class="s-main-programs__row">
         <div class="s-main-programs__cards">

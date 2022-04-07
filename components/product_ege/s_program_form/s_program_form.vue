@@ -2,7 +2,6 @@
   <section class="s-program-form" ref="form" id="form" :class="formClass">
     <m-form
       :title="title"
-      :checkboxText="checkboxText"
       :btnText="btnText"
       :typeCtrl="typeCtrl"
       :typeBtn="typeBtn"
@@ -49,7 +48,8 @@
 
 <script>
 import { VueTelInput } from 'vue-tel-input';
-import { MForm, AInput } from '@cwespb/synergyui';
+import { AInput } from '@cwespb/synergyui';
+import MForm from '@/components/_ui/m_form/m_form';
 import './s_program_form.scss';
 
 export default {

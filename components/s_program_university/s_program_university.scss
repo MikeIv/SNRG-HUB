@@ -1,15 +1,6 @@
 @import '@/assets/styles/tools/mixins';
 
 .s-program-university {
-  margin: rem(20) auto;
-  padding: var(--layout-v-padding) var(--layout-h-padding);
-  background-color: var(--a-color_bg);
-  border-radius: var(--a-borderRadius--bg);
-
-  @media (max-width: 991px) {
-    margin: rem(12) auto;
-  }
-
   &__title {
     grid-column: 1;
     margin: 0 0 rem(16);

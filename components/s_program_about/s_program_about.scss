@@ -2,16 +2,6 @@
 
 .s-program-about {
   position: relative;
-  display: grid;
-  max-width: var(--layout-width);
-  margin: rem(20) auto;
-  padding: var(--layout-v-padding) var(--layout-h-padding);
-  background-color: var(--a-color_bg);
-  border-radius: var(--a-borderRadius--bg);
-
-  @media (max-width: 991px) {
-    margin-bottom: rem(12);
-  }
 
   .a-factoid-horizontal {
     &__wrapper {
@@ -30,14 +20,8 @@
   }
 
   &__row {
-    display: grid;
-    grid-gap: 0 rem(145);
-    grid-template-columns: 1fr 1fr;
     align-items: flex-start;
     min-width: 0;
-    @media screen and (max-width: 1199px) {
-      grid-gap: 0 rem(40);
-    }
     @media screen and (max-width: 767px) {
       display: block;
     }

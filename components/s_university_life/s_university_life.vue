@@ -1,16 +1,18 @@
 <template>
-  <section class="s-university-life">
-    <h2 class="s-university-life__title s-university-life__title a-font_h2" v-html="title"></h2>
-    <div class="s-university-life__items">
-      <swiper :options="swiperOptionlifeUniversity">
-        <swiper-slide
-          v-for="(item, idx) in lifeUniversityList.data"
-          :key="idx"
-          class="s-university-life__slide m-card-landing"
-        >
-          <MCardLanding :image="`${baseUrl}${item.preview_image.value}`" />
-        </swiper-slide>
-      </swiper>
+  <section class="s-university-life s-margin">
+    <div class="l-wide">
+      <h2 class="s-university-life__title s-university-life__title a-font_h2" v-html="title"></h2>
+      <div class="s-university-life__items">
+        <swiper :options="swiperOptionlifeUniversity">
+          <swiper-slide
+            v-for="(item, idx) in lifeUniversityList.data"
+            :key="idx"
+            class="s-university-life__slide m-card-landing"
+          >
+            <MCardLanding :image="`${baseUrl}${item.preview_image.value}`" />
+          </swiper-slide>
+        </swiper>
+      </div>
     </div>
   </section>
 </template>

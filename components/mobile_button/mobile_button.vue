@@ -14,7 +14,6 @@
         :title="popupOptions.form.title"
         :isVertical="popupOptions.form.isVertical"
         :btnText="popupOptions.form.btnText"
-        :checkboxText="popupOptions.form.checkboxText"
         :checked="popupOptions.form.checked"
         :submitDisabled="!validFlag"
         @submit-disabled="validFlag = $event"
@@ -59,9 +58,8 @@
 // eslint-disable-next-line
 import { mapState } from 'vuex';
 import { VueTelInput } from 'vue-tel-input';
-import {
-  AButton, APopup, MForm, AInput,
-} from '@cwespb/synergyui';
+import { AButton, APopup, AInput } from '@cwespb/synergyui';
+import MForm from '@/components/_ui/m_form/m_form';
 import './mobile_button.scss';
 
 export default {

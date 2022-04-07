@@ -1,7 +1,7 @@
 <template>
-  <section class="s-banner-top" @click="goto">
+  <section class="s-banner-top s-margin" @click="goto">
     <div class="l-wide">
-      <div class="s-banner-top__wrapper">
+      <div class="s-banner-top__wrapper l-border-radius">
         <img class="s-banner-top__image" src="@/assets/images/s-banner-top.png" alt="image" />
         <div class="s-banner-top__text">
           <h2 class="s-banner-top__title">Разместите учебное заведение или программу обучения</h2>
@@ -69,9 +69,7 @@
 
 <script>
 import { VueTelInput } from 'vue-tel-input';
-import {
-  AButton, APopup, AControl, AInput,
-} from '@cwespb/synergyui';
+import { AButton, APopup, AControl, AInput } from '@cwespb/synergyui';
 import './s_banner_top.scss';
 
 export default {

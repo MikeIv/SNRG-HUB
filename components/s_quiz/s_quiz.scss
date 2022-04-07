@@ -1,6 +1,9 @@
 @import '@/assets/styles/tools/mixins';
 .m-quiz {
   background: var(--a-color_bg--secondary);
+  .l-wide {
+    padding: 0;
+  }
   &__baner {
     position: relative;
     overflow: hidden;
@@ -44,6 +47,7 @@
     align-items: center;
     padding: rem(60) rem(100);
     background: var(--a-color_banner--lightcyan);
+    border-radius: rem(20);
     @media screen and (max-width: 1140px) {
       padding: var(--a-padding--x12) var(--a-padding--x12);
     }
@@ -120,6 +124,7 @@
   &__finish {
     padding: rem(50) rem(100);
     background: var(--a-color_banner--lightcyan);
+    border-radius: rem(20);
     @media screen and (max-width: 991px) {
       display: flex;
       align-items: center;
@@ -188,14 +193,14 @@
       }
     }
   }
+
   &__finish-sogl {
     display: flex;
+    flex-direction: row;
+    align-items: center;
     padding-right: var(--a-padding--x8);
     color: var(--a-color_text--secondary);
-    & label {
-      align-items: flex-start;
-      padding: 0;
-    }
+    cursor: pointer;
     @media screen and (max-width: 767px) {
       padding-right: 0;
       label {
@@ -204,6 +209,26 @@
           line-height: 1.2;
         }
       }
+    }
+    .a-control__label-box {
+      width: auto;
+    }
+    & label {
+      align-items: flex-start;
+      padding: 0;
+    }
+  }
+
+  &__finish-sogl-text {
+    color: var(--a-color_text);
+    line-height: rem(24);
+  }
+
+  &__finish-sogl-policy {
+    color: var(--a-color_link);
+
+    &:hover {
+      text-decoration: underline;
     }
   }
 
@@ -219,5 +244,61 @@
   }
   & .vue-tel-input.error {
     border: 2px solid var(--a-color_link);
+  }
+}
+
+.policy {
+  .a-popup__container {
+    max-width: 50%;
+    @media screen and (max-width: 991px) {
+      max-width: 80%;
+    }
+    @media screen and (max-width: 767px) {
+      max-width: 95%;
+    }
+
+    h1 {
+      margin-bottom: rem(21);
+      @media screen and (max-width: 767px) {
+        font-size: rem(14);
+      }
+    }
+    h2 {
+      margin-bottom: rem(16);
+      @media screen and (max-width: 767px) {
+        font-size: rem(12);
+      }
+    }
+
+    ul {
+      display: flex;
+      flex-direction: column;
+    }
+    p,
+    li {
+      width: 100%;
+      margin-bottom: rem(8);
+      font-size: rem(12);
+      text-align: left;
+      @media screen and (max-width: 767px) {
+        font-size: rem(10);
+      }
+    }
+
+    a {
+      margin-bottom: rem(16);
+      color: var(--a-color_link);
+      text-decoration: underline;
+      @media screen and (max-width: 767px) {
+        font-size: rem(12);
+      }
+    }
+  }
+
+  &__popup {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
   }
 }

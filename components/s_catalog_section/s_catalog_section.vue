@@ -1,65 +1,67 @@
 <template>
-  <div :class="{ 'catalog-page__section': withPaddings }" v-if="filterResponse">
-    <a-breadcrumbs v-if="withBreadcrumbs" :breadcrumbs="breadcrumbs" class="catalog-page__breadcrumbs" />
-    <h2 class="a-font_h2" v-if="title">
-      {{ title }}
-      <sup class="catalog-page__header-total a-font_L">
-        {{ totalProducts }}
-        {{ type === 'organizations' ? 'заведений' : type === 'journal' ? 'публикаций' : 'программ' }}</sup
-      >
-    </h2>
-    <s-catalog-presets :presets="presets" :has-presets="hasPresets" :filters-ids-data="filtersIdsData" />
-    <s-catalog-menu
-      :filtersMenu="filtersMenu"
-      :filterListData="filterListData"
-      :filterCheckboxData="filterCheckboxData"
-      :selectedFilters="selectedFilters"
-      :totalProducts="totalProducts"
-      :maxVisibleControls="7"
-      :key="componentMenuKey"
-      @menu-toggle="menuToggle"
-      @delete-tag="deleteTag"
-      @clear-all-filters="clearAllFilters"
-      @select-menu-filter="selectFilter"
-      @select-menu-control="selectControlFilter"
-      @switch-menu-click="switchClick"
-    />
-    <div class="catalog-page__content">
-      <s-catalog-filter
-        :filterListData="Object.entries(filterListData)"
+  <div class="s-margin" v-if="filterResponse">
+    <div class="catalog-page__section l-wide l-border-radius">
+      <a-breadcrumbs v-if="withBreadcrumbs" :breadcrumbs="breadcrumbs" class="catalog-page__breadcrumbs" />
+      <h2 class="a-font_h2" v-if="title">
+        {{ title }}
+        <sup class="catalog-page__header-total a-font_L">
+          {{ totalProducts }}
+          {{ type === 'organizations' ? 'заведений' : type === 'journal' ? 'публикаций' : 'программ' }}</sup
+        >
+      </h2>
+      <s-catalog-presets :presets="presets" :has-presets="hasPresets" :filters-ids-data="filtersIdsData" />
+      <s-catalog-menu
+        :filtersMenu="filtersMenu"
+        :filterListData="filterListData"
         :filterCheckboxData="filterCheckboxData"
-        :key="componentFilterKey"
-        :subcategories="subcategories"
-        :categories="categories"
-        :subcategoriesTitle="subcategoriesTitle"
-        :topicTitle="topicTitle"
-        :routePath="routePath"
-        @select-filter="selectFilter"
-        @switch-click="switchClick"
-      />
-      <s-catalog-product-list
-        :productList="productList"
+        :selectedFilters="selectedFilters"
         :totalProducts="totalProducts"
-        :page="page"
-        :productsPerPage="productsPerPage"
-        :key="componentProductsKey"
-        :type="type"
-        @page="page = $event"
-      >
-        <s-catalog-tags
-          :selectedFilters="selectedFilters"
-          :productList="productList"
-          :options="options"
+        :maxVisibleControls="7"
+        :key="componentMenuKey"
+        @menu-toggle="menuToggle"
+        @delete-tag="deleteTag"
+        @clear-all-filters="clearAllFilters"
+        @select-menu-filter="selectFilter"
+        @select-menu-control="selectControlFilter"
+        @switch-menu-click="switchClick"
+      />
+      <div class="catalog-page__content">
+        <s-catalog-filter
+          :filterListData="Object.entries(filterListData)"
+          :filterCheckboxData="filterCheckboxData"
+          :key="componentFilterKey"
+          :subcategories="subcategories"
+          :categories="categories"
           :subcategoriesTitle="subcategoriesTitle"
           :topicTitle="topicTitle"
-          :categories="categories"
-          :subcategories="subcategories"
-          @clear-all-filters="clearAllFilters"
-          @delete-tag="deleteTag"
-          @filters-icon-click="filtersIconClickHandler"
-          @change-sort-option="changeSortOption"
+          :routePath="routePath"
+          @select-filter="selectFilter"
+          @switch-click="switchClick"
         />
-      </s-catalog-product-list>
+        <s-catalog-product-list
+          :productList="productList"
+          :totalProducts="totalProducts"
+          :page="page"
+          :productsPerPage="productsPerPage"
+          :key="componentProductsKey"
+          :type="type"
+          @page="page = $event"
+        >
+          <s-catalog-tags
+            :selectedFilters="selectedFilters"
+            :productList="productList"
+            :options="options"
+            :subcategoriesTitle="subcategoriesTitle"
+            :topicTitle="topicTitle"
+            :categories="categories"
+            :subcategories="subcategories"
+            @clear-all-filters="clearAllFilters"
+            @delete-tag="deleteTag"
+            @filters-icon-click="filtersIconClickHandler"
+            @change-sort-option="changeSortOption"
+          />
+        </s-catalog-product-list>
+      </div>
     </div>
   </div>
 </template>
@@ -211,8 +213,8 @@ export default {
       immediate: true,
       handler() {
         if (
-          !this.filterListData?.level_ids?.values?.length
-          && !this.filterListData?.publication_type_ids?.values?.length
+          !this.filterListData?.level_ids?.values?.length &&
+          !this.filterListData?.publication_type_ids?.values?.length
         ) {
           this.parseFilterData();
         }
