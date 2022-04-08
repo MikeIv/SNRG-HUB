@@ -81,7 +81,7 @@ export default {
     return {
       rows: [
         {
-          name: 'Выберете направление',
+          name: 'Выберите направление',
           key: 'category',
           items: [],
         },
