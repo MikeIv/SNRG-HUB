@@ -93,14 +93,14 @@ export default (context, inject) => {
 
   function send(formData, setingsData, route) {
     let { unit, type } = context.store.state.landerSettings;
-    const { land } = context.store.state.landerSettings;
+    const { land, partner, version } = context.store.state.landerSettings;
 
     if (route) {
       unit = 'edu_platform';
       type = undefined;
     }
 
-    const url = getConfig(unit, type, land, context.store.state.utms);
+    const url = getConfig(unit, type, land, partner, version, context.store.state.utms);
 
     const setingSend = {
       version: '',
