@@ -13,8 +13,8 @@
           <template v-for="(item, idx) in menuAnchors" :index="idx">
             <div
               class="s-menu-main__item"
-              @mouseover="getActiveMenu(idx), getActive(idx)"
-              @click.prevent="getActiveMenu(idx), getActive(idx)"
+              @mouseover="handleMouseOver(idx)"
+              @click.prevent="handleClickActive(idx)"
               :key="idx"
             >
               <a-sidebar-item :class="{ active: item.isActive }" :label="item.anchor" />
@@ -24,7 +24,7 @@
         <div class="s-menu-main__content" :class="{ open: menuIsOpen }">
           <template v-for="(item, idx) in menuLinks">
             <div class="s-menu-main__links" :key="idx" :class="{ active: item.isActive }">
-              <div class="s-menu-main__links-top" @click="getActiveMenu">
+              <div class="s-menu-main__links-top" @click="handleClickActive">
                 <div class="s-menu-main__links-icon si-chevron-left"></div>
                 <div class="s-menu-main__links-title a-font_h4">{{ item.title }}</div>
               </div>
@@ -195,9 +195,16 @@ export default {
       this.windowWidth = window.innerWidth;
     },
 
-    getActiveMenu() {
+    handleClickActive(id) {
       if (this.windowWidth < 767) {
         this.menuIsOpen = !this.menuIsOpen;
+        this.getActive(id);
+      }
+    },
+
+    handleMouseOver(id) {
+      if (this.windowWidth > 767) {
+        this.getActive(id);
       }
     },
 
