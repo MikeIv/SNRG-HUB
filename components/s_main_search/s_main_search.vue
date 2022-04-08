@@ -21,10 +21,6 @@
                   <div class="s-main-search__item-title a-font_l-m">
                     <span>{{ item.name }}</span>
                   </div>
-                  <!--                  <div-->
-                  <!--                    class="s-main-search__item-count a-font_m"-->
-                  <!--                    v-if="item.product_count"-->
-                  <!--                  >{{ item.product_count }}</div>-->
                 </nuxt-link>
               </template>
 
@@ -36,19 +32,6 @@
                   toggleBtnClass(row);
                 "
               >
-                <!--                <AButton-->
-                <!--                  @click="-->
-                <!--                  toggleItems(row);-->
-                <!--                  toggleBtnClass(row);-->
-                <!--                "-->
-                <!--                  size="small"-->
-                <!--                  class="a-font_l"-->
-                <!--                  bgColor="none"-->
-                <!--                  addIcon="fonts-icon"-->
-                <!--                  iconPosition="left"-->
-                <!--                  :iconType="row.isOpen ? 'si-chevron-up' : 'si-chevron-down'"-->
-                <!--                  :label="row.isOpen ? 'Свернуть' : 'Еще программы'"-->
-                <!--                />-->
                 <button class="s-main-search__more-btn">
                   <div class="s-main-search__more-btn-icon">
                     <img src="~/assets/icons/more.png" alt="more" />
