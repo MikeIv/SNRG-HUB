@@ -70,7 +70,7 @@ export default {
     },
   },
   async fetch() {
-    let [expandedMethod] = this.methods;
+    let expandedMethod = this.methods;
     if (expandedMethod) {
       expandedMethod = { ...expandedMethod.data };
       expandedMethod.include = ['organization', 'levels', 'directions'];

@@ -76,7 +76,7 @@
       class="s-program-price__form"
       :class="{ authorized: isAuthenticated }"
       :title="title"
-      :iconSrc="iconSrc"
+      :iconSrc="`${baseUrl}${iconSrc}`"
       :text="text"
       :courseName="courseName"
       :years="years"
@@ -165,7 +165,9 @@
 
 <script>
 /* eslint-disable max-len */
-import { AInput, APopup, AControl, AButton } from '@cwespb/synergyui';
+import {
+  AInput, APopup, AControl, AButton,
+} from '@cwespb/synergyui';
 import { VueTelInput } from 'vue-tel-input';
 import MFormPay from '~/components/_ui/m_form_pay/m_form_pay';
 import getConfirmationCode from '~/api/confirmationCode';
@@ -277,6 +279,8 @@ export default {
 
       isPopup: false,
       paymentLink: '',
+
+      baseUrl: process.env.NUXT_ENV_S3BACKET,
     };
   },
 
@@ -312,10 +316,10 @@ export default {
     },
     isEnoughtData() {
       return (
-        this.userInfo?.phone?.status === 'confirmed' &&
-        Boolean(this.userInfo.account_information?.name) &&
-        Boolean(this.userInfo.account_information?.surname) &&
-        Boolean(this.userInfo.account_information?.patronymic)
+        this.userInfo?.phone?.status === 'confirmed'
+        && Boolean(this.userInfo.account_information?.name)
+        && Boolean(this.userInfo.account_information?.surname)
+        && Boolean(this.userInfo.account_information?.patronymic)
       );
     },
     btnText() {
@@ -341,8 +345,16 @@ export default {
     const loadDataForm = this.$lander.storage.load('programpriceform');
     if (loadDataForm) this.fieldsData = loadDataForm;
 
+    const detailsExpandedMethod = {
+      filter: {
+        slug: this.$route.params.slug,
+      },
+      include: ['offers'],
+    };
+    const detailsData = await getProductsDetails(detailsExpandedMethod);
+
     this.fieldsData = {
-      product_id: '105734098', // TODO: После апдейта эластика - вернуть как null
+      product_id: detailsData.data?.included?.offers[0]?.product_id ?? '', // TODO: После апдейта эластика - вернуть как null
       birthdate: this.userInfo?.account_information?.birthday ?? '01.01.1901',
       is_order: 'Y',
       gender: this.userInfo?.account_information?.gender ?? '-',
@@ -354,13 +366,6 @@ export default {
       publicOffer: 'on',
     };
 
-    const detailsExpandedMethod = {
-      filter: {
-        slug: this.$route.params.slug,
-      },
-      include: ['offers'],
-    };
-    const detailsData = await getProductsDetails(detailsExpandedMethod);
     this.courseName = `${detailsData.data.name}`;
     const durationFormatValue = detailsData.data.duration_format_value;
     if (durationFormatValue) {
@@ -378,13 +383,13 @@ export default {
 
     const organizationsExpandedMethod = {
       filter: {
-        product_id: this.fieldsData.product_id,
+        product_id: detailsData.organization_id,
       },
       include: ['persons', 'city', 'triggers'],
     };
     const organizationsData = await getOrganizationsDetail(organizationsExpandedMethod);
     this.text = organizationsData.data?.abbreviation_name;
-    this.iconSrc = `https://sys3.ru/marketplace/${organizationsData.data?.logo}`;
+    this.iconSrc = organizationsData.data?.logo;
   },
 
   methods: {
@@ -637,11 +642,11 @@ export default {
       this.phoneErrorFlag = this.validPhone === true && this.fieldsData.phone !== '';
       // eslint-disable-next-line max-len
       return (
-        this.nameErrorFlag &&
-        this.surnameErrorFlag &&
-        this.patronymicErrorFlag &&
-        this.emailErrorFlag &&
-        this.validPhone
+        this.nameErrorFlag
+        && this.surnameErrorFlag
+        && this.patronymicErrorFlag
+        && this.emailErrorFlag
+        && this.validPhone
       );
     },
     changeFocusInput() {
