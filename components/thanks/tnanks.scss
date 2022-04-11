@@ -73,11 +73,12 @@
     display: flex;
     width: 48%;
     min-width: rem(680);
-    min-height: rem(410);
+    height: 100%;
+    max-height: rem(639);
     @media screen and (max-width: 991px) {
       width: 50%;
       min-width: rem(360);
-      min-height: rem(250);
+      max-height: rem(250);
     }
     @media screen and (max-width: 600px) {
       position: static;
@@ -86,7 +87,7 @@
     }
 
     svg {
-      width: 100%;
+      width: auto;
     }
   }
   &__button-wrap {
