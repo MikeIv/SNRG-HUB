@@ -95,7 +95,7 @@ export default {
     '@nuxtjs/redirect-module',
     ['@synergy/synergyid-adapter', {
       namespace: 'auth',
-      brokerBackendUrl: 'https://ogm-000-2865.c4.syndev.ru/',
+      brokerBackendUrl: 'https://api.synergyhub.ru/',
       synergyIdBackendUrl: 'https://pass.synergy.ru/',
       synergyIdDomain: 'https://pass.synergy.ru/',
     },
