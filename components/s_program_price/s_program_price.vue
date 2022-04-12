@@ -1,172 +1,182 @@
 <template>
   <section class="s-program-price" ref="form" id="form-price" v-if="fieldsData.product_id">
-    <APopup :visible="isPopupPrice" @close="closePopup" type="iframe" :link="payment"> </APopup>
-    <APopup class="s-program-price__confirmation" :visible="confirmationCodePopup" @close="closeConfirmationCodePopup">
-      <div class="s-program-price__confirmation-content">
-        <h2 class="s-program-price__confirmation-title">Вам поступит звонок</h2>
-        <div class="s-program-price__confirmation-telephone">
-          <span class="s-program-price__confirmation-number">+7</span>
-          <span class="s-program-price__confirmation-number">000</span>
-          <span class="s-program-price__confirmation-number">000</span>
-          <span class="s-program-price__confirmation-number code">12</span>
-          <span class="s-program-price__confirmation-number code">34</span>
-        </div>
-        <p class="s-program-price__confirmation-text">Введите последние 4 цифры номера,<br />с которого Вам позвонят</p>
-        <div class="s-program-price__confirmation-inputs">
-          <input
-            v-for="(v, index) in values"
-            :ref="iRefs[index]"
-            :key="`${id}-${index}`"
-            :autoFocus="index === autoFocusIndex"
-            :pattern="[0 - 9]"
-            :data-id="index"
-            :value="v"
-            class="s-program-price__confirmation-input"
-            type="number"
-            min="0"
-            max="9"
-            maxlength="1"
-            size="1"
-            :required="true"
-            @input="onValueChange"
-            @focus="onFocus"
-            @keydown="onKeyDown"
+    <div class="l-wide l-border-radius">
+      <APopup :visible="isPopupPrice" @close="closePopup" type="iframe" :link="payment"> </APopup>
+      <APopup
+        class="s-program-price__confirmation"
+        :visible="confirmationCodePopup"
+        @close="closeConfirmationCodePopup"
+      >
+        <div class="s-program-price__confirmation-content">
+          <h2 class="s-program-price__confirmation-title">Вам поступит звонок</h2>
+          <div class="s-program-price__confirmation-telephone">
+            <span class="s-program-price__confirmation-number">+7</span>
+            <span class="s-program-price__confirmation-number">000</span>
+            <span class="s-program-price__confirmation-number">000</span>
+            <span class="s-program-price__confirmation-number code">12</span>
+            <span class="s-program-price__confirmation-number code">34</span>
+          </div>
+          <p class="s-program-price__confirmation-text">
+            Введите последние 4 цифры номера,<br />с которого Вам позвонят
+          </p>
+          <div class="s-program-price__confirmation-inputs">
+            <input
+              v-for="(v, index) in values"
+              :ref="iRefs[index]"
+              :key="`${id}-${index}`"
+              :autoFocus="index === autoFocusIndex"
+              :pattern="[0 - 9]"
+              :data-id="index"
+              :value="v"
+              class="s-program-price__confirmation-input"
+              type="number"
+              min="0"
+              max="9"
+              maxlength="1"
+              size="1"
+              :required="true"
+              @input="onValueChange"
+              @focus="onFocus"
+              @keydown="onKeyDown"
+            />
+          </div>
+          <a-control
+            class="s-program-price__confirmation-checkbox"
+            typeBtn="checkbox"
+            typeCtrl="checkbox"
+            title="Отправляя код, я соглашаюсь с политикой конфиденциальности и на получение рассылок"
+            labelPosition="right"
+            :checked="isChecked"
+            @change="changePolicyControl"
+          />
+
+          <span v-if="codeError" class="s-program-price__confirmation-error">Введенный код неверен или истек</span>
+
+          <span v-if="+timeLeft > 0 && !sendCode" class="s-program-price__confirmation-message">
+            Повторный запрос через {{ formattedTimeLeft }}
+          </span>
+
+          <a-button
+            v-if="sendCode"
+            id="confirmButton"
+            class="s-program-price__confirmation-button"
+            label="Отправить"
+            bgColor="accent"
+            @click="sendConfirmationCode"
+          />
+          <a-button
+            v-if="!sendCode && +timeLeft <= 0"
+            class="s-program-price__confirmation-button"
+            label="Запросить код повторно"
+            bgColor="ghost-primary"
+            @click="getConfirmationCode('call', true)"
+          />
+          <a-button
+            v-if="!sendCode && +timeLeft <= 0"
+            class="s-program-price__confirmation-button"
+            label="Получить код по СМС"
+            bgColor="none"
+            @click="getConfirmationCode('sms')"
           />
         </div>
-        <a-control
-          class="s-program-price__confirmation-checkbox"
-          typeBtn="checkbox"
-          typeCtrl="checkbox"
-          title="Отправляя код, я соглашаюсь с политикой конфиденциальности и на получение рассылок"
-          labelPosition="right"
-          :checked="isChecked"
-          @change="changePolicyControl"
-        />
-
-        <span v-if="codeError" class="s-program-price__confirmation-error">Введенный код неверен или истек</span>
-
-        <span v-if="+timeLeft > 0 && !sendCode" class="s-program-price__confirmation-message">
-          Повторный запрос через {{ formattedTimeLeft }}
-        </span>
-
-        <a-button
-          v-if="sendCode"
-          id="confirmButton"
-          class="s-program-price__confirmation-button"
-          label="Отправить"
-          bgColor="accent"
-          @click="sendConfirmationCode"
-        />
-        <a-button
-          v-if="!sendCode && +timeLeft <= 0"
-          class="s-program-price__confirmation-button"
-          label="Запросить код повторно"
-          bgColor="ghost-primary"
-          @click="getConfirmationCode('call', true)"
-        />
-        <a-button
-          v-if="!sendCode && +timeLeft <= 0"
-          class="s-program-price__confirmation-button"
-          label="Получить код по СМС"
-          bgColor="none"
-          @click="getConfirmationCode('sms')"
-        />
-      </div>
-    </APopup>
-    <m-form-pay
-      class="s-program-price__form"
-      :class="{ authorized: isAuthenticated }"
-      :title="title"
-      :iconSrc="`${baseUrl}${iconSrc}`"
-      :text="text"
-      :courseName="courseName"
-      :years="years"
-      :study="study"
-      :priceText="priceText"
-      :oldPrice="oldPrice"
-      :currentPrice="currentPrice"
-      :formTitle="isAuthenticated ? 'Оплатить' : formTitle"
-      :btnText="btnText"
-      :checkboxText="checkboxText"
-      :typeCtrl="typeCtrl"
-      :typeBtn="typeBtn"
-      :checked="checked"
-      :submitDisabled="!validFlag"
-      @submit-disabled="validFlag = $event"
-      @click="onFormButtonClickHandler"
-    >
-      <template v-if="isAuthenticated" v-slot:inputs>
-        <div class="s-program-price__authorized" v-if="userInfo">
-          <div class="s-program-price__authorized-row">
-            <span class="s-program-price__authorized-label">Имя</span>
-            <span class="s-program-price__authorized-value">{{ userInfo.account_information.name }}</span>
+      </APopup>
+      <m-form-pay
+        class="s-program-price__form"
+        :class="{ authorized: isAuthenticated }"
+        :title="title"
+        :iconSrc="`${baseUrl}${iconSrc}`"
+        :text="text"
+        :courseName="courseName"
+        :years="years"
+        :study="study"
+        :priceText="priceText"
+        :oldPrice="oldPrice"
+        :currentPrice="currentPrice"
+        :formTitle="isAuthenticated ? 'Оплатить' : formTitle"
+        :btnText="btnText"
+        :checkboxText="checkboxText"
+        :typeCtrl="typeCtrl"
+        :typeBtn="typeBtn"
+        :checked="checked"
+        :submitDisabled="!validFlag"
+        @submit-disabled="validFlag = $event"
+        @click="onFormButtonClickHandler"
+      >
+        <template v-if="isAuthenticated" v-slot:inputs>
+          <div class="s-program-price__authorized" v-if="userInfo">
+            <div class="s-program-price__authorized-row">
+              <span class="s-program-price__authorized-label">Имя</span>
+              <span class="s-program-price__authorized-value">{{ userInfo.account_information.name }}</span>
+            </div>
+            <div class="s-program-price__authorized-row" v-if="userInfo.email">
+              <span class="s-program-price__authorized-label">Почта</span>
+              <span class="s-program-price__authorized-value">{{ userInfo.email.email }}</span>
+            </div>
+            <div class="s-program-price__authorized-row" v-if="userInfo.phone">
+              <span class="s-program-price__authorized-label">Телефон</span>
+              <span class="s-program-price__authorized-value">{{ userInfo.phone.phone }}</span>
+            </div>
           </div>
-          <div class="s-program-price__authorized-row" v-if="userInfo.email">
-            <span class="s-program-price__authorized-label">Почта</span>
-            <span class="s-program-price__authorized-value">{{ userInfo.email.email }}</span>
-          </div>
-          <div class="s-program-price__authorized-row" v-if="userInfo.phone">
-            <span class="s-program-price__authorized-label">Телефон</span>
-            <span class="s-program-price__authorized-value">{{ userInfo.phone.phone }}</span>
-          </div>
-        </div>
-      </template>
-      <template v-else v-slot:inputs>
-        <a-input
-          class="m-form__input"
-          :class="{ 'error-name': !surnameErrorFlag }"
-          @input="validFormData"
-          v-model="fieldsData.surname"
-          placeholder="Фамилия"
-          @focus="changeFocusInput"
-          @blur="changeBlurInput"
-        />
-        <a-input
-          class="m-form__input"
-          :class="{ 'error-name': !nameErrorFlag }"
-          @input="validFormData"
-          v-model="fieldsData.name"
-          placeholder="Имя"
-          @focus="changeFocusInput"
-          @blur="changeBlurInput"
-        />
-        <a-input
-          class="m-form__input"
-          :class="{ 'error-name': !patronymicErrorFlag }"
-          @input="validFormData"
-          v-model="fieldsData.patronymic"
-          placeholder="Отчество (при наличии)"
-          @focus="changeFocusInput"
-          @blur="changeBlurInput"
-        />
-        <a-input
-          class="m-form__input"
-          :class="{ 'error-mail': !emailErrorFlag }"
-          v-model="fieldsData.email"
-          @input="validFormData"
-          placeholder="Электронная почта"
-          @focus="changeFocusInput"
-          @blur="changeBlurInput"
-        />
-        <vue-tel-input
-          class="m-form__input"
-          :class="{ error: !phoneErrorFlag }"
-          v-bind="vueTelOpts"
-          type="phone"
-          placeholder="Телефон"
-          v-model="fieldsData.phone"
-          @input="validatePhone"
-          @focus="changeFocusInput"
-          @blur="changeBlurInput"
-        />
-      </template>
-    </m-form-pay>
+        </template>
+        <template v-else v-slot:inputs>
+          <a-input
+            class="m-form__input"
+            :class="{ 'error-name': !surnameErrorFlag }"
+            @input="validFormData"
+            v-model="fieldsData.surname"
+            placeholder="Фамилия"
+            @focus="changeFocusInput"
+            @blur="changeBlurInput"
+          />
+          <a-input
+            class="m-form__input"
+            :class="{ 'error-name': !nameErrorFlag }"
+            @input="validFormData"
+            v-model="fieldsData.name"
+            placeholder="Имя"
+            @focus="changeFocusInput"
+            @blur="changeBlurInput"
+          />
+          <a-input
+            class="m-form__input"
+            :class="{ 'error-name': !patronymicErrorFlag }"
+            @input="validFormData"
+            v-model="fieldsData.patronymic"
+            placeholder="Отчество (при наличии)"
+            @focus="changeFocusInput"
+            @blur="changeBlurInput"
+          />
+          <a-input
+            class="m-form__input"
+            :class="{ 'error-mail': !emailErrorFlag }"
+            v-model="fieldsData.email"
+            @input="validFormData"
+            placeholder="Электронная почта"
+            @focus="changeFocusInput"
+            @blur="changeBlurInput"
+          />
+          <vue-tel-input
+            class="m-form__input"
+            :class="{ error: !phoneErrorFlag }"
+            v-bind="vueTelOpts"
+            type="phone"
+            placeholder="Телефон"
+            v-model="fieldsData.phone"
+            @input="validatePhone"
+            @focus="changeFocusInput"
+            @blur="changeBlurInput"
+          />
+        </template>
+      </m-form-pay>
+    </div>
   </section>
 </template>
 
 <script>
 /* eslint-disable max-len */
-import { AInput, APopup, AControl, AButton } from '@cwespb/synergyui';
+import {
+  AInput, APopup, AControl, AButton,
+} from '@cwespb/synergyui';
 import { VueTelInput } from 'vue-tel-input';
 import MFormPay from '~/components/_ui/m_form_pay/m_form_pay';
 import getConfirmationCode from '~/api/confirmationCode';
@@ -315,10 +325,10 @@ export default {
     },
     isEnoughtData() {
       return (
-        this.userInfo?.phone?.status === 'confirmed' &&
-        Boolean(this.userInfo.account_information?.name) &&
-        Boolean(this.userInfo.account_information?.surname) &&
-        Boolean(this.userInfo.account_information?.patronymic)
+        this.userInfo?.phone?.status === 'confirmed'
+        && Boolean(this.userInfo.account_information?.name)
+        && Boolean(this.userInfo.account_information?.surname)
+        && Boolean(this.userInfo.account_information?.patronymic)
       );
     },
     btnText() {
@@ -641,11 +651,11 @@ export default {
       this.phoneErrorFlag = this.validPhone === true && this.fieldsData.phone !== '';
       // eslint-disable-next-line max-len
       return (
-        this.nameErrorFlag &&
-        this.surnameErrorFlag &&
-        this.patronymicErrorFlag &&
-        this.emailErrorFlag &&
-        this.validPhone
+        this.nameErrorFlag
+        && this.surnameErrorFlag
+        && this.patronymicErrorFlag
+        && this.emailErrorFlag
+        && this.validPhone
       );
     },
     changeFocusInput() {
