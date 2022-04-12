@@ -74,6 +74,7 @@ export default (context, inject) => {
   // setings = объект переопределения настроек
 
   function getConfig(unit, type, land, partner, version, utms) {
+    console.log('---', version);
     let url = '';
     if (context.store.state.landerSettings) {
       // eslint-disable-next-line max-len
