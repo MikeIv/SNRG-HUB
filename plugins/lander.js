@@ -74,7 +74,6 @@ export default (context, inject) => {
   // setings = объект переопределения настроек
 
   function getConfig(unit, type, land, partner, version, utms) {
-    console.log('---', version);
     let url = '';
     if (context.store.state.landerSettings) {
       // eslint-disable-next-line max-len
@@ -104,7 +103,6 @@ export default (context, inject) => {
     const url = getConfig(unit, type, land, partner, version, context.store.state.utms);
 
     const setingSend = {
-      version: '',
       redirectUrl: route ? `${route}thanks` : context.store.state.landerSettings.redirectUrl,
     };
 
