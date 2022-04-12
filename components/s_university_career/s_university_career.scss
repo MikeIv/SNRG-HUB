@@ -1,16 +1,7 @@
 @import '@/assets/styles/tools/mixins';
 .s-university-career {
   position: relative;
-  overflow: hidden;
   width: 100%;
-  margin: rem(20) auto;
-  padding: var(--layout-v-padding) var(--layout-h-padding);
-  background-color: var(--a-color_bg);
-  border-radius: var(--a-borderRadius--bg);
-
-  @media (max-width: 991px) {
-    margin: rem(12) auto;
-  }
 
   .a-factoid-line__wrapper {
     @media screen and (max-width: 1024px) {
