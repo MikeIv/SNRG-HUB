@@ -70,9 +70,9 @@ export default {
     },
   },
   async fetch() {
-    let expandedMethod = this.methods;
+    let expandedMethod = this.methods[0];
     if (expandedMethod) {
-      expandedMethod = { ...expandedMethod.data };
+      expandedMethod = expandedMethod.data;
       expandedMethod.include = ['organization', 'levels', 'directions'];
       const productsData = await getProductsList(expandedMethod);
       this.productsList = productsData.data;
