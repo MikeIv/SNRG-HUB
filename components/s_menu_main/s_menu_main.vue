@@ -42,7 +42,7 @@
                     <nuxt-link
                       v-if="idx < 3"
                       :to="product.link"
-                      @click.native="changeIsOpen"
+                      @click="changeIsOpen"
                       class="s-menu-main__link-product"
                       itemprop="url"
                     >
@@ -52,7 +52,7 @@
                   <nuxt-link
                     v-if="linkItem.products.length > 3"
                     :to="linkItem.link"
-                    @click.native="changeIsOpen"
+                    @click="changeIsOpen"
                     class="s-menu-main__link-more"
                   >
                     <div class="s-menu-main__link-more--text a-font_l">Смотреть все</div>
