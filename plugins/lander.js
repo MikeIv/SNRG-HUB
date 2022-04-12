@@ -73,11 +73,11 @@ export default (context, inject) => {
   // formData - объект из данных формы
   // setings = объект переопределения настроек
 
-  function getConfig(unit, type, land, utms) {
+  function getConfig(unit, type, land, partner, version, utms) {
     let url = '';
     if (context.store.state.landerSettings) {
       // eslint-disable-next-line max-len
-      url = `https://syn.su/lander.php?r=land/index&unit=${unit}${
+      url = `https://syn.su/lander.php?r=land/index&unit=${unit}&partner=${partner}&version=${version}${
         type ? `&type=${type}` : ''
       }&land=${land}&ignore-thanksall=1`;
 
@@ -93,17 +93,16 @@ export default (context, inject) => {
 
   function send(formData, setingsData, route) {
     let { unit, type } = context.store.state.landerSettings;
-    const { land } = context.store.state.landerSettings;
+    const { land, partner, version } = context.store.state.landerSettings;
 
     if (route) {
       unit = 'edu_platform';
       type = undefined;
     }
 
-    const url = getConfig(unit, type, land, context.store.state.utms);
+    const url = getConfig(unit, type, land, partner, version, context.store.state.utms);
 
     const setingSend = {
-      version: '',
       redirectUrl: route ? `${route}thanks` : context.store.state.landerSettings.redirectUrl,
     };
 

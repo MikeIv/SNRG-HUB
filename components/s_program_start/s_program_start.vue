@@ -110,9 +110,7 @@
 </template>
 
 <script>
-import {
-  AFactoid, AButton, MSocialShare, MCard,
-} from '@cwespb/synergyui';
+import { AFactoid, AButton, MSocialShare, MCard } from '@cwespb/synergyui';
 import './s_program_start.scss';
 import getProductsDetail from '~/api/productsDetail';
 import getParseDate from '~/assets/js/getParseDate';
@@ -209,11 +207,12 @@ export default {
     let globalHref = '/catalog';
     let citylHref = '';
 
-    if (getData.land) {
-      this.$store.commit('updateLander', getData);
-    } else {
-      this.$store.commit('updateLander', getData.included.organization);
-    }
+    const landerInfo = {
+      version: getData.included.landVersion ? getData.included.landVersion.value : '',
+      partner: getData.partner ? getData.partner : getData.included.organization.partner,
+    };
+
+    this.$store.commit('updateLander', landerInfo);
 
     if (this.city) {
       citylHref += `?&city_ids=${this.city.id}`;
@@ -305,8 +304,8 @@ export default {
       if (
         /Android|webOS|iPhone|iPad|iPod|BlackBerry|BB|PlayBook|IEMobile|Windows Phone|Kindle|Silk|Opera Mini/i.test(
           navigator.userAgent,
-        )
-        && navigator.share
+        ) &&
+        navigator.share
       ) {
         navigator.share({
           title: this.program.title,
