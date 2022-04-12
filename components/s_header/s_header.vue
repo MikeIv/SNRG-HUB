@@ -59,9 +59,16 @@
                 :disabled="disabledSearch"
               />
             </div>
-            <a href="//pass.synergy.ru" target="_blank" class="s-header__login" rel="noreferrer" v-if="false">
-              <a-button label="Войти" bgColor="ghost-accept"></a-button>
-            </a>
+            <div class="s-header__login">
+              <AButton
+                size="medium"
+                label="Войти"
+                bgColor="accent"
+                @click="login()"
+                v-if="!this.$store.getters['auth/isAuthenticated']"
+              />
+              <AButton size="medium" label="Выйти" bgColor="accent" @click="logout()" v-else />
+            </div>
           </div>
           <template v-if="catalog && isScrolled">
             <div class="s-header__catalog-icons">
@@ -298,6 +305,14 @@ export default {
 
     getQuiz() {
       return this.$store.state.quizInfo;
+    },
+
+    login() {
+      this.$store.dispatch('auth/login');
+    },
+
+    logout() {
+      this.$store.dispatch('auth/logout');
     },
   },
 };

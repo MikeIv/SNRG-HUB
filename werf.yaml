@@ -1,4 +1,6 @@
 {{ $_ := env "CI_PROJECT_PATH_SLUG"  | trunc 49 | trimSuffix "-" | set . "ProjectName" }}
+{{ $_ := env "NPM_REGISTRY_GROUP" | set . "NpmRegistryGroup" }}
+{{ $_ := env "NPM_AUTH" | set . "NpmAuth" }}
 {{ $_ := env "ENV_NAME_FULL"  | trunc 49 | trimSuffix "-" | set . "EnvName" }}
 ---
 configVersion: 1
@@ -45,6 +47,7 @@ shell:
   - apk --update add bash curl
   install:
   - cd /app
+  - echo -e "@synergy:registry={{ .NpmRegistryGroup }}\n_auth={{ .NpmAuth }}" >.npmrc
   - yarn install
   beforeSetup:
   - cd /app

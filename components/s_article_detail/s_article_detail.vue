@@ -195,8 +195,8 @@ export default {
       if (
         /Android|webOS|iPhone|iPad|iPod|BlackBerry|BB|PlayBook|IEMobile|Windows Phone|Kindle|Silk|Opera Mini/i.test(
           navigator.userAgent,
-        ) &&
-        navigator.share
+        )
+        && navigator.share
       ) {
         navigator.share({
           title: this.title,

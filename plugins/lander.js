@@ -4,7 +4,7 @@ export default (context, inject) => {
   // Объект набора валидаторов
   const typesValid = {
     email(value) {
-      return /^([a-z0-9_-]+\.)*[a-z0-9_-]+@[a-z0-9_-]+(\.[a-z0-9_-]+)*\.[a-z]{2,6}$/.test(value.toLowerCase());
+      return /^([a-z0-9_-]+\.)*[a-z0-9_-]+@[a-z0-9_-]+(\.[a-z0-9_-]+)*\.[a-z]{2,6}$/.test(value?.toLowerCase());
     },
   };
 
@@ -73,11 +73,11 @@ export default (context, inject) => {
   // formData - объект из данных формы
   // setings = объект переопределения настроек
 
-  function getConfig(unit, type, land, utms) {
+  function getConfig(unit, type, land, partner, version, utms) {
     let url = '';
     if (context.store.state.landerSettings) {
       // eslint-disable-next-line max-len
-      url = `https://syn.su/lander.php?r=land/index&unit=${unit}${
+      url = `https://syn.su/lander.php?r=land/index&unit=${unit}&partner=${partner}&version=${version}${
         type ? `&type=${type}` : ''
       }&land=${land}&ignore-thanksall=1`;
 
@@ -93,21 +93,20 @@ export default (context, inject) => {
 
   function send(formData, setingsData, route) {
     let { unit, type } = context.store.state.landerSettings;
-    const { land } = context.store.state.landerSettings;
+    const { land, partner, version } = context.store.state.landerSettings;
 
     if (route) {
       unit = 'edu_platform';
       type = undefined;
     }
 
-    const url = getConfig(unit, type, land, context.store.state.utms);
+    const url = getConfig(unit, type, land, partner, version, context.store.state.utms);
 
     const setingSend = {
-      version: '',
       redirectUrl: route ? `${route}thanks` : context.store.state.landerSettings.redirectUrl,
     };
 
-    return new Promise(() => {
+    return new Promise((resolve, reject) => {
       const data = new FormData();
 
       // Получение и переназначение настроект
@@ -141,7 +140,7 @@ export default (context, inject) => {
       data.append('personalDataAgree', 'on');
       data.append(
         'mergelead',
-        `id_${Math.random().toString(36).substr(2, 9)} ${Math.round(new Date().getTime() / 1000)}`,
+        `id_${Math.random().toString(36).substr(2, 9)}${Math.round(new Date().getTime() / 1000)}`,
       );
       data.append('url_location', document.location.href);
       data.append('entry_point', document.location.host);
@@ -155,11 +154,15 @@ export default (context, inject) => {
       })
         .then((response) => {
           if (response.status === 200) {
+            resolve({
+              formData: data,
+              response,
+            });
             context.app.router.push({ path: setingSend.redirectUrl });
           }
         })
         .catch((error) => {
-          console.log(error);
+          reject(error);
         });
     });
   }
