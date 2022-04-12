@@ -143,7 +143,6 @@ export default {
     const expandedMethodCategories = this.methods[1].data;
     // const levelsList = await getLevelsList(expandedMethodList);
     const categoriesList = await getCatalogCategoriesList(expandedMethodCategories);
-    console.log('categoriesList', categoriesList);
     this.rows[0].items.push(...categoriesList);
     // this.rows[1].items.push(...levelsList);
   },

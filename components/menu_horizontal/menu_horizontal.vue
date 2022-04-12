@@ -8,7 +8,6 @@
               item.filter_by,
             )[0][1].toString()}`"
             class="a-font_m menu-horizontal__link"
-            @click.native="changeIsOpen"
             itemprop="url"
           >
             {{ item.anchor }}
@@ -49,14 +48,6 @@ export default {
   },
   async fetch() {
     this.navLinks = await getMenuData();
-  },
-
-  methods: {
-    changeIsOpen() {
-      if (this.isOpen) {
-        this.$emit('change-is-open');
-      }
-    },
   },
 };
 </script>
