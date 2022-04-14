@@ -4,11 +4,8 @@
   position: relative;
   overflow: hidden;
   width: 100%;
-  margin: rem(20) auto;
-  border-radius: var(--a-borderRadius--bg);
-
-  @media screen and (max-width: 991px) {
-    margin: rem(12) auto;
+  .l-wide {
+    padding: 0;
   }
   .a-breadcrumbs-item__wrapper {
     display: none;
@@ -20,6 +17,7 @@
 
   &__wrapper {
     position: relative;
+    overflow: hidden;
     padding: var(--layout-v-padding) var(--layout-h-padding);
   }
 
@@ -162,9 +160,15 @@
         .a-factoid-default {
           &__wrapper {
             flex: 1;
-            margin-right: 40px;
+            margin-right: rem(40);
             @media screen and (max-width: 1119px) {
-              margin-right: 20px;
+              margin-right: rem(20);
+            }
+            @media screen and (max-width: 500px) {
+              margin-right: rem(40);
+            }
+            @media screen and (max-width: 360px) {
+              margin-right: rem(20);
             }
             &:last-child {
               margin-right: 0;
@@ -186,6 +190,16 @@
 
           &__subtitle {
             white-space: nowrap;
+          }
+        }
+
+        &_factoid {
+          &--form {
+            .a-factoid-default__title {
+              @media screen and (max-width: 580px) {
+                white-space: break-spaces;
+              }
+            }
           }
         }
       }

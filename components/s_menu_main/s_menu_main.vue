@@ -1,6 +1,6 @@
 <template>
   <div class="s-menu-main" :class="{ open: isOpen }">
-    <div class="l-default">
+    <div class="l-wide">
       <div class="s-menu-main__box">
         <div class="s-menu-main__items">
           <div class="s-menu-main__location">
@@ -13,8 +13,8 @@
           <template v-for="(item, idx) in menuAnchors" :index="idx">
             <div
               class="s-menu-main__item"
-              @mouseover="getActive(idx)"
-              @click.prevent="getActiveMenu(idx), getActive(idx)"
+              @mouseover="handleMouseOver(idx)"
+              @click.prevent="handleClickActive(idx)"
               :key="idx"
             >
               <a-sidebar-item :class="{ active: item.isActive }" :label="item.anchor" />
@@ -24,7 +24,7 @@
         <div class="s-menu-main__content" :class="{ open: menuIsOpen }">
           <template v-for="(item, idx) in menuLinks">
             <div class="s-menu-main__links" :key="idx" :class="{ active: item.isActive }">
-              <div class="s-menu-main__links-top" @click="getActiveMenu">
+              <div class="s-menu-main__links-top" @click="handleClickActive">
                 <div class="s-menu-main__links-icon si-chevron-left"></div>
                 <div class="s-menu-main__links-title a-font_h4">{{ item.title }}</div>
               </div>
@@ -40,9 +40,9 @@
                 <div class="s-menu-main__link-list" itemscope itemtype="http://schema.org/SiteNavigationElement">
                   <div v-for="(product, idx) in linkItem.products" :index="idx" :key="idx">
                     <nuxt-link
-                      v-if="idx < 5"
+                      v-if="idx < 3"
                       :to="product.link"
-                      @click.native="changeIsOpen"
+                      @click="changeIsOpen"
                       class="s-menu-main__link-product"
                       itemprop="url"
                     >
@@ -50,9 +50,9 @@
                     </nuxt-link>
                   </div>
                   <nuxt-link
-                    v-if="linkItem.products.length > 5"
+                    v-if="linkItem.products.length > 3"
                     :to="linkItem.link"
-                    @click.native="changeIsOpen"
+                    @click="changeIsOpen"
                     class="s-menu-main__link-more"
                   >
                     <div class="s-menu-main__link-more--text a-font_l">Смотреть все</div>
@@ -63,7 +63,7 @@
             </div>
           </template>
         </div>
-        <nuxt-link :to="banner.link" v-if="banner.type !== ''">
+        <nuxt-link class="s-menu-main__banner" :to="banner.link" v-if="banner.type !== ''">
           <m-banner
             :type="banner.type"
             :titleTxt="banner.titleText"
@@ -195,9 +195,16 @@ export default {
       this.windowWidth = window.innerWidth;
     },
 
-    getActiveMenu() {
+    handleClickActive(id) {
       if (this.windowWidth < 767) {
         this.menuIsOpen = !this.menuIsOpen;
+        this.getActive(id);
+      }
+    },
+
+    handleMouseOver(id) {
+      if (this.windowWidth > 767) {
+        this.getActive(id);
       }
     },
 

@@ -18,6 +18,8 @@ export const state = () => ({
     unit: '',
     land: '',
     redirectUrl: '',
+    partner: '',
+    version: '',
   },
   isVisible: true,
 });
@@ -51,8 +53,8 @@ export const mutations = {
     Object.keys(info).forEach((key) => {
       if (Object.prototype.hasOwnProperty.call(state.landerSettings, key) && info[key]) {
         state.landerSettings[key] = info[key];
-        if (key === 'type') {
-          state.landerSettings[key] = landerConfig[key];
+        if (key === 'redirectUrl') {
+          state.landerSettings[key] = '';
         }
       }
     });

@@ -2,33 +2,11 @@
 
 .s-partners {
   &.main {
-    padding: rem(20) 0;
     background-color: var(--a-color_bg--secondary);
   }
 
-  &.other {
-    margin-bottom: rem(20);
-    padding: rem(48) 0;
-
-    @media (max-width: 991px) {
-      margin-bottom: rem(12);
-      padding: var(--a-padding--x8) 0;
-    }
-
-    @media (max-width: 575px) {
-      padding: var(--a-padding--x6) 0;
-    }
-  }
-
   &__box {
-    padding: rem(48) 0;
     background: var(--a-color_bg);
-    border-radius: rem(20);
-    box-shadow: 0 rem(2) rem(10) rgba(235, 235, 235, 0.6);
-
-    @media (max-width: 768px) {
-      padding: rem(32) 0;
-    }
   }
 
   &__swiper {
@@ -39,6 +17,7 @@
     }
 
     .swiper-container {
+      overflow: visible;
       height: auto;
       padding: rem(1) rem(40);
 
@@ -74,20 +53,17 @@
   &__title {
     &.main {
       margin-bottom: rem(24);
-      padding: 0 rem(40);
       color: var(--a-color_text);
       font-size: rem(28);
       line-height: rem(36);
 
       @media (max-width: 768px) {
         margin-bottom: rem(20);
-        padding: 0 rem(30);
         font-size: rem(20);
         line-height: rem(30);
       }
 
       @media (max-width: 575px) {
-        padding: 0 rem(16);
         line-height: rem(24);
       }
     }
@@ -162,14 +138,5 @@
         margin: 0 auto;
       }
     }
-  }
-}
-
-.organization-page,
-.product-page {
-  .s-partners {
-    padding: var(--layout-v-padding) var(--layout-h-padding);
-    background: var(--a-color_bg);
-    border-radius: var(--a-borderRadius--bg);
   }
 }

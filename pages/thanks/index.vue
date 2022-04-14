@@ -1,5 +1,5 @@
 <template>
-  <div class="thanks__wrapper">
+  <div class="payment-thanks__wrapper">
     <SHeader @search="search = $event" />
     <SProductSearch v-if="search" :search="search" />
     <Thanks v-else />

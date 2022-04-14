@@ -1,18 +1,13 @@
 <template>
-  <section class="s-banner-top">
+  <section class="s-banner-top s-margin" @click="goto">
     <div class="l-wide">
-      <div class="s-banner-top__wrapper">
+      <div class="s-banner-top__wrapper l-border-radius">
         <img class="s-banner-top__image" src="@/assets/images/s-banner-top.png" alt="image" />
         <div class="s-banner-top__text">
           <h2 class="s-banner-top__title">Разместите учебное заведение или программу обучения</h2>
           <h4 class="s-banner-top__subtitle">Попробуйте все инструменты бесплатно</h4>
         </div>
-        <a-button
-          class="s-banner-top__button"
-          bgColor="accent"
-          label="Оставить заявку"
-          @click="showAddRequestPopupHandler"
-        />
+        <a-button class="s-banner-top__button" bgColor="accent" label="Оставить заявку" @click="goto" />
       </div>
     </div>
     <a-popup class="s-banner-top__popup" :visible="addRequestPopup" @close="addRequestPopup = false">
@@ -74,9 +69,7 @@
 
 <script>
 import { VueTelInput } from 'vue-tel-input';
-import {
-  AButton, APopup, AControl, AInput,
-} from '@cwespb/synergyui';
+import { AButton, APopup, AControl, AInput } from '@cwespb/synergyui';
 import './s_banner_top.scss';
 
 export default {
@@ -171,6 +164,10 @@ export default {
       };
 
       this.$lander.send({ ...this.fieldsData, ...this.comments, ...this.land });
+    },
+
+    goto() {
+      window.location.href = 'https://synergyhub.ru/campus/';
     },
   },
 };

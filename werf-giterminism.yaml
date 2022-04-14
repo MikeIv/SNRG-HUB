@@ -4,3 +4,5 @@ config:
     allowEnvVariables:
       - CI_PROJECT_PATH_SLUG
       - ENV_NAME_FULL
+      - NPM_REGISTRY_GROUP
+      - NPM_AUTH

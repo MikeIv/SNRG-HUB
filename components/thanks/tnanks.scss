@@ -7,6 +7,7 @@
   flex: 1;
   align-items: center;
   width: 100%;
+  background: var(--a-color_bg);
   @media screen and (max-width: 767px) {
     padding: rem(32) 0;
   }
@@ -17,6 +18,7 @@
   .l-wide {
     width: 100%;
     margin: auto;
+    background: none;
     @media screen and (max-width: 600px) {
       margin: unset;
       margin-bottom: rem(19);
@@ -71,14 +73,21 @@
     display: flex;
     width: 48%;
     min-width: rem(680);
+    height: 100%;
+    max-height: rem(639);
     @media screen and (max-width: 991px) {
       width: 50%;
       min-width: rem(360);
+      max-height: rem(250);
     }
     @media screen and (max-width: 600px) {
       position: static;
       width: 70%;
       margin-left: auto;
+    }
+
+    svg {
+      width: auto;
     }
   }
   &__button-wrap {

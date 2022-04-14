@@ -16,10 +16,8 @@
 
 .catalog-page {
   &__section {
+    margin: 0 auto;
     &-lp {
-      margin-bottom: rem(20);
-      padding: rem(32) 0 0 0;
-
       .a-popup {
         .m-form__input.error-name input,
         .m-form__input.error-mail input {

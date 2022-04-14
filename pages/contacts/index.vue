@@ -1,5 +1,5 @@
 <template>
-  <div class="l-default">
+  <div>
     <LazyHydrate v-for="section in sections" :key="section" when-visible>
       <component :is="section"></component>
     </LazyHydrate>
@@ -93,20 +93,3 @@ export default {
   },
 };
 </script>
-
-<style lang="scss" scoped>
-section {
-  padding: var(--a-padding--x15) var(--a-padding--x20);
-  @media screen and (max-width: 991px) {
-    padding: var(--a-padding--x10) var(--a-padding--x8);
-  }
-  @media screen and (max-width: 767px) {
-    padding: var(--a-padding--x10) var(--a-padding--x4);
-  }
-}
-.l-default {
-  @media screen and (max-width: 767px) {
-    padding: 0;
-  }
-}
-</style>

@@ -1,26 +1,14 @@
 @import '@/assets/styles/tools/mixins';
 
 .s-search-home {
-  padding: rem(48) 0;
-  @media screen and (max-width: 991px) {
-    padding: rem(24) 0;
-    .l-wide {
-      padding: 0;
-    }
-  }
-  @media screen and (max-width: 680px) {
-    margin-bottom: rem(40);
+  .l-wide {
     padding: 0;
   }
   &__wrapper {
     display: flex;
     background: #dae4ff; //TODO: add global vars (UI-KIT v2.0)
-    border-radius: rem(20); //TODO: add global vars (UI-KIT v2.0)
     @media screen and (max-width: 680px) {
       flex-direction: column;
-    }
-    @media screen and (max-width: 680px) {
-      border-radius: 0;
     }
   }
   &__infoblock {

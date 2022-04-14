@@ -1,50 +1,52 @@
 <template>
-  <section class="s-contacts-form" ref="form">
-    <m-form
-      :isVertical="true"
-      titleClass="a-font_h2"
-      typeCtrl="checkbox"
-      typeBtn="checkbox"
-      :title="title"
-      :subtitle="subtitle"
-      :checked="true"
-      :submitDisabled="!validFlag"
-      :btnText="buttonText"
-      :checkboxText="checkboxText"
-      @submit-disabled="validFlag = $event"
-      @click="sendForm"
-    >
-      <template v-slot:inputs>
-        <a-input
-          class="m-form__input"
-          :class="{ 'error-name': !nameErrorFlag }"
-          @input="validFormData"
-          v-model="fieldsData.name"
-          placeholder="Имя"
-        />
+  <section class="s-contacts-form s-margin" ref="form">
+    <div class="l-wide l-border-radius">
+      <m-form
+        :isVertical="true"
+        titleClass="a-font_h2"
+        typeCtrl="checkbox"
+        typeBtn="checkbox"
+        :title="title"
+        :subtitle="subtitle"
+        :checked="true"
+        :submitDisabled="!validFlag"
+        :btnText="buttonText"
+        @submit-disabled="validFlag = $event"
+        @click="sendForm"
+      >
+        <template v-slot:inputs>
+          <a-input
+            class="m-form__input"
+            :class="{ 'error-name': !nameErrorFlag }"
+            @input="validFormData"
+            v-model="fieldsData.name"
+            placeholder="Имя"
+          />
 
-        <a-input
-          class="m-form__input"
-          :class="{ 'error-mail': !emailErrorFlag }"
-          @input="validFormData"
-          v-model="fieldsData.email"
-          placeholder="Почта"
-        />
+          <a-input
+            class="m-form__input"
+            :class="{ 'error-mail': !emailErrorFlag }"
+            @input="validFormData"
+            v-model="fieldsData.email"
+            placeholder="Почта"
+          />
 
-        <a-input
-          class="m-form__input"
-          type="textarea"
-          @input="validFormData"
-          v-model="fieldsData.question"
-          placeholder="Ваш вопрос"
-        />
-      </template>
-    </m-form>
+          <a-input
+            class="m-form__input"
+            type="textarea"
+            @input="validFormData"
+            v-model="fieldsData.question"
+            placeholder="Ваш вопрос"
+          />
+        </template>
+      </m-form>
+    </div>
   </section>
 </template>
 
 <script>
-import { MForm, AInput } from '@cwespb/synergyui';
+import { AInput } from '@cwespb/synergyui';
+import MForm from '@/components/_ui/m_form/m_form';
 import sendContactForm from '~/api/sendContactForm';
 
 import './s_contacts_form.scss';

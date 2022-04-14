@@ -1,16 +1,7 @@
 @import '@/assets/styles/tools/mixins';
 
 .s-program-questions {
-  margin-bottom: rem(20);
-  background: var(--a-color_bg);
-  border-radius: var(--a-borderRadius--bg);
-
-  @media (max-width: 991px) {
-    margin-bottom: rem(12);
-  }
   &__wrapper {
-    padding: var(--a-padding--x15) var(--a-padding--x20);
-
     @media screen and (max-width: 991px) {
       padding: var(--a-padding--x10) var(--a-padding--x8);
     }

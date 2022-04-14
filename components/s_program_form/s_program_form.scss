@@ -3,15 +3,12 @@
 .s-program-form {
   position: relative;
   width: 100%;
-  margin: rem(20) auto;
-  padding: var(--layout-v-padding) var(--layout-h-padding);
-  background-color: var(--a-color_corporate--blue);
-  border-radius: var(--a-borderRadius--bg);
-
-  @media screen and (max-width: 991px) {
-    margin: rem(12) auto;
+  .l-wide {
+    padding: 0;
   }
-
+  .m-form {
+    border-radius: var(--a-borderRadius--bg);
+  }
   .m-form__input.error-name input,
   .m-form__input.error-mail input {
     border: 2px solid var(--a-color_link);

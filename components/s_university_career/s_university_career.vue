@@ -1,15 +1,17 @@
 <template>
-  <section class="s-university-career">
-    <div class="s-university-career__wrap">
-      <h2 class="s-university-career__title a-font_h2" v-html="title"></h2>
-      <div class="s-university-career__items">
-        <AFactoids
-          v-for="factoid in factoids"
-          :key="factoid.id"
-          :type="factoid.type"
-          :title="factoid.title"
-          :lineNumber="factoid.lineNumber"
-        />
+  <section class="s-university-career s-margin">
+    <div class="l-wide l-border-radius">
+      <div class="s-university-career__wrap">
+        <h2 class="s-university-career__title a-font_h2" v-html="title"></h2>
+        <div class="s-university-career__items">
+          <AFactoids
+            v-for="factoid in factoids"
+            :key="factoid.id"
+            :type="factoid.type"
+            :title="factoid.title"
+            :lineNumber="factoid.lineNumber"
+          />
+        </div>
       </div>
     </div>
   </section>

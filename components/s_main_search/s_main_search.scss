@@ -1,15 +1,7 @@
 @import '@/assets/styles/tools/mixins';
 
 .s-main-search {
-  padding: var(--a-padding--x12) 0;
   background-color: var(--a-color_bg--secondary);
-  @media screen and (max-width: 991px) {
-    padding: var(--a-padding--x8) 0;
-  }
-  @media screen and (max-width: 600px) {
-    padding: var(--a-padding--x2) 0;
-  }
-
   &__title {
     margin-bottom: var(--a-padding--x6);
     @media screen and (max-width: 767px) {
@@ -19,6 +11,7 @@
 
   &__row {
     display: flex;
+    flex-direction: column;
     @media screen and (max-width: 1199px) {
       display: block;
     }
@@ -38,20 +31,14 @@
   }
 
   &__box {
-    padding: var(--a-padding--x10);
     background-color: var(--a-color_bg);
-    border-radius: var(--a-borderRadius--bg);
-    @media screen and (max-width: 991px) {
-      padding: var(--a-padding--x8) var(--a-padding--x6);
-    }
-    @media screen and (max-width: 767px) {
-      padding: var(--a-padding--x6) var(--a-padding--x4);
-    }
   }
 
   &__category {
-    width: rem(160);
+    //width: rem(160);
+    width: 100%;
     min-width: rem(160);
+    margin-bottom: rem(16);
     @media screen and (max-width: 1199px) {
       margin-bottom: var(--a-padding--x2);
     }
@@ -65,13 +52,23 @@
     display: flex;
     flex-wrap: wrap;
     flex: 1;
-    gap: rem(4) rem(16);
-    @media screen and (max-width: 1499px) {
-      column-gap: rem(20);
-    }
+    margin: 0 rem(-20) rem(-16);
     @media screen and (max-width: 991px) {
-      column-gap: rem(8);
+      margin: 0 rem(-12) rem(-16);
     }
+    @media screen and (max-width: 768px) {
+      justify-content: space-between;
+    }
+    @media screen and (max-width: 450px) {
+      margin: 0 rem(-12) rem(-8);
+    }
+    //gap: rem(16) rem(40);
+    //@media screen and (max-width: 1499px) {
+    //  column-gap: rem(20);
+    //}
+    //@media screen and (max-width: 991px) {
+    //  column-gap: rem(8);
+    //}
 
     .a-button {
       height: rem(24);
@@ -91,22 +88,46 @@
   &__item {
     display: flex;
     align-items: center;
-    width: calc((100% - rem(64)) / 5);
+    width: calc(25% - rem(40));
+    max-width: rem(320);
+    margin: 0 rem(20) rem(16);
     color: inherit;
     text-decoration: none;
-    @media screen and (max-width: 1499px) {
-      width: calc((100% - rem(60)) / 4);
-    }
     @media screen and (max-width: 991px) {
-      width: calc((100% - rem(24)) / 3);
+      width: calc(33.333% - rem(24));
+      margin: 0 rem(12) rem(16);
     }
-    @media screen and (max-width: 600px) {
-      width: calc((100% - rem(8)) / 2);
+    @media screen and (max-width: 768px) {
+      width: calc(50% - rem(24));
+    }
+    @media screen and (max-width: 450px) {
+      width: calc(100% - rem(24));
+      max-width: 100%;
+      margin: 0 rem(12) rem(8);
+    }
+
+    &:hover {
+      background-color: var(--a-color_bg--secondary);
+      border-radius: rem(10);
+      cursor: pointer;
+    }
+
+    &--btn.is-open {
+      flex-basis: 100%;
+    }
+
+    &-icon {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-width: rem(48);
+      min-height: rem(48);
     }
 
     &-title {
       overflow: hidden;
       width: min-content;
+      margin-left: rem(16);
       white-space: nowrap;
       text-overflow: ellipsis;
       -webkit-line-clamp: 1;
@@ -124,17 +145,12 @@
       padding-left: rem(8);
       color: var(--a-color_active);
     }
-
-    &--btn.is-open {
-      flex-basis: 100%;
-    }
   }
 
   &__btn-link {
     display: flex;
     max-width: rem(250);
-    margin-top: var(--a-padding--x6);
-    margin-left: auto;
+    margin: var(--a-padding--x6) auto 0;
     text-decoration: none;
     @media screen and (max-width: 991px) {
       margin-top: var(--a-padding--x5);
@@ -150,6 +166,28 @@
       @media screen and (max-width: 575px) {
         width: 100%;
       }
+    }
+  }
+
+  &__more-btn {
+    display: flex;
+    align-items: center;
+    color: var(--a-color_link);
+    background: transparent;
+    border: none;
+    font-size: rem(16);
+    line-height: rem(22);
+
+    &-icon {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: rem(48);
+      height: rem(48);
+    }
+
+    span {
+      margin-left: rem(16);
     }
   }
 }
