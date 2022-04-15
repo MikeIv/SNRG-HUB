@@ -403,6 +403,7 @@ export default {
 
   methods: {
     onFormButtonClickHandler() {
+      this.$store.commit('changeIsRedirect', false);
       if (this.isAuthenticated) {
         if (this.isEnoughtData) {
           this.sendForm();
