@@ -5,6 +5,10 @@
   .m-card-landing {
     width: rem(340);
 
+    @media (max-width: 1449px) {
+      width: rem(320);
+    }
+
     @media (max-width: 767px) {
       width: rem(223);
     }
