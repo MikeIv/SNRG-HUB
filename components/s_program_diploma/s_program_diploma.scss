@@ -9,18 +9,27 @@
     margin: rem(12) auto;
   }
 
-  .m-card-landing__image {
-    display: block;
-    object-fit: cover;
-    height: 100%;
+  .m-card-landing {
+    &__image {
+      display: block;
+      object-fit: cover;
+      height: 100%;
 
-    &-wrapper {
-      height: rem(256);
+      &-wrapper {
+        height: rem(320);
+        @media screen and (max-width: 991px) {
+          height: rem(256);
+        }
+      }
     }
   }
 
   &__slide {
-    width: rem(364);
+    width: rem(450);
+
+    @media screen and (max-width: 991px) {
+      width: rem(364);
+    }
   }
 
   &__title {

@@ -9,7 +9,10 @@
     margin: rem(12) auto;
   }
   .m-card-landing {
-    width: rem(364);
+    width: rem(450);
+    @media screen and (max-width: 991px) {
+      width: rem(364);
+    }
   }
 
   .m-card-landing__image {
@@ -18,7 +21,10 @@
     height: 100%;
 
     &-wrapper {
-      height: rem(256);
+      height: rem(300);
+      @media screen and (max-width: 991px) {
+        height: rem(256);
+      }
     }
   }
 

@@ -3,21 +3,10 @@
 .s-program-timeline {
   width: 100%;
   .m-card-landing {
-    width: rem(270);
+    width: rem(340);
 
     @media (max-width: 767px) {
       width: rem(223);
-    }
-
-    &__title {
-      padding: 0;
-    }
-  }
-
-  .swiper-wrapper {
-    justify-content: space-between;
-    @media (max-width: 1199px) {
-      justify-content: flex-start;
     }
   }
 
