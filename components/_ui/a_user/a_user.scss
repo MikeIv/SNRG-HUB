@@ -12,5 +12,10 @@
 
   &__avatar {
     margin-right: rem(13);
+
+    &-img {
+      object-fit: cover;
+      object-position: top;
+    }
   }
 }
