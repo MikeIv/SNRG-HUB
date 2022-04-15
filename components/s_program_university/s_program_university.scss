@@ -64,7 +64,6 @@
   &__factoids {
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-between;
     &-item {
       width: rem(340);
       margin-bottom: rem(32);
