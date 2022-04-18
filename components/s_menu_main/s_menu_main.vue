@@ -32,7 +32,7 @@
                 <div class="s-menu-main__link">
                   <div class="s-menu-main__link-top" @click="openMenuItem($event)">
                     <div class="s-menu-main__link-title a-font_xxl">
-                      <nuxt-link :to="linkItem.link" @click.native="changeIsOpen">{{ linkItem.anchor }}</nuxt-link>
+                      <nuxt-link :to="linkItem.link" @click="changeIsOpen">{{ linkItem.anchor }}</nuxt-link>
                     </div>
                     <div class="s-menu-main__link-icon si-chevron-down"></div>
                   </div>
@@ -42,7 +42,7 @@
                     <nuxt-link
                       v-if="idx < 3"
                       :to="product.link"
-                      @click="changeIsOpen"
+                      @click.native="changeIsOpen"
                       class="s-menu-main__link-product"
                       itemprop="url"
                     >
