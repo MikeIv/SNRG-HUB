@@ -403,7 +403,6 @@ export default {
 
   methods: {
     onFormButtonClickHandler() {
-      this.$store.commit('changeIsRedirect', false);
       if (this.isAuthenticated) {
         if (this.isEnoughtData) {
           this.sendForm();
@@ -571,6 +570,7 @@ export default {
         type: 'academy',
         unit: 'payments',
         land: 'KD_market',
+        noRedirect: true,
       };
       this.$store.commit('updateLander', lander);
       const currentData = this.fieldsData;

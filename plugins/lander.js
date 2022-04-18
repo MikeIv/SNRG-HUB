@@ -94,6 +94,7 @@ export default (context, inject) => {
   function send(formData, setingsData, route) {
     let { unit, type } = context.store.state.landerSettings;
     const { land, partner, version } = context.store.state.landerSettings;
+    const { noRedirect } = setingsData;
 
     if (route) {
       unit = 'edu_platform';
@@ -158,7 +159,9 @@ export default (context, inject) => {
               formData: data,
               response,
             });
-            context.app.router.push({ path: setingSend.redirectUrl });
+            if (!noRedirect) {
+              context.app.router.push({ path: setingSend.redirectUrl });
+            }
           }
         })
         .catch((error) => {

@@ -21,7 +21,6 @@ export const state = () => ({
     partner: '',
     version: '',
   },
-  isRedirect: true,
   isVisible: true,
 });
 
@@ -54,17 +53,11 @@ export const mutations = {
     Object.keys(info).forEach((key) => {
       if (Object.prototype.hasOwnProperty.call(state.landerSettings, key) && info[key]) {
         state.landerSettings[key] = info[key];
-        if (!state.isRedirect) {
-          state.landerSettings.redirectUrl = '';
-        }
       }
     });
   },
   changeIsVisible(state, val) {
     state.isVisible = val;
-  },
-  changeIsRedirect(state, val) {
-    state.isRedirect = val;
   },
 };
 
