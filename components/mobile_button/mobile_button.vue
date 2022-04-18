@@ -3,9 +3,9 @@
   <div class="mobile-button" v-if="isScroll && windowWidth < 767">
     <a-button
       bgColor="accent"
-      label="Подобрать программу"
+      :label="buttonLabel"
       class="a-font_button mobile-button__btn"
-      @click="togglePopup"
+      @click="onMobileButtonClickHandler"
       v-if="isVisible"
     ></a-button>
 
@@ -140,6 +140,14 @@ export default {
   },
 
   methods: {
+    onMobileButtonClickHandler() {
+      const formPriceBlock = document.getElementById('form-price');
+      if (this.$route.name === 'product-slug' && formPriceBlock) {
+        formPriceBlock.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'nearest' });
+      } else {
+        this.togglePopup();
+      }
+    },
     handleScroll() {
       this.scrollPosition = window.scrollY;
 
@@ -207,6 +215,9 @@ export default {
 
   computed: {
     ...mapState(['isVisible']),
+    buttonLabel() {
+      return this.$route.name === 'product-slug' ? 'Записаться на программу' : 'Подобрать программу';
+    },
   },
 };
 </script>

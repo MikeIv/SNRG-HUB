@@ -139,8 +139,6 @@
           />
           <a-input
             class="m-form__input"
-            :class="{ 'error-name': !patronymicErrorFlag }"
-            @input="validFormData"
             v-model="fieldsData.patronymic"
             placeholder="Отчество (при наличии)"
             @focus="changeFocusInput"
@@ -250,7 +248,6 @@ export default {
       validPhone: false,
       nameErrorFlag: true,
       surnameErrorFlag: true,
-      patronymicErrorFlag: true,
       emailErrorFlag: true,
       phoneErrorFlag: true,
 
@@ -647,17 +644,10 @@ export default {
     checkedValidateError() {
       this.nameErrorFlag = /^([A-ZА-ЯЁ][-,a-z, a-яё. ']+[ ]*)+$/i.test(this.fieldsData.name);
       this.surnameErrorFlag = /^([A-ZА-ЯЁ][-,a-z, a-яё. ']+[ ]*)+$/i.test(this.fieldsData.surname);
-      this.patronymicErrorFlag = /^([A-ZА-ЯЁ][-,a-z, a-яё. ']+[ ]*)+$/i.test(this.fieldsData.patronymic);
       this.emailErrorFlag = this.$lander.valid([{ value: this.fieldsData.email, type: 'email' }]);
       this.phoneErrorFlag = this.validPhone === true && this.fieldsData.phone !== '';
       // eslint-disable-next-line max-len
-      return (
-        this.nameErrorFlag
-        && this.surnameErrorFlag
-        && this.patronymicErrorFlag
-        && this.emailErrorFlag
-        && this.validPhone
-      );
+      return this.nameErrorFlag && this.surnameErrorFlag && this.emailErrorFlag && this.validPhone;
     },
     changeFocusInput() {
       this.$store.commit('changeIsVisible', false);
