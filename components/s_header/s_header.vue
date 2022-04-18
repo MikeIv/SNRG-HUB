@@ -126,7 +126,6 @@ export default {
   data() {
     return {
       baseUrl: process.env.NUXT_ENV_S3BACKET,
-      isOpen: false,
       logoURL: '',
       scrollTop: 0,
       isScrolled: false,
@@ -138,6 +137,7 @@ export default {
       isVisible: false,
       topBannerSmoothHref: '#quiz',
       disabledSearch: false,
+      isOpen: false,
     };
   },
 
@@ -162,14 +162,14 @@ export default {
   },
 
   created() {
-    this.isOpen = this.$store.state.globalData.isMenuOpen;
+    this.isOpen = this.$store.state.isMenuOpen;
     this.phones = this.$store.state.globalData.globalData.data.contacts.phones;
     this.logoURL = this.$store.state.globalData.globalData.data.main.logo;
   },
 
   computed: {
     isMenuOpen() {
-      return this.$store.state.isMenuOpen;
+      return this.isOpen;
     },
     quiz() {
       return this.$store.state.quizInfo;

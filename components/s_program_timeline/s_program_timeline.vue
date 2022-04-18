@@ -54,12 +54,12 @@ export default {
       swiperOptionA: {
         grabCursor: true,
         slidesPerView: 'auto',
-        spaceBetween: 20,
+        spaceBetween: 12,
         resistance: true,
         resistanceRatio: 0,
         breakpoints: {
           768: {
-            spaceBetween: 12,
+            spaceBetween: 20,
           },
         },
       },

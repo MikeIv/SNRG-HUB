@@ -1,22 +1,24 @@
 <template>
-  <section class="s-program-reviews">
-    <h2 class="s-program-reviews__title a-font_h2" v-html="title"></h2>
-    <div class="s-program-reviews__swiper">
-      <swiper :options="swiperOptionA">
-        <swiper-slide
-          v-for="(review, idx) in reviewsList.data"
-          :key="idx"
-          class="s-program-reviews__slide m-card-landing"
-        >
-          <!-- API не отдает дату отзыва. Поля физически нет, когда появится передать в subhead-->
-          <MCardLanding
-            :subhead="review.subhead"
-            :userName="review.name.value"
-            :userImage="`${baseUrl}${review.avatar_image.value}`"
-            :text="review.description.value"
-          />
-        </swiper-slide>
-      </swiper>
+  <section class="s-program-reviews s-margin">
+    <div class="l-wide l-border-radius">
+      <h2 class="s-program-reviews__title a-font_h2" v-html="title"></h2>
+      <div class="s-program-reviews__swiper">
+        <swiper :options="swiperOptionA">
+          <swiper-slide
+            v-for="(review, idx) in reviewsList.data"
+            :key="idx"
+            class="s-program-reviews__slide m-card-landing"
+          >
+            <!-- API не отдает дату отзыва. Поля физически нет, когда появится передать в subhead-->
+            <MCardLanding
+              :subhead="review.subhead"
+              :userName="review.name.value"
+              :userImage="`${baseUrl}${review.avatar_image.value}`"
+              :text="review.description.value"
+            />
+          </swiper-slide>
+        </swiper>
+      </div>
     </div>
   </section>
 </template>

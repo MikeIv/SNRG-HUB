@@ -1,25 +1,37 @@
 <template>
   <section class="s-partners s-margin" :class="this.$route.name === 'index' ? 'main' : 'other'">
-    <div v-if="this.$route.name === 'index'" class="l-wide l-border-radius">
+    <div v-if="this.$route.name === 'index' && companyList.length <= 21" class="l-wide l-border-radius">
       <div class="s-partners__box">
         <h2 class="s-partners__title main" v-html="title"></h2>
         <div class="s-partners__swiper" :key="key">
           <swiper
-            v-for="index in swiperCount"
-            :key="`${index}-${key}`"
-            ref="partnersSwiper"
-            :options="{
-              ...swiperOptions,
-              ...{
-                autoplay: {
-                  delay: 1,
-                  reverseDirection: !!(index % 2),
-                  disableOnInteraction: false,
-                },
-              },
-            }"
+            v-if="chunkedList[0] && chunkedList[0].length >= 7"
+            class="noSwipingClass"
+            ref="partnersSwiper1"
+            :options="swiperOptions"
           >
-            <swiper-slide v-for="(company, idx) in chunkedList[index - 1]" :key="idx" class="s-partners__slide">
+            <swiper-slide v-for="(company, idx) in chunkedList[0]" :key="idx" class="s-partners__slide">
+              <a-logo type="standart" :link="`${baseUrl}${company.logo_image.value}`" />
+            </swiper-slide>
+          </swiper>
+          <swiper
+            v-if="chunkedList[1] && chunkedList[1].length >= 7"
+            class="noSwipingClass"
+            ref="partnersSwiper2"
+            :options="swiperOptions"
+            dir="rtl"
+          >
+            <swiper-slide v-for="(company, idx) in chunkedList[1]" :key="idx" class="s-partners__slide">
+              <a-logo type="standart" :link="`${baseUrl}${company.logo_image.value}`" />
+            </swiper-slide>
+          </swiper>
+          <swiper
+            v-if="chunkedList[2] && chunkedList[2].length >= 7"
+            class="noSwipingClass"
+            ref="partnersSwiper3"
+            :options="swiperOptions"
+          >
+            <swiper-slide v-for="(company, idx) in chunkedList[2]" :key="idx" class="s-partners__slide">
               <a-logo type="standart" :link="`${baseUrl}${company.logo_image.value}`" />
             </swiper-slide>
           </swiper>
@@ -67,9 +79,15 @@ export default {
         loop: true,
         slidesPerView: 'auto',
         speed: 6000,
-        grabCursor: true,
-        mousewheelControl: true,
-        keyboardControl: true,
+        grabCursor: false,
+        keyboard: false,
+        mousewheel: false,
+        noSwiping: true,
+        noSwipingClass: 'noSwipingClass',
+        autoplay: {
+          delay: 1,
+          disableOnInteraction: false,
+        },
       },
       key: 1000,
     };
@@ -77,37 +95,15 @@ export default {
 
   props: ['methods', 'title'],
 
-  methods: {
-    chunkArray(array, chunk) {
-      for (let i = 0; i < array.length; i += chunk) {
-        const newChunk = array.slice(i, i + chunk);
-        if (array.slice(i, i + chunk).length < 7 && array.slice(i, i + chunk).length > 3) {
-          this.chunkedList.push([...newChunk, ...newChunk]);
-        } else if (array.slice(i, i + chunk).length <= 3) {
-          // eslint-disable-next-line max-len
-          this.chunkedList.push([
-            ...newChunk,
-            ...newChunk,
-            ...newChunk,
-            ...newChunk,
-            ...newChunk,
-            ...newChunk,
-            ...newChunk,
-          ]);
-        } else {
-          this.chunkedList.push(newChunk);
-        }
-      }
-    },
-  },
-
   async mounted() {
     const expandedMethod = this.methods[0].data;
     const preData = await getEntitiesSectionsDetail(expandedMethod);
     this.companyList = preData.json.items.data;
-    this.swiperCount = Math.ceil(this.companyList.length / this.chunks);
-    this.chunkArray(this.companyList, this.chunks);
-    this.key += 1;
+    if (this.companyList.length > 0) {
+      this.chunkedList.push(this.companyList.slice(0, 7));
+      this.chunkedList.push(this.companyList.slice(7, 14));
+      this.chunkedList.push(this.companyList.slice(14));
+    }
   },
 };
 </script>

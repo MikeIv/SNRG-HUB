@@ -33,7 +33,10 @@
     flex-direction: column;
     width: 100%;
     height: fit-content;
-    margin-top: rem(40);
+    //
+    min-height: rem(490);
+    //
+    //margin-top: rem(40);
     padding: rem(120) rem(90);
     background: var(--a-color_bg);
     border-radius: rem(10);
@@ -101,6 +104,10 @@
   &__title {
     z-index: 11;
     margin-bottom: rem(32);
+  }
+
+  &__subtitle {
+    max-width: rem(500);
   }
 
   &__img {

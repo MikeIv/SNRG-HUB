@@ -3,13 +3,17 @@
     <div class="l-wide payment-thanks__content">
       <div class="payment-thanks__box">
         <h2 class="payment-thanks__title a-font_h1">Оплата прошла успешно!</h2>
+        <h3 class="payment-thanks__subtitle a-font_h6">
+          Спасибо за оплату, наши менеджеры свяжутся с Вами в ближайшее время.
+        </h3>
         <div class="payment-thanks__cards">
           <div class="payment-thanks__card lms" v-if="false">
             <h3 class="payment-thanks__card-title">Доступ в Synergy LMS</h3>
             <p class="payment-thanks__card-text">Начните обучение прямо сейчас</p>
             <a-button class="payment-thanks__card-button" label="Начать учиться" bgColor="accent" />
           </div>
-          <div class="payment-thanks__card docs" v-if="!isRegistrationCompleted">
+          <!-- TODO: !isRegistrationCompleted -->
+          <div class="payment-thanks__card docs" v-if="false">
             <h3 class="payment-thanks__card-title">Завершите регистрацию</h3>
             <p class="payment-thanks__card-text">И подайте документы, чтобы открыть доступ к полному функционалу</p>
             <a-button
@@ -19,7 +23,8 @@
               @click="onButtonClickHandler"
             />
           </div>
-          <div class="payment-thanks__card docs" v-else>
+          <!-- TODO: v-else -->
+          <div class="payment-thanks__card docs" v-if="false">
             <h3 class="payment-thanks__card-title">Подайте документы</h3>
             <p class="payment-thanks__card-text">Чтобы открыть доступ к полному функционалу</p>
             <a-button

@@ -213,8 +213,8 @@ export default {
       immediate: true,
       handler() {
         if (
-          !this.filterListData?.level_ids?.values?.length &&
-          !this.filterListData?.publication_type_ids?.values?.length
+          !this.filterListData?.level_ids?.values?.length
+          && !this.filterListData?.publication_type_ids?.values?.length
         ) {
           this.parseFilterData();
         }
