@@ -10,6 +10,16 @@
     margin-bottom: rem(32);
 
     @media screen and (min-width: 992px) {
+      & .s-margin {
+        margin: 0;
+
+        .l-border-radius {
+          box-shadow: none;
+        }
+      }
+    }
+
+    @media screen and (min-width: 992px) {
       & .m-banner__main-wrapper {
         margin-left: rem(20);
       }
