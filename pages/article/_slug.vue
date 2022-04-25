@@ -85,7 +85,6 @@ export default {
     };
 
     const preData = await getArticleDetail(filter);
-    console.log('preData', preData);
 
     const type = preData.included.publicationTypes[0];
     const author = preData.included.articleAuthors[0];
