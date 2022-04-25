@@ -73,7 +73,7 @@ export default {
       filter: {
         published: true,
       },
-      include: ['publicationTypes', 'journalContent', 'articleAuthors', 'tags', 'directions'],
+      include: ['publicationTypes', 'journalContent', 'articleAuthors', 'tags', 'seoTags', 'directions'],
     };
     const expandedMethodCategories = {
       filter: {

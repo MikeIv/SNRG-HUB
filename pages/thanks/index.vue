@@ -32,3 +32,17 @@ export default {
   },
 };
 </script>
+
+<style lang="scss" scoped>
+.payment-thanks__wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100vh;
+  min-height: 100vh;
+  @media screen and (max-width: 991px) {
+    height: 100vh;
+    min-height: 0;
+  }
+}
+</style>

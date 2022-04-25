@@ -295,7 +295,12 @@ export default {
   methods: {
     scrollToFormBlock() {
       const formBlock = document.getElementById('form');
-      formBlock.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'nearest' });
+      const formPriceBlock = document.getElementById('form-price');
+      if (formPriceBlock) {
+        formPriceBlock.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'nearest' });
+      } else {
+        formBlock.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'nearest' });
+      }
     },
 
     changeMenuState(value) {
