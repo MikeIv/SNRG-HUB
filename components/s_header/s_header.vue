@@ -59,7 +59,7 @@
                 :disabled="disabledSearch"
               />
             </div>
-            <div class="s-header__login" v-if="false">
+            <div class="s-header__login">
               <AButton
                 size="medium"
                 label="Войти"

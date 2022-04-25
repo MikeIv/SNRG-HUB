@@ -404,7 +404,9 @@ export default {
         if (this.isEnoughtData) {
           this.sendForm();
         } else {
-          window.location.href = `//pass.synergy.ru/edit?redirectUrl=${window.location.href}`;
+          window.location.href = `//${
+            process.env.NODE_ENV === 'development' ? 'ogm-002-2640.c4.syndev.ru' : 'pass.synergy.ru'
+          }/edit?redirectUrl=${window.location.href}`;
         }
       } else if (this.checkedValidateError()) {
         this.getConfirmationCode('call', false);
