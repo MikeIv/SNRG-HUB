@@ -47,7 +47,7 @@ export default {
       img: '',
       digitalImage: '',
       banner: {},
-      seoTags: {},
+      seoTags: [],
       categories: [],
       relatedArticles: [],
       programs: [],
@@ -93,6 +93,9 @@ export default {
 
     this.dateArticle = new Date(preData.created_at).toLocaleString('ru-Ru', options);
     this.title = preData.title;
+    if (preData.included.seoTags) {
+      this.seoTags = preData.included.seoTags;
+    }
     this.subtitle = preData.included.journalContent.preview_text;
     this.readingTime = preData.included.journalContent.reading_time;
     // eslint-disable-next-line max-len
