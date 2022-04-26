@@ -3,11 +3,11 @@
     <div class="l-wide payment-thanks__content">
       <div class="payment-thanks__box">
         <h2 class="payment-thanks__title a-font_h1">Оплата прошла успешно!</h2>
-        <h3 class="payment-thanks__subtitle a-font_h6">
+        <h3 class="payment-thanks__subtitle a-font_h6" v-if="false">
           Спасибо за оплату, наши менеджеры свяжутся с Вами в ближайшее время.
         </h3>
         <div class="payment-thanks__cards">
-          <div class="payment-thanks__card lms" v-if="false">
+          <div class="payment-thanks__card lms">
             <h3 class="payment-thanks__card-title">Доступ в Synergy LMS</h3>
             <p class="payment-thanks__card-text">Начните обучение прямо сейчас</p>
             <a-button class="payment-thanks__card-button" label="Начать учиться" bgColor="accent" />
@@ -175,9 +175,10 @@ export default {
       patronymic: null,
       phone: null,
       email: null,
+      link: null,
     };
   },
-  mounted() {
+  async mounted() {
     if (window.localStorage.getItem('fieldsData')) {
       const fieldsData = JSON.parse(window.localStorage.getItem('fieldsData'));
       this.name = fieldsData.name;
@@ -187,6 +188,20 @@ export default {
       this.email = fieldsData.email;
       this.isRegistrationCompleted = false;
     } else this.isRegistrationCompleted = true;
+    if (this.$route.query.uuid) {
+      // const requestData = {
+      //   synergyId_hash: this.$route.query.uuid,
+      // };
+
+      await this.$axios
+        .get('https://rc.lms.synergy.ru/api/exchange/getLink?key=1029-xosJp-5820-Posm')
+        .then((response) => {
+          console.log(response);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
   },
   methods: {
     onButtonClickHandler() {

@@ -34,6 +34,21 @@ input::-webkit-inner-spin-button {
     }
   }
 
+  .m-form__input-error {
+    width: 100%;
+    font-size: rem(14);
+    margin: 0 rem(6) rem(4);
+    color: var(--a-color_link);
+
+    @media screen and (max-width: 991px) {
+      margin: 0 0 rem(4);
+    }
+
+    &.unknown {
+      margin-bottom: rem(8);
+    }
+  }
+
   .m-form__input.error-name input,
   .m-form__input.error-mail input {
     border: 2px solid var(--a-color_link);

@@ -139,11 +139,14 @@
           />
           <a-input
             class="m-form__input"
+            :class="{ 'error-name': !patronymicErrorFlag }"
             v-model="fieldsData.patronymic"
+            @input="validFormData"
             placeholder="Отчество (при наличии)"
             @focus="changeFocusInput"
             @blur="changeBlurInput"
           />
+          <span v-if="emailAlreadyTaken" class="m-form__input-error">Такой email уже занят</span>
           <a-input
             class="m-form__input"
             :class="{ 'error-mail': !emailErrorFlag }"
@@ -153,6 +156,7 @@
             @focus="changeFocusInput"
             @blur="changeBlurInput"
           />
+          <span v-if="phoneAlreadyTaken" class="m-form__input-error">Такой телефон уже занят</span>
           <vue-tel-input
             class="m-form__input"
             :class="{ error: !phoneErrorFlag }"
@@ -164,6 +168,7 @@
             @focus="changeFocusInput"
             @blur="changeBlurInput"
           />
+          <span v-if="unknownError" class="m-form__input-error unknown">Неизвестная ошибка. Попробуйте позже</span>
         </template>
       </m-form-pay>
     </div>
@@ -177,8 +182,8 @@ import {
 } from '@cwespb/synergyui';
 import { VueTelInput } from 'vue-tel-input';
 import MFormPay from '~/components/_ui/m_form_pay/m_form_pay';
-import getConfirmationCode from '~/api/confirmationCode';
-import checkConfirmationCode from '~/api/checkConfirmationCode';
+// import getConfirmationCode from '~/api/confirmationCode';
+// import checkConfirmationCode from '~/api/checkConfirmationCode';
 import getProductsDetails from '~/api/productsDetail';
 import './s_program_price.scss';
 import getDateFromDatesObj from '~/assets/js/getDateFromDatesObj';
@@ -248,8 +253,13 @@ export default {
       validPhone: false,
       nameErrorFlag: true,
       surnameErrorFlag: true,
+      patronymicErrorFlag: true,
       emailErrorFlag: true,
       phoneErrorFlag: true,
+
+      emailAlreadyTaken: false,
+      phoneAlreadyTaken: false,
+      unknownError: false,
 
       fieldsData: {},
       maxPhoneLength: 16,
@@ -515,7 +525,8 @@ export default {
       this.isChecked = !this.isChecked;
     },
 
-    async getConfirmationCode(type) {
+    async getConfirmationCode() {
+      // type
       this.codeError = false;
       this.startTimer();
 
@@ -524,32 +535,99 @@ export default {
         formattedPhone = formattedPhone.replace('8', '7');
       }
 
+      // const requestData = {
+      //   type,
+      //   phone: +formattedPhone,
+      // };
+
       const requestData = {
-        type,
+        name: this.fieldsData.name,
+        surname: this.fieldsData.surname,
+        patronymic: this.fieldsData?.patronymic,
+        email: this.fieldsData?.email,
         phone: +formattedPhone,
       };
-      await getConfirmationCode(requestData).then((response) => {
-        this.uuid = response.uuid;
+
+      try {
+        await this.$axios.post(
+          `${
+            process.env.NODE_ENV === 'development' ? 'https://ogm-111-2795.c4.syndev.ru/' : 'https://pass.synergy.ru/'
+          }auth/api/sid/v1/public/registration`,
+          requestData,
+        );
         this.confirmationCodePopup = true;
-      });
+      } catch (error) {
+        const errors = error?.response?.data?.errors?.validation;
+        if (Object.hasOwn(errors, 'email')) {
+          this.emailAlreadyTaken = true;
+        }
+
+        if (Object.hasOwn(errors, 'phone')) {
+          this.phoneAlreadyTaken = true;
+        }
+
+        if (error?.response?.data?.errors?.pipeline_exception?.error_code === 'AUTH:000') {
+          this.unknownError = true;
+        }
+      }
+
+      // await getConfirmationCode(requestData).then((response) => {
+      //   this.uuid = response.uuid;
+      //   this.confirmationCodePopup = true;
+      // });
     },
 
     async sendConfirmationCode() {
       this.codeError = false;
 
+      // const requestData = {
+      //   uuid: this.uuid,
+      //   code: this.code,
+      // };
+
+      let formattedPhone = this.fieldsData.phone.replace(/\s+/g, '').replace(/[^0-9]/g, '');
+      if (formattedPhone[0] === '8') {
+        formattedPhone = formattedPhone.replace('8', '7');
+      }
+
       const requestData = {
-        uuid: this.uuid,
         code: this.code,
+        name: this.fieldsData.name,
+        surname: this.fieldsData.surname,
+        patronymic: this.fieldsData?.patronymic,
+        email: this.fieldsData?.email,
+        phone: +formattedPhone,
       };
 
-      await checkConfirmationCode(requestData)
-        .then(() => {
-          this.closeConfirmationCodePopup();
-          this.sendForm();
-        })
-        .catch(() => {
+      try {
+        await this.$axios
+          .post(
+            `${
+              process.env.NODE_ENV === 'development' ? 'https://ogm-111-2795.c4.syndev.ru/' : 'https://pass.synergy.ru/'
+            }auth/api/sid/v1/public/registration/confirm`,
+            requestData,
+          )
+          .then((response) => {
+            console.log('response', response);
+            this.uuid = response?.data?.data?.account_uuid;
+            console.log('uuid', this.uuid);
+            this.closeConfirmationCodePopup();
+            this.sendForm();
+          });
+      } catch (error) {
+        if (error.response.data.errors.pipeline_exception.status === 408) {
           this.codeError = true;
-        });
+        }
+      }
+
+      // await checkConfirmationCode(requestData)
+      //   .then(() => {
+      //     this.closeConfirmationCodePopup();
+      //     this.sendForm();
+      //   })
+      //   .catch(() => {
+      //     this.codeError = true;
+      //   });
     },
 
     onTimesUp() {
@@ -575,7 +653,10 @@ export default {
       const currentData = this.fieldsData;
       window.localStorage.setItem('fieldsData', JSON.stringify(this.fieldsData));
       currentData.name = `${this.fieldsData.name} ${this.fieldsData.surname} ${this.fieldsData.patronymic}`;
-      currentData.successPage = `https://${document.location.host}/payment-thanks`;
+      currentData.successPage = `https://${document.location.host}/payment-thanks${
+        this.uuid ? `?uuid=${this.uuid}` : '/'
+      }`;
+      currentData.guid_synergy_id = this.uuid;
       const resp = this.$lander.send(currentData, lander);
 
       resp
@@ -646,6 +727,7 @@ export default {
     checkedValidateError() {
       this.nameErrorFlag = /^([A-ZА-ЯЁ][-,a-z, a-яё. ']+[ ]*)+$/i.test(this.fieldsData.name);
       this.surnameErrorFlag = /^([A-ZА-ЯЁ][-,a-z, a-яё. ']+[ ]*)+$/i.test(this.fieldsData.surname);
+      this.patronymicErrorFlag = /^([A-ZА-ЯЁ][-,a-z, a-яё. ']+[ ]*)+$/i.test(this.fieldsData.patronymic);
       this.emailErrorFlag = this.$lander.valid([{ value: this.fieldsData.email, type: 'email' }]);
       this.phoneErrorFlag = this.validPhone === true && this.fieldsData.phone !== '';
       // eslint-disable-next-line max-len
