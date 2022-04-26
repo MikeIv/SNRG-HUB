@@ -6,9 +6,9 @@
           <div class="s-menu-main__location">
             <MLocation />
           </div>
-          <div class="s-menu-main__login">
-            <a-button label="Войти в аккаунт" backgroundColor="#f34gcs" bgColor="ghost-accept" @click="login" />
-          </div>
+          <!-- <div class="s-menu-main__login">
+            <a-button label="Войти в аккаунт" backgroundColor="#F5F5F5" bgColor="ghost-accept"></a-button>
+          </div> -->
           <div class="s-menu-main__title a-font_h5">Всё обучение</div>
           <template v-for="(item, idx) in menuAnchors" :index="idx">
             <div
@@ -77,7 +77,7 @@
 </template>
 
 <script>
-import { ASidebarItem, AButton } from '@cwespb/synergyui';
+import { ASidebarItem } from '@cwespb/synergyui';
 import MBanner from '~/components/_ui/m_banner/m_banner';
 import getMenuMain from '~/api/menuMain';
 import getBannersDetail from '~/api/bannersDetail';
@@ -90,7 +90,7 @@ export default {
   components: {
     ASidebarItem,
     MBanner,
-    AButton,
+    // AButton,
     MLocation,
   },
 
@@ -161,10 +161,6 @@ export default {
   },
 
   methods: {
-    login() {
-      this.$store.dispatch('auth/login');
-    },
-
     getActive(id) {
       this.menuLinks.forEach((data, i) => {
         const element = data;
