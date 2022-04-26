@@ -9,7 +9,9 @@
             <m-article
               :article="article"
               @click.stop="onArticleClick(article)"
-              :randomColor="getRandomColor(article.included.tags[0].name)"
+              :randomColor="`${
+                article.included.tags.length ? getRandomColor(article.included.tags[0].name) : 'rgba(228, 43, 43, 1)'
+              }`"
             />
           </nuxt-link>
         </div>
