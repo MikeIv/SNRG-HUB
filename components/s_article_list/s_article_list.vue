@@ -13,7 +13,9 @@
             :key="article.id"
             :article="article"
             v-if="articles && articles.length > 0 && index < maxCardsCount"
-            :randomColor="getRandomColor(article.included.tags[0].name)"
+            :randomColor="`${
+              article.included.tags.length ? getRandomColor(article.included.tags[0].name) : 'rgba(228, 43, 43, 1)'
+            }`"
           >
           </m-article>
         </template>
