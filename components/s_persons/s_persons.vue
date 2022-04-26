@@ -43,9 +43,6 @@ export default {
           el: '.swiper-pagination',
           clickable: true,
         },
-        mousewheel: {
-          invert: false,
-        },
         breakpoints: {
           991: {
             spaceBetween: 12,
