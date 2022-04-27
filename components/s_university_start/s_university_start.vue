@@ -24,7 +24,7 @@
           </div>
           <m-social-share
             :is-menu-open="isMenuOpen"
-            :networks="university.social"
+            :netSocials="netSocials"
             :title="university.name"
             :description="university.description"
             :image="university.photo"
@@ -117,13 +117,19 @@ export default {
 
       logoSrc: '',
       event: null,
+      netSocials: [
+        {
+          id: 1,
+          name: 'Вконтакте',
+          icon: 'vk',
+        },
+      ],
       university: {
         city: '',
         name: '',
         description: '',
         type: '',
         hostel: '',
-        social: [],
         link: '#',
         photo: '',
       },

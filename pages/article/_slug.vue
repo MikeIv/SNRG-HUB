@@ -47,6 +47,7 @@ export default {
       img: '',
       digitalImage: '',
       banner: {},
+      seoTags: {},
       categories: [],
       relatedArticles: [],
       programs: [],
@@ -74,6 +75,7 @@ export default {
         'studyingPrograms',
         'studyingPrograms.organization',
         'tags',
+        'seoTags',
         'directions',
         'articleAuthors',
         'categories',
@@ -83,6 +85,7 @@ export default {
     };
 
     const preData = await getArticleDetail(filter);
+    console.log('preData', preData);
 
     const type = preData.included.publicationTypes[0];
     const author = preData.included.articleAuthors[0];
@@ -119,6 +122,7 @@ export default {
   head() {
     return {
       title: this.pageMeta?.title,
+      h1: this.pageMeta?.h1,
       meta: [
         {
           hid: 'keywords',
@@ -139,6 +143,11 @@ export default {
           hid: 'og:title',
           name: 'og:title',
           content: this.pageMeta?.title,
+        },
+        {
+          hid: 'og:h1',
+          name: 'og:h1',
+          content: this.pageMeta?.h1,
         },
         {
           hid: 'og:site_name',

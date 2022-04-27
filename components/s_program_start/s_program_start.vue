@@ -15,7 +15,7 @@
           </div>
           <m-social-share
             :is-menu-open="isMenuOpen"
-            :networks="program.social"
+            :netSocials="netSocials"
             :title="program.title"
             :description="program.description"
             :image="program.photo"
@@ -147,13 +147,19 @@ export default {
         },
       ],
 
+      netSocials: [
+        {
+          id: 1,
+          name: 'Вконтакте',
+          icon: 'vk',
+        },
+      ],
       event: null,
       program: {
         description: '',
         subtitle: '',
         title: '',
         color: '',
-        social: [],
         city: '',
         document: '',
         beginDuration: '',
