@@ -3,14 +3,14 @@
     <div class="l-wide payment-thanks__content">
       <div class="payment-thanks__box">
         <h2 class="payment-thanks__title a-font_h1">Оплата прошла успешно!</h2>
-        <h3 class="payment-thanks__subtitle a-font_h6" v-if="false">
+        <h3 class="payment-thanks__subtitle a-font_h6" v-if="!linkLMS">
           Спасибо за оплату, наши менеджеры свяжутся с Вами в ближайшее время.
         </h3>
         <div class="payment-thanks__cards">
-          <div class="payment-thanks__card lms">
+          <div class="payment-thanks__card lms" v-if="linkLMS">
             <h3 class="payment-thanks__card-title">Доступ в Synergy LMS</h3>
             <p class="payment-thanks__card-text">Начните обучение прямо сейчас</p>
-            <a-button class="payment-thanks__card-button" label="Начать учиться" bgColor="accent" />
+            <a-button class="payment-thanks__card-button" label="Начать учиться" bgColor="accent" @click="toLMS" />
           </div>
           <!-- TODO: !isRegistrationCompleted -->
           <div class="payment-thanks__card docs" v-if="false">
@@ -175,7 +175,7 @@ export default {
       patronymic: null,
       phone: null,
       email: null,
-      link: null,
+      linkLMS: null,
     };
   },
   async mounted() {
@@ -194,12 +194,13 @@ export default {
       // };
 
       await this.$axios
-        .get('https://rc.lms.synergy.ru/api/exchange/getLink?key=1029-xosJp-5820-Posm')
+        .get(
+          `https://rc.lms.synergy.ru/api/exchange/getLink?key=1029-xosJp-5820-Posm&synergyId_hash=${this.$route.query.uuid}`,
+        )
         .then((response) => {
-          console.log(response);
-        })
-        .catch((error) => {
-          console.log(error);
+          if (response.data.status === 1) {
+            this.linkLMS = response.data.link;
+          }
         });
     }
   },
@@ -208,6 +209,11 @@ export default {
       window.location.href = this.isRegistrationCompleted
         ? '//pass.synergy.ru/'
         : `//pass.synergy.ru/registration?name=${this.name}&surname=${this.surname}&patronymic=${this.patronymic}&email=${this.email}&phone=${this.phone}&registrationType=academic`;
+    },
+    toLMS() {
+      if (this.linkLMS) {
+        window.location.href = this.link;
+      }
     },
   },
 };

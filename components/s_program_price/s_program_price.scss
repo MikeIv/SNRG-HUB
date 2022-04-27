@@ -36,9 +36,9 @@ input::-webkit-inner-spin-button {
 
   .m-form__input-error {
     width: 100%;
-    font-size: rem(14);
     margin: 0 rem(6) rem(4);
     color: var(--a-color_link);
+    font-size: rem(14);
 
     @media screen and (max-width: 991px) {
       margin: 0 0 rem(4);
