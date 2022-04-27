@@ -1,0 +1,14 @@
+@import '@/assets/styles/tools/mixins';
+
+.a-tooltip {
+  position: absolute;
+  z-index: 10;
+  top: calc(100% + rem(5));
+  right: 0;
+  overflow: hidden;
+  width: max-content;
+  padding: var(--a-padding--x4);
+  background-color: var(--a-color_bg);
+  border-radius: var(--a-borderRadius--bg);
+  box-shadow: 0 0 rem(12) rgba(0, 0, 0, 0.06);
+}

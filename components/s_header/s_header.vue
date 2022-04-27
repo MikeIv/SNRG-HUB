@@ -59,15 +59,63 @@
                 :disabled="disabledSearch"
               />
             </div>
-            <div class="s-header__login" v-if="false">
+            <div class="s-header__login">
               <AButton
                 size="medium"
                 label="Войти"
                 bgColor="accent"
-                @click="login()"
+                @click="login"
                 v-if="!this.$store.getters['auth/isAuthenticated']"
               />
-              <AButton size="medium" label="Выйти" bgColor="accent" @click="logout()" v-else />
+              <div class="s-header__is-auth" v-else>
+                <div class="s-header__icons">
+                  <i class="si-heart"></i>
+                  <i class="s-header__icons-bell notice si-bell"></i>
+                </div>
+                <div class="s-header__user">
+                  <AUser
+                    :user="{
+                      name: 'Алексей О.',
+                      img: '/ege/teachers/3.jpg',
+                    }"
+                    namePosition="left"
+                    imageShape="circle"
+                    @avatar-click="userTooltipVisible = !userTooltipVisible"
+                  />
+                  <a-tooltip
+                    class="s-header__tooltip"
+                    :visible="userTooltipVisible"
+                    @hide-tooltip="userTooltipVisible = false"
+                  >
+                    <div class="s-header__tooltip-row bd-bottom p-16">
+                      <AUser
+                        :user="{
+                          name: 'Алексей О.',
+                          published: 'mail@yandex.ru',
+                          img: '/ege/teachers/3.jpg',
+                        }"
+                        imageShape="circle"
+                      />
+                    </div>
+                    <div class="s-header__tooltip-row bd-bottom p-16">Управление аккаунтом</div>
+                    <div class="s-header__tooltip-row p-16">Помощь</div>
+                    <div class="s-header__tooltip-row">Выйти</div>
+                    <div class="s-header__tooltip-box">
+                      <div class="s-header__tooltip-title a-font_l">Организации</div>
+                      <div class="s-header__tooltip-row mb-8">
+                        <AUser
+                          :user="{ name: 'Алексей О.', published: 'mail@yandex.ru', img: '/ege/teachers/3.jpg' }"
+                          imageShape="circle"
+                        />
+                      </div>
+                      <div class="s-header__tooltip-row">
+                        <AButton label="Добавить организацию" />
+                      </div>
+                    </div>
+                  </a-tooltip>
+                </div>
+                <!-- <AButton size="medium" label="Выйти" bgColor="accent" @click="logout" /> -->
+              </div>
             </div>
           </div>
           <template v-if="catalog && isScrolled">
@@ -98,6 +146,8 @@
 import { AInput, AButton, ASelect } from '@cwespb/synergyui';
 import './s_header.scss';
 import MBanner from '~/components/_ui/m_banner/m_banner';
+import AUser from '~/components/_ui/a_user/a_user';
+import ATooltip from '~/components/_ui/a_tooltip/a_tooltip';
 import getBannersDetail from '~/api/bannersDetail';
 import { debounce } from '~/assets/js/debounce';
 import MLocation from '../_ui/m_location/m_location';
@@ -137,6 +187,7 @@ export default {
       isVisible: false,
       topBannerSmoothHref: '#quiz',
       disabledSearch: false,
+      userTooltipVisible: false,
       isOpen: false,
     };
   },
@@ -149,6 +200,8 @@ export default {
     SMenuMain,
     MBanner,
     ASelect,
+    AUser,
+    ATooltip,
   },
 
   async fetch() {
