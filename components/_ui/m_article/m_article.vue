@@ -1,20 +1,20 @@
 <template>
   <nuxt-link :to="`/article/${article.slug}`" class="m-article">
     <div class="m-article__image">
-      <img alt="article" :src="`${baseURL}${this.article.included.journalContent.preview_picture}`" />
+      <img alt="article" :src="`${baseURL}${article.included.journalContent.preview_picture}`" />
       <nuxt-link
-        v-if="this.article.included.directions"
-        :to="`/journal/${this.article.included.directions[0].slug}`"
+        v-if="article.included.directions"
+        :to="`/journal/${article.included.directions[0].slug}`"
         class="m-article__tag"
         :style="{ background: randomColor }"
       >
-        {{ this.article.included.directions[0] ? this.article.included.directions[0].name : '' }}
+        {{ article.included.directions[0] ? article.included.directions[0].name : '' }}
       </nuxt-link>
     </div>
     <div class="m-article__additional">
       <nuxt-link
-        v-if="this.article.included.publicationTypes"
-        :to="`/journal/${article.included.publicationTypes[0].slug}`"
+        v-if="article.included.publicationTypes"
+        :to="`/journal/${getArticleSlug(article)}`"
         class="m-article__info-additional-type"
       >
         {{ article.included.publicationTypes[0] ? `#${article.included.publicationTypes[0].name.toUpperCase()}` : '' }}
@@ -50,6 +50,13 @@ export default {
 
     randomColor: {
       type: String,
+      default: 'rgba(228, 43, 43, 1)',
+    },
+  },
+
+  methods: {
+    getArticleSlug(article) {
+      return article?.included?.publicationTypes[0]?.slug || 'stati';
     },
   },
 
