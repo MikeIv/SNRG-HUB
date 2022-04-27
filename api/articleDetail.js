@@ -7,6 +7,5 @@ const axios = axiosCreate();
 
 export default async function getArticleDetail(requestData) {
   const response = await axios.post('api/v1/articles/detail', requestData);
-  console.log('responseDETAIL', response.data);
   return response.data.data;
 }
