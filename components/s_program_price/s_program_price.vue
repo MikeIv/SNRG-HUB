@@ -587,12 +587,13 @@ export default {
       };
 
       try {
-        await this.$axios.post(
-          `${
-            process.env.NODE_ENV === 'development' ? 'https://ogm-111-2795.c4.syndev.ru/' : 'https://pass.synergy.ru/'
-          }auth/api/sid/v1/public/registration`,
-          requestData,
-        );
+        // await this.$axios.post(
+        //   `${
+        //     process.env.NODE_ENV === 'development' ? 'https://ogm-111-2795.c4.syndev.ru/' : 'https://pass.synergy.ru/'
+        //   }auth/api/sid/v1/public/registration`,
+        //   requestData,
+        // );
+        await this.$axios.post('https://ogm-111-2795.c4.syndev.ru/auth/api/sid/v1/public/registration', requestData);
         this.confirmationCodePopup = true;
       } catch (error) {
         const errors = error?.response?.data?.errors?.validation;
@@ -627,12 +628,13 @@ export default {
 
       try {
         await this.$axios
-          .post(
-            `${
-              process.env.NODE_ENV === 'development' ? 'https://ogm-111-2795.c4.syndev.ru/' : 'https://pass.synergy.ru/'
-            }auth/api/sid/v1/public/registration/confirm`,
-            requestData,
-          )
+          // .post(
+          //   `${
+          //     process.env.NODE_ENV === 'development' ? 'https://ogm-111-2795.c4.syndev.ru/' : 'https://pass.synergy.ru/'
+          //   }auth/api/sid/v1/public/registration/confirm`,
+          //   requestData,
+          // )
+          .post('https://ogm-111-2795.c4.syndev.ru/auth/api/sid/v1/public/registration/confirm', requestData)
           .then((response) => {
             this.uuid = response?.data?.data?.account_uuid;
             this.closeConfirmationCodePopup();
