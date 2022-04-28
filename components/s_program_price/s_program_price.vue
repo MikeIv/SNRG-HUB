@@ -436,9 +436,10 @@ export default {
         if (this.isEnoughtData) {
           this.sendForm();
         } else {
-          window.location.href = `//${
-            process.env.NODE_ENV === 'development' ? 'ogm-002-2640.c4.syndev.ru' : 'pass.synergy.ru'
-          }/edit?redirectUrl=${window.location.href}`;
+          // window.location.href = `//${
+          //   process.env.NODE_ENV === 'development' ? 'ogm-002-2640.c4.syndev.ru' : 'pass.synergy.ru'
+          // }/edit?redirectUrl=${window.location.href}`;
+          window.location.href = `//ogm-002-2640.c4.syndev.ru/edit?redirectUrl=${window.location.href}`;
         }
       } else if (this.checkedValidateError()) {
         this.getConfirmationCode();
@@ -556,14 +557,17 @@ export default {
         formattedPhone = formattedPhone.replace('8', '7');
       }
 
-      await this.$axios.post(
-        `${
-          process.env.NODE_ENV === 'development' ? 'https://ogm-111-2795.c4.syndev.ru/' : 'https://pass.synergy.ru/'
-        }auth/api/sid/v1/public/registration/resend/call`,
-        {
-          phone: formattedPhone,
-        },
-      );
+      // await this.$axios.post(
+      //   `${
+      //     process.env.NODE_ENV === 'development' ? 'https://ogm-111-2795.c4.syndev.ru/' : 'https://pass.synergy.ru/'
+      //   }auth/api/sid/v1/public/registration/resend/call`,
+      //   {
+      //     phone: formattedPhone,
+      //   },
+      // );
+      await this.$axios.post('https://ogm-111-2795.c4.syndev.ru/auth/api/sid/v1/public/registration/resend/call', {
+        phone: formattedPhone,
+      });
     },
 
     async getConfirmationCode() {
