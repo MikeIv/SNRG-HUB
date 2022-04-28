@@ -6,10 +6,25 @@
     width: fit-content;
   }
 
+  &__box.swiper-container {
+    overflow: visible;
+  }
+
   &__link {
     color: var(--a-color_text);
     font-weight: 600;
     white-space: nowrap;
     text-decoration: none;
+    cursor: pointer;
+  }
+
+  &__dropdown-link.a-font_m {
+    min-width: rem(160);
+    font-weight: 300;
+    line-height: rem(17);
+    color: var(--a-color_text);
+    & + .menu-horizontal__dropdown-link {
+      margin-top: rem(20);
+    }
   }
 }

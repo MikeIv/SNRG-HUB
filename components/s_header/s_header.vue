@@ -59,63 +59,19 @@
                 :disabled="disabledSearch"
               />
             </div>
-            <div class="s-header__login">
+            <div class="s-header__login" v-if="!$store.getters['auth/isAuthenticated']">
+              <AButton size="medium" label="Войти" bgColor="accent" @click="login" />
+            </div>
+            <div class="s-header__is-auth" v-else>
+              <AButton onlyIcon="square" bgColor="none" iconType="si-heart" size="small" />
               <AButton
-                size="medium"
-                label="Войти"
-                bgColor="accent"
-                @click="login"
-                v-if="!this.$store.getters['auth/isAuthenticated']"
+                class="s-header__icons-bell notice"
+                onlyIcon="square"
+                bgColor="none"
+                iconType="si-bell"
+                size="small"
               />
-              <div class="s-header__is-auth" v-else>
-                <div class="s-header__icons">
-                  <i class="si-heart"></i>
-                  <i class="s-header__icons-bell notice si-bell"></i>
-                </div>
-                <div class="s-header__user">
-                  <AUser
-                    :user="{
-                      name: 'Алексей О.',
-                      img: '/ege/teachers/3.jpg',
-                    }"
-                    namePosition="left"
-                    imageShape="circle"
-                    @avatar-click="userTooltipVisible = !userTooltipVisible"
-                  />
-                  <a-tooltip
-                    class="s-header__tooltip"
-                    :visible="userTooltipVisible"
-                    @hide-tooltip="userTooltipVisible = false"
-                  >
-                    <div class="s-header__tooltip-row bd-bottom p-16">
-                      <AUser
-                        :user="{
-                          name: 'Алексей О.',
-                          published: 'mail@yandex.ru',
-                          img: '/ege/teachers/3.jpg',
-                        }"
-                        imageShape="circle"
-                      />
-                    </div>
-                    <div class="s-header__tooltip-row bd-bottom p-16">Управление аккаунтом</div>
-                    <div class="s-header__tooltip-row p-16">Помощь</div>
-                    <div class="s-header__tooltip-row">Выйти</div>
-                    <div class="s-header__tooltip-box">
-                      <div class="s-header__tooltip-title a-font_l">Организации</div>
-                      <div class="s-header__tooltip-row mb-8">
-                        <AUser
-                          :user="{ name: 'Алексей О.', published: 'mail@yandex.ru', img: '/ege/teachers/3.jpg' }"
-                          imageShape="circle"
-                        />
-                      </div>
-                      <div class="s-header__tooltip-row">
-                        <AButton label="Добавить организацию" />
-                      </div>
-                    </div>
-                  </a-tooltip>
-                </div>
-                <!-- <AButton size="medium" label="Выйти" bgColor="accent" @click="logout" /> -->
-              </div>
+              <MUserMenu />
             </div>
           </div>
           <template v-if="catalog && isScrolled">
@@ -132,8 +88,36 @@
           </template>
         </div>
         <div class="s-header__bottom">
-          <div class="l-wide">
-            <menu-horizontal :isOpen="isOpen" @change-is-open="handleChange"></menu-horizontal>
+          <div class="l-wide s-header__bottom-row">
+            <!-- <div class="menu-dropdown">
+              <div class="menu-dropdown__box">
+                <AButton
+                  class="menu-dropdown__btn"
+                  label="Образование"
+                  iconPosition="right"
+                  bgColor="none"
+                  iconType="si-chevron-down"
+                  @click="menuDropdownVisible = !menuDropdownVisible"
+                />
+                <a-tooltip
+                  :visible="menuDropdownVisible"
+                  @hide-tooltip="menuDropdownVisible = false"
+                  position="bottom-left"
+                >
+                  <div v-for="item in navLinks" :key="item.id" class="menu-dropdown__link a-font_m">
+                    <nuxt-link
+                      :to="`/catalog?page=1&${Object.entries(item.filter_by)[0][0]}=${Object.entries(
+                        item.filter_by,
+                      )[0][1].toString()}`"
+                      itemprop="url"
+                    >
+                      {{ item.anchor }}
+                    </nuxt-link>
+                  </div>
+                </a-tooltip>
+              </div>
+            </div> -->
+            <menu-horizontal :customList="navLinks" :isOpen="isOpen" @change-is-open="handleChange"></menu-horizontal>
           </div>
         </div>
       </div>
@@ -146,8 +130,7 @@
 import { AInput, AButton, ASelect } from '@cwespb/synergyui';
 import './s_header.scss';
 import MBanner from '~/components/_ui/m_banner/m_banner';
-import AUser from '~/components/_ui/a_user/a_user';
-import ATooltip from '~/components/_ui/a_tooltip/a_tooltip';
+import MUserMenu from '~/components/_ui/m_usermenu/m_usermenu';
 import getBannersDetail from '~/api/bannersDetail';
 import { debounce } from '~/assets/js/debounce';
 import MLocation from '../_ui/m_location/m_location';
@@ -187,8 +170,8 @@ export default {
       isVisible: false,
       topBannerSmoothHref: '#quiz',
       disabledSearch: false,
-      userTooltipVisible: false,
       isOpen: false,
+      navLinks: null,
     };
   },
 
@@ -200,8 +183,7 @@ export default {
     SMenuMain,
     MBanner,
     ASelect,
-    AUser,
-    ATooltip,
+    MUserMenu,
   },
 
   async fetch() {
@@ -212,6 +194,17 @@ export default {
     };
 
     this.bannerTop = await getBannersDetail(request);
+    /* const educationLinks = await getMenuData();
+    this.navLinks = [
+      { anchor: 'Образование', links: educationLinks, active: false },
+      { anchor: 'Учебные заведения', link: '/organizations' },
+      { anchor: 'Журнал', link: '/journal' },
+      { anchor: 'Тесты', link: '/proftest' },
+      { anchor: 'Специальности', link: '#' },
+      { anchor: 'Профессии', link: '#' },
+      { anchor: 'Вебинары', link: '#' },
+      { anchor: 'Сравнения', link: '#' },
+    ]; */
   },
 
   created() {

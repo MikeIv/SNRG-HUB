@@ -1,5 +1,5 @@
 <template>
-  <div class="a-tooltip" v-if="visible" @click.stop>
+  <div :class="classes" v-if="visible" @click.stop>
     <slot></slot>
   </div>
 </template>
@@ -12,6 +12,7 @@ export default {
 
   props: {
     visible: Boolean,
+    position: String,
   },
   methods: {
     toggleToolTip() {
@@ -24,6 +25,14 @@ export default {
   },
   beforeDestroy() {
     document.removeEventListener('click', this.hideToolTip);
+  },
+  computed: {
+    classes() {
+      return {
+        'a-tooltip': true,
+        [`a-tooltip--${this.position}`]: this.position,
+      };
+    },
   },
   mounted() {
     this.toggleToolTip();

@@ -1,0 +1,49 @@
+@import '@/assets/styles/tools/mixins';
+
+.m-usermenu {
+  position: relative;
+
+  &__tooltip {
+    .p-16 {
+      padding: rem(16) 0;
+    }
+    .mb-8 {
+      margin-bottom: rem(8);
+    }
+    .bd-bottom {
+      border-bottom: rem(1) solid #e7e9ec;
+    }
+    &-row {
+      cursor: pointer;
+      &:first-child {
+        padding-top: 0;
+      }
+    }
+    &-box {
+      margin-top: rem(28);
+    }
+    &-title {
+      margin-bottom: rem(8);
+    }
+
+    &-btn-add {
+      span {
+        font-size: rem(14);
+      }
+      i.si-close {
+        background-color: #f4f4f4;
+        border-radius: 50%;
+        width: rem(44);
+        height: rem(44);
+        padding: rem(2);
+        margin-left: 0;
+
+        &::before {
+          transform: rotate(45deg);
+          font-size: rem(22);
+          font-weight: 600;
+        }
+      }
+    }
+  }
+}

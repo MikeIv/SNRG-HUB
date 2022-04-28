@@ -11,7 +11,7 @@
         :policy="policy"
       >
         <template v-slot:nav>
-          <MenuHorizontal />
+          <MenuHorizontal dropdownPosition="top-left" />
         </template>
       </s-footer>
     </div>

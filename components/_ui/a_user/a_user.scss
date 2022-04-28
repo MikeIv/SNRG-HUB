@@ -1,6 +1,7 @@
 @import '@/assets/styles/tools/mixins';
 
 .a-user {
+  cursor: pointer;
   &__name.a-font_m {
     padding-left: 0;
     font-weight: 600;

@@ -199,14 +199,20 @@
     @media screen and (max-width: 767px) {
       display: none;
     }
+
+    &-row {
+      display: flex;
+    }
   }
   &__search {
+    flex: 1;
     width: calc(100% - 702px);
     margin-left: rem(12);
     @media screen and (max-width: 1399px) {
       width: calc(100% - 678px);
     }
     @media screen and (max-width: 991px) {
+      flex: none;
       width: calc(100% - 474px);
       margin-left: rem(8);
     }
@@ -279,7 +285,7 @@
   }
 
   &__login {
-    margin-left: auto;
+    margin-left: rem(12);
     @media screen and (max-width: 991px) {
       display: none;
     }
@@ -289,56 +295,33 @@
     display: flex;
     align-items: center;
     margin-left: rem(25);
-  }
-
-  &__user {
-    position: relative;
-  }
-
-  &__tooltip {
-    &-row {
-      &.p-16 {
-        padding: rem(16) 0;
-      }
-      &.mb-8 {
-        margin-bottom: rem(8);
-      }
-      &:first-child {
-        padding-top: 0;
-      }
-      &.bd-bottom {
-        border-bottom: rem(1) solid #e7e9ec;
-      }
+    @media screen and (max-width: 991px) {
+      display: none;
     }
-    &-box {
-      margin-top: rem(28);
-    }
-    &-title {
-      margin-bottom: rem(8);
+    i::before {
+      font-weight: 600;
     }
   }
 
   &__icons {
-    margin-right: rem(16);
     &-bell {
-      position: relative;
-      margin-left: rem(20);
+      margin: 0 rem(20);
 
-      &.notice::after {
-        content: '';
-        position: absolute;
-        top: 0;
-        right: rem(3);
-        display: block;
-        width: rem(6);
-        height: rem(6);
-        background-color: var(--a-color_link);
-        border: rem(1) solid var(--a-color_bg);
-        border-radius: 50%;
+      &.notice i {
+        position: relative;
+        &::after {
+          content: '';
+          position: absolute;
+          top: 0;
+          right: rem(3);
+          display: block;
+          width: rem(6);
+          height: rem(6);
+          background-color: var(--a-color_link);
+          border: rem(1) solid var(--a-color_bg);
+          border-radius: 50%;
+        }
       }
-    }
-    i::before {
-      font-weight: 600;
     }
   }
 
