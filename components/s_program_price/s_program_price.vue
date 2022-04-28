@@ -710,13 +710,33 @@ export default {
         noRedirect: true,
       };
       this.$store.commit('updateLander', lander);
+
       const currentData = this.fieldsData;
-      window.localStorage.setItem('fieldsData', JSON.stringify(this.fieldsData));
-      currentData.name = `${this.fieldsData.name} ${this.fieldsData.surname} ${this.fieldsData.patronymic}`;
-      currentData.successPage = `https://${document.location.host}/payment-thanks${
-        this.uuid ? `?uuid=${this.uuid}` : '/'
-      }`;
-      currentData.guid_synergy_id = this.uuid;
+
+      if (this.isAuthenticated && this.isEnoughtData) {
+        window.localStorage.setItem('fieldsData', JSON.stringify(this.fieldsData));
+        currentData.birthdate = this.userInfo?.account_information?.birthday ?? '01.01.1901';
+        currentData.gender = this.userInfo?.account_information?.gender ?? '-';
+        currentData.name = `${this.userInfo?.account_information?.name} ${this.userInfo?.account_information?.surname} ${this.userInfo?.account_information?.patronymic}`;
+        currentData.surname = this.userInfo?.account_information?.surname ?? '';
+        currentData.patronymic = this.userInfo?.account_information?.patronymic ?? '';
+        currentData.phone = this.userInfo?.phone?.phone ?? '';
+        currentData.email = this.userInfo?.email?.email ?? '';
+        currentData.successPage = `https://${document.location.host}/payment-thanks${
+          this.userInfo?.account_information?.account_uuid
+            ? `?uuid=${this.userInfo.account_information.account_uuid}`
+            : '/'
+        }`;
+        currentData.guid_synergy_id = this.userInfo?.account_information?.account_uuid ?? '';
+      } else {
+        window.localStorage.setItem('fieldsData', JSON.stringify(this.fieldsData));
+        currentData.name = `${this.fieldsData.name} ${this.fieldsData.surname} ${this.fieldsData.patronymic}`;
+        currentData.successPage = `https://${document.location.host}/payment-thanks${
+          this.uuid ? `?uuid=${this.uuid}` : '/'
+        }`;
+        currentData.guid_synergy_id = this.uuid;
+      }
+
       const resp = this.$lander.send(currentData, lander);
 
       resp
