@@ -2,6 +2,15 @@
   <section class="s-program-price" ref="form" id="form-price" v-if="fieldsData.product_id">
     <div class="l-wide l-border-radius">
       <APopup :visible="isPopupPrice" @close="closePopup" type="iframe" :link="payment"> </APopup>
+      <APopup :visible="accountAlreadyExists" @close="closeAccountAlreadyExistsPopup">
+        <div class="s-program-price__exist">
+          <span class="s-program-price__exist-text">
+            Учетная запись с такими данными уже существует<br />
+            Войдите через учетную запись Synergy ID</span
+          >
+          <a-button class="s-program-price__exist-button" bgColor="accent" label="Авторизоваться" @click="login" />
+        </div>
+      </APopup>
       <APopup
         class="s-program-price__confirmation"
         :visible="confirmationCodePopup"
@@ -19,6 +28,9 @@
           <p class="s-program-price__confirmation-text">
             Введите последние 4 цифры номера,<br />с которого Вам позвонят
           </p>
+          <span class="s-program-price__confirmation-warn"
+            >Если вы абонент Билайна, то вместо звонка вам придёт смс.</span
+          >
           <div class="s-program-price__confirmation-inputs">
             <input
               v-for="(v, index) in values"
@@ -260,6 +272,7 @@ export default {
       emailAlreadyTaken: false,
       phoneAlreadyTaken: false,
       unknownError: false,
+      accountAlreadyExists: false,
 
       fieldsData: {},
       maxPhoneLength: 16,
@@ -410,6 +423,14 @@ export default {
   },
 
   methods: {
+    login() {
+      this.$store.dispatch('auth/login');
+    },
+
+    closeAccountAlreadyExistsPopup() {
+      this.accountAlreadyExists = false;
+    },
+
     onFormButtonClickHandler() {
       if (this.isAuthenticated) {
         if (this.isEnoughtData) {
@@ -547,6 +568,9 @@ export default {
 
     async getConfirmationCode() {
       this.codeError = false;
+      this.emailAlreadyTaken = false;
+      this.phoneAlreadyTaken = false;
+      this.accountAlreadyExists = false;
       this.startTimer();
 
       let formattedPhone = this.fieldsData.phone.replace(/\s+/g, '').replace(/[^0-9]/g, '');
@@ -574,10 +598,12 @@ export default {
         const errors = error?.response?.data?.errors?.validation;
         if (Object.hasOwn(errors, 'email')) {
           this.emailAlreadyTaken = true;
+          this.accountAlreadyExists = true;
         }
 
         if (Object.hasOwn(errors, 'phone')) {
           this.phoneAlreadyTaken = true;
+          this.accountAlreadyExists = true;
         }
 
         if (error?.response?.data?.errors?.pipeline_exception?.error_code === 'AUTH:000') {
