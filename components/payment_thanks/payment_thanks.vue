@@ -209,10 +209,12 @@ export default {
             `https://rc.lms.synergy.ru/api/exchange/getLink?key=1029-xosJp-5820-Posm&synergyId_hash=${this.$route.query.uuid}`,
           )
           .then(async (response) => {
+            let timeout;
             if (response.data.status === 1) {
               this.linkLMS = response.data.link;
+              clearTimeout(timeout);
             } else {
-              setTimeout(async () => {
+              timeout = setTimeout(async () => {
                 await request();
               }, 2000);
             }
