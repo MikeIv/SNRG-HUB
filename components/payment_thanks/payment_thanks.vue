@@ -189,24 +189,10 @@ export default {
       this.isRegistrationCompleted = false;
     } else this.isRegistrationCompleted = true;
     if (this.$route.query.uuid) {
-      // const requestData = {
-      //   synergyId_hash: this.$route.query.uuid,
-      // };
-
-      // await this.$axios
-      //   .get(
-      //     `https://rc.lms.synergy.ru/api/exchange/getLink?key=1029-xosJp-5820-Posm&synergyId_hash=${this.$route.query.uuid}`,
-      //   )
-      //   .then((response) => {
-      //     if (response.data.status === 1) {
-      //       this.linkLMS = response.data.link;
-      //     }
-      //   });
-
       const request = async () => {
         await this.$axios
           .get(
-            `https://rc.lms.synergy.ru/api/exchange/getLink?key=1029-xosJp-5820-Posm&synergyId_hash=${this.$route.query.uuid}`,
+            `https://rc.lms.synergy.ru/api/exchange/getLink?key=1029-xosJp-5820-Posm&synergyId=${this.$route.query.uuid}`,
           )
           .then(async (response) => {
             let timeout;
@@ -232,7 +218,7 @@ export default {
     },
     toLMS() {
       if (this.linkLMS) {
-        window.location.href = this.link;
+        window.location.href = this.linkLMS;
       }
     },
   },
