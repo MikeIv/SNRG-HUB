@@ -1,6 +1,7 @@
 <template>
   <div class="m-usermenu">
     <AUser
+      class="m-usermenu--tablet-short"
       :user="{
         name: 'Алексей О.',
         img: '/ege/teachers/3.jpg',

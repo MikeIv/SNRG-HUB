@@ -22,7 +22,7 @@
       <div class="s-header__center">
         <div class="l-wide">
           <div class="s-header__center-wrapper">
-            <div class="s-header__center-top">
+            <!-- <div class="s-header__center-top">
               <div class="s-header__location">
                 <MLocation />
               </div>
@@ -38,7 +38,7 @@
                   <div class="s-header__phones-text a-font_m-s">{{ phone }}</div>
                 </a>
               </div>
-            </div>
+            </div> -->
             <nuxt-link to="/" class="s-header__logo-link">
               <img :src="logoURL" alt="" @click="onLogoClickHandler" />
             </nuxt-link>
@@ -59,11 +59,11 @@
                 :disabled="disabledSearch"
               />
             </div>
-            <div class="s-header__login" v-if="!$store.getters['auth/isAuthenticated']">
+            <div class="s-header__login" v-if="$store.getters['auth/isAuthenticated']">
               <AButton size="medium" label="Войти" bgColor="accent" @click="login" />
             </div>
             <div class="s-header__is-auth" v-else>
-              <AButton onlyIcon="square" bgColor="none" iconType="si-heart" size="small" />
+              <!-- <AButton onlyIcon="square" bgColor="none" iconType="si-heart" size="small" /> -->
               <AButton
                 class="s-header__icons-bell notice"
                 onlyIcon="square"
@@ -89,34 +89,9 @@
         </div>
         <div class="s-header__bottom">
           <div class="l-wide s-header__bottom-row">
-            <!-- <div class="menu-dropdown">
-              <div class="menu-dropdown__box">
-                <AButton
-                  class="menu-dropdown__btn"
-                  label="Образование"
-                  iconPosition="right"
-                  bgColor="none"
-                  iconType="si-chevron-down"
-                  @click="menuDropdownVisible = !menuDropdownVisible"
-                />
-                <a-tooltip
-                  :visible="menuDropdownVisible"
-                  @hide-tooltip="menuDropdownVisible = false"
-                  position="bottom-left"
-                >
-                  <div v-for="item in navLinks" :key="item.id" class="menu-dropdown__link a-font_m">
-                    <nuxt-link
-                      :to="`/catalog?page=1&${Object.entries(item.filter_by)[0][0]}=${Object.entries(
-                        item.filter_by,
-                      )[0][1].toString()}`"
-                      itemprop="url"
-                    >
-                      {{ item.anchor }}
-                    </nuxt-link>
-                  </div>
-                </a-tooltip>
-              </div>
-            </div> -->
+            <div class="s-header__location">
+              <MLocation />
+            </div>
             <menu-horizontal :customList="navLinks" :isOpen="isOpen" @change-is-open="handleChange"></menu-horizontal>
           </div>
         </div>

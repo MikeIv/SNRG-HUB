@@ -6,9 +6,13 @@
           <div class="s-menu-main__location">
             <MLocation />
           </div>
-          <!-- <div class="s-menu-main__login">
-            <a-button label="Войти в аккаунт" backgroundColor="#F5F5F5" bgColor="ghost-accept"></a-button>
-          </div> -->
+          <!-- <a-button
+            v-if="$store.getters['auth/isAuthenticated']"
+            class="s-menu-main__login"
+            label="Войти в аккаунт"
+            bgColor="accent"
+          ></a-button> -->
+          <MenuHorizontal />
           <div class="s-menu-main__title a-font_h5">Всё обучение</div>
           <template v-for="(item, idx) in menuAnchors" :index="idx">
             <div
@@ -82,6 +86,7 @@ import MBanner from '~/components/_ui/m_banner/m_banner';
 import getMenuMain from '~/api/menuMain';
 import getBannersDetail from '~/api/bannersDetail';
 import MLocation from '../_ui/m_location/m_location';
+import MenuHorizontal from '../menu_horizontal/menu_horizontal';
 import './s_menu_main.scss';
 
 export default {
@@ -92,6 +97,7 @@ export default {
     MBanner,
     // AButton,
     MLocation,
+    MenuHorizontal,
   },
 
   data() {

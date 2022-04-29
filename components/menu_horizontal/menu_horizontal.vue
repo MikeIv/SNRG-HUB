@@ -1,6 +1,51 @@
 <template>
   <nav class="menu-horizontal" itemscope itemtype="http://schema.org/SiteNavigationElement">
-    <swiper class="menu-horizontal__box" :options="swiperOption">
+    <div class="menu-horizontal__box" v-if="isMobile">
+      <div class="menu-horizontal__item menu-horizontal__item--user">
+        <AUser
+          :user="{ name: 'Алексей О.', img: '/ege/teachers/3.jpg', published: 'Юр.лицо' }"
+          namePosition="right"
+          imageShape="circle"
+        />
+        <i class="si-chevron-right"></i>
+      </div>
+      <div
+        class="menu-horizontal__item"
+        v-for="(menuItem, i) in navLinks"
+        :key="i"
+        @click="menuItemClickHandler(menuItem)"
+      >
+        <template v-if="menuItem && menuItem.links">
+          <a-sidebar-item :label="menuItem.anchor" />
+          <div class="menu-horizontal__content" :class="{ open: menuItem.isActive }">
+            <div class="menu-horizontal__links">
+              <div class="menu-horizontal__links-top" @click="menuItem.isActive = false">
+                <div class="menu-horizontal__links-icon si-chevron-left"></div>
+                <div class="menu-horizontal__links-title a-font_h4">{{ menuItem }}</div>
+              </div>
+            </div>
+            <div class="menu-horizontal__link-list" itemscope itemtype="http://schema.org/SiteNavigationElement">
+              <a
+                v-for="(linkItem, idx) in menuItem.links"
+                :key="idx"
+                class="menu-horizontal__link"
+                :href="`/catalog?page=1&${Object.entries(linkItem.filter_by)[0][0]}=${Object.entries(
+                  linkItem.filter_by,
+                )[0][1].toString()}`"
+                itemprop="url"
+              >
+                <a-sidebar-item :label="linkItem.anchor" />
+              </a>
+            </div>
+          </div>
+        </template>
+        <a v-else :href="menuItem.link">
+          <a-sidebar-item :label="menuItem.anchor" />
+        </a>
+      </div>
+    </div>
+
+    <swiper v-else class="menu-horizontal__box" :options="swiperOption">
       <swiper-slide v-for="item in navLinks" :key="item.id">
         <div
           class="menu-horizontal__link"
@@ -32,29 +77,15 @@
           </div>
         </a-tooltip>
       </swiper-slide>
-
-      <!-- <template v-else>
-        <template v-for="item in navLinks">
-          <swiper-slide v-if="item.active" :key="item.id" itemprop="name">
-            <a
-              :href="`/catalog?page=1&${Object.entries(item.filter_by)[0][0]}=${Object.entries(
-                item.filter_by,
-              )[0][1].toString()}`"
-              class="a-font_m menu-horizontal__link"
-              itemprop="url"
-            >
-              {{ item.anchor }}
-            </a>
-          </swiper-slide>
-        </template>
-      </template> -->
     </swiper>
   </nav>
 </template>
 
 <script>
 import { Swiper, SwiperSlide } from 'vue-awesome-swiper';
+import { ASidebarItem } from '@cwespb/synergyui';
 import ATooltip from '~/components/_ui/a_tooltip/a_tooltip';
+import AUser from '~/components/_ui/a_user/a_user';
 import getMenuData from '~/api/menuData';
 import './menu_horizontal.scss';
 
@@ -81,14 +112,23 @@ export default {
         },
       },
       menuDropdownVisible: true,
+      isMobile: false,
     };
   },
   components: {
     Swiper,
     SwiperSlide,
+    ASidebarItem,
     ATooltip,
+    AUser,
   },
-  async fetch() {
+  methods: {
+    menuItemClickHandler(item) {
+      this.$set(item, 'isActive', !item.isActive);
+      console.log('----', item);
+    },
+  },
+  async mounted() {
     const educationLinks = await getMenuData();
     /* if (this.customList?.length) {
       this.navLinks = this.customList;
@@ -103,6 +143,8 @@ export default {
       { anchor: 'Вебинары', link: '#' },
       { anchor: 'Сравнения', link: '#' }, */
     ];
+
+    this.isMobile = window.innerWidth < 768;
   },
 };
 </script>

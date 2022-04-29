@@ -374,7 +374,6 @@
   }
 
   &__login {
-    display: none;
     width: 100%;
     margin: rem(20) 0;
     padding: 0 var(--a-padding--x4);
@@ -394,6 +393,18 @@
       display: block;
       margin: rem(13) 0;
       padding: 0 var(--a-padding--x4);
+    }
+  }
+
+  &__loggedin {
+    display: none;
+    @media screen and (max-width: 767px) {
+      display: block;
+      border-radius: var(--a-borderRadius--bg);
+      overflow: hidden;
+      padding: 0 rem(18);
+      background: var(--a-color_bg);
+      margin-bottom: rem(16);
     }
   }
 

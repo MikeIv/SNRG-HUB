@@ -20,11 +20,113 @@
 
   &__dropdown-link.a-font_m {
     min-width: rem(160);
+    color: var(--a-color_text);
     font-weight: 300;
     line-height: rem(17);
-    color: var(--a-color_text);
     & + .menu-horizontal__dropdown-link {
       margin-top: rem(20);
+    }
+  }
+
+  &__box {
+    @media screen and (max-width: 767px) {
+      padding: 0 rem(12);
+      background: var(--a-color_bg);
+      border-radius: var(--a-borderRadius--bg);
+    }
+  }
+
+  &__content {
+    overflow-x: hidden;
+    overflow-y: scroll;
+    width: auto;
+    height: calc(var(--vh, 1vh) * 100 - 156px);
+    max-height: 100vh;
+    margin-right: rem(23);
+    margin-left: rem(12);
+    padding-top: var(--a-padding--x5);
+    padding-right: rem(22);
+    padding-left: var(--a-padding--x8);
+    border-left: 1px solid var(--a-color_thumbnail);
+    transition: all 0.4s ease-in-out;
+    @media screen and (max-width: 1499px) {
+      width: auto;
+    }
+    @media screen and (max-width: 991px) {
+      height: calc(var(--vh, 1vh) * 100 - 116px);
+      margin-right: 0;
+      margin-left: 0;
+      padding-top: var(--a-padding--x4);
+      padding-right: 0;
+      padding-left: var(--a-padding--x6);
+    }
+    @media screen and (max-width: 767px) {
+      position: absolute;
+      z-index: 2;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: calc(var(--vh, 1vh) * 100 - 136px);
+      max-height: 100vh;
+      padding-left: 0;
+      background: var(--a-color_bg--secondary);
+      transform: translateX(200%);
+    }
+
+    &.open {
+      transform: translateX(0);
+    }
+
+    &::-webkit-scrollbar {
+      width: rem(4);
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background: var(--a-color_thumbnail);
+      border-radius: rem(7);
+    }
+  }
+
+  &__item {
+    min-width: rem(222);
+    @media screen and (max-width: 1499px) {
+      min-width: rem(130);
+    }
+
+    .a-sidebarItem {
+      margin-bottom: 0;
+      padding: rem(12) 0;
+
+      &:hover {
+        background: var(--a-color_bg);
+      }
+
+      &__text {
+        overflow: hidden;
+        max-width: rem(182);
+        padding: 0 rem(5);
+        text-overflow: ellipsis;
+
+        @media screen and (max-width: 767px) {
+          max-width: calc(100% - rem(33));
+        }
+      }
+    }
+
+    &--user {
+      display: flex;
+      align-items: center;
+      padding: rem(12) 0;
+
+      i {
+        margin-left: auto;
+        color: var(--a-color_thumbnail);
+        font-size: rem(24);
+      }
+    }
+
+    & + .menu-horizontal__item {
+      border-top: rem(1) solid var(--a-color_bg--secondary);
     }
   }
 }

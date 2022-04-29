@@ -31,18 +31,26 @@
         font-size: rem(14);
       }
       i.si-close {
-        background-color: #f4f4f4;
-        border-radius: 50%;
         width: rem(44);
         height: rem(44);
-        padding: rem(2);
         margin-left: 0;
+        padding: rem(2);
+        background-color: #f4f4f4;
+        border-radius: 50%;
 
         &::before {
-          transform: rotate(45deg);
           font-size: rem(22);
           font-weight: 600;
+          transform: rotate(45deg);
         }
+      }
+    }
+  }
+
+  &--tablet-short {
+    .a-user__info {
+      @media screen and (max-width: 991px) {
+        display: none;
       }
     }
   }
