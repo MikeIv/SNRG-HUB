@@ -811,7 +811,13 @@ export default {
       this.emailErrorFlag = this.$lander.valid([{ value: this.fieldsData.email, type: 'email' }]);
       this.phoneErrorFlag = this.validPhone === true && this.fieldsData.phone !== '';
       // eslint-disable-next-line max-len
-      return this.nameErrorFlag && this.surnameErrorFlag && this.emailErrorFlag && this.validPhone;
+      return (
+        this.nameErrorFlag
+        && this.surnameErrorFlag
+        && this.patronymicErrorFlag
+        && this.emailErrorFlag
+        && this.validPhone
+      );
     },
     changeFocusInput() {
       this.$store.commit('changeIsVisible', false);
