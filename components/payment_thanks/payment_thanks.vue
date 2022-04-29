@@ -193,15 +193,33 @@ export default {
       //   synergyId_hash: this.$route.query.uuid,
       // };
 
-      await this.$axios
-        .get(
-          `https://rc.lms.synergy.ru/api/exchange/getLink?key=1029-xosJp-5820-Posm&synergyId_hash=${this.$route.query.uuid}`,
-        )
-        .then((response) => {
-          if (response.data.status === 1) {
-            this.linkLMS = response.data.link;
-          }
-        });
+      // await this.$axios
+      //   .get(
+      //     `https://rc.lms.synergy.ru/api/exchange/getLink?key=1029-xosJp-5820-Posm&synergyId_hash=${this.$route.query.uuid}`,
+      //   )
+      //   .then((response) => {
+      //     if (response.data.status === 1) {
+      //       this.linkLMS = response.data.link;
+      //     }
+      //   });
+
+      const request = async () => {
+        await this.$axios
+          .get(
+            `https://rc.lms.synergy.ru/api/exchange/getLink?key=1029-xosJp-5820-Posm&synergyId_hash=${this.$route.query.uuid}`,
+          )
+          .then(async (response) => {
+            if (response.data.status === 1) {
+              this.linkLMS = response.data.link;
+            } else {
+              setTimeout(async () => {
+                await request();
+              }, 2000);
+            }
+          });
+      };
+
+      await request();
     }
   },
   methods: {
