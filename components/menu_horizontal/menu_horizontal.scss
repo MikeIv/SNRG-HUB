@@ -10,14 +10,6 @@
     overflow: visible;
   }
 
-  &__link {
-    color: var(--a-color_text);
-    font-weight: 600;
-    white-space: nowrap;
-    text-decoration: none;
-    cursor: pointer;
-  }
-
   &__dropdown-link.a-font_m {
     min-width: rem(160);
     color: var(--a-color_text);
@@ -28,11 +20,50 @@
     }
   }
 
+  .a-sidebarItem {
+    margin-bottom: 0;
+    padding: 0;
+    border: none;
+    &:hover {
+      background: inherit;
+    }
+  }
+
+  &__item {
+    min-width: rem(222);
+    color: var(--a-color_text);
+    margin: 0 rem(12);
+    @media screen and (max-width: 1499px) {
+      min-width: rem(130);
+    }
+    &--user {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: rem(12) 0;
+
+      & > i {
+        color: var(--a-color_thumbnail);
+        font-size: rem(24);
+      }
+    }
+
+    & &-text {
+      flex: 1;
+      display: flex;
+      padding: var(--a-padding--x3) 0;
+    }
+
+    & + .menu-horizontal__item {
+      border-top: rem(1) solid var(--a-color_bg--secondary);
+    }
+  }
+
   &__box {
     @media screen and (max-width: 767px) {
-      padding: 0 rem(12);
       background: var(--a-color_bg);
       border-radius: var(--a-borderRadius--bg);
+      overflow: hidden;
     }
   }
 
@@ -40,26 +71,10 @@
     overflow-x: hidden;
     overflow-y: scroll;
     width: auto;
-    height: calc(var(--vh, 1vh) * 100 - 156px);
+    height: calc(var(--vh, 1vh) * 100 - rem(156));
     max-height: 100vh;
-    margin-right: rem(23);
-    margin-left: rem(12);
     padding-top: var(--a-padding--x5);
-    padding-right: rem(22);
-    padding-left: var(--a-padding--x8);
-    border-left: 1px solid var(--a-color_thumbnail);
     transition: all 0.4s ease-in-out;
-    @media screen and (max-width: 1499px) {
-      width: auto;
-    }
-    @media screen and (max-width: 991px) {
-      height: calc(var(--vh, 1vh) * 100 - 116px);
-      margin-right: 0;
-      margin-left: 0;
-      padding-top: var(--a-padding--x4);
-      padding-right: 0;
-      padding-left: var(--a-padding--x6);
-    }
     @media screen and (max-width: 767px) {
       position: absolute;
       z-index: 2;
@@ -68,9 +83,41 @@
       width: 100%;
       height: calc(var(--vh, 1vh) * 100 - 136px);
       max-height: 100vh;
-      padding-left: 0;
       background: var(--a-color_bg--secondary);
       transform: translateX(200%);
+    }
+
+    &-head {
+      display: flex;
+      align-items: center;
+      padding-bottom: var(--a-padding--x6);
+
+      i {
+        color: var(--a-color_thumbnail);
+        font-size: rem(24);
+      }
+    }
+
+    &--user {
+      padding: 0;
+      .menu-horizontal {
+        &__content-head {
+          background-color: var(--a-color_bg);
+        }
+      }
+    }
+    &-list {
+      background: var(--a-color_bg);
+      border-radius: var(--a-borderRadius--bg);
+      overflow: hidden;
+    }
+    &-link {
+      display: block;
+      padding: rem(12) 0;
+      margin: 0 rem(12);
+      border-bottom: rem(1) solid var(--a-color_bg--secondary);
+      font-weight: 600;
+      color: var(--a-color_text);
     }
 
     &.open {
@@ -86,47 +133,18 @@
       border-radius: rem(7);
     }
   }
-
-  &__item {
-    min-width: rem(222);
-    @media screen and (max-width: 1499px) {
-      min-width: rem(130);
-    }
-
-    .a-sidebarItem {
-      margin-bottom: 0;
-      padding: rem(12) 0;
-
-      &:hover {
-        background: var(--a-color_bg);
-      }
-
-      &__text {
-        overflow: hidden;
-        max-width: rem(182);
-        padding: 0 rem(5);
-        text-overflow: ellipsis;
-
-        @media screen and (max-width: 767px) {
-          max-width: calc(100% - rem(33));
-        }
-      }
-    }
-
-    &--user {
-      display: flex;
-      align-items: center;
-      padding: rem(12) 0;
-
+  &__link {
+    display: block;
+    color: var(--a-color_text);
+    font-weight: 600;
+    white-space: nowrap;
+    text-decoration: none;
+    cursor: pointer;
+    @media screen and (max-width: 767px) {
+      border-bottom: rem(1) solid var(--a-color_bg--secondary);
       i {
-        margin-left: auto;
-        color: var(--a-color_thumbnail);
-        font-size: rem(24);
+        display: none;
       }
-    }
-
-    & + .menu-horizontal__item {
-      border-top: rem(1) solid var(--a-color_bg--secondary);
     }
   }
 }

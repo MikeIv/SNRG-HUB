@@ -2,31 +2,84 @@
 
 .m-usermenu {
   position: relative;
+  @media screen and (max-width: 767px) {
+    position: static;
+    background-color: var(--a-color_bg);
+    border-radius: 0 0 rem(20) rem(20);
+  }
+  .p-16 {
+    padding: rem(16) 0;
+  }
+  .mb-8 {
+    margin-bottom: rem(8);
+  }
+  .bd-bottom {
+    border-bottom: rem(1) solid #e7e9ec;
+  }
 
+  &__item {
+    display: flex;
+    align-items: center;
+    margin: 0 rem(14);
+    padding: rem(14) 0;
+
+    & + .m-usermenu__item {
+      border-top: rem(1) solid var(--a-color_bg--secondary);
+    }
+
+    &-icon {
+      margin-left: auto;
+      color: var(--a-color_thumbnail);
+    }
+
+    &.color-red,
+    .color-red {
+      color: var(--a-color_link);
+    }
+
+    &.notice i {
+      position: relative;
+      &::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        right: rem(3);
+        display: block;
+        width: rem(6);
+        height: rem(6);
+        background-color: var(--a-color_link);
+        border: rem(1) solid var(--a-color_bg);
+        border-radius: 50%;
+      }
+    }
+
+    .si-entrance {
+      transform: rotate(90deg);
+    }
+  }
   &__tooltip {
-    .p-16 {
-      padding: rem(16) 0;
-    }
-    .mb-8 {
-      margin-bottom: rem(8);
-    }
-    .bd-bottom {
-      border-bottom: rem(1) solid #e7e9ec;
-    }
     &-row {
       cursor: pointer;
       &:first-child {
         padding-top: 0;
       }
     }
-    &-box {
-      margin-top: rem(28);
-    }
-    &-title {
-      margin-bottom: rem(8);
-    }
+  }
 
-    &-btn-add {
+  &__box {
+    margin-top: rem(28);
+    @media screen and (max-width: 767px) {
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      width: 100%;
+      padding: rem(16);
+      background-color: var(--a-color_bg);
+      border-radius: rem(20) rem(20) 0 0;
+    }
+  }
+  &__btn {
+    &-add-organization {
       span {
         font-size: rem(14);
       }
@@ -35,6 +88,7 @@
         height: rem(44);
         margin-left: 0;
         padding: rem(2);
+        color: var(--a-color_active);
         background-color: #f4f4f4;
         border-radius: 50%;
 

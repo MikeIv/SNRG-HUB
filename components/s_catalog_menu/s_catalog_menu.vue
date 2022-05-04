@@ -124,7 +124,7 @@ export default {
   data() {
     return {
       isFilterExpanded: false,
-      currentExpandedFilter: 'level_ids',
+      currentExpandedFilter: Object.keys(this.filterListData)[0],
       componentExpandedMenuKey: 3000,
       menuKey: 1,
     };

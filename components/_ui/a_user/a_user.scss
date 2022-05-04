@@ -19,7 +19,7 @@
       object-position: top;
     }
 
-    &--circle {
+    &--circle.a-user__avatar {
       padding: rem(1);
       background-color: var(--a-color_thumbnail);
       border-radius: 50%;
@@ -27,6 +27,11 @@
       mask-image: none;
       img {
         border-radius: 50%;
+      }
+
+      @media (max-width: 768px) {
+        width: rem(44);
+        height: rem(44);
       }
     }
   }

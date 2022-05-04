@@ -1,47 +1,50 @@
 <template>
   <nav class="menu-horizontal" itemscope itemtype="http://schema.org/SiteNavigationElement">
     <div class="menu-horizontal__box" v-if="isMobile">
-      <div class="menu-horizontal__item menu-horizontal__item--user">
+      <div class="menu-horizontal__item menu-horizontal__item--user" @click="userMenu = true">
         <AUser
           :user="{ name: 'Алексей О.', img: '/ege/teachers/3.jpg', published: 'Юр.лицо' }"
           namePosition="right"
           imageShape="circle"
         />
         <i class="si-chevron-right"></i>
+        <div class="menu-horizontal__content menu-horizontal__content--user" :class="{ open: userMenu }">
+          <div class="menu-horizontal__content-head" @click.stop="userMenu = false">
+            <i class="si-chevron-left"></i>
+            <div class="menu-horizontal__content-title a-font_h4">Назад</div>
+          </div>
+          <MUserMenu />
+        </div>
       </div>
       <div
-        class="menu-horizontal__item"
+        class="menu-horizontal__item a-font_l"
         v-for="(menuItem, i) in navLinks"
         :key="i"
         @click="menuItemClickHandler(menuItem)"
       >
         <template v-if="menuItem && menuItem.links">
-          <a-sidebar-item :label="menuItem.anchor" />
+          <a-sidebar-item class="menu-horizontal__item-text" :label="menuItem.anchor" />
           <div class="menu-horizontal__content" :class="{ open: menuItem.isActive }">
-            <div class="menu-horizontal__links">
-              <div class="menu-horizontal__links-top" @click="menuItem.isActive = false">
-                <div class="menu-horizontal__links-icon si-chevron-left"></div>
-                <div class="menu-horizontal__links-title a-font_h4">{{ menuItem }}</div>
-              </div>
+            <div class="menu-horizontal__content-head" @click="menuGoBack">
+              <i class="si-chevron-left"></i>
+              <div class="menu-horizontal__content-title a-font_h4">{{ menuItem.anchor }}</div>
             </div>
-            <div class="menu-horizontal__link-list" itemscope itemtype="http://schema.org/SiteNavigationElement">
+            <div class="menu-horizontal__content-list" itemscope itemtype="http://schema.org/SiteNavigationElement">
               <a
                 v-for="(linkItem, idx) in menuItem.links"
                 :key="idx"
-                class="menu-horizontal__link"
+                class="menu-horizontal__content-link a-font_xxl"
                 :href="`/catalog?page=1&${Object.entries(linkItem.filter_by)[0][0]}=${Object.entries(
                   linkItem.filter_by,
                 )[0][1].toString()}`"
                 itemprop="url"
               >
-                <a-sidebar-item :label="linkItem.anchor" />
+                {{ linkItem.anchor }}
               </a>
             </div>
           </div>
         </template>
-        <a v-else :href="menuItem.link">
-          <a-sidebar-item :label="menuItem.anchor" />
-        </a>
+        <a v-else :href="menuItem.link" class="menu-horizontal__item-text">{{ menuItem.anchor }}</a>
       </div>
     </div>
 
@@ -86,6 +89,7 @@ import { Swiper, SwiperSlide } from 'vue-awesome-swiper';
 import { ASidebarItem } from '@cwespb/synergyui';
 import ATooltip from '~/components/_ui/a_tooltip/a_tooltip';
 import AUser from '~/components/_ui/a_user/a_user';
+import MUserMenu from '~/components/_ui/m_usermenu/m_usermenu';
 import getMenuData from '~/api/menuData';
 import './menu_horizontal.scss';
 
@@ -113,6 +117,7 @@ export default {
       },
       menuDropdownVisible: true,
       isMobile: false,
+      userMenu: false,
     };
   },
   components: {
@@ -121,11 +126,14 @@ export default {
     ASidebarItem,
     ATooltip,
     AUser,
+    MUserMenu,
   },
   methods: {
     menuItemClickHandler(item) {
       this.$set(item, 'isActive', !item.isActive);
-      console.log('----', item);
+    },
+    menuGoBack(item) {
+      this.$set(item, 'isActive', false);
     },
   },
   async mounted() {
