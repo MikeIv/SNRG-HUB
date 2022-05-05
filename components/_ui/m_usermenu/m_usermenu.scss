@@ -4,6 +4,7 @@
   position: relative;
   @media screen and (max-width: 767px) {
     position: static;
+    margin-bottom: rem(150);
     background-color: var(--a-color_bg);
     border-radius: 0 0 rem(20) rem(20);
   }
@@ -59,6 +60,7 @@
   }
   &__tooltip {
     &-row {
+      display: block;
       cursor: pointer;
       &:first-child {
         padding-top: 0;
@@ -69,9 +71,9 @@
   &__box {
     margin-top: rem(28);
     @media screen and (max-width: 767px) {
-      position: absolute;
+      position: fixed;
       left: 0;
-      bottom: 0;
+      bottom: rem(-3);
       width: 100%;
       padding: rem(16);
       background-color: var(--a-color_bg);
@@ -102,8 +104,13 @@
   }
 
   &--tablet-short {
-    .a-user__info {
-      @media screen and (max-width: 991px) {
+    .a-user {
+      &__info {
+        @media screen and (max-width: 991px) {
+          display: none;
+        }
+      }
+      &__publications {
         display: none;
       }
     }

@@ -10,5 +10,6 @@ export default function parseJWT(jwt) {
     );
 
     return JSON.parse(jsonPayload).data;
-  } return {};
+  }
+  return {};
 }

@@ -1,9 +1,18 @@
 @import '@/assets/styles/tools/mixins';
 
 .menu-horizontal {
-  width: 100%;
+  padding-bottom: var(--a-padding--x3);
   .swiper-slide {
     width: fit-content;
+  }
+
+  .a-sidebarItem {
+    margin-bottom: 0;
+    padding: 0;
+    border: none;
+    &:hover {
+      background: inherit;
+    }
   }
 
   &__box.swiper-container {
@@ -20,26 +29,17 @@
     }
   }
 
-  .a-sidebarItem {
-    margin-bottom: 0;
-    padding: 0;
-    border: none;
-    &:hover {
-      background: inherit;
-    }
-  }
-
   &__item {
     min-width: rem(222);
-    color: var(--a-color_text);
     margin: 0 rem(12);
+    color: var(--a-color_text);
     @media screen and (max-width: 1499px) {
       min-width: rem(130);
     }
     &--user {
       display: flex;
-      align-items: center;
       justify-content: space-between;
+      align-items: center;
       padding: rem(12) 0;
 
       & > i {
@@ -49,8 +49,8 @@
     }
 
     & &-text {
-      flex: 1;
       display: flex;
+      flex: 1;
       padding: var(--a-padding--x3) 0;
     }
 
@@ -61,9 +61,9 @@
 
   &__box {
     @media screen and (max-width: 767px) {
+      overflow: hidden;
       background: var(--a-color_bg);
       border-radius: var(--a-borderRadius--bg);
-      overflow: hidden;
     }
   }
 
@@ -81,7 +81,7 @@
       top: 0;
       left: 0;
       width: 100%;
-      height: calc(var(--vh, 1vh) * 100 - 136px);
+      height: calc(var(--vh, 1vh) * 100 - 132px);
       max-height: 100vh;
       background: var(--a-color_bg--secondary);
       transform: translateX(200%);
@@ -107,21 +107,21 @@
       }
     }
     &-list {
+      /* overflow: hidden; */
       background: var(--a-color_bg);
       border-radius: var(--a-borderRadius--bg);
-      overflow: hidden;
     }
     &-link {
       display: block;
-      padding: rem(12) 0;
       margin: 0 rem(12);
+      padding: rem(12) 0;
+      color: var(--a-color_text);
       border-bottom: rem(1) solid var(--a-color_bg--secondary);
       font-weight: 600;
-      color: var(--a-color_text);
     }
 
     &.open {
-      transform: translateX(0);
+      transform: none;
     }
 
     &::-webkit-scrollbar {

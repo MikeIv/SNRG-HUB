@@ -42,6 +42,12 @@
             <nuxt-link to="/" class="s-header__logo-link">
               <img :src="logoURL" alt="" @click="onLogoClickHandler" />
             </nuxt-link>
+            <AButton
+              class="s-header__search-btn"
+              onlyIcon="square"
+              iconType="si-search"
+              @click="searchButtonClickHandler"
+            />
             <div class="s-header__burger" @click="handleChange">
               <div class="s-header__burger-icon">
                 <div class="si-menu" v-if="!isOpen"></div>
@@ -49,7 +55,7 @@
               </div>
               <div class="s-header__burger-text a-font_l a-color_link">{{ btnText }}</div>
             </div>
-            <div class="s-header__search">
+            <div class="s-header__search" v-if="searchIsVisible || !isMobile">
               <a-input
                 id="search"
                 icons="si-search"
@@ -59,18 +65,18 @@
                 :disabled="disabledSearch"
               />
             </div>
-            <div class="s-header__login" v-if="$store.getters['auth/isAuthenticated']">
+            <div class="s-header__login" v-if="!$store.getters['auth/isAuthenticated']">
               <AButton size="medium" label="Войти" bgColor="accent" @click="login" />
             </div>
             <div class="s-header__is-auth" v-else>
-              <!-- <AButton onlyIcon="square" bgColor="none" iconType="si-heart" size="small" /> -->
+              <!-- <AButton onlyIcon="square" bgColor="none" iconType="si-heart" size="small" />
               <AButton
                 class="s-header__icons-bell notice"
                 onlyIcon="square"
                 bgColor="none"
                 iconType="si-bell"
                 size="small"
-              />
+              /> -->
               <MUserMenu />
             </div>
           </div>
@@ -92,7 +98,12 @@
             <div class="s-header__location">
               <MLocation />
             </div>
-            <menu-horizontal :customList="navLinks" :isOpen="isOpen" @change-is-open="handleChange"></menu-horizontal>
+            <menu-horizontal
+              class="s-header__menu-horizontal"
+              :customList="navLinks"
+              :isOpen="isOpen"
+              @change-is-open="handleChange"
+            ></menu-horizontal>
           </div>
         </div>
       </div>
@@ -147,6 +158,8 @@ export default {
       disabledSearch: false,
       isOpen: false,
       navLinks: null,
+      searchIsVisible: false,
+      isMobile: false,
     };
   },
 
@@ -220,6 +233,7 @@ export default {
 
   mounted() {
     window.addEventListener('scroll', this.handleScroll);
+    this.isMobile = window.innerWidth < 768;
     this.$nextTick(() => {
       const vh = window.innerHeight * 0.01;
       document.documentElement.style.setProperty('--vh', `${vh}px`);
@@ -334,6 +348,10 @@ export default {
 
     logout() {
       this.$store.dispatch('auth/logout');
+    },
+
+    searchButtonClickHandler() {
+      this.searchIsVisible = !this.searchIsVisible;
     },
   },
 };

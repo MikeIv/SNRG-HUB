@@ -96,8 +96,8 @@ export default {
     ['@synergy/synergyid-adapter', {
       namespace: 'auth',
       brokerBackendUrl: 'https://api.synergyhub.ru/',
-      synergyIdBackendUrl: 'https://ogm-111-2795.c4.syndev.ru/',
-      synergyIdDomain: 'https://ogm-002-2640.c4.syndev.ru/',
+      synergyIdBackendUrl: 'https://pass.synergy.ru/',
+      synergyIdDomain: 'https://pass.synergy.ru/',
     },
     ],
   ],

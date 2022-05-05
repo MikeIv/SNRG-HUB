@@ -2,11 +2,7 @@
   <nav class="menu-horizontal" itemscope itemtype="http://schema.org/SiteNavigationElement">
     <div class="menu-horizontal__box" v-if="isMobile">
       <div class="menu-horizontal__item menu-horizontal__item--user" @click="userMenu = true">
-        <AUser
-          :user="{ name: 'Алексей О.', img: '/ege/teachers/3.jpg', published: 'Юр.лицо' }"
-          namePosition="right"
-          imageShape="circle"
-        />
+        <AUser :user="user" namePosition="right" imageShape="circle" />
         <i class="si-chevron-right"></i>
         <div class="menu-horizontal__content menu-horizontal__content--user" :class="{ open: userMenu }">
           <div class="menu-horizontal__content-head" @click.stop="userMenu = false">
@@ -38,6 +34,7 @@
                   linkItem.filter_by,
                 )[0][1].toString()}`"
                 itemprop="url"
+                @click.stop
               >
                 {{ linkItem.anchor }}
               </a>
@@ -48,7 +45,12 @@
       </div>
     </div>
 
-    <swiper v-else class="menu-horizontal__box" :options="swiperOption">
+    <swiper
+      v-else
+      class="menu-horizontal__box"
+      :options="swiperOption"
+      :style="`overflow: ${disableSliderOverflow ? 'hidden' : ''}`"
+    >
       <swiper-slide v-for="item in navLinks" :key="item.id">
         <div
           class="menu-horizontal__link"
@@ -115,9 +117,12 @@ export default {
           },
         },
       },
-      menuDropdownVisible: true,
       isMobile: false,
       userMenu: false,
+      user: {
+        name: '',
+        img: '',
+      },
     };
   },
   components: {
@@ -136,11 +141,21 @@ export default {
       this.$set(item, 'isActive', false);
     },
   },
+  computed: {
+    userData() {
+      return this.$store.getters['auth/userInfo'];
+    },
+    userFullName() {
+      const name = this.userData?.account_information?.name || '';
+      const surname = this.userData?.account_information?.surname || '';
+      return `${name} ${surname[0]}.`;
+    },
+    disableSliderOverflow() {
+      return this.navLinks.every((link) => !link?.active);
+    },
+  },
   async mounted() {
     const educationLinks = await getMenuData();
-    /* if (this.customList?.length) {
-      this.navLinks = this.customList;
-    } */
     this.navLinks = [
       { anchor: 'Образование', links: educationLinks, active: false },
       { anchor: 'Учебные заведения', link: '/organizations' },
@@ -151,8 +166,11 @@ export default {
       { anchor: 'Вебинары', link: '#' },
       { anchor: 'Сравнения', link: '#' }, */
     ];
-
     this.isMobile = window.innerWidth < 768;
+    this.user = {
+      name: this.userFullName,
+      published: this.userData?.email?.email,
+    };
   },
 };
 </script>
