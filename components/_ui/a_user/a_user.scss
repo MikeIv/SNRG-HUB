@@ -1,7 +1,8 @@
 @import '@/assets/styles/tools/mixins';
 
 .a-user {
-  &__name {
+  cursor: pointer;
+  &__name.a-font_m {
     padding-left: 0;
     font-weight: 600;
   }
@@ -16,6 +17,32 @@
     &-img {
       object-fit: cover;
       object-position: top;
+    }
+
+    &--circle.a-user__avatar {
+      padding: rem(1);
+      background-color: var(--a-color_thumbnail);
+      border-radius: 50%;
+      -webkit-mask-image: none;
+      mask-image: none;
+      img {
+        border-radius: 50%;
+      }
+
+      @media (max-width: 768px) {
+        width: rem(44);
+        height: rem(44);
+      }
+    }
+  }
+
+  &--left {
+    flex-direction: row-reverse;
+  }
+
+  &--left & {
+    &__avatar {
+      margin: 0 0 0 rem(12);
     }
   }
 }

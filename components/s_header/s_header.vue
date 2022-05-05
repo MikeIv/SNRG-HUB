@@ -22,7 +22,7 @@
       <div class="s-header__center">
         <div class="l-wide">
           <div class="s-header__center-wrapper">
-            <div class="s-header__center-top">
+            <!-- <div class="s-header__center-top">
               <div class="s-header__location">
                 <MLocation />
               </div>
@@ -38,7 +38,7 @@
                   <div class="s-header__phones-text a-font_m-s">{{ phone }}</div>
                 </a>
               </div>
-            </div>
+            </div> -->
             <nuxt-link to="/" class="s-header__logo-link">
               <img :src="logoURL" alt="" @click="onLogoClickHandler" />
             </nuxt-link>
@@ -59,15 +59,19 @@
                 :disabled="disabledSearch"
               />
             </div>
-            <div class="s-header__login" v-if="false">
+            <div class="s-header__login" v-if="$store.getters['auth/isAuthenticated']">
+              <AButton size="medium" label="Войти" bgColor="accent" @click="login" />
+            </div>
+            <div class="s-header__is-auth" v-else>
+              <!-- <AButton onlyIcon="square" bgColor="none" iconType="si-heart" size="small" /> -->
               <AButton
-                size="medium"
-                label="Войти"
-                bgColor="accent"
-                @click="login()"
-                v-if="!this.$store.getters['auth/isAuthenticated']"
+                class="s-header__icons-bell notice"
+                onlyIcon="square"
+                bgColor="none"
+                iconType="si-bell"
+                size="small"
               />
-              <AButton size="medium" label="Выйти" bgColor="accent" @click="logout()" v-else />
+              <MUserMenu />
             </div>
           </div>
           <template v-if="catalog && isScrolled">
@@ -84,8 +88,11 @@
           </template>
         </div>
         <div class="s-header__bottom">
-          <div class="l-wide">
-            <menu-horizontal :isOpen="isOpen" @change-is-open="handleChange"></menu-horizontal>
+          <div class="l-wide s-header__bottom-row">
+            <div class="s-header__location">
+              <MLocation />
+            </div>
+            <menu-horizontal :customList="navLinks" :isOpen="isOpen" @change-is-open="handleChange"></menu-horizontal>
           </div>
         </div>
       </div>
@@ -98,6 +105,7 @@
 import { AInput, AButton, ASelect } from '@cwespb/synergyui';
 import './s_header.scss';
 import MBanner from '~/components/_ui/m_banner/m_banner';
+import MUserMenu from '~/components/_ui/m_usermenu/m_usermenu';
 import getBannersDetail from '~/api/bannersDetail';
 import { debounce } from '~/assets/js/debounce';
 import MLocation from '../_ui/m_location/m_location';
@@ -138,6 +146,7 @@ export default {
       topBannerSmoothHref: '#quiz',
       disabledSearch: false,
       isOpen: false,
+      navLinks: null,
     };
   },
 
@@ -149,6 +158,7 @@ export default {
     SMenuMain,
     MBanner,
     ASelect,
+    MUserMenu,
   },
 
   async fetch() {
@@ -159,6 +169,17 @@ export default {
     };
 
     this.bannerTop = await getBannersDetail(request);
+    /* const educationLinks = await getMenuData();
+    this.navLinks = [
+      { anchor: 'Образование', links: educationLinks, active: false },
+      { anchor: 'Учебные заведения', link: '/organizations' },
+      { anchor: 'Журнал', link: '/journal' },
+      { anchor: 'Тесты', link: '/proftest' },
+      { anchor: 'Специальности', link: '#' },
+      { anchor: 'Профессии', link: '#' },
+      { anchor: 'Вебинары', link: '#' },
+      { anchor: 'Сравнения', link: '#' },
+    ]; */
   },
 
   created() {

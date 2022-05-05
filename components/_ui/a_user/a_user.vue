@@ -1,8 +1,8 @@
 <template>
-  <div class="a-user">
-    <div class="a-user__avatar">
-      <img v-if="user.img" :src="user.img" class="a-user__avatar-img" alt="" />
-      <img else="user.img" src="/school/avatar.svg" class="a-user__avatar-img" alt="" />
+  <div :class="classes">
+    <div :class="avatarClasses" @click.stop="avatarClickHandler">
+      <img v-if="user.img" :src="user.img" class="a-user__avatar-img" alt="icon" />
+      <img v-else src="/school/avatar.svg" class="a-user__avatar-img" alt="icon" />
     </div>
     <div class="a-user__info">
       <div class="a-user__name a-font_m">
@@ -27,6 +27,31 @@ export default {
     },
     publicationString: {
       type: String,
+    },
+    namePosition: {
+      type: String,
+    },
+    imageShape: {
+      type: String,
+    },
+  },
+  computed: {
+    classes() {
+      return {
+        'a-user': true,
+        [`a-user--${this.namePosition}`]: this.namePosition,
+      };
+    },
+    avatarClasses() {
+      return {
+        'a-user__avatar': true,
+        [`a-user__avatar--${this.imageShape}`]: this.imageShape,
+      };
+    },
+  },
+  methods: {
+    avatarClickHandler() {
+      this.$emit('avatar-click');
     },
   },
 };
