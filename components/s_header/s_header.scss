@@ -309,7 +309,7 @@
 
   &__login {
     margin-left: rem(12);
-    @media screen and (max-width: 991px) {
+    @media screen and (max-width: 767px) {
       display: none;
     }
   }
@@ -408,21 +408,15 @@
 }
 
 .js-fixed {
-  margin-top: rem(156);
-  @media screen and (max-width: 991px) {
-    margin-top: rem(84);
-  }
+  margin-top: rem(115);
   @media screen and (max-width: 767px) {
     margin-top: rem(76);
   }
 
   &-catalog {
-    margin-top: rem(144);
-    @media screen and (max-width: 991px) {
-      margin-top: rem(116);
-    }
+    margin-top: rem(115);
     @media screen and (max-width: 767px) {
-      margin-top: rem(136);
+      margin-top: rem(76);
     }
   }
 }

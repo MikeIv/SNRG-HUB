@@ -31,7 +31,7 @@
 
   &__item {
     min-width: rem(222);
-    margin: 0 rem(12);
+    margin: 0 rem(16);
     color: var(--a-color_text);
     @media screen and (max-width: 1499px) {
       min-width: rem(130);
@@ -81,7 +81,7 @@
       top: 0;
       left: 0;
       width: 100%;
-      height: calc(var(--vh, 1vh) * 100 - 132px);
+      height: calc(var(--vh, 1vh) * 100 - rem(76));
       max-height: 100vh;
       background: var(--a-color_bg--secondary);
       transform: translateX(200%);
@@ -113,7 +113,7 @@
     }
     &-link {
       display: block;
-      margin: 0 rem(12);
+      margin: 0 rem(16);
       padding: rem(12) 0;
       color: var(--a-color_text);
       border-bottom: rem(1) solid var(--a-color_bg--secondary);
