@@ -47,6 +47,7 @@ export default {
       img: '',
       digitalImage: '',
       banner: {},
+      seoTags: [],
       categories: [],
       relatedArticles: [],
       programs: [],
@@ -74,6 +75,7 @@ export default {
         'studyingPrograms',
         'studyingPrograms.organization',
         'tags',
+        'seoTags',
         'directions',
         'articleAuthors',
         'categories',
@@ -90,6 +92,7 @@ export default {
 
     this.dateArticle = new Date(preData.created_at).toLocaleString('ru-Ru', options);
     this.title = preData.title;
+    this.seoTags = preData.included.seoTags ? preData.included.seoTags : [];
     this.subtitle = preData.included.journalContent.preview_text;
     this.readingTime = preData.included.journalContent.reading_time;
     // eslint-disable-next-line max-len
@@ -119,26 +122,32 @@ export default {
   head() {
     return {
       title: this.pageMeta?.title,
+      h1: this.pageMeta?.h1,
       meta: [
         {
           hid: 'keywords',
           name: 'keywords',
-          content: this.pageMeta?.keywords,
+          content: this.seoTags?.keywords,
         },
         {
           hid: 'description',
           name: 'description',
-          content: this.pageMeta?.description,
+          content: this.seoTags?.description,
         },
         {
           hid: 'og:type',
           name: 'og:type',
-          content: 'website',
+          content: this.seoTags?.type,
         },
         {
           hid: 'og:title',
           name: 'og:title',
-          content: this.pageMeta?.title,
+          content: this.seoTags?.title,
+        },
+        {
+          hid: 'og:h1',
+          name: 'og:h1',
+          content: this.seoTags?.h1,
         },
         {
           hid: 'og:site_name',
@@ -148,7 +157,7 @@ export default {
         {
           hid: 'og:description',
           name: 'og:description',
-          content: this.pageMeta?.description,
+          content: this.seoTags?.description,
         },
       ],
     };

@@ -1,11 +1,9 @@
 build/*
 dist/*
 node_modules
-.env
 .helm
 .nuxt
 .husky
-assets/
 idea
 werf.yaml
 werf-giterminism.yaml
@@ -29,8 +27,6 @@ README.md
 commitlint.config.js
 commitlint.js
 static
-assets/images
 .gitignore
 CHANGELOG.md
 .gitlab
-app.html
