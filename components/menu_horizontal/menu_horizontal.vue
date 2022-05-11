@@ -1,11 +1,17 @@
 <template>
   <nav class="menu-horizontal" itemscope itemtype="http://schema.org/SiteNavigationElement">
     <div class="menu-horizontal__box" v-if="isMobile">
-      <div class="menu-horizontal__item menu-horizontal__item--user" @click="userMenu = true">
-        <AUser :user="user" namePosition="right" imageShape="circle" />
+      <div class="menu-horizontal__item menu-horizontal__item--user" @click="userMenuVisible = true">
+        <AUser
+          @avatar-click="userMenuVisible = true"
+          class="menu-horizontal__user"
+          :user="user"
+          namePosition="right"
+          imageShape="circle"
+        />
         <i class="si-chevron-right"></i>
-        <div class="menu-horizontal__content menu-horizontal__content--user" :class="{ open: userMenu }">
-          <div class="menu-horizontal__content-head" @click.stop="userMenu = false">
+        <div class="menu-horizontal__content menu-horizontal__content--user" :class="{ open: userMenuVisible }">
+          <div class="menu-horizontal__content-head" @click.stop="userMenuVisible = false">
             <i class="si-chevron-left"></i>
             <div class="menu-horizontal__content-title a-font_h4">Назад</div>
           </div>
@@ -118,7 +124,7 @@ export default {
         },
       },
       isMobile: false,
-      userMenu: false,
+      userMenuVisible: false,
       user: {
         name: '',
         img: '',

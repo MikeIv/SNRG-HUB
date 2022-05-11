@@ -17,6 +17,9 @@
   .bd-bottom {
     border-bottom: rem(1) solid #e7e9ec;
   }
+  .color-red {
+    color: var(--a-color_link);
+  }
 
   &__item {
     display: flex;
@@ -31,11 +34,6 @@
     &-icon {
       margin-left: auto;
       color: var(--a-color_thumbnail);
-    }
-
-    &.color-red,
-    .color-red {
-      color: var(--a-color_link);
     }
 
     &.notice i {

@@ -45,7 +45,7 @@
         </div>
         <a href="https://pass.synergy.ru/" class="m-usermenu__tooltip-row bd-bottom p-16"> Управление аккаунтом </a>
         <nuxt-link to="contacts" class="m-usermenu__tooltip-row p-16">Помощь</nuxt-link>
-        <div class="m-usermenu__tooltip-row" @click="logout">Выйти</div>
+        <div class="m-usermenu__tooltip-row color-red" @click="logout">Выйти</div>
         <!-- <div class="m-usermenu__box">
           <div class="m-usermenu__box-title mb-8 a-font_l">Организации</div>
           <AUser
