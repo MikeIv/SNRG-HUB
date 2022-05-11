@@ -52,5 +52,6 @@ shell:
   beforeSetup:
   - cd /app
   - export NODE_ENV="{{ .EnvName }}"
+  - export
   - yarn build
 ---
