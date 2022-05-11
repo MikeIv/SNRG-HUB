@@ -189,9 +189,7 @@
 
 <script>
 /* eslint-disable max-len */
-import {
-  AInput, APopup, AControl, AButton,
-} from '@cwespb/synergyui';
+import { AInput, APopup, AControl, AButton } from '@cwespb/synergyui';
 import { VueTelInput } from 'vue-tel-input';
 import MFormPay from '~/components/_ui/m_form_pay/m_form_pay';
 // import getConfirmationCode from '~/api/confirmationCode';
@@ -345,10 +343,10 @@ export default {
     },
     isEnoughtData() {
       return (
-        this.userInfo?.phone?.status === 'confirmed'
-        && Boolean(this.userInfo.account_information?.name)
-        && Boolean(this.userInfo.account_information?.surname)
-        && Boolean(this.userInfo.account_information?.patronymic)
+        this.userInfo?.phone?.status === 'confirmed' &&
+        Boolean(this.userInfo.account_information?.name) &&
+        Boolean(this.userInfo.account_information?.surname) &&
+        Boolean(this.userInfo.account_information?.patronymic)
       );
     },
     btnText() {
@@ -367,6 +365,7 @@ export default {
   },
 
   async mounted() {
+    console.log(process.env.NODE_ENV);
     if (this.$store.state.auth.refresh_token) {
       await this.$store.dispatch('auth/refresh');
     }
@@ -806,11 +805,11 @@ export default {
       this.phoneErrorFlag = this.validPhone === true && this.fieldsData.phone !== '';
       // eslint-disable-next-line max-len
       return (
-        this.nameErrorFlag
-        && this.surnameErrorFlag
-        && this.patronymicErrorFlag
-        && this.emailErrorFlag
-        && this.validPhone
+        this.nameErrorFlag &&
+        this.surnameErrorFlag &&
+        this.patronymicErrorFlag &&
+        this.emailErrorFlag &&
+        this.validPhone
       );
     },
     changeFocusInput() {
