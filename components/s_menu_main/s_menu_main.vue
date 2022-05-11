@@ -14,7 +14,7 @@
             bgColor="accent"
             @click="login"
           ></a-button>
-          <MenuHorizontal class="s-menu-main__usermenu" v-else />
+          <MenuHorizontal class="s-menu-main__usermenu" />
 
           <div class="s-menu-main__title a-font_h5">Всё обучение</div>
           <template v-for="(item, idx) in menuAnchors" :index="idx">

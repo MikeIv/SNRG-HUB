@@ -41,7 +41,7 @@
         @hide-tooltip="userTooltipVisible = false"
       >
         <div class="m-usermenu__tooltip-row bd-bottom p-16">
-          <AUser :user="user" imageShape="circle" />
+          <AUser class="m-usermenu__tooltip-user" :user="user" imageShape="circle" />
         </div>
         <a href="https://pass.synergy.ru/" class="m-usermenu__tooltip-row bd-bottom p-16"> Управление аккаунтом </a>
         <nuxt-link to="contacts" class="m-usermenu__tooltip-row p-16">Помощь</nuxt-link>
@@ -96,10 +96,6 @@ export default {
         { title: 'Управление аккаунтом', icon: 'si-filter', route: 'https://pass.synergy.ru/' },
         { title: 'Помощь', icon: 'si-info', route: '/contacts' },
       ],
-      user: {
-        name: '',
-        img: '',
-      },
     };
   },
   computed: {
@@ -108,8 +104,14 @@ export default {
     },
     userFullName() {
       const name = this.userData?.account_information?.name || '';
-      const surname = this.userData?.account_information?.surname || '';
-      return `${name} ${surname[0]}.`;
+      const surname = this.userData?.account_information?.surname;
+      return `${name} ${surname ? `${surname[0]}'.'` : ''}`;
+    },
+    user() {
+      return {
+        name: this.userFullName,
+        published: this.userData?.email?.email,
+      };
     },
   },
   methods: {
@@ -120,10 +122,6 @@ export default {
 
   mounted() {
     this.isMobile = window.innerWidth < 768;
-    this.user = {
-      name: this.userFullName,
-      published: this.userData?.email?.email,
-    };
   },
 };
 </script>

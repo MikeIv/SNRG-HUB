@@ -1,7 +1,11 @@
 <template>
   <nav class="menu-horizontal" itemscope itemtype="http://schema.org/SiteNavigationElement">
-    <div class="menu-horizontal__box" v-if="isMobile">
-      <div class="menu-horizontal__item menu-horizontal__item--user" @click="userMenuVisible = true">
+    <div v-if="isMobile" class="menu-horizontal__box">
+      <div
+        v-if="$store.getters['auth/isAuthenticated']"
+        class="menu-horizontal__item menu-horizontal__item--user"
+        @click="userMenuVisible = true"
+      >
         <AUser
           @avatar-click="userMenuVisible = true"
           class="menu-horizontal__user"
@@ -125,10 +129,6 @@ export default {
       },
       isMobile: false,
       userMenuVisible: false,
-      user: {
-        name: '',
-        img: '',
-      },
     };
   },
   components: {
@@ -153,8 +153,14 @@ export default {
     },
     userFullName() {
       const name = this.userData?.account_information?.name || '';
-      const surname = this.userData?.account_information?.surname || '';
-      return `${name} ${surname[0]}.`;
+      const surname = this.userData?.account_information?.surname;
+      return `${name} ${surname ? `${surname[0]}'.'` : ''}`;
+    },
+    user() {
+      return {
+        name: this.userFullName,
+        published: this.userData?.email?.email,
+      };
     },
     disableSliderOverflow() {
       return this.navLinks.every((link) => !link?.active);
@@ -173,10 +179,6 @@ export default {
       { anchor: 'Сравнения', link: '#' }, */
     ];
     this.isMobile = window.innerWidth < 768;
-    this.user = {
-      name: this.userFullName,
-      published: this.userData?.email?.email,
-    };
   },
 };
 </script>
