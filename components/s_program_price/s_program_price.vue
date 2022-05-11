@@ -189,7 +189,9 @@
 
 <script>
 /* eslint-disable max-len */
-import { AInput, APopup, AControl, AButton } from '@cwespb/synergyui';
+import {
+  AInput, APopup, AControl, AButton,
+} from '@cwespb/synergyui';
 import { VueTelInput } from 'vue-tel-input';
 import MFormPay from '~/components/_ui/m_form_pay/m_form_pay';
 // import getConfirmationCode from '~/api/confirmationCode';
@@ -343,10 +345,10 @@ export default {
     },
     isEnoughtData() {
       return (
-        this.userInfo?.phone?.status === 'confirmed' &&
-        Boolean(this.userInfo.account_information?.name) &&
-        Boolean(this.userInfo.account_information?.surname) &&
-        Boolean(this.userInfo.account_information?.patronymic)
+        this.userInfo?.phone?.status === 'confirmed'
+        && Boolean(this.userInfo.account_information?.name)
+        && Boolean(this.userInfo.account_information?.surname)
+        && Boolean(this.userInfo.account_information?.patronymic)
       );
     },
     btnText() {
@@ -365,7 +367,7 @@ export default {
   },
 
   async mounted() {
-    console.log(process.env.NODE_ENV);
+    console.log(process.env.IS_PRODUCTION);
     if (this.$store.state.auth.refresh_token) {
       await this.$store.dispatch('auth/refresh');
     }
@@ -436,7 +438,7 @@ export default {
           this.sendForm();
         } else {
           window.location.href = `//${
-            process.env.NODE_ENV === 'development' ? 'ogm-002-2640.c4.syndev.ru' : 'pass.synergy.ru'
+            process.env.IS_PRODUCTION === 'development' ? 'ogm-002-2640.c4.syndev.ru' : 'pass.synergy.ru'
           }/edit?redirectUrl=${window.location.href}`;
         }
       } else if (this.checkedValidateError()) {
@@ -557,7 +559,9 @@ export default {
 
       await this.$axios.post(
         `${
-          process.env.NODE_ENV === 'development' ? 'https://ogm-111-2795.c4.syndev.ru/' : 'https://pass.synergy.ru/'
+          process.env.IS_PRODUCTION === 'development'
+            ? 'https://ogm-111-2795.c4.syndev.ru/'
+            : 'https://pass.synergy.ru/'
         }auth/api/sid/v1/public/registration/resend/call`,
         {
           phone: formattedPhone,
@@ -588,7 +592,9 @@ export default {
       try {
         await this.$axios.post(
           `${
-            process.env.NODE_ENV === 'development' ? 'https://ogm-111-2795.c4.syndev.ru/' : 'https://pass.synergy.ru/'
+            process.env.IS_PRODUCTION === 'development'
+              ? 'https://ogm-111-2795.c4.syndev.ru/'
+              : 'https://pass.synergy.ru/'
           }auth/api/sid/v1/public/registration`,
           requestData,
         );
@@ -628,7 +634,9 @@ export default {
         await this.$axios
           .post(
             `${
-              process.env.NODE_ENV === 'development' ? 'https://ogm-111-2795.c4.syndev.ru/' : 'https://pass.synergy.ru/'
+              process.env.IS_PRODUCTION === 'development'
+                ? 'https://ogm-111-2795.c4.syndev.ru/'
+                : 'https://pass.synergy.ru/'
             }auth/api/sid/v1/public/registration/confirm`,
             requestData,
           )
@@ -805,11 +813,11 @@ export default {
       this.phoneErrorFlag = this.validPhone === true && this.fieldsData.phone !== '';
       // eslint-disable-next-line max-len
       return (
-        this.nameErrorFlag &&
-        this.surnameErrorFlag &&
-        this.patronymicErrorFlag &&
-        this.emailErrorFlag &&
-        this.validPhone
+        this.nameErrorFlag
+        && this.surnameErrorFlag
+        && this.patronymicErrorFlag
+        && this.emailErrorFlag
+        && this.validPhone
       );
     },
     changeFocusInput() {
