@@ -120,8 +120,8 @@ export default {
     SITE_GTM: process.env.SITE_GTM,
     DADATA_KEY: process.env.DADATA_KEY,
     IS_PRODUCTION: process.env.NODE_ENV,
-    API_URL: process.env.NODE_ENV === 'development' ? process.env.API_URL_DEV : process.env.API_URL_PROD,
-    FRONT_URL: process.env.NODE_ENV === 'development' ? process.env.FRONT_URL_DEV : process.env.FRONT_URL_PROD,
+    API_URL: process.env.NODE_ENV === 'development' ? 'https://release-1-2795.c4.syndev.ru/' : 'https://pass.synergy.ru/',
+    FRONT_URL: process.env.NODE_ENV === 'development' ? 'https://release-v1-2640.c4.syndev.ru/' : 'https://pass.synergy.ru/',
   },
 
   publicRuntimeConfig: {
