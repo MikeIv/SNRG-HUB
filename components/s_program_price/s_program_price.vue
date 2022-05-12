@@ -437,9 +437,7 @@ export default {
         if (this.isEnoughtData) {
           this.sendForm();
         } else {
-          window.location.href = `//${
-            process.env.IS_PRODUCTION === 'development' ? 'ogm-002-2640.c4.syndev.ru' : 'pass.synergy.ru'
-          }/edit?redirectUrl=${window.location.href}`;
+          window.location.href = `//${process.env.FRONT_URL}/edit?redirectUrl=${window.location.href}`;
         }
       } else if (this.checkedValidateError()) {
         this.getConfirmationCode();
@@ -557,16 +555,9 @@ export default {
         formattedPhone = formattedPhone.replace('8', '7');
       }
 
-      await this.$axios.post(
-        `${
-          process.env.IS_PRODUCTION === 'development'
-            ? 'https://ogm-111-2795.c4.syndev.ru/'
-            : 'https://pass.synergy.ru/'
-        }auth/api/sid/v1/public/registration/resend/call`,
-        {
-          phone: formattedPhone,
-        },
-      );
+      await this.$axios.post(`${process.env.API_URL}auth/api/sid/v1/public/registration/resend/call`, {
+        phone: formattedPhone,
+      });
     },
 
     async getConfirmationCode() {
@@ -590,14 +581,7 @@ export default {
       };
 
       try {
-        await this.$axios.post(
-          `${
-            process.env.IS_PRODUCTION === 'development'
-              ? 'https://ogm-111-2795.c4.syndev.ru/'
-              : 'https://pass.synergy.ru/'
-          }auth/api/sid/v1/public/registration`,
-          requestData,
-        );
+        await this.$axios.post(`${process.env.API_URL}auth/api/sid/v1/public/registration`, requestData);
         this.confirmationCodePopup = true;
       } catch (error) {
         const errors = error?.response?.data?.errors?.validation;
@@ -632,14 +616,7 @@ export default {
 
       try {
         await this.$axios
-          .post(
-            `${
-              process.env.IS_PRODUCTION === 'development'
-                ? 'https://ogm-111-2795.c4.syndev.ru/'
-                : 'https://pass.synergy.ru/'
-            }auth/api/sid/v1/public/registration/confirm`,
-            requestData,
-          )
+          .post(`${process.env.API_URL}auth/api/sid/v1/public/registration/confirm`, requestData)
           .then((response) => {
             this.uuid = response?.data?.data?.account_uuid;
             this.closeConfirmationCodePopup();

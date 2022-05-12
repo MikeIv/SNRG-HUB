@@ -96,8 +96,8 @@ export default {
     ['@synergy/synergyid-adapter', {
       namespace: 'auth',
       brokerBackendUrl: 'https://api.synergyhub.ru/',
-      synergyIdBackendUrl: process.env.IS_PRODUCTION === 'development' ? 'https://ogm-111-2795.c4.syndev.ru/' : 'https://pass.synergy.ru/',
-      synergyIdDomain: process.env.IS_PRODUCTION === 'development' ? 'https://ogm-002-2640.c4.syndev.ru/' : 'https://pass.synergy.ru/',
+      synergyIdBackendUrl: process.env.API_URL,
+      synergyIdDomain: process.env.FRONT_URL,
     },
     ],
   ],
@@ -120,6 +120,8 @@ export default {
     SITE_GTM: process.env.SITE_GTM,
     DADATA_KEY: process.env.DADATA_KEY,
     IS_PRODUCTION: process.env.NODE_ENV,
+    API_URL: process.env.NODE_ENV === 'development' ? process.env.API_URL_DEV : process.env.API_URL_PROD,
+    FRONT_URL: process.env.NODE_ENV === 'development' ? process.env.FRONT_URL_DEV : process.env.FRONT_URL_PROD,
   },
 
   publicRuntimeConfig: {
