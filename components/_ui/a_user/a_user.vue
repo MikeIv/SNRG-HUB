@@ -1,6 +1,6 @@
 <template>
-  <div :class="classes">
-    <div :class="avatarClasses" @click.stop="avatarClickHandler">
+  <div :class="classes" @click.stop="avatarClickHandler">
+    <div :class="avatarClasses">
       <img v-if="user.img" :src="user.img" class="a-user__avatar-img" alt="icon" />
       <img v-else src="/school/avatar.svg" class="a-user__avatar-img" alt="icon" />
     </div>
