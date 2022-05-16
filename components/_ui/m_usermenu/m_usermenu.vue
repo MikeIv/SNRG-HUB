@@ -43,7 +43,7 @@
         <div class="m-usermenu__tooltip-row bd-bottom p-16">
           <AUser class="m-usermenu__tooltip-user" :user="user" imageShape="circle" />
         </div>
-        <a href="https://pass.synergy.ru/" class="m-usermenu__tooltip-row bd-bottom p-16"> Управление аккаунтом </a>
+        <a :href="accountLink" class="m-usermenu__tooltip-row bd-bottom p-16"> Управление аккаунтом </a>
         <nuxt-link to="contacts" class="m-usermenu__tooltip-row p-16">Помощь</nuxt-link>
         <div class="m-usermenu__tooltip-row color-red" @click="logout">Выйти</div>
         <!-- <div class="m-usermenu__box">
@@ -88,19 +88,22 @@ export default {
 
   data() {
     return {
+      accountLink: process.env.FRONT_URL,
       userTooltipVisible: false,
       isMobile: false,
+      userAvatar: '',
       mobileListItems: [
         /* { title: 'Избранное', icon: 'si-heart' },
         { title: 'Уведомления', icon: 'si-bell' }, */
-        { title: 'Управление аккаунтом', icon: 'si-filter', route: 'https://pass.synergy.ru/' },
+        { title: 'Управление аккаунтом', icon: 'si-filter', route: process.env.FRONT_URL },
         { title: 'Помощь', icon: 'si-info', route: '/contacts' },
       ],
     };
   },
   computed: {
     userData() {
-      return this.$store.getters['auth/userInfo'];
+      // return this.$store.getters['auth/userInfo'];
+      return this.$synergyAuth.user;
     },
     userFullName() {
       const name = this.userData?.account_information?.name || '';
@@ -111,17 +114,20 @@ export default {
       return {
         name: this.userFullName,
         published: this.userData?.email?.email,
+        img: this.userAvatar,
       };
     },
   },
+
   methods: {
     logout() {
-      this.$store.dispatch('auth/logout');
+      this.$synergyAuth.logout();
     },
   },
 
-  mounted() {
+  async mounted() {
     this.isMobile = window.innerWidth < 768;
+    this.userAvatar = await this.$synergyAuth.getUserAvatar();
   },
 };
 </script>

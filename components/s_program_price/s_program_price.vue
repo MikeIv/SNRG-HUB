@@ -194,7 +194,7 @@ import {
 } from '@cwespb/synergyui';
 import { VueTelInput } from 'vue-tel-input';
 // eslint-disable-next-line import/no-extraneous-dependencies
-import { mapGetters } from 'vuex';
+// import { mapGetters } from 'vuex';
 import MFormPay from '~/components/_ui/m_form_pay/m_form_pay';
 // import getConfirmationCode from '~/api/confirmationCode';
 // import checkConfirmationCode from '~/api/checkConfirmationCode';
@@ -315,9 +315,12 @@ export default {
   },
 
   computed: {
-    ...mapGetters({
-      userInfo: 'auth/userInfo',
-    }),
+    // ...mapGetters({
+    //   userInfo: 'auth/userInfo',
+    // }),
+    userInfo() {
+      return this.$synergyAuth.user;
+    },
     isPopupPrice() {
       return this.isPopup;
     },
@@ -342,7 +345,7 @@ export default {
       return `${minutes}:${seconds}`;
     },
     isAuthenticated() {
-      return this.$store.getters['auth/isAuthenticated'];
+      return this.$synergyAuth.loggedIn;
     },
     isEnoughtData() {
       return (
@@ -368,10 +371,9 @@ export default {
   },
 
   async mounted() {
-    console.log(process.env.IS_PRODUCTION);
-    if (this.$store.state.auth.refresh_token) {
-      await this.$store.dispatch('auth/refresh');
-    }
+    // if (this.$store.state.auth.refresh_token) {
+    //   await this.$store.dispatch('auth/refresh');
+    // }
     this.$emit('form-ref', this.$refs.form);
     const loadDataForm = this.$lander.storage.load('programpriceform');
     if (loadDataForm) this.fieldsData = loadDataForm;
@@ -426,7 +428,7 @@ export default {
 
   methods: {
     login() {
-      this.$store.dispatch('auth/login');
+      this.$synergyAuth.login();
     },
 
     closeAccountAlreadyExistsPopup() {
@@ -438,7 +440,7 @@ export default {
         if (this.isEnoughtData) {
           this.sendForm();
         } else {
-          window.location.href = `//${process.env.FRONT_URL}/edit?redirectUrl=${window.location.href}`;
+          window.location.href = `${process.env.FRONT_URL}edit?redirectUrl=${window.location.href}`;
         }
       } else if (this.checkedValidateError()) {
         this.getConfirmationCode();

@@ -20,7 +20,7 @@
     "@cwespb/synergyui": "1.1.33",
     "@nuxtjs/axios": "^5.13.1",
     "@nuxtjs/redirect-module": "^0.3.1",
-    "@synergy/synergyid-adapter": "0.0.6",
+    "@synergy/synergyid-adapter": "0.0.7",
     "@vue/cli-service": "^4.5.13",
     "axios": "^0.21.4",
     "core-js": "^3.9.1",

@@ -343,11 +343,11 @@ export default {
     },
 
     login() {
-      this.$store.dispatch('auth/login');
+      this.$synergyAuth.login();
     },
 
     logout() {
-      this.$store.dispatch('auth/logout');
+      this.$synergyAuth.logout();
     },
 
     searchButtonClickHandler() {
