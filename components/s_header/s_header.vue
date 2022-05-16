@@ -65,7 +65,7 @@
                 :disabled="disabledSearch"
               />
             </div>
-            <div class="s-header__login" v-if="!$store.getters['auth/isAuthenticated']">
+            <div class="s-header__login" v-if="!$synergyAuth.loggedIn">
               <AButton size="medium" label="Войти" bgColor="accent" @click="login" />
             </div>
             <div class="s-header__is-auth" v-else>

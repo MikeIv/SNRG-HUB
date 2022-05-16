@@ -108,7 +108,7 @@ export default {
     userFullName() {
       const name = this.userData?.account_information?.name || '';
       const surname = this.userData?.account_information?.surname;
-      return `${name} ${surname ? `${surname[0]}.` : ''}`;
+      return `${name} ${(surname && surname[0]) || ''}`.trim();
     },
     user() {
       return {

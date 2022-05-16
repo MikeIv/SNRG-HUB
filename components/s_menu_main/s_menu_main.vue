@@ -8,7 +8,7 @@
           </div>
 
           <a-button
-            v-if="!$store.getters['auth/isAuthenticated']"
+            v-if="!$synergyAuth.loggedIn"
             class="s-menu-main__login"
             label="Войти в аккаунт"
             bgColor="accent"
@@ -229,7 +229,8 @@ export default {
     },
 
     login() {
-      this.$store.dispatch('auth/login');
+      // this.$store.dispatch('auth/login');
+      this.$synergyAuth.login();
     },
   },
 

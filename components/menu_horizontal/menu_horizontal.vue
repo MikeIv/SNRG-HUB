@@ -2,7 +2,7 @@
   <nav class="menu-horizontal" itemscope itemtype="http://schema.org/SiteNavigationElement">
     <div v-if="isMobile" class="menu-horizontal__box">
       <div
-        v-if="$store.getters['auth/isAuthenticated']"
+        v-if="$synergyAuth.loggedIn"
         class="menu-horizontal__item menu-horizontal__item--user"
         @click="userMenuVisible = true"
       >
@@ -127,6 +127,7 @@ export default {
           },
         },
       },
+      userAvatar: '',
       isMobile: false,
       userMenuVisible: false,
     };
@@ -149,17 +150,18 @@ export default {
   },
   computed: {
     userData() {
-      return this.$store.getters['auth/userInfo'];
+      return this.$synergyAuth.user;
     },
     userFullName() {
       const name = this.userData?.account_information?.name || '';
       const surname = this.userData?.account_information?.surname;
-      return `${name} ${surname ? `${surname[0]}.` : ''}`;
+      return `${name} ${(surname && surname[0]) || ''}`.trim();
     },
     user() {
       return {
         name: this.userFullName,
         published: this.userData?.email?.email,
+        img: this.userAvatar,
       };
     },
     disableSliderOverflow() {
@@ -179,6 +181,7 @@ export default {
       { anchor: 'Сравнения', link: '#' }, */
     ];
     this.isMobile = window.innerWidth < 768;
+    this.userAvatar = await this.$synergyAuth.getUserAvatar();
   },
 };
 </script>
