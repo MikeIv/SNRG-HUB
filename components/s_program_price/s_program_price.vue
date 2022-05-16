@@ -193,6 +193,8 @@ import {
   AInput, APopup, AControl, AButton,
 } from '@cwespb/synergyui';
 import { VueTelInput } from 'vue-tel-input';
+// eslint-disable-next-line import/no-extraneous-dependencies
+import { mapGetters } from 'vuex';
 import MFormPay from '~/components/_ui/m_form_pay/m_form_pay';
 // import getConfirmationCode from '~/api/confirmationCode';
 // import checkConfirmationCode from '~/api/checkConfirmationCode';
@@ -202,7 +204,6 @@ import getDateFromDatesObj from '~/assets/js/getDateFromDatesObj';
 import getParseDate from '~/assets/js/getParseDate';
 import getOrganizationsDetail from '~/api/organizationsDetail';
 // eslint-disable-next-line import/no-extraneous-dependencies
-import { mapGetters } from 'vuex';
 
 const KEY_CODE = {
   backspace: 8,

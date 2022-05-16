@@ -6,9 +6,16 @@
           <div class="s-menu-main__location">
             <MLocation />
           </div>
-          <!-- <div class="s-menu-main__login">
-            <a-button label="Войти в аккаунт" backgroundColor="#F5F5F5" bgColor="ghost-accept"></a-button>
-          </div> -->
+
+          <a-button
+            v-if="!$store.getters['auth/isAuthenticated']"
+            class="s-menu-main__login"
+            label="Войти в аккаунт"
+            bgColor="accent"
+            @click="login"
+          ></a-button>
+          <MenuHorizontal class="s-menu-main__usermenu" />
+
           <div class="s-menu-main__title a-font_h5">Всё обучение</div>
           <template v-for="(item, idx) in menuAnchors" :index="idx">
             <div
@@ -77,11 +84,12 @@
 </template>
 
 <script>
-import { ASidebarItem } from '@cwespb/synergyui';
+import { ASidebarItem, AButton } from '@cwespb/synergyui';
 import MBanner from '~/components/_ui/m_banner/m_banner';
 import getMenuMain from '~/api/menuMain';
 import getBannersDetail from '~/api/bannersDetail';
 import MLocation from '../_ui/m_location/m_location';
+import MenuHorizontal from '../menu_horizontal/menu_horizontal';
 import './s_menu_main.scss';
 
 export default {
@@ -90,8 +98,9 @@ export default {
   components: {
     ASidebarItem,
     MBanner,
-    // AButton,
+    AButton,
     MLocation,
+    MenuHorizontal,
   },
 
   data() {
@@ -217,6 +226,10 @@ export default {
 
     changeIsOpen() {
       this.$emit('change-is-open');
+    },
+
+    login() {
+      this.$store.dispatch('auth/login');
     },
   },
 
