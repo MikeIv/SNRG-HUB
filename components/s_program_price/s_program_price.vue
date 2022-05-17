@@ -1,7 +1,6 @@
 <template>
   <section class="s-program-price" ref="form" id="form-price" v-if="fieldsData.product_id">
     <div class="l-wide l-border-radius">
-      <APopup :visible="isPopupPrice" @close="closePopup" type="iframe" :link="payment"> </APopup>
       <APopup :visible="accountAlreadyExists" @close="closeAccountAlreadyExistsPopup">
         <div class="s-program-price__exist">
           <span class="s-program-price__exist-text">
@@ -189,9 +188,7 @@
 
 <script>
 /* eslint-disable max-len */
-import {
-  AInput, APopup, AControl, AButton,
-} from '@cwespb/synergyui';
+import { AInput, APopup, AControl, AButton } from '@cwespb/synergyui';
 import { VueTelInput } from 'vue-tel-input';
 // eslint-disable-next-line import/no-extraneous-dependencies
 // import { mapGetters } from 'vuex';
@@ -308,8 +305,6 @@ export default {
       completed: false,
 
       isPopup: false,
-      paymentLink: '',
-
       baseUrl: process.env.NUXT_ENV_S3BACKET,
     };
   },
@@ -323,9 +318,6 @@ export default {
     },
     isPopupPrice() {
       return this.isPopup;
-    },
-    payment() {
-      return this.paymentLink;
     },
     sendCode() {
       return this.completed && this.isChecked;
@@ -349,10 +341,10 @@ export default {
     },
     isEnoughtData() {
       return (
-        this.userInfo?.phone?.status === 'confirmed'
-        && Boolean(this.userInfo.account_information?.name)
-        && Boolean(this.userInfo.account_information?.surname)
-        && Boolean(this.userInfo.account_information?.patronymic)
+        this.userInfo?.phone?.status === 'confirmed' &&
+        Boolean(this.userInfo.account_information?.name) &&
+        Boolean(this.userInfo.account_information?.surname) &&
+        Boolean(this.userInfo.account_information?.patronymic)
       );
     },
     btnText() {
@@ -685,7 +677,7 @@ export default {
 
     sendForm() {
       const lander = {
-        type: 'academy',
+        type: 'academy-transations',
         unit: 'payments',
         land: 'KD_market',
         noRedirect: true,
@@ -719,39 +711,43 @@ export default {
       }
 
       const resp = this.$lander.send(currentData, lander);
-
       resp
         .then(() => {
-          const formData = this.fieldsData;
-          formData.isPayment = '';
-          const respPrice = this.$lander.send(formData, lander);
-          respPrice
-            .then((result) => result.response.data)
-            .then((priceData) => {
-              this.getPaymentSrc(priceData);
-            });
+          console.log(resp);
+          window.location.href = resp;
         })
         .catch(() => {
           window.localStorage.removeItem('fieldsData');
         });
+      // resp
+      //   .then(() => {
+      //     const formData = this.fieldsData;
+      //     formData.isPayment = '';
+      //     const respPrice = this.$lander.send(formData, lander);
+      //     respPrice
+      //       .then((result) => result.response.data)
+      //       .then((priceData) => {
+      //         this.getPaymentSrc(priceData);
+      //       });
+      //   })
+      //   .catch(() => {
+      //     window.localStorage.removeItem('fieldsData');
+      //   });
     },
-    getPaymentSrc(data) {
-      const responseHTML = data;
-      const htmlObject = document.createElement('div');
-      htmlObject.innerHTML = responseHTML;
-      const buttons = htmlObject.querySelectorAll('.form__button');
-      buttons.forEach((el) => {
-        const attr = el.getAttribute('data-src');
-        if (attr) {
-          this.paymentLink = attr;
-          console.log(this.paymentLink);
-        }
-      });
-      window.location.href = this.paymentLink;
-    },
-    closePopup() {
-      this.isPopup = false;
-    },
+    // getPaymentSrc(data) {
+    //   const responseHTML = data;
+    //   const htmlObject = document.createElement('div');
+    //   htmlObject.innerHTML = responseHTML;
+    //   const buttons = htmlObject.querySelectorAll('.form__button');
+    //   buttons.forEach((el) => {
+    //     const attr = el.getAttribute('data-src');
+    //     if (attr) {
+    //       this.paymentLink = attr;
+    //       console.log(this.paymentLink);
+    //     }
+    //   });
+    //   window.location.href = this.paymentLink;
+    // },
     closeConfirmationCodePopup() {
       this.confirmationCodePopup = false;
       this.values = Array(4).fill('');
@@ -793,11 +789,11 @@ export default {
       this.phoneErrorFlag = this.validPhone === true && this.fieldsData.phone !== '';
       // eslint-disable-next-line max-len
       return (
-        this.nameErrorFlag
-        && this.surnameErrorFlag
-        && this.patronymicErrorFlag
-        && this.emailErrorFlag
-        && this.validPhone
+        this.nameErrorFlag &&
+        this.surnameErrorFlag &&
+        this.patronymicErrorFlag &&
+        this.emailErrorFlag &&
+        this.validPhone
       );
     },
     changeFocusInput() {
