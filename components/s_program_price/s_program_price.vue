@@ -304,7 +304,6 @@ export default {
       autoFocusIndex,
       completed: false,
 
-      isPopup: false,
       baseUrl: process.env.NUXT_ENV_S3BACKET,
     };
   },
@@ -315,9 +314,6 @@ export default {
     // }),
     userInfo() {
       return this.$synergyAuth.user;
-    },
-    isPopupPrice() {
-      return this.isPopup;
     },
     sendCode() {
       return this.completed && this.isChecked;
@@ -713,41 +709,12 @@ export default {
       const resp = this.$lander.send(currentData, lander);
       resp
         .then((result) => {
-          console.log(result.response.data);
           window.location.href = result.response.data;
         })
         .catch(() => {
           window.localStorage.removeItem('fieldsData');
         });
-      // resp
-      //   .then(() => {
-      //     const formData = this.fieldsData;
-      //     formData.isPayment = '';
-      //     const respPrice = this.$lander.send(formData, lander);
-      //     respPrice
-      //       .then((result) => result.response.data)
-      //       .then((priceData) => {
-      //         this.getPaymentSrc(priceData);
-      //       });
-      //   })
-      //   .catch(() => {
-      //     window.localStorage.removeItem('fieldsData');
-      //   });
     },
-    // getPaymentSrc(data) {
-    //   const responseHTML = data;
-    //   const htmlObject = document.createElement('div');
-    //   htmlObject.innerHTML = responseHTML;
-    //   const buttons = htmlObject.querySelectorAll('.form__button');
-    //   buttons.forEach((el) => {
-    //     const attr = el.getAttribute('data-src');
-    //     if (attr) {
-    //       this.paymentLink = attr;
-    //       console.log(this.paymentLink);
-    //     }
-    //   });
-    //   window.location.href = this.paymentLink;
-    // },
     closeConfirmationCodePopup() {
       this.confirmationCodePopup = false;
       this.values = Array(4).fill('');
