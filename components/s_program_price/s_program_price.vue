@@ -713,8 +713,8 @@ export default {
       const resp = this.$lander.send(currentData, lander);
       resp
         .then((result) => {
-          console.log(result);
-          window.location.href = result;
+          console.log(result.response.data);
+          window.location.href = result.response.data;
         })
         .catch(() => {
           window.localStorage.removeItem('fieldsData');
