@@ -182,6 +182,10 @@
           <span v-if="unknownError" class="m-form__input-error unknown">Неизвестная ошибка. Попробуйте позже</span>
         </template>
       </m-form-pay>
+      <div class="payment-thanks__card-preloader" v-if="preloader">
+        <h3 class="payment-thanks__card-title">Открываем платёжную ячейку<br />подождите немного</h3>
+        <m-loader type="basic" />
+      </div>
     </div>
   </section>
 </template>
@@ -193,6 +197,7 @@ import { VueTelInput } from 'vue-tel-input';
 // eslint-disable-next-line import/no-extraneous-dependencies
 // import { mapGetters } from 'vuex';
 import MFormPay from '~/components/_ui/m_form_pay/m_form_pay';
+import MLoader from '~/components/ui/m_loader/m_loader';
 // import getConfirmationCode from '~/api/confirmationCode';
 // import checkConfirmationCode from '~/api/checkConfirmationCode';
 import getProductsDetails from '~/api/productsDetail';
@@ -220,6 +225,7 @@ export default {
     APopup,
     AControl,
     AButton,
+    MLoader,
   },
 
   data() {
@@ -305,6 +311,7 @@ export default {
       completed: false,
 
       baseUrl: process.env.NUXT_ENV_S3BACKET,
+      preloader: false,
     };
   },
 
@@ -612,6 +619,7 @@ export default {
             this.uuid = response?.data?.data?.account_uuid;
             this.closeConfirmationCodePopup();
             // this.sendFormToBitrix();
+            this.preloader = true;
             this.sendForm();
           });
       } catch (error) {
@@ -709,6 +717,7 @@ export default {
       const resp = this.$lander.send(currentData, lander);
       resp
         .then((result) => {
+          this.preloader = false;
           window.location.href = result.response.data;
         })
         .catch(() => {
@@ -751,14 +760,14 @@ export default {
     checkedValidateError() {
       this.nameErrorFlag = /^([A-ZА-ЯЁ][-,a-z, a-яё. ']+[ ]*)+$/i.test(this.fieldsData.name);
       this.surnameErrorFlag = /^([A-ZА-ЯЁ][-,a-z, a-яё. ']+[ ]*)+$/i.test(this.fieldsData.surname);
-      this.patronymicErrorFlag = /^([A-ZА-ЯЁ][-,a-z, a-яё. ']+[ ]*)+$/i.test(this.fieldsData.patronymic);
+      // this.patronymicErrorFlag = /^([A-ZА-ЯЁ][-,a-z, a-яё. ']+[ ]*)+$/i.test(this.fieldsData.patronymic);
       this.emailErrorFlag = this.$lander.valid([{ value: this.fieldsData.email, type: 'email' }]);
       this.phoneErrorFlag = this.validPhone === true && this.fieldsData.phone !== '';
       // eslint-disable-next-line max-len
       return (
         this.nameErrorFlag &&
         this.surnameErrorFlag &&
-        this.patronymicErrorFlag &&
+        // this.patronymicErrorFlag &&
         this.emailErrorFlag &&
         this.validPhone
       );
