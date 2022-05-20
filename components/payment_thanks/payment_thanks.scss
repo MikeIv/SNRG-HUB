@@ -49,13 +49,13 @@
   &__cards {
     z-index: 11;
     display: flex;
-
     @media screen and (max-width: 1260px) {
       flex-direction: column;
     }
   }
 
   &__card {
+    position: relative;
     display: flex;
     flex-direction: column;
     width: 100%;
@@ -97,6 +97,27 @@
 
       &.a-button--ghost-accept {
         background-color: transparent;
+      }
+    }
+    &-preloader {
+      position: absolute;
+      z-index: 12;
+      top: 0;
+      right: 0;
+      left: 0;
+      bottom: 0;
+      background: rgb(245, 245, 245, 0.9);
+      border-radius: rem(10);
+      h3 {
+        position: absolute;
+        top: 30%;
+        left: 50%;
+        width: 100%;
+        text-align: center;
+        transform: translate(-50%, -50%);
+      }
+      .preloader {
+        background: none;
       }
     }
   }
