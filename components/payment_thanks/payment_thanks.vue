@@ -214,8 +214,8 @@ export default {
   methods: {
     onButtonClickHandler() {
       window.location.href = this.isRegistrationCompleted
-        ? 'https://release-v1-2640.c4.syndev.ru/'
-        : `https://release-v1-2640.c4.syndev.ru/registration?name=${this.name}&surname=${this.surname}&patronymic=${this.patronymic}&email=${this.email}&phone=${this.phone}&registrationType=academic`;
+        ? `${process.env.FRONT_URL}`
+        : `${process.env.FRONT_URL}/registration?name=${this.name}&surname=${this.surname}&patronymic=${this.patronymic}&email=${this.email}&phone=${this.phone}&registrationType=academic`;
     },
     toLMS() {
       if (this.linkLMS) {
