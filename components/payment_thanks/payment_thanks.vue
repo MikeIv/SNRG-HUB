@@ -163,7 +163,7 @@ import MLoader from '~/components/ui/m_loader/m_loader';
 
 export default {
   name: 'PaymentThankPage',
-
+  fetchOnServer: false,
   components: {
     AButton,
     MLoader,
@@ -189,16 +189,19 @@ export default {
       this.email = fieldsData.email;
       this.isRegistrationCompleted = true;
     } else this.isRegistrationCompleted = false;
+    this.$fetch();
+  },
+  async fetch() {
     if (this.$route.query.uuid) {
       const request = async () => {
-        await this.$axios
-          .get(
-            `https://lms.synergy.ru/api/exchange/getLink?key=1029-xosJp-5820-Posm&synergyId=${this.$route.query.uuid}`,
-          )
-          .then(async (response) => {
+        await fetch(
+          `https://lms.synergy.ru/api/exchange/getLink?key=1029-xosJp-5820-Posm&synergyId=${this.$route.query.uuid}`,
+        )
+          .then((response) => response.json())
+          .then(async (res) => {
             let timeout;
-            if (response.data.status === 1) {
-              this.linkLMS = response.data.link;
+            if (res.status === 1) {
+              this.linkLMS = res.link;
               clearTimeout(timeout);
             } else {
               timeout = setTimeout(async () => {
