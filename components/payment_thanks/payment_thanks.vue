@@ -193,7 +193,7 @@ export default {
       const request = async () => {
         await this.$axios
           .get(
-            `https://rc.lms.synergy.ru/api/exchange/getLink?key=1029-xosJp-5820-Posm&synergyId=${this.$route.query.uuid}`,
+            `https://lms.synergy.ru/api/exchange/getLink?key=1029-xosJp-5820-Posm&synergyId=${this.$route.query.uuid}`,
           )
           .then(async (response) => {
             let timeout;
