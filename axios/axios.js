@@ -1,7 +1,7 @@
 import baseAxios from 'axios';
 
 const axiosConfig = {
-  baseURL: 'https://api.synergyhub.ru/', // process.env.BASE_URL
+  baseURL: 'https://release-011-2327.c4.syndev.ru/', // process.env.BASE_URL
   headers: {
     Accept: 'application/vnd.api+json', // process.env.ACCEPT
     'Content-Type': 'application/json', // process.env.CONTENT_TYPE

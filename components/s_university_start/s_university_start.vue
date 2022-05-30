@@ -86,11 +86,11 @@ import {
   AFactoid, ALogo, MCard, MSocialShare,
 } from '@cwespb/synergyui';
 import './s_university_start.scss';
-import getOrganizationsDetail from '~/api/organizationsDetail';
+import getSectionInfo from '~/api/sectionInfo';
 import ABreadcrumbs from '~/components/_ui/a_breadcrumbs/a_breadcrumbs';
 
 export default {
-  name: 's_university_start',
+  name: 'SUniversityStart',
 
   components: {
     ABreadcrumbs,
@@ -138,46 +138,52 @@ export default {
   },
   props: ['methods', 'title'],
   async fetch() {
-    const expandedMethod = this.methods[0].data;
-    const preData = await getOrganizationsDetail(expandedMethod);
-    this.university.city = preData.data.included.city.name;
-    this.university.name = preData.data.name;
-    this.university.description = preData.data.description;
-    this.university.type = preData.data.type_text;
-    this.university.hostel = 'есть';
-    this.university.photo = this.baseURL + preData.data.digital_image;
-    this.logoSrc = this.baseURL + preData.data.logo;
-
-    // this.directions = preData.included.directions;
-    this.city = preData.data.included.city;
-
-    if (preData.data.land) {
-      this.$store.commit('updateLander', preData.data);
-    }
-
-    if (this.city) {
-      const breadcrumb = {
-        label: this.city.name,
-        href: `/catalog?&city_ids=${this.city.id}`,
-      };
-
-      this.breadcrumbs.push(breadcrumb);
-    }
-
-    if (this.university.name) {
-      const breadcrumb = {
-        label: this.university.name,
-        href: '',
-      };
-
-      this.breadcrumbs.push(breadcrumb);
-    }
+    // const expandedMethod = this.methods[0].data;
+    // const preData = await getOrganizationsDetail(expandedMethod);
+    // this.university.city = preData.data.included.city.name;
+    // this.university.name = preData.data.name;
+    // this.university.description = preData.data.description;
+    // this.university.type = preData.data.type_text;
+    // this.university.hostel = 'есть';
+    // this.university.photo = this.baseURL + preData.data.digital_image;
+    // this.logoSrc = this.baseURL + preData.data.logo;
+    //
+    // // this.directions = preData.included.directions;
+    // this.city = preData.data.included.city;
+    //
+    // if (preData.data.land) {
+    //   this.$store.commit('updateLander', preData.data);
+    // }
+    //
+    // if (this.city) {
+    //   const breadcrumb = {
+    //     label: this.city.name,
+    //     href: `/catalog?&city_ids=${this.city.id}`,
+    //   };
+    //
+    //   this.breadcrumbs.push(breadcrumb);
+    // }
+    //
+    // if (this.university.name) {
+    //   const breadcrumb = {
+    //     label: this.university.name,
+    //     href: '',
+    //   };
+    //
+    //   this.breadcrumbs.push(breadcrumb);
+    // }
   },
 
-  computed: {
-    hostel() {
-      return this.university.hostel ? 'Есть' : 'Нет';
-    },
+  // computed: {
+  //   hostel() {
+  //     return this.university.hostel ? 'Есть' : 'Нет';
+  //   },
+  // },
+
+  async mounted() {
+    const requestData = { slug: this.$route.params.slug, key: 's-university-start' };
+    const response = await getSectionInfo(requestData);
+    console.log(response);
   },
 
   methods: {
