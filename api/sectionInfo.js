@@ -7,9 +7,9 @@ const axios = axiosCreate();
 export default async function getSectionInfo(requestData) {
   const response = await axios.get(
     // eslint-disable-next-line max-len
-    `api/v1/entity-sections?filter[slug]=${requestData.slug}&filter[entity_type]=App\\Models\\Organization&filter[api_key]=${requestData.key}`,
+    `https://release-011-2327.c4.syndev.ru/api/v1/entity-sections?filter[slug]=${requestData.slug}&filter[entity_type]=App\\Models\\Organization&filter[api_key]=${requestData.key}`,
     requestData,
   );
-  console.log('here sectionInfo', response);
-  return response.data;
+  console.log('here sectionInfo', JSON.parse(response.data.data[0].attributes.data));
+  return JSON.parse(response.data.data[0].attributes.data);
 }
