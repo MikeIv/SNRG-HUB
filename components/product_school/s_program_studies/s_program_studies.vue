@@ -76,8 +76,8 @@ import { VueTelInput } from 'vue-tel-input';
 import {
   AListElement, AButton, APopup, AInput,
 } from '@cwespb/synergyui';
-import MForm from '@/components/_ui/m_form/m_form';
 import { Swiper, SwiperSlide } from 'vue-awesome-swiper';
+import MForm from '@/components/_ui/m_form/m_form';
 
 export default {
   name: 'SProgramStudies',

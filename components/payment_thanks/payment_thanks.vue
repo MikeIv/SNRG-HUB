@@ -3,17 +3,17 @@
     <div class="l-wide payment-thanks__content">
       <div class="payment-thanks__box">
         <h2 class="payment-thanks__title a-font_h1">Оплата прошла успешно!</h2>
-        <h3 class="payment-thanks__subtitle a-font_h6">
-          Спасибо за оплату, наши менеджеры свяжутся с Вами в ближайшее время.
-        </h3>
         <div class="payment-thanks__cards">
-          <div class="payment-thanks__card lms" v-if="false">
+          <div class="payment-thanks__card lms">
+            <div class="payment-thanks__card-preloader" v-if="!linkLMS">
+              <h3 class="payment-thanks__card-title">Создаём личный кабинет<br />подождите немного</h3>
+              <m-loader type="basic" />
+            </div>
             <h3 class="payment-thanks__card-title">Доступ в Synergy LMS</h3>
             <p class="payment-thanks__card-text">Начните обучение прямо сейчас</p>
-            <a-button class="payment-thanks__card-button" label="Начать учиться" bgColor="accent" />
+            <a-button class="payment-thanks__card-button" label="Начать учиться" bgColor="accent" @click="toLMS" />
           </div>
-          <!-- TODO: !isRegistrationCompleted -->
-          <div class="payment-thanks__card docs" v-if="false">
+          <div class="payment-thanks__card docs" v-if="!isRegistrationCompleted">
             <h3 class="payment-thanks__card-title">Завершите регистрацию</h3>
             <p class="payment-thanks__card-text">И подайте документы, чтобы открыть доступ к полному функционалу</p>
             <a-button
@@ -23,8 +23,7 @@
               @click="onButtonClickHandler"
             />
           </div>
-          <!-- TODO: v-else -->
-          <div class="payment-thanks__card docs" v-if="false">
+          <div class="payment-thanks__card docs" v-else>
             <h3 class="payment-thanks__card-title">Подайте документы</h3>
             <p class="payment-thanks__card-text">Чтобы открыть доступ к полному функционалу</p>
             <a-button
@@ -160,12 +159,14 @@
 
 import { AButton } from '@cwespb/synergyui';
 import './payment_thanks.scss';
+import MLoader from '~/components/ui/m_loader/m_loader';
 
 export default {
   name: 'PaymentThankPage',
-
+  fetchOnServer: false,
   components: {
     AButton,
+    MLoader,
   },
   data() {
     return {
@@ -175,9 +176,10 @@ export default {
       patronymic: null,
       phone: null,
       email: null,
+      linkLMS: null,
     };
   },
-  mounted() {
+  async mounted() {
     if (window.localStorage.getItem('fieldsData')) {
       const fieldsData = JSON.parse(window.localStorage.getItem('fieldsData'));
       this.name = fieldsData.name;
@@ -185,14 +187,43 @@ export default {
       this.patronymic = fieldsData.patronymic;
       this.phone = fieldsData.phone;
       this.email = fieldsData.email;
-      this.isRegistrationCompleted = false;
-    } else this.isRegistrationCompleted = true;
+      this.isRegistrationCompleted = true;
+    } else this.isRegistrationCompleted = false;
+    this.$fetch();
+  },
+  async fetch() {
+    if (this.$route.query.uuid) {
+      const request = async () => {
+        await fetch(
+          `https://lms.synergy.ru/api/exchange/getLink?key=1029-xosJp-5820-Posm&synergyId=${this.$route.query.uuid}`,
+        )
+          .then((response) => response.json())
+          .then(async (res) => {
+            let timeout;
+            if (res.status === 1) {
+              this.linkLMS = res.link;
+              clearTimeout(timeout);
+            } else {
+              timeout = setTimeout(async () => {
+                await request();
+              }, 3000);
+            }
+          });
+      };
+
+      await request();
+    }
   },
   methods: {
     onButtonClickHandler() {
       window.location.href = this.isRegistrationCompleted
-        ? '//pass.synergy.ru/'
-        : `//pass.synergy.ru/registration?name=${this.name}&surname=${this.surname}&patronymic=${this.patronymic}&email=${this.email}&phone=${this.phone}&registrationType=academic`;
+        ? `${process.env.FRONT_URL}`
+        : `${process.env.FRONT_URL}/registration?name=${this.name}&surname=${this.surname}&patronymic=${this.patronymic}&email=${this.email}&phone=${this.phone}&registrationType=academic`;
+    },
+    toLMS() {
+      if (this.linkLMS) {
+        window.location.href = this.linkLMS;
+      }
     },
   },
 };

@@ -1,7 +1,15 @@
 <template>
   <section class="s-program-price" ref="form" id="form-price" v-if="fieldsData.product_id">
     <div class="l-wide l-border-radius">
-      <APopup :visible="isPopupPrice" @close="closePopup" type="iframe" :link="payment"> </APopup>
+      <APopup :visible="accountAlreadyExists" @close="closeAccountAlreadyExistsPopup">
+        <div class="s-program-price__exist">
+          <span class="s-program-price__exist-text">
+            Учетная запись с такими данными уже существует<br />
+            Войдите через учетную запись Synergy ID</span
+          >
+          <a-button class="s-program-price__exist-button" bgColor="accent" label="Авторизоваться" @click="login" />
+        </div>
+      </APopup>
       <APopup
         class="s-program-price__confirmation"
         :visible="confirmationCodePopup"
@@ -19,6 +27,9 @@
           <p class="s-program-price__confirmation-text">
             Введите последние 4 цифры номера,<br />с которого Вам позвонят
           </p>
+          <span class="s-program-price__confirmation-warn"
+            >Если вы абонент Билайна, то вместо звонка вам придёт смс.</span
+          >
           <div class="s-program-price__confirmation-inputs">
             <input
               v-for="(v, index) in values"
@@ -69,15 +80,15 @@
             class="s-program-price__confirmation-button"
             label="Запросить код повторно"
             bgColor="ghost-primary"
-            @click="getConfirmationCode('call', true)"
+            @click="resendConfirmationCode"
           />
-          <a-button
-            v-if="!sendCode && +timeLeft <= 0"
-            class="s-program-price__confirmation-button"
-            label="Получить код по СМС"
-            bgColor="none"
-            @click="getConfirmationCode('sms')"
-          />
+          <!--          <a-button-->
+          <!--            v-if="!sendCode && +timeLeft <= 0"-->
+          <!--            class="s-program-price__confirmation-button"-->
+          <!--            label="Получить код по СМС"-->
+          <!--            bgColor="none"-->
+          <!--            @click="getConfirmationCode('sms')"-->
+          <!--          />-->
         </div>
       </APopup>
       <m-form-pay
@@ -139,11 +150,14 @@
           />
           <a-input
             class="m-form__input"
+            :class="{ 'error-name': !patronymicErrorFlag }"
             v-model="fieldsData.patronymic"
+            @input="validFormData"
             placeholder="Отчество (при наличии)"
             @focus="changeFocusInput"
             @blur="changeBlurInput"
           />
+          <span v-if="emailAlreadyTaken" class="m-form__input-error">Такой email уже занят</span>
           <a-input
             class="m-form__input"
             :class="{ 'error-mail': !emailErrorFlag }"
@@ -153,6 +167,7 @@
             @focus="changeFocusInput"
             @blur="changeBlurInput"
           />
+          <span v-if="phoneAlreadyTaken" class="m-form__input-error">Такой телефон уже занят</span>
           <vue-tel-input
             class="m-form__input"
             :class="{ error: !phoneErrorFlag }"
@@ -164,8 +179,13 @@
             @focus="changeFocusInput"
             @blur="changeBlurInput"
           />
+          <span v-if="unknownError" class="m-form__input-error unknown">Неизвестная ошибка. Попробуйте позже</span>
         </template>
       </m-form-pay>
+      <div class="payment-thanks__card-preloader" v-if="preloader">
+        <h3 class="payment-thanks__card-title">Открываем платёжную ячейку<br />подождите немного</h3>
+        <m-loader type="basic" />
+      </div>
     </div>
   </section>
 </template>
@@ -176,16 +196,18 @@ import {
   AInput, APopup, AControl, AButton,
 } from '@cwespb/synergyui';
 import { VueTelInput } from 'vue-tel-input';
+// eslint-disable-next-line import/no-extraneous-dependencies
+// import { mapGetters } from 'vuex';
 import MFormPay from '~/components/_ui/m_form_pay/m_form_pay';
-import getConfirmationCode from '~/api/confirmationCode';
-import checkConfirmationCode from '~/api/checkConfirmationCode';
+import MLoader from '~/components/ui/m_loader/m_loader';
+// import getConfirmationCode from '~/api/confirmationCode';
+// import checkConfirmationCode from '~/api/checkConfirmationCode';
 import getProductsDetails from '~/api/productsDetail';
 import './s_program_price.scss';
 import getDateFromDatesObj from '~/assets/js/getDateFromDatesObj';
 import getParseDate from '~/assets/js/getParseDate';
 import getOrganizationsDetail from '~/api/organizationsDetail';
 // eslint-disable-next-line import/no-extraneous-dependencies
-import { mapGetters } from 'vuex';
 
 const KEY_CODE = {
   backspace: 8,
@@ -205,6 +227,7 @@ export default {
     APopup,
     AControl,
     AButton,
+    MLoader,
   },
 
   data() {
@@ -248,8 +271,14 @@ export default {
       validPhone: false,
       nameErrorFlag: true,
       surnameErrorFlag: true,
+      patronymicErrorFlag: true,
       emailErrorFlag: true,
       phoneErrorFlag: true,
+
+      emailAlreadyTaken: false,
+      phoneAlreadyTaken: false,
+      unknownError: false,
+      accountAlreadyExists: false,
 
       fieldsData: {},
       maxPhoneLength: 16,
@@ -275,7 +304,7 @@ export default {
 
       resend: false,
       timerInterval: null,
-      timeLimit: 60,
+      timeLimit: 120,
       timePassed: 0,
 
       code: '',
@@ -283,22 +312,17 @@ export default {
       autoFocusIndex,
       completed: false,
 
-      isPopup: false,
-      paymentLink: '',
-
       baseUrl: process.env.NUXT_ENV_S3BACKET,
+      preloader: false,
     };
   },
 
   computed: {
-    ...mapGetters({
-      userInfo: 'auth/userInfo',
-    }),
-    isPopupPrice() {
-      return this.isPopup;
-    },
-    payment() {
-      return this.paymentLink;
+    // ...mapGetters({
+    //   userInfo: 'auth/userInfo',
+    // }),
+    userInfo() {
+      return this.$synergyAuth.user;
     },
     sendCode() {
       return this.completed && this.isChecked;
@@ -318,14 +342,13 @@ export default {
       return `${minutes}:${seconds}`;
     },
     isAuthenticated() {
-      return this.$store.getters['auth/isAuthenticated'];
+      return this.$synergyAuth.loggedIn;
     },
     isEnoughtData() {
       return (
         this.userInfo?.phone?.status === 'confirmed'
         && Boolean(this.userInfo.account_information?.name)
         && Boolean(this.userInfo.account_information?.surname)
-        && Boolean(this.userInfo.account_information?.patronymic)
       );
     },
     btnText() {
@@ -344,9 +367,9 @@ export default {
   },
 
   async mounted() {
-    if (this.$store.state.auth.refresh_token) {
-      await this.$store.dispatch('auth/refresh');
-    }
+    // if (this.$store.state.auth.refresh_token) {
+    //   await this.$store.dispatch('auth/refresh');
+    // }
     this.$emit('form-ref', this.$refs.form);
     const loadDataForm = this.$lander.storage.load('programpriceform');
     if (loadDataForm) this.fieldsData = loadDataForm;
@@ -360,7 +383,8 @@ export default {
     const detailsData = await getProductsDetails(detailsExpandedMethod);
 
     this.fieldsData = {
-      product_id: detailsData.data?.included?.offers[0]?.product_id ?? '', // TODO: После апдейта эластика - вернуть как null
+      product_id: '105734098',
+      // product_id: detailsData.data?.included?.offers[0]?.product_id ?? '', // TODO: После апдейта эластика - вернуть как null
       birthdate: this.userInfo?.account_information?.birthday ?? '01.01.1901',
       is_order: 'Y',
       gender: this.userInfo?.account_information?.gender ?? '-',
@@ -399,15 +423,23 @@ export default {
   },
 
   methods: {
+    login() {
+      this.$synergyAuth.login();
+    },
+
+    closeAccountAlreadyExistsPopup() {
+      this.accountAlreadyExists = false;
+    },
+
     onFormButtonClickHandler() {
       if (this.isAuthenticated) {
         if (this.isEnoughtData) {
           this.sendForm();
         } else {
-          window.location.href = `//pass.synergy.ru/edit?redirectUrl=${window.location.href}`;
+          window.location.href = `${process.env.FRONT_URL}edit?redirectUrl=${window.location.href}`;
         }
       } else if (this.checkedValidateError()) {
-        this.getConfirmationCode('call', false);
+        this.getConfirmationCode();
       }
     },
     onFocus(e) {
@@ -513,7 +545,7 @@ export default {
       this.isChecked = !this.isChecked;
     },
 
-    async getConfirmationCode(type) {
+    async resendConfirmationCode() {
       this.codeError = false;
       this.startTimer();
 
@@ -522,32 +554,80 @@ export default {
         formattedPhone = formattedPhone.replace('8', '7');
       }
 
+      await this.$axios.post(`${process.env.API_URL}auth/api/sid/v1/public/registration/resend/call`, {
+        phone: formattedPhone,
+      });
+    },
+
+    async getConfirmationCode() {
+      this.codeError = false;
+      this.emailAlreadyTaken = false;
+      this.phoneAlreadyTaken = false;
+      this.accountAlreadyExists = false;
+      this.startTimer();
+
+      let formattedPhone = this.fieldsData.phone.replace(/\s+/g, '').replace(/[^0-9]/g, '');
+      if (formattedPhone[0] === '8') {
+        formattedPhone = formattedPhone.replace('8', '7');
+      }
+
       const requestData = {
-        type,
+        name: this.fieldsData.name,
+        surname: this.fieldsData.surname,
+        patronymic: this.fieldsData?.patronymic,
+        email: this.fieldsData?.email,
         phone: +formattedPhone,
       };
-      await getConfirmationCode(requestData).then((response) => {
-        this.uuid = response.uuid;
+
+      try {
+        await this.$axios.post(`${process.env.API_URL}auth/api/sid/v1/public/registration`, requestData);
         this.confirmationCodePopup = true;
-      });
+      } catch (error) {
+        const errors = error?.response?.data?.errors?.validation;
+        if (Object.hasOwn(errors, 'email')) {
+          this.emailAlreadyTaken = true;
+          this.accountAlreadyExists = true;
+        }
+
+        if (Object.hasOwn(errors, 'phone')) {
+          this.phoneAlreadyTaken = true;
+          this.accountAlreadyExists = true;
+        }
+
+        if (error?.response?.data?.errors?.pipeline_exception?.error_code === 'AUTH:000') {
+          this.unknownError = true;
+        }
+      }
     },
 
     async sendConfirmationCode() {
       this.codeError = false;
 
+      let formattedPhone = this.fieldsData.phone.replace(/\s+/g, '').replace(/[^0-9]/g, '');
+      if (formattedPhone[0] === '8') {
+        formattedPhone = formattedPhone.replace('8', '7');
+      }
+
       const requestData = {
-        uuid: this.uuid,
         code: this.code,
+        phone: +formattedPhone,
       };
 
-      await checkConfirmationCode(requestData)
-        .then(() => {
-          this.closeConfirmationCodePopup();
-          this.sendForm();
-        })
-        .catch(() => {
+      try {
+        await this.$axios
+          .post(`${process.env.API_URL}auth/api/sid/v1/public/registration/confirm`, requestData)
+          .then((response) => {
+            this.uuid = response?.data?.data?.account_uuid;
+            this.closeConfirmationCodePopup();
+            // this.sendFormToBitrix();
+            this.preloader = true;
+            this.sendForm();
+          });
+      } catch (error) {
+        if (error.response.data.errors.pipeline_exception.status === 408) {
           this.codeError = true;
-        });
+        }
+      }
     },
 
     onTimesUp() {
@@ -556,57 +636,94 @@ export default {
     },
 
     startTimer() {
-      this.timeLimit = 60;
+      this.timeLimit = 120;
       this.timePassed = 0;
       // eslint-disable-next-line no-return-assign
       this.timerInterval = setInterval(() => (this.timePassed += 1), 1000);
     },
 
+    // async sendFormToBitrix() {
+    //   let formattedPhone = this.fieldsData.phone.replace(/\s+/g, '').replace(/[^0-9]/g, '');
+    //   if (formattedPhone[0] === '8') {
+    //     formattedPhone = formattedPhone.replace('8', '7');
+    //   }
+    //
+    //   const requestData = {
+    //     data: {
+    //       LAST_NAME: this.fieldsData.surname,
+    //       NAME: this.fieldsData.name,
+    //       SECOND_NAME: this.fieldsData.patronymic,
+    //       UF_SYNERGYID: this.uuid,
+    //       LAND_CODE: 'KD_market',
+    //       FM: {
+    //         EMAIL: {
+    //           n0: {
+    //             VALUE: this.fieldsData.email,
+    //             VALUE_TYPE: 'VERIFIED',
+    //           },
+    //         },
+    //         PHONE: {
+    //           n0: {
+    //             VALUE: +formattedPhone,
+    //             VALUE_TYPE: 'VERIFIED',
+    //           },
+    //         },
+    //       },
+    //     },
+    //     params: {
+    //       v2: '1',
+    //       action: 'ContactAdd',
+    //       token: '78CF4367155B97F4FD9868D1B5D',
+    //     },
+    //   };
+    //
+    //   await this.$axios.post('https://corp.synergy.ru/api/v2/', requestData);
+    // },
+
     sendForm() {
       const lander = {
-        type: 'academy',
+        type: 'academy-transations',
         unit: 'payments',
         land: 'KD_market',
         noRedirect: true,
       };
       this.$store.commit('updateLander', lander);
-      const currentData = this.fieldsData;
-      window.localStorage.setItem('fieldsData', JSON.stringify(this.fieldsData));
-      currentData.name = `${this.fieldsData.name} ${this.fieldsData.surname} ${this.fieldsData.patronymic}`;
-      currentData.successPage = `https://${document.location.host}/payment-thanks`;
-      const resp = this.$lander.send(currentData, lander);
 
+      const currentData = this.fieldsData;
+
+      if (this.isAuthenticated && this.isEnoughtData) {
+        window.localStorage.setItem('fieldsData', JSON.stringify(this.fieldsData));
+        currentData.birthdate = this.userInfo?.account_information?.birthday ?? '01.01.1901';
+        currentData.gender = this.userInfo?.account_information?.gender ?? '-';
+        currentData.name = `${this.userInfo?.account_information?.name} ${this.userInfo?.account_information?.surname} ${this.userInfo?.account_information?.patronymic}`;
+        currentData.surname = this.userInfo?.account_information?.surname ?? '';
+        currentData.patronymic = this.userInfo?.account_information?.patronymic ?? '';
+        currentData.phone = this.userInfo?.phone?.phone ?? '';
+        currentData.email = this.userInfo?.email?.email ?? '';
+        currentData.successPage = `https://${document.location.host}/payment-thanks${
+          this.userInfo?.account_information?.account_uuid
+            ? `?uuid=${this.userInfo.account_information.account_uuid}`
+            : '/'
+        }`;
+        currentData.guid_synergy_id = this.userInfo?.account_information?.account_uuid ?? '';
+      } else {
+        window.localStorage.setItem('fieldsData', JSON.stringify(this.fieldsData));
+        currentData.name = `${this.fieldsData.name} ${this.fieldsData.surname} ${this.fieldsData.patronymic}`;
+        currentData.successPage = `https://${document.location.host}/payment-thanks${
+          this.uuid ? `?uuid=${this.uuid}` : '/'
+        }`;
+        currentData.guid_synergy_id = this.uuid;
+      }
+
+      const resp = this.$lander.send(currentData, lander);
       resp
-        .then(() => {
-          const formData = this.fieldsData;
-          formData.isPayment = '';
-          const respPrice = this.$lander.send(formData, lander);
-          respPrice
-            .then((result) => result.response.data)
-            .then((priceData) => {
-              this.getPaymentSrc(priceData);
-            });
+        .then((result) => {
+          this.preloader = false;
+          window.location.href = result.response.data;
         })
         .catch(() => {
           window.localStorage.removeItem('fieldsData');
         });
-    },
-    getPaymentSrc(data) {
-      const responseHTML = data;
-      const htmlObject = document.createElement('div');
-      htmlObject.innerHTML = responseHTML;
-      const buttons = htmlObject.querySelectorAll('.form__button');
-      buttons.forEach((el) => {
-        const attr = el.getAttribute('data-src');
-        if (attr) {
-          this.paymentLink = attr;
-          console.log(this.paymentLink);
-        }
-      });
-      window.location.href = this.paymentLink;
-    },
-    closePopup() {
-      this.isPopup = false;
     },
     closeConfirmationCodePopup() {
       this.confirmationCodePopup = false;
@@ -644,10 +761,17 @@ export default {
     checkedValidateError() {
       this.nameErrorFlag = /^([A-ZА-ЯЁ][-,a-z, a-яё. ']+[ ]*)+$/i.test(this.fieldsData.name);
       this.surnameErrorFlag = /^([A-ZА-ЯЁ][-,a-z, a-яё. ']+[ ]*)+$/i.test(this.fieldsData.surname);
+      // this.patronymicErrorFlag = /^([A-ZА-ЯЁ][-,a-z, a-яё. ']+[ ]*)+$/i.test(this.fieldsData.patronymic);
       this.emailErrorFlag = this.$lander.valid([{ value: this.fieldsData.email, type: 'email' }]);
       this.phoneErrorFlag = this.validPhone === true && this.fieldsData.phone !== '';
       // eslint-disable-next-line max-len
-      return this.nameErrorFlag && this.surnameErrorFlag && this.emailErrorFlag && this.validPhone;
+      return (
+        this.nameErrorFlag
+        && this.surnameErrorFlag
+        // this.patronymicErrorFlag &&
+        && this.emailErrorFlag
+        && this.validPhone
+      );
     },
     changeFocusInput() {
       this.$store.commit('changeIsVisible', false);
