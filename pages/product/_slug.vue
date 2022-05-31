@@ -4,6 +4,7 @@
       <component :is="key" :methods="methods" :title="title" :productIds="pageInfo.entity_page"></component>
     </LazyHydrate> -->
     <s-program-skills />
+    <s-program-timeline />
     <!-- <SProgramPrice /> -->
   </div>
 </template>
