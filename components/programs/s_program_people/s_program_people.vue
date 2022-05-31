@@ -69,22 +69,6 @@ export default {
     };
   },
 
-  // props: ['methods', 'title'],
-
-  // async fetch() {
-  //   const expandedMethod = this.methods[0].data;
-  //   const preData = await getEntitiesSectionsDetail(expandedMethod);
-  //   this.programPeopleList = preData.json.items.data.map((item, index) => ({
-  //     title: item.title.value,
-  //     text: item.description.value,
-  //     // eslint-disable-next-line max-len
-  //     image:
-  //       item.preview_image && item.preview_image.value
-  //         ? this.baseUrl + item.preview_image.value
-  //         : `https://synergymarket.ru/site/img/for-whom/${index + 1}.png`,
-  //   }));
-  // },
-
   async fetch() {
     const requestData = { slug: this.$route.params.slug, key: 's-program-people' };
     this.sectionData = await productSectionInfo(requestData);

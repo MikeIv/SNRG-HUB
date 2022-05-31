@@ -18,7 +18,21 @@
         height: rem(192);
         @media (max-width: 767px) {
           height: rem(128);
+
+          img {
+            height: 100%;
+          }
         }
+      }
+    }
+
+    &__title {
+      padding-left: 0;
+    }
+
+    &__text {
+      @media (max-width: 767px) {
+        margin-bottom: rem(20);
       }
     }
   }
