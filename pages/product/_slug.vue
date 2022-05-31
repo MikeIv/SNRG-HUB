@@ -9,7 +9,7 @@
 </template>
 
 <script>
-import SProgramPeople from '~/components/programs/s_program_people/s_program_people';
+import SProgramPeople from '~/components/product/s_program_people/s_program_people';
 
 export default {
   layout: 'product',

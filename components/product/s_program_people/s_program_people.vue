@@ -41,7 +41,6 @@ export default {
       sectionData: {},
       windowWidth: 0,
       isMobile: false,
-      programPeopleList: [],
       baseUrl: process.env.NUXT_ENV_S3BACKET,
       swiperOptionProgramPeople: {
         slidesPerView: 'auto',
@@ -72,7 +71,6 @@ export default {
   async fetch() {
     const requestData = { slug: this.$route.params.slug, key: 's-program-people' };
     this.sectionData = await productSectionInfo(requestData);
-    console.log('this.sectionData', this.sectionData);
   },
 
   mounted() {
