@@ -1,5 +1,5 @@
 <template>
-  <section class="s-program-minimum-score">
+  <section class="s-program-minimum-score s-margin">
     <div class="l-wide l-border-radius">
       <div class="s-program-minimum-score__header">
         <h2 class="s-program-minimum-score__title a-font_h2" v-html="sectionData.title"></h2>
