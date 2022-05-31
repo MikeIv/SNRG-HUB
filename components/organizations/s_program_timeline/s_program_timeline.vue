@@ -7,7 +7,7 @@
       <div class="s-program-timeline__swiper">
         <swiper :options="swiperOptionA">
           <swiper-slide
-            v-for="item in sectionData.items"
+            v-for="(item, index) in sectionData.items"
             :key="item.id"
             class="s-program-timeline__slide m-card-landing"
           >
@@ -15,7 +15,7 @@
               class="s-program-timeline__card"
               :title="item.title"
               :text="item.description"
-              :image="item.image"
+              :image="imageList[index]"
             />
           </swiper-slide>
         </swiper>
@@ -66,11 +66,6 @@ export default {
   async fetch() {
     const requestData = { slug: this.$route.params.slug, key: 's-program-timeline' };
     this.sectionData = await getOrganizationSectionInfo(requestData);
-    this.sectionData.items = this.sectionData.items.map((item, index) => {
-      const itemCopy = item;
-      itemCopy.image = this.imageList[index];
-      return itemCopy;
-    });
   },
 };
 </script>
