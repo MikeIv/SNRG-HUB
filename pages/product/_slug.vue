@@ -4,6 +4,7 @@
       <component :is="key" :methods="methods" :title="title" :productIds="pageInfo.entity_page"></component>
     </LazyHydrate> -->
     <s-program-skills />
+    <s-program-minimum-score />
     <!-- <SProgramPrice /> -->
   </div>
 </template>
@@ -12,10 +13,13 @@
 /* import LazyHydrate from 'vue-lazy-hydration'; */
 /* import SProgramPrice from '~/components/s_program_price/s_program_price'; */
 
+import SProgramMinimumScore from '~/components/product/s_program_minimum_score/s_program_minimum_score';
+
 export default {
   layout: 'product',
 
   components: {
+    SProgramMinimumScore,
     /* LazyHydrate, */
     /* SProgramPrice, */
   },
