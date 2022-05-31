@@ -1,0 +1,76 @@
+<template>
+  <section class="s-program-timeline s-margin">
+    <div class="l-wide l-border-radius">
+      <div class="s-program-timeline__header">
+        <h2 class="s-program-timeline__title a-font_h2" v-html="sectionData.title"></h2>
+      </div>
+      <div class="s-program-timeline__swiper">
+        <swiper :options="swiperOptionA">
+          <swiper-slide
+            v-for="item in sectionData.items"
+            :key="item.id"
+            class="s-program-timeline__slide m-card-landing"
+          >
+            <MCardLanding
+              class="s-program-timeline__card"
+              :title="item.title"
+              :text="item.description"
+              :image="item.image"
+            />
+          </swiper-slide>
+        </swiper>
+      </div>
+    </div>
+  </section>
+</template>
+
+<script>
+import { Swiper, SwiperSlide } from 'vue-awesome-swiper';
+import { MCardLanding } from '@cwespb/synergyui';
+import './s_program_timeline.scss';
+import getOrganizationSectionInfo from '~/api/organizationSectionInfo';
+
+export default {
+  name: 'SProgramTimeline',
+
+  components: {
+    MCardLanding,
+    Swiper,
+    SwiperSlide,
+  },
+
+  data() {
+    return {
+      sectionData: {},
+      imageList: [
+        '/organization/timeline/timeline-1.png',
+        '/organization/timeline/timeline-2.png',
+        '/organization/timeline/timeline-3.png',
+        '/organization/timeline/timeline-4.png',
+      ],
+      swiperOptionA: {
+        grabCursor: true,
+        slidesPerView: 'auto',
+        spaceBetween: 12,
+        resistance: true,
+        resistanceRatio: 0,
+        breakpoints: {
+          768: {
+            spaceBetween: 20,
+          },
+        },
+      },
+    };
+  },
+
+  async fetch() {
+    const requestData = { slug: this.$route.params.slug, key: 's-program-timeline' };
+    this.sectionData = await getOrganizationSectionInfo(requestData);
+    this.sectionData.items = this.sectionData.items.map((item, index) => {
+      const itemCopy = item;
+      itemCopy.image = this.imageList[index];
+      return itemCopy;
+    });
+  },
+};
+</script>
