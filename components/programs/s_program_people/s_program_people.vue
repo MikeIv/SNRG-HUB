@@ -2,16 +2,16 @@
   <section class="s-program-people s-margin">
     <div class="l-wide l-border-radius">
       <div class="s-program-people__wrapper">
-        <h2 class="s-program-people__title a-font_h2" v-html="title"></h2>
+        <h2 class="s-program-people__title a-font_h2" v-html="sectionData.title"></h2>
         <div class="s-program-people__slider">
           <swiper :options="swiperOptionProgramPeople" v-if="!isMobile">
-            <swiper-slide v-for="people in programPeopleList" :key="people.id" class="s-program-people__slide">
-              <m-card-landing :title="people.title" :text="people.text" :image="people.image" />
+            <swiper-slide v-for="people in sectionData.items" :key="people.id" class="s-program-people__slide">
+              <m-card-landing :title="people.title" :text="people.description" :image="people.image" />
             </swiper-slide>
           </swiper>
           <div v-else class="s-program-people__items">
-            <div v-for="people in programPeopleList" :key="people.id" class="s-program-people__slide">
-              <m-card-landing :title="people.title" :text="people.text" :image="people.image" />
+            <div v-for="people in sectionData.items" :key="people.id" class="s-program-people__slide">
+              <m-card-landing :title="people.title" :text="people.description" :image="people.image" />
             </div>
           </div>
         </div>
@@ -24,12 +24,11 @@
 import { Swiper, SwiperSlide } from 'vue-awesome-swiper';
 
 import { MCardLanding } from '@cwespb/synergyui';
+import productSectionInfo from '~/api/productSectionInfo';
 import './s_program_people.scss';
 
-import getEntitiesSectionsDetail from '~/api/entitiesSectionsDetail';
-
 export default {
-  name: 's_program_people',
+  name: 'SProgramPeople',
 
   components: {
     MCardLanding,
@@ -39,6 +38,7 @@ export default {
 
   data() {
     return {
+      sectionData: {},
       windowWidth: 0,
       isMobile: false,
       programPeopleList: [],
@@ -69,20 +69,26 @@ export default {
     };
   },
 
-  props: ['methods', 'title'],
+  // props: ['methods', 'title'],
+
+  // async fetch() {
+  //   const expandedMethod = this.methods[0].data;
+  //   const preData = await getEntitiesSectionsDetail(expandedMethod);
+  //   this.programPeopleList = preData.json.items.data.map((item, index) => ({
+  //     title: item.title.value,
+  //     text: item.description.value,
+  //     // eslint-disable-next-line max-len
+  //     image:
+  //       item.preview_image && item.preview_image.value
+  //         ? this.baseUrl + item.preview_image.value
+  //         : `https://synergymarket.ru/site/img/for-whom/${index + 1}.png`,
+  //   }));
+  // },
 
   async fetch() {
-    const expandedMethod = this.methods[0].data;
-    const preData = await getEntitiesSectionsDetail(expandedMethod);
-    this.programPeopleList = preData.json.items.data.map((item, index) => ({
-      title: item.title.value,
-      text: item.description.value,
-      // eslint-disable-next-line max-len
-      image:
-        item.preview_image && item.preview_image.value
-          ? this.baseUrl + item.preview_image.value
-          : `https://synergymarket.ru/site/img/for-whom/${index + 1}.png`,
-    }));
+    const requestData = { slug: this.$route.params.slug, key: 's-program-people' };
+    this.sectionData = await productSectionInfo(requestData);
+    console.log('this.sectionData', this.sectionData);
   },
 
   mounted() {
