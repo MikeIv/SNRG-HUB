@@ -15,7 +15,7 @@
               class="s-program-timeline__card"
               :title="item.title"
               :text="item.description"
-              :image="imageList[index]"
+              :image="`https://synergymarket.ru/site/img/how/${index + 1}.png`"
             />
           </swiper-slide>
         </swiper>
@@ -42,12 +42,6 @@ export default {
   data() {
     return {
       sectionData: {},
-      imageList: [
-        '/organization/timeline/timeline-1.png',
-        '/organization/timeline/timeline-2.png',
-        '/organization/timeline/timeline-3.png',
-        '/organization/timeline/timeline-4.png',
-      ],
       swiperOptionA: {
         grabCursor: true,
         slidesPerView: 'auto',
