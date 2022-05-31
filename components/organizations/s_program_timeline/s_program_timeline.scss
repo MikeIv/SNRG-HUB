@@ -57,4 +57,10 @@
     height: rem(192);
     object-fit: cover;
   }
+
+  &__card {
+    .m-card-landing__title {
+      padding-left: 0;
+    }
+  }
 }
