@@ -45,6 +45,7 @@
     />
     <s-program-skills />
     <s-program-teachers />
+    <s-program-questions />
   </div>
 </template>
 
@@ -59,6 +60,7 @@ import SProgramTimeline from '~/components/organizations/s_program_timeline/s_pr
 import SCatalogSection from '~/components/s_catalog_section/s_catalog_section/';
 import SProgramSkills from '~/components/s_program_skills/s_program_skills';
 import SProgramTeachers from '~/components/s_program_teachers/s_program_teachers';
+import SProgramQuestions from '~/components/organizations/s_program_questions/s_program_questions';
 
 export default {
   layout: 'organization',
@@ -71,6 +73,7 @@ export default {
     SProgramTimeline,
     SUniversityScores,
     SUniversityStart,
+    SProgramQuestions,
     // LazyHydrate,
   },
 
