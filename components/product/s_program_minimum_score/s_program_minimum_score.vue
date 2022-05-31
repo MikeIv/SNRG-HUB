@@ -1,13 +1,12 @@
 <template>
   <section class="s-program-minimum-score">
     <div class="s-program-minimum-score__header">
-      <h2 class="s-program-minimum-score__title a-font_h2" v-html="title"></h2>
+      <h2 class="s-program-minimum-score__title a-font_h2" v-html="sectionData.title"></h2>
       <div class="s-program-minimum-score__btns">
         <ATag
-          v-for="tab in tabs"
+          v-for="tab in sectionData.items"
           :key="tab.id"
           :label="tab.label"
-          :name="tab.name"
           :class="{ 'a-tag__item_active': tab.isActive }"
           @aTagClick="toggleTabs(tab)"
         />
@@ -15,18 +14,18 @@
     </div>
 
     <div
-      v-for="tab in tabs"
+      v-for="tab in sectionData.items"
       :key="tab.id"
       class="s-program-minimum-score__items"
       :class="{ 's-program-minimum-score__items_active': tab.isActive }"
       v-show="tab.isActive"
     >
       <swiper :options="swiperOptionProgramExam">
-        <swiper-slide v-for="(exam, idx) in tab.exams" :key="exam.id" class="s-program-minimum-score__item">
-          <h5 class="s-program-minimum-score__item-caption a-font_h5">{{ slideCaption[idx] }}</h5>
+        <swiper-slide v-for="exam in tab.subjects" :key="exam.id" class="s-program-minimum-score__item">
+          <h5 class="s-program-minimum-score__item-caption a-font_h5">{{ exam.title }}</h5>
           <div class="s-program-minimum-score__item-factoids">
             <AFactoids
-              v-for="item in exam"
+              v-for="item in exam.list"
               :key="item.id"
               :type="item.type"
               :title="item.title"
@@ -44,7 +43,7 @@ import { Swiper, SwiperSlide } from 'vue-awesome-swiper';
 import { ATag } from '@cwespb/synergyui';
 import AFactoids from '@/components/_ui/A-factoids/A-factoids';
 import './s_program_minimum_score.scss';
-import getOrganizationSectionInfo from '~/api/organizationSectionInfo';
+import getProductSectionInfo from '~/api/productSectionInfo';
 
 export default {
   name: 'SProgramMinimumScore',
@@ -71,101 +70,17 @@ export default {
       },
 
       sectionData: {},
-
-      title: 'Минимальные баллы для поступления',
-      tabs: [
-        {
-          name: 'budget',
-          label: 'Бюджет',
-          status: 'default',
-          isActive: true,
-          exams: {
-            base: [
-              {
-                type: 'number',
-                title: 'Математика',
-                number: '39',
-              },
-              {
-                type: 'number',
-                title: 'Русский язык',
-                number: '40',
-              },
-            ],
-            choose: [
-              {
-                type: 'number',
-                title: 'Информатика',
-                number: '39',
-              },
-              {
-                type: 'number',
-                title: 'Иностранный язык',
-                number: '40',
-              },
-              {
-                type: 'number',
-                title: 'Физика',
-                number: '40',
-              },
-            ],
-          },
-        },
-        {
-          name: 'paid',
-          label: 'Платное',
-          status: 'default',
-          isActive: false,
-          exams: {
-            base: [
-              {
-                type: 'number',
-                title: 'Математика',
-                number: '44',
-              },
-              {
-                type: 'number',
-                title: 'Русский язык',
-                number: '55',
-              },
-            ],
-            choose: [
-              {
-                type: 'number',
-                title: 'Информатика',
-                number: '66',
-              },
-              {
-                type: 'number',
-                title: 'Иностранный язык',
-                number: '77',
-              },
-              {
-                type: 'number',
-                title: 'Физика',
-                number: '88',
-              },
-            ],
-          },
-        },
-      ],
-
-      slideCaption: {
-        base: 'Основные предметы',
-        choose: 'Предметы по выбору',
-      },
     };
   },
   async fetch() {
     const requestData = { slug: this.$route.params.slug, key: 's-program-minimum-score' };
-    this.sectionData = await getOrganizationSectionInfo(requestData);
-    console.log('12312312312', this.sectionData);
+    this.sectionData = await getProductSectionInfo(requestData);
   },
   /* eslint no-param-reassign: ["error", { "props": false }] */
   methods: {
     toggleTabs(selectedTab) {
-      this.tabs.forEach((tab) => {
-        tab.isActive = tab.name === selectedTab.name;
+      this.sectionData.items.forEach((tab) => {
+        tab.isActive = tab.label === selectedTab.label;
       });
     },
   },
