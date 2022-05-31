@@ -114,7 +114,7 @@ export default {
           href: '/catalog',
         },
       ],
-
+      sectionData: {},
       logoSrc: '',
       event: null,
       netSocials: [
@@ -136,54 +136,48 @@ export default {
       city: {},
     };
   },
-  props: ['methods', 'title'],
+
   async fetch() {
-    // const expandedMethod = this.methods[0].data;
-    // const preData = await getOrganizationsDetail(expandedMethod);
-    // this.university.city = preData.data.included.city.name;
-    // this.university.name = preData.data.name;
-    // this.university.description = preData.data.description;
-    // this.university.type = preData.data.type_text;
-    // this.university.hostel = 'есть';
-    // this.university.photo = this.baseURL + preData.data.digital_image;
-    // this.logoSrc = this.baseURL + preData.data.logo;
-    //
-    // // this.directions = preData.included.directions;
-    // this.city = preData.data.included.city;
-    //
-    // if (preData.data.land) {
-    //   this.$store.commit('updateLander', preData.data);
-    // }
-    //
-    // if (this.city) {
-    //   const breadcrumb = {
-    //     label: this.city.name,
-    //     href: `/catalog?&city_ids=${this.city.id}`,
-    //   };
-    //
-    //   this.breadcrumbs.push(breadcrumb);
-    // }
-    //
-    // if (this.university.name) {
-    //   const breadcrumb = {
-    //     label: this.university.name,
-    //     href: '',
-    //   };
-    //
-    //   this.breadcrumbs.push(breadcrumb);
-    // }
+    const requestData = { slug: this.$route.params.slug };
+    this.sectionData = await getOrganizationInfo(requestData);
+    this.university.city = this.sectionData?.included?.city?.name;
+    this.university.name = this.sectionData.name;
+    this.university.description = this.sectionData.description;
+    this.university.type = this.sectionData.type_text;
+    this.university.hostel = 'есть';
+    this.university.photo = this.baseURL + this.sectionData.digital_image;
+    this.logoSrc = this.baseURL + this.sectionData.logo;
+
+    // this.directions = preData.included.directions;
+    this.city = this.sectionData?.included.city;
+
+    if (this.sectionData.land) {
+      this.$store.commit('updateLander', this.sectionData);
+    }
+
+    if (this.city) {
+      const breadcrumb = {
+        label: this.city.name,
+        href: `/catalog?&city_ids=${this.city.id}`,
+      };
+
+      this.breadcrumbs.push(breadcrumb);
+    }
+
+    if (this.university.name) {
+      const breadcrumb = {
+        label: this.university.name,
+        href: '',
+      };
+
+      this.breadcrumbs.push(breadcrumb);
+    }
   },
 
-  // computed: {
-  //   hostel() {
-  //     return this.university.hostel ? 'Есть' : 'Нет';
-  //   },
-  // },
-
-  async mounted() {
-    const requestData = { slug: this.$route.params.slug };
-    const response = await getOrganizationInfo(requestData);
-    console.log(response);
+  computed: {
+    hostel() {
+      return this.university.hostel ? 'Есть' : 'Нет';
+    },
   },
 
   methods: {
