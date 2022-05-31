@@ -35,7 +35,7 @@ import getOrganizationsDetails from '~/api/organizationsDetail';
 import './s_program_teachers.scss';
 
 export default {
-  name: 's_program_teachers',
+  name: 'SProgramTeachers',
 
   components: {
     MCardSpeaker,

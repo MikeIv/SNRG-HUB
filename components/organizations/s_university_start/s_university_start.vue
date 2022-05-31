@@ -85,12 +85,12 @@
 import {
   AFactoid, ALogo, MCard, MSocialShare,
 } from '@cwespb/synergyui';
-import './s_university_start.scss';
-import getOrganizationsDetail from '~/api/organizationsDetail';
 import ABreadcrumbs from '~/components/_ui/a_breadcrumbs/a_breadcrumbs';
+import './s_university_start.scss';
+import getOrganizationInfo from '~/api/organizationInfo';
 
 export default {
-  name: 's_university_start',
+  name: 'SUniversityStart',
 
   components: {
     ABreadcrumbs,
@@ -114,7 +114,7 @@ export default {
           href: '/catalog',
         },
       ],
-
+      sectionData: {},
       logoSrc: '',
       event: null,
       netSocials: [
@@ -136,23 +136,23 @@ export default {
       city: {},
     };
   },
-  props: ['methods', 'title'],
+
   async fetch() {
-    const expandedMethod = this.methods[0].data;
-    const preData = await getOrganizationsDetail(expandedMethod);
-    this.university.city = preData.data.included.city.name;
-    this.university.name = preData.data.name;
-    this.university.description = preData.data.description;
-    this.university.type = preData.data.type_text;
+    const requestData = { slug: this.$route.params.slug };
+    this.sectionData = await getOrganizationInfo(requestData);
+    this.university.city = this.sectionData?.included?.city?.name;
+    this.university.name = this.sectionData.name;
+    this.university.description = this.sectionData.description;
+    this.university.type = this.sectionData.type_text;
     this.university.hostel = 'есть';
-    this.university.photo = this.baseURL + preData.data.digital_image;
-    this.logoSrc = this.baseURL + preData.data.logo;
+    this.university.photo = this.baseURL + this.sectionData.digital_image;
+    this.logoSrc = this.baseURL + this.sectionData.logo;
 
     // this.directions = preData.included.directions;
-    this.city = preData.data.included.city;
+    this.city = this.sectionData?.included.city;
 
-    if (preData.data.land) {
-      this.$store.commit('updateLander', preData.data);
+    if (this.sectionData.land) {
+      this.$store.commit('updateLander', this.sectionData);
     }
 
     if (this.city) {

@@ -25,7 +25,7 @@ import { AFactoid } from '@cwespb/synergyui';
 import './s_university_statistics.scss';
 
 export default {
-  name: 's_university_statistics',
+  name: 'SUniversityStatistics',
 
   components: {
     AFactoid,

@@ -67,6 +67,8 @@ export default {
     { src: '@/plugins/gtm.js', mode: 'client' },
   ],
 
+  ssr: false,
+
   redirect: [
     {
       from: '^(\\/[^\\?]*[^\\/])(\\?.*)?$',
@@ -96,8 +98,9 @@ export default {
     ['@synergy/synergyid-adapter', {
       namespace: 'auth',
       brokerBackendUrl: 'https://api.synergyhub.ru/',
-      synergyIdBackendUrl: process.env.NODE_ENV === 'development' ? 'https://release-1-2795.c4.syndev.ru/' : 'https://pass.synergy.ru/',
-      synergyIdDomain: process.env.NODE_ENV === 'development' ? 'https://release-v1-2640.c4.syndev.ru/' : 'https://pass.synergy.ru/',
+      // TODO: Убрать условие !==
+      synergyIdBackendUrl: process.env.NODE_ENV !== 'development' ? 'https://release-1-2795.c4.syndev.ru/' : 'https://pass.synergy.ru/',
+      synergyIdDomain: process.env.NODE_ENV !== 'development' ? 'https://release-v1-2640.c4.syndev.ru/' : 'https://pass.synergy.ru/',
     },
     ],
   ],
