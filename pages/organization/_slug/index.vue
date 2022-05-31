@@ -22,8 +22,28 @@
     <!--        @menu-toggle="menuToggle"-->
     <!--      ></component>-->
     <!--    </LazyHydrate>-->
-    <!--    <s-university-start />-->
+
+    <s-university-start />
     <s-university-scores />
+    <s-university-statistics />
+    <s-catalog-section
+      :products-per-page="16"
+      :options="options"
+      :filtersMenu="filtersMenu"
+      :currentOption="currentOption"
+      :with-breadcrumbs="true"
+      :withPaddings="true"
+      :productListUrl="productListUrl"
+      :filterResponse="filterResponse"
+      :defaultFilters="defaultFilters"
+      :type="type"
+      :routePath="routePath"
+      :allCategories="allCategories"
+      @change-sort-options="changeSortOptions"
+      @menu-toggle="menuToggle"
+    />
+    <s-program-skills />
+    <s-program-teachers />
   </div>
 </template>
 
@@ -31,19 +51,27 @@
 // import LazyHydrate from 'vue-lazy-hydration';
 import getFilterData from '~/api/filter_data';
 import getCatalogCategoriesList from '~/api/getCatalogCategoriesList';
-// import SUniversityStart from '~/components/s_university_start/s_university_start';
-import SUniversityScores from '~/components/s_university_scores/s_university_scores';
+import SUniversityStart from '~/components/organizations/s_university_start/s_university_start';
+import SUniversityScores from '~/components/organizations/s_university_scores/s_university_scores';
+import SUniversityStatistics from '~/components/organizations/s_university_statistics/s_university_statistics';
+import SCatalogSection from '~/components/s_catalog_section/s_catalog_section/';
+import SProgramSkills from '~/components/s_program_skills/s_program_skills';
+import SProgramTeachers from '~/components/s_program_teachers/s_program_teachers';
 
 export default {
   layout: 'organization',
 
   components: {
+    SProgramTeachers,
+    SProgramSkills,
+    SCatalogSection,
+    SUniversityStatistics,
     SUniversityScores,
-    // SUniversityStart,
+    SUniversityStart,
     // LazyHydrate,
   },
 
-  middleware: ['getPageInfo', 'parseUtms'],
+  // middleware: ['getPageInfo', 'parseUtms'],
 
   data() {
     return {

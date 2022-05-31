@@ -11,11 +11,11 @@
 
 <script>
 import { AListElement } from '@cwespb/synergyui';
-import './s_program_skills.scss';
 import getEntitiesSectionsDetail from '~/api/entitiesSectionsDetail';
+import './s_program_skills.scss';
 
 export default {
-  name: 's_program_skills',
+  name: 'SProgramSkills',
 
   components: {
     AListElement,

@@ -85,9 +85,9 @@
 import {
   AFactoid, ALogo, MCard, MSocialShare,
 } from '@cwespb/synergyui';
-import './s_university_start.scss';
-import getSectionInfo from '~/api/sectionInfo';
 import ABreadcrumbs from '~/components/_ui/a_breadcrumbs/a_breadcrumbs';
+import './s_university_start.scss';
+import getOrganizationInfo from '~/api/organizationInfo';
 
 export default {
   name: 'SUniversityStart',
@@ -181,8 +181,8 @@ export default {
   // },
 
   async mounted() {
-    const requestData = { slug: this.$route.params.slug, key: 's-university-start' };
-    const response = await getSectionInfo(requestData);
+    const requestData = { slug: this.$route.params.slug };
+    const response = await getOrganizationInfo(requestData);
     console.log(response);
   },
 

@@ -21,8 +21,8 @@
 
 <script>
 import { AFactoid } from '@cwespb/synergyui';
+import getOrganizationSectionInfo from '~/api/organizationSectionInfo';
 import './s_university_scores.scss';
-import getSectionInfo from '~/api/sectionInfo';
 
 export default {
   name: 'SUniversityScores',
@@ -41,7 +41,7 @@ export default {
 
   async fetch() {
     const requestData = { slug: this.$route.params.slug, key: 's-university-scores' };
-    this.sectionData = await getSectionInfo(requestData);
+    this.sectionData = await getOrganizationSectionInfo(requestData);
   },
 };
 </script>
