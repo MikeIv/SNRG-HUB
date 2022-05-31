@@ -15,7 +15,7 @@
               class="s-program-timeline__card"
               :title="item.title"
               :text="item.description"
-              :image="`https://synergymarket.ru/site/img/how/${index + 1}.png`"
+              :image="`/organization/timeline/timeline-${index + 1}.png`"
             />
           </swiper-slide>
         </swiper>
