@@ -6,6 +6,7 @@
     <s-program-people />
     <s-program-skills />
     <s-program-minimum-score />
+    <s-program-reviews />
     <!-- <SProgramPrice /> -->
   </div>
 </template>
@@ -13,6 +14,7 @@
 <script>
 import SProgramPeople from '~/components/product/s_program_people/s_program_people';
 import SProgramMinimumScore from '~/components/product/s_program_minimum_score/s_program_minimum_score';
+import sProgramReviews from '~/components/product/s_program_reviews/s_program_reviews';
 
 export default {
   layout: 'product',
@@ -20,6 +22,7 @@ export default {
   components: {
     SProgramPeople,
     SProgramMinimumScore,
+    sProgramReviews,
     /* LazyHydrate, */
     /* SProgramPrice, */
   },
