@@ -1,18 +1,17 @@
 <template>
-  <section class="s-program-about s-margin">
-    fgvdglfdk
+  <section class="s-program-about s-margin" v-if="sectionData">
     <div class="l-wide l-border-radius">
       <div class="s-program-about__row">
         <h2 class="s-program-about__title a-font_h2" v-html="sectionData.title"></h2>
-        <p class="s-program-about__description a-font_xl" v-html="programAboutDescription.value"></p>
+        <p class="s-program-about__description a-font_xl" v-html="sectionData.description"></p>
       </div>
       <div class="s-program-about__triggers">
         <AFactoids
-          v-for="item in programAboutList"
+          v-for="item in sectionData.items"
           :key="item.id"
           :type="item.type"
-          :title="item.title"
-          :number="item.number"
+          :title="item.description"
+          :number="item.title"
           :image="item.image"
           class="s-program-about__triggers-item"
         />
@@ -24,7 +23,6 @@
 <script>
 import AFactoids from '@/components/_ui/A-factoids/A-factoids';
 import './s_program_about.scss';
-
 import productSectionInfo from '~/api/productSectionInfo';
 
 export default {
@@ -36,8 +34,7 @@ export default {
 
   data() {
     return {
-      sectionData: {},
-      baseUrl: process.env.NUXT_ENV_S3BACKET,
+      sectionData: null,
     };
   },
 

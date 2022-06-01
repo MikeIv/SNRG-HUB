@@ -1,8 +1,8 @@
 <template>
-  <section class="s-program-questions s-margin">
+  <section v-if="sectionData" class="s-program-questions s-margin">
     <div class="l-wide l-border-radius">
       <div class="s-program-questions__wrapper" itemscope itemtype="http://schema.org/Question">
-        <h2 class="s-program-questions__title a-font_h2" v-html="sectionData.title"></h2>
+        <h2 class="s-program-questions__title a-font_h2" v-html="sectionData.title" />
         <div class="s-program-questions__body">
           <div
             class="s-program-questions__row"
@@ -45,7 +45,7 @@ export default {
     };
   },
 
-  async mounted() {
+  async fetch() {
     const requestData = { slug: this.$route.params.slug, key: 's-program-questions' };
     this.sectionData = await getOrganizationSectionInfo(requestData);
   },
