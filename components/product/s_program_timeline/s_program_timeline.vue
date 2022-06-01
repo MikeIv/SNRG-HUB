@@ -53,10 +53,6 @@ export default {
   data() {
     return {
       sectionData: null,
-      programTimelineRightItems: [
-        { subtitle: 'Длительность', title: '6 месяцев' },
-        { subtitle: 'Дипломный проект', title: 'командный кейс' },
-      ],
       baseUrl: process.env.NUXT_ENV_S3BACKET,
       swiperOptionA: {
         grabCursor: true,
