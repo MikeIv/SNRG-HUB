@@ -75,13 +75,11 @@ export default {
 
   mounted() {
     window.addEventListener('resize', this.handleResize);
-    window.addEventListener('DOMContentLoaded', this.handleResize);
     this.handleResize();
   },
 
   beforeDestroy() {
     window.removeEventListener('resize', this.handleResize);
-    window.removeEventListener('DOMContentLoaded', this.handleResize);
   },
 
   methods: {
