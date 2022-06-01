@@ -11,11 +11,13 @@
 <script>
 /* import LazyHydrate from 'vue-lazy-hydration'; */
 /* import SProgramPrice from '~/components/s_program_price/s_program_price'; */
+import SProgramSkills from '~/components/product/s_program_skills/s_program_skills';
 
 export default {
   layout: 'product',
 
   components: {
+    SProgramSkills,
     /* LazyHydrate, */
     /* SProgramPrice, */
   },
