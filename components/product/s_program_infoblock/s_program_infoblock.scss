@@ -1,19 +1,12 @@
 @import '@/assets/styles/tools/mixins';
 
 .s-program-infoblock {
-  position: relative;
   overflow: hidden;
   width: 100%;
-  padding: var(--layout-v-padding) var(--layout-h-padding);
-  background-color: var(--a-color_bg);
   border-radius: var(--a-borderRadius--bg);
 
-  @media screen and (max-width: 991px) {
-    padding: rem(42) rem(30);
-  }
-
-  @media screen and (max-width: 767px) {
-    padding: rem(40) rem(16);
+  &__wrapper {
+    position: relative;
   }
 
   &__item {
