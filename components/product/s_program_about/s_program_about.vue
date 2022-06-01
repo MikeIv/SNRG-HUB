@@ -26,7 +26,7 @@ import './s_program_about.scss';
 import productSectionInfo from '~/api/productSectionInfo';
 
 export default {
-  name: 'sProgramAbout',
+  name: 'SProgramAbout',
 
   components: {
     AFactoids,
