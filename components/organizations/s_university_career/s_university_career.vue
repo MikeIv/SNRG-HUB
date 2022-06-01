@@ -1,8 +1,8 @@
 <template>
-  <section class="s-university-career s-margin">
+  <section v-if="sectionData" class="s-university-career s-margin">
     <div class="l-wide l-border-radius">
       <div class="s-university-career__wrap">
-        <h2 class="s-university-career__title a-font_h2" v-html="sectionData.title"></h2>
+        <h2 class="s-university-career__title a-font_h2" v-html="sectionData.title" />
         <div class="s-university-career__items">
           <AFactoids
             v-for="(factoid, index) in sectionData.items"
@@ -35,7 +35,7 @@ export default {
     };
   },
 
-  async mounted() {
+  async fetch() {
     const requestData = { slug: this.$route.params.slug, key: 's-university-career' };
     this.sectionData = await getOrganizationSectionInfo(requestData);
   },
