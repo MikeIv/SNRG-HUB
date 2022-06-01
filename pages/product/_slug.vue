@@ -12,13 +12,14 @@
 <script>
 /* import LazyHydrate from 'vue-lazy-hydration'; */
 /* import SProgramPrice from '~/components/s_program_price/s_program_price'; */
-
+import SProgramSkills from '~/components/product/s_program_skills/s_program_skills';
 import SProgramMinimumScore from '~/components/product/s_program_minimum_score/s_program_minimum_score';
 
 export default {
   layout: 'product',
 
   components: {
+    SProgramSkills,
     SProgramMinimumScore,
     /* LazyHydrate, */
     /* SProgramPrice, */
