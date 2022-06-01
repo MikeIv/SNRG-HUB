@@ -8,7 +8,7 @@
             v-for="(tab, idx) in sectionData.items"
             :key="idx"
             :label="tab.label"
-            :class="{ 'a-tag__item_active': tab.isActive }"
+            :class="{ 'a-tag__item--active': tab.isActive }"
             @aTagClick="toggleTabs(tab)"
           />
         </div>
@@ -18,7 +18,7 @@
         v-for="(tab, idx) in sectionData.items"
         :key="idx"
         class="s-program-minimum-score__items"
-        :class="{ 's-program-minimum-score__items_active': tab.isActive }"
+        :class="{ 's-program-minimum-score__items--active': tab.isActive }"
         v-show="tab.isActive"
       >
         <swiper :options="swiperOptionProgramExam">
@@ -78,11 +78,11 @@ export default {
     const requestData = { slug: this.$route.params.slug, key: 's-program-minimum-score' };
     this.sectionData = await getProductSectionInfo(requestData);
   },
-  /* eslint no-param-reassign: ["error", { "props": false }] */
+
   methods: {
     toggleTabs(selectedTab) {
       this.sectionData.items.forEach((tab) => {
-        tab.isActive = tab.label === selectedTab.label;
+        this.$set(tab, 'isActive', tab.label === selectedTab.label);
       });
     },
   },
