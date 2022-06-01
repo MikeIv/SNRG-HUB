@@ -4,16 +4,11 @@
       <div class="s-program-people__wrapper">
         <h2 class="s-program-people__title a-font_h2" v-html="sectionData.title"></h2>
         <div class="s-program-people__slider">
-          <swiper :options="swiperOptionProgramPeople" v-if="!isMobile">
+          <swiper :options="swiperOptionProgramPeople">
             <swiper-slide v-for="people in sectionData.items" :key="people.id" class="s-program-people__slide">
               <m-card-landing :title="people.title" :text="people.description" :image="people.image" />
             </swiper-slide>
           </swiper>
-          <div v-else class="s-program-people__items">
-            <div v-for="people in sectionData.items" :key="people.id" class="s-program-people__slide">
-              <m-card-landing :title="people.title" :text="people.description" :image="people.image" />
-            </div>
-          </div>
         </div>
       </div>
     </div>
@@ -51,10 +46,8 @@ export default {
         resistance: true,
         resistanceRatio: 0,
         breakpoints: {
-          576: {
-            spaceBetween: 16,
-            slidesPerView: 'auto',
-            direction: 'horizontal',
+          100: {
+            direction: 'vertical',
           },
           768: {
             spaceBetween: 24,
@@ -71,23 +64,6 @@ export default {
   async fetch() {
     const requestData = { slug: this.$route.params.slug, key: 's-program-people' };
     this.sectionData = await productSectionInfo(requestData);
-  },
-
-  mounted() {
-    window.addEventListener('resize', this.handleResize);
-    this.handleResize();
-  },
-
-  beforeDestroy() {
-    window.removeEventListener('resize', this.handleResize);
-  },
-
-  methods: {
-    handleResize() {
-      this.windowWidth = window.innerWidth;
-
-      this.isMobile = this.windowWidth < 767;
-    },
   },
 };
 </script>

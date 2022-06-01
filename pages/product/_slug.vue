@@ -12,7 +12,6 @@
 
 <script>
 import SProgramPeople from '~/components/product/s_program_people/s_program_people';
-
 import SProgramMinimumScore from '~/components/product/s_program_minimum_score/s_program_minimum_score';
 
 export default {
@@ -24,8 +23,6 @@ export default {
     /* LazyHydrate, */
     /* SProgramPrice, */
   },
-
-  // middleware: ['getPageInfo', 'parseUtms'],
 
   computed: {
     pageInfo() {
