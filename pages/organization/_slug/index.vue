@@ -46,6 +46,7 @@
     />
     <s-program-skills />
     <s-program-teachers />
+    <s-partners />
     <s-program-questions />
   </div>
 </template>
@@ -63,6 +64,7 @@ import SProgramSkills from '~/components/s_program_skills/s_program_skills';
 import SProgramTeachers from '~/components/s_program_teachers/s_program_teachers';
 import SProgramQuestions from '~/components/organizations/s_program_questions/s_program_questions';
 import SUniversityCareer from '~/components/organizations/s_university_career/s_university_career';
+import SPartners from '~/components/s_partners/s_partners';
 
 export default {
   layout: 'organization',
@@ -77,6 +79,7 @@ export default {
     SUniversityStart,
     SProgramQuestions,
     SUniversityCareer,
+    SPartners,
     // LazyHydrate,
   },
 
