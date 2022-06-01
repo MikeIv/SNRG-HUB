@@ -88,11 +88,7 @@ export default {
     handleResize() {
       this.windowWidth = window.innerWidth;
 
-      if (this.windowWidth < 767) {
-        this.isMobile = true;
-      } else {
-        this.isMobile = false;
-      }
+      this.isMobile = this.windowWidth < 767;
     },
   },
 };
