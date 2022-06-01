@@ -4,9 +4,10 @@
       <component :is="key" :methods="methods" :title="title" :productIds="pageInfo.entity_page"></component>
     </LazyHydrate> -->
     <s-program-infoblock />
-    <s-program-people />
-    <s-program-skills />
     <s-program-minimum-score />
+    <s-program-people />
+    <s-program-timeline />
+    <s-program-skills />
   </div>
 </template>
 
@@ -15,6 +16,7 @@
 import SProgramSkills from '~/components/product/s_program_skills/s_program_skills';
 import SProgramPeople from '~/components/product/s_program_people/s_program_people';
 import SProgramMinimumScore from '~/components/product/s_program_minimum_score/s_program_minimum_score';
+import SProgramTimeline from '~/components/product/s_program_timeline/s_program_timeline';
 import SProgramInfoblock from '~/components/product/s_program_infoblock/s_program_infoblock';
 
 export default {
@@ -24,6 +26,7 @@ export default {
     SProgramSkills,
     SProgramPeople,
     SProgramMinimumScore,
+    SProgramTimeline,
     SProgramInfoblock,
     /* LazyHydrate, */
   },
