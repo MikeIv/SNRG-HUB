@@ -8,6 +8,8 @@
     <s-program-people />
     <s-program-timeline />
     <s-program-skills />
+    <s-program-minimum-score />
+    <s-program-reviews />
   </div>
 </template>
 
@@ -16,6 +18,7 @@
 import SProgramSkills from '~/components/product/s_program_skills/s_program_skills';
 import SProgramPeople from '~/components/product/s_program_people/s_program_people';
 import SProgramMinimumScore from '~/components/product/s_program_minimum_score/s_program_minimum_score';
+import sProgramReviews from '~/components/product/s_program_reviews/s_program_reviews';
 import SProgramTimeline from '~/components/product/s_program_timeline/s_program_timeline';
 import SProgramInfoblock from '~/components/product/s_program_infoblock/s_program_infoblock';
 
@@ -26,6 +29,7 @@ export default {
     SProgramSkills,
     SProgramPeople,
     SProgramMinimumScore,
+    sProgramReviews,
     SProgramTimeline,
     SProgramInfoblock,
     /* LazyHydrate, */

@@ -375,9 +375,7 @@
 
 <script>
 import { VueTelInput } from 'vue-tel-input';
-import {
-  AButton, AControl, AInput, APopup, ASelect, ATag, ATitle, MCard, MFilter,
-} from '@cwespb/synergyui';
+import { AButton, AControl, AInput, APopup, ASelect, ATag, ATitle, MCard, MFilter } from '@cwespb/synergyui';
 import getProductsList from '~/api/products_list';
 import '../../s_catalog/s_catalog.scss';
 import '../../s_catalog_filter/s_catalog_filter.scss';
