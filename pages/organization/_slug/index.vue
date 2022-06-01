@@ -48,7 +48,7 @@
         @menu-toggle="menuToggle"
       />
       <s-program-skills />
-      <s-program-teachers />
+      <s-program-teachers :slug="$route.params.slug" />
       <s-program-questions />
     </div>
   </LazyHydrate>
