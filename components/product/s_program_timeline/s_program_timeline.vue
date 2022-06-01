@@ -1,13 +1,13 @@
 <template>
-  <section class="s-program-timeline s-margin">
+  <section class="s-program-timeline s-margin" v-if="sectionData">
     <div class="l-wide l-border-radius">
       <div class="s-program-timeline__header">
         <h2 class="s-program-timeline__title a-font_h2" v-html="sectionData.title"></h2>
-        <div class="s-program-timeline__factoids" v-if="programTimelineRightItems">
+        <div class="s-program-timeline__factoids" v-if="sectionData.rightItems">
           <AFactoids
-            v-for="timelineItem in sectionData.items"
+            v-for="timelineItem in sectionData.rightItems"
             :key="timelineItem.id"
-            :type="timelineItem.type"
+            type="default"
             :title="timelineItem.title"
             :subtitle="timelineItem.subtitle"
           />
@@ -53,6 +53,10 @@ export default {
   data() {
     return {
       sectionData: null,
+      programTimelineRightItems: [
+        { subtitle: 'Длительность', title: '6 месяцев' },
+        { subtitle: 'Дипломный проект', title: 'командный кейс' },
+      ],
       baseUrl: process.env.NUXT_ENV_S3BACKET,
       swiperOptionA: {
         grabCursor: true,
