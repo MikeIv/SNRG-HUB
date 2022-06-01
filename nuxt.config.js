@@ -67,8 +67,6 @@ export default {
     { src: '@/plugins/gtm.js', mode: 'client' },
   ],
 
-  ssr: false,
-
   redirect: [
     {
       from: '^(\\/[^\\?]*[^\\/])(\\?.*)?$',
