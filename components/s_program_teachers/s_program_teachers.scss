@@ -72,4 +72,16 @@
       color: var(--a-color_link);
     }
   }
+
+  &__card {
+    .m-card-landing__title {
+      padding-left: 0;
+    }
+
+    .m-card-landing__image-wrapper {
+      overflow: hidden;
+      max-height: rem(256);
+      border-radius: rem(10);
+    }
+  }
 }
