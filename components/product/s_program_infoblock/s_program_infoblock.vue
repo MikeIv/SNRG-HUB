@@ -1,9 +1,9 @@
 <template>
-  <section class="s-program-infoblock">
+  <section class="s-program-infoblock l-wide l-border-radius s-margin">
     <div class="s-program-infoblock__wrapper">
       <div class="s-program-infoblock__items">
         <swiper :options="swiperOptionProgramInfo">
-          <swiper-slide v-for="item in items" :key="item.id" class="s-program-infoblock__item">
+          <swiper-slide v-for="item in sectionData.items" :key="item.id" class="s-program-infoblock__item">
             <AFactoids :type="item.type" :title="item.title" :lineNumber="item.lineNumber" class="swiper-slide" />
           </swiper-slide>
         </swiper>
@@ -24,9 +24,10 @@
 import { Swiper, SwiperSlide } from 'vue-awesome-swiper';
 import AFactoids from '@/components/_ui/A-factoids/A-factoids';
 import './s_program_infoblock.scss';
+import getProductSectionInfo from '~/api/productSectionInfo';
 
 export default {
-  name: 's_program_infoblock',
+  name: 'SProgramInfoblock',
 
   components: {
     AFactoids,
@@ -53,27 +54,12 @@ export default {
         },
       },
 
-      items: [
-        {
-          id: 1,
-          lineNumber: 'от 120 000 ₽',
-          title: 'в год',
-          type: 'line',
-        },
-        {
-          id: 2,
-          lineNumber: '20',
-          title: 'бюджетных мест',
-          type: 'line',
-        },
-        {
-          id: 3,
-          lineNumber: '60',
-          title: 'платных мест',
-          type: 'line',
-        },
-      ],
+      sectionData: {},
     };
+  },
+  async fetch() {
+    const requestData = { slug: this.$route.params.slug, key: 's-program-infoblock' };
+    this.sectionData = await getProductSectionInfo(requestData);
   },
 };
 </script>

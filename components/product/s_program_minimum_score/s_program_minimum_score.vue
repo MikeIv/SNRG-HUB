@@ -1,41 +1,39 @@
 <template>
-  <section class="s-program-minimum-score s-margin">
-    <div class="l-wide l-border-radius">
-      <div class="s-program-minimum-score__header">
-        <h2 class="s-program-minimum-score__title a-font_h2" v-html="sectionData.title"></h2>
-        <div class="s-program-minimum-score__btns">
-          <ATag
-            v-for="(tab, idx) in sectionData.items"
-            :key="idx"
-            :label="tab.label"
-            :class="{ 'a-tag__item--active': tab.isActive }"
-            @aTagClick="toggleTabs(tab)"
-          />
-        </div>
+  <section class="s-program-minimum-score l-wide l-border-radius s-margin">
+    <div class="s-program-minimum-score__header">
+      <h2 class="s-program-minimum-score__title a-font_h2" v-html="sectionData.title"></h2>
+      <div class="s-program-minimum-score__btns">
+        <ATag
+          v-for="(tab, idx) in sectionData.items"
+          :key="idx"
+          :label="tab.label"
+          :class="{ 'a-tag__item--active': tab.isActive }"
+          @aTagClick="toggleTabs(tab)"
+        />
       </div>
+    </div>
 
-      <div
-        v-for="(tab, idx) in sectionData.items"
-        :key="idx"
-        class="s-program-minimum-score__items"
-        :class="{ 's-program-minimum-score__items--active': tab.isActive }"
-        v-show="tab.isActive"
-      >
-        <swiper :options="swiperOptionProgramExam">
-          <swiper-slide v-for="exam in tab.subjects" :key="exam.id" class="s-program-minimum-score__item">
-            <h5 class="s-program-minimum-score__item-caption a-font_h5">{{ exam.title }}</h5>
-            <div class="s-program-minimum-score__item-factoids">
-              <AFactoids
-                v-for="(item, idx) in exam.list"
-                :key="idx"
-                :type="item.type"
-                :title="item.title"
-                :number="item.number"
-              />
-            </div>
-          </swiper-slide>
-        </swiper>
-      </div>
+    <div
+      v-for="(tab, idx) in sectionData.items"
+      :key="idx"
+      class="s-program-minimum-score__items"
+      :class="{ 's-program-minimum-score__items--active': tab.isActive }"
+      v-show="tab.isActive"
+    >
+      <swiper :options="swiperOptionProgramExam">
+        <swiper-slide v-for="exam in tab.subjects" :key="exam.id" class="s-program-minimum-score__item">
+          <h5 class="s-program-minimum-score__item-caption a-font_h5">{{ exam.title }}</h5>
+          <div class="s-program-minimum-score__item-factoids">
+            <AFactoids
+              v-for="(item, idx) in exam.list"
+              :key="idx"
+              :type="item.type"
+              :title="item.title"
+              :number="item.number"
+            />
+          </div>
+        </swiper-slide>
+      </swiper>
     </div>
   </section>
 </template>
