@@ -24,7 +24,7 @@ import './s_program_reviews.scss';
 import productSectionInfo from '~/api/productSectionInfo';
 
 export default {
-  name: 'sProgramReviews',
+  name: 'SProgramReviews',
 
   components: {
     MCardLanding,
