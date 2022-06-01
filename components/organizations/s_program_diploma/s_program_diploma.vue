@@ -31,7 +31,6 @@ export default {
   data() {
     return {
       sectionData: null,
-      baseUrl: process.env.NUXT_ENV_S3BACKET,
       swiperOptionProgramDiploma: {
         grabCursor: true,
         slidesPerView: 'auto',
@@ -50,8 +49,6 @@ export default {
   async mounted() {
     const requestData = { slug: this.$route.params.slug, key: 's-program-diploma' };
     this.sectionData = await getOrganizationSectionInfo(requestData);
-
-    console.log(this.sectionData);
   },
 };
 </script>
