@@ -1,5 +1,5 @@
 <template>
-  <section class="s-program-diploma s-margin">
+  <section class="s-program-diploma s-margin" v-if="sectionData">
     <div class="l-wide l-border-radius">
       <h2 class="s-program-diploma__title a-font_h2" v-html="sectionData.title"></h2>
       <div class="s-program-diploma__items">
@@ -46,7 +46,7 @@ export default {
     };
   },
 
-  async mounted() {
+  async fetch() {
     const requestData = { slug: this.$route.params.slug, key: 's-program-diploma' };
     this.sectionData = await getOrganizationSectionInfo(requestData);
   },
