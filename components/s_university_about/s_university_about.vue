@@ -11,7 +11,7 @@
 
 <script>
 import { AListElement } from '@cwespb/synergyui';
-import '../s_program_skills/s_program_skills.scss';
+import '../product/s_program_skills/s_program_skills.scss';
 import getEntitiesSectionsDetail from '~/api/entitiesSectionsDetail';
 
 export default {

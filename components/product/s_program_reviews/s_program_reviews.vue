@@ -1,5 +1,5 @@
 <template>
-  <section class="s-program-reviews s-margin">
+  <section class="s-program-reviews s-margin" v-if="sectionData">
     <div class="l-wide l-border-radius">
       <h2 class="s-program-reviews__title a-font_h2" v-html="sectionData.title"></h2>
       <div class="s-program-reviews__swiper">
@@ -10,12 +10,7 @@
             class="s-program-reviews__slide m-card-landing"
           >
             <!-- API не отдает дату отзыва. Поля физически нет, когда появится передать в subhead-->
-            <MCardLanding
-              :subhead="review.subhead"
-              :userName="review.name.value"
-              :userImage="`${baseUrl}${review.avatar_image.value}`"
-              :text="review.description.value"
-            />
+            <MCardLanding :userName="review.fullName" :userImage="review.list[0].src" :text="review.description" />
           </swiper-slide>
         </swiper>
       </div>
@@ -40,8 +35,7 @@ export default {
 
   data() {
     return {
-      sectionData: {},
-      baseUrl: process.env.NUXT_ENV_S3BACKET,
+      sectionData: null,
       swiperOptionA: {
         grabCursor: true,
         slidesPerView: 'auto',
