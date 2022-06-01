@@ -34,8 +34,6 @@ export default {
   data() {
     return {
       sectionData: {},
-      windowWidth: 0,
-      isMobile: false,
       baseUrl: process.env.NUXT_ENV_S3BACKET,
       swiperOptionProgramPeople: {
         slidesPerView: 'auto',
@@ -48,6 +46,7 @@ export default {
         breakpoints: {
           100: {
             direction: 'vertical',
+            allowTouchMove: false,
           },
           768: {
             spaceBetween: 24,
