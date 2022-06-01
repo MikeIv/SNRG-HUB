@@ -24,8 +24,10 @@
     <!--    </LazyHydrate>-->
 
     <s-university-start />
+    <s-university-career />
     <s-university-scores />
     <s-university-statistics />
+    <s-program-timeline />
     <s-catalog-section
       :products-per-page="16"
       :options="options"
@@ -44,6 +46,7 @@
     />
     <s-program-skills />
     <s-program-teachers />
+    <s-program-questions />
   </div>
 </template>
 
@@ -54,9 +57,12 @@ import getCatalogCategoriesList from '~/api/getCatalogCategoriesList';
 import SUniversityStart from '~/components/organizations/s_university_start/s_university_start';
 import SUniversityScores from '~/components/organizations/s_university_scores/s_university_scores';
 import SUniversityStatistics from '~/components/organizations/s_university_statistics/s_university_statistics';
+import SProgramTimeline from '~/components/organizations/s_program_timeline/s_program_timeline';
 import SCatalogSection from '~/components/s_catalog_section/s_catalog_section/';
 import SProgramSkills from '~/components/s_program_skills/s_program_skills';
 import SProgramTeachers from '~/components/s_program_teachers/s_program_teachers';
+import SProgramQuestions from '~/components/organizations/s_program_questions/s_program_questions';
+import SUniversityCareer from '~/components/organizations/s_university_career/s_university_career';
 
 export default {
   layout: 'organization',
@@ -66,8 +72,11 @@ export default {
     SProgramSkills,
     SCatalogSection,
     SUniversityStatistics,
+    SProgramTimeline,
     SUniversityScores,
     SUniversityStart,
+    SProgramQuestions,
+    SUniversityCareer,
     // LazyHydrate,
   },
 

@@ -3,8 +3,6 @@
 .s-program-minimum-score {
   width: 100%;
   margin: rem(20) auto;
-  padding: var(--layout-v-padding) var(--layout-h-padding);
-  background-color: var(--a-color_bg);
   border-radius: var(--a-borderRadius--bg);
 
   @media (max-width: 991px) {
@@ -48,12 +46,12 @@
     align-items: center;
     .a-tag__item {
       margin-bottom: 0;
-      margin-left: reem(8);
+      margin-left: rem(8);
       @media (max-width: 767px) {
-        margin-right: rerm(8);
+        margin-right: rem(8);
         margin-left: 0;
       }
-      &_active {
+      &--active {
         color: var(--a-color_bg);
         background-color: var(--a-color_link);
       }
