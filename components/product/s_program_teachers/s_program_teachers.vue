@@ -2,7 +2,7 @@
   <section class="s-program-teachers s-margin" v-if="sectionData">
     <div class="l-wide l-border-radius">
       <h2 class="s-program-teachers__title a-font_h2" v-html="sectionData.title"></h2>
-      <div class="s-program-teachers__items s-program-teachers__items_horizontal" v-if="sectionData.items.length < 4">
+      <div class="s-program-teachers__items s-program-teachers__items_horizontal" v-if="itemsData.length < 4">
         <MCardSpeaker
           v-for="item in sectionData.items"
           :key="item.id"
@@ -47,6 +47,7 @@ export default {
     return {
       baseURL: process.env.NUXT_ENV_S3BACKET,
       sectionData: {},
+      itemsData: [],
       swiperOptionA: {
         grabCursor: true,
         slidesPerView: 'auto',
@@ -59,7 +60,11 @@ export default {
   },
 
   async fetch() {
-    if (this.$route.name === 'product-slug') {
+    if (
+      this.$route.name === 'product-slug'
+      || this.$route.name === 'product-ege'
+      || this.$route.name === 'product-school'
+    ) {
       const requestData = { slug: this.$route.params.slug, key: 's-program-teachers' };
       this.sectionData = await productSectionInfo(requestData);
       console.log('this.sectionData PRODUCT', this.sectionData);
@@ -69,6 +74,8 @@ export default {
       this.sectionData = await getOrganizationSectionInfo(requestData);
       console.log('this.sectionDataOrganization', this.sectionData);
     }
+
+    this.itemsData = this.sectionData.items;
   },
 };
 </script>

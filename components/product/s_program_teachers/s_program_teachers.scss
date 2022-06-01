@@ -9,7 +9,80 @@
     width: rem(270);
   }
 
+  &__items_horizontal {
+    & .m-card-speaker {
+      margin-bottom: rem(32);
+      padding: rem(48) rem(166) rem(48) rem(48);
+
+      @media (max-width: 991px) {
+        margin-bottom: rem(24);
+        padding: rem(48);
+      }
+      @media (max-width: 768px) {
+        margin-bottom: rem(24);
+        padding: rem(24);
+      }
+
+      &__image-box {
+        display: flex;
+        overflow: hidden;
+        justify-content: center;
+        align-items: center;
+        width: rem(220);
+        height: rem(220);
+        margin-left: rem(70);
+        padding: 0;
+        @media (max-width: 768px) {
+          width: rem(192);
+          height: rem(192);
+          margin-left: rem(18);
+        }
+        @media (max-width: 638px) {
+          margin-left: 0;
+        }
+
+        img {
+          min-width: 100%;
+          min-height: 100%;
+          flex-shrink: 0;
+          object-fit: cover;
+        }
+      }
+    }
+  }
+
   &__items_vertical {
+
+    .m-card-landing {
+      &__image-wrapper {
+        display: flex;
+        overflow: hidden;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        height: rem(256);
+        padding: 0;
+        @media (max-width: 768px) {
+          width: rem(192);
+          height: rem(192);
+          margin-left: rem(18);
+        }
+        @media (max-width: 638px) {
+          margin-left: 0;
+        }
+
+        img {
+          min-width: 100%;
+          min-height: 100%;
+          flex-shrink: 0;
+          object-fit: cover;
+        }
+      }
+
+      &__title {
+        padding-left: 0;
+      }
+    }
     & .m-card-speaker {
       margin-bottom: rem(32);
 
@@ -29,19 +102,12 @@
         flex-wrap: wrap;
       }
 
-      &:not(:last-child) {
-        margin-bottom: rem(32);
-
-        @media (max-width: 991px) {
-          margin-bottom: rem(24);
-        }
-      }
-
       &__name {
         color: var(--a-color_text);
       }
 
       &__title {
+        padding: 0;
         color: var(--a-color_text);
       }
 
@@ -50,6 +116,14 @@
 
         @media (max-width: 575px) {
           max-width: 100%;
+        }
+      }
+
+      &:not(:last-child) {
+        margin-bottom: rem(32);
+
+        @media (max-width: 991px) {
+          margin-bottom: rem(24);
         }
       }
     }
