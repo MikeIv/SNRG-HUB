@@ -1,7 +1,7 @@
 <template>
   <section class="s-program-skills s-margin" v-if="sectionData">
     <div class="l-wide l-border-radius">
-      <h2 class="s-program-skills__title a-font_h2" v-html="sectionData.title"></h2>
+      <h2 class="s-program-skills__title a-font_h2" v-html="sectionData.title" />
       <div class="s-program-skills__items">
         <AListElement v-for="(item, index) in sectionData.items" :key="index" :type="item.type" :label="item.value" />
       </div>

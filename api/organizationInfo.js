@@ -9,5 +9,5 @@ export default async function getOrganizationInfo(requestData) {
     requestData,
   );
 
-  return response.data.data[0].attributes;
+  return response.data.data[0];
 }
