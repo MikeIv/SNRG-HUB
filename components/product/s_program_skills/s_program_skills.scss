@@ -5,6 +5,7 @@
   overflow: hidden;
   width: 100%;
   color: var(--a-color_text);
+  border-radius: var(--a-borderRadius--bg);
 
   @media (max-width: 991px) {
     margin-bottom: rem(12);
@@ -49,8 +50,8 @@
 
   &__items {
     display: flex;
-    flex-wrap: wrap;
     margin: 0 rem(-12);
+    flex-wrap: wrap;
 
     @media screen and (max-width: 767px) {
       display: block;
