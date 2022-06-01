@@ -9,7 +9,6 @@
             :key="idx"
             class="s-program-reviews__slide m-card-landing"
           >
-            <!-- API не отдает дату отзыва. Поля физически нет, когда появится передать в subhead-->
             <MCardLanding :userName="review.fullName" :userImage="review.list[0].src" :text="review.description" />
           </swiper-slide>
         </swiper>
