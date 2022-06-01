@@ -60,7 +60,7 @@ import SUniversityStatistics from '~/components/organizations/s_university_stati
 import SProgramTimeline from '~/components/organizations/s_program_timeline/s_program_timeline';
 import SCatalogSection from '~/components/s_catalog_section/s_catalog_section/';
 import SProgramSkills from '~/components/s_program_skills/s_program_skills';
-import SProgramTeachers from '~/components/s_program_teachers/s_program_teachers';
+import SProgramTeachers from '~/components/product/s_program_teachers/s_program_teachers';
 import SProgramQuestions from '~/components/organizations/s_program_questions/s_program_questions';
 import SUniversityCareer from '~/components/organizations/s_university_career/s_university_career';
 
