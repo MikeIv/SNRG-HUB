@@ -1,15 +1,11 @@
 <template>
   <section class="s-program-diploma s-margin">
     <div class="l-wide l-border-radius">
-      <h2 class="s-program-diploma__title a-font_h2" v-html="title"></h2>
+      <h2 class="s-program-diploma__title a-font_h2" v-html="sectionData.title"></h2>
       <div class="s-program-diploma__items">
         <swiper :options="swiperOptionProgramDiploma">
-          <swiper-slide v-for="(diploma, idx) in diplomaList.data" :key="idx" class="s-program-diploma__slide">
-            <MCardLanding
-              :title="diploma.title.value"
-              :text="diploma.description.value"
-              :image="`${baseUrl}${diploma.preview_image.value}`"
-            />
+          <swiper-slide v-for="(diplom, index) in sectionData.items" :key="index" class="s-program-diploma__slide">
+            <MCardLanding :title="diplom.title" :text="diplom.description" :image="diplom.list[0].src" />
           </swiper-slide>
         </swiper>
       </div>
@@ -21,10 +17,10 @@
 import { Swiper, SwiperSlide } from 'vue-awesome-swiper';
 import { MCardLanding } from '@cwespb/synergyui';
 import './s_program_diploma.scss';
-import getEntitiesSectionsDetail from '~/api/entitiesSectionsDetail';
+import getOrganizationSectionInfo from '~/api/organizationSectionInfo';
 
 export default {
-  name: 's_program_diploma',
+  name: 'SProgramDiploma',
 
   components: {
     MCardLanding,
@@ -34,7 +30,7 @@ export default {
 
   data() {
     return {
-      diplomaList: [],
+      sectionData: null,
       baseUrl: process.env.NUXT_ENV_S3BACKET,
       swiperOptionProgramDiploma: {
         grabCursor: true,
@@ -50,11 +46,12 @@ export default {
       },
     };
   },
-  props: ['methods', 'title'],
-  async fetch() {
-    const expandedMethod = this.methods[0].data;
-    const preData = await getEntitiesSectionsDetail(expandedMethod);
-    this.diplomaList = preData.json.items;
+
+  async mounted() {
+    const requestData = { slug: this.$route.params.slug, key: 's-program-diploma' };
+    this.sectionData = await getOrganizationSectionInfo(requestData);
+
+    console.log(this.sectionData);
   },
 };
 </script>

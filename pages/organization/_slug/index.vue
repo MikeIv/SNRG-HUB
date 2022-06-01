@@ -24,10 +24,8 @@
     <!--    </LazyHydrate>-->
 
     <s-university-start />
-    <s-university-career />
     <s-university-scores />
     <s-university-statistics />
-    <s-program-timeline />
     <s-catalog-section
       :products-per-page="16"
       :options="options"
@@ -46,6 +44,9 @@
     />
     <s-program-skills />
     <s-program-teachers />
+    <s-program-timeline />
+    <s-university-career />
+    <s-program-diploma />
     <s-program-questions />
   </div>
 </template>
@@ -63,6 +64,7 @@ import SProgramSkills from '~/components/s_program_skills/s_program_skills';
 import SProgramTeachers from '~/components/s_program_teachers/s_program_teachers';
 import SProgramQuestions from '~/components/organizations/s_program_questions/s_program_questions';
 import SUniversityCareer from '~/components/organizations/s_university_career/s_university_career';
+import SProgramDiploma from '~/components/organizations/s_program_diploma/s_program_diploma';
 
 export default {
   layout: 'organization',
@@ -77,6 +79,7 @@ export default {
     SUniversityStart,
     SProgramQuestions,
     SUniversityCareer,
+    SProgramDiploma,
     // LazyHydrate,
   },
 
