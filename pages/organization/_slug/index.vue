@@ -1,59 +1,61 @@
 <template>
-  <div>
-    <!--    <LazyHydrate :key="id" v-for="{ key, methods, title, id } in pageInfo.components" when-visible>-->
-    <!--      <component-->
-    <!--        :is="key"-->
-    <!--        :methods="methods"-->
-    <!--        :title="title"-->
-    <!--        :products-per-page="16"-->
-    <!--        :options="options"-->
-    <!--        :filtersMenu="filtersMenu"-->
-    <!--        :currentOption="currentOption"-->
-    <!--        :with-breadcrumbs="true"-->
-    <!--        :withPaddings="true"-->
-    <!--        :productListUrl="productListUrl"-->
-    <!--        :filterResponse="filterResponse"-->
-    <!--        :defaultFilters="defaultFilters"-->
-    <!--        :type="type"-->
-    <!--        :routePath="routePath"-->
-    <!--        :allCategories="allCategories"-->
-    <!--        :entity_page="pageInfo.entity_page"-->
-    <!--        @change-sort-options="changeSortOptions"-->
-    <!--        @menu-toggle="menuToggle"-->
-    <!--      ></component>-->
-    <!--    </LazyHydrate>-->
+  <LazyHydrate when-visible>
+    <div>
+      <!--    <LazyHydrate :key="id" v-for="{ key, methods, title, id } in pageInfo.components" when-visible>-->
+      <!--      <component-->
+      <!--        :is="key"-->
+      <!--        :methods="methods"-->
+      <!--        :title="title"-->
+      <!--        :products-per-page="16"-->
+      <!--        :options="options"-->
+      <!--        :filtersMenu="filtersMenu"-->
+      <!--        :currentOption="currentOption"-->
+      <!--        :with-breadcrumbs="true"-->
+      <!--        :withPaddings="true"-->
+      <!--        :productListUrl="productListUrl"-->
+      <!--        :filterResponse="filterResponse"-->
+      <!--        :defaultFilters="defaultFilters"-->
+      <!--        :type="type"-->
+      <!--        :routePath="routePath"-->
+      <!--        :allCategories="allCategories"-->
+      <!--        :entity_page="pageInfo.entity_page"-->
+      <!--        @change-sort-options="changeSortOptions"-->
+      <!--        @menu-toggle="menuToggle"-->
+      <!--      ></component>-->
+      <!--    </LazyHydrate>-->
 
-    <s-university-start />
-    <s-university-career />
-    <s-university-scores />
-    <s-university-statistics />
-    <s-program-timeline />
-    <s-catalog-section
-      :products-per-page="16"
-      :options="options"
-      :filtersMenu="filtersMenu"
-      :currentOption="currentOption"
-      :with-breadcrumbs="true"
-      :withPaddings="true"
-      :productListUrl="productListUrl"
-      :filterResponse="filterResponse"
-      :defaultFilters="defaultFilters"
-      :type="type"
-      :routePath="routePath"
-      :allCategories="allCategories"
-      @change-sort-options="changeSortOptions"
-      @menu-toggle="menuToggle"
-    />
-    <s-program-skills />
-    <s-program-teachers />
-    <s-program-questions />
-  </div>
+      <s-university-start :organizationData="organizationData" />
+      <s-university-career />
+      <s-university-scores />
+      <s-university-statistics />
+      <s-program-timeline />
+      <s-catalog-section
+        title="Каталог продуктов для организации"
+        :products-per-page="16"
+        :options="options"
+        :filtersMenu="filtersMenu"
+        :currentOption="currentOption"
+        :with-breadcrumbs="true"
+        :withPaddings="true"
+        :productListUrl="productListUrl"
+        :filterResponse="filterResponse"
+        :defaultFilters="defaultFilters"
+        :type="type"
+        :routePath="routePath"
+        :allCategories="allCategories"
+        :entity_page="entity_page"
+        @change-sort-options="changeSortOptions"
+        @menu-toggle="menuToggle"
+      />
+      <s-program-skills />
+      <s-program-teachers :slug="$route.params.slug" />
+      <s-program-questions />
+    </div>
+  </LazyHydrate>
 </template>
 
 <script>
-// import LazyHydrate from 'vue-lazy-hydration';
-import getFilterData from '~/api/filter_data';
-import getCatalogCategoriesList from '~/api/getCatalogCategoriesList';
+import LazyHydrate from 'vue-lazy-hydration';
 import SUniversityStart from '~/components/organizations/s_university_start/s_university_start';
 import SUniversityScores from '~/components/organizations/s_university_scores/s_university_scores';
 import SUniversityStatistics from '~/components/organizations/s_university_statistics/s_university_statistics';
@@ -63,6 +65,9 @@ import SProgramSkills from '~/components/s_program_skills/s_program_skills';
 import SProgramTeachers from '~/components/product/s_program_teachers/s_program_teachers';
 import SProgramQuestions from '~/components/organizations/s_program_questions/s_program_questions';
 import SUniversityCareer from '~/components/organizations/s_university_career/s_university_career';
+import getFilterData from '~/api/filter_data';
+import getCatalogCategoriesList from '~/api/getCatalogCategoriesList';
+import getOrganizationInfo from '~/api/organizationInfo';
 
 export default {
   layout: 'organization',
@@ -77,18 +82,18 @@ export default {
     SUniversityStart,
     SProgramQuestions,
     SUniversityCareer,
-    // LazyHydrate,
+    LazyHydrate,
   },
-
-  // middleware: ['getPageInfo', 'parseUtms'],
 
   data() {
     return {
+      organizationData: {},
       routePath: 'organization',
       filterResponse: [],
       defaultFilters: {},
       allCategories: [],
       type: 'main',
+      entity_page: {},
       productListUrl: 'api/v1/products/list',
       title: 'Organization page',
       filtersMenu: false,
@@ -114,15 +119,6 @@ export default {
     };
   },
 
-  computed: {
-    pageInfo() {
-      return this.$store.state.pageInfo;
-    },
-    pageMeta() {
-      return this.$store.state.pageMeta;
-    },
-  },
-
   watch: {
     $route: {
       deep: true,
@@ -135,6 +131,13 @@ export default {
   },
 
   methods: {
+    async getOrganizationData() {
+      const requestData = { slug: this.$route.params.slug };
+      const organizationResponse = await getOrganizationInfo(requestData);
+      this.organizationData = organizationResponse.attributes;
+      this.entity_page = { id: organizationResponse.id, type: this.routePath };
+    },
+
     async fetchCategoriesData() {
       this.allCategories = await getCatalogCategoriesList();
     },
@@ -165,49 +168,9 @@ export default {
   },
 
   async fetch() {
+    await this.getOrganizationData();
     await this.fetchFilterData();
     await this.fetchCategoriesData();
-  },
-
-  head() {
-    return {
-      title: this.pageMeta?.title,
-      meta: [
-        {
-          hid: 'keywords',
-          name: 'keywords',
-          content: this.pageMeta?.keywords,
-        },
-        {
-          hid: 'description',
-          name: 'description',
-          content: this.pageMeta?.description,
-        },
-        {
-          hid: 'og:type',
-          name: 'og:type',
-          content: 'website',
-        },
-        {
-          hid: 'og:title',
-          name: 'og:title',
-          content: this.pageMeta?.title,
-        },
-        {
-          hid: 'og:site_name',
-          name: 'og:site_name',
-          content: 'Synergyeducation',
-        },
-        {
-          hid: 'og:description',
-          name: 'og:description',
-          content: this.pageMeta?.description,
-        },
-      ],
-      bodyAttrs: {
-        class: 'bg-gray',
-      },
-    };
   },
 };
 </script>
