@@ -4,8 +4,8 @@
       <component :is="key" :methods="methods" :title="title" :productIds="pageInfo.entity_page"></component>
     </LazyHydrate> -->
     <s-program-skills />
-    <s-program-timeline />
     <s-program-minimum-score />
+    <s-program-timeline />
     <!-- <SProgramPrice /> -->
   </div>
 </template>
@@ -15,12 +15,14 @@
 /* import SProgramPrice from '~/components/s_program_price/s_program_price'; */
 
 import SProgramMinimumScore from '~/components/product/s_program_minimum_score/s_program_minimum_score';
+import SProgramTimeline from '~/components/product/s_program_timeline/s_program_timeline';
 
 export default {
   layout: 'product',
 
   components: {
     SProgramMinimumScore,
+    SProgramTimeline,
     /* LazyHydrate, */
     /* SProgramPrice, */
   },
