@@ -1,7 +1,7 @@
 <template>
-  <section class="s-program-skills s-margin">
+  <section v-if="sectionData" class="s-program-skills s-margin">
     <div class="l-wide l-border-radius">
-      <h2 class="s-program-skills__title a-font_h2" v-html="sectionData.title"></h2>
+      <h2 class="s-program-skills__title a-font_h2" v-html="sectionData.title" />
       <div class="s-program-skills__items">
         <AListElement v-for="(item, index) in sectionData.items" :key="index" :type="item.type" :label="item.value" />
       </div>
@@ -27,7 +27,7 @@ export default {
     };
   },
 
-  async mounted() {
+  async fetch() {
     const requestData = { slug: this.$route.params.slug, key: 's-program-skills' };
     this.sectionData = await productSectionInfo(requestData);
   },
