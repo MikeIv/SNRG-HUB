@@ -28,13 +28,9 @@
         overflow: hidden;
         justify-content: center;
         align-items: center;
-        width: rem(220);
-        height: rem(220);
         margin-left: rem(70);
         padding: 0;
         @media (max-width: 768px) {
-          width: rem(192);
-          height: rem(192);
           margin-left: rem(18);
         }
         @media (max-width: 638px) {
@@ -42,40 +38,37 @@
         }
 
         img {
-          min-width: 100%;
-          min-height: 100%;
-          flex-shrink: 0;
+          width: rem(220);
+          height: rem(220);
           object-fit: cover;
+          object-position: top;
+          @media (max-width: 768px) {
+            width: rem(192);
+            height: rem(192);
+          }
+          @media (max-width: 480px) {
+            width: 100%;
+            height: rem(192);
+            object-fit: contain;
+          }
         }
       }
     }
   }
 
   &__items_vertical {
-
     .m-card-landing {
       &__image-wrapper {
         display: flex;
         overflow: hidden;
         justify-content: center;
         align-items: center;
-        width: 100%;
-        height: rem(256);
-        padding: 0;
-        @media (max-width: 768px) {
-          width: rem(192);
-          height: rem(192);
-          margin-left: rem(18);
-        }
-        @media (max-width: 638px) {
-          margin-left: 0;
-        }
 
         img {
-          min-width: 100%;
-          min-height: 100%;
-          flex-shrink: 0;
+          width: rem(270);
+          height: rem(256);
           object-fit: cover;
+          object-position: top;
         }
       }
 

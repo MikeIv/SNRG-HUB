@@ -2,7 +2,10 @@
   <section class="s-program-teachers s-margin" v-if="sectionData">
     <div class="l-wide l-border-radius">
       <h2 class="s-program-teachers__title a-font_h2" v-html="sectionData.title"></h2>
-      <div class="s-program-teachers__items s-program-teachers__items_horizontal" v-if="itemsData.length < 4">
+      <div
+        class="s-program-teachers__items s-program-teachers__items_horizontal"
+        v-if="sectionData.items && sectionData.items.length < 4"
+      >
         <MCardSpeaker
           v-for="item in sectionData.items"
           :key="item.id"
@@ -29,12 +32,14 @@
 <script>
 import { Swiper, SwiperSlide } from 'vue-awesome-swiper';
 import { MCardSpeaker, MCardLanding } from '@cwespb/synergyui';
-import './s_program_teachers.scss';
 import productSectionInfo from '~/api/productSectionInfo';
 import getOrganizationSectionInfo from '~/api/organizationSectionInfo';
+import './s_program_teachers.scss';
 
 export default {
   name: 'SProgramTeachers',
+
+  props: ['slug'],
 
   components: {
     MCardSpeaker,
@@ -46,8 +51,7 @@ export default {
   data() {
     return {
       baseURL: process.env.NUXT_ENV_S3BACKET,
-      sectionData: {},
-      itemsData: [],
+      sectionData: null,
       swiperOptionA: {
         grabCursor: true,
         slidesPerView: 'auto',
@@ -60,22 +64,13 @@ export default {
   },
 
   async fetch() {
-    if (
-      this.$route.name === 'product-slug'
-      || this.$route.name === 'product-ege'
-      || this.$route.name === 'product-school'
-    ) {
-      const requestData = { slug: this.$route.params.slug, key: 's-program-teachers' };
-      this.sectionData = await productSectionInfo(requestData);
-      console.log('this.sectionData PRODUCT', this.sectionData);
-      console.log('this.$route', this.$route);
-    } else {
-      const requestData = { slug: this.$route.params.slug, key: 's-program-teachers' };
-      this.sectionData = await getOrganizationSectionInfo(requestData);
-      console.log('this.sectionDataOrganization', this.sectionData);
-    }
+    const requestData = { slug: this.slug || this.$route.params.slug, key: 's-program-teachers' };
 
-    this.itemsData = this.sectionData.items;
+    if (this.$route.name === 'product-slug' || this.$route.name === 'edu-platform') {
+      this.sectionData = await productSectionInfo(requestData);
+    } else {
+      this.sectionData = await getOrganizationSectionInfo(requestData);
+    }
   },
 };
 </script>

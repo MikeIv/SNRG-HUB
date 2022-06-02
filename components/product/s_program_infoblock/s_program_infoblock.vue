@@ -1,5 +1,5 @@
 <template>
-  <section class="s-program-infoblock s-margin">
+  <section class="s-program-infoblock s-margin" v-if="sectionData">
     <div class="l-wide l-border-radius">
       <div class="s-program-infoblock__wrapper">
         <div class="s-program-infoblock__items">
@@ -56,7 +56,7 @@ export default {
         },
       },
 
-      sectionData: {},
+      sectionData: null,
     };
   },
   async fetch() {

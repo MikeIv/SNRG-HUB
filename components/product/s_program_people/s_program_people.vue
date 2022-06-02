@@ -1,5 +1,5 @@
 <template>
-  <section class="s-program-people s-margin">
+  <section class="s-program-people s-margin" v-if="sectionData">
     <div class="l-wide l-border-radius">
       <div class="s-program-people__wrapper">
         <h2 class="s-program-people__title a-font_h2" v-html="sectionData.title"></h2>
@@ -33,7 +33,7 @@ export default {
 
   data() {
     return {
-      sectionData: {},
+      sectionData: null,
       baseUrl: process.env.NUXT_ENV_S3BACKET,
       swiperOptionProgramPeople: {
         slidesPerView: 'auto',
