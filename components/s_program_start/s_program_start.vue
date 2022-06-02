@@ -1,6 +1,6 @@
 <template>
   <section class="s-program-start s-margin">
-    <div class="l-wide l-border-radius">
+    <div class="l-wide l-border-radius" v-if="product">
       <div class="s-program-start__wrapper" :style="{ backgroundColor: program.color ? program.color : '#fff' }">
         <div class="s-program-start__header">
           <div
@@ -16,21 +16,26 @@
           <m-social-share
             :is-menu-open="isMenuOpen"
             :netSocials="netSocials"
-            :title="program.title"
-            :description="program.description"
-            :image="program.photo"
+            :title="product.name"
+            :description="product.description"
+            :image="`${this.baseURL}${product.digital_image}`"
             @changeMenuState="changeMenuState"
           />
         </div>
         <div class="s-program-start__content" itemscope itemtype="https://schema.org/Product">
           <div class="s-program-start__info-top">
             <span class="s-program-start__info-top-subtitle a-font_l">{{ program.subtitle }}</span>
-            <h2 class="s-program-start__info-top-name a-font_h1" itemprop="name">{{ program.title }}</h2>
+            <h2 class="s-program-start__info-top-name a-font_h1" itemprop="name">{{ product.name }}</h2>
             <p class="s-program-start__info-top-description a-font_xl" itemprop="description">
-              {{ program.description }}
+              {{ product.description }}
             </p>
             <div class="s-program-start__photo s-program-start__photo-bottom">
-              <img :src="program.photo" :alt="program.title" class="s-program-start__photo-img" itemprop="image" />
+              <img
+                :src="`${this.baseURL}${product.digital_image}`"
+                :alt="product.name"
+                class="s-program-start__photo-img"
+                itemprop="image"
+              />
             </div>
             <div itemprop="aggregateRating" itemscope itemtype="https://schema.org/AggregateRating">
               <meta itemprop="ratingValue" content="5" />
@@ -61,29 +66,29 @@
               <div class="s-program-start__info-bottom-additional">
                 <a-factoid
                   type="default"
-                  :title="program.start_date !== null ? program.start_date : program.city"
-                  :subtitle="program.start_date !== null ? 'Дата начала' : 'Город'"
+                  :title="product.start_date !== null ? product.start_date : product.city"
+                  :subtitle="product.start_date !== null ? 'Дата начала' : 'Город'"
                   class="s-program-start__info-bottom-additional_factoid"
-                  v-if="program.city || program.start_date"
+                  v-if="product.city || product.start_date"
                 />
                 <a-factoid
                   type="default"
-                  :title="program.language"
+                  :title="product.language"
                   subtitle="Язык"
                   class="s-program-start__info-bottom-additional_factoid"
-                  v-if="program.language"
+                  v-if="product.language"
                 />
                 <a-factoid
                   type="default"
                   :title="getDurationDate"
                   subtitle="Длительность"
                   class="s-program-start__info-bottom-additional_factoid"
-                  v-if="program.duration"
+                  v-if="product.duration"
                 />
                 <!-- eslint-disable max-len -->
                 <a-factoid
                   type="default"
-                  :title="program.form"
+                  :title="product.form"
                   subtitle="Форма обучения"
                   class="s-program-start__info-bottom-additional_factoid s-program-start__info-bottom-additional_factoid--form"
                 />
@@ -91,7 +96,11 @@
             </div>
           </div>
           <div class="s-program-start__photo s-program-start__photo-top">
-            <img :src="program.photo" :alt="program.title" class="s-program-start__photo-img" />
+            <img
+              :src="`${this.baseURL}${product.digital_image}`"
+              :alt="product.name"
+              class="s-program-start__photo-img"
+            />
           </div>
         </div>
         <div class="s-program-start__event" v-if="event">
@@ -114,7 +123,6 @@ import {
   AFactoid, AButton, MSocialShare, MCard,
 } from '@cwespb/synergyui';
 import './s_program_start.scss';
-import getProductsDetail from '~/api/productsDetail';
 import getParseDate from '~/assets/js/getParseDate';
 import getDateFromDatesObj from '~/assets/js/getDateFromDatesObj';
 import ABreadcrumbs from '~/components/_ui/a_breadcrumbs/a_breadcrumbs';
@@ -190,12 +198,15 @@ export default {
       type: Boolean,
       default: false,
     },
+    product: {
+      type: Object,
+    },
   },
 
   async fetch() {
-    const expandedMethod = this.methods[0].data;
-    const preData = await getProductsDetail(expandedMethod);
-    const getData = preData.data;
+    /* const expandedMethod = this.methods[0].data;
+    const preData = await getProductsDetail(expandedMethod); */
+    const getData = this.product.attributes;
     this.program.color = getData.color;
     this.program.title = getData.name;
     this.program.subtitle = getData.included.levels[0]?.name;
@@ -291,10 +302,10 @@ export default {
 
   computed: {
     getDurationDate() {
-      if (this.program.beginDuration === '') {
-        return this.program.duration;
+      if (this.product.beginDuration === '') {
+        return this.product.duration;
       }
-      return `${this.program.beginDuration} - ${this.program.duration}`;
+      return `${this.product.beginDuration} - ${this.product.duration}`;
     },
   },
 

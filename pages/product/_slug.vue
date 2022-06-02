@@ -3,6 +3,7 @@
     <!-- <LazyHydrate :key="id" v-for="{ key, methods, title, id } in pageInfo.components" when-visible>
       <component :is="key" :methods="methods" :title="title" :productIds="pageInfo.entity_page"></component>
     </LazyHydrate> -->
+    <s-program-start :product="program" />
     <s-program-about />
     <s-program-infoblock />
     <s-program-minimum-score />
@@ -18,6 +19,7 @@
 
 <script>
 /* import LazyHydrate from 'vue-lazy-hydration'; */
+import SProgramStart from '~/components/s_program_start/s_program_start';
 import SProgramAbout from '~/components/product/s_program_about/s_program_about';
 import SProgramSkills from '~/components/product/s_program_skills/s_program_skills';
 import SProgramPeople from '~/components/product/s_program_people/s_program_people';
@@ -27,11 +29,20 @@ import sProgramReviews from '~/components/product/s_program_reviews/s_program_re
 import SProgramTimeline from '~/components/product/s_program_timeline/s_program_timeline';
 import SProgramInfoblock from '~/components/product/s_program_infoblock/s_program_infoblock';
 import SProgramQuestions from '~/components/product/s_program_questions/s_program_questions';
+import getOrganizationInfo from '~/api/organizationInfo';
+import getProductInfo from '~/api/productInfo';
 
 export default {
   layout: 'product',
 
+  data() {
+    return {
+      program: null,
+    };
+  },
+
   components: {
+    SProgramStart,
     SProgramAbout,
     SProgramSkills,
     SProgramPeople,
@@ -92,6 +103,28 @@ export default {
         class: 'bg-gray',
       },
     };
+  },
+
+  methods: {
+    async getOrganizationData() {
+      const requestData = { slug: this.$route.params.slug };
+      const organizationResponse = await getOrganizationInfo(requestData);
+      this.organizationData = organizationResponse.attributes;
+      this.entity_page = { id: organizationResponse.id, type: this.routePath };
+    },
+    async getProductData() {
+      const requestData = { slug: this.$route.params.slug };
+      const resp = await getProductInfo(requestData);
+      this.program = resp.attributes;
+      console.log('--productResponse--', this.program);
+      /* this.organizationData = productResponse.attributes;
+      this.entity_page = { id: productResponse.id, type: this.routePath }; */
+    },
+  },
+
+  async mounted() {
+    /* await this.getOrganizationData(); */
+    await this.getProductData();
   },
 };
 </script>
