@@ -1,15 +1,15 @@
 <template>
-  <section class="s-university-life s-margin">
+  <section class="s-university-life s-margin" v-if="sectionData">
     <div class="l-wide l-border-radius">
-      <h2 class="s-university-life__title s-university-life__title a-font_h2" v-html="title"></h2>
+      <h2 class="s-university-life__title s-university-life__title a-font_h2" v-html="sectionData.title"></h2>
       <div class="s-university-life__items">
         <swiper :options="swiperOptionlifeUniversity">
           <swiper-slide
-            v-for="(item, idx) in lifeUniversityList.data"
-            :key="idx"
+            v-for="(item, index) in sectionData.items"
+            :key="index"
             class="s-university-life__slide m-card-landing"
           >
-            <MCardLanding :image="`${baseUrl}${item.preview_image.value}`" />
+            <MCardLanding :image="item.list[0].src" />
           </swiper-slide>
         </swiper>
       </div>
@@ -21,11 +21,10 @@
 import { Swiper, SwiperSlide } from 'vue-awesome-swiper';
 import { MCardLanding } from '@cwespb/synergyui';
 import './s_university_life.scss';
-
-import getEntitiesSectionsDetail from '~/api/entitiesSectionsDetail';
+import getOrganizationSectionInfo from '~/api/organizationSectionInfo';
 
 export default {
-  name: 's_university_life',
+  name: 'SUniversityLife',
 
   components: {
     MCardLanding,
@@ -35,8 +34,7 @@ export default {
 
   data() {
     return {
-      lifeUniversityList: [],
-      baseUrl: process.env.NUXT_ENV_S3BACKET,
+      sectionData: null,
       swiperOptionlifeUniversity: {
         grabCursor: true,
         slidesPerView: 'auto',
@@ -51,11 +49,10 @@ export default {
       },
     };
   },
-  props: ['methods', 'title'],
+
   async fetch() {
-    const expandedMethod = this.methods[0].data;
-    const preData = await getEntitiesSectionsDetail(expandedMethod);
-    this.lifeUniversityList = preData.json.items;
+    const requestData = { slug: this.$route.params.slug, key: 's-university-life' };
+    this.sectionData = await getOrganizationSectionInfo(requestData);
   },
 };
 </script>
