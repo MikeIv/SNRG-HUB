@@ -12,6 +12,7 @@
     <s-program-minimum-score />
     <s-program-teachers />
     <s-program-reviews />
+    <s-program-questions />
   </div>
 </template>
 
@@ -25,6 +26,7 @@ import SProgramTeachers from '~/components/product/s_program_teachers/s_program_
 import sProgramReviews from '~/components/product/s_program_reviews/s_program_reviews';
 import SProgramTimeline from '~/components/product/s_program_timeline/s_program_timeline';
 import SProgramInfoblock from '~/components/product/s_program_infoblock/s_program_infoblock';
+import SProgramQuestions from '~/components/product/s_program_questions/s_program_questions';
 
 export default {
   layout: 'product',
@@ -38,6 +40,7 @@ export default {
     sProgramReviews,
     SProgramTimeline,
     SProgramInfoblock,
+    SProgramQuestions,
     /* LazyHydrate, */
   },
 
