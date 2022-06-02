@@ -3,6 +3,7 @@
     <!-- <LazyHydrate :key="id" v-for="{ key, methods, title, id } in pageInfo.components" when-visible>
       <component :is="key" :methods="methods" :title="title" :productIds="pageInfo.entity_page"></component>
     </LazyHydrate> -->
+    <s-program-university />
     <s-program-about />
     <s-program-infoblock />
     <s-program-minimum-score />
@@ -16,6 +17,7 @@
 
 <script>
 import SProgramAbout from '~/components/product/s_program_about/s_program_about';
+import SProgramUniversity from '~/components/product/s_program_university/s_program_university';
 /* import LazyHydrate from 'vue-lazy-hydration'; */
 import SProgramSkills from '~/components/product/s_program_skills/s_program_skills';
 import SProgramPeople from '~/components/product/s_program_people/s_program_people';
@@ -29,6 +31,7 @@ export default {
 
   components: {
     SProgramAbout,
+    SProgramUniversity,
     SProgramSkills,
     SProgramPeople,
     SProgramMinimumScore,
