@@ -1,5 +1,5 @@
 <template>
-  <section class="s-university-score s-margin">
+  <section v-if="sectionData" class="s-university-score s-margin">
     <div class="l-wide l-border-radius">
       <h2 class="s-university-score__title a-font_h2" v-html="sectionData.title" />
       <div class="s-university-score__items">

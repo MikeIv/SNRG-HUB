@@ -341,9 +341,12 @@ export default {
         }
       });
 
+      console.log('this.entity_page', this.entity_page);
+
       if (this.entity_page) {
         const filterKey = `${this.entity_page.type}_ids`;
         expandedMethod.filter[filterKey] = [this.entity_page.id];
+        console.log(expandedMethod);
       }
 
       if (this.subcategoryId) {
