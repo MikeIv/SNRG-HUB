@@ -1,3 +1,4 @@
+//TODO: поправить метод получения данных для главной страницы
 <template>
   <section class="s-partners s-margin" :class="this.$route.name === 'index' ? 'main' : 'other'">
     <div v-if="this.$route.name === 'index' && companyList.length <= 21" class="l-wide l-border-radius">
