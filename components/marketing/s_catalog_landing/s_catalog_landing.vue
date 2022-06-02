@@ -32,7 +32,7 @@
       <a-popup :visible="popup" @close="closeMainPopup" ref="popup">
         <div>
           <s-program-start :methods="methodsStart" :shareIcon="false" />
-          <s-program-content :methods="methodsContent" title="Программа обучения" />
+          <s-program-content :slug="productSlug" />
           <s-program-teachers :slug="productSlug" />
           <s-program-skills :slug="productSlug" />
           <s-program-form
