@@ -1,5 +1,5 @@
 <template>
-  <section class="s-university-start s-margin">
+  <section v-if="organizationData" class="s-university-start s-margin">
     <div class="l-wide l-border-radius">
       <div
         class="s-university-start__wrapper"
@@ -87,10 +87,15 @@ import {
 } from '@cwespb/synergyui';
 import ABreadcrumbs from '~/components/_ui/a_breadcrumbs/a_breadcrumbs';
 import './s_university_start.scss';
-import getOrganizationInfo from '~/api/organizationInfo';
 
 export default {
   name: 'SUniversityStart',
+
+  props: {
+    organizationData: {
+      type: Object,
+    },
+  },
 
   components: {
     ABreadcrumbs,
@@ -124,49 +129,42 @@ export default {
           icon: 'vk',
         },
       ],
-      university: {
-        city: '',
-        name: '',
-        description: '',
-        type: '',
-        hostel: '',
-        link: '#',
-        photo: '',
-      },
+      // university: {
+      //   city: '',
+      //   name: '',
+      //   description: '',
+      //   type: '',
+      //   hostel: '',
+      //   link: '#',
+      //   photo: '',
+      // },
       city: {},
     };
   },
 
-  async fetch() {
-    const requestData = { slug: this.$route.params.slug };
-    this.sectionData = await getOrganizationInfo(requestData);
-    this.university.city = this.sectionData?.included?.city?.name;
-    this.university.name = this.sectionData.name;
-    this.university.description = this.sectionData.description;
-    this.university.type = this.sectionData.type_text;
-    this.university.hostel = 'есть';
-    this.university.photo = this.baseURL + this.sectionData.digital_image;
-    this.logoSrc = this.baseURL + this.sectionData.logo;
+  watch: {
+    sectionData() {
+      console.log('watch', this.sectionData);
+    },
+  },
 
-    // this.directions = preData.included.directions;
-    this.city = this.sectionData?.included.city;
-
-    if (this.sectionData.land) {
-      this.$store.commit('updateLander', this.sectionData);
+  async mounted() {
+    if (this.organizationData.land) {
+      this.$store.commit('updateLander', this.organizationData);
     }
 
-    if (this.city) {
+    if (this.organizationData?.included?.city?.name) {
       const breadcrumb = {
         label: this.city.name,
-        href: `/catalog?&city_ids=${this.city.id}`,
+        href: `/catalog?&city_ids=${this.organizationData?.included?.city?.id}`,
       };
 
       this.breadcrumbs.push(breadcrumb);
     }
 
-    if (this.university.name) {
+    if (this.organizationData.name) {
       const breadcrumb = {
-        label: this.university.name,
+        label: this.organizationData.name,
         href: '',
       };
 
@@ -177,6 +175,18 @@ export default {
   computed: {
     hostel() {
       return this.university.hostel ? 'Есть' : 'Нет';
+    },
+
+    university() {
+      return {
+        city: this.organizationData?.included?.city?.name,
+        name: this.organizationData.name,
+        description: this.organizationData.description,
+        type: this.organizationData.type_text,
+        hostel: 'есть',
+        photo: this.baseURL + this.organizationData.digital_image,
+        logoSrc: this.baseURL + this.organizationData.logo,
+      };
     },
   },
 
