@@ -49,6 +49,7 @@
       />
       <s-program-skills />
       <s-program-teachers :slug="$route.params.slug" />
+      <s-program-diploma />
       <s-university-life />
       <s-program-questions />
     </div>
@@ -66,6 +67,7 @@ import SProgramSkills from '~/components/product/s_program_skills/s_program_skil
 import SProgramTeachers from '~/components/s_program_teachers/s_program_teachers';
 import SProgramQuestions from '~/components/organizations/s_program_questions/s_program_questions';
 import SUniversityCareer from '~/components/organizations/s_university_career/s_university_career';
+import SProgramDiploma from '~/components/organizations/s_program_diploma/s_program_diploma';
 import SUniversityLife from '~/components/organizations/s_university_life/s_university_life';
 import getFilterData from '~/api/filter_data';
 import getCatalogCategoriesList from '~/api/getCatalogCategoriesList';
@@ -84,6 +86,7 @@ export default {
     SUniversityStart,
     SProgramQuestions,
     SUniversityCareer,
+    SProgramDiploma,
     SUniversityLife,
     LazyHydrate,
     // LazyHydrate,
