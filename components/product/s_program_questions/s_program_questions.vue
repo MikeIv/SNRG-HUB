@@ -33,7 +33,7 @@
 
 <script>
 import './s_program_questions.scss';
-import productSectionInfo from '~/api/productSectionInfo';
+import getProductSectionInfo from '~/api/productSectionInfo';
 import getOrganizationSectionInfo from '~/api/organizationSectionInfo';
 
 export default {
@@ -47,15 +47,10 @@ export default {
   },
 
   async fetch() {
-    if (
-      this.$route.name === 'product-slug'
-      || this.$route.name === 'product-ege'
-      || this.$route.name === 'product-school'
-    ) {
-      const requestData = { slug: this.$route.params.slug, key: 's-program-questions' };
-      this.sectionData = await productSectionInfo(requestData);
+    const requestData = { slug: this.$route.params.slug, key: 's-program-questions' };
+    if (this.$route.name === 'product-slug') {
+      this.sectionData = await getProductSectionInfo(requestData);
     } else {
-      const requestData = { slug: this.$route.params.slug, key: 's-program-questions' };
       this.sectionData = await getOrganizationSectionInfo(requestData);
     }
   },
