@@ -25,7 +25,6 @@
       <!--    </LazyHydrate>-->
 
       <s-university-start :organizationData="organizationData" />
-      <s-university-career />
       <s-university-scores />
       <s-university-statistics />
       <s-program-timeline />
@@ -49,8 +48,10 @@
       />
       <s-program-skills />
       <s-program-teachers :slug="$route.params.slug" />
+      <s-university-career />
       <s-program-diploma />
       <s-university-life />
+      <s-partners />
       <s-program-questions />
     </div>
   </LazyHydrate>
@@ -67,6 +68,7 @@ import SProgramTeachers from '~/components/product/s_program_teachers/s_program_
 import SProgramSkills from '~/components/product/s_program_skills/s_program_skills';
 import SProgramQuestions from '~/components/organizations/s_program_questions/s_program_questions';
 import SUniversityCareer from '~/components/organizations/s_university_career/s_university_career';
+import SPartners from '~/components/s_partners/s_partners';
 import SProgramDiploma from '~/components/organizations/s_program_diploma/s_program_diploma';
 import SUniversityLife from '~/components/organizations/s_university_life/s_university_life';
 import getFilterData from '~/api/filter_data';
@@ -89,6 +91,7 @@ export default {
     SProgramDiploma,
     SUniversityLife,
     LazyHydrate,
+    SPartners,
     // LazyHydrate,
   },
 
