@@ -5,7 +5,7 @@
         <h2 class="s-partners__title main" v-html="title"></h2>
         <div class="s-partners__swiper" :key="key">
           <swiper
-            v-if="chunkedList[0] && chunkedList[0].length >= 7"
+            v-if="chunkedList[0] && chunkedList[0].length >= this.count"
             class="noSwipingClass"
             ref="partnersSwiper1"
             :options="swiperOptions"
@@ -15,7 +15,7 @@
             </swiper-slide>
           </swiper>
           <swiper
-            v-if="chunkedList[1] && chunkedList[1].length >= 7"
+            v-if="chunkedList[1] && chunkedList[1].length >= this.count"
             class="noSwipingClass"
             ref="partnersSwiper2"
             :options="swiperOptions"
@@ -26,7 +26,7 @@
             </swiper-slide>
           </swiper>
           <swiper
-            v-if="chunkedList[2] && chunkedList[2].length >= 7"
+            v-if="chunkedList[2] && chunkedList[2].length >= this.count"
             class="noSwipingClass"
             ref="partnersSwiper3"
             :options="swiperOptions"
@@ -72,7 +72,7 @@ export default {
       sectionData: null,
       companyList: [],
       swiperCount: 0,
-      chunks: 7,
+      count: 0,
       chunkedList: [],
       baseUrl: process.env.NUXT_ENV_S3BACKET,
       swiperOptions: {
@@ -102,10 +102,11 @@ export default {
       const expandedMethod = this.methods[0].data;
       const preData = await getEntitiesSectionsDetail(expandedMethod);
       this.companyList = preData.json.items.data;
-      if (this.companyList.length > 0) {
-        this.chunkedList.push(this.companyList.slice(0, 7));
-        this.chunkedList.push(this.companyList.slice(7, 14));
-        this.chunkedList.push(this.companyList.slice(14));
+      if (this.companyList.length >= 21) {
+        this.count = Math.floor(this.companyList.length / 3);
+        this.chunkedList.push(this.companyList.slice(0, this.count));
+        this.chunkedList.push(this.companyList.slice(this.count, this.count * 2));
+        this.chunkedList.push(this.companyList.slice(this.count * 2));
       }
     } else {
       const requestData = { slug: this.$route.params.slug, key: 's-partners' };
