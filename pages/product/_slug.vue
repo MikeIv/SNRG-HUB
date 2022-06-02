@@ -11,20 +11,24 @@
     <s-program-timeline />
     <s-program-skills />
     <s-program-minimum-score />
+    <s-program-teachers />
     <s-program-reviews />
+    <s-program-questions />
   </div>
 </template>
 
 <script>
+/* import LazyHydrate from 'vue-lazy-hydration'; */
 import SProgramContent from '~/components/product/s_program_content/s_program_content';
 import SProgramAbout from '~/components/product/s_program_about/s_program_about';
-/* import LazyHydrate from 'vue-lazy-hydration'; */
 import SProgramSkills from '~/components/product/s_program_skills/s_program_skills';
 import SProgramPeople from '~/components/product/s_program_people/s_program_people';
 import SProgramMinimumScore from '~/components/product/s_program_minimum_score/s_program_minimum_score';
+import SProgramTeachers from '~/components/product/s_program_teachers/s_program_teachers';
 import sProgramReviews from '~/components/product/s_program_reviews/s_program_reviews';
 import SProgramTimeline from '~/components/product/s_program_timeline/s_program_timeline';
 import SProgramInfoblock from '~/components/product/s_program_infoblock/s_program_infoblock';
+import SProgramQuestions from '~/components/product/s_program_questions/s_program_questions';
 
 export default {
   layout: 'product',
@@ -34,10 +38,12 @@ export default {
     SProgramAbout,
     SProgramSkills,
     SProgramPeople,
+    SProgramTeachers,
     SProgramMinimumScore,
     sProgramReviews,
     SProgramTimeline,
     SProgramInfoblock,
+    SProgramQuestions,
     /* LazyHydrate, */
   },
 

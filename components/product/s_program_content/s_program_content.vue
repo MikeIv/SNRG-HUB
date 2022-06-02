@@ -67,30 +67,23 @@ export default {
   data() {
     return {
       sectionData: null,
-      programContentList: [],
-      programContentRightItems: [],
-      direction: 'down',
-      isActive: true,
     };
   },
 
   props: ['slug'],
 
+  methods: {
+    showMore(elem) {
+      this.sectionData.programContentList.forEach((item) => {
+        const currentItem = item;
+        currentItem.isActive = item === elem ? !currentItem.isActive : false;
+      });
+    },
+  },
+
   async fetch() {
     const requestData = { slug: this.slug || this.$route.params.slug, key: 's-program-content' };
     this.sectionData = await productSectionInfo(requestData);
-  },
-
-  methods: {
-    showMore(elem) {
-      this.sectionData.programContentList.forEach((item, i) => {
-        if (item === elem) {
-          this.sectionData.programContentList[i].isActive = !this.sectionData.programContentList[i].isActive;
-        } else {
-          this.sectionData.programContentList[i].isActive = false;
-        }
-      });
-    },
   },
 };
 </script>

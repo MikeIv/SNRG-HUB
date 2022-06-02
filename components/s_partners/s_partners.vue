@@ -1,3 +1,4 @@
+//TODO: поправить метод получения данных для главной страницы
 <template>
   <section class="s-partners s-margin" :class="this.$route.name === 'index' ? 'main' : 'other'">
     <div v-if="this.$route.name === 'index' && companyList.length <= 21" class="l-wide l-border-radius">
@@ -5,7 +6,7 @@
         <h2 class="s-partners__title main" v-html="title"></h2>
         <div class="s-partners__swiper" :key="key">
           <swiper
-            v-if="chunkedList[0] && chunkedList[0].length >= 7"
+            v-if="chunkedList[0] && chunkedList[0].length >= this.count"
             class="noSwipingClass"
             ref="partnersSwiper1"
             :options="swiperOptions"
@@ -15,7 +16,7 @@
             </swiper-slide>
           </swiper>
           <swiper
-            v-if="chunkedList[1] && chunkedList[1].length >= 7"
+            v-if="chunkedList[1] && chunkedList[1].length >= this.count"
             class="noSwipingClass"
             ref="partnersSwiper2"
             :options="swiperOptions"
@@ -26,7 +27,7 @@
             </swiper-slide>
           </swiper>
           <swiper
-            v-if="chunkedList[2] && chunkedList[2].length >= 7"
+            v-if="chunkedList[2] && chunkedList[2].length >= this.count"
             class="noSwipingClass"
             ref="partnersSwiper3"
             :options="swiperOptions"
@@ -39,10 +40,10 @@
       </div>
     </div>
     <div v-else class="s-partners__wrapper l-wide l-border-radius">
-      <h2 class="s-partners__title s-program-timeline__title other a-font_h2" v-html="title"></h2>
+      <h2 class="s-partners__title s-program-timeline__title other a-font_h2" v-html="sectionData.title"></h2>
       <div class="s-partners__items">
-        <div class="s-partners__item" v-for="(company, idx) in companyList" :key="idx">
-          <a-logo type="bordered" :link="`${baseUrl}${company.logo_image.value}`" />
+        <div class="s-partners__item" v-for="(item, index) in sectionData.items" :key="index">
+          <a-logo type="bordered" :link="item.image" />
         </div>
       </div>
     </div>
@@ -54,6 +55,7 @@ import { Swiper, SwiperSlide } from 'vue-awesome-swiper';
 import { ALogo } from '@cwespb/synergyui';
 
 import getEntitiesSectionsDetail from '~/api/entitiesSectionsDetail';
+import getOrganizationSectionInfo from '~/api/organizationSectionInfo';
 
 import './s_partners.scss';
 
@@ -68,9 +70,10 @@ export default {
 
   data() {
     return {
+      sectionData: null,
       companyList: [],
       swiperCount: 0,
-      chunks: 7,
+      count: 0,
       chunkedList: [],
       baseUrl: process.env.NUXT_ENV_S3BACKET,
       swiperOptions: {
@@ -95,14 +98,20 @@ export default {
 
   props: ['methods', 'title'],
 
-  async mounted() {
-    const expandedMethod = this.methods[0].data;
-    const preData = await getEntitiesSectionsDetail(expandedMethod);
-    this.companyList = preData.json.items.data;
-    if (this.companyList.length > 0) {
-      this.chunkedList.push(this.companyList.slice(0, 7));
-      this.chunkedList.push(this.companyList.slice(7, 14));
-      this.chunkedList.push(this.companyList.slice(14));
+  async fetch() {
+    if (this.$route.name === 'index') {
+      const expandedMethod = this.methods[0].data;
+      const preData = await getEntitiesSectionsDetail(expandedMethod);
+      this.companyList = preData.json.items.data;
+      if (this.companyList.length >= 21) {
+        this.count = Math.floor(this.companyList.length / 3);
+        this.chunkedList.push(this.companyList.slice(0, this.count));
+        this.chunkedList.push(this.companyList.slice(this.count, this.count * 2));
+        this.chunkedList.push(this.companyList.slice(this.count * 2));
+      }
+    } else {
+      const requestData = { slug: this.$route.params.slug, key: 's-partners' };
+      this.sectionData = await getOrganizationSectionInfo(requestData);
     }
   },
 };
