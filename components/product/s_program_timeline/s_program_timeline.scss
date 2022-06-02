@@ -12,10 +12,6 @@
     @media (max-width: 767px) {
       width: rem(223);
     }
-
-    &__title {
-      padding: rem(16) 0 rem(8);
-    }
   }
 
   &__title {
@@ -60,11 +56,5 @@
   & .m-card-landing__image {
     height: rem(192);
     object-fit: cover;
-  }
-
-  &__card {
-    .m-card-landing__title {
-      padding-left: 0;
-    }
   }
 }
