@@ -4,6 +4,7 @@
       <component :is="key" :methods="methods" :title="title" :productIds="pageInfo.entity_page"></component>
     </LazyHydrate> -->
     <s-program-content />
+    <s-program-cpa-line />
     <s-program-about />
     <s-program-infoblock />
     <s-program-minimum-score />
@@ -29,6 +30,7 @@ import sProgramReviews from '~/components/product/s_program_reviews/s_program_re
 import SProgramTimeline from '~/components/product/s_program_timeline/s_program_timeline';
 import SProgramInfoblock from '~/components/product/s_program_infoblock/s_program_infoblock';
 import SProgramQuestions from '~/components/product/s_program_questions/s_program_questions';
+import SProgramCpaLine from '~/components/product/s_program_cpa_line/s_program_cpa_line';
 
 export default {
   layout: 'product',
@@ -44,6 +46,7 @@ export default {
     SProgramTimeline,
     SProgramInfoblock,
     SProgramQuestions,
+    SProgramCpaLine,
     /* LazyHydrate, */
   },
 
