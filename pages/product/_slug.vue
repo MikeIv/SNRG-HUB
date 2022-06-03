@@ -13,6 +13,7 @@
     <s-program-teachers />
     <s-program-reviews />
     <s-program-questions />
+    <s-program-recommend />
   </div>
 </template>
 
@@ -27,6 +28,7 @@ import sProgramReviews from '~/components/product/s_program_reviews/s_program_re
 import SProgramTimeline from '~/components/product/s_program_timeline/s_program_timeline';
 import SProgramInfoblock from '~/components/product/s_program_infoblock/s_program_infoblock';
 import SProgramQuestions from '~/components/product/s_program_questions/s_program_questions';
+import SProgramRecommend from '~/components/product/s_program_recommend/s_program_recommend';
 
 export default {
   layout: 'product',
@@ -41,6 +43,7 @@ export default {
     SProgramTimeline,
     SProgramInfoblock,
     SProgramQuestions,
+    SProgramRecommend,
     /* LazyHydrate, */
   },
 
