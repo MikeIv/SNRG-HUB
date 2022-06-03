@@ -32,8 +32,8 @@
       <a-popup :visible="popup" @close="closeMainPopup" ref="popup">
         <div>
           <s-program-start :methods="methodsStart" :shareIcon="false" />
-          <s-program-content :methods="methodsContent" title="Программа обучения" />
-          <s-program-teachers :slug="productSlug" title="<span>Преподаватель</span> курса" />
+          <s-program-content :slug="productSlug" />
+          <s-program-teachers :slug="productSlug" />
           <s-program-skills :slug="productSlug" />
           <s-program-form
             title="Записаться на программу или получить бесплатную консультацию"
@@ -375,9 +375,7 @@
 
 <script>
 import { VueTelInput } from 'vue-tel-input';
-import {
-  AButton, AControl, AInput, APopup, ASelect, ATag, ATitle, MCard, MFilter,
-} from '@cwespb/synergyui';
+import { AButton, AControl, AInput, APopup, ASelect, ATag, ATitle, MCard, MFilter } from '@cwespb/synergyui';
 import getProductsList from '~/api/products_list';
 import '../../s_catalog/s_catalog.scss';
 import '../../s_catalog_filter/s_catalog_filter.scss';
