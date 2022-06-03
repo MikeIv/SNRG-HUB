@@ -48,7 +48,6 @@ export default {
     return {
       programUniversityList: [],
       baseUrl: process.env.NUXT_ENV_S3BACKET,
-      image: '',
       flag: false,
       sectionData: null,
     };
