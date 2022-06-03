@@ -12,8 +12,8 @@
             <nuxt-link to="/">
               <m-card
                 :title="item.attributes.name"
-                :type="item.type"
-                :description="item.attributes.description"
+                :type="item.type === 'products' ? 'program' : item.type"
+                description=""
                 :bottomText="organization.name"
                 :iconSrc="`${baseUrl}${organization.icon}`"
                 :verticalImgSrc="`${baseUrl}${item.attributes.digital_image}`"
@@ -48,6 +48,7 @@ import { Swiper, SwiperSlide } from 'vue-awesome-swiper';
 import { MCard, AButton } from '@cwespb/synergyui';
 import './s_program_recommend.scss';
 import productSectionInfo from '~/api/productSectionInfo';
+import getOrganizationProducts from '~/api/getOrganizationProducts';
 
 export default {
   name: 'SProgramRecommend',
@@ -59,10 +60,19 @@ export default {
     SwiperSlide,
   },
 
+  props: {
+    sectionKey: {
+      type: String,
+    },
+    organizationSlug: {
+      type: String,
+    },
+  },
+
   data() {
     return {
       sectionData: null,
-      baseUrl: 'https://dev.sys3.ru/marketplace/',
+      baseUrl: process.env.S3_URL,
       organization: {
         name: 'Университет Синергия',
         icon: 'uploads/organizations/yuIYPVAzTpYhkDo2acWAZAMLpIh4LiRGttzzlyFs.svg',
@@ -95,8 +105,18 @@ export default {
   },
 
   async fetch() {
-    const requestData = { slug: this.$route.params.slug, key: 's-program-recommend' };
-    this.sectionData = await productSectionInfo(requestData);
+    if (this.sectionKey) {
+      const requestData = { slug: this.$route.params.slug, key: this.sectionKey };
+      this.sectionData = await productSectionInfo(requestData);
+    } else if (this.organizationSlug) {
+      const requestData = { slug: this.organizationSlug };
+      await getOrganizationProducts(requestData).then((response) => {
+        this.sectionData = {
+          title: 'Другие программы университета',
+          items: response,
+        };
+      });
+    }
   },
 
   methods: {

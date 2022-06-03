@@ -14,7 +14,8 @@
     <s-program-teachers />
     <s-program-reviews />
     <s-program-questions />
-    <s-program-recommend />
+    <s-program-recommend organizationSlug="universitet-sinergiya" />
+    <s-program-recommend sectionKey="s-program-recommend" />
   </div>
 </template>
 

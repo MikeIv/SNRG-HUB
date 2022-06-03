@@ -122,6 +122,7 @@ export default {
     DADATA_KEY: process.env.DADATA_KEY,
     API_URL: process.env.NODE_ENV === 'development' ? 'https://release-1-2795.c4.syndev.ru/' : 'https://pass.synergy.ru/',
     FRONT_URL: process.env.NODE_ENV === 'development' ? 'https://release-v1-2640.c4.syndev.ru/' : 'https://pass.synergy.ru/',
+    S3_URL: process.env.NODE_ENV === 'development' ? 'https://dev.sys3.ru/marketplace/' : 'https://sys3.ru/marketplace/',
   },
 
   publicRuntimeConfig: {
