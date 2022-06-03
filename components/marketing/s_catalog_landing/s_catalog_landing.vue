@@ -32,8 +32,8 @@
       <a-popup :visible="popup" @close="closeMainPopup" ref="popup">
         <div>
           <s-program-start :methods="methodsStart" :shareIcon="false" />
-          <s-program-content :methods="methodsContent" title="Программа обучения" />
-          <s-program-teachers :slug="productSlug" title="<span>Преподаватель</span> курса" />
+          <s-program-content :slug="productSlug" />
+          <s-program-teachers :slug="productSlug" />
           <s-program-skills :slug="productSlug" />
           <s-program-form
             title="Записаться на программу или получить бесплатную консультацию"
@@ -386,8 +386,8 @@ import '../../s_catalog_section/s_catalog_section.scss';
 import '../../s_catalog_tags/s_catalog_tags.scss';
 import './s_catalog_landing.scss';
 import SProgramStart from '~/components/s_program_start/s_program_start';
-import SProgramContent from '~/components/s_program_content/s_program_content';
-import SProgramTeachers from '~/components/s_program_teachers/s_program_teachers';
+import SProgramContent from '~/components/product/s_program_content/s_program_content';
+import SProgramTeachers from '~/components/product/s_program_teachers/s_program_teachers';
 import SProgramSkills from '~/components/product/s_program_skills/s_program_skills';
 import SProgramForm from '~/components/s_program_form/s_program_form';
 import MForm from '@/components/_ui/m_form/m_form';
