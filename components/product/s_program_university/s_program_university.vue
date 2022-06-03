@@ -26,7 +26,7 @@ import { AButton } from '@cwespb/synergyui';
 import AFactoids from '@/components/_ui/A-factoids/A-factoids';
 import './s_program_university.scss';
 // import getOrganizationsDetail from '~/api/organizationsDetail';
-import productSectionInfo from './productSectionInfo';
+import productSectionInfo from '~/api/productSectionInfo';
 
 export default {
   name: 'SProgramUniversity',
@@ -55,7 +55,7 @@ export default {
   },
   props: ['methods', 'productIds'],
 
-  async mounted() {
+  async fetch() {
     const requestData = { slug: this.$route.params.slug, key: 's-program-university' };
     this.sectionData = await productSectionInfo(requestData);
   },
