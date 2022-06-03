@@ -61,9 +61,6 @@ export default {
   },
 
   props: {
-    sectionKey: {
-      type: String,
-    },
     organizationSlug: {
       type: String,
     },
@@ -105,10 +102,7 @@ export default {
   },
 
   async fetch() {
-    if (this.sectionKey) {
-      const requestData = { slug: this.$route.params.slug, key: this.sectionKey };
-      this.sectionData = await productSectionInfo(requestData);
-    } else if (this.organizationSlug) {
+    if (this.organizationSlug) {
       const requestData = { slug: this.organizationSlug };
       await getOrganizationProducts(requestData).then((response) => {
         this.sectionData = {
@@ -116,6 +110,9 @@ export default {
           items: response,
         };
       });
+    } else {
+      const requestData = { slug: this.$route.params.slug, key: 's-program-recommend' };
+      this.sectionData = await productSectionInfo(requestData);
     }
   },
 

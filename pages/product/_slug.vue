@@ -15,7 +15,7 @@
     <s-program-reviews />
     <s-program-questions />
     <s-program-recommend organizationSlug="universitet-sinergiya" />
-    <s-program-recommend sectionKey="s-program-recommend" />
+    <s-program-recommend />
   </div>
 </template>
 
