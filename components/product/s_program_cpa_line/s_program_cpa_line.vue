@@ -1,5 +1,5 @@
 <template>
-  <section class="s-program-cpaLine" v-if="sectionData">
+  <section class="s-program-cpaLine s-margin" v-if="sectionData">
     <div class="l-wide l-border-radius">
       <div class="s-program-cpaLine__wrap">
         <span class="s-program-cpaLine__text a-font_xl">{{ sectionData.text }}</span>
