@@ -1,13 +1,15 @@
 <template>
-  <section v-if="sectionData" class="s-program-teachers s-margin">
+  <section class="s-program-teachers s-margin" v-if="sectionData">
     <div class="l-wide l-border-radius">
-      <h2 class="s-program-teachers__title a-font_h2" v-html="sectionData.title" />
-      <div class="s-program-teachers__items s-program-teachers__items_horizontal" v-if="sectionData.items.length < 4">
+      <h2 class="s-program-teachers__title a-font_h2" v-html="sectionData.title"></h2>
+      <div
+        class="s-program-teachers__items s-program-teachers__items_horizontal"
+        v-if="sectionData.items && sectionData.items.length < 4"
+      >
         <MCardSpeaker
           v-for="item in sectionData.items"
           :key="item.id"
           :name="item.name"
-          :title="item.title"
           :description="item.description"
           :image="`${baseURL}${item.image}`"
         />
@@ -19,12 +21,7 @@
             :key="item.id"
             class="s-program-teachers__slide m-card-landing-vertical"
           >
-            <MCardLanding
-              class="s-program-teachers__card"
-              :title="item.name"
-              :text="item.description"
-              :image="`${baseURL}${item.image}`"
-            />
+            <MCardLanding :title="item.name" :text="item.description" :image="`${baseURL}${item.image}`" />
           </swiper-slide>
         </swiper>
       </div>
@@ -35,12 +32,14 @@
 <script>
 import { Swiper, SwiperSlide } from 'vue-awesome-swiper';
 import { MCardSpeaker, MCardLanding } from '@cwespb/synergyui';
-import getProductSectionInfo from '~/api/productSectionInfo';
+import productSectionInfo from '~/api/productSectionInfo';
 import getOrganizationSectionInfo from '~/api/organizationSectionInfo';
 import './s_program_teachers.scss';
 
 export default {
   name: 'SProgramTeachers',
+
+  props: ['slug'],
 
   components: {
     MCardSpeaker,
@@ -52,7 +51,7 @@ export default {
   data() {
     return {
       baseURL: process.env.NUXT_ENV_S3BACKET,
-      sectionData: {},
+      sectionData: null,
       swiperOptionA: {
         grabCursor: true,
         slidesPerView: 'auto',
@@ -64,14 +63,12 @@ export default {
     };
   },
 
-  props: ['slug'],
-
   async fetch() {
-    const requestData = { slug: this.slug, key: 's-program-teachers' };
+    const requestData = { slug: this.slug || this.$route.params.slug, key: 's-program-teachers' };
 
-    if (this.$route.name === 'product-slug') {
-      this.sectionData = await getProductSectionInfo(requestData);
-    } else if (this.$route.name === 'organization-slug') {
+    if (this.$route.name === 'product-slug' || this.$route.name === 'edu-platform') {
+      this.sectionData = await productSectionInfo(requestData);
+    } else {
       this.sectionData = await getOrganizationSectionInfo(requestData);
     }
   },
