@@ -96,8 +96,6 @@ export default {
           },
         },
       },
-      onlyIcon: 'square-icon',
-      bgColor: 'ghost-primary',
     };
   },
 
