@@ -4,9 +4,10 @@
       <component :is="key" :methods="methods" :title="title" :productIds="pageInfo.entity_page"></component>
     </LazyHydrate> -->
     <s-program-start :product="program" />
+    <s-program-content />
+    <s-program-cpa-line />
     <s-program-about />
     <s-program-infoblock />
-    <s-program-minimum-score />
     <s-program-people />
     <s-program-timeline />
     <s-program-skills />
@@ -19,7 +20,8 @@
 
 <script>
 /* import LazyHydrate from 'vue-lazy-hydration'; */
-import SProgramStart from '~/components/s_program_start/s_program_start';
+/* import SProgramStart from '~/components/s_program_start/s_program_start'; */
+import SProgramContent from '~/components/product/s_program_content/s_program_content';
 import SProgramAbout from '~/components/product/s_program_about/s_program_about';
 import SProgramSkills from '~/components/product/s_program_skills/s_program_skills';
 import SProgramPeople from '~/components/product/s_program_people/s_program_people';
@@ -29,8 +31,9 @@ import sProgramReviews from '~/components/product/s_program_reviews/s_program_re
 import SProgramTimeline from '~/components/product/s_program_timeline/s_program_timeline';
 import SProgramInfoblock from '~/components/product/s_program_infoblock/s_program_infoblock';
 import SProgramQuestions from '~/components/product/s_program_questions/s_program_questions';
-import getOrganizationInfo from '~/api/organizationInfo';
+/* import getOrganizationInfo from '~/api/organizationInfo'; */
 import getProductInfo from '~/api/productInfo';
+import SProgramCpaLine from '~/components/product/s_program_cpa_line/s_program_cpa_line';
 
 export default {
   layout: 'product',
@@ -42,7 +45,8 @@ export default {
   },
 
   components: {
-    SProgramStart,
+    /* SProgramStart, */
+    SProgramContent,
     SProgramAbout,
     SProgramSkills,
     SProgramPeople,
@@ -52,6 +56,7 @@ export default {
     SProgramTimeline,
     SProgramInfoblock,
     SProgramQuestions,
+    SProgramCpaLine,
     /* LazyHydrate, */
   },
 
@@ -106,24 +111,53 @@ export default {
   },
 
   methods: {
-    async getOrganizationData() {
-      const requestData = { slug: this.$route.params.slug };
-      const organizationResponse = await getOrganizationInfo(requestData);
-      this.organizationData = organizationResponse.attributes;
-      this.entity_page = { id: organizationResponse.id, type: this.routePath };
-    },
     async getProductData() {
       const requestData = { slug: this.$route.params.slug };
       const resp = await getProductInfo(requestData);
-      this.program = resp.attributes;
-      console.log('--productResponse--', this.program);
-      /* this.organizationData = productResponse.attributes;
-      this.entity_page = { id: productResponse.id, type: this.routePath }; */
+      const {
+        id, relationships, attributes, type,
+      } = resp.data[0];
+      const [level] = relationships?.levels?.data;
+      const formats = relationships?.formats?.data;
+      const [offers] = relationships?.offers?.data;
+      const organization = relationships?.organization?.data;
+      const seoTag = relationships?.seoTag?.data;
+      const category = relationships?.category?.data;
+      this.program = {
+        id,
+        type,
+        ...attributes,
+        levels: this.getRelationDetailByIdAndType(level, resp.included),
+        formats: this.getRelationListByIdAndType(formats, resp.included),
+        organization: this.getRelationDetailByIdAndType(organization, resp.included),
+        seoTag: this.getRelationDetailByIdAndType(seoTag, resp.included),
+        category: this.getRelationDetailByIdAndType(category, resp.included),
+        offers: this.getRelationDetailByIdAndType(offers, resp.included),
+      };
+      console.log('----', this.program);
+    },
+    getRelationDetailByIdAndType(searchParams, included) {
+      const foundType = included.find(({ id, type }) => searchParams?.id === id && searchParams?.type === type);
+      if (foundType) {
+        const { id, attributes, type } = foundType;
+        return { id, ...attributes, type };
+      }
+      return null;
+    },
+    getRelationListByIdAndType(searchList, included) {
+      const results = [];
+      searchList.forEach((searchParam) => {
+        const foundType = included.find(({ id, type }) => searchParam?.id === id && searchParam?.type === type);
+        if (foundType) {
+          const { id, attributes, type } = foundType;
+          results.push({ id, ...attributes, type });
+        }
+      });
+      return results;
     },
   },
 
-  async mounted() {
-    /* await this.getOrganizationData(); */
+  async fetch() {
     await this.getProductData();
   },
 };
