@@ -1,30 +1,7 @@
 <template>
   <LazyHydrate when-visible>
     <div>
-      <!--    <LazyHydrate :key="id" v-for="{ key, methods, title, id } in pageInfo.components" when-visible>-->
-      <!--      <component-->
-      <!--        :is="key"-->
-      <!--        :methods="methods"-->
-      <!--        :title="title"-->
-      <!--        :products-per-page="16"-->
-      <!--        :options="options"-->
-      <!--        :filtersMenu="filtersMenu"-->
-      <!--        :currentOption="currentOption"-->
-      <!--        :with-breadcrumbs="true"-->
-      <!--        :withPaddings="true"-->
-      <!--        :productListUrl="productListUrl"-->
-      <!--        :filterResponse="filterResponse"-->
-      <!--        :defaultFilters="defaultFilters"-->
-      <!--        :type="type"-->
-      <!--        :routePath="routePath"-->
-      <!--        :allCategories="allCategories"-->
-      <!--        :entity_page="pageInfo.entity_page"-->
-      <!--        @change-sort-options="changeSortOptions"-->
-      <!--        @menu-toggle="menuToggle"-->
-      <!--      ></component>-->
-      <!--    </LazyHydrate>-->
-
-      <s-university-start :organizationData="organizationData" />
+      <s-university-start :organizationData="organizationData" :organizationCity="organizationCity" />
       <s-university-scores />
       <s-university-statistics />
       <s-program-timeline />
@@ -52,6 +29,7 @@
       <s-program-diploma />
       <s-university-life />
       <s-partners />
+      <s-contacts-address />
       <s-program-questions />
     </div>
   </LazyHydrate>
@@ -74,11 +52,13 @@ import SUniversityLife from '~/components/organizations/s_university_life/s_univ
 import getFilterData from '~/api/filter_data';
 import getCatalogCategoriesList from '~/api/getCatalogCategoriesList';
 import getOrganizationInfo from '~/api/organizationInfo';
+import SContactsAddress from '~/components/s_contacts_address/s_contacts_address';
 
 export default {
   layout: 'organization',
 
   components: {
+    SContactsAddress,
     SProgramTeachers,
     SProgramSkills,
     SCatalogSection,
@@ -98,6 +78,7 @@ export default {
   data() {
     return {
       organizationData: {},
+      organizationCity: {},
       routePath: 'organization',
       filterResponse: [],
       defaultFilters: {},
@@ -144,8 +125,10 @@ export default {
     async getOrganizationData() {
       const requestData = { slug: this.$route.params.slug };
       const organizationResponse = await getOrganizationInfo(requestData);
-      this.organizationData = organizationResponse.attributes;
-      this.entity_page = { id: organizationResponse.id, type: this.routePath };
+      this.organizationData = organizationResponse.data[0].attributes;
+      // eslint-disable-next-line prefer-destructuring
+      this.organizationCity = organizationResponse.included[0];
+      this.entity_page = { id: organizationResponse.data[0].id, type: this.routePath };
     },
 
     async fetchCategoriesData() {

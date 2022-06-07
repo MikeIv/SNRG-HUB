@@ -3,16 +3,18 @@
     <!-- <LazyHydrate :key="id" v-for="{ key, methods, title, id } in pageInfo.components" when-visible>
       <component :is="key" :methods="methods" :title="title" :productIds="pageInfo.entity_page"></component>
     </LazyHydrate> -->
+    <s-program-start :product="program" />
     <s-program-content />
     <s-program-cpa-line />
     <s-program-about />
     <s-program-infoblock />
-    <s-program-minimum-score />
     <s-program-people />
     <s-program-timeline />
     <s-program-skills />
     <s-program-minimum-score />
     <s-program-teachers />
+    <s-program-university />
+    <s-program-content />
     <s-program-reviews />
     <s-program-questions />
     <s-program-recommend organizationSlug="universitet-sinergiya" />
@@ -22,8 +24,10 @@
 
 <script>
 /* import LazyHydrate from 'vue-lazy-hydration'; */
+import SProgramStart from '~/components/product/s_program_start/s_program_start';
 import SProgramContent from '~/components/product/s_program_content/s_program_content';
 import SProgramAbout from '~/components/product/s_program_about/s_program_about';
+import SProgramUniversity from '~/components/product/s_program_university/s_program_university';
 import SProgramSkills from '~/components/product/s_program_skills/s_program_skills';
 import SProgramPeople from '~/components/product/s_program_people/s_program_people';
 import SProgramMinimumScore from '~/components/product/s_program_minimum_score/s_program_minimum_score';
@@ -32,15 +36,25 @@ import sProgramReviews from '~/components/product/s_program_reviews/s_program_re
 import SProgramTimeline from '~/components/product/s_program_timeline/s_program_timeline';
 import SProgramInfoblock from '~/components/product/s_program_infoblock/s_program_infoblock';
 import SProgramQuestions from '~/components/product/s_program_questions/s_program_questions';
+/* import getOrganizationInfo from '~/api/organizationInfo'; */
+import getProductInfo from '~/api/productInfo';
 import SProgramRecommend from '~/components/product/s_program_recommend/s_program_recommend';
 import SProgramCpaLine from '~/components/product/s_program_cpa_line/s_program_cpa_line';
 
 export default {
   layout: 'product',
 
+  data() {
+    return {
+      program: null,
+    };
+  },
+
   components: {
+    SProgramStart,
     SProgramContent,
     SProgramAbout,
+    SProgramUniversity,
     SProgramSkills,
     SProgramPeople,
     SProgramTeachers,
@@ -102,6 +116,56 @@ export default {
         class: 'bg-gray',
       },
     };
+  },
+
+  methods: {
+    async getProductData() {
+      const requestData = { slug: this.$route.params.slug };
+      const resp = await getProductInfo(requestData);
+      const {
+        id, relationships, attributes, type,
+      } = resp.data[0];
+      const [level] = relationships?.levels?.data;
+      const formats = relationships?.formats?.data;
+      const [offers] = relationships?.offers?.data;
+      const organization = relationships?.organization?.data;
+      const seoTag = relationships?.seoTag?.data;
+      const category = relationships?.category?.data;
+      this.program = {
+        id,
+        type,
+        ...attributes,
+        levels: this.getRelationDetailByIdAndType(level, resp.included),
+        formats: this.getRelationListByIdAndType(formats, resp.included),
+        organization: this.getRelationDetailByIdAndType(organization, resp.included),
+        seoTag: this.getRelationDetailByIdAndType(seoTag, resp.included),
+        category: this.getRelationDetailByIdAndType(category, resp.included),
+        offers: this.getRelationDetailByIdAndType(offers, resp.included),
+      };
+    },
+    getRelationDetailByIdAndType(searchParams, included) {
+      const foundType = included.find(({ id, type }) => searchParams?.id === id && searchParams?.type === type);
+      if (foundType) {
+        const { id, attributes, type } = foundType;
+        return { id, ...attributes, type };
+      }
+      return null;
+    },
+    getRelationListByIdAndType(searchList, included) {
+      const results = [];
+      searchList.forEach((searchParam) => {
+        const foundType = included.find(({ id, type }) => searchParam?.id === id && searchParam?.type === type);
+        if (foundType) {
+          const { id, attributes, type } = foundType;
+          results.push({ id, ...attributes, type });
+        }
+      });
+      return results;
+    },
+  },
+
+  async fetch() {
+    await this.getProductData();
   },
 };
 </script>

@@ -1,8 +1,8 @@
 <template>
-  <section class="s-program-timeline s-margin">
+  <section v-if="sectionData" class="s-program-timeline s-margin">
     <div class="l-wide l-border-radius">
       <div class="s-program-timeline__header">
-        <h2 class="s-program-timeline__title a-font_h2" v-html="sectionData.title"></h2>
+        <h2 class="s-program-timeline__title a-font_h2" v-html="sectionData.title" />
       </div>
       <div class="s-program-timeline__swiper">
         <swiper :options="swiperOptionA">
@@ -41,7 +41,7 @@ export default {
 
   data() {
     return {
-      sectionData: {},
+      sectionData: null,
       swiperOptionA: {
         grabCursor: true,
         slidesPerView: 'auto',
