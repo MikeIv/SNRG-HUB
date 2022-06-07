@@ -55,7 +55,6 @@ export default {
     } else {
       this.sectionData = await getOrganizationSectionInfo(requestData);
     }
-    console.log('--this.sectionData--', this.sectionData);
   },
 };
 </script>

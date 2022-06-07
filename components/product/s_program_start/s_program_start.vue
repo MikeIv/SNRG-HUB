@@ -66,13 +66,13 @@
                 />
               </div>
               <div class="s-program-start__info-bottom-additional">
-                <!-- <a-factoid
+                <a-factoid
                   type="default"
-                  :title="program.start_date !== null ? program.start_date : program.city"
-                  :subtitle="program.start_date !== null ? 'Дата начала' : 'Город'"
+                  v-if="getCity || program.start_date"
+                  :title="getCity.name ? getCity.name : program.start_date"
+                  :subtitle="getCity.name ? 'Город' : 'Дата начала'"
                   class="s-program-start__info-bottom-additional_factoid"
-                  v-if="program.city || program.start_date"
-                /> -->
+                />
                 <!-- <a-factoid
                   type="default"
                   :title="program.language"
@@ -186,16 +186,14 @@ export default {
   },
 
   async fetch() {
-    /* const expandedMethod = this.methods[0].data;
-    const preData = await getProductsDetail(expandedMethod); */
-    console.log('--this.product--', this.program);
-    /* this.program = { ...this.product }; */
-
     // Создаем запись для формата обучения
     this.calculateDuration();
   },
 
   computed: {
+    getCity() {
+      return this.$store.state.citiesList.find(({ id }) => id === this.program.organization.city_id);
+    },
     getDurationDate() {
       this.calculateDuration();
       if (this.program.beginDuration === '') {

@@ -16,6 +16,8 @@
       <s-program-teachers />
       <s-program-reviews />
       <s-program-questions />
+      <s-program-recommend :organizationSlug="program.organization.slug" :product="program" />
+      <s-program-recommend :product="program" />
       <s-program-price v-if="program.offers" :product="program" />
       <s-program-form v-else :formProduct="program" />
     </div>
@@ -39,6 +41,7 @@ import SProgramQuestions from '~/components/product/s_program_questions/s_progra
 import SProgramForm from '~/components/s_program_form/s_program_form';
 import SProgramPrice from '~/components/product/s_program_price/s_program_price';
 import getProductInfo from '~/api/productInfo';
+import SProgramRecommend from '~/components/product/s_program_recommend/s_program_recommend';
 import SProgramCpaLine from '~/components/product/s_program_cpa_line/s_program_cpa_line';
 import SProgramDiploma from '~/components/organizations/s_program_diploma/s_program_diploma';
 
@@ -64,6 +67,7 @@ export default {
     SProgramTimeline,
     SProgramInfoblock,
     SProgramQuestions,
+    SProgramRecommend,
     SProgramCpaLine,
     SProgramForm,
     SProgramPrice,

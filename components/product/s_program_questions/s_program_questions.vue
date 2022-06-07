@@ -8,16 +8,16 @@
             class="s-program-questions__row"
             v-for="(item, index) in sectionData.items"
             :key="index"
-            @click.prevent="show = index"
+            @click.prevent="toggleQuestion(item)"
           >
             <div class="s-program-questions__top">
               <div class="title a-font_xxl" itemprop="name">{{ item.title }}</div>
               <meta itemprop="answerCount" content="1" />
-              <i class="s-program-content__icon" :class="`si-chevron-${show == index ? 'down' : 'up'}`"> </i>
+              <i class="s-program-content__icon" :class="`si-chevron-${item.active ? 'down' : 'up'}`"> </i>
             </div>
             <div
               class="s-program-questions__text a-font_xl"
-              :class="{ _show: show == index }"
+              :class="{ _show: item.active }"
               itemprop="suggestedAnswer acceptedAnswer"
               itemscope
               itemtype="https://schema.org/Answer"
@@ -44,6 +44,15 @@ export default {
       sectionData: null,
       show: 0,
     };
+  },
+
+  methods: {
+    toggleQuestion(question) {
+      this.sectionData.items.forEach((item) => {
+        if (question === item) this.$set(item, 'active', !item.active);
+        else this.$set(item, 'active', false);
+      });
+    },
   },
 
   async fetch() {

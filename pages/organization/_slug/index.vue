@@ -1,7 +1,7 @@
 <template>
   <LazyHydrate when-visible>
     <div>
-      <s-university-start :organizationData="organizationData" />
+      <s-university-start :organizationData="organizationData" :organizationCity="organizationCity" />
       <s-university-scores />
       <s-university-statistics />
       <s-program-timeline />
@@ -78,6 +78,7 @@ export default {
   data() {
     return {
       organizationData: {},
+      organizationCity: {},
       routePath: 'organization',
       filterResponse: [],
       defaultFilters: {},
@@ -124,8 +125,10 @@ export default {
     async getOrganizationData() {
       const requestData = { slug: this.$route.params.slug };
       const organizationResponse = await getOrganizationInfo(requestData);
-      this.organizationData = organizationResponse.attributes;
-      this.entity_page = { id: organizationResponse.id, type: this.routePath };
+      this.organizationData = organizationResponse.data[0].attributes;
+      // eslint-disable-next-line prefer-destructuring
+      this.organizationCity = organizationResponse.included[0];
+      this.entity_page = { id: organizationResponse.data[0].id, type: this.routePath };
     },
 
     async fetchCategoriesData() {
