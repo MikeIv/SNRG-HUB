@@ -235,7 +235,7 @@ export default {
     } */
 
       if (this.program.levels) {
-        globalHref += `/${this.program.levels.name}`;
+        globalHref += `/${this.program.levels.slug}`;
 
         const breadcrumb = {
           label: this.program.levels.name,

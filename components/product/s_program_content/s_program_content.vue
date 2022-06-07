@@ -4,12 +4,12 @@
       <div class="s-program-content__wrapper">
         <div class="s-program-content__top">
           <h2 class="s-program-content__title a-font_h2" v-html="sectionData.title"></h2>
-          <div class="s-program-content__numbs">
+          <div class="s-program-content__numbs" v-if="rightItemsFilled">
             <AFactoids
-              v-for="factoid in sectionData.programContentRightItems"
+              v-for="factoid in sectionData.rightItems"
               :key="factoid.id"
               :type="factoid.type"
-              :title="factoid.title"
+              :title="factoid.title || ''"
               :number="factoid.number"
               :color="factoid.color"
             />
@@ -17,12 +17,7 @@
         </div>
 
         <div class="s-program-content__body">
-          <div
-            class="s-program-content__row"
-            v-for="item in sectionData.programContentList"
-            :key="item.id"
-            @click="showMore(item)"
-          >
+          <div class="s-program-content__row" v-for="item in sectionData.items" :key="item.id" @click="showMore(item)">
             <div class="s-program-content__head">
               <div class="title a-font_xxl">{{ item.title }}</div>
               <div
@@ -38,7 +33,7 @@
                   v-for="item in item.listItems"
                   :key="item.id"
                   :type="item.type"
-                  :number="item.number"
+                  number="number"
                   :label="item.text"
                 />
               </div>
@@ -72,9 +67,15 @@ export default {
 
   props: ['slug'],
 
+  computed: {
+    rightItemsFilled() {
+      return this.sectionData.rightItems.some(({ title, number }) => title && number);
+    },
+  },
+
   methods: {
     showMore(elem) {
-      this.sectionData.programContentList.forEach((item) => {
+      this.sectionData.items.forEach((item) => {
         const currentItem = item;
         currentItem.isActive = item === elem ? !currentItem.isActive : false;
       });
@@ -84,6 +85,7 @@ export default {
   async fetch() {
     const requestData = { slug: this.slug || this.$route.params.slug, key: 's-program-content' };
     this.sectionData = await productSectionInfo(requestData);
+    console.log('--s_program_content--', this.sectionData);
   },
 };
 </script>
