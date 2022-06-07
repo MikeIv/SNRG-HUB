@@ -6,10 +6,10 @@
         <a-factoid
           v-for="item in sectionData.items"
           :key="item.id"
-          :type="item.type"
+          type="line"
           :title="item.title"
           :lineNumber="item.lineNumber"
-          :color="item.colorLink"
+          color="color_link"
         />
       </div>
       <div class="s-university-score__image" v-if="imageSrc">
@@ -32,7 +32,7 @@ export default {
   },
   data() {
     return {
-      sectionData: {},
+      sectionData: null,
       imageSrc:
         // eslint-disable-next-line max-len
         'data:image/svg+xml;base64, PHN2ZyB3aWR0aD0iMjY0IiBoZWlnaHQ9IjIxNiIgdmlld0JveD0iMCAwIDI2NCAyMTYiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxwYXRoIGQ9Ik0yNDUuNDQzIDIyMi42NkwxMjEuOTU1IDEwOC4wMTRMMjQ1LjQ0MyAtNi42MjkzOUwyNjQgLTEzNy4wODJMMCAxMDcuOTg2TDI2NCAzNTMuMDgxTDI0NS40NDMgMjIyLjY2WiIgZmlsbD0iI0ZGMDA0MCIvPgo8L3N2Zz4K',

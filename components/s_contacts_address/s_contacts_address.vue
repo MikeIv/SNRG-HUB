@@ -1,12 +1,12 @@
 <template>
-  <section class="s-contacts-address s-margin">
+  <section v-if="address" class="s-contacts-address s-margin">
     <div class="l-wide l-border-radius">
-      <h2 class="s-contacts-address__title a-font_h2" v-html="title"></h2>
+      <h2 class="s-contacts-address__title a-font_h2" v-html="title" />
 
       <div class="s-contacts-address__map">
-        <iframe class="s-contacts-address__frame" :src="iframeSrc" frameborder="0"></iframe>
+        <iframe class="s-contacts-address__frame" :src="iframeSrc" frameborder="0" />
       </div>
-      <MContacts :adress="adress" :metro="metro" :backgroundColor="backgroundColor" />
+      <MContacts :adress="address" :metro="metro" :backgroundColor="backgroundColor" />
     </div>
   </section>
 </template>
@@ -16,14 +16,20 @@ import { MContacts } from '@cwespb/synergyui';
 import './s_contacts_address.scss';
 
 export default {
-  name: 'SContactsAdress',
+  name: 'SContactsAddress',
 
   components: { MContacts },
+
+  props: {
+    address: {
+      type: String,
+    },
+  },
 
   data() {
     return {
       title: 'Адрес',
-      adress: '125315, Москва г., Ленинградский пр-кт, дом 80, корпус К. Г, этаж 6, помещение VIII, часть ком. 14',
+      // address: '125315, Москва г., Ленинградский пр-кт, дом 80, корпус К. Г, этаж 6, помещение VIII, часть ком. 14',
       metro: 'Сокол',
       backgroundColor: '#4BAF4F',
       iframeSrc:

@@ -1,5 +1,5 @@
 <template>
-  <section class="s-program-skills s-margin" v-if="sectionData">
+  <section v-if="sectionData" class="s-program-skills s-margin">
     <div class="l-wide l-border-radius">
       <h2 class="s-program-skills__title a-font_h2" v-html="sectionData.title" />
       <div class="s-program-skills__items">
@@ -11,8 +11,8 @@
 
 <script>
 import { AListElement } from '@cwespb/synergyui';
-import productSectionInfo from '~/api/productSectionInfo';
-
+import getProductSectionInfo from '~/api/productSectionInfo';
+import getOrganizationSectionInfo from '~/api/organizationSectionInfo';
 import './s_program_skills.scss';
 
 export default {
@@ -32,7 +32,11 @@ export default {
 
   async fetch() {
     const requestData = { slug: this.slug || this.$route.params.slug, key: 's-program-skills' };
-    this.sectionData = await productSectionInfo(requestData);
+    if (this.$route.name === 'product-slug') {
+      this.sectionData = await getProductSectionInfo(requestData);
+    } else {
+      this.sectionData = await getOrganizationSectionInfo(requestData);
+    }
   },
 };
 </script>
