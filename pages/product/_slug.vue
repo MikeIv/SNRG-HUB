@@ -15,6 +15,8 @@
     <!-- <s-program-form /> -->
     <!-- <s-program-university /> -->
     <s-program-teachers />
+    <s-program-university />
+    <s-program-content />
     <s-program-reviews />
     <s-program-questions />
     <!-- <s-program-price /> -->
@@ -26,6 +28,7 @@
 import SProgramStart from '~/components/product/s_program_start/s_program_start';
 import SProgramContent from '~/components/product/s_program_content/s_program_content';
 import SProgramAbout from '~/components/product/s_program_about/s_program_about';
+import SProgramUniversity from '~/components/product/s_program_university/s_program_university';
 import SProgramSkills from '~/components/product/s_program_skills/s_program_skills';
 import SProgramPeople from '~/components/product/s_program_people/s_program_people';
 import SProgramMinimumScore from '~/components/product/s_program_minimum_score/s_program_minimum_score';
@@ -51,6 +54,7 @@ export default {
     SProgramStart,
     SProgramContent,
     SProgramAbout,
+    SProgramUniversity,
     SProgramSkills,
     SProgramPeople,
     SProgramTeachers,

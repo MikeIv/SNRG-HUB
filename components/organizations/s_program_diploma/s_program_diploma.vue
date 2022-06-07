@@ -1,11 +1,11 @@
 <template>
-  <section class="s-program-diploma s-margin" v-if="sectionData">
+  <section v-if="sectionData" class="s-program-diploma s-margin">
     <div class="l-wide l-border-radius">
       <h2 class="s-program-diploma__title a-font_h2" v-html="sectionData.title"></h2>
       <div class="s-program-diploma__items">
         <swiper :options="swiperOptionProgramDiploma">
           <swiper-slide v-for="(diplom, index) in sectionData.items" :key="index" class="s-program-diploma__slide">
-            <MCardLanding :title="diplom.title" :text="diplom.description" :image="diplom.list[0].src" />
+            <MCardLanding :title="diplom.title" :text="diplom.description" :image="`${baseUrl}${diplom.list[0].src}`" />
           </swiper-slide>
         </swiper>
       </div>
@@ -31,6 +31,7 @@ export default {
   data() {
     return {
       sectionData: null,
+      baseUrl: process.env.NUXT_ENV_S3BACKET,
       swiperOptionProgramDiploma: {
         grabCursor: true,
         slidesPerView: 'auto',
