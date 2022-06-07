@@ -1,13 +1,13 @@
 <template>
-  <section v-if="organizationData" class="s-university-start s-margin">
+  <section v-if="organizationData && organizationCity" class="s-university-start s-margin">
     <div class="l-wide l-border-radius">
       <div
         class="s-university-start__wrapper"
         :style="{ backgroundColor: university.color ? university.color : '#fff' }"
       >
         <div class="s-university-start__header">
-          <div class="s-university-start__header-breadcrumbs">
-            <a-breadcrumbs :breadcrumbs="breadcrumbs" />
+          <div v-if="getBreadcrumbs.length" class="s-university-start__header-breadcrumbs">
+            <a-breadcrumbs :breadcrumbs="getBreadcrumbs" :key="key" />
           </div>
           <div class="s-university-start__header-icons">
             <i class="si-share s-university-start__header-icon" @click.stop="toggleMenu" tabindex="0" />
@@ -38,7 +38,7 @@
             <p class="s-university-start__info-description a-font_xl">{{ university.description }}</p>
             <div class="s-university-start__photo s-university-start__photo-bottom">
               <img :src="university.photo" :alt="university.title" class="s-university-start__photo-img" />
-              <a-logo type="bordered" :link="logoSrc" class="s-university-start__photo-logo" />
+              <a-logo type="bordered" :link="university.logoSrc" class="s-university-start__photo-logo" />
             </div>
             <div class="s-university-start__info-additional">
               <a-factoid
@@ -53,7 +53,7 @@
           </div>
           <div class="s-university-start__photo s-university-start__photo-top">
             <img :src="university.photo" alt="university" class="s-university-start__photo-img" />
-            <a-logo type="bordered" :link="logoSrc" class="s-university-start__photo-logo" />
+            <a-logo type="bordered" :link="university.logoSrc" class="s-university-start__photo-logo" />
             <div class="s-university-start__photo-event" v-if="event">
               <m-card
                 type="announce"
@@ -95,6 +95,9 @@ export default {
     organizationData: {
       type: Object,
     },
+    organizationCity: {
+      type: Object,
+    },
   },
 
   components: {
@@ -109,18 +112,6 @@ export default {
     return {
       baseURL: process.env.NUXT_ENV_S3BACKET,
       isMenuOpen: false,
-      breadcrumbs: [
-        {
-          label: 'Главная',
-          href: '/',
-        },
-        {
-          label: 'Каталог',
-          href: '/catalog',
-        },
-      ],
-      sectionData: {},
-      logoSrc: '',
       event: null,
       netSocials: [
         {
@@ -129,64 +120,59 @@ export default {
           icon: 'vk',
         },
       ],
-      // university: {
-      //   city: '',
-      //   name: '',
-      //   description: '',
-      //   type: '',
-      //   hostel: '',
-      //   link: '#',
-      //   photo: '',
-      // },
-      city: {},
+      key: 100,
     };
   },
 
-  watch: {
-    sectionData() {
-      console.log('watch', this.sectionData);
-    },
-  },
-
-  async mounted() {
+  mounted() {
     if (this.organizationData.land) {
       this.$store.commit('updateLander', this.organizationData);
-    }
-
-    if (this.organizationData?.included?.city?.name) {
-      const breadcrumb = {
-        label: this.city.name,
-        href: `/catalog?&city_ids=${this.organizationData?.included?.city?.id}`,
-      };
-
-      this.breadcrumbs.push(breadcrumb);
-    }
-
-    if (this.organizationData.name) {
-      const breadcrumb = {
-        label: this.organizationData.name,
-        href: '',
-      };
-
-      this.breadcrumbs.push(breadcrumb);
     }
   },
 
   computed: {
-    hostel() {
-      return this.university.hostel ? 'Есть' : 'Нет';
-    },
-
     university() {
       return {
-        city: this.organizationData?.included?.city?.name,
+        city: this.organizationCity?.attributes?.name,
         name: this.organizationData.name,
         description: this.organizationData.description,
         type: this.organizationData.type_text,
-        hostel: 'есть',
+        hostel: this.organizationData.is_hostel ? 'есть' : 'нет',
         photo: this.baseURL + this.organizationData.digital_image,
-        logoSrc: this.baseURL + this.organizationData.logo,
+        logoSrc: this.baseURL + this.organizationData.preview_image,
       };
+    },
+    getBreadcrumbs() {
+      const breadcrumbs = [
+        { label: 'Главная', href: '/' },
+        { label: 'Каталог', href: '/catalog' },
+      ];
+
+      if (this.university.city) {
+        const breadcrumb = {
+          label: `${this.university.city}`,
+          href: `/catalog?&city_ids=${this.organizationCity?.id}`,
+        };
+
+        breadcrumbs.push(breadcrumb);
+      }
+
+      if (this.university.name) {
+        const breadcrumb = {
+          label: `${this.university.name}`,
+          href: '',
+        };
+
+        breadcrumbs.push(breadcrumb);
+      }
+
+      return breadcrumbs;
+    },
+  },
+
+  watch: {
+    getBreadcrumbs() {
+      this.key += 1;
     },
   },
 
