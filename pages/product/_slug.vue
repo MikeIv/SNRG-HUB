@@ -17,6 +17,8 @@
     <s-program-content />
     <s-program-reviews />
     <s-program-questions />
+    <s-program-recommend :organizationSlug="program.organization.slug" :product="program" />
+    <s-program-recommend :product="program" />
   </div>
 </template>
 
@@ -36,6 +38,7 @@ import SProgramInfoblock from '~/components/product/s_program_infoblock/s_progra
 import SProgramQuestions from '~/components/product/s_program_questions/s_program_questions';
 /* import getOrganizationInfo from '~/api/organizationInfo'; */
 import getProductInfo from '~/api/productInfo';
+import SProgramRecommend from '~/components/product/s_program_recommend/s_program_recommend';
 import SProgramCpaLine from '~/components/product/s_program_cpa_line/s_program_cpa_line';
 
 export default {
@@ -60,6 +63,7 @@ export default {
     SProgramTimeline,
     SProgramInfoblock,
     SProgramQuestions,
+    SProgramRecommend,
     SProgramCpaLine,
     /* LazyHydrate, */
   },
