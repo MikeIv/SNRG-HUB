@@ -73,7 +73,7 @@ export default {
   data() {
     return {
       sectionData: null,
-      baseUrl: process.env.S3_URL,
+      baseUrl: process.env.NUXT_ENV_S3BACKET,
       swiperOptionRecomend: {
         slidesPerView: 'auto',
         spaceBetween: 16,
