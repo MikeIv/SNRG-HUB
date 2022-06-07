@@ -1,5 +1,5 @@
 <template>
-  <section v-if="organizationData && organizationCity" class="s-university-start s-margin">
+  <section v-if="organizationData" class="s-university-start s-margin">
     <div class="l-wide l-border-radius">
       <div
         class="s-university-start__wrapper"
@@ -33,7 +33,7 @@
         </div>
         <div class="s-university-start__content">
           <div class="s-university-start__info">
-            <span class="s-university-start__info-subtitle a-font_l">{{ university.city }}</span>
+            <span v-if="university.city" class="s-university-start__info-subtitle a-font_l">{{ university.city }}</span>
             <h2 class="s-university-start__info-name a-font_h1">{{ university.name }}</h2>
             <p class="s-university-start__info-description a-font_xl">{{ university.description }}</p>
             <div class="s-university-start__photo s-university-start__photo-bottom">

@@ -126,7 +126,6 @@ export default {
       const requestData = { slug: this.$route.params.slug };
       const organizationResponse = await getOrganizationInfo(requestData);
       this.organizationData = organizationResponse.data[0].attributes;
-      console.log('organizationData', this.organizationData);
       // eslint-disable-next-line prefer-destructuring
       this.organizationCity = organizationResponse.included[0];
       this.entity_page = { id: organizationResponse.data[0].id, type: this.routePath };
