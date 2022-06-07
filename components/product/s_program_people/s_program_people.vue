@@ -5,8 +5,12 @@
         <h2 class="s-program-people__title a-font_h2" v-html="sectionData.title"></h2>
         <div class="s-program-people__slider">
           <swiper :options="swiperOptionProgramPeople">
-            <swiper-slide v-for="people in sectionData.items" :key="people.id" class="s-program-people__slide">
-              <m-card-landing :title="people.title" :text="people.description" :image="people.image" />
+            <swiper-slide v-for="(people, i) in sectionData.items" :key="people.id" class="s-program-people__slide">
+              <m-card-landing
+                :title="people.title"
+                :text="people.description"
+                :image="`/images/target/target-0${i + 1}.png`"
+              />
             </swiper-slide>
           </swiper>
         </div>

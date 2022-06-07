@@ -3,13 +3,13 @@
     <div class="l-wide l-border-radius">
       <div class="s-program-timeline__header">
         <h2 class="s-program-timeline__title a-font_h2" v-html="sectionData.title"></h2>
-        <div class="s-program-timeline__factoids" v-if="sectionData.rightItems">
+        <div class="s-program-timeline__factoids" v-if="rightItemsFilled">
           <AFactoids
             v-for="timelineItem in sectionData.rightItems"
             :key="timelineItem.id"
             type="default"
             :title="timelineItem.title"
-            :subtitle="timelineItem.subtitle"
+            :subtitle="timelineItem.description"
           />
         </div>
       </div>
@@ -67,6 +67,12 @@ export default {
         },
       },
     };
+  },
+
+  computed: {
+    rightItemsFilled() {
+      return this.sectionData.rightItems.some(({ description, title }) => description && title);
+    },
   },
 
   async fetch() {

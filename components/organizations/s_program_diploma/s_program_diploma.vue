@@ -17,6 +17,7 @@
 import { Swiper, SwiperSlide } from 'vue-awesome-swiper';
 import { MCardLanding } from '@cwespb/synergyui';
 import './s_program_diploma.scss';
+import getProductSectionInfo from '~/api/productSectionInfo';
 import getOrganizationSectionInfo from '~/api/organizationSectionInfo';
 
 export default {
@@ -49,7 +50,11 @@ export default {
 
   async fetch() {
     const requestData = { slug: this.$route.params.slug, key: 's-program-diploma' };
-    this.sectionData = await getOrganizationSectionInfo(requestData);
+    if (this.$route.name === 'product-slug') {
+      this.sectionData = await getProductSectionInfo(requestData);
+    } else {
+      this.sectionData = await getOrganizationSectionInfo(requestData);
+    }
   },
 };
 </script>

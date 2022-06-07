@@ -1,5 +1,5 @@
 <template>
-  <section class="s-program-price" ref="form" id="form-price" v-if="fieldsData.product_id">
+  <section class="s-program-price" ref="form" id="form-price" v-if="getProduct">
     <div class="l-wide l-border-radius">
       <APopup :visible="accountAlreadyExists" @close="closeAccountAlreadyExistsPopup">
         <div class="s-program-price__exist">
@@ -99,7 +99,7 @@
         :text="text"
         :courseName="courseName"
         :years="years"
-        :study="study"
+        :study="getStudy"
         :priceText="priceText"
         :oldPrice="oldPrice"
         :currentPrice="currentPrice"
@@ -192,9 +192,7 @@
 
 <script>
 /* eslint-disable max-len */
-import {
-  AInput, APopup, AControl, AButton,
-} from '@cwespb/synergyui';
+import { AInput, APopup, AControl, AButton } from '@cwespb/synergyui';
 import { VueTelInput } from 'vue-tel-input';
 // eslint-disable-next-line import/no-extraneous-dependencies
 // import { mapGetters } from 'vuex';
@@ -202,11 +200,12 @@ import MFormPay from '~/components/_ui/m_form_pay/m_form_pay';
 import MLoader from '~/components/ui/m_loader/m_loader';
 // import getConfirmationCode from '~/api/confirmationCode';
 // import checkConfirmationCode from '~/api/checkConfirmationCode';
-import getProductsDetails from '~/api/productsDetail';
+/* import getProductsDetails from '~/api/productsDetail'; */
+import getOrganizationInfo from '~/api/organizationInfo';
 import './s_program_price.scss';
 import getDateFromDatesObj from '~/assets/js/getDateFromDatesObj';
 import getParseDate from '~/assets/js/getParseDate';
-import getOrganizationsDetail from '~/api/organizationsDetail';
+/* import getOrganizationsDetail from '~/api/organizationsDetail'; */
 // eslint-disable-next-line import/no-extraneous-dependencies
 
 const KEY_CODE = {
@@ -228,6 +227,12 @@ export default {
     AControl,
     AButton,
     MLoader,
+  },
+
+  props: {
+    product: {
+      type: Object,
+    },
   },
 
   data() {
@@ -257,7 +262,6 @@ export default {
       checkboxText: 'Нажимая на кнопку, вы соглашаетсь с политикой конфиденциальности и на получение рассылок',
       courseName: 'Информатика и вычислительная техника. Автоматизированное управление бизнес-процессами и финансами',
       years: '4 года 6 месяцев',
-      study: '',
       priceText: 'Стоимость курса',
       oldPrice: null,
       currentPrice: '',
@@ -346,15 +350,21 @@ export default {
     },
     isEnoughtData() {
       return (
-        this.userInfo?.phone?.status === 'confirmed'
-        && Boolean(this.userInfo.account_information?.name)
-        && Boolean(this.userInfo.account_information?.surname)
+        this.userInfo?.phone?.status === 'confirmed' &&
+        Boolean(this.userInfo.account_information?.name) &&
+        Boolean(this.userInfo.account_information?.surname)
       );
     },
     btnText() {
       return !this.isAuthenticated || (this.isAuthenticated && this.isEnoughtData)
         ? 'Перейти к оплате'
         : 'Заполнить данные';
+    },
+    getProduct() {
+      return this.product;
+    },
+    getStudy() {
+      return this.getProduct?.formats?.map((format) => format.name).join(', ');
     },
   },
 
@@ -373,17 +383,10 @@ export default {
     this.$emit('form-ref', this.$refs.form);
     const loadDataForm = this.$lander.storage.load('programpriceform');
     if (loadDataForm) this.fieldsData = loadDataForm;
-
-    const detailsExpandedMethod = {
-      filter: {
-        slug: this.$route.params.slug,
-      },
-      include: ['offers'],
-    };
-    const detailsData = await getProductsDetails(detailsExpandedMethod);
+    const detailsData = this.getProduct;
 
     this.fieldsData = {
-      product_id: '105734098',
+      product_id: `${detailsData.id}`,
       // product_id: detailsData.data?.included?.offers[0]?.product_id ?? '', // TODO: После апдейта эластика - вернуть как null
       birthdate: this.userInfo?.account_information?.birthday ?? '01.01.1901',
       is_order: 'Y',
@@ -396,30 +399,26 @@ export default {
       publicOffer: 'on',
     };
 
-    this.courseName = `${detailsData.data.name}`;
-    const durationFormatValue = detailsData.data.duration_format_value;
+    this.courseName = `${detailsData.name}`;
+    const durationFormatValue = detailsData.duration_format_value;
     if (durationFormatValue) {
-      this.years = getDateFromDatesObj(getParseDate(detailsData.data.duration_format_value));
+      this.years = getDateFromDatesObj(getParseDate(detailsData.duration_format_value));
     }
-    this.currentPrice = `${detailsData.data?.included?.offers[0]?.price} ₽`;
-    // eslint-disable-next-line max-len
-    this.oldPrice = detailsData.data?.included?.offers[0]?.oldPrice
-      ? `${detailsData.data?.included?.offers[0]?.oldPrice} ₽`
-      : null;
-    // this.fieldsData.product_id = detailsData.data?.included?.offers[0]?.product_id ?? null; //TODO:ВЕРНУТЬ ПОСЛЕ ОБНОВЛЕНИЯ ЭЛАСТИКА
+    if (detailsData?.offers) {
+      this.currentPrice = `${detailsData?.offers?.price} ₽`;
+      // eslint-disable-next-line max-len
+      this.oldPrice = detailsData?.offers?.oldPrice ? `${detailsData?.offers?.oldPrice} ₽` : null;
+      // this.fieldsData.product_id = detailsData.data?.included?.offers[0]?.product_id ?? null; //TODO:ВЕРНУТЬ ПОСЛЕ ОБНОВЛЕНИЯ ЭЛАСТИКА
+      console.log('--formats--', detailsData);
 
-    // eslint-disable-next-line prefer-destructuring
-    this.study = detailsData.data?.included?.offers[0]?.properties['App\\Models\\Format'].join(' ');
-
-    const organizationsExpandedMethod = {
-      filter: {
-        product_id: detailsData.organization_id,
-      },
-      include: ['persons', 'city', 'triggers'],
-    };
-    const organizationsData = await getOrganizationsDetail(organizationsExpandedMethod);
-    this.text = organizationsData.data?.abbreviation_name;
-    this.iconSrc = organizationsData.data?.logo;
+      try {
+        const organizationsData = await getOrganizationInfo(detailsData.organization);
+        this.text = organizationsData.attributes?.abbreviation_name;
+        this.iconSrc = organizationsData.attributes?.logo;
+      } catch (err) {
+        console.log(err);
+      }
+    }
   },
 
   methods: {
@@ -766,11 +765,11 @@ export default {
       this.phoneErrorFlag = this.validPhone === true && this.fieldsData.phone !== '';
       // eslint-disable-next-line max-len
       return (
-        this.nameErrorFlag
-        && this.surnameErrorFlag
+        this.nameErrorFlag &&
+        this.surnameErrorFlag &&
         // this.patronymicErrorFlag &&
-        && this.emailErrorFlag
-        && this.validPhone
+        this.emailErrorFlag &&
+        this.validPhone
       );
     },
     changeFocusInput() {

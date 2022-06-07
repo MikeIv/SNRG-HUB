@@ -20,6 +20,7 @@ import SHeader from '~/components/s_header/s_header';
 import SProductSearch from '~/components/s_product_search/s_product_search';
 import MobileButton from '~/components/mobile_button/mobile_button';
 import Popups from '~/components/popups/popups';
+import getCitiesList from '~/api/citiesList';
 
 export default {
   head() {
@@ -49,7 +50,9 @@ export default {
     };
   },
 
-  mounted() {
+  async mounted() {
+    const citiesList = await getCitiesList();
+    this.$store.commit('setCitesList', citiesList);
     setTimeout(() => {
       this.$gtm();
     }, 2500);

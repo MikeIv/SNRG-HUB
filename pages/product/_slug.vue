@@ -1,29 +1,31 @@
 <template>
-  <div>
-    <!-- <LazyHydrate :key="id" v-for="{ key, methods, title, id } in pageInfo.components" when-visible>
-      <component :is="key" :methods="methods" :title="title" :productIds="pageInfo.entity_page"></component>
-    </LazyHydrate> -->
-    <s-program-start :product="program" />
-    <s-program-content />
-    <s-program-cpa-line />
-    <s-program-about />
-    <s-program-infoblock />
-    <s-program-people />
-    <s-program-timeline />
-    <s-program-skills />
-    <s-program-minimum-score />
-    <s-program-teachers />
-    <s-program-university />
-    <s-program-content />
-    <s-program-reviews />
-    <s-program-questions />
-    <s-program-recommend :organizationSlug="program.organization.slug" :product="program" />
-    <s-program-recommend :product="program" />
-  </div>
+  <LazyHydrate when-visible>
+    <div>
+      <s-program-start :product="program" />
+      <s-program-cpa-line />
+      <s-program-infoblock />
+      <s-program-about />
+      <s-program-minimum-score />
+      <s-program-people />
+      <s-program-skills />
+      <s-program-timeline />
+      <s-program-content />
+      <s-program-diploma />
+      <s-program-form v-if="!program.offers" :formProduct="program" />
+      <s-program-university />
+      <s-program-teachers />
+      <s-program-reviews />
+      <s-program-questions />
+      <s-program-recommend :organizationSlug="program.organization.slug" :product="program" />
+      <s-program-recommend :product="program" />
+      <s-program-price v-if="program.offers" :product="program" />
+      <s-program-form v-else :formProduct="program" />
+    </div>
+  </LazyHydrate>
 </template>
 
 <script>
-/* import LazyHydrate from 'vue-lazy-hydration'; */
+import LazyHydrate from 'vue-lazy-hydration';
 import SProgramStart from '~/components/product/s_program_start/s_program_start';
 import SProgramContent from '~/components/product/s_program_content/s_program_content';
 import SProgramAbout from '~/components/product/s_program_about/s_program_about';
@@ -36,10 +38,12 @@ import sProgramReviews from '~/components/product/s_program_reviews/s_program_re
 import SProgramTimeline from '~/components/product/s_program_timeline/s_program_timeline';
 import SProgramInfoblock from '~/components/product/s_program_infoblock/s_program_infoblock';
 import SProgramQuestions from '~/components/product/s_program_questions/s_program_questions';
-/* import getOrganizationInfo from '~/api/organizationInfo'; */
+import SProgramForm from '~/components/s_program_form/s_program_form';
+import SProgramPrice from '~/components/product/s_program_price/s_program_price';
 import getProductInfo from '~/api/productInfo';
 import SProgramRecommend from '~/components/product/s_program_recommend/s_program_recommend';
 import SProgramCpaLine from '~/components/product/s_program_cpa_line/s_program_cpa_line';
+import SProgramDiploma from '~/components/organizations/s_program_diploma/s_program_diploma';
 
 export default {
   layout: 'product',
@@ -65,13 +69,13 @@ export default {
     SProgramQuestions,
     SProgramRecommend,
     SProgramCpaLine,
-    /* LazyHydrate, */
+    SProgramForm,
+    SProgramPrice,
+    SProgramDiploma,
+    LazyHydrate,
   },
 
   computed: {
-    pageInfo() {
-      return this.$store.state.pageInfo;
-    },
     pageMeta() {
       return this.$store.state.pageMeta;
     },
