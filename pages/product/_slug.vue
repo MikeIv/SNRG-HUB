@@ -17,8 +17,8 @@
     <s-program-content />
     <s-program-reviews />
     <s-program-questions />
-    <s-program-recommend organizationSlug="universitet-sinergiya" />
-    <s-program-recommend />
+    <s-program-recommend :organizationSlug="program.organization.slug" :product="program" />
+    <s-program-recommend :product="program" />
   </div>
 </template>
 

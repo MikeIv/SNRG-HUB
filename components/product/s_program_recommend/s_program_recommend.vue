@@ -9,13 +9,13 @@
             :key="index"
             class="s-program-recommend__slide m-card-vertical"
           >
-            <nuxt-link to="/">
+            <nuxt-link :to="`/product/${item.attributes.slug}`">
               <m-card
                 :title="item.attributes.name"
                 :type="item.type === 'products' ? 'program' : item.type"
                 description=""
-                :bottomText="organization.name"
-                :iconSrc="`${baseUrl}${organization.icon}`"
+                :bottomText="program.organization.name"
+                :iconSrc="`${baseUrl}${program.organization.preview_image}`"
                 :verticalImgSrc="`${baseUrl}${item.attributes.digital_image}`"
                 @onLikeClick="onLikeClickHandler"
               />
@@ -64,16 +64,16 @@ export default {
     organizationSlug: {
       type: String,
     },
+
+    product: {
+      type: Object,
+    },
   },
 
   data() {
     return {
       sectionData: null,
       baseUrl: process.env.S3_URL,
-      organization: {
-        name: 'Университет Синергия',
-        icon: 'uploads/organizations/yuIYPVAzTpYhkDo2acWAZAMLpIh4LiRGttzzlyFs.svg',
-      },
       swiperOptionRecomend: {
         slidesPerView: 'auto',
         spaceBetween: 16,
@@ -99,9 +99,29 @@ export default {
     };
   },
 
-  async fetch() {
-    if (this.organizationSlug) {
-      const requestData = { slug: this.organizationSlug };
+  computed: {
+    slug: {
+      get() {
+        return this.organizationSlug;
+      },
+      set(newVal) {
+        this.$emit('updateOrganizationSlug', newVal);
+      },
+    },
+
+    program: {
+      get() {
+        return this.product;
+      },
+      set(newVal) {
+        this.$emit('updateProduct', newVal);
+      },
+    },
+  },
+
+  async mounted() {
+    if (this.slug) {
+      const requestData = { slug: this.slug };
       await getOrganizationProducts(requestData).then((response) => {
         this.sectionData = {
           title: 'Другие программы университета',
