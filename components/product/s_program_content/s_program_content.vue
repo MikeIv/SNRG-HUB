@@ -85,7 +85,6 @@ export default {
   async fetch() {
     const requestData = { slug: this.slug || this.$route.params.slug, key: 's-program-content' };
     this.sectionData = await productSectionInfo(requestData);
-    console.log('--s_program_content--', this.sectionData);
   },
 };
 </script>
