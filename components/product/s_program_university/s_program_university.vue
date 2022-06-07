@@ -25,7 +25,6 @@
 import { AButton } from '@cwespb/synergyui';
 import AFactoids from '@/components/_ui/A-factoids/A-factoids';
 import './s_program_university.scss';
-// import getOrganizationsDetail from '~/api/organizationsDetail';
 import productSectionInfo from '~/api/productSectionInfo';
 
 export default {
@@ -46,13 +45,11 @@ export default {
 
   data() {
     return {
-      programUniversityList: [],
       baseUrl: process.env.NUXT_ENV_S3BACKET,
       flag: false,
       sectionData: null,
     };
   },
-  props: ['methods', 'productIds'],
 
   async fetch() {
     const requestData = { slug: this.$route.params.slug, key: 's-program-university' };
