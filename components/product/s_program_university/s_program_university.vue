@@ -5,8 +5,8 @@
         <h2 class="s-program-university__title a-font_h2" v-html="sectionData.title"></h2>
         <p class="s-program-university__introtext a-font_xxl" v-html="sectionData.subtitle"></p>
         <p class="s-program-university__description" v-html="sectionData.description"></p>
-        <span class="s-program-university__img" v-if="sectionData.logoItems[0].base64">
-          <img :src="sectionData.logoItems[0].base64" alt="" />
+        <span class="s-program-university__img" v-if="sectionData.logoItems[0].src">
+          <img :src="sectionData.logoItems[0].src" alt="" />
         </span>
       </div>
       <div class="s-program-university__factoids">
