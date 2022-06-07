@@ -31,7 +31,7 @@
     <div class="catalog-page__section-lp__popup">
       <a-popup :visible="popup" @close="closeMainPopup" ref="popup">
         <div>
-          <s-program-start :methods="methodsStart" :shareIcon="false" />
+          <s-program-start :product="program" :shareIcon="false" />
           <s-program-content :slug="productSlug" />
           <s-program-teachers :slug="productSlug" />
           <s-program-skills :slug="productSlug" />
@@ -375,7 +375,9 @@
 
 <script>
 import { VueTelInput } from 'vue-tel-input';
-import { AButton, AControl, AInput, APopup, ASelect, ATag, ATitle, MCard, MFilter } from '@cwespb/synergyui';
+import {
+  AButton, AControl, AInput, APopup, ASelect, ATag, ATitle, MCard, MFilter,
+} from '@cwespb/synergyui';
 import getProductsList from '~/api/products_list';
 import '../../s_catalog/s_catalog.scss';
 import '../../s_catalog_filter/s_catalog_filter.scss';
@@ -385,12 +387,13 @@ import '../../s_catalog_product_list/s_catalog_product_list.scss';
 import '../../s_catalog_section/s_catalog_section.scss';
 import '../../s_catalog_tags/s_catalog_tags.scss';
 import './s_catalog_landing.scss';
-import SProgramStart from '~/components/s_program_start/s_program_start';
+import SProgramStart from '~/components/product/s_program_start/s_program_start';
 import SProgramContent from '~/components/product/s_program_content/s_program_content';
 import SProgramTeachers from '~/components/product/s_program_teachers/s_program_teachers';
 import SProgramSkills from '~/components/product/s_program_skills/s_program_skills';
 import SProgramForm from '~/components/s_program_form/s_program_form';
 import MForm from '@/components/_ui/m_form/m_form';
+import getProductInfo from '~/api/productInfo';
 
 export default {
   name: 'SCatalogSection',
@@ -518,6 +521,7 @@ export default {
       isFilterExpanded: false,
       currentExpandedFilter: 'direction_ids',
       componentExpandedMenuKey: 3000,
+      program: null,
     };
   },
 
@@ -702,6 +706,8 @@ export default {
           }
         });
       });
+
+      this.getProductData(this.productSlug);
     },
 
     onOrganizationClick(product) {
@@ -971,6 +977,50 @@ export default {
 
     filtersIconClickHandler() {
       this.filtersMenu = true;
+    },
+
+    async getProductData(productSlug) {
+      const requestData = { slug: productSlug };
+      const resp = await getProductInfo(requestData);
+      const {
+        id, relationships, attributes, type,
+      } = resp.data[0];
+      const [level] = relationships?.levels?.data;
+      const formats = relationships?.formats?.data;
+      const [offers] = relationships?.offers?.data;
+      const organization = relationships?.organization?.data;
+      const seoTag = relationships?.seoTag?.data;
+      const category = relationships?.category?.data;
+      this.program = {
+        id,
+        type,
+        ...attributes,
+        levels: this.getRelationDetailByIdAndType(level, resp.included),
+        formats: this.getRelationListByIdAndType(formats, resp.included),
+        organization: this.getRelationDetailByIdAndType(organization, resp.included),
+        seoTag: this.getRelationDetailByIdAndType(seoTag, resp.included),
+        category: this.getRelationDetailByIdAndType(category, resp.included),
+        offers: this.getRelationDetailByIdAndType(offers, resp.included),
+      };
+    },
+    getRelationDetailByIdAndType(searchParams, included) {
+      const foundType = included.find(({ id, type }) => searchParams?.id === id && searchParams?.type === type);
+      if (foundType) {
+        const { id, attributes, type } = foundType;
+        return { id, ...attributes, type };
+      }
+      return null;
+    },
+    getRelationListByIdAndType(searchList, included) {
+      const results = [];
+      searchList.forEach((searchParam) => {
+        const foundType = included.find(({ id, type }) => searchParam?.id === id && searchParam?.type === type);
+        if (foundType) {
+          const { id, attributes, type } = foundType;
+          results.push({ id, ...attributes, type });
+        }
+      });
+      return results;
     },
   },
 
