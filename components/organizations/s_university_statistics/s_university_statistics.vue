@@ -1,18 +1,18 @@
 <template>
-  <section class="s-university-statistics s-margin">
+  <section v-if="sectionData" class="s-university-statistics s-margin">
     <div class="l-wide l-border-radius">
       <div class="s-university-statistics__header">
-        <h2 class="s-university-statistics__title a-font_h2" v-html="title"></h2>
+        <h2 class="s-university-statistics__title a-font_h2" v-html="sectionData.title" />
         <div class="s-university-statistics__tags">
-          <span v-for="tag in tags" :key="tag.id" class="s-university-statistics__tag"
+          <span v-for="(tag, index) in sectionData.tags" :key="index" class="s-university-statistics__tag"
             ><i class="si-done"></i> {{ tag }}</span
           >
         </div>
       </div>
 
       <swiper ref="awesomeSwiper" :options="swiperOptionStatistics" class="s-university-statistics__factoids">
-        <swiper-slide v-for="factoid in factoids" :key="factoid.id" class="">
-          <a-factoid :color="factoid.color" :type="factoid.type" :title="factoid.title" :number="factoid.number" />
+        <swiper-slide v-for="(item, index) in sectionData.items" :key="index">
+          <a-factoid :color="item.color" :type="item.type" :title="item.title" :number="item.lineNumber" />
         </swiper-slide>
       </swiper>
     </div>
@@ -23,6 +23,7 @@
 import { directive } from 'vue-awesome-swiper';
 import { AFactoid } from '@cwespb/synergyui';
 import './s_university_statistics.scss';
+import getOrganizationSectionInfo from '~/api/organizationSectionInfo';
 
 export default {
   name: 'SUniversityStatistics',
@@ -43,35 +44,7 @@ export default {
 
   data() {
     return {
-      title: 'Статистика',
-      tags: ['Военный центр', 'Общежитие', 'Государственный'],
-      factoids: [
-        {
-          number: '200+',
-          title: 'Программ',
-          type: 'number',
-          color: 'color_link',
-        },
-        {
-          number: '3 838',
-          title: 'Бюджетных мест',
-          type: 'number',
-          color: 'color_link',
-        },
-        {
-          number: '6 399',
-          title: 'Платных мест',
-          type: 'number',
-          color: 'color_link',
-        },
-        {
-          number: 'от 220 000',
-          title: 'рублей в год',
-          type: 'number',
-          color: 'color_link',
-        },
-      ],
-
+      sectionData: null,
       swiperOptionStatistics: {
         slidesPerView: 2,
         spaceBetween: 8,
@@ -94,6 +67,11 @@ export default {
         },
       },
     };
+  },
+
+  async fetch() {
+    const requestData = { slug: this.$route.params.slug, key: 's-university-statistics' };
+    this.sectionData = await getOrganizationSectionInfo(requestData);
   },
 };
 </script>

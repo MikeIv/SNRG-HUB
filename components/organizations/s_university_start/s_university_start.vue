@@ -119,7 +119,7 @@ export default {
           href: '/catalog',
         },
       ],
-      sectionData: {},
+      sectionData: null,
       logoSrc: '',
       event: null,
       netSocials: [

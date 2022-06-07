@@ -1,4 +1,3 @@
-//TODO: поправить метод получения данных для главной страницы
 <template>
   <section class="s-partners s-margin" :class="this.$route.name === 'index' ? 'main' : 'other'">
     <div v-if="this.$route.name === 'index' && companyList.length <= 21" class="l-wide l-border-radius">
@@ -39,11 +38,11 @@
         </div>
       </div>
     </div>
-    <div v-else class="s-partners__wrapper l-wide l-border-radius">
-      <h2 class="s-partners__title s-program-timeline__title other a-font_h2" v-html="sectionData.title"></h2>
+    <div v-else-if="sectionData" class="s-partners__wrapper l-wide l-border-radius">
+      <h2 class="s-partners__title s-program-timeline__title other a-font_h2" v-html="sectionData.title" />
       <div class="s-partners__items">
         <div class="s-partners__item" v-for="(item, index) in sectionData.items" :key="index">
-          <a-logo type="bordered" :link="item.image" />
+          <a-logo type="bordered" :link="`${baseUrl}${item.image}`" />
         </div>
       </div>
     </div>
