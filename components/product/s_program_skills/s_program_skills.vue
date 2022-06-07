@@ -3,7 +3,7 @@
     <div class="l-wide l-border-radius">
       <h2 class="s-program-skills__title a-font_h2" v-html="sectionData.title" />
       <div class="s-program-skills__items">
-        <AListElement v-for="(item, index) in sectionData.items" :key="index" :type="item.type" :label="item.value" />
+        <AListElement v-for="(item, index) in sectionData.items" :key="index" type="icon" :label="item.value" />
       </div>
     </div>
   </section>

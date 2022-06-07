@@ -11,7 +11,7 @@
           :key="item.id"
           :name="item.name"
           :description="item.description"
-          :image="`${baseURL}${item.image}`"
+          :image="`${baseURL}/${item.preview_image}`"
         />
       </div>
       <div class="s-program-teachers__items s-program-teachers__items_vertical" v-else>
@@ -21,7 +21,7 @@
             :key="item.id"
             class="s-program-teachers__slide m-card-landing-vertical"
           >
-            <MCardLanding :title="item.name" :text="item.description" :image="`${baseURL}${item.image}`" />
+            <MCardLanding :title="item.name" :text="item.description" :image="`${baseURL}/${item.preview_image}`" />
           </swiper-slide>
         </swiper>
       </div>
@@ -50,7 +50,7 @@ export default {
 
   data() {
     return {
-      baseURL: process.env.NUXT_ENV_S3BACKET,
+      /* baseURL: process.env.NUXT_ENV_S3BACKET, */
       sectionData: null,
       swiperOptionA: {
         grabCursor: true,
@@ -60,6 +60,7 @@ export default {
         resistanceRatio: 0,
         observer: true,
       },
+      baseURL: 'https://sys3.ru/marketplace',
     };
   },
 
