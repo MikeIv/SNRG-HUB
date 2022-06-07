@@ -4,17 +4,20 @@
       <component :is="key" :methods="methods" :title="title" :productIds="pageInfo.entity_page"></component>
     </LazyHydrate> -->
     <s-program-start :product="program" />
-    <s-program-content />
     <s-program-cpa-line />
-    <s-program-about />
     <s-program-infoblock />
-    <s-program-people />
-    <s-program-timeline />
-    <s-program-skills />
+    <s-program-about />
     <s-program-minimum-score />
+    <s-program-people />
+    <s-program-skills />
+    <s-program-timeline />
+    <s-program-content />
+    <!-- <s-program-form /> -->
+    <!-- <s-program-university /> -->
     <s-program-teachers />
     <s-program-reviews />
     <s-program-questions />
+    <!-- <s-program-price /> -->
   </div>
 </template>
 

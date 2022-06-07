@@ -12,7 +12,7 @@
           :type="item.type"
           :title="item.description"
           :number="item.title"
-          :image="item.image"
+          :image="`${baseURL}/${item.image}`"
           class="s-program-about__triggers-item"
         />
       </div>
@@ -35,6 +35,7 @@ export default {
   data() {
     return {
       sectionData: null,
+      baseURL: process.env.NUXT_ENV_S3BACKET,
     };
   },
 

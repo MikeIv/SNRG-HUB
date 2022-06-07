@@ -9,7 +9,7 @@
             :key="timelineItem.id"
             type="default"
             :title="timelineItem.title"
-            :subtitle="timelineItem.subtitle"
+            :subtitle="timelineItem.description"
           />
         </div>
       </div>
