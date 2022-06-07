@@ -41,7 +41,6 @@ export default {
   async fetch() {
     const requestData = { slug: this.$route.params.slug, key: 's-program-about' };
     this.sectionData = await productSectionInfo(requestData);
-    console.log('----', this.sectionData);
   },
 };
 </script>
