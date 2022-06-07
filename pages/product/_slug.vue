@@ -20,7 +20,7 @@
 
 <script>
 /* import LazyHydrate from 'vue-lazy-hydration'; */
-/* import SProgramStart from '~/components/s_program_start/s_program_start'; */
+import SProgramStart from '~/components/product/s_program_start/s_program_start';
 import SProgramContent from '~/components/product/s_program_content/s_program_content';
 import SProgramAbout from '~/components/product/s_program_about/s_program_about';
 import SProgramSkills from '~/components/product/s_program_skills/s_program_skills';
@@ -45,7 +45,7 @@ export default {
   },
 
   components: {
-    /* SProgramStart, */
+    SProgramStart,
     SProgramContent,
     SProgramAbout,
     SProgramSkills,
@@ -134,7 +134,6 @@ export default {
         category: this.getRelationDetailByIdAndType(category, resp.included),
         offers: this.getRelationDetailByIdAndType(offers, resp.included),
       };
-      console.log('----', this.program);
     },
     getRelationDetailByIdAndType(searchParams, included) {
       const foundType = included.find(({ id, type }) => searchParams?.id === id && searchParams?.type === type);

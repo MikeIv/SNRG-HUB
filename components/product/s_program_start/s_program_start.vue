@@ -93,7 +93,10 @@
                   type="default"
                   :title="getEducationFormats"
                   subtitle="Форма обучения"
-                  class="s-program-start__info-bottom-additional_factoid s-program-start__info-bottom-additional_factoid--form"
+                  class="
+                    s-program-start__info-bottom-additional_factoid
+                    s-program-start__info-bottom-additional_factoid--form
+                  "
                 />
               </div>
             </div>
