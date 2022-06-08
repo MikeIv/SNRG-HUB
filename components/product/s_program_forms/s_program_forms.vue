@@ -1,7 +1,7 @@
 <template>
   <section class="s-program-forms">
-    <s-program-price v-if="getProgram && getProgram.offers" :product="getProgram" />
-    <s-program-form v-else :formProduct="getProgram" />
+    <s-program-price v-show="getProgram && getProgram.offers" :product="getProgram" />
+    <s-program-form v-show="!(getProgram && getProgram.offers)" formProduct="getProgram" />
   </section>
 </template>
 
