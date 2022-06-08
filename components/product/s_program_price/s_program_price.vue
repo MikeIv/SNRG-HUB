@@ -436,7 +436,6 @@ export default {
         if (this.isEnoughtData) {
           this.sendForm();
         } else {
-          console.log(`${process.env.FRONT_URL}edit?redirectUrl=${window.location.href}`);
           window.location.href = `${process.env.FRONT_URL}edit?redirectUrl=${window.location.href}`;
         }
       } else if (this.checkedValidateError()) {
