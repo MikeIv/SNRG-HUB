@@ -387,8 +387,8 @@ export default {
     console.log('----', detailsData);
 
     this.fieldsData = {
-      // product_id: '105734098',
-      product_id: `${detailsData.data?.included?.offers[0]?.product_id}` ?? '', // TODO: После апдейта эластика - вернуть как null
+      product_id: '105734098',
+      // product_id: `${detailsData.data?.included?.offers[0]?.product_id}` ?? '', // TODO: После апдейта эластика - вернуть как null
       birthdate: this.userInfo?.account_information?.birthday ?? '01.01.1901',
       is_order: 'Y',
       gender: this.userInfo?.account_information?.gender ?? '-',
