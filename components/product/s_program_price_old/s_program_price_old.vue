@@ -1,5 +1,5 @@
 <template>
-  <section class="s-program-price" ref="form" id="form-price" v-if="fieldsData.product_id">
+  <section class="s-program-price s-margin" ref="form" id="form-price" v-if="fieldsData.product_id">
     <div class="l-wide l-border-radius">
       <APopup :visible="accountAlreadyExists" @close="closeAccountAlreadyExistsPopup">
         <div class="s-program-price__exist">
@@ -387,8 +387,8 @@ export default {
     console.log('----', detailsData);
 
     this.fieldsData = {
-      product_id: '105734098',
-      // product_id: detailsData.data?.included?.offers[0]?.product_id ?? '', // TODO: После апдейта эластика - вернуть как null
+      // product_id: '105734098',
+      product_id: detailsData.data?.included?.offers[0]?.product_id ?? '', // TODO: После апдейта эластика - вернуть как null
       birthdate: this.userInfo?.account_information?.birthday ?? '01.01.1901',
       is_order: 'Y',
       gender: this.userInfo?.account_information?.gender ?? '-',
