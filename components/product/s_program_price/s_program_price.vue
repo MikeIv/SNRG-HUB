@@ -1,5 +1,5 @@
 <template>
-  <section class="s-program-price" ref="form" id="form-price" v-if="getProduct">
+  <section class="s-program-price s-margin" ref="form" id="form-price" v-if="getProduct">
     <div class="l-wide l-border-radius">
       <APopup :visible="accountAlreadyExists" @close="closeAccountAlreadyExistsPopup">
         <div class="s-program-price__exist">
@@ -105,6 +105,7 @@
         :currentPrice="currentPrice"
         :formTitle="isAuthenticated ? 'Оплатить' : formTitle"
         :btnText="btnText"
+        :isSend="isSend"
         :checkboxText="checkboxText"
         :typeCtrl="typeCtrl"
         :typeBtn="typeBtn"
@@ -320,13 +321,12 @@ export default {
 
       baseUrl: process.env.NUXT_ENV_S3BACKET,
       preloader: false,
+
+      isSend: false,
     };
   },
 
   computed: {
-    // ...mapGetters({
-    //   userInfo: 'auth/userInfo',
-    // }),
     userInfo() {
       return this.$synergyAuth.user;
     },
@@ -379,9 +379,9 @@ export default {
   },
 
   async mounted() {
-    // if (this.$store.state.auth.refresh_token) {
-    //   await this.$store.dispatch('auth/refresh');
-    // }
+    if (this.isAuthenticated && (!this.userInfo?.email?.email || !this.userInfo?.phone?.phone)) {
+      this.$synergyAuth.refresh();
+    }
     this.$emit('form-ref', this.$refs.form);
     const loadDataForm = this.$lander.storage.load('programpriceform');
     if (loadDataForm) this.fieldsData = loadDataForm;
@@ -414,8 +414,8 @@ export default {
 
       try {
         const organizationsData = await getOrganizationInfo(detailsData.organization);
-        this.text = organizationsData.attributes?.abbreviation_name;
-        this.iconSrc = organizationsData.attributes?.logo;
+        this.text = organizationsData.data[0].attributes?.abbreviation_name;
+        this.iconSrc = organizationsData.data[0].attributes?.preview_image;
       } catch (err) {
         console.log(err);
       }
@@ -436,6 +436,7 @@ export default {
         if (this.isEnoughtData) {
           this.sendForm();
         } else {
+          console.log(`${process.env.FRONT_URL}edit?redirectUrl=${window.location.href}`);
           window.location.href = `${process.env.FRONT_URL}edit?redirectUrl=${window.location.href}`;
         }
       } else if (this.checkedValidateError()) {
@@ -681,6 +682,7 @@ export default {
     // },
 
     sendForm() {
+      this.isSend = true;
       const lander = {
         type: 'academy-transations',
         unit: 'payments',
@@ -719,10 +721,12 @@ export default {
       resp
         .then((result) => {
           this.preloader = false;
+          this.isSend = false;
           window.location.href = result.response.data;
         })
         .catch(() => {
           window.localStorage.removeItem('fieldsData');
+          this.isSend = false;
         });
     },
     closeConfirmationCodePopup() {

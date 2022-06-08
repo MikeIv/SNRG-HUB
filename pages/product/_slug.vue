@@ -69,7 +69,7 @@
     </LazyHydrate>
 
     <LazyHydrate when-visible>
-      <s-program-price v-if="program.offers" :product="program" />
+      <s-program-price v-if="program && program.offers" :product="program" />
       <s-program-form v-else :formProduct="program" />
     </LazyHydrate>
   </div>
