@@ -129,7 +129,7 @@ export default {
         };
       });
     } else {
-      const requestData = { slug: this.$route.params.slug, key: 's-program-recommend' };
+      const requestData = { slug: this.$route.params.slug, key: 's-program-you-like' };
       this.sectionData = await productSectionInfo(requestData);
     }
   },

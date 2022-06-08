@@ -1,31 +1,31 @@
 <template>
-  <LazyHydrate when-visible>
-    <div>
-      <s-program-start :product="program" />
-      <s-program-cpa-line />
-      <s-program-infoblock />
-      <s-program-about />
-      <s-program-minimum-score />
-      <s-program-people />
-      <s-program-skills />
-      <s-program-timeline />
-      <s-program-content />
-      <s-program-diploma />
-      <s-program-form v-if="!program.offers" :formProduct="program" />
-      <s-program-university />
-      <s-program-teachers />
-      <s-program-reviews />
-      <s-program-questions />
-      <s-program-recommend :organizationSlug="program.organization.slug" :product="program" />
-      <s-program-recommend :product="program" />
-      <s-program-price v-if="program.offers" :product="program" />
-      <s-program-form v-else :formProduct="program" />
-    </div>
-  </LazyHydrate>
+  <div>
+    <s-program-start :product="program" />
+    <s-program-cpa-line />
+    <s-program-infoblock />
+    <s-program-about />
+    <s-program-minimum-score />
+    <s-program-people />
+    <s-program-skills />
+    <s-program-timeline />
+    <s-program-content />
+    <s-program-diploma />
+    <!-- <s-program-form v-if="!(program && program.offers)" :formProduct="program" /> -->
+
+    <s-program-university />
+    <s-program-teachers />
+    <s-program-reviews />
+    <s-program-questions />
+    <s-program-recommend :organizationSlug="program && program.organization.slug" :product="program" />
+    <s-program-recommend :product="program" />
+    <s-program-forms :program="program" />
+    <!-- <s-program-price v-if="program && program.offers" :product="program" />
+    <s-program-form v-else :formProduct="program" /> -->
+  </div>
 </template>
 
 <script>
-import LazyHydrate from 'vue-lazy-hydration';
+/* import LazyHydrate from 'vue-lazy-hydration'; */
 import SProgramStart from '~/components/product/s_program_start/s_program_start';
 import SProgramContent from '~/components/product/s_program_content/s_program_content';
 import SProgramAbout from '~/components/product/s_program_about/s_program_about';
@@ -38,8 +38,9 @@ import sProgramReviews from '~/components/product/s_program_reviews/s_program_re
 import SProgramTimeline from '~/components/product/s_program_timeline/s_program_timeline';
 import SProgramInfoblock from '~/components/product/s_program_infoblock/s_program_infoblock';
 import SProgramQuestions from '~/components/product/s_program_questions/s_program_questions';
-import SProgramForm from '~/components/s_program_form/s_program_form';
-import SProgramPrice from '~/components/product/s_program_price/s_program_price';
+import SProgramForms from '~/components/product/s_program_forms/s_program_forms';
+/* import SProgramForm from '~/components/s_program_form/s_program_form';
+import SProgramPrice from '~/components/product/s_program_price/s_program_price'; */
 import getProductInfo from '~/api/productInfo';
 import SProgramRecommend from '~/components/product/s_program_recommend/s_program_recommend';
 import SProgramCpaLine from '~/components/product/s_program_cpa_line/s_program_cpa_line';
@@ -69,10 +70,11 @@ export default {
     SProgramQuestions,
     SProgramRecommend,
     SProgramCpaLine,
-    SProgramForm,
-    SProgramPrice,
+    SProgramForms,
+    /* SProgramForm,
+    SProgramPrice, */
     SProgramDiploma,
-    LazyHydrate,
+    /* LazyHydrate, */
   },
 
   computed: {
