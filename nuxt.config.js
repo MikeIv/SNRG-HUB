@@ -124,7 +124,6 @@ export default {
     FRONT_URL: process.env.NODE_ENV === 'development' ? 'https://release-v1-2640.c4.syndev.ru/' : 'https://pass.synergy.ru/',
     BACK_URL: process.env.NODE_ENV === 'development' ? 'https://release-011-2327.c4.syndev.ru/' : 'https://api.synergyhub.ru/',
   },
-  ssr: false,
 
   publicRuntimeConfig: {
     SITE_URL: process.env.SITE_URL,
