@@ -10,7 +10,7 @@
     <s-program-timeline />
     <s-program-content />
     <s-program-diploma />
-    <s-program-form v-if="!(program && program.offers)" :formProduct="program" />
+    <!-- <s-program-form v-if="!(program && program.offers)" :formProduct="program" /> -->
 
     <s-program-university />
     <s-program-teachers />
@@ -18,8 +18,7 @@
     <s-program-questions />
     <s-program-recommend :organizationSlug="program && program.organization.slug" :product="program" />
     <s-program-recommend :product="program" />
-    <s-program-price v-if="program && program.offers" :product="program" />
-    <s-program-form v-else :formProduct="program" />
+    <s-program-price :product="program" />
   </div>
 </template>
 
@@ -37,7 +36,7 @@ import sProgramReviews from '~/components/product/s_program_reviews/s_program_re
 import SProgramTimeline from '~/components/product/s_program_timeline/s_program_timeline';
 import SProgramInfoblock from '~/components/product/s_program_infoblock/s_program_infoblock';
 import SProgramQuestions from '~/components/product/s_program_questions/s_program_questions';
-import SProgramForm from '~/components/s_program_form/s_program_form';
+/* import SProgramForm from '~/components/s_program_form/s_program_form'; */
 import SProgramPrice from '~/components/product/s_program_price/s_program_price';
 import getProductInfo from '~/api/productInfo';
 import SProgramRecommend from '~/components/product/s_program_recommend/s_program_recommend';
@@ -68,7 +67,7 @@ export default {
     SProgramQuestions,
     SProgramRecommend,
     SProgramCpaLine,
-    SProgramForm,
+    /* SProgramForm, */
     SProgramPrice,
     SProgramDiploma,
     /* LazyHydrate, */
