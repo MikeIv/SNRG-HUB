@@ -40,9 +40,7 @@
       <s-program-diploma />
     </LazyHydrate>
 
-    <LazyHydrate when-visible>
-      <s-program-form v-if="!(program && program.offers)" :formProduct="program" />
-    </LazyHydrate>
+    <s-program-form v-if="!(program && program.offers)" :formProduct="program" />
 
     <LazyHydrate when-visible>
       <s-program-university />
@@ -68,10 +66,8 @@
       <s-program-recommend :product="program" />
     </LazyHydrate>
 
-    <LazyHydrate when-visible>
-      <s-program-price v-if="program && program.offers" :product="program" />
-      <s-program-form v-else :formProduct="program" />
-    </LazyHydrate>
+    <s-program-price v-if="program && program.offers" :product="program" />
+    <s-program-form v-else :formProduct="program" />
   </div>
 </template>
 
