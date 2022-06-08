@@ -128,4 +128,6 @@ export default {
   publicRuntimeConfig: {
     SITE_URL: process.env.SITE_URL,
   },
+
+  ssr: false,
 };

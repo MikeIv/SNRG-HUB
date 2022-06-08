@@ -7,7 +7,7 @@
 
 <script>
 import SProgramForm from '~/components/s_program_form/s_program_form';
-import SProgramPrice from '~/components/product/s_program_price/s_program_price';
+import SProgramPrice from '~/components/product/s_program_price_old/s_program_price_old';
 import './s_program_forms.scss';
 
 export default {
