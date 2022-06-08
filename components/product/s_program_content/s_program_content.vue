@@ -27,13 +27,13 @@
                 <i class="s-program-content__icon" :class="`si-chevron-${item.isActive ? 'down' : 'up'}`"> </i>
               </div>
             </div>
-            <transition name="fadeHeight" v-if="item.listItems.length">
+            <transition name="fadeHeight" v-if="dropdownISFilled(item.listItems)">
               <div class="s-program-content__info" v-if="item.isActive">
                 <AListElement
                   v-for="item in item.listItems"
                   :key="item.id"
                   :type="item.type"
-                  number="number"
+                  :number="item.number"
                   :label="item.text"
                 />
               </div>
@@ -79,6 +79,9 @@ export default {
         const currentItem = item;
         currentItem.isActive = item === elem ? !currentItem.isActive : false;
       });
+    },
+    dropdownISFilled(listItems) {
+      return listItems.every(({ text }) => text);
     },
   },
 

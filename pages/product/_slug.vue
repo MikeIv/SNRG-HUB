@@ -1,27 +1,78 @@
 <template>
-  <LazyHydrate when-visible>
-    <div>
+  <div>
+    <LazyHydrate when-visible>
       <s-program-start :product="program" />
+    </LazyHydrate>
+
+    <LazyHydrate when-visible>
       <s-program-cpa-line />
+    </LazyHydrate>
+
+    <LazyHydrate when-visible>
       <s-program-infoblock />
+    </LazyHydrate>
+
+    <LazyHydrate when-visible>
       <s-program-about />
+    </LazyHydrate>
+
+    <LazyHydrate when-visible>
       <s-program-minimum-score />
+    </LazyHydrate>
+
+    <LazyHydrate when-visible>
       <s-program-people />
+    </LazyHydrate>
+
+    <LazyHydrate when-visible>
       <s-program-skills />
+    </LazyHydrate>
+
+    <LazyHydrate when-visible>
       <s-program-timeline />
+    </LazyHydrate>
+
+    <LazyHydrate when-visible>
       <s-program-content />
+    </LazyHydrate>
+
+    <LazyHydrate when-visible>
       <s-program-diploma />
-      <s-program-form v-if="!program.offers" :formProduct="program" />
+    </LazyHydrate>
+
+    <LazyHydrate when-visible>
+      <s-program-form v-if="!(program && program.offers)" :formProduct="program" />
+    </LazyHydrate>
+
+    <LazyHydrate when-visible>
       <s-program-university />
+    </LazyHydrate>
+
+    <LazyHydrate when-visible>
       <s-program-teachers />
+    </LazyHydrate>
+
+    <LazyHydrate when-visible>
       <s-program-reviews />
+    </LazyHydrate>
+
+    <LazyHydrate when-visible>
       <s-program-questions />
-      <s-program-recommend :organizationSlug="program.organization.slug" :product="program" />
+    </LazyHydrate>
+
+    <LazyHydrate when-visible>
+      <s-program-recommend :organizationSlug="program && program.organization.slug" :product="program" />
+    </LazyHydrate>
+
+    <LazyHydrate when-visible>
       <s-program-recommend :product="program" />
+    </LazyHydrate>
+
+    <LazyHydrate when-visible>
       <s-program-price v-if="program.offers" :product="program" />
       <s-program-form v-else :formProduct="program" />
-    </div>
-  </LazyHydrate>
+    </LazyHydrate>
+  </div>
 </template>
 
 <script>
