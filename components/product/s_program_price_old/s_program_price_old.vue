@@ -110,6 +110,7 @@
         :typeBtn="typeBtn"
         :checked="checked"
         :submitDisabled="!validFlag"
+        :isSend="isSend"
         @submit-disabled="validFlag = $event"
         @click="onFormButtonClickHandler"
       >
@@ -314,6 +315,8 @@ export default {
 
       baseUrl: process.env.NUXT_ENV_S3BACKET,
       preloader: false,
+
+      isSend: false,
     };
   },
 
@@ -381,6 +384,7 @@ export default {
       include: ['offers'],
     };
     const detailsData = await getProductsDetails(detailsExpandedMethod);
+    console.log('----', detailsData);
 
     this.fieldsData = {
       product_id: '105734098',
@@ -681,6 +685,7 @@ export default {
     // },
 
     sendForm() {
+      this.isSend = true;
       const lander = {
         type: 'academy-transations',
         unit: 'payments',
@@ -719,9 +724,11 @@ export default {
       resp
         .then((result) => {
           this.preloader = false;
+          this.isSend = false;
           window.location.href = result.response.data;
         })
         .catch(() => {
+          this.isSend = false;
           window.localStorage.removeItem('fieldsData');
         });
     },

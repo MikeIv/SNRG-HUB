@@ -1,7 +1,7 @@
 <template>
   <section class="s-program-forms">
-    <s-program-price v-show="getProgram && getProgram.offers" :product="getProgram" />
-    <s-program-form v-show="!(getProgram && getProgram.offers)" formProduct="getProgram" />
+    <s-program-price v-show="product && product.offers" />
+    <s-program-form v-show="!(product && product.offers)" :formProduct="product" />
   </section>
 </template>
 
@@ -15,7 +15,7 @@ export default {
   props: ['program'],
 
   computed: {
-    getProgram() {
+    product() {
       return this.program;
     },
   },
