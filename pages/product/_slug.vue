@@ -18,6 +18,7 @@
     <s-program-questions />
     <s-program-recommend :organizationSlug="program && program.organization.slug" :product="program" />
     <s-program-recommend :product="program" />
+    <s-program-forms :program="program" />
     <!-- <s-program-price v-if="program && program.offers" :product="program" />
     <s-program-form v-else :formProduct="program" /> -->
   </div>
@@ -37,6 +38,7 @@ import sProgramReviews from '~/components/product/s_program_reviews/s_program_re
 import SProgramTimeline from '~/components/product/s_program_timeline/s_program_timeline';
 import SProgramInfoblock from '~/components/product/s_program_infoblock/s_program_infoblock';
 import SProgramQuestions from '~/components/product/s_program_questions/s_program_questions';
+import SProgramForms from '~/components/product/s_program_forms/s_program_forms';
 /* import SProgramForm from '~/components/s_program_form/s_program_form';
 import SProgramPrice from '~/components/product/s_program_price/s_program_price'; */
 import getProductInfo from '~/api/productInfo';
@@ -68,6 +70,7 @@ export default {
     SProgramQuestions,
     SProgramRecommend,
     SProgramCpaLine,
+    SProgramForms,
     /* SProgramForm,
     SProgramPrice, */
     SProgramDiploma,
