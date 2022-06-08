@@ -16,7 +16,7 @@
       <s-program-teachers />
       <s-program-reviews />
       <s-program-questions />
-      <s-program-recommend :organizationSlug="program.organization.slug" :product="program" />
+      <s-program-recommend :="program.organization.slug" :product="program" />
       <s-program-recommend :product="program" />
       <s-program-price v-if="program.offers" :product="program" />
       <s-program-form v-else :formProduct="program" />

@@ -192,7 +192,9 @@
 
 <script>
 /* eslint-disable max-len */
-import { AInput, APopup, AControl, AButton } from '@cwespb/synergyui';
+import {
+  AInput, APopup, AControl, AButton,
+} from '@cwespb/synergyui';
 import { VueTelInput } from 'vue-tel-input';
 // eslint-disable-next-line import/no-extraneous-dependencies
 // import { mapGetters } from 'vuex';
@@ -322,9 +324,6 @@ export default {
   },
 
   computed: {
-    // ...mapGetters({
-    //   userInfo: 'auth/userInfo',
-    // }),
     userInfo() {
       return this.$synergyAuth.user;
     },
@@ -350,9 +349,9 @@ export default {
     },
     isEnoughtData() {
       return (
-        this.userInfo?.phone?.status === 'confirmed' &&
-        Boolean(this.userInfo.account_information?.name) &&
-        Boolean(this.userInfo.account_information?.surname)
+        this.userInfo?.phone?.status === 'confirmed'
+        && Boolean(this.userInfo.account_information?.name)
+        && Boolean(this.userInfo.account_information?.surname)
       );
     },
     btnText() {
@@ -377,9 +376,9 @@ export default {
   },
 
   async mounted() {
-    // if (this.$store.state.auth.refresh_token) {
-    //   await this.$store.dispatch('auth/refresh');
-    // }
+    if (this.isAuthenticated && (!this.userInfo?.email?.email || !this.userInfo?.phone?.phone)) {
+      this.$synergyAuth.refresh();
+    }
     this.$emit('form-ref', this.$refs.form);
     const loadDataForm = this.$lander.storage.load('programpriceform');
     if (loadDataForm) this.fieldsData = loadDataForm;
@@ -413,8 +412,8 @@ export default {
 
       try {
         const organizationsData = await getOrganizationInfo(detailsData.organization);
-        this.text = organizationsData.attributes?.abbreviation_name;
-        this.iconSrc = organizationsData.attributes?.logo;
+        this.text = organizationsData.data[0].attributes?.abbreviation_name;
+        this.iconSrc = organizationsData.data[0].attributes?.preview_image;
       } catch (err) {
         console.log(err);
       }
@@ -435,6 +434,7 @@ export default {
         if (this.isEnoughtData) {
           this.sendForm();
         } else {
+          console.log(`${process.env.FRONT_URL}edit?redirectUrl=${window.location.href}`);
           window.location.href = `${process.env.FRONT_URL}edit?redirectUrl=${window.location.href}`;
         }
       } else if (this.checkedValidateError()) {
@@ -765,11 +765,11 @@ export default {
       this.phoneErrorFlag = this.validPhone === true && this.fieldsData.phone !== '';
       // eslint-disable-next-line max-len
       return (
-        this.nameErrorFlag &&
-        this.surnameErrorFlag &&
+        this.nameErrorFlag
+        && this.surnameErrorFlag
         // this.patronymicErrorFlag &&
-        this.emailErrorFlag &&
-        this.validPhone
+        && this.emailErrorFlag
+        && this.validPhone
       );
     },
     changeFocusInput() {

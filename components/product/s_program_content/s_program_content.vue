@@ -33,7 +33,7 @@
                   v-for="item in item.listItems"
                   :key="item.id"
                   :type="item.type"
-                  number="number"
+                  :number="item.number"
                   :label="item.text"
                 />
               </div>
