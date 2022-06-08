@@ -1,5 +1,5 @@
 <template>
-  <section class="s-program-price" ref="form" id="form-price" v-if="fieldsData.product_id">
+  <section class="s-program-price s-margin" ref="form" id="form-price" v-if="fieldsData.product_id">
     <div class="l-wide l-border-radius">
       <APopup :visible="accountAlreadyExists" @close="closeAccountAlreadyExistsPopup">
         <div class="s-program-price__exist">
