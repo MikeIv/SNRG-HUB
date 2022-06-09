@@ -386,11 +386,9 @@ export default {
     const loadDataForm = this.$lander.storage.load('programpriceform');
     if (loadDataForm) this.fieldsData = loadDataForm;
 
-    console.log('--this.program--', this.program);
-
     this.fieldsData = {
-      product_id: `${this.program?.offers?.origin_id}`,
-      // product_id: this.program.data?.included?.offers[0]?.product_id ?? '', // TODO: После апдейта эластика - вернуть как null
+      product_id: `${this.program?.offers?.origin_id || ''}`,
+      // product_id: `${this.program?.offers?.origin_id || ''}`, // TODO: После апдейта эластика - вернуть как null
       birthdate: this.userInfo?.account_information?.birthday ?? '01.01.1901',
       is_order: 'Y',
       gender: this.userInfo?.account_information?.gender ?? '-',
@@ -686,7 +684,7 @@ export default {
       const lander = {
         type: 'academy-transations',
         unit: 'payments',
-        land: `${this.program.land}`,
+        land: 'KD_market',
         noRedirect: true,
       };
       this.$store.commit('updateLander', lander);

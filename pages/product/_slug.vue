@@ -68,9 +68,7 @@
       <s-program-recommend :product="program" />
     </LazyHydrate>
 
-    <LazyHydrate when-visible>
-      <s-program-forms :program="program" />
-    </LazyHydrate>
+    <s-program-forms :program="program" />
   </div>
 </template>
 
