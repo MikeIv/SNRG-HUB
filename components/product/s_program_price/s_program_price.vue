@@ -387,7 +387,7 @@ export default {
     if (loadDataForm) this.fieldsData = loadDataForm;
 
     this.fieldsData = {
-      product_id: `${this.program?.offers?.origin_id || ''}`,
+      product_id: '105734098',
       // product_id: `${this.program?.offers?.origin_id || ''}`, // TODO: После апдейта эластика - вернуть как null
       birthdate: this.userInfo?.account_information?.birthday ?? '01.01.1901',
       is_order: 'Y',
@@ -684,7 +684,7 @@ export default {
       const lander = {
         type: 'academy-transations',
         unit: 'payments',
-        land: 'KD_market',
+        land: 'KD_market', // TODO: ЗАМЕНИТЬ ВЫРАЖЕНИЕ  НА `${this.program.land}` ПОСЛЕ ПОДГОТОВКИ ЭЛАСТИКА
         noRedirect: true,
       };
       this.$store.commit('updateLander', lander);
