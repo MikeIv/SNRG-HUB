@@ -1,31 +1,81 @@
 <template>
   <div>
-    <s-program-start :product="program" />
-    <s-program-cpa-line />
-    <s-program-infoblock />
-    <s-program-about />
-    <s-program-minimum-score />
-    <s-program-people />
-    <s-program-skills />
-    <s-program-timeline />
-    <s-program-content />
-    <s-program-diploma />
-    <!-- <s-program-form v-if="!(program && program.offers)" :formProduct="program" /> -->
+    <LazyHydrate when-visible>
+      <s-program-start :product="program" />
+    </LazyHydrate>
 
-    <s-program-university />
-    <s-program-teachers />
-    <s-program-reviews />
-    <s-program-questions />
-    <s-program-recommend :organizationSlug="program && program.organization.slug" :product="program" />
-    <s-program-recommend :product="program" />
-    <s-program-forms :program="program" />
-    <!-- <s-program-price v-if="program && program.offers" :product="program" />
-    <s-program-form v-else :formProduct="program" /> -->
+    <LazyHydrate when-visible>
+      <s-program-cpa-line />
+    </LazyHydrate>
+
+    <LazyHydrate when-visible>
+      <s-program-infoblock />
+    </LazyHydrate>
+
+    <LazyHydrate when-visible>
+      <s-program-about />
+    </LazyHydrate>
+
+    <LazyHydrate when-visible>
+      <s-program-minimum-score />
+    </LazyHydrate>
+
+    <LazyHydrate when-visible>
+      <s-program-people />
+    </LazyHydrate>
+
+    <LazyHydrate when-visible>
+      <s-program-skills />
+    </LazyHydrate>
+
+    <LazyHydrate when-visible>
+      <s-program-timeline />
+    </LazyHydrate>
+
+    <LazyHydrate when-visible>
+      <s-program-content />
+    </LazyHydrate>
+
+    <LazyHydrate when-visible>
+      <s-program-diploma />
+    </LazyHydrate>
+
+    <!-- <LazyHydrate when-visible>
+      <s-program-form v-if="!(program && program.offers)" :formProduct="program" />
+    </LazyHydrate> -->
+
+    <LazyHydrate when-visible>
+      <s-program-university />
+    </LazyHydrate>
+
+    <LazyHydrate when-visible>
+      <s-program-teachers />
+    </LazyHydrate>
+
+    <LazyHydrate when-visible>
+      <s-program-reviews />
+    </LazyHydrate>
+
+    <LazyHydrate when-visible>
+      <s-program-questions />
+    </LazyHydrate>
+
+    <LazyHydrate when-visible>
+      <s-program-recommend :organizationSlug="program && program.organization.slug" :product="program" />
+    </LazyHydrate>
+
+    <LazyHydrate when-visible>
+      <s-program-recommend :product="program" />
+    </LazyHydrate>
+
+    <LazyHydrate when-visible>
+      <s-program-forms :program="program" />
+    </LazyHydrate>
   </div>
 </template>
 
 <script>
-/* import LazyHydrate from 'vue-lazy-hydration'; */
+import LazyHydrate from 'vue-lazy-hydration';
 import SProgramStart from '~/components/product/s_program_start/s_program_start';
 import SProgramContent from '~/components/product/s_program_content/s_program_content';
 import SProgramAbout from '~/components/product/s_program_about/s_program_about';
@@ -39,8 +89,6 @@ import SProgramTimeline from '~/components/product/s_program_timeline/s_program_
 import SProgramInfoblock from '~/components/product/s_program_infoblock/s_program_infoblock';
 import SProgramQuestions from '~/components/product/s_program_questions/s_program_questions';
 import SProgramForms from '~/components/product/s_program_forms/s_program_forms';
-/* import SProgramForm from '~/components/s_program_form/s_program_form';
-import SProgramPrice from '~/components/product/s_program_price/s_program_price'; */
 import getProductInfo from '~/api/productInfo';
 import SProgramRecommend from '~/components/product/s_program_recommend/s_program_recommend';
 import SProgramCpaLine from '~/components/product/s_program_cpa_line/s_program_cpa_line';
@@ -71,10 +119,8 @@ export default {
     SProgramRecommend,
     SProgramCpaLine,
     SProgramForms,
-    /* SProgramForm,
-    SProgramPrice, */
     SProgramDiploma,
-    /* LazyHydrate, */
+    LazyHydrate,
   },
 
   computed: {
