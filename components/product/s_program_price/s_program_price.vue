@@ -1,5 +1,5 @@
 <template>
-  <section class="s-program-price s-margin" ref="form" id="form-price" v-if="getProduct">
+  <section class="s-program-price s-margin" ref="form" id="form-price" v-if="fieldsData.product_id">
     <div class="l-wide l-border-radius">
       <APopup :visible="accountAlreadyExists" @close="closeAccountAlreadyExistsPopup">
         <div class="s-program-price__exist">
@@ -362,11 +362,11 @@ export default {
         ? 'Перейти к оплате'
         : 'Заполнить данные';
     },
-    getProduct() {
+    program() {
       return this.product;
     },
     getStudy() {
-      return this.getProduct?.formats?.map((format) => format.name).join(', ');
+      return this.program?.formats?.map((format) => format.name).join(', ');
     },
   },
 
@@ -385,11 +385,10 @@ export default {
     this.$emit('form-ref', this.$refs.form);
     const loadDataForm = this.$lander.storage.load('programpriceform');
     if (loadDataForm) this.fieldsData = loadDataForm;
-    const detailsData = this.getProduct;
 
     this.fieldsData = {
-      product_id: `${detailsData?.id}`,
-      // product_id: detailsData.data?.included?.offers[0]?.product_id ?? '', // TODO: После апдейта эластика - вернуть как null
+      product_id: '105734098',
+      // product_id: `${this.program?.offers?.origin_id || ''}`, // TODO: После апдейта эластика - вернуть как null
       birthdate: this.userInfo?.account_information?.birthday ?? '01.01.1901',
       is_order: 'Y',
       gender: this.userInfo?.account_information?.gender ?? '-',
@@ -401,19 +400,19 @@ export default {
       publicOffer: 'on',
     };
 
-    this.courseName = `${detailsData.name}`;
-    const durationFormatValue = detailsData.duration_format_value;
+    this.courseName = `${this.program.name}`;
+    const durationFormatValue = this.program.duration_format_value;
     if (durationFormatValue) {
-      this.years = getDateFromDatesObj(getParseDate(detailsData.duration_format_value));
+      this.years = getDateFromDatesObj(getParseDate(this.program.duration_format_value));
     }
-    if (detailsData?.offers) {
-      this.currentPrice = `${detailsData?.offers?.price} ₽`;
+    if (this.program?.offers) {
+      this.currentPrice = `${this.program?.offers?.price} ₽`;
       // eslint-disable-next-line max-len
-      this.oldPrice = detailsData?.offers?.oldPrice ? `${detailsData?.offers?.oldPrice} ₽` : null;
-      // this.fieldsData.product_id = detailsData.data?.included?.offers[0]?.product_id ?? null; //TODO:ВЕРНУТЬ ПОСЛЕ ОБНОВЛЕНИЯ ЭЛАСТИКА
+      this.oldPrice = this.program?.offers?.oldPrice ? `${this.program?.offers?.oldPrice} ₽` : null;
+      // this.fieldsData.product_id = this.program.data?.included?.offers[0]?.product_id ?? null; //TODO:ВЕРНУТЬ ПОСЛЕ ОБНОВЛЕНИЯ ЭЛАСТИКА
 
       try {
-        const organizationsData = await getOrganizationInfo(detailsData.organization);
+        const organizationsData = await getOrganizationInfo(this.program?.organization);
         this.text = organizationsData.data[0].attributes?.abbreviation_name;
         this.iconSrc = organizationsData.data[0].attributes?.preview_image;
       } catch (err) {
@@ -685,7 +684,7 @@ export default {
       const lander = {
         type: 'academy-transations',
         unit: 'payments',
-        land: 'KD_market',
+        land: 'KD_market', // TODO: ЗАМЕНИТЬ ВЫРАЖЕНИЕ  НА `${this.program.land}` ПОСЛЕ ПОДГОТОВКИ ЭЛАСТИКА
         noRedirect: true,
       };
       this.$store.commit('updateLander', lander);

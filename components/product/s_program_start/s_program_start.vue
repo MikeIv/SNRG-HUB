@@ -27,8 +27,14 @@
             <span class="s-program-start__info-top-subtitle a-font_l" v-if="program.levels">{{
               program.levels.name
             }}</span>
-            <h2 class="s-program-start__info-top-name a-font_h1" itemprop="name">{{ program.name }}</h2>
-            <p class="s-program-start__info-top-description a-font_xl" itemprop="description">
+            <h2 class="s-program-start__info-top-name a-font_h1" itemprop="name" v-if="program.name">
+              {{ program.name }}
+            </h2>
+            <p
+              class="s-program-start__info-top-description a-font_xl"
+              itemprop="description"
+              v-if="program.description"
+            >
               {{ program.description }}
             </p>
             <div class="s-program-start__photo s-program-start__photo-bottom">
@@ -68,7 +74,7 @@
               <div class="s-program-start__info-bottom-additional">
                 <a-factoid
                   type="default"
-                  v-if="getCity || program.start_date"
+                  v-if="getCity || (program && program.start_date)"
                   :title="getCity.name ? getCity.name : program.start_date"
                   :subtitle="getCity.name ? 'Город' : 'Дата начала'"
                   class="s-program-start__info-bottom-additional_factoid"
@@ -192,7 +198,7 @@ export default {
 
   computed: {
     getCity() {
-      return this.$store.state.citiesList.find(({ id }) => id === this.program.organization.city_id);
+      return this.$store.state?.citiesList?.find(({ id }) => id === this.program?.organization?.city_id);
     },
     getDurationDate() {
       this.calculateDuration();
