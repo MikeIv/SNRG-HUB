@@ -50,9 +50,12 @@ export default {
     };
   },
 
-  async mounted() {
+  async fetch() {
     const citiesList = await getCitiesList();
     this.$store.commit('setCitesList', citiesList);
+  },
+
+  mounted() {
     setTimeout(() => {
       this.$gtm();
     }, 2500);
