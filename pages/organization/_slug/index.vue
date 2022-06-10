@@ -188,6 +188,10 @@ export default {
     await this.fetchFilterData();
     await this.fetchCategoriesData();
   },
+
+  mounted() {
+    console.log('process.env.NODE_ENV', process.env.NODE_ENV);
+  },
 };
 </script>
 
