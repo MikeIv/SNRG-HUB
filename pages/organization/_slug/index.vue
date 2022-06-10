@@ -29,7 +29,7 @@
       <s-program-diploma />
       <s-university-life />
       <s-partners />
-      <s-contacts-address />
+      <s-contacts-address :organizationData="this.organizationData" />
       <s-program-questions />
     </div>
   </LazyHydrate>
@@ -49,10 +49,10 @@ import SUniversityCareer from '~/components/organizations/s_university_career/s_
 import SPartners from '~/components/s_partners/s_partners';
 import SProgramDiploma from '~/components/organizations/s_program_diploma/s_program_diploma';
 import SUniversityLife from '~/components/organizations/s_university_life/s_university_life';
+import SContactsAddress from '~/components/s_contacts_address/s_contacts_address';
 import getFilterData from '~/api/filter_data';
 import getCatalogCategoriesList from '~/api/getCatalogCategoriesList';
 import getOrganizationInfo from '~/api/organizationInfo';
-import SContactsAddress from '~/components/s_contacts_address/s_contacts_address';
 
 export default {
   layout: 'organization',
@@ -125,6 +125,7 @@ export default {
     async getOrganizationData() {
       const requestData = { slug: this.$route.params.slug };
       const organizationResponse = await getOrganizationInfo(requestData);
+      console.log('organizationResponse', organizationResponse);
       this.organizationData = organizationResponse.data[0].attributes;
       // eslint-disable-next-line prefer-destructuring
       this.organizationCity = organizationResponse.included[0];
