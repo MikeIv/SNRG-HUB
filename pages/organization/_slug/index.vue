@@ -1,10 +1,18 @@
 <template>
-  <LazyHydrate when-visible>
-    <div>
+  <div>
+    <LazyHydrate when-visible>
       <s-university-start :organizationData="organizationData" :organizationCity="organizationCity" />
+    </LazyHydrate>
+    <LazyHydrate when-visible>
       <s-university-scores />
+    </LazyHydrate>
+    <LazyHydrate when-visible>
       <s-university-statistics />
+    </LazyHydrate>
+    <LazyHydrate when-visible>
       <s-program-timeline />
+    </LazyHydrate>
+    <LazyHydrate when-visible>
       <s-catalog-section
         title="Каталог продуктов для организации"
         :products-per-page="16"
@@ -23,16 +31,32 @@
         @change-sort-options="changeSortOptions"
         @menu-toggle="menuToggle"
       />
+    </LazyHydrate>
+    <LazyHydrate when-visible>
       <s-program-skills />
+    </LazyHydrate>
+    <LazyHydrate when-visible>
       <s-program-teachers :slug="$route.params.slug" />
+    </LazyHydrate>
+    <LazyHydrate when-visible>
       <s-university-career />
+    </LazyHydrate>
+    <LazyHydrate when-visible>
       <s-program-diploma />
+    </LazyHydrate>
+    <LazyHydrate when-visible>
       <s-university-life />
+    </LazyHydrate>
+    <LazyHydrate when-visible>
       <s-partners />
-      <s-contacts-address />
+    </LazyHydrate>
+    <LazyHydrate when-visible>
+      <s-contacts-address :organizationData="this.organizationData" />
+    </LazyHydrate>
+    <LazyHydrate when-visible>
       <s-program-questions />
-    </div>
-  </LazyHydrate>
+    </LazyHydrate>
+  </div>
 </template>
 
 <script>
@@ -49,10 +73,10 @@ import SUniversityCareer from '~/components/organizations/s_university_career/s_
 import SPartners from '~/components/s_partners/s_partners';
 import SProgramDiploma from '~/components/organizations/s_program_diploma/s_program_diploma';
 import SUniversityLife from '~/components/organizations/s_university_life/s_university_life';
+import SContactsAddress from '~/components/s_contacts_address/s_contacts_address';
 import getFilterData from '~/api/filter_data';
 import getCatalogCategoriesList from '~/api/getCatalogCategoriesList';
 import getOrganizationInfo from '~/api/organizationInfo';
-import SContactsAddress from '~/components/s_contacts_address/s_contacts_address';
 
 export default {
   layout: 'organization',
@@ -70,9 +94,8 @@ export default {
     SUniversityCareer,
     SProgramDiploma,
     SUniversityLife,
-    LazyHydrate,
     SPartners,
-    // LazyHydrate,
+    LazyHydrate,
   },
 
   data() {
