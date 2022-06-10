@@ -1,10 +1,18 @@
 <template>
-  <LazyHydrate when-visible>
-    <div>
+  <div>
+    <LazyHydrate when-visible>
       <s-university-start :organizationData="organizationData" :organizationCity="organizationCity" />
+    </LazyHydrate>
+    <LazyHydrate when-visible>
       <s-university-scores />
+    </LazyHydrate>
+    <LazyHydrate when-visible>
       <s-university-statistics />
+    </LazyHydrate>
+    <LazyHydrate when-visible>
       <s-program-timeline />
+    </LazyHydrate>
+    <LazyHydrate when-visible>
       <s-catalog-section
         title="Каталог продуктов для организации"
         :products-per-page="16"
@@ -23,16 +31,32 @@
         @change-sort-options="changeSortOptions"
         @menu-toggle="menuToggle"
       />
+    </LazyHydrate>
+    <LazyHydrate when-visible>
       <s-program-skills />
+    </LazyHydrate>
+    <LazyHydrate when-visible>
       <s-program-teachers :slug="$route.params.slug" />
+    </LazyHydrate>
+    <LazyHydrate when-visible>
       <s-university-career />
+    </LazyHydrate>
+    <LazyHydrate when-visible>
       <s-program-diploma />
+    </LazyHydrate>
+    <LazyHydrate when-visible>
       <s-university-life />
+    </LazyHydrate>
+    <LazyHydrate when-visible>
       <s-partners />
+    </LazyHydrate>
+    <LazyHydrate when-visible>
       <s-contacts-address :organizationData="this.organizationData" />
+    </LazyHydrate>
+    <LazyHydrate when-visible>
       <s-program-questions />
-    </div>
-  </LazyHydrate>
+    </LazyHydrate>
+  </div>
 </template>
 
 <script>
@@ -70,9 +94,8 @@ export default {
     SUniversityCareer,
     SProgramDiploma,
     SUniversityLife,
-    LazyHydrate,
     SPartners,
-    // LazyHydrate,
+    LazyHydrate,
   },
 
   data() {
@@ -125,7 +148,6 @@ export default {
     async getOrganizationData() {
       const requestData = { slug: this.$route.params.slug };
       const organizationResponse = await getOrganizationInfo(requestData);
-      console.log('organizationResponse', organizationResponse);
       this.organizationData = organizationResponse.data[0].attributes;
       // eslint-disable-next-line prefer-destructuring
       this.organizationCity = organizationResponse.included[0];
