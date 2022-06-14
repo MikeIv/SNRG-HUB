@@ -96,9 +96,8 @@ export default {
     ['@synergy/synergyid-adapter', {
       namespace: 'auth',
       brokerBackendUrl: 'https://api.synergyhub.ru/',
-      // TODO: Убрать условие !==
-      synergyIdBackendUrl: process.env.NODE_ENV !== 'development' ? 'https://release-1-2795.c4.syndev.ru/' : 'https://pass.synergy.ru/',
-      synergyIdDomain: process.env.NODE_ENV !== 'development' ? 'https://release-v1-2640.c4.syndev.ru/' : 'https://pass.synergy.ru/',
+      synergyIdBackendUrl: process.env.NODE_ENV === 'development' ? 'https://release-1-2795.c4.syndev.ru/' : 'https://pass.synergy.ru/',
+      synergyIdDomain: process.env.NODE_ENV === 'development' ? 'https://release-v1-2640.c4.syndev.ru/' : 'https://pass.synergy.ru/',
     },
     ],
   ],
@@ -120,10 +119,10 @@ export default {
     SITE_FB_PIXEL: process.env.SITE_FB_PIXEL,
     SITE_GTM: process.env.SITE_GTM,
     DADATA_KEY: process.env.DADATA_KEY,
+    API_URL: process.env.NODE_ENV === 'development' ? 'https://release-1-2795.c4.syndev.ru/' : 'https://pass.synergy.ru/',
     // TODO: Убрать условие !==
-    API_URL: process.env.NODE_ENV !== 'development' ? 'https://release-1-2795.c4.syndev.ru/' : 'https://pass.synergy.ru/',
     FRONT_URL: process.env.NODE_ENV !== 'development' ? 'https://release-v1-2640.c4.syndev.ru/' : 'https://pass.synergy.ru/',
-    BACK_URL: process.env.NODE_ENV !== 'development' ? 'https://release-011-2327.c4.syndev.ru/' : 'https://api.synergyhub.ru/',
+    BACK_URL: process.env.NODE_ENV === 'development' ? 'https://release-011-2327.c4.syndev.ru/' : 'https://api.synergyhub.ru/',
   },
 
   publicRuntimeConfig: {
