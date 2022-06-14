@@ -114,13 +114,13 @@ export default {
   build: {
   },
 
+  // TODO: Убрать условие !==
   env: {
     NUXT_ENV_S3BACKET: process.env.NODE_ENV === 'development' ? 'https://dev.sys3.ru/marketplace/' : 'https://sys3.ru/marketplace/',
     SITE_FB_PIXEL: process.env.SITE_FB_PIXEL,
     SITE_GTM: process.env.SITE_GTM,
     DADATA_KEY: process.env.DADATA_KEY,
     API_URL: process.env.NODE_ENV === 'development' ? 'https://release-1-2795.c4.syndev.ru/' : 'https://pass.synergy.ru/',
-    // TODO: Убрать условие !==
     FRONT_URL: process.env.NODE_ENV !== 'development' ? 'https://release-v1-2640.c4.syndev.ru/' : 'https://pass.synergy.ru/',
     BACK_URL: process.env.NODE_ENV === 'development' ? 'https://release-011-2327.c4.syndev.ru/' : 'https://api.synergyhub.ru/',
   },
