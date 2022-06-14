@@ -6,7 +6,7 @@
         <p class="s-program-university__introtext a-font_xxl" v-html="sectionData.subtitle"></p>
         <p class="s-program-university__description" v-html="sectionData.description"></p>
         <span class="s-program-university__img" v-if="sectionData.logoItems[0].src">
-          <img :src="sectionData.logoItems[0].src" alt="" />
+          <img :src="`${baseUrl}/${sectionData.logoItems[0].src}`" alt="" />
         </span>
       </div>
       <div class="s-program-university__factoids">

@@ -1,5 +1,5 @@
 <template>
-  <section v-if="sectionData" class="s-program-teachers s-margin">
+  <section v-if="sectionData && sectionData.items.length" class="s-program-teachers s-margin">
     <div class="l-wide l-border-radius">
       <h2 class="s-program-teachers__title a-font_h2" v-html="sectionData.title"></h2>
       <div
