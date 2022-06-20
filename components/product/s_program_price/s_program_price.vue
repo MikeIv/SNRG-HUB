@@ -353,6 +353,7 @@ export default {
     isEnoughtData() {
       return (
         this.userInfo?.phone?.status === 'confirmed'
+        && this.userInfo?.email?.status === 'confirmed'
         && Boolean(this.userInfo.account_information?.name)
         && Boolean(this.userInfo.account_information?.surname)
       );
