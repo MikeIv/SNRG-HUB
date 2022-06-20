@@ -1,5 +1,5 @@
 <template>
-  <section class="s-program-recommend s-margin" v-if="sectionData && sectionData.items">
+  <section class="s-program-recommend s-margin" v-if="sectionData && sectionData.items.length">
     <div class="l-wide l-border-radius">
       <h2 class="s-program-recommend__title a-font_h2" v-html="sectionData.title"></h2>
       <div class="s-program-recommend__swiper">
