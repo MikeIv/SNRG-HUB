@@ -683,7 +683,7 @@ export default {
       const lander = {
         type: 'academy-transations',
         unit: 'payments',
-        land: 'KD_market', // TODO: ЗАМЕНИТЬ ВЫРАЖЕНИЕ  НА `${this.program.land}` ПОСЛЕ ПОДГОТОВКИ ЭЛАСТИКА
+        land: `${this.program.land}`, // TODO: ЗАМЕНИТЬ ВЫРАЖЕНИЕ  НА `${this.program.land}` ПОСЛЕ ПОДГОТОВКИ ЭЛАСТИКА
         noRedirect: true,
       };
       this.$store.commit('updateLander', lander);
