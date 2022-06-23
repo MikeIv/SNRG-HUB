@@ -728,7 +728,8 @@ export default {
             this.isSend = false;
             window.location.href = result.response.data;
           } else {
-            this.getPaymentSrc(result);
+            console.log('--result--', result);
+            this.getPaymentSrc(result.response.data);
           }
         })
         .catch(() => {
