@@ -1,5 +1,6 @@
 <template>
   <section class="s-program-price s-margin" ref="form" id="form-price" v-if="fieldsData.product_id">
+    <div ref="payment" hidden></div>
     <div class="l-wide l-border-radius">
       <APopup :visible="accountAlreadyExists" @close="closeAccountAlreadyExistsPopup">
         <div class="s-program-price__exist">
@@ -380,6 +381,7 @@ export default {
   },
 
   async mounted() {
+    console.log('--this.program--', JSON.parse(this.program.offers.json_corp_search));
     if (this.isAuthenticated && (!this.userInfo?.email?.email || !this.userInfo?.phone?.phone)) {
       this.$synergyAuth.refresh();
     }
@@ -682,10 +684,12 @@ export default {
 
     sendForm() {
       this.isSend = true;
+      const product = JSON.parse(this.program.offers.json_corp_search);
+      const isAcademicProduct = product.properties?.academic_year?.id;
       const lander = {
-        type: 'ticketless',
+        type: isAcademicProduct ? 'academy-transations' : 'ticketless',
         unit: 'payments',
-        land: 'internetsynergy', // TODO: ЗАМЕНИТЬ ВЫРАЖЕНИЕ  НА `${this.program.land}` ПОСЛЕ ПОДГОТОВКИ ЭЛАСТИКА
+        land: `${product.properties.land.value}`, // TODO: ЗАМЕНИТЬ ВЫРАЖЕНИЕ  НА `${this.program.land}` ПОСЛЕ ПОДГОТОВКИ ЭЛАСТИКА
         noRedirect: true,
       };
       this.$store.commit('updateLander', lander);
@@ -719,14 +723,24 @@ export default {
       const resp = this.$lander.send(currentData, lander);
       resp
         .then((result) => {
-          this.preloader = false;
-          this.isSend = false;
-          window.location.href = result.response.data;
+          if (isAcademicProduct) {
+            this.preloader = false;
+            this.isSend = false;
+            window.location.href = result.response.data;
+          } else {
+            this.getPaymentSrc(result);
+          }
         })
         .catch(() => {
           window.localStorage.removeItem('fieldsData');
           this.isSend = false;
         });
+    },
+    getPaymentSrc(html) {
+      const paymentDiv = this.$refs.payment;
+      paymentDiv.innerHTML = html;
+      const button = paymentDiv.querySelector('.form__button');
+      window.location.href = button.getAttribute('href');
     },
     closeConfirmationCodePopup() {
       this.confirmationCodePopup = false;
