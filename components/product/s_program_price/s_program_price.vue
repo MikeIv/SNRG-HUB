@@ -193,7 +193,9 @@
 
 <script>
 /* eslint-disable max-len */
-import { AInput, APopup, AControl, AButton } from '@cwespb/synergyui';
+import {
+  AInput, APopup, AControl, AButton,
+} from '@cwespb/synergyui';
 import { VueTelInput } from 'vue-tel-input';
 // eslint-disable-next-line import/no-extraneous-dependencies
 // import { mapGetters } from 'vuex';
@@ -350,10 +352,10 @@ export default {
     },
     isEnoughtData() {
       return (
-        this.userInfo?.phone?.status === 'confirmed' &&
-        this.userInfo?.email?.status === 'confirmed' &&
-        Boolean(this.userInfo.account_information?.name) &&
-        Boolean(this.userInfo.account_information?.surname)
+        this.userInfo?.phone?.status === 'confirmed'
+        && this.userInfo?.email?.status === 'confirmed'
+        && Boolean(this.userInfo.account_information?.name)
+        && Boolean(this.userInfo.account_information?.surname)
       );
     },
     btnText() {
@@ -681,9 +683,9 @@ export default {
     sendForm() {
       this.isSend = true;
       const lander = {
-        type: 'academy-transations',
+        type: 'ticketless',
         unit: 'payments',
-        land: `${this.program.land}`, // TODO: ЗАМЕНИТЬ ВЫРАЖЕНИЕ  НА `${this.program.land}` ПОСЛЕ ПОДГОТОВКИ ЭЛАСТИКА
+        land: 'internetsynergy', // TODO: ЗАМЕНИТЬ ВЫРАЖЕНИЕ  НА `${this.program.land}` ПОСЛЕ ПОДГОТОВКИ ЭЛАСТИКА
         noRedirect: true,
       };
       this.$store.commit('updateLander', lander);
@@ -767,11 +769,11 @@ export default {
       this.phoneErrorFlag = this.validPhone === true && this.fieldsData.phone !== '';
       // eslint-disable-next-line max-len
       return (
-        this.nameErrorFlag &&
-        this.surnameErrorFlag &&
+        this.nameErrorFlag
+        && this.surnameErrorFlag
         // this.patronymicErrorFlag &&
-        this.emailErrorFlag &&
-        this.validPhone
+        && this.emailErrorFlag
+        && this.validPhone
       );
     },
     changeFocusInput() {
