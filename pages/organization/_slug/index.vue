@@ -146,7 +146,7 @@ export default {
 
   methods: {
     async getOrganizationData() {
-      const requestData = { slug: this.$route.params.slug };
+      const requestData = { slug: this.$route.params.slug || '' };
       const organizationResponse = await getOrganizationInfo(requestData);
       this.organizationData = organizationResponse.data[0].attributes;
       // eslint-disable-next-line prefer-destructuring
@@ -187,10 +187,6 @@ export default {
     await this.getOrganizationData();
     await this.fetchFilterData();
     await this.fetchCategoriesData();
-  },
-
-  mounted() {
-    console.log('process.env.NODE_ENV', process.env.NODE_ENV);
   },
 };
 </script>
