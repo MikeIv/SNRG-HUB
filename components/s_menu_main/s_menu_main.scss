@@ -11,7 +11,7 @@
   transform: translateY(-200%);
 
   &.open {
-    transform: translateY(0);
+    transform: none;
   }
 
   @media screen and (max-width: 767px) {
@@ -104,7 +104,7 @@
 
     @media screen and (max-width: 767px) {
       width: 100%;
-      height: calc(var(--vh, 1vh) * 100 - 136px);
+      height: calc(var(--vh, 1vh) * 100 - rem(76));
       padding-right: 0;
       background: var(--a-color_bg--secondary);
       border-right: none;
@@ -154,7 +154,7 @@
       top: 0;
       left: 0;
       width: 100%;
-      height: calc(var(--vh, 1vh) * 100 - 136px);
+      height: calc(var(--vh, 1vh) * 100 - rem(76));
       max-height: 100vh;
       padding-left: 0;
       background: var(--a-color_bg--secondary);
@@ -162,7 +162,7 @@
     }
 
     &.open {
-      transform: translateX(0);
+      transform: none;
     }
 
     &::-webkit-scrollbar {
@@ -373,10 +373,10 @@
     }
   }
 
-  &__login {
+  & &__login {
     display: none;
-    width: 100%;
-    margin: rem(20) 0;
+    width: calc(100% - rem(32));
+    margin: rem(20) rem(16);
     padding: 0 var(--a-padding--x4);
     @media screen and (max-width: 767px) {
       display: block;
@@ -388,12 +388,31 @@
     }
   }
 
+  &__usermenu {
+    display: none;
+    @media screen and (max-width: 767px) {
+      display: block;
+    }
+  }
+
   &__location {
     display: none;
     @media screen and (max-width: 991px) {
       display: block;
       margin: rem(13) 0;
       padding: 0 var(--a-padding--x4);
+    }
+  }
+
+  &__loggedin {
+    display: none;
+    @media screen and (max-width: 767px) {
+      display: block;
+      overflow: hidden;
+      margin-bottom: rem(16);
+      padding: 0 rem(18);
+      background: var(--a-color_bg);
+      border-radius: var(--a-borderRadius--bg);
     }
   }
 

@@ -10,16 +10,16 @@
         :terms="terms"
         :policy="policy"
       >
-        <template v-slot:nav>
-          <MenuHorizontal />
-        </template>
+        <!-- <template v-slot:nav>
+          <MenuHorizontal dropdownPosition="top-left" />
+        </template> -->
       </s-footer>
     </div>
   </footer>
 </template>
 
 <script>
-import MenuHorizontal from '@/components/menu_horizontal/menu_horizontal';
+/* import MenuHorizontal from '@/components/menu_horizontal/menu_horizontal'; */
 import SFooter from '@/components/_ui/S-Footer/S-footer';
 import './s_footer.scss';
 
@@ -27,7 +27,7 @@ export default {
   name: 'Footer',
   components: {
     SFooter,
-    MenuHorizontal,
+    /* MenuHorizontal, */
   },
   data() {
     return {

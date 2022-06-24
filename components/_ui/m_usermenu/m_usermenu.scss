@@ -1,0 +1,119 @@
+@import '@/assets/styles/tools/mixins';
+
+.m-usermenu {
+  position: relative;
+  @media screen and (max-width: 767px) {
+    position: static;
+    margin-bottom: rem(150);
+    background-color: var(--a-color_bg);
+    border-radius: 0 0 rem(20) rem(20);
+  }
+  .p-16 {
+    padding: rem(16) 0;
+  }
+  .mb-8 {
+    margin-bottom: rem(8);
+  }
+  .bd-bottom {
+    border-bottom: rem(1) solid #e7e9ec;
+  }
+  .color-red {
+    color: var(--a-color_link);
+  }
+
+  &__item {
+    display: flex;
+    align-items: center;
+    margin: 0 rem(14);
+    padding: rem(14) 0;
+
+    & + .m-usermenu__item {
+      border-top: rem(1) solid var(--a-color_bg--secondary);
+    }
+
+    &-icon {
+      margin-left: auto;
+      color: var(--a-color_thumbnail);
+    }
+
+    &.notice i {
+      position: relative;
+      &::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        right: rem(3);
+        display: block;
+        width: rem(6);
+        height: rem(6);
+        background-color: var(--a-color_link);
+        border: rem(1) solid var(--a-color_bg);
+        border-radius: 50%;
+      }
+    }
+
+    .si-entrance {
+      transform: rotate(90deg);
+    }
+  }
+  &__tooltip {
+    &-row {
+      display: block;
+      cursor: pointer;
+      &:first-child {
+        padding-top: 0;
+      }
+    }
+    &-user {
+      cursor: auto;
+    }
+  }
+
+  &__box {
+    margin-top: rem(28);
+    @media screen and (max-width: 767px) {
+      position: fixed;
+      left: 0;
+      bottom: rem(-3);
+      width: 100%;
+      padding: rem(16);
+      background-color: var(--a-color_bg);
+      border-radius: rem(20) rem(20) 0 0;
+    }
+  }
+  &__btn {
+    &-add-organization {
+      span {
+        font-size: rem(14);
+      }
+      i.si-close {
+        width: rem(44);
+        height: rem(44);
+        margin-left: 0;
+        padding: rem(2);
+        color: var(--a-color_active);
+        background-color: #f4f4f4;
+        border-radius: 50%;
+
+        &::before {
+          font-size: rem(22);
+          font-weight: 600;
+          transform: rotate(45deg);
+        }
+      }
+    }
+  }
+
+  &--tablet-short {
+    .a-user {
+      &__info {
+        @media screen and (max-width: 991px) {
+          display: none;
+        }
+      }
+      &__publications {
+        display: none;
+      }
+    }
+  }
+}

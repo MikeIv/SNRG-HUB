@@ -8,6 +8,7 @@ export const state = () => ({
   pageInfo: {},
   pageMeta: {},
   cityInfo: {},
+  citiesList: [],
   isMenuOpen: false,
   isPopupSelectCity: false,
   quizInfo: {},
@@ -42,6 +43,9 @@ export const mutations = {
   },
   setCityInfo(state, info) {
     state.cityInfo = info;
+  },
+  setCitesList(state, list) {
+    state.citiesList = list;
   },
   setUtms(state, utms) {
     state.utms = utms;
