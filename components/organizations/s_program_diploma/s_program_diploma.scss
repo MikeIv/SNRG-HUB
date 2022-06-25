@@ -1,0 +1,59 @@
+@import '@/assets/styles/tools/mixins';
+
+.s-program-diploma {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+
+  @media screen and (max-width: 991px) {
+    margin: rem(12) auto;
+  }
+
+  .m-card-landing {
+    &__title {
+      padding-left: 0;
+    }
+    &__image {
+      display: block;
+      object-fit: cover;
+      height: 100%;
+
+      &-wrapper {
+        height: rem(320);
+        @media screen and (max-width: 991px) {
+          height: rem(256);
+        }
+      }
+    }
+  }
+
+  &__slide {
+    width: rem(450);
+
+    @media screen and (max-width: 991px) {
+      width: rem(364);
+    }
+
+    @media screen and (max-width: 576px) {
+      width: 100%;
+    }
+  }
+
+  &__title {
+    margin-bottom: rem(40);
+    color: var(--a-color_text);
+
+    span {
+      color: var(--a-color_link);
+    }
+
+    @media (max-width: 991px) {
+      margin-bottom: rem(24);
+      font-size: rem(20);
+    }
+
+    @media (max-width: 575px) {
+      margin-bottom: rem(20);
+    }
+  }
+}

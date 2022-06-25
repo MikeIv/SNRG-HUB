@@ -1,10 +1,20 @@
 <template>
   <div>
-    <LazyHydrate :key="id" v-for="{ key, methods, title, id } in pageInfo.components" when-visible>
-      <component
-        :is="key"
-        :methods="methods"
-        :title="title"
+    <LazyHydrate when-visible>
+      <s-university-start :organizationData="organizationData" :organizationCity="organizationCity" />
+    </LazyHydrate>
+    <LazyHydrate when-visible>
+      <s-university-scores />
+    </LazyHydrate>
+    <LazyHydrate when-visible>
+      <s-university-statistics />
+    </LazyHydrate>
+    <LazyHydrate when-visible>
+      <s-program-timeline />
+    </LazyHydrate>
+    <LazyHydrate when-visible>
+      <s-catalog-section
+        title="Каталог продуктов для организации"
         :products-per-page="16"
         :options="options"
         :filtersMenu="filtersMenu"
@@ -17,29 +27,87 @@
         :type="type"
         :routePath="routePath"
         :allCategories="allCategories"
-        :entity_page="pageInfo.entity_page"
+        :entity_page="entity_page"
         @change-sort-options="changeSortOptions"
         @menu-toggle="menuToggle"
-      ></component>
+      />
+    </LazyHydrate>
+    <LazyHydrate when-visible>
+      <s-program-skills />
+    </LazyHydrate>
+    <LazyHydrate when-visible>
+      <s-program-teachers :slug="$route.params.slug" />
+    </LazyHydrate>
+    <LazyHydrate when-visible>
+      <s-university-career />
+    </LazyHydrate>
+    <LazyHydrate when-visible>
+      <s-program-diploma />
+    </LazyHydrate>
+    <LazyHydrate when-visible>
+      <s-university-life />
+    </LazyHydrate>
+    <LazyHydrate when-visible>
+      <s-partners />
+    </LazyHydrate>
+    <LazyHydrate when-visible>
+      <s-contacts-address :organizationData="this.organizationData" />
+    </LazyHydrate>
+    <LazyHydrate when-visible>
+      <s-program-questions />
     </LazyHydrate>
   </div>
 </template>
 
 <script>
 import LazyHydrate from 'vue-lazy-hydration';
+import SUniversityStart from '~/components/organizations/s_university_start/s_university_start';
+import SUniversityScores from '~/components/organizations/s_university_scores/s_university_scores';
+import SUniversityStatistics from '~/components/organizations/s_university_statistics/s_university_statistics';
+import SProgramTimeline from '~/components/organizations/s_program_timeline/s_program_timeline';
+import SCatalogSection from '~/components/s_catalog_section/s_catalog_section/';
+import SProgramTeachers from '~/components/product/s_program_teachers/s_program_teachers';
+import SProgramSkills from '~/components/product/s_program_skills/s_program_skills';
+import SProgramQuestions from '~/components/organizations/s_program_questions/s_program_questions';
+import SUniversityCareer from '~/components/organizations/s_university_career/s_university_career';
+import SPartners from '~/components/s_partners/s_partners';
+import SProgramDiploma from '~/components/organizations/s_program_diploma/s_program_diploma';
+import SUniversityLife from '~/components/organizations/s_university_life/s_university_life';
+import SContactsAddress from '~/components/s_contacts_address/s_contacts_address';
 import getFilterData from '~/api/filter_data';
 import getCatalogCategoriesList from '~/api/getCatalogCategoriesList';
+import getOrganizationInfo from '~/api/organizationInfo';
 
 export default {
   layout: 'organization',
 
+  components: {
+    SContactsAddress,
+    SProgramTeachers,
+    SProgramSkills,
+    SCatalogSection,
+    SUniversityStatistics,
+    SProgramTimeline,
+    SUniversityScores,
+    SUniversityStart,
+    SProgramQuestions,
+    SUniversityCareer,
+    SProgramDiploma,
+    SUniversityLife,
+    SPartners,
+    LazyHydrate,
+  },
+
   data() {
     return {
+      organizationData: {},
+      organizationCity: {},
       routePath: 'organization',
       filterResponse: [],
       defaultFilters: {},
       allCategories: [],
       type: 'main',
+      entity_page: {},
       productListUrl: 'api/v1/products/list',
       title: 'Organization page',
       filtersMenu: false,
@@ -65,15 +133,6 @@ export default {
     };
   },
 
-  computed: {
-    pageInfo() {
-      return this.$store.state.pageInfo;
-    },
-    pageMeta() {
-      return this.$store.state.pageMeta;
-    },
-  },
-
   watch: {
     $route: {
       deep: true,
@@ -86,6 +145,15 @@ export default {
   },
 
   methods: {
+    async getOrganizationData() {
+      const requestData = { slug: this.$route.params.slug || '' };
+      const organizationResponse = await getOrganizationInfo(requestData);
+      this.organizationData = organizationResponse.data[0].attributes;
+      // eslint-disable-next-line prefer-destructuring
+      this.organizationCity = organizationResponse.included[0];
+      this.entity_page = { id: organizationResponse.data[0].id, type: this.routePath };
+    },
+
     async fetchCategoriesData() {
       this.allCategories = await getCatalogCategoriesList();
     },
@@ -116,56 +184,10 @@ export default {
   },
 
   async fetch() {
+    await this.getOrganizationData();
     await this.fetchFilterData();
     await this.fetchCategoriesData();
   },
-
-  head() {
-    return {
-      title: this.pageMeta?.title,
-      meta: [
-        {
-          hid: 'keywords',
-          name: 'keywords',
-          content: this.pageMeta?.keywords,
-        },
-        {
-          hid: 'description',
-          name: 'description',
-          content: this.pageMeta?.description,
-        },
-        {
-          hid: 'og:type',
-          name: 'og:type',
-          content: 'website',
-        },
-        {
-          hid: 'og:title',
-          name: 'og:title',
-          content: this.pageMeta?.title,
-        },
-        {
-          hid: 'og:site_name',
-          name: 'og:site_name',
-          content: 'Synergyeducation',
-        },
-        {
-          hid: 'og:description',
-          name: 'og:description',
-          content: this.pageMeta?.description,
-        },
-      ],
-      bodyAttrs: {
-        class: 'bg-gray',
-      },
-    };
-  },
-
-  components: {
-    LazyHydrate,
-  },
-
-  middleware: ['getPageInfo', 'parseUtms'],
 };
 </script>
 

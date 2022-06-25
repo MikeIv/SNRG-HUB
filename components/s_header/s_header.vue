@@ -22,7 +22,7 @@
       <div class="s-header__center">
         <div class="l-wide">
           <div class="s-header__center-wrapper">
-            <div class="s-header__center-top">
+            <!-- <div class="s-header__center-top">
               <div class="s-header__location">
                 <MLocation />
               </div>
@@ -38,10 +38,16 @@
                   <div class="s-header__phones-text a-font_m-s">{{ phone }}</div>
                 </a>
               </div>
-            </div>
+            </div> -->
             <nuxt-link to="/" class="s-header__logo-link">
               <img :src="logoURL" alt="" @click="onLogoClickHandler" />
             </nuxt-link>
+            <AButton
+              class="s-header__search-btn"
+              onlyIcon="square"
+              iconType="si-search"
+              @click="searchButtonClickHandler"
+            />
             <div class="s-header__burger" @click="handleChange">
               <div class="s-header__burger-icon">
                 <div class="si-menu" v-if="!isOpen"></div>
@@ -49,7 +55,7 @@
               </div>
               <div class="s-header__burger-text a-font_l a-color_link">{{ btnText }}</div>
             </div>
-            <div class="s-header__search">
+            <div class="s-header__search" v-if="searchIsVisible || !isMobile">
               <a-input
                 id="search"
                 icons="si-search"
@@ -59,15 +65,19 @@
                 :disabled="disabledSearch"
               />
             </div>
-            <div class="s-header__login" v-if="false">
+            <div class="s-header__login" v-if="!$synergyAuth.loggedIn">
+              <AButton size="medium" label="Войти" bgColor="accent" @click="login" />
+            </div>
+            <div class="s-header__is-auth" v-else>
+              <!-- <AButton onlyIcon="square" bgColor="none" iconType="si-heart" size="small" />
               <AButton
-                size="medium"
-                label="Войти"
-                bgColor="accent"
-                @click="login()"
-                v-if="!this.$store.getters['auth/isAuthenticated']"
-              />
-              <AButton size="medium" label="Выйти" bgColor="accent" @click="logout()" v-else />
+                class="s-header__icons-bell notice"
+                onlyIcon="square"
+                bgColor="none"
+                iconType="si-bell"
+                size="small"
+              /> -->
+              <MUserMenu />
             </div>
           </div>
           <template v-if="catalog && isScrolled">
@@ -84,8 +94,16 @@
           </template>
         </div>
         <div class="s-header__bottom">
-          <div class="l-wide">
-            <menu-horizontal :isOpen="isOpen" @change-is-open="handleChange"></menu-horizontal>
+          <div class="l-wide s-header__bottom-row">
+            <div class="s-header__location">
+              <MLocation />
+            </div>
+            <menu-horizontal
+              class="s-header__menu-horizontal"
+              :customList="navLinks"
+              :isOpen="isOpen"
+              @change-is-open="handleChange"
+            ></menu-horizontal>
           </div>
         </div>
       </div>
@@ -98,6 +116,7 @@
 import { AInput, AButton, ASelect } from '@cwespb/synergyui';
 import './s_header.scss';
 import MBanner from '~/components/_ui/m_banner/m_banner';
+import MUserMenu from '~/components/_ui/m_usermenu/m_usermenu';
 import getBannersDetail from '~/api/bannersDetail';
 import { debounce } from '~/assets/js/debounce';
 import MLocation from '../_ui/m_location/m_location';
@@ -138,6 +157,9 @@ export default {
       topBannerSmoothHref: '#quiz',
       disabledSearch: false,
       isOpen: false,
+      navLinks: null,
+      searchIsVisible: false,
+      isMobile: false,
     };
   },
 
@@ -149,6 +171,7 @@ export default {
     SMenuMain,
     MBanner,
     ASelect,
+    MUserMenu,
   },
 
   async fetch() {
@@ -159,6 +182,17 @@ export default {
     };
 
     this.bannerTop = await getBannersDetail(request);
+    /* const educationLinks = await getMenuData();
+    this.navLinks = [
+      { anchor: 'Образование', links: educationLinks, active: false },
+      { anchor: 'Учебные заведения', link: '/organizations' },
+      { anchor: 'Журнал', link: '/journal' },
+      { anchor: 'Тесты', link: '/proftest' },
+      { anchor: 'Специальности', link: '#' },
+      { anchor: 'Профессии', link: '#' },
+      { anchor: 'Вебинары', link: '#' },
+      { anchor: 'Сравнения', link: '#' },
+    ]; */
   },
 
   created() {
@@ -199,6 +233,7 @@ export default {
 
   mounted() {
     window.addEventListener('scroll', this.handleScroll);
+    this.isMobile = window.innerWidth < 768;
     this.$nextTick(() => {
       const vh = window.innerHeight * 0.01;
       document.documentElement.style.setProperty('--vh', `${vh}px`);
@@ -308,11 +343,15 @@ export default {
     },
 
     login() {
-      this.$store.dispatch('auth/login');
+      this.$synergyAuth.login();
     },
 
     logout() {
-      this.$store.dispatch('auth/logout');
+      this.$synergyAuth.logout();
+    },
+
+    searchButtonClickHandler() {
+      this.searchIsVisible = !this.searchIsVisible;
     },
   },
 };

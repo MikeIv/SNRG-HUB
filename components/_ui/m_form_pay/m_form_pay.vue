@@ -44,7 +44,7 @@
             class="m-form__submit"
             size="large"
             type="submit"
-            :disabled="!isChecked"
+            :disabled="!isChecked || isSend"
             :label="btnText"
             @click="onClickBtn"
             bgColor="accent"
@@ -101,6 +101,7 @@ export default {
     currentPrice: { type: String },
     iconSrc: { type: String },
     text: { type: String },
+    isSend: { type: Boolean, required: false },
   },
   methods: {
     onClickBtn() {

@@ -8,10 +8,12 @@
 
 <script>
 import LazyHydrate from 'vue-lazy-hydration';
+import SContactsAddress from '~/components/s_contacts_address/s_contacts_address';
 
 export default {
   components: {
     LazyHydrate,
+    SContactsAddress,
   },
 
   layout: 'contacts',
