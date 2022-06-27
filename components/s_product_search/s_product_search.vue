@@ -57,18 +57,17 @@
                     </nuxt-link>
                   </template>
                 </div>
+                <nuxt-link to="/catalog" class="s-product-search__btn-link">
+                  <a-button
+                    v-if="product.count > productsPerPage && product.products.length < product.count"
+                    class="s-product-search__btn"
+                    label="Показать еще"
+                    size="large"
+                    bgColor="ghost-primary"
+                    @click="onMoreButtonClick(product)"
+                  />
+                </nuxt-link>
               </div>
-
-              <nuxt-link to="/catalog" class="s-product-search__btn-link">
-                <a-button
-                  v-if="product.count > productsPerPage && product.products.length < product.count"
-                  class="s-product-search__btn"
-                  label="Показать еще"
-                  size="large"
-                  bgColor="ghost-primary"
-                  @click="onMoreButtonClick(product)"
-                />
-              </nuxt-link>
             </template>
           </div>
           <div
